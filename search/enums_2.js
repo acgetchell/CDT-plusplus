@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['topology_5ftype_602',['topology_type',['../_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5',1,'Utilities.hpp']]]
+  ['strategies_605',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]]
 ];

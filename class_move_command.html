@@ -97,22 +97,32 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a59484e037acf39abfec0f1a4233969"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2a59484e037acf39abfec0f1a4233969">MoveCommand</a> (ManifoldType t_manifold)</td></tr>
 <tr class="memdesc:a2a59484e037acf39abfec0f1a4233969"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_move_command.html">MoveCommand</a> ctor.  <a href="class_move_command.html#a2a59484e037acf39abfec0f1a4233969">More...</a><br /></td></tr>
 <tr class="separator:a2a59484e037acf39abfec0f1a4233969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ad34586a0be5bff4cc938f4dac82f8d2a">enqueue</a> (move_tracker::move_type const t_move)</td></tr>
+<tr class="memitem:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ad34586a0be5bff4cc938f4dac82f8d2a">enqueue</a> (<a class="el" href="_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8">move_tracker::move_type</a> const t_move)</td></tr>
 <tr class="memdesc:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a Pachner move onto the move queue.  <a href="class_move_command.html#ad34586a0be5bff4cc938f4dac82f8d2a">More...</a><br /></td></tr>
 <tr class="separator:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18c916e22375e0b510e15fdfc0856cf2"><td class="memItemLeft" align="right" valign="top"><a id="a18c916e22375e0b510e15fdfc0856cf2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">execute</a> ()</td></tr>
 <tr class="memdesc:a18c916e22375e0b510e15fdfc0856cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute all moves in the queue on the manifold. <br /></td></tr>
 <tr class="separator:a18c916e22375e0b510e15fdfc0856cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b61695bad760c1bc54457e9e2062231"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2b61695bad760c1bc54457e9e2062231">get_attempted</a> () const -&gt; <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a> const &amp;</td></tr>
+<tr class="memitem:a2b61695bad760c1bc54457e9e2062231"><td class="memItemLeft" align="right" valign="top"><a id="a2b61695bad760c1bc54457e9e2062231"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2b61695bad760c1bc54457e9e2062231">get_attempted</a> () const -&gt; <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a> const &amp;</td></tr>
+<tr class="memdesc:a2b61695bad760c1bc54457e9e2062231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempted moves by <a class="el" href="class_move_command.html">MoveCommand</a>. <br /></td></tr>
 <tr class="separator:a2b61695bad760c1bc54457e9e2062231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa741829f68c6cf06d5bc14a9a0d17a1c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#aa741829f68c6cf06d5bc14a9a0d17a1c">get_const_results</a> () const -&gt; ManifoldType const &amp;</td></tr>
+<tr class="memitem:aa741829f68c6cf06d5bc14a9a0d17a1c"><td class="memItemLeft" align="right" valign="top"><a id="aa741829f68c6cf06d5bc14a9a0d17a1c"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#aa741829f68c6cf06d5bc14a9a0d17a1c">get_const_results</a> () const -&gt; ManifoldType const &amp;</td></tr>
+<tr class="memdesc:aa741829f68c6cf06d5bc14a9a0d17a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A read-only reference to the manifold. <br /></td></tr>
 <tr class="separator:aa741829f68c6cf06d5bc14a9a0d17a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a597b9a937f8b7eb983b4aaf0b7239012"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a597b9a937f8b7eb983b4aaf0b7239012">get_failed</a> () const -&gt; <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a> const &amp;</td></tr>
+<tr class="memitem:a597b9a937f8b7eb983b4aaf0b7239012"><td class="memItemLeft" align="right" valign="top"><a id="a597b9a937f8b7eb983b4aaf0b7239012"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a597b9a937f8b7eb983b4aaf0b7239012">get_failed</a> () const -&gt; <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a> const &amp;</td></tr>
+<tr class="memdesc:a597b9a937f8b7eb983b4aaf0b7239012"><td class="mdescLeft">&#160;</td><td class="mdescRight">Failed moves by <a class="el" href="class_move_command.html">MoveCommand</a>. <br /></td></tr>
 <tr class="separator:a597b9a937f8b7eb983b4aaf0b7239012"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2be0a2c3d6a65103afc21ee3d800064e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2be0a2c3d6a65103afc21ee3d800064e">get_results</a> () -&gt; ManifoldType &amp;</td></tr>
+<tr class="memitem:a2be0a2c3d6a65103afc21ee3d800064e"><td class="memItemLeft" align="right" valign="top"><a id="a2be0a2c3d6a65103afc21ee3d800064e"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2be0a2c3d6a65103afc21ee3d800064e">get_results</a> () -&gt; ManifoldType &amp;</td></tr>
+<tr class="memdesc:a2be0a2c3d6a65103afc21ee3d800064e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Results of the moves invoked by <a class="el" href="class_move_command.html">MoveCommand</a>. <br /></td></tr>
 <tr class="separator:a2be0a2c3d6a65103afc21ee3d800064e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b864459f0d1706b0fe9e925c515d152"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a8b864459f0d1706b0fe9e925c515d152">get_succeeded</a> () const</td></tr>
+<tr class="memitem:a8b864459f0d1706b0fe9e925c515d152"><td class="memItemLeft" align="right" valign="top"><a id="a8b864459f0d1706b0fe9e925c515d152"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a8b864459f0d1706b0fe9e925c515d152">get_succeeded</a> () const</td></tr>
+<tr class="memdesc:a8b864459f0d1706b0fe9e925c515d152"><td class="mdescLeft">&#160;</td><td class="mdescRight">Successful moves by <a class="el" href="class_move_command.html">MoveCommand</a>. <br /></td></tr>
 <tr class="separator:a8b864459f0d1706b0fe9e925c515d152"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a409b2d4149c7e0fff03bcc18e78bd754"><td class="memItemLeft" align="right" valign="top"><a id="a409b2d4149c7e0fff03bcc18e78bd754"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a409b2d4149c7e0fff03bcc18e78bd754">print_attempts</a> () const</td></tr>
@@ -130,12 +140,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a24e90c1d1eadf08b1661b6195fad234a">reset_counters</a> ()</td></tr>
 <tr class="memdesc:a24e90c1d1eadf08b1661b6195fad234a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset counters. <br /></td></tr>
 <tr class="separator:a24e90c1d1eadf08b1661b6195fad234a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2ee457696a0e4599948951b6b7a18d1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ae2ee457696a0e4599948951b6b7a18d1">size</a> () const</td></tr>
+<tr class="memitem:ae2ee457696a0e4599948951b6b7a18d1"><td class="memItemLeft" align="right" valign="top"><a id="ae2ee457696a0e4599948951b6b7a18d1"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ae2ee457696a0e4599948951b6b7a18d1">size</a> () const</td></tr>
+<tr class="memdesc:ae2ee457696a0e4599948951b6b7a18d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of moves on the queue. <br /></td></tr>
 <tr class="separator:ae2ee457696a0e4599948951b6b7a18d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7a3466b8500d242b2402c9e9d9f04fe0"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a7a3466b8500d242b2402c9e9d9f04fe0">as_move_function</a> (move_tracker::move_type const move) -&gt; FunctionType</td></tr>
+<tr class="memitem:a7a3466b8500d242b2402c9e9d9f04fe0"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a7a3466b8500d242b2402c9e9d9f04fe0">as_move_function</a> (<a class="el" href="_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8">move_tracker::move_type</a> const move) -&gt; FunctionType</td></tr>
 <tr class="memdesc:a7a3466b8500d242b2402c9e9d9f04fe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a move function on a manifold.  <a href="class_move_command.html#a7a3466b8500d242b2402c9e9d9f04fe0">More...</a><br /></td></tr>
 <tr class="separator:a7a3466b8500d242b2402c9e9d9f04fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -145,26 +157,26 @@ Private Types</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Counter</b> = <a class="el" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a>&lt; ManifoldType &gt;</td></tr>
 <tr class="separator:aafa4e1842f744f966c1db29d7b65bbc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f68a2c68b114da0a1612a883f83b593"><td class="memItemLeft" align="right" valign="top"><a id="a0f68a2c68b114da0a1612a883f83b593"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Queue</b> = std::deque&lt; move_tracker::move_type &gt;</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Queue</b> = std::deque&lt; <a class="el" href="_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8">move_tracker::move_type</a> &gt;</td></tr>
 <tr class="separator:a0f68a2c68b114da0a1612a883f83b593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a64cc82d9270616b3f69c1f490727e0aa"><td class="memItemLeft" align="right" valign="top"><a id="a64cc82d9270616b3f69c1f490727e0aa"></a>
 <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a64cc82d9270616b3f69c1f490727e0aa">m_attempted</a></td></tr>
-<tr class="memdesc:a64cc82d9270616b3f69c1f490727e0aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track attempted moves. <br /></td></tr>
+<tr class="memdesc:a64cc82d9270616b3f69c1f490727e0aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The counter of attempted moves. <br /></td></tr>
 <tr class="separator:a64cc82d9270616b3f69c1f490727e0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab52fa52bd34a790f09807250843f9883"><td class="memItemLeft" align="right" valign="top"><a id="ab52fa52bd34a790f09807250843f9883"></a>
 <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ab52fa52bd34a790f09807250843f9883">m_failed</a></td></tr>
-<tr class="memdesc:ab52fa52bd34a790f09807250843f9883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track failed moves. <br /></td></tr>
+<tr class="memdesc:ab52fa52bd34a790f09807250843f9883"><td class="mdescLeft">&#160;</td><td class="mdescRight">The counter of failed moves. <br /></td></tr>
 <tr class="separator:ab52fa52bd34a790f09807250843f9883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e55bd40cae117aea7bdba57cfb4f5ae"><td class="memItemLeft" align="right" valign="top"><a id="a1e55bd40cae117aea7bdba57cfb4f5ae"></a>
 ManifoldType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">m_manifold</a></td></tr>
-<tr class="memdesc:a1e55bd40cae117aea7bdba57cfb4f5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Manifold on which to make the move. <br /></td></tr>
+<tr class="memdesc:a1e55bd40cae117aea7bdba57cfb4f5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The manifold on which to perform moves. <br /></td></tr>
 <tr class="separator:a1e55bd40cae117aea7bdba57cfb4f5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac84b6b6ce19b35c54d965efa343e0415"><td class="memItemLeft" align="right" valign="top"><a id="ac84b6b6ce19b35c54d965efa343e0415"></a>
 Queue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ac84b6b6ce19b35c54d965efa343e0415">m_moves</a></td></tr>
-<tr class="memdesc:ac84b6b6ce19b35c54d965efa343e0415"><td class="mdescLeft">&#160;</td><td class="mdescRight">The queue of moves to make. <br /></td></tr>
+<tr class="memdesc:ac84b6b6ce19b35c54d965efa343e0415"><td class="mdescLeft">&#160;</td><td class="mdescRight">The queue of moves to perform. <br /></td></tr>
 <tr class="separator:ac84b6b6ce19b35c54d965efa343e0415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad919a0d39913415226b151d36f5f973d"><td class="memItemLeft" align="right" valign="top"><a id="ad919a0d39913415226b151d36f5f973d"></a>
 Queue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ad919a0d39913415226b151d36f5f973d">m_moves_to_retry</a></td></tr>
@@ -172,7 +184,7 @@ Queue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="separator:ad919a0d39913415226b151d36f5f973d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43a8cfaf3f0db6e88c4c910d5d25cdfd"><td class="memItemLeft" align="right" valign="top"><a id="a43a8cfaf3f0db6e88c4c910d5d25cdfd"></a>
 <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a43a8cfaf3f0db6e88c4c910d5d25cdfd">m_succeeded</a></td></tr>
-<tr class="memdesc:a43a8cfaf3f0db6e88c4c910d5d25cdfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track successful moves. <br /></td></tr>
+<tr class="memdesc:a43a8cfaf3f0db6e88c4c910d5d25cdfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The counter of successful moves. <br /></td></tr>
 <tr class="separator:a43a8cfaf3f0db6e88c4c910d5d25cdfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -217,7 +229,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </dl>
 <p>The manifold to perform moves upon should be copied by value into the <a class="el" href="class_move_command.html">MoveCommand</a> to ensure moves are executed atomically and either succeed or fail and can be discarded without affecting the original manifold. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00056">56</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00068">68</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +248,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
         <tr>
           <td class="memname">static auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::as_move_function </td>
           <td>(</td>
-          <td class="paramtype">move_tracker::move_type const&#160;</td>
+          <td class="paramtype"><a class="el" href="_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8">move_tracker::move_type</a> const&#160;</td>
           <td class="paramname"><em>move</em></td><td>)</td>
           <td> -&gt; FunctionType
   </td>
@@ -258,7 +270,9 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The move function to execute </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00170">170</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00182">182</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_move__command_8hpp_source.html#l00136">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::execute()</a>.</p>
 
 </div>
 </div>
@@ -276,7 +290,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
         <tr>
           <td class="memname">void <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::enqueue </td>
           <td>(</td>
-          <td class="paramtype">move_tracker::move_type const&#160;</td>
+          <td class="paramtype"><a class="el" href="_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8">move_tracker::move_type</a> const&#160;</td>
           <td class="paramname"><em>t_move</em></td><td>)</td>
           <td></td>
         </tr>
@@ -296,208 +310,11 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00111">111</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00123">123</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00029">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_moves</a>.</p>
+<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00033">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_moves</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00324">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::initialize()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>.</p>
-
-</div>
-</div>
-<a id="a2b61695bad760c1bc54457e9e2062231"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b61695bad760c1bc54457e9e2062231">&#9670;&nbsp;</a></span>get_attempted()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_attempted </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a> const&amp;
-  </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Attempted moves by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00076">76</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00035">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_attempted</a>.</p>
-
-</div>
-</div>
-<a id="aa741829f68c6cf06d5bc14a9a0d17a1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa741829f68c6cf06d5bc14a9a0d17a1c">&#9670;&nbsp;</a></span>get_const_results()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_const_results </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; ManifoldType const&amp;
-  </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the manifold </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00063">63</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00026">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>.</p>
-
-</div>
-</div>
-<a id="a597b9a937f8b7eb983b4aaf0b7239012"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a597b9a937f8b7eb983b4aaf0b7239012">&#9670;&nbsp;</a></span>get_failed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_failed </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; <a class="el" href="classmove__tracker_1_1_move_tracker.html">Counter</a> const&amp;
-  </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Failed moves by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00092">92</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00041">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_failed</a>.</p>
-
-</div>
-</div>
-<a id="a2be0a2c3d6a65103afc21ee3d800064e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2be0a2c3d6a65103afc21ee3d800064e">&#9670;&nbsp;</a></span>get_results()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_results </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> -&gt; ManifoldType&amp; </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Results of the moves invoked by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00071">71</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00026">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
-
-</div>
-</div>
-<a id="a8b864459f0d1706b0fe9e925c515d152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b864459f0d1706b0fe9e925c515d152">&#9670;&nbsp;</a></span>get_succeeded()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_succeeded </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Successful moves by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00084">84</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00038">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_succeeded</a>.</p>
-
-</div>
-</div>
-<a id="ae2ee457696a0e4599948951b6b7a18d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2ee457696a0e4599948951b6b7a18d1">&#9670;&nbsp;</a></span>size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>The number of moves on the queue </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00119">119</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00029">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_moves</a>.</p>
 
 </div>
 </div>
@@ -507,7 +324,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 25 2023 00:51:35 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sat Nov 25 2023 04:36:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

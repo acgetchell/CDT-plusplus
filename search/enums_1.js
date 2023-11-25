@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['strategies_601',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]]
+  ['move_5ftype_604',['move_type',['../_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8',1,'move_tracker']]]
 ];
