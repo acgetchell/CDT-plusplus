@@ -404,8 +404,6 @@ Optional:
 
 ## Issues
 
-The [AppVeyor] tests to build on Windows will fail if it takes longer than 60 minutes to build. This is fixed with a paid subscription, but this project is open source.
-
 [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
 [docopt] also has a `use-of-uninitialized-value` bug ([#149]).
