@@ -22,22 +22,34 @@ class MoveCommand
   using Queue   = std::deque<move_tracker::move_type>;
   using Counter = move_tracker::MoveTracker<ManifoldType>;
 
-  /// @brief The Manifold on which to make the move
+  /**
+   * \brief The manifold on which to perform moves
+   */
   ManifoldType m_manifold;
 
-  /// @brief The queue of moves to make
+  /**
+   * \brief The queue of moves to perform
+   */
   Queue m_moves;
 
-  /// @brief The queue of moves to retry
+  /**
+   * \brief The queue of moves to retry
+   */
   Queue m_moves_to_retry;
 
-  /// @brief Track attempted moves
+  /**
+   * \brief The counter of attempted moves
+   */
   Counter m_attempted;
 
-  /// @brief Track successful moves
+  /**
+   * \brief The counter of successful moves
+   */
   Counter m_succeeded;
 
-  /// @brief Track failed moves
+  /**
+   * \brief The counter of failed moves
+   */
   Counter m_failed;
 
  public:
@@ -58,7 +70,7 @@ class MoveCommand
   {}
 
   /**
-   * \return A read-only reference to the manifold
+   * \brief A read-only reference to the manifold
    */
   auto get_const_results() const -> ManifoldType const&
   {
@@ -66,12 +78,12 @@ class MoveCommand
   }  // get_const_results
 
   /**
-   * \return Results of the moves invoked by MoveCommand
+   * \brief Results of the moves invoked by MoveCommand
    */
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
   /**
-   * \return Attempted moves by MoveCommand
+   * \brief Attempted moves by MoveCommand
    */
   [[nodiscard]] auto get_attempted() const -> Counter const&
   {
@@ -79,7 +91,7 @@ class MoveCommand
   }  // get_attempts
 
   /**
-   * \return Successful moves by MoveCommand
+   * \brief Successful moves by MoveCommand
    */
   [[nodiscard]] auto get_succeeded() const
   {
@@ -87,7 +99,7 @@ class MoveCommand
   }  // get_succeeded
 
   /**
-   * \return Failed moves by MoveCommand
+   * \brief Failed moves by MoveCommand
    */
   [[nodiscard]] auto get_failed() const -> Counter const&
   {
@@ -114,7 +126,7 @@ class MoveCommand
   }
 
   /**
-   * \return The number of moves on the queue
+   * \brief The number of moves on the queue
    */
   auto size() const { return m_moves.size(); }
 

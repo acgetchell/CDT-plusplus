@@ -24,24 +24,29 @@ namespace move_tracker
   static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
   static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
 
-  enum class move_type
-  {
-    TWO_THREE = 0,
-    THREE_TWO = 1,
-    TWO_SIX   = 2,
-    SIX_TWO   = 3,
-    FOUR_FOUR = 4
-  };
+  /**
+   * \brief The types of 3D ergodic moves
+   */
+  enum class [[nodiscard("This contains data!")]] move_type{
+      TWO_THREE = 0, THREE_TWO = 1, TWO_SIX = 2, SIX_TWO = 3, FOUR_FOUR = 4};
 
-  /// @brief Convert enumeration to underlying integer
-  /// @details Used to convert move_type to integer
+  /**
+   * \brief Convert enum to integer
+   * \tparam Enumeration The enum type
+   * \param value The enum
+   * \return The integer value of the enum
+   */
   template <typename Enumeration>
   auto as_integer(Enumeration value) -> std::underlying_type_t<Enumeration>
   {
     return static_cast<std::underlying_type_t<Enumeration>>(value);
   }  // as_integer
 
-  // @brief Convert an integer to move_type
+  /**
+   * \brief Convert integer to move_type
+   * \param move_choice The move choice integer
+   * \return The move_type
+   */
   inline auto as_move(int const move_choice) -> move_type
   {
     if (move_choice == 0) { return move_type::TWO_THREE; }
@@ -51,7 +56,10 @@ namespace move_tracker
     return move_type::FOUR_FOUR;
   }  // as_move
 
-  /// @brief Generate random ergodic move
+  /**
+   * \brief Generate random 3D ergodic move
+   * \return The move_type to be performed
+   */
   [[nodiscard]] inline auto generate_random_move_3() -> move_type
   {
     auto move_choice = utilities::generate_random_int(0, 4);
@@ -61,9 +69,11 @@ namespace move_tracker
     return as_move(move_choice);
   }  // generate_random_move_3
 
-  /// @brief Determine ergodic moves for a given dimension at compile-time
-  /// @param dim Dimensionality of the triangulation
-  /// @return The number of ergodic moves for that dimensionality
+  /**
+   * \brief Determine the ergodic moves for a given dimensionality
+   * \param dim Dimensionality of the manifold
+   * \return The number of ergodic moves for that dimensionality
+   */
   auto constexpr moves_per_dimension(Int_precision const dim) -> Int_precision
   {
     if (dim == 3) { return NUMBER_OF_3D_MOVES; }
@@ -71,8 +81,10 @@ namespace move_tracker
     return 0;  // Error condition
   }            // moves_per_dimension
 
-  /// @brief The data and methods to track ergodic moves
-  /// @tparam ManifoldType The type of manifold on which moves are made
+  /**
+   * \brief The data and methods to track ergodic moves
+   * \tparam ManifoldType The type of manifold on which moves are made
+   */
   template <typename ManifoldType>
   class MoveTracker
   {
@@ -82,23 +94,37 @@ namespace move_tracker
     Container moves = {0};  // NOLINT
 
    public:
-    /// @return Read-only container of moves
+    /**
+     * \brief Get a view of the moves
+     * \return Read-only container of moves
+     */
     auto moves_view() const { return std::span(moves); }
 
-    /// @param index The index of the element to be accessed
-    /// @return The number of moves at the index
-    auto operator[](gsl::index index) -> auto& { return gsl::at(moves, index); }
+    /**
+     * \brief The [] operator for MoveTracker
+     * \param index The index of the element to be accessed
+     * \return The number of moves at the index
+     */
+    auto operator[](gsl::index index) -> auto&
+    {
+      return gsl::at(moves, index);
+    }  // operator[]
 
-    /// @param move The move_type to be accessed
-    /// @return The number of moves of that move_type
+    /**
+     * \brief The [] operator for MoveTracker
+     * \param move The move type to be accessed
+     * \return The number of moves of that type
+     */
     auto operator[](move_type const move) const -> auto&
     {
       return gsl::at(moves, as_integer(move));
     }  // operator[]
 
-    /// @param rhs The Move_tracker to add
-    /// @return The sum of the individual elements of the left and right
-    /// Move_trackers
+    /**
+     * \brief The += operator for MoveTracker
+     * \param rhs The MoveTracker to be added
+     * \return The sum of the individual elements of the MoveTrackers
+     */
     auto operator+=(MoveTracker const& rhs)
     {
       for (std::size_t i = 0; i < moves.size(); ++i)

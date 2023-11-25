@@ -84,6 +84,25 @@ SCENARIO("Move type to integer conversion" *
   }
 }
 
+SCENARIO("Integer to move type conversion" *
+         doctest::test_suite("move_tracker"))
+{
+  spdlog::debug("Integer to move type conversion.\n");
+  GIVEN("An integer.")
+  {
+    auto move_choice = 0;
+    REQUIRE_EQ(as_move(move_choice), move_type::TWO_THREE);
+    move_choice = 1;
+    REQUIRE_EQ(as_move(move_choice), move_type::THREE_TWO);
+    move_choice = 2;
+    REQUIRE_EQ(as_move(move_choice), move_type::TWO_SIX);
+    move_choice = 3;
+    REQUIRE_EQ(as_move(move_choice), move_type::SIX_TWO);
+    move_choice = 4;
+    REQUIRE_EQ(as_move(move_choice), move_type::FOUR_FOUR);
+  }
+}
+
 SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
 {
   spdlog::debug("MoveTracker functionality.\n");

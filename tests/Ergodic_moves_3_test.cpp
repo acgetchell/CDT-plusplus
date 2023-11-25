@@ -18,7 +18,7 @@
 using namespace std;
 using namespace manifolds;
 
-static inline std::floating_point auto RADIUS_2 =
+static inline std::floating_point auto constexpr RADIUS_2 =
     2.0 * std::numbers::inv_sqrt3_v<double>;
 static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;

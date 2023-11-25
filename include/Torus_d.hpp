@@ -24,11 +24,13 @@ using Kd        = CGAL::Cartesian_d<double>;
 using Point     = Kd::Point_d;
 using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
 
-/// @brief Make a d-dimensional toroid of points
-/// @param t_points The type (dimensionality) of points
-/// @param t_number_of_points The number of points
-/// @param t_dimension Dimensionality of the toroid
-/// @return A d-dimensional toroid
+/**
+ * \brief Make a d-dimensional torus
+ * \param t_points The container of points
+ * \param t_number_of_points The number of points to insert
+ * \param t_dimension The dimensionality of the torus
+ * \return A d-dimensional torus
+ */
 inline auto make_d_cube(std::vector<Point> t_points,
                         std::size_t t_number_of_points, int t_dimension)
 {

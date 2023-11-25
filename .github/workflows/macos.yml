@@ -18,8 +18,8 @@ jobs:
 
     - name: Setup
       run: |
+        rm /usr/local/bin/2to3
         brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache pkg-config
-        brew link --overwrite python@3.11
 
     - name: Restore artifacts or setup vcpkg
       uses: lukka/run-vcpkg@v11

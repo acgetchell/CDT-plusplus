@@ -65,13 +65,6 @@ try
                      true,               // show help if requested
                      "cdt-viewer 1.0");  // version string
 
-#ifndef NDEBUG
-  for (auto const& [first, second] : args)
-  {
-    std::cout << first << ": " << second << std::endl;
-  }
-#endif
-
   // Parse filename from arguments
   auto filename = args["<filename>"].asString();
 
