@@ -33,22 +33,22 @@ os:
   - linux
 
 compiler:
-  - gcc
-  - clang
+  - g++-12
+  - clang-16
 
 jobs:
   fast_finish: true
   include:
     # CppCheck
     - os: linux
-      compiler: gcc
+      compiler: g++12
       env: CPPCHECK=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
       after_success: skip
     # Valgrind
     - os: linux
-      compiler: gcc
+      compiler: g++12
       env: VALGRIND=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
@@ -61,7 +61,7 @@ jobs:
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10
     # AddressSanitizer and UndefinedBehaviorSanitizer
     - os: linux
-      compiler: clang
+      compiler: clang-16
       env: ASAN=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE"
@@ -72,7 +72,7 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
     # LeakSanitizer
     - os: linux
-      compiler: clang
+      compiler: clang-16
       env: LSAN=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_LEAK:BOOL=TRUE"
@@ -83,7 +83,7 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
     # MemorySanitizer
     - os: linux
-      compiler: clang
+      compiler: clang-16
       env: MSAN=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_MEMORY:BOOL=TRUE"
@@ -94,7 +94,7 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
     # ThreadSanitizer
     - os: linux
-      compiler: clang
+      compiler: clang-16
       env: TSAN=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
@@ -105,7 +105,7 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
     # Doxygen
     - os: linux
-      compiler: gcc
+      compiler: g++12
       env: DOXYGEN=true
       install: skip
       script:
@@ -128,7 +128,7 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: linux
-      compiler: gcc
+      compiler: g++12
       env: DOXYGEN=true
 
 before_install:
