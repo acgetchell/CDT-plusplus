@@ -233,9 +233,9 @@ $(function() {
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;               max_timevalue);</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  }</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  assert(result.is_valid());</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordflow">if</span> (!result.is_valid()) { <span class="keywordflow">throw</span> runtime_error(<span class="stringliteral">&quot;Result is invalid!\n&quot;</span>); }</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="comment">// Output results</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="comment">// Print results</span></div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  timer.stop();  <span class="comment">// End running time counter</span></div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  fmt::print(<span class="stringliteral">&quot;=== Run Results ===\n&quot;</span>);</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  fmt::print(<span class="stringliteral">&quot;Running time is {} seconds.\n&quot;</span>, timer.time());</div>
@@ -266,16 +266,21 @@ $(function() {
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Simulation startup failed ... Exiting.\n&quot;</span>);</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keywordflow">catch</span> (runtime_error <span class="keyword">const</span>&amp; RuntimeError)</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;{</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, RuntimeError.what());</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;}</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;{</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
 <div class="ttc" id="a_metropolis_8hpp_html"><div class="ttname"><a href="_metropolis_8hpp.html">Metropolis.hpp</a></div><div class="ttdoc">Perform Metropolis-Hastings algorithm on Delaunay Triangulations.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="acdt_8cpp_html_a64c2f249c4e8b558ad4e231a6fa52245"><div class="ttname"><a href="cdt_8cpp.html#a64c2f249c4e8b558ad4e231a6fa52245">main</a></div><div class="ttdeci">auto main(int const argc, char *const argv[]) -&gt; int try</div><div class="ttdoc">The main path of the CDT++ program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt_8cpp_source.html#l00062">cdt.cpp:62</a></div></div>
 <div class="ttc" id="acdt_8cpp_html_aaf5864dd3dcc4fb2d873b2ee1a53e7fd"><div class="ttname"><a href="cdt_8cpp.html#aaf5864dd3dcc4fb2d873b2ee1a53e7fd">USAGE</a></div><div class="ttdeci">static constexpr string_view USAGE</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="cdt_8cpp_source.html#l00023">cdt.cpp:23</a></div></div>
-<div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00028">Move_strategy.hpp:29</a></div></div>
+<div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select a move algorithm.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00031">Move_strategy.hpp:32</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00042">Manifold.hpp:43</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00372">Manifold.hpp:372</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a297dbe8152f057816ef39957fd8f7911"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">manifolds::Manifold&lt; 3 &gt;::print_details</a></div><div class="ttdeci">void print_details() const</div><div class="ttdoc">Print details of the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00387">Manifold.hpp:387</a></div></div>
@@ -283,7 +288,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sat Nov 25 2023 00:51:34 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

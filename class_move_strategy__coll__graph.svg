@@ -12,7 +12,7 @@
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
-<g id="a_node1"><a xlink:title="Select an algorithm to make ergodic moves upon triangulations.">
+<g id="a_node1"><a xlink:title="Select a move algorithm.">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-68.5 148,-68.5 148,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">MoveStrategy&lt; strategies,</text>
 <text text-anchor="middle" x="74" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00"> ManifoldType &gt;</text>

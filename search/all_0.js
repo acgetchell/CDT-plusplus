@@ -6,5 +6,6 @@ var searchData=
   ['apply_5fmove_3',['apply_move',['../_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd',1,'Apply_move.hpp']]],
   ['apply_5fmove_2ehpp_4',['Apply_move.hpp',['../_apply__move_8hpp.html',1,'']]],
   ['apply_5fmove_5ftest_2ecpp_5',['Apply_move_test.cpp',['../_apply__move__test_8cpp.html',1,'']]],
-  ['as_5finteger_6',['as_integer',['../_move__tracker_8hpp.html#a43b197e281c99d6ecd983bd03ebfcd4e',1,'move_tracker']]]
+  ['as_5finteger_6',['as_integer',['../_move__tracker_8hpp.html#a43b197e281c99d6ecd983bd03ebfcd4e',1,'move_tracker']]],
+  ['as_5fmove_5ffunction_7',['as_move_function',['../class_move_command.html#a7a3466b8500d242b2402c9e9d9f04fe0',1,'MoveCommand']]]
 ];
