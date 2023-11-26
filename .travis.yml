@@ -132,8 +132,18 @@ jobs:
       env: DOXYGEN=true
 
 before_install:
-  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-12" CC="gcc-12"; fi
-  - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-16" CC="clang-16"; fi
+  - |
+    if [[ "$CXX" == "g++" ]]; then
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 90
+      sudo update-alternatives --config gcc
+      export CXX="g++-12" CC="gcc-12"
+    fi
+  - |
+    if [[ "$CXX" == "clang++" ]]; then
+      sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 90
+      sudo update-alternatives --config clang
+      export CXX="clang++-16" CC="clang-16"
+    fi
 
 install:
   # vcpkg should be cached, but clone it if not
