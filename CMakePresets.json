@@ -123,6 +123,20 @@
       }
     },
     {
+      "name": "valgrind",
+      "inherits": "ci-std",
+      "description": "This preset is used for valgrind builds",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ENABLE_VALGRIND": true,
+        "ENABLE_TESTING": true,
+        "ENABLE_CACHE": "OFF"
+        }
+    },
+    {
       "name": "conf-common",
       "description": "General settings that apply to all configurations",
       "hidden": true,
