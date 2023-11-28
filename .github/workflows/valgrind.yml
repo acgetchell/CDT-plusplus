@@ -39,12 +39,17 @@ jobs:
       - name: Build
         run: cmake --build build -j 2
 
-      - name: Run Valgrind
+      - name: Run memcheck
         working-directory: build
         continue-on-error: true
         run: |
           ctest -VV -T memcheck --verbose
-          cd src
+
+      - name: Run Valgrind
+        working-directory: src
+        continue-on-error: true
+        run: |
+          pwd
           valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./initialize --s n32000 -t11 -o
           valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt-opt
           valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
