@@ -27,10 +27,10 @@ jobs:
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache valgrind
 
-      - name: Setup GCC
+      - name: Setup Clang
         uses: pkgxdev/setup@v1
         with:
-          +: gcc@13
+          +: clang@16
 
       -  run: gcc --version
 
