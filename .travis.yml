@@ -104,33 +104,33 @@ jobs:
         - travis_wait 90 ctest -VV
         - cd src
         - ./initialize --s -n32000 -t11 -o
-    # Doxygen
-    - os: linux
-      compiler: g++12
-      env: DOXYGEN=true
-      install: skip
-      script:
-        - cd $TRAVIS_BUILD_DIR
-        - doxygen docs/Doxyfile
-        - touch docs/html/.nojekyll
-      after_success:
-        # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
-        - pwd
-      deploy:
-        provider: pages
-        skip_cleanup: true
-        local_dir: docs/html
-        github_token: $GITHUB_TOKEN
-        keep_history: true
-        verbose: true
-        edge: true
-        on:
-          all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
-  allow_failures:
-    - os: linux
-      compiler: g++12
-      env: DOXYGEN=true
+#    # Doxygen
+#    - os: linux
+#      compiler: g++12
+#      env: DOXYGEN=true
+#      install: skip
+#      script:
+#        - cd $TRAVIS_BUILD_DIR
+#        - doxygen docs/Doxyfile
+#        - touch docs/html/.nojekyll
+#      after_success:
+#        # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
+#        - pwd
+#      deploy:
+#        provider: pages
+#        skip_cleanup: true
+#        local_dir: docs/html
+#        github_token: $GITHUB_TOKEN
+#        keep_history: true
+#        verbose: true
+#        edge: true
+#        on:
+#          all_branches: true
+#          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+#  allow_failures:
+#    - os: linux
+#      compiler: g++12
+#      env: DOXYGEN=true
 
 before_install:
   - |
