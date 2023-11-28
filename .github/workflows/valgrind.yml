@@ -1,6 +1,12 @@
 name: Valgrind
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -46,7 +52,7 @@ jobs:
           ctest -VV -T memcheck --verbose
 
       - name: Run Valgrind
-        working-directory: src
+        working-directory: build/src
         continue-on-error: true
         run: |
           pwd
