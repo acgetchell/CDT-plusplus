@@ -32,7 +32,7 @@ jobs:
         with:
           +: clang@16
 
-      -  run: gcc --version
+      -  run: clang --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
