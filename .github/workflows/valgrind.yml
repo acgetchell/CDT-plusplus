@@ -51,11 +51,17 @@ jobs:
         run: |
           ctest -VV -T memcheck --verbose
 
-      - name: Run Valgrind
+      - name: Run Valgrind on initialize
         working-directory: build/src
         continue-on-error: true
-        run: |
-          pwd
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./initialize --s n32000 -t11 -o
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt-opt
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
+        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./initialize --s n32000 -t11 -o
+
+      - name: Run Valgrind on cdt-opt
+        working-directory: build/src
+        continue-on-error: true
+        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt-opt
+
+      - name: Run Valgrind on cdt
+        working-directory: build/src
+        continue-on-error: true
+        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
