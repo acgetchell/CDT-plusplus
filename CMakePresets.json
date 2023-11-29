@@ -128,8 +128,7 @@
       "description": "This preset is used for valgrind builds",
       "generator": "Ninja",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "ENABLE_VALGRIND": true,
         "ENABLE_TESTING": true,

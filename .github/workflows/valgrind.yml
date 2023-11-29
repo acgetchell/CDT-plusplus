@@ -27,12 +27,12 @@ jobs:
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache valgrind
 
-      - name: Setup Clang
+      - name: Setup GCC
         uses: pkgxdev/setup@v1
         with:
-          +: clang@16
+          +: gcc@13
 
-      -  run: clang --version
+      -  run: gcc --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
