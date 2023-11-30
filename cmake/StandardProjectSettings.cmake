@@ -38,8 +38,8 @@ endif()
 # Set minimum Boost version
 set(BOOST_MIN_VERSION "1.75.0")
 
-# Use C++23
-set(CMAKE_CXX_STANDARD 23)
+# Use C++20
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

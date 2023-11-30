@@ -35,7 +35,7 @@
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_CXX_EXTENSIONS": "OFF",
-        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD": "20",
         "CMAKE_CXX_STANDARD_REQUIRED": "ON"
       }
     },
@@ -120,6 +120,62 @@
         "ENABLE_TESTING": true,
         "ENABLE_CACHE": "OFF",
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      }
+    },
+    {
+      "name": "valgrind",
+      "inherits": "ci-std",
+      "description": "This preset is used for valgrind builds",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_VALGRIND": true,
+        "ENABLE_TESTING": true,
+        "ENABLE_CACHE": "OFF"
+        }
+    },
+    {
+      "name": "asan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for ASAN/UBSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_ADDRESS": true,
+        "ENABLE_SANITIZER_UNDEFINED_BEHAVIOR": true
+        }
+    },
+    {
+      "name": "cppcheck",
+      "inherits": "ci-std",
+      "description": "This preset is used for cppcheck",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_CPPCHECK": true
+        }
+    },
+    {
+      "name": "lsan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for LSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_LEAK": true
+      }
+    },
+    {
+      "name": "msan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for MSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_MEMORY": true
+      }
+    },
+    {
+      "name": "tsan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for TSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_THREAD": true
       }
     },
     {

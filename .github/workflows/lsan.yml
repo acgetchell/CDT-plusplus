@@ -1,4 +1,4 @@
-name: Linux GCC
+name: Leak Sanitizer
 
 on:
   push:
@@ -27,12 +27,12 @@ jobs:
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
-      - name: Setup GCC
+      - name: Setup Clang
         uses: pkgxdev/setup@v1
         with:
-          +: gcc@13
+          +: clang@17
 
-      -  run: gcc --version
+      -  run: clang --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -40,12 +40,27 @@ jobs:
           vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
 
       - name: Configure
-        run: cmake --preset=build
+        run: cmake --preset=lsan
 
       - name: Build
         run: cmake --build build -j 2
 
-      - name: Test
+      - name: Run tests
         working-directory: build
         continue-on-error: true
-        run: ctest --rerun-failed --output-on-failure -j 2
+        run: ctest -VV
+
+      - name: Run LSAN on initialize
+        working-directory: build/src
+        continue-on-error: true
+        run: ./initialize --s -n32000 -t11 -o
+
+      - name: Run LSAN on cdt-opt
+        working-directory: build/src
+        continue-on-error: true
+        run: ./cdt-opt
+
+      - name: Run LSAN on cdt
+        working-directory: build/src
+        continue-on-error: true
+        run: ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10

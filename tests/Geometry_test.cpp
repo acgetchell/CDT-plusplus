@@ -126,9 +126,9 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
   {
     WHEN("It is default constructed.")
     {
-      Geometry_3 const geometry;
       THEN("All data members are zero-initialized.")
       {
+        Geometry_3 constexpr geometry;
         REQUIRE_EQ(geometry.N3, 0);
         REQUIRE_EQ(geometry.N3_31, 0);
         REQUIRE_EQ(geometry.N3_13, 0);

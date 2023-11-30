@@ -14,7 +14,7 @@
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
-#include <expected>
+#include <tl/expected.hpp>
 
 #include "Manifold.hpp"
 #include "Move_tracker.hpp"
@@ -22,7 +22,7 @@
 namespace ergodic_moves
 {
   using Manifold         = manifolds::Manifold_3;
-  using Expected         = std::expected<Manifold, std::string>;
+  using Expected         = tl::expected<Manifold, std::string>;
   using Cell_handle      = Cell_handle_t<3>;
   using Cell_container   = std::vector<Cell_handle>;
   using Edge_handle      = Edge_handle_t<3>;
@@ -90,18 +90,17 @@ namespace ergodic_moves
 
     auto two_two = t_manifold.get_triangulation().get_two_two();
     // Shuffle the container to create a random sequence of (2,2) cells
-    std::shuffle(two_two.begin(), two_two.end(),
-                 utilities::make_random_generator());
+    std::ranges::shuffle(two_two, utilities::make_random_generator());
     // Try a (2,3) move on successive cells in the sequence
-    if (std::any_of(two_two.begin(), two_two.end(),
-                    [&](auto& cell) { return try_23_move(t_manifold, cell); }))
+    if (std::ranges::any_of(
+            two_two, [&](auto& cell) { return try_23_move(t_manifold, cell); }))
     {
       return t_manifold;
     }
     // We've run out of (2,2) cells
     std::string const msg = "No (2,3) move possible.\n";
     spdlog::warn(msg);
-    return std::unexpected(msg);
+    return tl::unexpected(msg);
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
@@ -132,18 +131,18 @@ namespace ergodic_moves
 #endif
     auto timelike_edges = t_manifold.get_timelike_edges();
     // Shuffle the container to create a random sequence of edges
-    std::shuffle(timelike_edges.begin(), timelike_edges.end(),
-                 utilities::make_random_generator());
+    std::ranges::shuffle(timelike_edges, utilities::make_random_generator());
     // Try a (3,2) move on successive timelike edges in the sequence
-    if (std::any_of(timelike_edges.begin(), timelike_edges.end(),
-                    [&](auto& edge) { return try_32_move(t_manifold, edge); }))
+    if (std::ranges::any_of(timelike_edges, [&](auto& edge) {
+          return try_32_move(t_manifold, edge);
+        }))
     {
       return t_manifold;
     }
     // We've run out of edges to try
     std::string const msg = "No (3,2) move possible.\n";
     spdlog::warn(msg);
-    return std::unexpected(msg);
+    return tl::unexpected(msg);
   }  // do_32_move()
 
   /// @brief Find a (2,6) move location
@@ -189,11 +188,10 @@ namespace ergodic_moves
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    static auto constinit const INCIDENT_CELLS_FOR_6_2_MOVE = 6;
+    static auto constexpr INCIDENT_CELLS_FOR_6_2_MOVE = 6;
     auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
-    std::shuffle(one_three.begin(), one_three.end(),
-                 utilities::make_random_generator());
+    std::ranges::shuffle(one_three, utilities::make_random_generator());
     for (auto const& bottom : one_three)
     {
       if (auto neighboring_31_index = find_adjacent_31_cell(bottom);
@@ -211,7 +209,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return std::unexpected(msg);
+          return tl::unexpected(msg);
         }
 
         // Get indices of vertices of common face with respect to bottom cell
@@ -236,7 +234,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return std::unexpected(msg);
+          return tl::unexpected(msg);
         }
 
         // Do the (2,6) move
@@ -257,25 +255,25 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return std::unexpected(msg);
+          return tl::unexpected(msg);
         }
 
         // Each incident cell should be combinatorially and geometrically valid
         if (auto check_cells =
-                std::all_of(incident_cells.begin(), incident_cells.end(),
-                            [&t_manifold](auto const& cell) {
-                              return t_manifold.get_triangulation()
-                                  .get_delaunay()
-                                  .tds()
-                                  .is_cell(cell);
-                            });
+                std::ranges::all_of(incident_cells,
+                                    [&t_manifold](auto const& cell) {
+                                      return t_manifold.get_triangulation()
+                                          .get_delaunay()
+                                          .tds()
+                                          .is_cell(cell);
+                                    });
             !check_cells)
         {
           std::string const msg = "A cell is invalid.\n";
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return std::unexpected(msg);
+          return tl::unexpected(msg);
         }
 
         // Now assign a geometric point to the center vertex
@@ -311,7 +309,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return std::unexpected(msg);
+          return tl::unexpected(msg);
         }
 
         return t_manifold;
@@ -324,7 +322,7 @@ namespace ergodic_moves
     // We've run out of (1,3) simplices to try
     std::string const msg = "No (2,6) move possible.\n";
     spdlog::warn(msg);
-    return std::unexpected(msg);
+    return tl::unexpected(msg);
   }  // do_26_move()
 
   /// @brief Find a (6,2) move location
@@ -418,7 +416,7 @@ namespace ergodic_moves
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified
-    if ((incident_13.size() + incident_22.size() + incident_31.size()) !=
+    if (incident_13.size() + incident_22.size() + incident_31.size() !=
         6)  // NOLINT
     {
       spdlog::warn("Some incident cells on this vertex need to be fixed.\n");
@@ -432,8 +430,8 @@ namespace ergodic_moves
         incident_13.size());
     foliated_triangulations::debug_print_cells<3>(std::span{incident_cells});
 #endif
-    return ((incident_31.size() == 3) && (incident_22.empty()) &&
-            (incident_13.size() == 3));
+    return incident_31.size() == 3 && incident_22.empty() &&
+           incident_13.size() == 3;
 
   }  // find_62_moves()
 
@@ -462,14 +460,13 @@ namespace ergodic_moves
 #endif
     auto vertices = t_manifold.get_vertices();
     // Shuffle the container to create a random sequence of vertices
-    std::shuffle(vertices.begin(), vertices.end(),
-                 utilities::make_random_generator());
+    std::ranges::shuffle(vertices, utilities::make_random_generator());
     // Try a (6,2) move on successive vertices in the sequence
-    if (auto movable_vertex_iterator =
-            std::find_if(vertices.begin(), vertices.end(),
-                         [&](auto const& vertex) {
-                           return is_62_movable(t_manifold, vertex);
-                         });
+    if (auto const movable_vertex_iterator =
+            std::ranges::find_if(vertices,
+                                 [&](auto const& vertex) {
+                                   return is_62_movable(t_manifold, vertex);
+                                 });
         movable_vertex_iterator != vertices.end())
     {
       t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);
@@ -478,7 +475,7 @@ namespace ergodic_moves
     // We've run out of vertices to try
     std::string const msg = "No (6,2) move possible.\n";
     spdlog::warn(msg);
-    return std::unexpected(msg);
+    return tl::unexpected(msg);
   }  // do_62_move()
 
   /// @brief Find all cells incident to the edge
@@ -538,8 +535,8 @@ namespace ergodic_moves
   /// @param triangulation The triangulation with the cells.
   /// @param edge The edge to find the incident cells of.
   /// @returns A container of cells incident to the edge or nullopt
-  [[nodiscard]] inline auto get_incident_cells(Delaunay const& triangulation,
-                                               Edge_handle     edge)
+  [[nodiscard]] inline auto get_incident_cells(Delaunay const&   triangulation,
+                                               Edge_handle const edge)
       -> std::optional<Cell_container>
   {
     // Check that the edge is valid
@@ -580,8 +577,8 @@ namespace ergodic_moves
     if (!incident_cells || incident_cells->size() != 4) { return std::nullopt; }
 
     // Check incident cells are valid
-    if (std::any_of(incident_cells->begin(), incident_cells->end(),
-                    [](auto const& cell) { return !cell->is_valid(); }))
+    if (std::ranges::any_of(*incident_cells,
+                            [](auto const& cell) { return !cell->is_valid(); }))
     {
       return std::nullopt;
     }
@@ -596,12 +593,12 @@ namespace ergodic_moves
 
     // Get vertices for new pivot edge
     Vertex_container new_pivot_vertices;
-    std::copy_if(vertices.begin(), vertices.end(),
-                 std::back_inserter(new_pivot_vertices),
-                 [&](auto const& vertex) {
-                   return vertex != pivot_from_1 && vertex != pivot_from_2 &&
-                          vertex != top && vertex != bottom;
-                 });
+    std::ranges::copy_if(vertices, std::back_inserter(new_pivot_vertices),
+                         [&](auto const& vertex) {
+                           return vertex != pivot_from_1 &&
+                                  vertex != pivot_from_2 && vertex != top &&
+                                  vertex != bottom;
+                         });
 
     // Check that there are exactly 2 new pivot vertices
     if (new_pivot_vertices.size() != 2) { return std::nullopt; }
@@ -728,15 +725,18 @@ namespace ergodic_moves
     // get the n_x's right
 
 #ifndef NDEBUG
-    fmt::print("Cells in the triangulation after adding new cells: {}\n",
-               triangulation.number_of_cells());
+    spdlog::info("Cells in the triangulation after adding new cells: {}\n",
+                 triangulation.number_of_cells());
 #endif
 
     // Fix any cell orientation issues
     if (!triangulation.is_valid()) { triangulation.tds().reorient(); }
 
 #ifndef NDEBUG
-    triangulation.tds().is_valid(true, 1);
+    if (!triangulation.tds().is_valid(true, 1))
+    {
+      spdlog::warn("Triangulation is not valid.\n");
+    }
 #endif
 
     // Check validity of cells
@@ -778,7 +778,7 @@ namespace ergodic_moves
     auto get_vertices = [&vertices](auto const& cell) {
       for (int i = 0; i < 4; ++i) { vertices.emplace(cell->vertex(i)); }
     };
-    std::for_each(cells.begin(), cells.end(), get_vertices);
+    std::ranges::for_each(cells, get_vertices);
     Vertex_container result(vertices.begin(), vertices.end());
     return result;
   }  // get_vertices()
@@ -810,12 +810,11 @@ namespace ergodic_moves
 #endif
     auto spacelike_edges = t_manifold.get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
-    std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),
-                 utilities::make_random_generator());
+    std::ranges::shuffle(spacelike_edges, utilities::make_random_generator());
     for (auto const& edge : spacelike_edges)
     {
       // Obtain all incident cells
-      if (auto incident_cells = find_bistellar_flip_location(
+      if (auto const incident_cells = find_bistellar_flip_location(
               t_manifold.get_triangulation().get_delaunay(), edge);
           incident_cells)
       {
@@ -834,7 +833,7 @@ namespace ergodic_moves
     // We've run out of edges to try
     std::string const msg = "No (4,4) move possible.\n";
     spdlog::warn(msg);
-    return std::unexpected(msg);
+    return tl::unexpected(msg);
   }  // do_44_move()
 
   /// @brief Check move correctness
@@ -850,65 +849,64 @@ namespace ergodic_moves
     switch (t_move)
     {
       case move_tracker::move_type::FOUR_FOUR:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() &&
-                t_after.N3_31() == t_before.N3_31() &&
-                t_after.N3_22() == t_before.N3_22() &&
-                t_after.N3_13() == t_before.N3_13() &&
-                t_after.N2() == t_before.N2() &&
-                t_after.N1() == t_before.N1() &&
-                t_after.N1_TL() == t_before.N1_TL() &&
-                t_after.N1_SL() == t_before.N1_SL() &&
-                t_after.N0() == t_before.N0() &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return t_after.is_valid() && t_after.N3() == t_before.N3() &&
+               t_after.N3_31() == t_before.N3_31() &&
+               t_after.N3_22() == t_before.N3_22() &&
+               t_after.N3_13() == t_before.N3_13() &&
+               t_after.N2() == t_before.N2() && t_after.N1() == t_before.N1() &&
+               t_after.N1_TL() == t_before.N1_TL() &&
+               t_after.N1_SL() == t_before.N1_SL() &&
+               t_after.N0() == t_before.N0() &&
+               t_after.max_time() == t_before.max_time() &&
+               t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::TWO_THREE:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
-                t_after.N3_31() == t_before.N3_31() &&
-                t_after.N3_22() == t_before.N3_22() + 1 &&
-                t_after.N3_13() == t_before.N3_13() &&
-                t_after.N2() == t_before.N2() + 2 &&
-                t_after.N1() == t_before.N1() + 1 &&
-                t_after.N1_TL() == t_before.N1_TL() + 1 &&
-                t_after.N1_SL() == t_before.N1_SL() &&
-                t_after.N0() == t_before.N0() &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
+               t_after.N3_31() == t_before.N3_31() &&
+               t_after.N3_22() == t_before.N3_22() + 1 &&
+               t_after.N3_13() == t_before.N3_13() &&
+               t_after.N2() == t_before.N2() + 2 &&
+               t_after.N1() == t_before.N1() + 1 &&
+               t_after.N1_TL() == t_before.N1_TL() + 1 &&
+               t_after.N1_SL() == t_before.N1_SL() &&
+               t_after.N0() == t_before.N0() &&
+               t_after.max_time() == t_before.max_time() &&
+               t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::THREE_TWO:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
-                t_after.N3_31() == t_before.N3_31() &&
-                t_after.N3_22() == t_before.N3_22() - 1 &&
-                t_after.N3_13() == t_before.N3_13() &&
-                t_after.N2() == t_before.N2() - 2 &&
-                t_after.N1() == t_before.N1() - 1 &&
-                t_after.N1_TL() == t_before.N1_TL() - 1 &&
-                t_after.N1_SL() == t_before.N1_SL() &&
-                t_after.N0() == t_before.N0() &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
+               t_after.N3_31() == t_before.N3_31() &&
+               t_after.N3_22() == t_before.N3_22() - 1 &&
+               t_after.N3_13() == t_before.N3_13() &&
+               t_after.N2() == t_before.N2() - 2 &&
+               t_after.N1() == t_before.N1() - 1 &&
+               t_after.N1_TL() == t_before.N1_TL() - 1 &&
+               t_after.N1_SL() == t_before.N1_SL() &&
+               t_after.N0() == t_before.N0() &&
+               t_after.max_time() == t_before.max_time() &&
+               t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::TWO_SIX:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
-                t_after.N3_31() == t_before.N3_31() + 2 &&
-                t_after.N3_22() == t_before.N3_22() &&
-                t_after.N3_13() == t_before.N3_13() + 2 &&
-                t_after.N2() == t_before.N2() + 8 &&  // NOLINT
-                t_after.N1() == t_before.N1() + 5 &&  // NOLINT
-                t_after.N1_TL() == t_before.N1_TL() + 2 &&
-                t_after.N1_SL() == t_before.N1_SL() + 3 &&
-                t_after.N0() == t_before.N0() + 1 &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
+               t_after.N3_31() == t_before.N3_31() + 2 &&
+               t_after.N3_22() == t_before.N3_22() &&
+               t_after.N3_13() == t_before.N3_13() + 2 &&
+               t_after.N2() == t_before.N2() + 8 &&  // NOLINT
+               t_after.N1() == t_before.N1() + 5 &&  // NOLINT
+               t_after.N1_TL() == t_before.N1_TL() + 2 &&
+               t_after.N1_SL() == t_before.N1_SL() + 3 &&
+               t_after.N0() == t_before.N0() + 1 &&
+               t_after.max_time() == t_before.max_time() &&
+               t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::SIX_TWO:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
-                t_after.N3_31() == t_before.N3_31() - 2 &&
-                t_after.N3_22() == t_before.N3_22() &&
-                t_after.N3_13() == t_before.N3_13() - 2 &&
-                t_after.N2() == t_before.N2() - 8 &&  // NOLINT
-                t_after.N1() == t_before.N1() - 5 &&  // NOLINT
-                t_after.N1_TL() == t_before.N1_TL() - 2 &&
-                t_after.N1_SL() == t_before.N1_SL() - 3 &&
-                t_after.N0() == t_before.N0() - 1 &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
+               t_after.N3_31() == t_before.N3_31() - 2 &&
+               t_after.N3_22() == t_before.N3_22() &&
+               t_after.N3_13() == t_before.N3_13() - 2 &&
+               t_after.N2() == t_before.N2() - 8 &&  // NOLINT
+               t_after.N1() == t_before.N1() - 5 &&  // NOLINT
+               t_after.N1_TL() == t_before.N1_TL() - 2 &&
+               t_after.N1_SL() == t_before.N1_SL() - 3 &&
+               t_after.N0() == t_before.N0() - 1 &&
+               t_after.max_time() == t_before.max_time() &&
+               t_after.min_time() == t_before.min_time();
       default: return false;
     }
   }  // check_move()

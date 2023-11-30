@@ -13,13 +13,21 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - main
+      - develop
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ develop ]
+    branches:
+      - main
+      - develop
   schedule:
     - cron: '26 7 * * 0'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   analyze:
@@ -67,7 +75,7 @@ jobs:
     - name: Restore artifacts or setup vcpkg
       uses: lukka/run-vcpkg@v11
       with:
-        vcpkgGitCommitId: 3265c187c74914aa5569b75355badebfdbab7987
+        vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
 
     - name: Configure
       run: cmake --preset=build

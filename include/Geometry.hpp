@@ -82,7 +82,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
   /// Usually called from a Manifold swap.
   /// @param swap_from The value to be swapped from. Assumed to be discarded.
   /// @param swap_into The value to be swapped into.
-  friend void swap(Geometry<3>& swap_from, Geometry<3>& swap_into) noexcept
+  friend void swap(Geometry& swap_from, Geometry& swap_into) noexcept
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);

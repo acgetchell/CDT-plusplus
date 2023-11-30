@@ -15,6 +15,7 @@
 
 #include <expected>
 #include <string>
+#include <tl/expected.hpp>
 #include <tl/function_ref.hpp>
 
 /// @brief An applicative function similar to std::apply, but on manifolds
@@ -26,7 +27,7 @@
 /// @returns The expected or unexpected result in a std::expected<T,E>
 /// @see https://tl.tartanllama.xyz/en/latest/api/function_ref.html
 template <typename ManifoldType,
-          typename ExpectedType = std::expected<ManifoldType, std::string>,
+          typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 auto constexpr apply_move(ManifoldType&& t_manifold,
                           FunctionType   t_move) noexcept -> decltype(auto)

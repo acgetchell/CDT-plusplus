@@ -15,7 +15,7 @@
 using namespace std;
 
 /// Help message parsed by docopt into options
-static constexpr string_view USAGE{
+static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014 Adam Getchell
@@ -43,27 +43,27 @@ Options:
   -o --output                 Save triangulation into OFF file
 )"};
 
-auto main(int argc, char* const argv[]) -> int
+auto main(int const argc, char* const argv[]) -> int
 try
 {
   // docopt option parser
-  std::string                                             usage_string{USAGE};
-  std::map<std::string, docopt::value, std::less<string>> args = docopt::docopt(
+  std::string const                    usage_string{USAGE};
+  std::map<std::string, docopt::value> args = docopt::docopt(
       usage_string, {argv + 1, argv + argc}, true, "initializer 1.0");
 
-  auto simplices         = stoll(args["-n"].asString());
-  auto timeslices        = stoll(args["-t"].asString());
-  auto dimensions        = stoll(args["-d"].asString());
-  auto initial_radius    = stod(args["--init"].asString());
-  auto foliation_spacing = stod(args["--foliate"].asString());
-  auto save_file         = args["--output"].asBool();
+  auto const simplices         = stoll(args["-n"].asString());
+  auto const timeslices        = stoll(args["-t"].asString());
+  auto const dimensions        = stoll(args["-d"].asString());
+  auto const initial_radius    = stod(args["--init"].asString());
+  auto const foliation_spacing = stod(args["--foliate"].asString());
+  auto const save_file         = args["--output"].asBool();
 
   // Initialize triangulation
   manifolds::Manifold_3 universe;
 
   // Topology of simulation
-  auto topology = (args["--spherical"].asBool()) ? topology_type::SPHERICAL
-                                                 : topology_type::TOROIDAL;
+  auto const topology = args["--spherical"].asBool() ? topology_type::SPHERICAL
+                                                     : topology_type::TOROIDAL;
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
@@ -97,8 +97,6 @@ try
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
-      break;
-    default: throw invalid_argument("Invalid topology.");
   }
   universe.print();
   universe.print_volume_per_timeslice();

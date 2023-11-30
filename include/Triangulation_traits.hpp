@@ -34,8 +34,7 @@ struct TriangulationTraits<3>
   using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
                                                    CGAL::Parallel_tag>;
 #else
-  using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
-                                                   CGAL::Sequential_tag>;
+  using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base>;
 #endif
   using Delaunay      = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 
@@ -56,6 +55,6 @@ struct TriangulationTraits<3>
   using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
 
   static inline Point const ORIGIN_POINT = Point{0, 0, 0};
-};      // TriangulationTraits<3>
+};  // TriangulationTraits<3>
 
 #endif  // CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP

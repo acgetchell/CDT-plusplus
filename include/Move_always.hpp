@@ -14,10 +14,10 @@
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
 #define INCLUDE_MOVE_ALWAYS_HPP_
 
+#include "Move_command.hpp"
 #include "Move_strategy.hpp"
 
 /// @brief The Move Always algorithm
-/// @tparam dimension The dimensionality of the algorithm's triangulation
 template <typename ManifoldType>
 class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
@@ -50,8 +50,8 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @brief Constructor for MoveAlways
   /// @param t_number_of_passes Number of passes to run
   /// @param t_checkpoint Number of passes per checkpoint
-  [[maybe_unused]] MoveStrategy(Int_precision t_number_of_passes,
-                                Int_precision t_checkpoint)
+  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
+                                Int_precision const t_checkpoint)
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
   {}
 

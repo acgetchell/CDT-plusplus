@@ -20,7 +20,7 @@ using Timer = CGAL::Real_timer;
 using namespace std;
 
 /// Help message parsed by docopt into options
-static constexpr string_view USAGE{
+static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2013 Adam Getchell
@@ -59,7 +59,7 @@ Options:
 /// @param argc Argument count = 1 + number of arguments
 /// @param argv Argument vector (array) to be passed to docopt
 /// @return Integer value 0 if successful, 1 on failure
-auto main(int argc, char* const argv[]) -> int
+auto main(int const argc, char* const argv[]) -> int
 try
 {
   // Start running time
@@ -68,27 +68,27 @@ try
   fmt::print("cdt started at {}\n", utilities::current_date_time());
 
   // docopt option parser
-  std::string usage_string{USAGE};
+  std::string const usage_string{USAGE};
   std::map<std::string, docopt::value, std::less<std::string>> args =
       docopt::docopt(usage_string, {argv + 1, argv + argc},
                      true,          // print help message automatically
                      "CDT 0.1.8");  // Version
 
   // Parse docopt::values in args map
-  auto simplices         = stoll(args["-n"].asString());
-  auto timeslices        = stoll(args["-t"].asString());
-  auto dimensions        = stoll(args["-d"].asString());
-  auto initial_radius    = stod(args["--init"].asString());
-  auto foliation_spacing = stod(args["--foliate"].asString());
-  auto alpha             = stold(args["--alpha"].asString());
-  auto k                 = stold(args["-k"].asString());  // NOLINT
-  auto lambda            = stold(args["--lambda"].asString());
-  auto passes            = stoll(args["--passes"].asString());
-  auto checkpoint        = stoll(args["--checkpoint"].asString());
+  auto const simplices         = stoll(args["-n"].asString());
+  auto const timeslices        = stoll(args["-t"].asString());
+  auto const dimensions        = stoll(args["-d"].asString());
+  auto const initial_radius    = stod(args["--init"].asString());
+  auto const foliation_spacing = stod(args["--foliate"].asString());
+  auto const alpha             = stold(args["--alpha"].asString());
+  auto const k                 = stold(args["-k"].asString());  // NOLINT
+  auto const lambda            = stold(args["--lambda"].asString());
+  auto const passes            = stoll(args["--passes"].asString());
+  auto const checkpoint        = stoll(args["--checkpoint"].asString());
 
   // Topology of simulation
-  auto topology = (args["--spherical"].asBool()) ? topology_type::SPHERICAL
-                                                 : topology_type::TOROIDAL;
+  auto const topology = args["--spherical"].asBool() ? topology_type::SPHERICAL
+                                                     : topology_type::TOROIDAL;
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
@@ -147,7 +147,6 @@ try
     case topology_type::TOROIDAL:
       timer.stop();  // End running time counter
       throw invalid_argument("Toroidal triangulations not yet supported.");
-    default: throw domain_error("Simulation topology not parsed.");
   }
 
   // Look at triangulation
@@ -156,7 +155,7 @@ try
   universe.print_volume_per_timeslice();
 
   // The main work of the program
-  auto result = run(universe);
+  auto const result = run(universe);
 
   // Do we have enough timeslices?
   if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)
@@ -165,9 +164,9 @@ try
                max_timevalue);
   }
 
-  assert(result.is_valid());
+  if (!result.is_valid()) { throw runtime_error("Result is invalid!\n"); }
 
-  // Output results
+  // Print results
   timer.stop();  // End running time counter
   fmt::print("=== Run Results ===\n");
   fmt::print("Running time is {} seconds.\n", timer.time());
@@ -196,6 +195,11 @@ catch (logic_error const& LogicError)
 {
   spdlog::critical("{}\n", LogicError.what());
   spdlog::critical("Simulation startup failed ... Exiting.\n");
+  return EXIT_FAILURE;
+}
+catch (runtime_error const& RuntimeError)
+{
+  spdlog::critical("{}\n", RuntimeError.what());
   return EXIT_FAILURE;
 }
 catch (...)

@@ -10,6 +10,7 @@ cache:
 
 addons:
   apt:
+    update: true
     packages:
       - build-essential
       - automake
@@ -38,102 +39,112 @@ compiler:
 
 jobs:
   fast_finish: true
-  include:
-    # CppCheck
-    - os: linux
-      compiler: g++-12
-      env: CPPCHECK=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
-      after_success: skip
-    # Valgrind
-    - os: linux
-      compiler: g++-12
-      env: VALGRIND=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/build/
-        - travis_wait 60 ctest -VV -T memcheck --verbose
-        - cd src
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11 -o
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt-opt
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10
-    # AddressSanitizer and UndefinedBehaviorSanitizer
-    - os: linux
-      compiler: clang-15
-      env: ASAN=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE"
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/build/
-        - ctest -VV
-        - cd src
-        - ./initialize --s -n32000 -t11 -o
-    # LeakSanitizer
-    - os: linux
-      compiler: clang-15
-      env: LSAN=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_SANITIZER_LEAK:BOOL=TRUE"
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/build/
-        - ctest -VV
-        - cd src
-        - ./initialize --s -n32000 -t11 -o
-    # MemorySanitizer
-    - os: linux
-      compiler: clang-15
-      env: MSAN=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_SANITIZER_MEMORY:BOOL=TRUE"
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/build/
-        - ctest -VV
-        - cd src
-        - ./initialize --s -n32000 -t11 -o
-    # ThreadSanitizer
-    - os: linux
-      compiler: clang-15
-      env: TSAN=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/build/
-        - travis_wait 90 ctest -VV
-        - cd src
-        - ./initialize --s -n32000 -t11 -o
-    # Doxygen
-    - os: linux
-      compiler: g++-12
-      env: DOXYGEN=true
-      install: skip
-      script:
-        - cd $TRAVIS_BUILD_DIR
-        - doxygen docs/Doxyfile
-        - touch docs/html/.nojekyll
-      after_success:
-        # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
-        - pwd
-      deploy:
-        provider: pages
-        skip_cleanup: true
-        local_dir: docs/html
-        github_token: $GITHUB_TOKEN
-        keep_history: true
-        verbose: true
-        edge: true
-        on:
-          all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
-  allow_failures:
-    - os: linux
-      compiler: g++-12
-      env: DOXYGEN=true
+#  include:
+#    # CppCheck
+#    - os: linux
+#      compiler: g++12
+#      env: CPPCHECK=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
+#      after_success: skip
+#    # Valgrind
+#    - os: linux
+#      compiler: g++12
+#      env: VALGRIND=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
+#      after_success:
+#        - cd $TRAVIS_BUILD_DIR/build/
+#        - travis_wait 60 ctest -VV -T memcheck --verbose
+#        - cd src
+#        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11 -o
+#        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt-opt
+#        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10
+#    # AddressSanitizer and UndefinedBehaviorSanitizer
+#    - os: linux
+#      compiler: clang-15
+#      env: ASAN=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE"
+#      after_success:
+#        - cd $TRAVIS_BUILD_DIR/build/
+#        - ctest -VV
+#        - cd src
+#        - ./initialize --s -n32000 -t11 -o
+#    # LeakSanitizer
+#    - os: linux
+#      compiler: clang-15
+#      env: LSAN=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_SANITIZER_LEAK:BOOL=TRUE"
+#      after_success:
+#        - cd $TRAVIS_BUILD_DIR/build/
+#        - ctest -VV
+#        - cd src
+#        - ./initialize --s -n32000 -t11 -o
+#    # MemorySanitizer
+#    - os: linux
+#      compiler: clang-15
+#      env: MSAN=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_SANITIZER_MEMORY:BOOL=TRUE"
+#      after_success:
+#        - cd $TRAVIS_BUILD_DIR/build/
+#        - ctest -VV
+#        - cd src
+#        - ./initialize --s -n32000 -t11 -o
+#    # ThreadSanitizer
+#    - os: linux
+#      compiler: clang-15
+#      env: TSAN=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
+#      after_success:
+#        - cd $TRAVIS_BUILD_DIR/build/
+#        - travis_wait 90 ctest -VV
+#        - cd src
+#        - ./initialize --s -n32000 -t11 -o
+#    # Doxygen
+#    - os: linux
+#      compiler: g++12
+#      env: DOXYGEN=true
+#      install: skip
+#      script:
+#        - cd $TRAVIS_BUILD_DIR
+#        - doxygen docs/Doxyfile
+#        - touch docs/html/.nojekyll
+#      after_success:
+#        # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
+#        - pwd
+#      deploy:
+#        provider: pages
+#        skip_cleanup: true
+#        local_dir: docs/html
+#        github_token: $GITHUB_TOKEN
+#        keep_history: true
+#        verbose: true
+#        edge: true
+#        on:
+#          all_branches: true
+#          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+#  allow_failures:
+#    - os: linux
+#      compiler: g++12
+#      env: DOXYGEN=true
 
 before_install:
-  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-12" CC="gcc-12"; fi
-  - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-15" CC="clang-15"; fi
+  - |
+    if [[ "$CXX" == "g++" ]]; then
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 90
+      sudo update-alternatives --config gcc
+      export CXX="g++-12" CC="gcc-12"
+    fi
+  - |
+    if [[ "$CXX" == "clang++" ]]; then
+      sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-15 90
+      sudo update-alternatives --config clang
+      export CXX="clang++-15" CC="clang-15"
+    fi
 
 install:
   # vcpkg should be cached, but clone it if not

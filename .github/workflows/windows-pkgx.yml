@@ -2,6 +2,10 @@ name: Windows pkgx
 
 on: [workflow_dispatch]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: windows-latest
@@ -24,7 +28,7 @@ jobs:
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 3265c187c74914aa5569b75355badebfdbab7987
+          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
 
       - name: Install vcpkg packages and configure CMake
         run: |

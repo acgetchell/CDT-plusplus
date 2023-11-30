@@ -13,7 +13,6 @@
 
 #include <cstddef>
 #include <unordered_set>
-#include <utility>
 
 #include "Geometry.hpp"
 
@@ -25,8 +24,8 @@ namespace manifolds
   /// @param timevalues A container of matching timevalues
   /// @return A container of Causal_vertices
   template <int dimension>
-  inline auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
-                                   std::span<size_t const> timevalues)
+  auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
+                            std::span<size_t const> const       timevalues)
       -> Causal_vertices_t<dimension>
   {
     return foliated_triangulations::make_causal_vertices<dimension>(vertices,
@@ -81,7 +80,7 @@ namespace manifolds
     /// @details Used for no-except updates of manifolds after moves.
     /// @param swap_from The value to be swapped from. Assumed to be discarded.
     /// @param swap_into The value to be swapped into.
-    friend void swap(Manifold<3>& swap_from, Manifold<3>& swap_into) noexcept
+    friend void swap(Manifold& swap_from, Manifold& swap_into) noexcept
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -103,10 +102,10 @@ namespace manifolds
     /// @param t_desired_timeslices Number of desired timeslices
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    Manifold(Int_precision t_desired_simplices,
-             Int_precision t_desired_timeslices,
-             double        t_initial_radius    = INITIAL_RADIUS,
-             double        t_foliation_spacing = FOLIATION_SPACING)
+    Manifold(Int_precision const t_desired_simplices,
+             Int_precision const t_desired_timeslices,
+             double const        t_initial_radius    = INITIAL_RADIUS,
+             double const        t_foliation_spacing = FOLIATION_SPACING)
         : Manifold{
               Triangulation{t_desired_simplices, t_desired_timeslices,
                             t_initial_radius, t_foliation_spacing}
@@ -119,8 +118,8 @@ namespace manifolds
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
     explicit Manifold(Causal_vertices_t<3> const& causal_vertices,
-                      double t_initial_radius    = INITIAL_RADIUS,
-                      double t_foliation_spacing = FOLIATION_SPACING)
+                      double const t_initial_radius    = INITIAL_RADIUS,
+                      double const t_foliation_spacing = FOLIATION_SPACING)
         : Manifold{
               Triangulation{causal_vertices, t_initial_radius,
                             t_foliation_spacing}
@@ -352,8 +351,8 @@ namespace manifolds
     /// number in geometry
     [[nodiscard]] auto check_simplices() const -> bool
     {
-      return (this->simplices() == this->N3() &&
-              m_triangulation.check_all_cells());
+      return this->simplices() == this->N3() &&
+             m_triangulation.check_all_cells();
     }  // check_simplices
 
     /// @brief Print the codimension 1 volume of simplices (faces) per timeslice
@@ -404,7 +403,7 @@ namespace manifolds
     /// @brief Obtains a vertex handle from a point
     /// @param point The point to search for
     /// @return The vertex handle to the vertex containing the point
-    auto get_vertex(Point_t<3> point) const -> Vertex_handle_t<3>
+    auto get_vertex(Point_t<3> const& point) const -> Vertex_handle_t<3>
     {
       Vertex_handle_t<3> result;
       m_triangulation.get_delaunay().is_vertex(point, result);
@@ -417,9 +416,9 @@ namespace manifolds
     /// @param vh3 The third vertex handle
     /// @param vh4 The fourth vertex handle
     /// @return The cell handle containing the vertex handles
-    auto get_cell(Vertex_handle_t<3> vh1, Vertex_handle_t<3> vh2,
-                  Vertex_handle_t<3> vh3, Vertex_handle_t<3> vh4) const
-        -> Cell_handle_t<3>
+    auto get_cell(Vertex_handle_t<3> const& vh1, Vertex_handle_t<3> const& vh2,
+                  Vertex_handle_t<3> const& vh3,
+                  Vertex_handle_t<3> const& vh4) const -> Cell_handle_t<3>
     {
       Cell_handle_t<3> result;
       m_triangulation.get_delaunay().is_cell(vh1, vh2, vh3, vh4, result);

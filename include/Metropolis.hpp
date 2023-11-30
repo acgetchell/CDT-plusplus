@@ -18,6 +18,7 @@
 #define INCLUDE_METROPOLIS_HPP_
 
 // CDT headers
+#include "Move_command.hpp"
 #include "Move_strategy.hpp"
 #include "S3Action.hpp"
 
@@ -93,9 +94,10 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// Cosmological constant.
   /// @param passes Number of passes of ergodic moves on triangulation.
   /// @param checkpoint Print/write output for every n=checkpoint passes.
-  [[maybe_unused]] MoveStrategy(long double Alpha, long double K,
-                                long double Lambda, Int_precision passes,
-                                Int_precision checkpoint)
+  [[maybe_unused]] MoveStrategy(long double const Alpha, long double const K,
+                                long double const   Lambda,
+                                Int_precision const passes,
+                                Int_precision const checkpoint)
       : m_Alpha(Alpha)
       , m_K(K)
       , m_Lambda(Lambda)
@@ -158,7 +160,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     mpfr_t r_1;
     mpfr_t r_2;
     mpfr_t a_1;
-    mpfr_inits2(PRECISION, a_1, nullptr);         // NOLINT
+    mpfr_inits2(PRECISION, a_1, nullptr);  // NOLINT
 
     mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  // r_1 = this_move NOLINT
     mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  // r_2 = total_moves NOLINT
@@ -187,7 +189,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// @param move The type of move
   /// @returns \f$a_2=e^{-\Delta S}\f$
   template <int dimension>
-  auto CalculateA2(move_tracker::move_type move) const noexcept
+  auto CalculateA2(move_tracker::move_type const move) const noexcept
   {
     if (dimension == 3)
     {
@@ -277,10 +279,10 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// of CalculateA1 and CalculateA2.
   /// @param move The type of move
   /// @returns True if the move is accepted
-  auto try_move(move_tracker::move_type move) -> bool
+  auto try_move(move_tracker::move_type const move) -> bool
   {
     // Record the proposed move
-    m_proposed_moves[move_tracker::as_integer(move)]++;
+    ++m_proposed_moves[as_integer(move)];
 
     // Calculate probability
     auto a_1 = CalculateA1(move);
@@ -294,21 +296,21 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
       spdlog::trace("Trying move.\n");
-      spdlog::trace("Move type = {}\n", move_tracker::as_integer(move));
+      spdlog::trace("Move type = {}\n", as_integer(move));
       spdlog::trace("Trial_value = {}\n", trial_value);
       spdlog::trace("A1 = {}\n", a_1);
       spdlog::trace("A2 = {}\n", a_2);
       spdlog::trace("A1*A2 = {}\n", a_1 * a_2);
-      spdlog::trace("{}\n", (trial_value <= a_1 * a_2) ? "Move accepted."
-                                                       : "Move rejected.");
+      spdlog::trace("{}\n", trial_value <= a_1 * a_2 ? "Move accepted."
+                                                     : "Move rejected.");
 #endif
       // Accept the move
-      m_accepted_moves[move_tracker::as_integer(move)]++;
+      ++m_accepted_moves[as_integer(move)];
       return true;
     }
 
     // Reject the move
-    m_rejected_moves[move_tracker::as_integer(move)]++;
+    ++m_rejected_moves[as_integer(move)];
     return false;
 
   }  // try_move()
@@ -335,8 +337,8 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       spdlog::trace("Making move {} ...\n", move);
 #endif
       command.enqueue(move_tracker::as_move(move));
-      m_proposed_moves[move]++;
-      m_accepted_moves[move]++;
+      ++m_proposed_moves[move];
+      ++m_accepted_moves[move];
     }
 
     // Execute the initial moves
@@ -398,9 +400,11 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
            ++move_attempt)
       {
         // Pick a move to attempt
-        auto move = move_tracker::generate_random_move_3();
 
-        if (try_move(move)) { command.enqueue(move); }
+        if (auto move = move_tracker::generate_random_move_3(); try_move(move))
+        {
+          command.enqueue(move);
+        }
       }  // Ends loop through CurrentTotalSimplices
 
       // Do the moves
@@ -412,7 +416,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       this->m_failed_moves += command.get_failed();
 
       // Do stuff on checkpoint
-      if ((pass_number % m_checkpoint) == 0)
+      if (pass_number % m_checkpoint == 0)
       {
         fmt::print("=== Pass {} ===\n", pass_number);
         fmt::print("Writing to file.\n");

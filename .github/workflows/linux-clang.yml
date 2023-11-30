@@ -1,6 +1,16 @@
 name: Linux Clang
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -20,14 +30,14 @@ jobs:
       - name: Setup Clang
         uses: pkgxdev/setup@v1
         with:
-          +: clang@16
+          +: clang@17
 
       -  run: clang --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 3265c187c74914aa5569b75355badebfdbab7987
+          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
 
       - name: Configure
         run: cmake --preset=build

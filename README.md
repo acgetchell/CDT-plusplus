@@ -1,9 +1,10 @@
 # CDT-plusplus
 **Quantize spacetime on your laptop.**
 
-[![Build Status](https://img.shields.io/travis/com/acgetchell/CDT-plusplus?label=Linux)](https://app.travis-ci.com/github/acgetchell/CDT-plusplus)
-[![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
+[![Linux Clang](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml)
+[![Linux GCC](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml)
 [![macOS](https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml)
+[![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true&passingText=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
 [![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)
@@ -403,8 +404,6 @@ Optional:
 - [PVS-Studio] using [pvs-studio.sh] if you have it installed
 
 ## Issues
-
-The [AppVeyor] tests to build on Windows will fail if it takes longer than 60 minutes to build. This is fixed with a paid subscription, but this project is open source.
 
 [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 

@@ -124,7 +124,8 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
 
 // This may take a while, so the scenario decorated with doctest::skip()
 // to disable by default
-SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always"))
+SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always") *
+         doctest::skip())
 {
   spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold_3.")

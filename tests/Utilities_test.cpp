@@ -17,7 +17,7 @@
 using namespace std;
 using namespace utilities;
 
-static inline auto constinit const NUMBER_OF_VALUES = 6;
+// static inline auto constexpr NUMBER_OF_VALUES = 6;
 
 SCENARIO("Various string/stream/time utilities" *
          doctest::test_suite("utilities"))
@@ -126,10 +126,10 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     // Construct a manifold from a Delaunay triangulation
     manifolds::Manifold_3 const manifold(
         foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
-    auto filename = utilities::make_filename(manifold);
+    auto filename = make_filename(manifold);
     WHEN("Writing to a file")
     {
-      utilities::write_file(manifold);
+      write_file(manifold);
       THEN("The file should exist")
       {
         CHECK(std::filesystem::exists(filename));
@@ -185,7 +185,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
     iota(container.begin(), container.end(), 0);
     WHEN("The container is shuffled.")
     {
-      std::shuffle(container.begin(), container.end(), make_random_generator());
+      ranges::shuffle(container, make_random_generator());
       THEN("We get back the elements in random order.")
       {
         auto j = 0;                                    // NOLINT
@@ -207,21 +207,19 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const              value4    = generate_random_int(min, max);
       auto const              value5    = generate_random_int(min, max);
       auto const              value6    = generate_random_int(min, max);
-      array<Int_precision, NUMBER_OF_VALUES> container = {
-          value1, value2, value3, value4, value5, value6};
+      array container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range and all be different.")
       {
         // All elements are >= min
-        CHECK_GE(*min_element(container.begin(), container.end()), min);
+        CHECK_GE(*ranges::min_element(container), min);
 
         // All elements are <= max
-        CHECK_LE(*max_element(container.begin(), container.end()), max);
+        CHECK_LE(*ranges::max_element(container), max);
 
         // All elements are different
-        sort(container.begin(), container.end());
-        CHECK(is_sorted(container.begin(), container.end()));
-        auto adjacent_iterator =
-            adjacent_find(container.begin(), container.end());
+        ranges::sort(container);
+        CHECK(ranges::is_sorted(container));
+        auto adjacent_iterator = ranges::adjacent_find(container);
 
         // If the iterator is equal to the end, then all elements are different
         CHECK_EQ(adjacent_iterator, container.end());
@@ -232,7 +230,6 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr min                = 1;
       auto constexpr max                = 256;
       auto const              value1    = generate_random_timeslice(max);
       auto const              value2    = generate_random_timeslice(max);
@@ -240,21 +237,20 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const              value4    = generate_random_timeslice(max);
       auto const              value5    = generate_random_timeslice(max);
       auto const              value6    = generate_random_timeslice(max);
-      array<Int_precision, NUMBER_OF_VALUES> container = {
-          value1, value2, value3, value4, value5, value6};
+      array container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range and be different.")
       {
+        auto constexpr min = 1;
         // All elements are >= min
-        CHECK_GE(*min_element(container.begin(), container.end()), min);
+        CHECK_GE(*ranges::min_element(container), min);
 
         // All elements are <= max
-        CHECK_LE(*max_element(container.begin(), container.end()), max);
+        CHECK_LE(*ranges::max_element(container), max);
 
         // All elements are different
-        sort(container.begin(), container.end());
-        CHECK(is_sorted(container.begin(), container.end()));
-        auto adjacent_iterator =
-            adjacent_find(container.begin(), container.end());
+        ranges::sort(container);
+        CHECK(ranges::is_sorted(container));
+        auto adjacent_iterator = ranges::adjacent_find(container);
 
         // If the iterator is equal to the end, then all elements are different
         CHECK_EQ(adjacent_iterator, container.end());
@@ -285,15 +281,13 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const                           value4    = generate_probability();
       auto const                           value5    = generate_probability();
       auto const                           value6    = generate_probability();
-      array<long double, NUMBER_OF_VALUES> container = {value1, value2, value3,
-                                                        value4, value5, value6};
+      array container = {value1, value2, value3, value4, value5, value6};
 
       THEN("They should all be different.")
       {
-        sort(container.begin(), container.end());
-        CHECK(is_sorted(container.begin(), container.end()));
-        auto adjacent_iterator =
-            adjacent_find(container.begin(), container.end());
+        ranges::sort(container);
+        CHECK(ranges::is_sorted(container));
+        auto adjacent_iterator = ranges::adjacent_find(container);
 
         // If the iterator is equal to the end, then all elements are different
         CHECK_EQ(adjacent_iterator, container.end());

@@ -39,7 +39,7 @@ Options:
   --dry-run     Don't actually do anything.
 )";
 
-auto main(int argc, char* const argv[]) -> int
+auto main(int const argc, char* const argv[]) -> int
 try
 {
   // Doctest integration into code
@@ -48,7 +48,7 @@ try
                     true);  // don't break in debugger when assertions fail
   context.applyCommandLine(argc, argv);
 
-  int res = context.run();  // run tests unless --no-run is specified
+  int const res = context.run();  // run tests unless --no-run is specified
   if (context.shouldExit())
   {  // important - query flags (and --exit) rely on the user doing this
     return res;  // propagate the result of the tests
@@ -59,24 +59,16 @@ try
                            // which will lead to wrong results
 
   // docopt option parser
-  std::string usage_string{USAGE};
-  std::map<std::string, docopt::value, std::less<std::string>> args =
+  std::string const                    usage_string{USAGE};
+  std::map<std::string, docopt::value> args =
       docopt::docopt(usage_string, {argv + 1, argv + argc},
                      true,               // show help if requested
                      "cdt-viewer 1.0");  // version string
 
-#ifndef NDEBUG
-  for (auto const& [first, second] : args)
-  {
-    std::cout << first << ": " << second << std::endl;
-  }
-#endif
-
   // Parse filename from arguments
   auto filename = args["<filename>"].asString();
-  auto dry_run  = args["--dry-run"].asBool();
 
-  if (dry_run)
+  if (args["--dry-run"].asBool())
   {
     fmt::print("Dry run. Exiting.\n");
     return res + EXIT_SUCCESS;
@@ -86,18 +78,18 @@ try
   fmt::print("Reading triangulation from file {}\n", filename);
 
   // Read from file
-  auto dt_in = utilities::read_file<Delaunay_t<3>>(filename);
+  auto const dt_in = utilities::read_file<Delaunay_t<3>>(filename);
 
   // Draw triangulation
   fmt::print("Drawing {}\n", filename);
-  CGAL::draw(dt_in);
+  draw(dt_in);
 
   return res + EXIT_SUCCESS;
 }
 
 catch (std::exception const& e)
 {
-  fmt::print(stderr, "Error: {}\n", e.what());
+  spdlog::critical("Error: {}\n", e.what());
   return EXIT_FAILURE;
 }
 
@@ -118,7 +110,7 @@ SCENARIO("Given a 3D Manifold, it can be written to file and read back in." *
 
     WHEN("It is written to file.")
     {
-      auto filename = utilities::make_filename(manifold);
+      auto const filename = utilities::make_filename(manifold);
       utilities::write_file(manifold);
 
       THEN("It can be read back in.")
@@ -133,7 +125,7 @@ SCENARIO("Given a 3D Manifold, it can be written to file and read back in." *
       }
       THEN("It can be drawn.")
       {
-        auto dt_in = utilities::read_file<Delaunay_t<3>>(filename);
+        auto const dt_in = utilities::read_file<Delaunay_t<3>>(filename);
         CGAL::draw(dt_in);
         // Cleanup test file
         REQUIRE_NOTHROW(std::filesystem::remove(filename));

@@ -21,8 +21,6 @@
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 #define CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 
-#include <concepts>
-
 #include "Triangulation_traits.hpp"
 #include "Utilities.hpp"
 
@@ -88,8 +86,8 @@ namespace foliated_triangulations
   /// @param timevalues The timevalue of each vertex
   /// @return A container of vertices that have an associated timevalue
   template <int dimension>
-  inline auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
-                                   std::span<size_t const> timevalues)
+  auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
+                            std::span<size_t const>             timevalues)
       -> Causal_vertices_t<dimension>
   {
     if (vertices.size() != timevalues.size())
@@ -224,7 +222,6 @@ namespace foliated_triangulations
   /// @brief Predicate to classify edge as timelike or spacelike
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_edge The Edge_handle to classify
-  /// @param t_debug_flag Debugging info toggle
   /// @returns True if timelike and false if spacelike
   template <int dimension>
   [[nodiscard]] auto classify_edge(Edge_handle_t<dimension> const& t_edge)
@@ -257,11 +254,10 @@ namespace foliated_triangulations
     std::vector<Edge_handle_t<dimension>> filtered_edges;
     // Short-circuit if no edges
     if (t_edges.empty()) { return filtered_edges; }
-    std::copy_if(
-        t_edges.begin(), t_edges.end(), std::back_inserter(filtered_edges),
-        [&](auto const& edge) {
-          return (t_is_Timelike_pred == classify_edge<dimension>(edge));
-        });
+    std::copy_if(t_edges.begin(), t_edges.end(),
+                 std::back_inserter(filtered_edges), [&](auto const& edge) {
+                   return t_is_Timelike_pred == classify_edge<dimension>(edge);
+                 });
     return filtered_edges;
   }  // filter_edges
 
@@ -328,8 +324,8 @@ namespace foliated_triangulations
   /// @returns True if the timevalue of the vertex matches its effective radius
   template <int dimension>
   [[nodiscard]] auto is_vertex_timevalue_correct(
-      Vertex_handle_t<dimension> const& t_vertex, double t_initial_radius,
-      double t_foliation_spacing) -> bool
+      Vertex_handle_t<dimension> const& t_vertex, double const t_initial_radius,
+      double const t_foliation_spacing) -> bool
   {
     auto const timevalue = expected_timevalue<dimension>(
         t_vertex, t_initial_radius, t_foliation_spacing);
@@ -403,7 +399,7 @@ namespace foliated_triangulations
   /// @param t_cells The cells from which to extract vertices
   /// @returns All of the vertices contained in the cells
   template <int dimension>
-  [[nodiscard]] inline auto get_vertices_from_cells(
+  [[nodiscard]] auto get_vertices_from_cells(
       std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     std::unordered_set<Vertex_handle_t<dimension>> cell_vertices;
@@ -487,11 +483,13 @@ namespace foliated_triangulations
   /// @tparam dimension Dimensionality of the vertices and Delaunay
   /// triangulation
   /// @param t_triangulation The triangulation
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
   /// @return True if any vertex->info() was fixed
   template <int dimension>
   [[nodiscard]] auto fix_vertices(Delaunay_t<dimension> const& t_triangulation,
-                                  double                       t_initial_radius,
-                                  double t_foliation_spacing) -> bool
+                                  double const                 t_initial_radius,
+                                  double const t_foliation_spacing) -> bool
   {
     return fix_vertices<dimension>(collect_cells<dimension>(t_triangulation),
                                    t_initial_radius, t_foliation_spacing);
@@ -500,7 +498,6 @@ namespace foliated_triangulations
   /// @brief Classifies cells by their timevalues
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cell The simplex to check
-  /// @param t_debug_flag Toggle for detailed debugging
   /// @return The type of the simplex
   template <int dimension>
   [[nodiscard]] auto expected_cell_type(Cell_handle_t<dimension> const& t_cell)
@@ -588,7 +585,7 @@ namespace foliated_triangulations
       -> bool
   {
     auto checked_cells = collect_cells<dimension>(t_triangulation);
-    return (checked_cells.empty()) ||
+    return checked_cells.empty() ||
            std::all_of(checked_cells.begin(), checked_cells.end(),
                        [&](auto const& cell) {
                          return is_cell_type_correct<dimension>(cell);
@@ -630,6 +627,23 @@ namespace foliated_triangulations
     return !incorrect_cells.empty();
   }  // fix_cells
 
+  /// @brief Print a cell in the triangulation
+  /// @tparam dimension The dimensionality of the triangulation
+  /// @param cell The cell to print
+  template <int dimension>
+  void print_cell(Cell_handle_t<dimension> cell)
+  {
+    fmt::print("Cell info => {}\n", cell->info());
+    // There are d+1 vertices in a d-dimensional simplex
+    for (int j = 0; j < dimension + 1; ++j)
+    {
+      fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
+                 utilities::point_to_str(cell->vertex(j)->point()),
+                 cell->vertex(j)->info());
+    }
+    fmt::print("---\n");
+  }  // print_cell
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   /// @tparam dimension The dimensionality of the simplices
@@ -640,21 +654,14 @@ namespace foliated_triangulations
     for (auto        cells = std::forward<Container>(t_cells);
          auto const& cell : cells)
     {
-      fmt::print("Cell info => {}\n", cell->info());
-      // There are d+1 vertices in a d-dimensional simplex
-      for (int j = 0; j < dimension + 1; ++j)
-      {
-        fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
-                   utilities::point_to_str(cell->vertex(j)->point()),
-                   cell->vertex(j)->info());
-      }
-      fmt::print("---\n");
+      print_cell<dimension>(cell);
     }
   }  // print_cells
 
   /// @brief Write to debug log timevalues of each vertex in the cell and the
   /// resulting cell->info
   /// @tparam dimension The dimensionality of the simplices
+  /// @tparam Container The type of container
   /// @param t_cells The cells to write to debug log
   template <int dimension, ContainerType Container>
   void debug_print_cells(Container&& t_cells)
@@ -672,6 +679,19 @@ namespace foliated_triangulations
       spdlog::debug("---\n");
     }
   }  // debug_print_cells
+
+  /// @brief Print neighboring cells
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param cell The cell to print neighbors of
+  template <int dimension>
+  void print_neighboring_cells(Cell_handle_t<dimension> cell)
+  {
+    for (int j = 0; j < dimension + 1; ++j)
+    {
+      fmt::print("Neighboring cell {}:", j);
+      print_cell<dimension>(cell->neighbor(j));
+    }
+  }  // print_neighboring_cells
 
   /// @brief Print edge
   /// @details An edge is represented by a cell and two indices which refer
@@ -699,7 +719,6 @@ namespace foliated_triangulations
   /// of logs.
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
-  /// @param t_debug_flag Debugging info toggle
   /// @return Container with spacelike facets per timeslice
   template <int dimension, ContainerType Container>
   [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
@@ -777,8 +796,8 @@ namespace foliated_triangulations
           return expected_cell_type<dimension>(cell) == Cell_type::ACAUSAL ||
                  expected_cell_type<dimension>(cell) == Cell_type::UNCLASSIFIED;
         });
-    auto result = (invalid_cells.empty()) ? std::nullopt
-                                          : std::make_optional(invalid_cells);
+    auto result = invalid_cells.empty() ? std::nullopt
+                                        : std::make_optional(invalid_cells);
     return result;
   }  // check_timevalues
 
@@ -811,8 +830,8 @@ namespace foliated_triangulations
     // vertices with lower values. Note that we preferentially return higher
     // timeslice vertices because there are typically more cells at higher
     // timeslices (see expected_points_per_timeslice())
-    return (minvalue_count >= maxvalue_count) ? vertices.rbegin()->second
-                                              : vertices.begin()->second;
+    return minvalue_count >= maxvalue_count ? vertices.rbegin()->second
+                                            : vertices.begin()->second;
   }  // find_bad_vertex
 
   /// @brief Fix the vertices of a cell to be consistent with the foliation
@@ -861,9 +880,9 @@ namespace foliated_triangulations
   /// @return A container of (vertex, timevalue) pairs
   template <int dimension>
   [[nodiscard]] auto make_foliated_ball(
-      Int_precision t_simplices, Int_precision t_timeslices,
-      double initial_radius    = INITIAL_RADIUS,
-      double foliation_spacing = FOLIATION_SPACING)
+      Int_precision const t_simplices, Int_precision const t_timeslices,
+      double const initial_radius    = INITIAL_RADIUS,
+      double const foliation_spacing = FOLIATION_SPACING)
   {
     Causal_vertices_t<dimension> causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
@@ -884,7 +903,7 @@ namespace foliated_triangulations
       }  // j
     }    // i
     return causal_vertices;
-  }      // make_foliated_ball
+  }  // make_foliated_ball
 
   /// @brief Make a Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
@@ -895,9 +914,10 @@ namespace foliated_triangulations
   /// @return A Delaunay triangulation with a timevalue for each vertex
   template <int dimension>
   [[nodiscard]] auto make_triangulation(
-      Int_precision t_simplices, Int_precision t_timeslices,
-      double initial_radius    = INITIAL_RADIUS,
-      double foliation_spacing = FOLIATION_SPACING) -> Delaunay_t<dimension>
+      Int_precision const t_simplices, Int_precision t_timeslices,
+      double const initial_radius    = INITIAL_RADIUS,
+      double const foliation_spacing = FOLIATION_SPACING)
+      -> Delaunay_t<dimension>
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -1036,8 +1056,8 @@ namespace foliated_triangulations
     /// is discarded after it is swapped into the second one.
     /// @param swap_from The value to be swapped from. Assumed to be discarded.
     /// @param swap_into The value to be swapped into.
-    friend void swap(FoliatedTriangulation<3>& swap_from,
-                     FoliatedTriangulation<3>& swap_into) noexcept
+    friend void swap(FoliatedTriangulation& swap_from,
+                     FoliatedTriangulation& swap_into) noexcept
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -1069,9 +1089,11 @@ namespace foliated_triangulations
     /// Pass-by-value-then-move.
     /// Delaunay is the ctor for the Delaunay triangulation.
     /// @param triangulation Delaunay triangulation
-    explicit FoliatedTriangulation(Delaunay triangulation,
-                                   double   initial_radius  = INITIAL_RADIUS,
-                                   double foliation_spacing = FOLIATION_SPACING)
+    /// @param initial_radius Radius of first timeslice
+    /// @param foliation_spacing Radial separation between timeslices
+    explicit FoliatedTriangulation(
+        Delaunay triangulation, double const initial_radius = INITIAL_RADIUS,
+        double const foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{std::move(triangulation)}
         , m_initial_radius{initial_radius}
         , m_foliation_spacing{foliation_spacing}
@@ -1094,9 +1116,10 @@ namespace foliated_triangulations
     /// @param t_timeslices Number of desired timeslices
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    FoliatedTriangulation(Int_precision t_simplices, Int_precision t_timeslices,
-                          double t_initial_radius    = INITIAL_RADIUS,
-                          double t_foliation_spacing = FOLIATION_SPACING)
+    FoliatedTriangulation(Int_precision const t_simplices,
+                          Int_precision const t_timeslices,
+                          double const        t_initial_radius = INITIAL_RADIUS,
+                          double const t_foliation_spacing = FOLIATION_SPACING)
         : FoliatedTriangulation{
               make_triangulation<3>(t_simplices, t_timeslices, t_initial_radius,
                                     t_foliation_spacing),
@@ -1106,10 +1129,12 @@ namespace foliated_triangulations
     /// @brief Constructor from Causal_vertices
     /// @param causal_vertices Causal_vertices to place into the
     /// FoliatedTriangulation
+    /// @param t_initial_radius Radius of first timeslice
+    /// @param t_foliation_spacing Radial separation between timeslices
     explicit FoliatedTriangulation(
         Causal_vertices_t<3> const& causal_vertices,
-        double                      t_initial_radius    = INITIAL_RADIUS,
-        double                      t_foliation_spacing = FOLIATION_SPACING)
+        double const                t_initial_radius    = INITIAL_RADIUS,
+        double const                t_foliation_spacing = FOLIATION_SPACING)
         : FoliatedTriangulation{
               Delaunay{causal_vertices.begin(), causal_vertices.end()},
               t_initial_radius, t_foliation_spacing
@@ -1155,10 +1180,11 @@ namespace foliated_triangulations
     /// @return True if fixes were done on the Delaunay triangulation
     [[nodiscard]] auto is_fixed() -> bool
     {
-      auto fixed_vertices = foliated_triangulations::fix_vertices<3>(
+      auto const fixed_vertices = foliated_triangulations::fix_vertices<3>(
           m_triangulation, m_initial_radius, m_foliation_spacing);
-      auto fixed_cells = foliated_triangulations::fix_cells<3>(m_triangulation);
-      auto fixed_timeslices =
+      auto const fixed_cells =
+          foliated_triangulations::fix_cells<3>(m_triangulation);
+      auto const fixed_timeslices =
           foliated_triangulations::fix_timevalues<3>(m_triangulation);
       return fixed_vertices || fixed_cells || fixed_timeslices;
     }  // is_fixed
@@ -1229,8 +1255,7 @@ namespace foliated_triangulations
 
     /// @return Container of spacelike facets indexed by time value
     [[nodiscard]] auto N2_SL() const
-        -> std::multimap<Int_precision,
-                         typename TriangulationTraits<3>::Facet> const&
+        -> std::multimap<Int_precision, TriangulationTraits<3>::Facet> const&
     {
       return m_spacelike_facets;
     }  // N2_SL
@@ -1337,9 +1362,9 @@ namespace foliated_triangulations
       auto const actual_radius_squared   = squared_radius<3>(t_vertex);
       auto const radius                  = expected_radius(t_vertex);
       auto const expected_radius_squared = std::pow(radius, 2);
-      return (
-          actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
-          actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
+      return actual_radius_squared >
+                 expected_radius_squared * (1 - TOLERANCE) &&
+             actual_radius_squared < expected_radius_squared * (1 + TOLERANCE);
     }  // does_vertex_radius_match_timevalue
 
     /// @brief Calculates the expected radial distance of a vertex
@@ -1383,7 +1408,6 @@ namespace foliated_triangulations
     }  // find_incorrect_vertices
 
     /// @brief Fix vertices with wrong timevalues after foliation
-    /// @param incorrect_vertices The container of incorrect vertices
     [[nodiscard]] auto fix_vertices() const -> bool
     {
       return foliated_triangulations::fix_vertices<3>(
