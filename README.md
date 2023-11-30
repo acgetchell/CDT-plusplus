@@ -3,8 +3,8 @@
 
 [![Linux Clang](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml)
 [![Linux GCC](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml)
-[![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
 [![macOS](https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml)
+[![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true&passingText=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
 [![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)

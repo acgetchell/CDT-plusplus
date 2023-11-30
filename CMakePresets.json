@@ -145,6 +145,16 @@
         }
     },
     {
+      "name": "cppcheck",
+      "inherits": "ci-std",
+      "description": "This preset is used for cppcheck",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_CPPCHECK": true
+        }
+    },
+    {
       "name": "lsan",
       "inherits": "ci-unix",
       "description": "This preset is used for LSAN builds",

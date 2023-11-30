@@ -39,14 +39,14 @@ compiler:
 
 jobs:
   fast_finish: true
-  include:
-    # CppCheck
-    - os: linux
-      compiler: g++12
-      env: CPPCHECK=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
-      after_success: skip
+#  include:
+#    # CppCheck
+#    - os: linux
+#      compiler: g++12
+#      env: CPPCHECK=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
+#      after_success: skip
 #    # Valgrind
 #    - os: linux
 #      compiler: g++12
