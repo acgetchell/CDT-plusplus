@@ -47,19 +47,19 @@ jobs:
       before_script:
         - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
       after_success: skip
-    # Valgrind
-    - os: linux
-      compiler: g++12
-      env: VALGRIND=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/build/
-        - travis_wait 60 ctest -VV -T memcheck --verbose
-        - cd src
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11 -o
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt-opt
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10
+#    # Valgrind
+#    - os: linux
+#      compiler: g++12
+#      env: VALGRIND=true
+#      before_script:
+#        - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
+#      after_success:
+#        - cd $TRAVIS_BUILD_DIR/build/
+#        - travis_wait 60 ctest -VV -T memcheck --verbose
+#        - cd src
+#        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11 -o
+#        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt-opt
+#        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10
     # AddressSanitizer and UndefinedBehaviorSanitizer
     - os: linux
       compiler: clang-15

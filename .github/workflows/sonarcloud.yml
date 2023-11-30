@@ -44,7 +44,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 2a01db703fec3cdd13ca884a6a84d1505df2d235
+          vcpkgGitCommitId: 4cac260c4b7331538d31886f57739fea0bffa27e
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
