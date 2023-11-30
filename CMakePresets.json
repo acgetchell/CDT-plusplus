@@ -129,10 +129,19 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "g++",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Debug",
         "ENABLE_VALGRIND": true,
         "ENABLE_TESTING": true,
         "ENABLE_CACHE": "OFF"
+        }
+    },
+    {
+      "name": "asan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for ASAN/UBSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_ADDRESS": true,
+        "ENABLE_SANITIZER_UNDEFINED": true
         }
     },
     {

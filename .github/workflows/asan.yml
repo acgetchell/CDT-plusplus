@@ -1,0 +1,66 @@
+name: Address Sanitizer/Undefined Behavior Sanitizer
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup
+        run: |
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+
+      - name: Setup Clang
+        uses: pkgxdev/setup@v1
+        with:
+          +: clang@17
+
+      -  run: clang --version
+
+      - name: Restore artifacts or setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 4cac260c4b7331538d31886f57739fea0bffa27e
+
+      - name: Configure
+        run: cmake --preset=asan
+
+      - name: Build
+        run: cmake --build build -j 2
+
+      - name: Run tests
+        working-directory: build
+        continue-on-error: true
+        run: ctest -VV
+
+      - name: Run ASAN on initialize
+        working-directory: build/src
+        continue-on-error: true
+        run: ./initialize --s n32000 -t11 -o
+
+      - name: Run ASAN on cdt-opt
+        working-directory: build/src
+        continue-on-error: true
+        run: ./cdt-opt
+
+      - name: Run ASAN on cdt
+        working-directory: build/src
+        continue-on-error: true
+        run: ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
