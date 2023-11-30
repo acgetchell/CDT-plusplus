@@ -141,8 +141,32 @@
       "description": "This preset is used for ASAN/UBSAN builds",
       "cacheVariables": {
         "ENABLE_SANITIZER_ADDRESS": true,
-        "ENABLE_SANITIZER_UNDEFINED": true
+        "ENABLE_SANITIZER_UNDEFINED_BEHAVIOR": true
         }
+    },
+    {
+      "name": "lsan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for LSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_LEAK": true
+      }
+    },
+    {
+      "name": "msan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for MSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_MEMORY": true
+      }
+    },
+    {
+      "name": "tsan",
+      "inherits": "ci-unix",
+      "description": "This preset is used for TSAN builds",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_THREAD": true
+      }
     },
     {
       "name": "conf-common",

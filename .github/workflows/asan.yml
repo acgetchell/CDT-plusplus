@@ -1,4 +1,4 @@
-name: Address Sanitizer/Undefined Behavior Sanitizer
+name: Address Sanitizer
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 4cac260c4b7331538d31886f57739fea0bffa27e
+          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
 
       - name: Configure
         run: cmake --preset=asan
@@ -53,7 +53,7 @@ jobs:
       - name: Run ASAN on initialize
         working-directory: build/src
         continue-on-error: true
-        run: ./initialize --s n32000 -t11 -o
+        run: ./initialize --s -n32000 -t11 -o
 
       - name: Run ASAN on cdt-opt
         working-directory: build/src

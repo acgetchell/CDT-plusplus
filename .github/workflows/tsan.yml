@@ -1,4 +1,4 @@
-name: Valgrind
+name: Thread Sanitizer
 
 on:
   push:
@@ -25,43 +25,42 @@ jobs:
       - name: Setup
         run: |
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache valgrind
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
-      - name: Setup GCC
+      - name: Setup Clang
         uses: pkgxdev/setup@v1
         with:
-          +: gcc@13
+          +: clang@17
 
-      -  run: gcc --version
+      -  run: clang --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
+          vcpkgGitCommitId: 4cac260c4b7331538d31886f57739fea0bffa27e
 
       - name: Configure
-        run: cmake --preset=valgrind
+        run: cmake --preset=tsan
 
       - name: Build
         run: cmake --build build -j 2
 
-      - name: Run memcheck
+      - name: Run tests
         working-directory: build
         continue-on-error: true
-        run: |
-          ctest -VV -T memcheck --verbose
+        run: ctest -VV
 
-      - name: Run Valgrind on initialize
+      - name: Run TSAN on initialize
         working-directory: build/src
         continue-on-error: true
-        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./initialize --s -n32000 -t11 -o
+        run: ./initialize --s -n32000 -t11 -o
 
-      - name: Run Valgrind on cdt-opt
+      - name: Run TSAN on cdt-opt
         working-directory: build/src
         continue-on-error: true
-        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt-opt
+        run: ./cdt-opt
 
-      - name: Run Valgrind on cdt
+      - name: Run TSAN on cdt
         working-directory: build/src
         continue-on-error: true
-        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
+        run: ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
