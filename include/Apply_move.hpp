@@ -15,19 +15,19 @@
 
 #include <expected>
 #include <string>
-#include <tl/expected.hpp>
 #include <tl/function_ref.hpp>
 
-/// @brief An applicative function similar to std::apply, but on manifolds
-/// @tparam ManifoldType The type (topology, dimensionality) of manifold
-/// @tparam ExpectedType The result of the move on the manifold
-/// @tparam FunctionType The type of move applied to the manifold
-/// @param t_manifold The manifold on which to make the Pachner move
-/// @param t_move The Pachner move
-/// @returns The expected or unexpected result in a std::expected<T,E>
-/// @see https://tl.tartanllama.xyz/en/latest/api/function_ref.html
+/**
+ * \brief An applicative function similar to std::apply on a manifold
+ * \tparam ManifoldType The type (topology, dimensionality) of manifold
+ * \tparam ExpectedType The result type of the move on the manifold
+ * \tparam FunctionType The type of move applied to the manifold
+ * \param t_manifold The manifold on which to make the Pachner move
+ * \param t_move The Pachner move
+ * \return The expected or unexpected result in a std::expected<T,E>
+ */
 template <typename ManifoldType,
-          typename ExpectedType = tl::expected<ManifoldType, std::string>,
+          typename ExpectedType = std::expected<ManifoldType, std::string>,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 auto constexpr apply_move(ManifoldType&& t_manifold,
                           FunctionType   t_move) noexcept -> decltype(auto)
