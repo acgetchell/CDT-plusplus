@@ -5,7 +5,7 @@ var searchData=
   ['s3_5fbulk_5faction_5falpha_5fone_249',['S3_bulk_action_alpha_one',['../_s3_action_8hpp.html#a1945ad8f7ff5750e17dc8c0685e8185f',1,'S3Action.hpp']]],
   ['s3action_2ehpp_250',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
   ['s3action_5ftest_2ecpp_251',['S3Action_test.cpp',['../_s3_action__test_8cpp.html',1,'']]],
-  ['scenario_252',['SCENARIO',['../bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;)):&#160;bistellar-flip.cpp'],['../_ergodic__moves__3__test_8cpp.html#ac9d8a7c36fadc4bfa357bea81db79840',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;ergodic&quot;) *doctest::skip()):&#160;Ergodic_moves_3_test.cpp']]],
+  ['scenario_252',['SCENARIO',['../bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;)):&#160;bistellar-flip.cpp'],['../_ergodic__moves__3__test_8cpp.html#a25a96cb7523541ad641a2af1f2625ca7',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;ergodic&quot;)):&#160;Ergodic_moves_3_test.cpp']]],
   ['settings_2ehpp_253',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
   ['settings_5ftest_2ecpp_254',['Settings_test.cpp',['../_settings__test_8cpp.html',1,'']]],
   ['simplices_255',['simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220',1,'manifolds::Manifold&lt; 3 &gt;']]],
