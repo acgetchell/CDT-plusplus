@@ -516,7 +516,7 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
 }
 
 SCENARIO("Perform bistellar flip on Delaunay triangulation" *
-         doctest::test_suite("ergodic") * doctest::skip())
+         doctest::test_suite("ergodic"))
 {
   GIVEN("A triangulation setup for a bistellar flip")
   {

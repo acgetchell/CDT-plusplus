@@ -4,7 +4,7 @@
 # Or, interactively,
 # srun -p med2 -t 1-00 --mem=100G --ntasks 12 --pty /bin/bash -il
 module load spack/cmake
-module load spack/gcc
+module load gcc/13.2.0
 module load spack/autoconf-archive
 cd ..
 rm -rf build/
