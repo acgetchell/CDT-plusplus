@@ -11,4 +11,4 @@ pwd
 cd build/src || exit
 ./initialize --s -n32000 -t11 -o
 cd .. || exit
-ctest --output-on-failure -j2
+ctest --rerun-failed --output-on-failure -j2

@@ -3,9 +3,9 @@
 # sbatch -p high -t 60 slurm.sh
 # Or, interactively,
 # srun -p med2 -t 1-00 --mem=100G --ntasks 12 --pty /bin/bash -il
-module load spack/cmake
+module load cmake/3.28.1
 module load gcc/13.2.0
-module load spack/autoconf-archive
+module load autoconf-archive/2022.02.11
 cd ..
 rm -rf build/
 cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
