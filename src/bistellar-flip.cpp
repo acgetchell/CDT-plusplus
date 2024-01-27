@@ -64,9 +64,9 @@ try
 
 #ifdef NDEBUG
   fmt::print("Before bistellar flip.\n");
-  auto                    vertices = bistellar_triangulation_vertices();
-  ergodic_moves::Delaunay dt{vertices.begin(), vertices.end()};
-  manifolds::Manifold_3   manifold{
+  auto                          vertices = bistellar_triangulation_vertices();
+  ergodic_moves::Delaunay const dt{vertices.begin(), vertices.end()};
+  manifolds::Manifold_3 const   manifold{
       foliated_triangulations::FoliatedTriangulation_3{dt, 0, 1}
   };
   CGAL::draw(manifold.get_delaunay());
