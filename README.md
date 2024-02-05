@@ -405,8 +405,6 @@ Optional:
 
 ## Issues
 
-- macOS currently doesn't build with Qt, see https://github.com/microsoft/vcpkg/issues/36409
-
 - [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
 - [docopt] also has a `use-of-uninitialized-value` bug ([#149]).
