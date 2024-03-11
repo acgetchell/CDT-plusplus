@@ -2,17 +2,31 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 
 # On macOS and Linux docopt builds an intermediate object, thus different targets than Windows See
 # https://github.com/microsoft/vcpkg/issues/8666
-target_link_libraries(
-  initialize
-  PRIVATE project_options
-          project_warnings
-          date::date-tz
-          docopt
-          fmt::fmt-header-only
-          Eigen3::Eigen
-          spdlog::spdlog_header_only
-          TBB::tbb
-          CGAL::CGAL)
+if(WIN32 OR APPLE)
+  target_link_libraries(
+    initialize
+    PRIVATE project_options
+            project_warnings
+            date::date-tz
+            docopt
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            spdlog::spdlog_header_only
+            TBB::tbb
+            CGAL::CGAL)
+else()
+  target_link_libraries(
+    initialize
+    PRIVATE project_options
+            project_warnings
+            date::date-tz
+            docopt_s
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            spdlog::spdlog_header_only
+            TBB::tbb
+            CGAL::CGAL)
+endif()
 target_compile_features(initialize PRIVATE cxx_std_20)
 
 add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
@@ -29,17 +43,31 @@ target_link_libraries(
 target_compile_features(cdt-opt PRIVATE cxx_std_20)
 
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
-target_link_libraries(
-  cdt
-  PRIVATE project_options
-          project_warnings
-          date::date-tz
-          docopt
-          fmt::fmt-header-only
-          Eigen3::Eigen
-          spdlog::spdlog_header_only
-          TBB::tbb
-          CGAL::CGAL)
+if(WIN32 OR APPLE)
+  target_link_libraries(
+    cdt
+    PRIVATE project_options
+            project_warnings
+            date::date-tz
+            docopt
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            spdlog::spdlog_header_only
+            TBB::tbb
+            CGAL::CGAL)
+else()
+  target_link_libraries(
+    cdt
+    PRIVATE project_options
+            project_warnings
+            date::date-tz
+            docopt_s
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            spdlog::spdlog_header_only
+            TBB::tbb
+            CGAL::CGAL)
+endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
 # Build cdt-viewer locally, but not in CI since QT takes more than an hour to build there
