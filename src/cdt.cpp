@@ -11,7 +11,7 @@
 /// https://github.com/ucdavis/CDT.
 
 #include <CGAL/Real_timer.h>
-#include <docopt.h>
+#include <docopt/docopt.h>
 
 #include <Metropolis.hpp>
 
