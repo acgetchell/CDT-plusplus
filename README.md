@@ -405,9 +405,9 @@ Optional:
 
 ## Issues
 
-[vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
+- [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
-[docopt] also has a `use-of-uninitialized-value` bug ([#149]).
+- [docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149

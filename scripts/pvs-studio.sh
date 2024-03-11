@@ -12,7 +12,7 @@ rm -rf build/
 cmake --preset debug
 cmake --build build
 cd build || exit
-pvs-studio-analyzer analyze -o pvsreport.log -j8
+pvs-studio-analyzer analyze -o pvsreport.log -e ../vcpkg_installed -j8
 # Filter warning 521
 pvs-studio-analyzer suppress -v521 pvsreport.log
 pvs-studio-analyzer filter-suppressed pvsreport.log

@@ -8,7 +8,7 @@
 /// @brief Generates initial spacetimes
 /// @author Adam Getchell
 
-#include <docopt.h>
+#include <docopt/docopt.h>
 
 #include "Manifold.hpp"
 

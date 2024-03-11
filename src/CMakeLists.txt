@@ -2,7 +2,7 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 
 # On macOS and Linux docopt builds an intermediate object, thus different targets than Windows See
 # https://github.com/microsoft/vcpkg/issues/8666
-if(WIN32)
+if(WIN32 OR APPLE)
   target_link_libraries(
     initialize
     PRIVATE project_options
@@ -30,35 +30,20 @@ endif()
 target_compile_features(initialize PRIVATE cxx_std_20)
 
 add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
-if(WIN32)
-  target_link_libraries(
-    cdt-opt
-    PRIVATE project_options
-            project_warnings
-            date::date-tz
-            docopt
-            fmt::fmt-header-only
-            Eigen3::Eigen
-            spdlog::spdlog_header_only
-            TBB::tbb
-            CGAL::CGAL)
-else()
-  target_link_libraries(
-    cdt-opt
-    PRIVATE project_options
-            project_warnings
-            date::date-tz
-            docopt_s
-            fmt::fmt-header-only
-            Eigen3::Eigen
-            spdlog::spdlog_header_only
-            TBB::tbb
-            CGAL::CGAL)
-endif()
+target_link_libraries(
+  cdt-opt
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          fmt::fmt-header-only
+          Eigen3::Eigen
+          spdlog::spdlog_header_only
+          TBB::tbb
+          CGAL::CGAL)
 target_compile_features(cdt-opt PRIVATE cxx_std_20)
 
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
-if(WIN32)
+if(WIN32 OR APPLE)
   target_link_libraries(
     cdt
     PRIVATE project_options
@@ -93,7 +78,7 @@ if(APPLE AND NOT ($ENV{CI}))
     PRIVATE project_options
             project_warnings
             date::date-tz
-            docopt_s
+            docopt
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
