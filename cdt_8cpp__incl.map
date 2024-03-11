@@ -1,7 +1,7 @@
 <map id="src/cdt.cpp" name="src/cdt.cpp">
-<area shape="rect" id="node1" title="The main executable." alt="" coords="620,5,712,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="460,80,603,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="627,80,705,107"/>
+<area shape="rect" id="node1" title="The main executable." alt="" coords="596,5,688,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="412,80,555,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="579,80,705,107"/>
 <area shape="rect" id="node4" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="729,80,848,107"/>
 <area shape="rect" id="node5" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="469,155,628,181"/>
 <area shape="rect" id="node42" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="716,155,861,181"/>
