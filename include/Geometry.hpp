@@ -99,7 +99,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
     swap(swap_from.N1_SL, swap_into.N1_SL);
     swap(swap_from.N0, swap_into.N0);
   }  // swap
-};   // struct Geometry<3>
+};  // struct Geometry<3>
 
 using Geometry_3 = Geometry<3>;
 

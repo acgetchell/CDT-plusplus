@@ -901,7 +901,7 @@ namespace foliated_triangulations
       {
         causal_vertices.emplace_back(*gen++, i + 1);
       }  // j
-    }    // i
+    }  // i
     return causal_vertices;
   }  // make_foliated_ball
 

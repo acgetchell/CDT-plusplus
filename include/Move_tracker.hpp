@@ -79,7 +79,7 @@ namespace move_tracker
     if (dim == 3) { return NUMBER_OF_3D_MOVES; }
     if (dim == 4) { return NUMBER_OF_4D_MOVES; }
     return 0;  // Error condition
-  }            // moves_per_dimension
+  }  // moves_per_dimension
 
   /**
    * \brief The data and methods to track ergodic moves
