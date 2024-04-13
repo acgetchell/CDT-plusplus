@@ -17,10 +17,6 @@ on:
       - main
       - develop
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches:
-      - main
-      - develop
   schedule:
     - cron: '26 7 * * 0'
   workflow_dispatch:

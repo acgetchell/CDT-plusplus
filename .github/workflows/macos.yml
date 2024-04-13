@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: macos-latest-xlarge
 
     steps:
     - uses: actions/checkout@v3
