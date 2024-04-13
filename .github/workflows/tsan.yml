@@ -30,7 +30,7 @@ jobs:
       - name: Setup Clang
         uses: pkgxdev/setup@v1
         with:
-          +: clang@17
+          +: clang@18
 
       -  run: clang --version
 
