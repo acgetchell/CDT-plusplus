@@ -202,10 +202,10 @@ $(function() {
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A vector of points and timevalues.&quot;</span>)</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    vector <span class="keyword">const</span>             Vertices{Point_t&lt;3&gt;(1, 0, 0), Point_t&lt;3&gt;(0, 1, 0),</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    vector <span class="keyword">const</span>         Vertices{Point_t&lt;3&gt;(1, 0, 0), Point_t&lt;3&gt;(0, 1, 0),</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                          Point_t&lt;3&gt;(0, 0, 1),</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                          Point_t&lt;3&gt;(RADIUS_2, RADIUS_2, RADIUS_2)};</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    vector&lt;size_t&gt; <span class="keyword">const</span>     Timevalues{1, 1, 1, 2};</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    vector&lt;size_t&gt; <span class="keyword">const</span> Timevalues{1, 1, 1, 2};</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    WHEN(<span class="stringliteral">&quot;Causal vertices are created.&quot;</span>)</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    {</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;      <span class="keyword">auto</span> causal_vertices = make_causal_vertices&lt;3&gt;(Vertices, Timevalues);</div>
@@ -226,10 +226,10 @@ $(function() {
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  }</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A mismatched set of points and timevalues.&quot;</span>)</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    vector <span class="keyword">const</span>             Vertices{Point_t&lt;3&gt;(1, 0, 0), Point_t&lt;3&gt;(0, 1, 0),</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    vector <span class="keyword">const</span>         Vertices{Point_t&lt;3&gt;(1, 0, 0), Point_t&lt;3&gt;(0, 1, 0),</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                          Point_t&lt;3&gt;(0, 0, 1),</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                          Point_t&lt;3&gt;(RADIUS_2, RADIUS_2, RADIUS_2)};</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    vector&lt;size_t&gt; <span class="keyword">const</span>     Timevalues{1, 1, 1};</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    vector&lt;size_t&gt; <span class="keyword">const</span> Timevalues{1, 1, 1};</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    WHEN(<span class="stringliteral">&quot;Causal vertices are created.&quot;</span>)</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    {</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      THEN(<span class="stringliteral">&quot;An exception is thrown.&quot;</span>)</div>
@@ -1036,7 +1036,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 13 2024 20:02:32 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sun Apr 14 2024 22:21:58 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
