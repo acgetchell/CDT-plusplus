@@ -24,7 +24,7 @@ static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
          doctest::test_suite("tetrahedron"))
 {
-  using Point           = Point_t<3>;
+  using Point = Point_t<3>;
   GIVEN("A vector of 4 vertices.")
   {
     vector vertices{

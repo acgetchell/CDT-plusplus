@@ -388,7 +388,7 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
     };
     vector<size_t> timevalues{0, 1, 1, 1, 1, 2};
     auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-    Manifold_3     manifold(causal_vertices, 0, 1);
+    Manifold_3 manifold(causal_vertices, 0, 1);
     // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
     REQUIRE_EQ(manifold.vertices(), 6);
     REQUIRE_EQ(manifold.edges(), 13);
