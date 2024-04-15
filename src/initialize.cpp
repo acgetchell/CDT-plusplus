@@ -8,14 +8,14 @@
 /// @brief Generates initial spacetimes
 /// @author Adam Getchell
 
-#include <docopt/docopt.h>
+#include <boost/program_options.hpp>
 
 #include "Manifold.hpp"
 
 using namespace std;
+namespace po = boost::program_options;
 
-/// Help message parsed by docopt into options
-static string_view constexpr USAGE{
+static string_view constexpr INTRO{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014 Adam Getchell
@@ -23,47 +23,93 @@ Copyright (c) 2014 Adam Getchell
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure. Specify the topology of the triangulation
 (spherical or toroidal), the desired number of simplices, and the
-desired number of timeslices. Optionally, the spacetime dimension may
-also be given.
+desired number of timeslices.
 
-Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] [-i INIT] [-f FOL] [-o]
+There are a number of optional arguments.
 
 Examples:
-./initialize --spherical -n 32000 -t 11 --init 1 --foliate 1
-./initialize --s -n32000 -t11
+./initialize --spherical --simplices 32000 --timeslices 11 --init 1.0 --foliate 1.0 --output
+./initialize -s -n32000 -t11 -i1.0 -f1.0 -o
 
-Options:
-  -h --help                   Show this message
-  --version                   Show program version
-  -n SIMPLICES                Approximate number of simplices
-  -t TIMESLICES               Number of timeslices
-  -d DIM                      Dimensionality [default: 3]
-  -i --init INIT              Initial radius [default: 1]
-  -f --foliate FOL            Foliation spacing [default: 1]
-  -o --output                 Save triangulation into OFF file
-)"};
+Options)"};
 
 auto main(int const argc, char* const argv[]) -> int
 try
 {
-  // docopt option parser
-  std::string const                    usage_string{USAGE};
-  std::map<std::string, docopt::value> args = docopt::docopt(
-      usage_string, {argv + 1, argv + argc}, true, "initializer 1.0");
+  std::string const intro{INTRO};
+  // Parsed arguments
+  topology_type           topology;
+  long long               simplices;
+  long long               timeslices;
+  long long               dimensions;
+  double                  initial_radius;
+  double                  foliation_spacing;
+  bool                    save_file;
 
-  auto const simplices         = stoll(args["-n"].asString());
-  auto const timeslices        = stoll(args["-t"].asString());
-  auto const dimensions        = stoll(args["-d"].asString());
-  auto const initial_radius    = stod(args["--init"].asString());
-  auto const foliation_spacing = stod(args["--foliate"].asString());
-  auto const save_file         = args["--output"].asBool();
+  po::options_description description(intro);
+  description.add_options()("help,h", "Show this message")(
+      "version,v", "Show program version")("spherical,s", "Spherical topology")(
+      "toroidal,e", "Toroidal topology")("simplices,n",
+                                         po::value<long long>(&simplices),
+                                         "Approximate number of simplices")(
+      "timeslices,t", po::value<long long>(&timeslices),
+      "Number of timeslices")(
+      "dimensions,d", po::value<long long>(&dimensions)->default_value(3),
+      "Dimensionality")("init,i",
+                        po::value<double>(&initial_radius)->default_value(1.0),
+                        "Initial radius")(
+      "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
+      "Foliation spacing")("output,o", "Save triangulation into OFF file");
+
+  po::variables_map args;
+  po::store(po::parse_command_line(argc, argv, description), args);
+  po::notify(args);
+
+  if (args.count("help"))
+  {
+    cout << description << "\n";
+    return EXIT_SUCCESS;
+  }
+
+  if (args.count("version"))
+  {
+    fmt::print("CDT initializer version 1.0\n");
+    return EXIT_SUCCESS;
+  }
+
+  if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
+  else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
+  else
+  {
+    fmt::print("Topology not specified.\n");
+    return EXIT_FAILURE;
+  }
+
+  if (args.count("simplices"))
+  {
+    simplices = args["simplices"].as<long long>();
+  }
+  else
+  {
+    fmt::print("Number of simplices not specified.\n");
+    return EXIT_FAILURE;
+  }
+
+  if (args.count("timeslices"))
+  {
+    timeslices = args["timeslices"].as<long long>();
+  }
+  else
+  {
+    fmt::print("Number of timeslices not specified.\n");
+    return EXIT_FAILURE;
+  }
+
+  if (args.count("output")) { save_file = true; }
+  else { save_file = false; }
 
   // Initialize triangulation
   manifolds::Manifold_3 universe;
-
-  // Topology of simulation
-  auto const topology = args["--spherical"].asBool() ? topology_type::SPHERICAL
-                                                     : topology_type::TOROIDAL;
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));

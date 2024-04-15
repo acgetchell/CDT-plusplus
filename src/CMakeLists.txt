@@ -13,7 +13,8 @@ if(WIN32 OR APPLE)
             Eigen3::Eigen
             spdlog::spdlog_header_only
             TBB::tbb
-            CGAL::CGAL)
+            CGAL::CGAL
+            Boost::program_options)
 else()
   target_link_libraries(
     initialize
@@ -119,17 +120,17 @@ set_tests_properties(cdt-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Curr
 add_test(NAME cdt-toroidal COMMAND $<TARGET_FILE:cdt> --t -n64 -t3 -a0.6 -k1.1 -l0.1)
 set_tests_properties(cdt-toroidal PROPERTIES PASS_REGULAR_EXPRESSION "Toroidal triangulations not yet supported.")
 
-add_test(NAME initialize COMMAND $<TARGET_FILE:initialize> --s -n640 -t4 -o)
+add_test(NAME initialize COMMAND $<TARGET_FILE:initialize> -s -n640 -t4 -o)
 set_tests_properties(initialize PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-4")
 
-add_test(NAME initialize-minimum-simplices COMMAND $<TARGET_FILE:initialize> --s -n1 -t1 -o)
+add_test(NAME initialize-minimum-simplices COMMAND $<TARGET_FILE:initialize> -s -n1 -t1 -o)
 set_tests_properties(initialize-minimum-simplices
                      PROPERTIES PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
-add_test(NAME initialize-dimensionality COMMAND $<TARGET_FILE:initialize> --s -n64 -t3 -d4 -o)
+add_test(NAME initialize-dimensionality COMMAND $<TARGET_FILE:initialize> -s -n64 -t3 -d4 -o)
 set_tests_properties(initialize-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be >3.")
 
-add_test(NAME initialize-toroidal COMMAND $<TARGET_FILE:initialize> --t -n64 -t3 -o)
+add_test(NAME initialize-toroidal COMMAND $<TARGET_FILE:initialize> -e -n64 -t3 -o)
 set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
                                                     "Toroidal triangulations not yet supported.")
 
