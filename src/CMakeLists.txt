@@ -2,32 +2,43 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 
 # On macOS and Linux docopt builds an intermediate object, thus different targets than Windows See
 # https://github.com/microsoft/vcpkg/issues/8666
-if(WIN32 OR APPLE)
-  target_link_libraries(
-    initialize
-    PRIVATE project_options
-            project_warnings
-            date::date-tz
-            docopt
-            fmt::fmt-header-only
-            Eigen3::Eigen
-            spdlog::spdlog_header_only
-            TBB::tbb
-            CGAL::CGAL
-            Boost::program_options)
-else()
-  target_link_libraries(
-    initialize
-    PRIVATE project_options
-            project_warnings
-            date::date-tz
-            docopt_s
-            fmt::fmt-header-only
-            Eigen3::Eigen
-            spdlog::spdlog_header_only
-            TBB::tbb
-            CGAL::CGAL)
-endif()
+#if(WIN32 OR APPLE)
+#  target_link_libraries(
+#    initialize
+#    PRIVATE project_options
+#            project_warnings
+#            date::date-tz
+#            docopt
+#            fmt::fmt-header-only
+#            Eigen3::Eigen
+#            spdlog::spdlog_header_only
+#            TBB::tbb
+#            CGAL::CGAL
+#            Boost::program_options)
+#else()
+#  target_link_libraries(
+#    initialize
+#    PRIVATE project_options
+#            project_warnings
+#            date::date-tz
+#            docopt_s
+#            fmt::fmt-header-only
+#            Eigen3::Eigen
+#            spdlog::spdlog_header_only
+#            TBB::tbb
+#            CGAL::CGAL)
+#endif()
+target_link_libraries(
+  initialize
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          Boost::program_options
+          fmt::fmt-header-only
+          Eigen3::Eigen
+          spdlog::spdlog_header_only
+          TBB::tbb
+          CGAL::CGAL)
 target_compile_features(initialize PRIVATE cxx_std_20)
 
 add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
