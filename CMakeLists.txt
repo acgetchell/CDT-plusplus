@@ -104,6 +104,8 @@ find_package(Microsoft.GSL CONFIG REQUIRED)
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
 
+find_package(Boost REQUIRED COMPONENTS program_options)
+
 # https://github.com/gabime/spdlog
 find_package(spdlog CONFIG REQUIRED)
 

@@ -2,6 +2,7 @@
   "name": "cdt-plusplus",
   "version": "0.1.8",
   "dependencies": [
+    "boost-program-options",
     "doctest",
     "date",
     "docopt",
