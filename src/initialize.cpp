@@ -15,7 +15,7 @@
 using namespace std;
 namespace po = boost::program_options;
 
-static string_view constexpr INTRO{
+static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014 Adam Getchell
@@ -25,7 +25,11 @@ with a defined causal structure. Specify the topology of the triangulation
 (spherical or toroidal), the desired number of simplices, and the
 desired number of timeslices.
 
-There are a number of optional arguments.
+Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
+                   [-d DIM]
+                   [--init INITIAL RADIUS]
+                   [--foliate FOLIATION SPACING]
+                   [--output]
 
 Examples:
 ./initialize --spherical --simplices 32000 --timeslices 11 --init 1.0 --foliate 1.0 --output
@@ -36,7 +40,7 @@ Options)"};
 auto main(int const argc, char* const argv[]) -> int
 try
 {
-  std::string const intro{INTRO};
+  std::string const intro{USAGE};
   // Parsed arguments
   topology_type           topology;
   long long               simplices;
