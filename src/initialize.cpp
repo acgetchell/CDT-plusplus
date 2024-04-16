@@ -31,6 +31,8 @@ Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
                    [--foliate FOLIATION SPACING]
                    [--output]
 
+Optional arguments are in square brackets.
+
 Examples:
 ./initialize --spherical --simplices 32000 --timeslices 11 --init 1.0 --foliate 1.0 --output
 ./initialize -s -n32000 -t11 -i1.0 -f1.0 -o

@@ -47,7 +47,7 @@ if(APPLE AND NOT ($ENV{CI}))
     PRIVATE project_options
             project_warnings
             date::date-tz
-            docopt
+            Boost::program_options
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only

@@ -5,7 +5,6 @@
     "boost-program-options",
     "doctest",
     "date",
-    "docopt",
     "fmt",
     "ms-gsl",
     "eigen3",

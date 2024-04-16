@@ -14,14 +14,17 @@ Copyright © 2022 Adam Getchell
 #include <CGAL/draw_triangulation_3.h>
 
 #define DOCTEST_CONFIG_IMPLEMENT
-#include <docopt/docopt.h>
+
 #include <doctest/doctest.h>
 #include <spdlog/spdlog.h>
+
+#include <boost/program_options.hpp>
 
 #include "Manifold.hpp"
 #include "Utilities.hpp"
 
-/// Help message parsed by docopt into command line arguments
+namespace po = boost::program_options;
+
 static auto constexpr USAGE =
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -31,13 +34,9 @@ A program that views 3D triangulated spacetimes with a defined causal
 structure. Specify the filename of the triangulation to view.
 
 Usage:
-  cdt-viewer [options] <filename>
+  cdt-viewer -f FILENAME
 
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-  --dry-run     Don't actually do anything.
-)";
+Options)";
 
 auto main(int const argc, char* const argv[]) -> int
 try
@@ -58,24 +57,42 @@ try
                            // used during the next evaluation of RUN_ALL_TESTS,
                            // which will lead to wrong results
 
-  // docopt option parser
-  std::string const                    usage_string{USAGE};
-  std::map<std::string, docopt::value> args =
-      docopt::docopt(usage_string, {argv + 1, argv + argc},
-                     true,               // show help if requested
-                     "cdt-viewer 1.0");  // version string
+  std::string const intro{USAGE};
+  // Parsed arguments
+  std::string             filename;
 
-  // Parse filename from arguments
-  auto filename = args["<filename>"].asString();
+  po::options_description description(intro);
+  description.add_options()("help,h", "Show this message")(
+      "version,v", "Show program version")("dry-run",
+                                           "Don't actually do anything")(
+      "filename,f", po::value<std::string>(&filename),
+      "Filename of triangulation to view");
 
-  if (args["--dry-run"].asBool())
+  po::variables_map args;
+  po::store(po::parse_command_line(argc, argv, description), args);
+  po::notify(args);
+
+  if (args.count("help"))
+  {
+    std::cout << description << "\n";
+    return res + EXIT_SUCCESS;
+  }
+
+  if (args.count("version"))
+  {
+    fmt::print("cdt-viewer 1.0\n");
+    return res + EXIT_SUCCESS;
+  }
+
+  if (args.count("dry-run"))
   {
     fmt::print("Dry run. Exiting.\n");
     return res + EXIT_SUCCESS;
   }
 
   fmt::print("cdt-viewer started at {}\n", utilities::current_date_time());
-  fmt::print("Reading triangulation from file {}\n", filename);
+  fmt::print("Reading triangulation from file {}\n",
+             std::string_view(filename));
 
   // Read from file
   auto const dt_in = utilities::read_file<Delaunay_t<3>>(filename);
