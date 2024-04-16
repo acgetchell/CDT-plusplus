@@ -11,13 +11,14 @@
 /// https://github.com/ucdavis/CDT.
 
 #include <CGAL/Real_timer.h>
-#include <docopt/docopt.h>
 
+#include <boost/program_options.hpp>
 #include <Metropolis.hpp>
 
 using Timer = CGAL::Real_timer;
 
 using namespace std;
+namespace po = boost::program_options;
 
 /// Help message parsed by docopt into options
 static string_view constexpr USAGE{
@@ -31,29 +32,23 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM]
-            [--init INITIAL] [--foliate FOLIATION] -k K --alpha ALPHA
-            --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
+            [-d DIM]
+            [--init INITIAL RADIUS]
+            [--foliate FOLIATION SPACING]
+            -k K
+            --alpha ALPHA
+            --lambda LAMBDA
+            [-p PASSES]
+            [-c CHECKPOINT]
+
+Optional arguments are in square brackets.
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt --s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
+./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
 
-Options:
-  -h --help                   Show this message
-  --version                   Show program version
-  -n SIMPLICES                Approximate number of simplices
-  -t TIMESLICES               Number of timeslices
-  -d DIM                      Dimensionality [default: 3]
-  -i --init INITIAL           Initial radius [default: 1]
-  --foliate FOLIATION         Foliation spacing between timeslices [default: 1]
-  -a --alpha ALPHA            Negative squared geodesic length of 1-d
-                              timelike edges
-  -k K                        K = 1/(8*pi*G_newton)
-  -l --lambda LAMBDA          K * Cosmological constant
-  -p --passes PASSES          Number of passes [default: 100]
-  -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]
-)"};
+Options)"};
 
 /// @brief The main path of the CDT++ program
 /// @param argc Argument count = 1 + number of arguments
@@ -62,33 +57,86 @@ Options:
 auto main(int const argc, char* const argv[]) -> int
 try
 {
-  // Start running time
-  Timer timer;
-  timer.start();
-  fmt::print("cdt started at {}\n", utilities::current_date_time());
+  std::string const intro{USAGE};
+  // Parsed arguments
+  topology_type           topology;
+  long long               simplices;
+  long long               timeslices;
+  long long               dimensions;
+  double                  initial_radius;
+  double                  foliation_spacing;
+  long double             alpha;
+  long double             k;
+  long double             lambda;
+  long long               passes;
+  long long               checkpoint;
 
-  // docopt option parser
-  std::string const usage_string{USAGE};
-  std::map<std::string, docopt::value, std::less<std::string>> args =
-      docopt::docopt(usage_string, {argv + 1, argv + argc},
-                     true,          // print help message automatically
-                     "CDT 0.1.8");  // Version
+  po::options_description description(intro);
+  description.add_options()("help,h", "Show this message")(
+      "version,v", "Show program version")("spherical,s", "Spherical topology")(
+      "toroidal,e", "Toroidal topology")("simplices,n",
+                                         po::value<long long>(&simplices),
+                                         "Approximate number of simplices")(
+      "timeslices,t", po::value<long long>(&timeslices),
+      "Number of timeslices")(
+      "dimensions,d", po::value<long long>(&dimensions)->default_value(3),
+      "Dimensionality")("init,i",
+                        po::value<double>(&initial_radius)->default_value(1.0),
+                        "Initial radius")(
+      "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
+      "Foliation spacing")(
+      "alpha,a", po::value<long double>(&alpha),
+      "Negative squared geodesic length of 1-d timelike edges")(
+      "k,k", po::value<long double>(&k), "K = 1/(8*pi*G_newton)")(
+      "lambda,l", po::value<long double>(&lambda), "K * Cosmological constant")(
+      "passes,p", po::value<long long>(&passes)->default_value(100),
+      "Number of passes")("checkpoint,c",
+                          po::value<long long>(&checkpoint)->default_value(10),
+                          "Checkpoint every n passes");
 
-  // Parse docopt::values in args map
-  auto const simplices         = stoll(args["-n"].asString());
-  auto const timeslices        = stoll(args["-t"].asString());
-  auto const dimensions        = stoll(args["-d"].asString());
-  auto const initial_radius    = stod(args["--init"].asString());
-  auto const foliation_spacing = stod(args["--foliate"].asString());
-  auto const alpha             = stold(args["--alpha"].asString());
-  auto const k                 = stold(args["-k"].asString());  // NOLINT
-  auto const lambda            = stold(args["--lambda"].asString());
-  auto const passes            = stoll(args["--passes"].asString());
-  auto const checkpoint        = stoll(args["--checkpoint"].asString());
+  po::variables_map args;
+  po::store(po::parse_command_line(argc, argv, description), args);
+  po::notify(args);
 
-  // Topology of simulation
-  auto const topology = args["--spherical"].asBool() ? topology_type::SPHERICAL
-                                                     : topology_type::TOROIDAL;
+  if (args.count("help"))
+  {
+    cout << description << "\n";
+    return EXIT_SUCCESS;
+  }
+
+  if (args.count("version"))
+  {
+    fmt::print("CDT++ version 0.1.8\n");
+    return EXIT_SUCCESS;
+  }
+
+  if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
+  else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
+  else
+  {
+    fmt::print("Topology not specified.\n");
+    return EXIT_FAILURE;
+  }
+
+  if (args.count("simplices"))
+  {
+    simplices = args["simplices"].as<long long>();
+  }
+  else
+  {
+    fmt::print("Number of simplices not specified.\n");
+    return EXIT_FAILURE;
+  }
+
+  if (args.count("timeslices"))
+  {
+    timeslices = args["timeslices"].as<long long>();
+  }
+  else
+  {
+    fmt::print("Number of timeslices not specified.\n");
+    return EXIT_FAILURE;
+  }
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
@@ -103,6 +151,11 @@ try
   fmt::print("Alpha: {}\n", alpha);
   fmt::print("K: {}\n", k);
   fmt::print("Lambda: {}\n", lambda);
+
+  // Start running time
+  Timer timer;
+  timer.start();
+  fmt::print("cdt started at {}\n", utilities::current_date_time());
 
   if (simplices < 2 || timeslices < 2)
   {
