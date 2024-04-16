@@ -86,9 +86,6 @@ set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)
 
-# https://github.com/docopt/docopt.cpp
-find_package(docopt CONFIG REQUIRED)
-
 # https://github.com/doctest/doctest
 find_package(doctest CONFIG REQUIRED)
 
