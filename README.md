@@ -412,8 +412,9 @@ Optional:
 ## Issues
 
 - [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
+- [vcpkg] has issues with `fontconfig:arm64-osx` [#40623].
 
-
+[#40623]: https://github.com/microsoft/vcpkg/issues/40623
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org

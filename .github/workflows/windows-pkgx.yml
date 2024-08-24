@@ -21,9 +21,9 @@ jobs:
           submodules: true
 
       - name: Setup Clang
-        uses: pkgxdev/setup@v1
+        uses: pkgxdev/setup@v2
         with:
-          +: clang@16
+          +: clang@18
 
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v11
