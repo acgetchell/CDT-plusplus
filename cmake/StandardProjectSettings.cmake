@@ -54,3 +54,9 @@ add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTC
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# Check if the compiler is MSVC
+if (MSVC)
+  # Add /utf-8 flag to MSVC
+  add_compile_options(/utf-8)
+endif()
