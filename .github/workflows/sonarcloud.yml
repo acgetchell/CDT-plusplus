@@ -19,7 +19,7 @@ jobs:
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -36,7 +36,7 @@ jobs:
       -  run: gcc --version
 
       - name: Install sonar-scanner and build-wrapper
-        uses: sonarsource/sonarcloud-github-c-cpp@v2
+        uses: sonarsource/sonarcloud-github-c-cpp@v3
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11

@@ -10,6 +10,7 @@
 /// @details Tests for random, conversion, and datetime functions.
 
 #include <doctest/doctest.h>
+#include <fmt/ranges.h>
 
 #include <filesystem>
 #include <Manifold.hpp>
