@@ -8,17 +8,16 @@
  viewBox="0.00 0.00 254.50 546.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 542)">
 <title>move_tracker::MoveTracker&lt; ManifoldType &gt;</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-542 250.5,-542 250.5,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="The data and methods to track ergodic moves.">
-<polygon fill="#bfbfbf" stroke="black" points="24,-0.5 24,-178.5 175,-178.5 175,-0.5 24,-0.5"/>
+<polygon fill="#999999" stroke="#666666" points="24,-0.5 24,-178.5 175,-178.5 175,-0.5 24,-0.5"/>
 <text text-anchor="start" x="32" y="-166.5" font-family="Helvetica,sans-Serif" font-size="10.00">move_tracker::MoveTracker</text>
 <text text-anchor="middle" x="99.5" y="-155.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; ManifoldType &gt;</text>
-<polyline fill="none" stroke="black" points="24,-148.5 175,-148.5 "/>
+<polyline fill="none" stroke="#666666" points="24,-148.5 175,-148.5 "/>
 <text text-anchor="middle" x="99.5" y="-136.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="24,-129.5 175,-129.5 "/>
+<polyline fill="none" stroke="#666666" points="24,-129.5 175,-129.5 "/>
 <text text-anchor="start" x="32" y="-117.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ eight_two_moves()</text>
 <text text-anchor="start" x="32" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ eight_two_moves()</text>
 <text text-anchor="start" x="32" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ four_four_moves()</text>
@@ -37,13 +36,13 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="0,-226.5 0,-305.5 199,-305.5 199,-226.5 0,-226.5"/>
+<polygon fill="white" stroke="#666666" points="0,-226.5 0,-305.5 199,-305.5 199,-226.5 0,-226.5"/>
 <text text-anchor="start" x="8" y="-293.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::array&lt; Int_precision,</text>
 <text text-anchor="start" x="8" y="-282.5" font-family="Helvetica,sans-Serif" font-size="10.00"> moves_per_dimension(ManifoldType</text>
 <text text-anchor="middle" x="99.5" y="-271.5" font-family="Helvetica,sans-Serif" font-size="10.00">::dimension)&gt;</text>
-<polyline fill="none" stroke="#bfbfbf" points="0,-264.5 199,-264.5 "/>
+<polyline fill="none" stroke="#666666" points="0,-264.5 199,-264.5 "/>
 <text text-anchor="start" x="8" y="-252.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ elements</text>
-<polyline fill="none" stroke="#bfbfbf" points="0,-245.5 199,-245.5 "/>
+<polyline fill="none" stroke="#666666" points="0,-245.5 199,-245.5 "/>
 <text text-anchor="middle" x="99.5" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>
@@ -59,11 +58,11 @@
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="53.5,-375.5 53.5,-432.5 145.5,-432.5 145.5,-375.5 53.5,-375.5"/>
+<polygon fill="white" stroke="#666666" points="53.5,-375.5 53.5,-432.5 145.5,-432.5 145.5,-375.5 53.5,-375.5"/>
 <text text-anchor="middle" x="99.5" y="-420.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::array&lt; T &gt;</text>
-<polyline fill="none" stroke="#bfbfbf" points="53.5,-413.5 145.5,-413.5 "/>
+<polyline fill="none" stroke="#666666" points="53.5,-413.5 145.5,-413.5 "/>
 <text text-anchor="middle" x="99.5" y="-401.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="53.5,-394.5 145.5,-394.5 "/>
+<polyline fill="none" stroke="#666666" points="53.5,-394.5 145.5,-394.5 "/>
 <text text-anchor="middle" x="99.5" y="-382.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>

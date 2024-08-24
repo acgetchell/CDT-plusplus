@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['initial_5fradius_563',['INITIAL_RADIUS',['../_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'Settings.hpp']]]
+  ['dimension_0',['dimension',['../classmanifolds_1_1_manifold_3_013_01_4.html#a5262e98efe77a61649e5128ed8da7ebe',1,'manifolds::Manifold&lt; 3 &gt;::dimension()'],['../classmanifolds_1_1_manifold_3_014_01_4.html#a742762c29a5ee4832a5a1f896704b7b7',1,'manifolds::Manifold&lt; 4 &gt;::dimension()']]],
+  ['din_5f0_1',['din_0',['../classmux__using__with.html#a9fc14b65611c7124d4cab27b963f3011',1,'mux_using_with']]],
+  ['din_5f1_2',['din_1',['../classmux__using__with.html#aaedccad88ca9b207c86a561342fcbaa1',1,'mux_using_with']]]
 ];

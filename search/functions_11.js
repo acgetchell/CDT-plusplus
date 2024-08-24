@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['update_549',['update',['../classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['update_5fgeometry_550',['update_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['update_5ftriangulation_551',['update_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85',1,'manifolds::Manifold&lt; 3 &gt;']]]
+  ['read_0',['read',['../structcmd_8h.html#a9c7b76d5266903891c803132d51ccb90',1,'structcmd.h']]],
+  ['read_5ffile_1',['read_file',['../_utilities_8hpp.html#a3645c87787d52458aa1a582002cdf538',1,'utilities']]],
+  ['reset_2',['reset',['../classmove__tracker_1_1_move_tracker.html#ad6868bdbeaa886c88268bb8de513d283',1,'move_tracker::MoveTracker']]],
+  ['reset_5fcounters_3',['reset_counters',['../class_move_command.html#a24e90c1d1eadf08b1661b6195fad234a',1,'MoveCommand']]]
 ];

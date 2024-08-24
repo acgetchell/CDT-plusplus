@@ -1,4 +1,26 @@
 var searchData=
 [
-  ['write_5ffile_295',['write_file',['../_utilities_8hpp.html#ac413ab90e8490556d9c06eccb15cfffe',1,'utilities::write_file(std::filesystem::path const &amp;filename, TriangulationType triangulation)'],['../_utilities_8hpp.html#a0c39183b7cfafd2dce8e474d12da33a1',1,'utilities::write_file(ManifoldType const &amp;t_universe)']]]
+  ['s3_5fbulk_5faction_0',['S3_bulk_action',['../_s3_action_8hpp.html#a265e99e580ad131a8bf01ca95a5d0b54',1,'S3Action.hpp']]],
+  ['s3_5fbulk_5faction_5falpha_5fminus_5fone_1',['S3_bulk_action_alpha_minus_one',['../_s3_action_8hpp.html#a243b10a79104d1d6331bca23c9ef3d70',1,'S3Action.hpp']]],
+  ['s3_5fbulk_5faction_5falpha_5fone_2',['S3_bulk_action_alpha_one',['../_s3_action_8hpp.html#a1945ad8f7ff5750e17dc8c0685e8185f',1,'S3Action.hpp']]],
+  ['s3action_2ehpp_3',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
+  ['s3action_5ftest_2ecpp_4',['S3Action_test.cpp',['../_s3_action__test_8cpp.html',1,'']]],
+  ['scenario_5',['SCENARIO',['../bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;)):&#160;bistellar-flip.cpp'],['../_ergodic__moves__3__test_8cpp.html#a25a96cb7523541ad641a2af1f2625ca7',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;ergodic&quot;)):&#160;Ergodic_moves_3_test.cpp']]],
+  ['sel_6',['sel',['../classmux__using__with.html#ac474329b8f25c575e4376d65f6a3e43f',1,'mux_using_with']]],
+  ['settings_2ehpp_7',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
+  ['settings_5ftest_2ecpp_8',['Settings_test.cpp',['../_settings__test_8cpp.html',1,'']]],
+  ['simplices_9',['simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['six_5ffour_5fmoves_10',['six_four_moves',['../classmove__tracker_1_1_move_tracker.html#acdced4b4bca2c37d1f162541336360ea',1,'move_tracker::MoveTracker::six_four_moves() -&gt; auto &amp;'],['../classmove__tracker_1_1_move_tracker.html#a9794ff1f2b5a7ae69374a349150900c8',1,'move_tracker::MoveTracker::six_four_moves() const']]],
+  ['six_5ftwo_5fmoves_11',['six_two_moves',['../classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347',1,'move_tracker::MoveTracker::six_two_moves() -&gt; auto &amp;'],['../classmove__tracker_1_1_move_tracker.html#a251d4e8805065619ba36cd61f7f6b93a',1,'move_tracker::MoveTracker::six_two_moves() const']]],
+  ['size_12',['size',['../classmove__tracker_1_1_move_tracker.html#ab989fcf20aa7bb1df705a9a8cc5214e1',1,'move_tracker::MoveTracker::size()'],['../class_move_command.html#ae2ee457696a0e4599948951b6b7a18d1',1,'MoveCommand::size()']]],
+  ['someniceclass_13',['SomeNiceClass',['../class_some_nice_class.html',1,'']]],
+  ['squared_5fdistance_14',['squared_distance',['../struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f',1,'TriangulationTraits&lt; 3 &gt;']]],
+  ['squared_5fradius_15',['squared_radius',['../_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76',1,'foliated_triangulations']]],
+  ['std_5flogic_5f1164_16',['std_logic_1164',['../classmux__using__with.html#ae984d6918908b859c4f9c9a950a0cfee',1,'mux_using_with']]],
+  ['strategies_17',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],
+  ['strcmp_18',['strcmp',['../class_string.html#ae3c243f0bc797b9e4b15d2ef5e5aaa7c',1,'String']]],
+  ['string_19',['String',['../class_string.html',1,'']]],
+  ['stringdebug_20',['stringDebug',['../class_string.html#a5c07384b505d25ae6f61fc7abf0b0e61',1,'String']]],
+  ['structcmd_2eh_21',['structcmd.h',['../structcmd_8h.html',1,'']]],
+  ['swap_22',['swap',['../classmanifolds_1_1_manifold_3_013_01_4.html#a61062e1226c169c0efe8db68d3384b09',1,'manifolds::Manifold&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a2947583313ce6002731610f71ed3488c',1,'Geometry&lt; 3 &gt;::swap()'],['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#abf7acc093980c2031c2a9cea3bd9500c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap()']]]
 ];

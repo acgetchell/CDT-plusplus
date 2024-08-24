@@ -8,20 +8,19 @@
  viewBox="0.00 0.00 209.50 612.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 608)">
 <title>MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-608 205.5,-608 205.5,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-255.5 173,-255.5 173,-0.5 0,-0.5"/>
+<polygon fill="#999999" stroke="#666666" points="0,-0.5 0,-255.5 173,-255.5 173,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-243.5" font-family="Helvetica,sans-Serif" font-size="10.00">MoveCommand&lt; ManifoldType,</text>
 <text text-anchor="middle" x="86.5" y="-232.5" font-family="Helvetica,sans-Serif" font-size="10.00"> ExpectedType, FunctionType &gt;</text>
-<polyline fill="none" stroke="black" points="0,-225.5 173,-225.5 "/>
+<polyline fill="none" stroke="#666666" points="0,-225.5 173,-225.5 "/>
 <text text-anchor="start" x="8" y="-213.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_attempted</text>
 <text text-anchor="start" x="8" y="-202.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_failed</text>
 <text text-anchor="start" x="8" y="-191.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_manifold</text>
 <text text-anchor="start" x="8" y="-180.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_succeeded</text>
-<polyline fill="none" stroke="black" points="0,-173.5 173,-173.5 "/>
+<polyline fill="none" stroke="#666666" points="0,-173.5 173,-173.5 "/>
 <text text-anchor="start" x="8" y="-161.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MoveCommand()</text>
 <text text-anchor="start" x="8" y="-150.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MoveCommand()</text>
 <text text-anchor="start" x="8" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ enqueue()</text>
@@ -44,12 +43,12 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="13.5,-314.5 13.5,-382.5 159.5,-382.5 159.5,-314.5 13.5,-314.5"/>
+<polygon fill="white" stroke="#666666" points="13.5,-314.5 13.5,-382.5 159.5,-382.5 159.5,-314.5 13.5,-314.5"/>
 <text text-anchor="start" x="21.5" y="-370.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::deque&lt; move_tracker</text>
 <text text-anchor="middle" x="86.5" y="-359.5" font-family="Helvetica,sans-Serif" font-size="10.00">::move_type &gt;</text>
-<polyline fill="none" stroke="#bfbfbf" points="13.5,-352.5 159.5,-352.5 "/>
+<polyline fill="none" stroke="#666666" points="13.5,-352.5 159.5,-352.5 "/>
 <text text-anchor="start" x="21.5" y="-340.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ elements</text>
-<polyline fill="none" stroke="#bfbfbf" points="13.5,-333.5 159.5,-333.5 "/>
+<polyline fill="none" stroke="#666666" points="13.5,-333.5 159.5,-333.5 "/>
 <text text-anchor="middle" x="86.5" y="-321.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>
@@ -66,11 +65,11 @@
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="38.5,-441.5 38.5,-498.5 134.5,-498.5 134.5,-441.5 38.5,-441.5"/>
+<polygon fill="white" stroke="#666666" points="38.5,-441.5 38.5,-498.5 134.5,-498.5 134.5,-441.5 38.5,-441.5"/>
 <text text-anchor="middle" x="86.5" y="-486.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::deque&lt; T &gt;</text>
-<polyline fill="none" stroke="#bfbfbf" points="38.5,-479.5 134.5,-479.5 "/>
+<polyline fill="none" stroke="#666666" points="38.5,-479.5 134.5,-479.5 "/>
 <text text-anchor="middle" x="86.5" y="-467.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="38.5,-460.5 134.5,-460.5 "/>
+<polyline fill="none" stroke="#666666" points="38.5,-460.5 134.5,-460.5 "/>
 <text text-anchor="middle" x="86.5" y="-448.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>

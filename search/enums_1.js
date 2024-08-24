@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['move_5ftype_604',['move_type',['../_move__tracker_8hpp.html#a7d400a02df60abd5746dbd8974fb33b8',1,'move_tracker']]]
+  ['cell_5ftype_0',['Cell_type',['../_foliated__triangulation_8hpp.html#a73e46a0d9bc77f21cc68798c73282a1e',1,'Foliated_triangulation.hpp']]]
 ];

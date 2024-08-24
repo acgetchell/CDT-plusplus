@@ -54,15 +54,14 @@ var sectionId = 'dynsection-0';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-514 236,-514 236,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Metropolis&#45;Hastings algorithm strategy.">
-<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-288.5 168,-288.5 168,-0.5 0,-0.5"/>
+<polygon fill="#999999" stroke="#666666" points="0,-0.5 0,-288.5 168,-288.5 168,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-276.5" font-family="Helvetica,sans-Serif" font-size="10.00">MoveStrategy&lt; Strategies</text>
 <text text-anchor="middle" x="84" y="-265.5" font-family="Helvetica,sans-Serif" font-size="10.00">::METROPOLIS, ManifoldType &gt;</text>
-<polyline fill="none" stroke="black" points="0,-258.5 168,-258.5 "/>
+<polyline fill="none" stroke="#666666" points="0,-258.5 168,-258.5 "/>
 <text text-anchor="start" x="8" y="-246.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_accepted_moves</text>
 <text text-anchor="start" x="8" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_Alpha</text>
 <text text-anchor="start" x="8" y="-224.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_attempted_moves</text>
@@ -74,7 +73,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="8" y="-158.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_proposed_moves</text>
 <text text-anchor="start" x="8" y="-147.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_rejected_moves</text>
 <text text-anchor="start" x="8" y="-136.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_succeeded_moves</text>
-<polyline fill="none" stroke="black" points="0,-129.5 168,-129.5 "/>
+<polyline fill="none" stroke="#666666" points="0,-129.5 168,-129.5 "/>
 <text text-anchor="start" x="8" y="-117.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MoveStrategy()</text>
 <text text-anchor="start" x="8" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MoveStrategy()</text>
 <text text-anchor="start" x="8" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Alpha()</text>
@@ -93,12 +92,12 @@ var sectionId = 'dynsection-0';
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="struct_geometry.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="13,-336.5 13,-404.5 155,-404.5 155,-336.5 13,-336.5"/>
+<polygon fill="white" stroke="#666666" points="13,-336.5 13,-404.5 155,-404.5 155,-336.5 13,-336.5"/>
 <text text-anchor="start" x="21" y="-392.5" font-family="Helvetica,sans-Serif" font-size="10.00">Geometry&lt; ManifoldType</text>
 <text text-anchor="middle" x="84" y="-381.5" font-family="Helvetica,sans-Serif" font-size="10.00">::dimension &gt;</text>
-<polyline fill="none" stroke="black" points="13,-374.5 155,-374.5 "/>
+<polyline fill="none" stroke="#666666" points="13,-374.5 155,-374.5 "/>
 <text text-anchor="middle" x="84" y="-362.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="13,-355.5 155,-355.5 "/>
+<polyline fill="none" stroke="#666666" points="13,-355.5 155,-355.5 "/>
 <text text-anchor="middle" x="84" y="-343.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>
@@ -114,11 +113,11 @@ var sectionId = 'dynsection-0';
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:href="struct_geometry.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="14.5,-452.5 14.5,-509.5 153.5,-509.5 153.5,-452.5 14.5,-452.5"/>
+<polygon fill="white" stroke="#666666" points="14.5,-452.5 14.5,-509.5 153.5,-509.5 153.5,-452.5 14.5,-452.5"/>
 <text text-anchor="middle" x="84" y="-497.5" font-family="Helvetica,sans-Serif" font-size="10.00">Geometry&lt; dimension &gt;</text>
-<polyline fill="none" stroke="black" points="14.5,-490.5 153.5,-490.5 "/>
+<polyline fill="none" stroke="#666666" points="14.5,-490.5 153.5,-490.5 "/>
 <text text-anchor="middle" x="84" y="-478.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="14.5,-471.5 153.5,-471.5 "/>
+<polyline fill="none" stroke="#666666" points="14.5,-471.5 153.5,-471.5 "/>
 <text text-anchor="middle" x="84" y="-459.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>

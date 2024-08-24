@@ -1,19 +1,13 @@
 var searchData=
 [
-  ['s3_5fbulk_5faction_247',['S3_bulk_action',['../_s3_action_8hpp.html#a265e99e580ad131a8bf01ca95a5d0b54',1,'S3Action.hpp']]],
-  ['s3_5fbulk_5faction_5falpha_5fminus_5fone_248',['S3_bulk_action_alpha_minus_one',['../_s3_action_8hpp.html#a243b10a79104d1d6331bca23c9ef3d70',1,'S3Action.hpp']]],
-  ['s3_5fbulk_5faction_5falpha_5fone_249',['S3_bulk_action_alpha_one',['../_s3_action_8hpp.html#a1945ad8f7ff5750e17dc8c0685e8185f',1,'S3Action.hpp']]],
-  ['s3action_2ehpp_250',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
-  ['s3action_5ftest_2ecpp_251',['S3Action_test.cpp',['../_s3_action__test_8cpp.html',1,'']]],
-  ['scenario_252',['SCENARIO',['../bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;)):&#160;bistellar-flip.cpp'],['../_ergodic__moves__3__test_8cpp.html#a25a96cb7523541ad641a2af1f2625ca7',1,'SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;ergodic&quot;)):&#160;Ergodic_moves_3_test.cpp']]],
-  ['settings_2ehpp_253',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
-  ['settings_5ftest_2ecpp_254',['Settings_test.cpp',['../_settings__test_8cpp.html',1,'']]],
-  ['simplices_255',['simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['six_5ffour_5fmoves_256',['six_four_moves',['../classmove__tracker_1_1_move_tracker.html#a9794ff1f2b5a7ae69374a349150900c8',1,'move_tracker::MoveTracker::six_four_moves() const'],['../classmove__tracker_1_1_move_tracker.html#acdced4b4bca2c37d1f162541336360ea',1,'move_tracker::MoveTracker::six_four_moves() -&gt; auto &amp;']]],
-  ['six_5ftwo_5fmoves_257',['six_two_moves',['../classmove__tracker_1_1_move_tracker.html#a251d4e8805065619ba36cd61f7f6b93a',1,'move_tracker::MoveTracker::six_two_moves() const'],['../classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347',1,'move_tracker::MoveTracker::six_two_moves() -&gt; auto &amp;']]],
-  ['size_258',['size',['../class_move_command.html#ae2ee457696a0e4599948951b6b7a18d1',1,'MoveCommand::size()'],['../classmove__tracker_1_1_move_tracker.html#ab989fcf20aa7bb1df705a9a8cc5214e1',1,'move_tracker::MoveTracker::size()']]],
-  ['squared_5fdistance_259',['squared_distance',['../struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f',1,'TriangulationTraits&lt; 3 &gt;']]],
-  ['squared_5fradius_260',['squared_radius',['../_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76',1,'foliated_triangulations']]],
-  ['strategies_261',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],
-  ['swap_262',['swap',['../classmanifolds_1_1_manifold_3_013_01_4.html#a61062e1226c169c0efe8db68d3384b09',1,'manifolds::Manifold&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a2947583313ce6002731610f71ed3488c',1,'Geometry&lt; 3 &gt;::swap()'],['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#abf7acc093980c2031c2a9cea3bd9500c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap()']]]
+  ['object_0',['Object',['../struct_object.html',1,'Object'],['../manual_8c.html#ab1287b6141419421dc5c14b9f7756b0a',1,'Object():&#160;manual.c']]],
+  ['objref_1',['objRef',['../struct_object.html#a71225073d06a793b9a6ea9263ed37b12',1,'Object']]],
+  ['objunref_2',['objUnref',['../struct_object.html#a924ee0cecc906d148022b3f0d6325cfb',1,'Object']]],
+  ['open_3',['open',['../structcmd_8h.html#a2c4414339f388561554c2deab11a1a07',1,'structcmd.h']]],
+  ['operator_28_29_4',['operator()',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a5281f3349efc330cc45bc734bd2c1aa1',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::operator()()'],['../class_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a242c1ace722ec04e1dafe579fd561be4',1,'MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()']]],
+  ['operator_2b_3d_5',['operator+=',['../classmove__tracker_1_1_move_tracker.html#a05a1b6c8f76f8d4bd94043d5bcbc68d2',1,'move_tracker::MoveTracker']]],
+  ['operator_3c_3c_6',['operator&lt;&lt;',['../_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1',1,'Utilities.hpp']]],
+  ['operator_3d_7',['operator=',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a86e83082f087992be91a03d2dfe5082f',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::operator=()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#ab62b814168b910175c7e3690f2dc52cc',1,'manifolds::Manifold&lt; 3 &gt;::operator=(Manifold const &amp;other) -&gt; Manifold &amp;=default'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a9195308e5e6f2e97e02bfdc6f5c6bdb0',1,'manifolds::Manifold&lt; 3 &gt;::operator=(Manifold &amp;&amp;other) -&gt; Manifold &amp;=default']]],
+  ['operator_5b_5d_8',['operator[]',['../classmove__tracker_1_1_move_tracker.html#ae37b059220b524966cdbc0aaf3f39585',1,'move_tracker::MoveTracker::operator[](gsl::index index) -&gt; auto &amp;'],['../classmove__tracker_1_1_move_tracker.html#af5797432ff094ed5b55ac733432baee4',1,'move_tracker::MoveTracker::operator[](move_type const move) const -&gt; auto &amp;']]],
+  ['overload_5ftest_9',['Overload_Test',['../class_overload___test.html',1,'']]]
 ];

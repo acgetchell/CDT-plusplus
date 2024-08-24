@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['compare_5fv_5finfo_559',['compare_v_info',['../_foliated__triangulation_8hpp.html#ae601d2086f7481e0b9c762e0bb24355a',1,'foliated_triangulations']]],
-  ['containertype_560',['ContainerType',['../_foliated__triangulation_8hpp.html#ab89f7162900fe2075f52ade17ef5be8a',1,'Foliated_triangulation.hpp']]]
+  ['alignment_5f32_5fbit_0',['ALIGNMENT_32_BIT',['../_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314',1,'Settings.hpp']]],
+  ['alignment_5f64_5fbit_1',['ALIGNMENT_64_BIT',['../_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346',1,'Settings.hpp']]]
 ];

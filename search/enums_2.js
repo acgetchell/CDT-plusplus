@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['strategies_605',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]]
+  ['enumtype_0',['EnumType',['../class_afterdoc___test.html#adab0cd7ad3b4875e245ca8f6238a388a',1,'Afterdoc_Test']]],
+  ['etype_1',['EType',['../class_autolink___test.html#aeb611627c332d067bded1806b1bb45c2',1,'Autolink_Test']]]
 ];

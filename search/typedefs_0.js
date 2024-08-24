@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['gmpzf_598',['Gmpzf',['../_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5',1,'Settings.hpp']]]
+  ['car_0',['Car',['../manual_8c.html#a00b00bef7a37e8519a62cb3671105c4b',1,'manual.c']]],
+  ['coord_1',['Coord',['../restypedef_8cpp.html#a013489fb99c6a5b012db8ec66544a507',1,'restypedef.cpp']]]
 ];
