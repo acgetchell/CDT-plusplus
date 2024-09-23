@@ -493,7 +493,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
           m_failed_moves.four_four_moves());
     }
   }  // print_results
-};   // Metropolis
+};  // Metropolis
 
 using Metropolis_3 =
     MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold_3>;

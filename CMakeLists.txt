@@ -86,9 +86,6 @@ set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)
 
-# https://github.com/docopt/docopt.cpp
-find_package(docopt CONFIG REQUIRED)
-
 # https://github.com/doctest/doctest
 find_package(doctest CONFIG REQUIRED)
 
@@ -103,6 +100,8 @@ find_package(Microsoft.GSL CONFIG REQUIRED)
 
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
+
+find_package(Boost REQUIRED COMPONENTS program_options)
 
 # https://github.com/gabime/spdlog
 find_package(spdlog CONFIG REQUIRED)

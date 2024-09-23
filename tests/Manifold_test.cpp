@@ -118,10 +118,10 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
 
   GIVEN("A vector of points and timevalues.")
   {
-    vector const             Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+    vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
                           Point_t<3>(0, 0, 1),
                           Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
-    vector<size_t> const     Timevalues{1, 1, 1, 2};
+    vector<size_t> const Timevalues{1, 1, 1, 2};
     WHEN("Causal vertices are created.")
     {
       auto causal_vertices =
@@ -143,10 +143,10 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
   }
   GIVEN("A mismatched set of points and timevalues.")
   {
-    vector const             Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+    vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
                           Point_t<3>(0, 0, 1),
                           Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
-    vector<size_t> const     Timevalues{1, 1, 1};
+    vector<size_t> const Timevalues{1, 1, 1};
     WHEN("Causal vertices are created.")
     {
       THEN("An exception is thrown.")
@@ -468,7 +468,7 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
     THEN("There is only one vertex, the infinite vertex.")
     {
       Manifold_3 const manifold;
-      auto&& vertices =
+      auto&&           vertices =
           manifold.get_triangulation().get_delaunay().tds().vertices();
       auto&& vertex = vertices.begin();
 

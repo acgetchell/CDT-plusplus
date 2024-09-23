@@ -18,7 +18,7 @@ Copyright © 2023 Adam Getchell
 #endif
 
 #define DOCTEST_CONFIG_IMPLEMENT
-#include <docopt/docopt.h>
+
 #include <doctest/doctest.h>
 #include <spdlog/spdlog.h>
 

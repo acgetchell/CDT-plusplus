@@ -10,14 +10,13 @@
 /// @details Tests for random, conversion, and datetime functions.
 
 #include <doctest/doctest.h>
+#include <fmt/ranges.h>
 
 #include <filesystem>
 #include <Manifold.hpp>
 
 using namespace std;
 using namespace utilities;
-
-// static inline auto constexpr NUMBER_OF_VALUES = 6;
 
 SCENARIO("Various string/stream/time utilities" *
          doctest::test_suite("utilities"))
@@ -57,7 +56,7 @@ SCENARIO("Various string/stream/time utilities" *
       {
         // Update test yearly
         auto const result = current_date_time();
-        auto const year   = result.find("2023");
+        auto const year   = result.find("2024");
         CHECK_NE(year, std::string::npos);
         // Human verification
         fmt::print("Current date and time is: {}\n", current_date_time());
@@ -165,8 +164,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
   }
 }
 
-SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
-         doctest::may_fail())
+SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
 {
   spdlog::debug("Randomizing functions.\n");
   GIVEN("A PCG die roller")
@@ -199,15 +197,15 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr min                = 64;
-      auto constexpr max                = 6400;
-      auto const              value1    = generate_random_int(min, max);
-      auto const              value2    = generate_random_int(min, max);
-      auto const              value3    = generate_random_int(min, max);
-      auto const              value4    = generate_random_int(min, max);
-      auto const              value5    = generate_random_int(min, max);
-      auto const              value6    = generate_random_int(min, max);
-      array container = {value1, value2, value3, value4, value5, value6};
+      auto constexpr min   = 64;
+      auto constexpr max   = 6400;
+      auto const value1    = generate_random_int(min, max);
+      auto const value2    = generate_random_int(min, max);
+      auto const value3    = generate_random_int(min, max);
+      auto const value4    = generate_random_int(min, max);
+      auto const value5    = generate_random_int(min, max);
+      auto const value6    = generate_random_int(min, max);
+      array      container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range and all be different.")
       {
         // All elements are >= min
@@ -230,14 +228,14 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr max                = 256;
-      auto const              value1    = generate_random_timeslice(max);
-      auto const              value2    = generate_random_timeslice(max);
-      auto const              value3    = generate_random_timeslice(max);
-      auto const              value4    = generate_random_timeslice(max);
-      auto const              value5    = generate_random_timeslice(max);
-      auto const              value6    = generate_random_timeslice(max);
-      array container = {value1, value2, value3, value4, value5, value6};
+      auto constexpr max   = 256;
+      auto const value1    = generate_random_timeslice(max);
+      auto const value2    = generate_random_timeslice(max);
+      auto const value3    = generate_random_timeslice(max);
+      auto const value4    = generate_random_timeslice(max);
+      auto const value5    = generate_random_timeslice(max);
+      auto const value6    = generate_random_timeslice(max);
+      array      container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range and be different.")
       {
         auto constexpr min = 1;
@@ -275,13 +273,13 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six probabilities.")
     {
-      auto const                           value1    = generate_probability();
-      auto const                           value2    = generate_probability();
-      auto const                           value3    = generate_probability();
-      auto const                           value4    = generate_probability();
-      auto const                           value5    = generate_probability();
-      auto const                           value6    = generate_probability();
-      array container = {value1, value2, value3, value4, value5, value6};
+      auto const value1    = generate_probability();
+      auto const value2    = generate_probability();
+      auto const value3    = generate_probability();
+      auto const value4    = generate_probability();
+      auto const value5    = generate_probability();
+      auto const value6    = generate_probability();
+      array      container = {value1, value2, value3, value4, value5, value6};
 
       THEN("They should all be different.")
       {

@@ -49,8 +49,8 @@ enum class topology_type
 /// @param t_os The output stream
 /// @param t_topology The topology
 /// @returns An output string of the topology
-inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
-    -> std::ostream&
+inline auto operator<<(std::ostream&        t_os,
+                       topology_type const& t_topology) -> std::ostream&
 {
   switch (t_topology)
   {
@@ -90,13 +90,11 @@ namespace utilities
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
   /// @returns A filename
-  [[nodiscard]] inline auto make_filename(topology_type const& t_topology,
-                                          Int_precision        t_dimension,
-                                          Int_precision t_number_of_simplices,
-                                          Int_precision t_number_of_timeslices,
-                                          double        t_initial_radius,
-                                          double t_foliation_spacing) noexcept
-      -> std::filesystem::path
+  [[nodiscard]] inline auto make_filename(
+      topology_type const& t_topology, Int_precision t_dimension,
+      Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices,
+      double t_initial_radius,
+      double t_foliation_spacing) noexcept -> std::filesystem::path
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }

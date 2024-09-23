@@ -333,9 +333,8 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @returns True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
-                                          Vertex_handle const& candidate)
-      -> bool
+  [[nodiscard]] inline auto is_62_movable(
+      Manifold const& manifold, Vertex_handle const& candidate) -> bool
   {
     if (manifold.dimensionality() != 3)
     {
@@ -485,8 +484,8 @@ namespace ergodic_moves
   /// @see
   /// https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094
   [[nodiscard]] inline auto incident_cells_from_edge(
-      Delaunay_t<3> const& triangulation, Edge_handle const& edge)
-      -> std::optional<Cell_container>
+      Delaunay_t<3> const& triangulation,
+      Edge_handle const&   edge) -> std::optional<Cell_container>
   {
     if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
     {
@@ -519,8 +518,8 @@ namespace ergodic_moves
   /// @param t_edge_candidate The edge to check
   /// @returns A container of incident cells if there are exactly 4 or nullopt
   [[nodiscard]] inline auto find_bistellar_flip_location(
-      Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
-      -> std::optional<Cell_container>
+      Delaunay const&    triangulation,
+      Edge_handle const& t_edge_candidate) -> std::optional<Cell_container>
   {
     if (auto incident_cells =
             incident_cells_from_edge(triangulation, t_edge_candidate);
@@ -565,10 +564,9 @@ namespace ergodic_moves
   /// @param top Top vertex of the cells being flipped
   /// @param bottom Bottom vertex of the cells being flipped
   /// @returns A flipped triangulation or nullopt
-  [[nodiscard]] inline auto bistellar_flip(Delaunay    triangulation,
-                                           Edge_handle edge, Vertex_handle top,
-                                           Vertex_handle bottom)
-      -> std::optional<Delaunay>
+  [[nodiscard]] inline auto bistellar_flip(
+      Delaunay triangulation, Edge_handle edge, Vertex_handle top,
+      Vertex_handle bottom) -> std::optional<Delaunay>
   {
     // Get the cells incident to the edge
     auto incident_cells = get_incident_cells(triangulation, edge);
@@ -841,10 +839,9 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(Manifold const&                t_before,
-                                       Manifold const&                t_after,
-                                       move_tracker::move_type const& t_move)
-      -> bool
+  [[nodiscard]] inline auto check_move(
+      Manifold const& t_before, Manifold const& t_after,
+      move_tracker::move_type const& t_move) -> bool
   {
     switch (t_move)
     {

@@ -17,10 +17,6 @@ on:
       - main
       - develop
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches:
-      - main
-      - develop
   schedule:
     - cron: '26 7 * * 0'
   workflow_dispatch:
@@ -48,11 +44,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -66,9 +62,9 @@ jobs:
         sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
     - name: Setup GCC
-      uses: pkgxdev/setup@v1
+      uses: pkgxdev/setup@v2
       with:
-        +: gcc@13
+        +: gcc@14
 
     -  run: gcc --version
 
@@ -84,4 +80,4 @@ jobs:
       run: cmake --build build -j 2
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3

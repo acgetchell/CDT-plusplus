@@ -1,12 +1,6 @@
 name: Linux GCC
 
-on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: true
@@ -28,9 +22,9 @@ jobs:
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
       - name: Setup GCC
-        uses: pkgxdev/setup@v1
+        uses: pkgxdev/setup@v2
         with:
-          +: gcc@13
+          +: gcc@14
 
       -  run: gcc --version
 

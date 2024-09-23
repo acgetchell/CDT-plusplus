@@ -5,10 +5,6 @@ on:
     branches:
       - main
       - develop
-  pull_request:
-    branches:
-      - main
-      - develop
   workflow_dispatch:
 
 concurrency:
@@ -21,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -32,9 +28,9 @@ jobs:
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
       - name: Setup GCC
-        uses: pkgxdev/setup@v1
+        uses: pkgxdev/setup@v2
         with:
-          +: gcc@13
+          +: gcc@14
 
       -  run: gcc --version
 
@@ -71,7 +67,7 @@ jobs:
           popd
 
       - name: Submit to codecov.io
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
 #          directory: build/gcov-reports
           fail_ci_if_error: false

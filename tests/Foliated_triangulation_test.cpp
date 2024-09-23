@@ -128,10 +128,10 @@ SCENARIO("FoliatedTriangulation free functions" *
 
   GIVEN("A vector of points and timevalues.")
   {
-    vector const             Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+    vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
                           Point_t<3>(0, 0, 1),
                           Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
-    vector<size_t> const     Timevalues{1, 1, 1, 2};
+    vector<size_t> const Timevalues{1, 1, 1, 2};
     WHEN("Causal vertices are created.")
     {
       auto causal_vertices = make_causal_vertices<3>(Vertices, Timevalues);
@@ -152,10 +152,10 @@ SCENARIO("FoliatedTriangulation free functions" *
   }
   GIVEN("A mismatched set of points and timevalues.")
   {
-    vector const             Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+    vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
                           Point_t<3>(0, 0, 1),
                           Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
-    vector<size_t> const     Timevalues{1, 1, 1};
+    vector<size_t> const Timevalues{1, 1, 1};
     WHEN("Causal vertices are created.")
     {
       THEN("An exception is thrown.")
