@@ -33,7 +33,7 @@ auto constexpr apply_move(ManifoldType&& t_manifold,
                           FunctionType   t_move) noexcept -> decltype(auto)
 {
   if (auto result = std::invoke(t_move, std::forward<ManifoldType>(t_manifold));
-      result)
+      result.has_value())
   {
     return result;
   }

@@ -19,9 +19,9 @@ addons:
       - libtool-bin
       - texinfo
       - yasm
-      - gcc-12
-      - g++-12
-      - clang-15
+      - gcc-14
+      - g++-14
+      - clang-19
       - ninja-build
       - cppcheck
       - doxygen

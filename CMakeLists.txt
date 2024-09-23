@@ -73,6 +73,11 @@ set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 #  add_compile_options(/DNOMINMAX)
 #endif()
 
+if (MSVC)
+  # Add /utf-8 flag for MSVC
+  add_compile_options(/utf-8)
+endif()
+
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
