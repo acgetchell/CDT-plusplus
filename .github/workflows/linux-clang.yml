@@ -24,7 +24,7 @@ jobs:
       - name: Setup Clang
         uses: pkgxdev/setup@v2
         with:
-          +: clang@18
+          +: clang@19
 
       -  run: clang --version
 
