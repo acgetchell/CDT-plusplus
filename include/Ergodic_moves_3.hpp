@@ -10,6 +10,7 @@
 /// @details Pachner moves operate on the level of the Manifold_3.
 /// The helper functions for the moves operate on the level of the
 /// Delaunay_Triangulation_3.
+/// C++23 support is required for std::expected.
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP

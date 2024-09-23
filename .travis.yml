@@ -19,9 +19,8 @@ addons:
       - libtool-bin
       - texinfo
       - yasm
-      - gcc-14
-      - g++-14
-      - clang-19
+      - gcc-12
+      - g++-12
       - ninja-build
       - cppcheck
       - doxygen
@@ -29,13 +28,14 @@ addons:
       - lcov
       - valgrind
       - ccache
+      - wget
 
 os:
   - linux
 
 compiler:
   - g++-12
-  - clang-15
+  - clang-19
 
 jobs:
   fast_finish: true
@@ -141,9 +141,14 @@ before_install:
     fi
   - |
     if [[ "$CXX" == "clang++" ]]; then
-      sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-15 90
-      sudo update-alternatives --config clang
-      export CXX="clang++-15" CC="clang-15"
+      wget https://apt.llvm.org/llvm.sh
+      chmod +x llvm.sh
+      sudo ./llvm.sh 19
+      sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100
+      sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-19 100
+      export CXX="clang++-19" CC="clang-19"
+      clang --version
+      clang++ --version
     fi
 
 install:
