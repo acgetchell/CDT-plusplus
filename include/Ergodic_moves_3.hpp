@@ -10,11 +10,12 @@
 /// @details Pachner moves operate on the level of the Manifold_3.
 /// The helper functions for the moves operate on the level of the
 /// Delaunay_Triangulation_3.
+/// C++23 support is required for std::expected.
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
-#include <tl/expected.hpp>
+#include <expected>
 
 #include "Manifold.hpp"
 #include "Move_tracker.hpp"
@@ -22,7 +23,7 @@
 namespace ergodic_moves
 {
   using Manifold         = manifolds::Manifold_3;
-  using Expected         = tl::expected<Manifold, std::string>;
+  using Expected         = std::expected<Manifold, std::string>;
   using Cell_handle      = Cell_handle_t<3>;
   using Cell_container   = std::vector<Cell_handle>;
   using Edge_handle      = Edge_handle_t<3>;
@@ -100,7 +101,7 @@ namespace ergodic_moves
     // We've run out of (2,2) cells
     std::string const msg = "No (2,3) move possible.\n";
     spdlog::warn(msg);
-    return tl::unexpected(msg);
+    return std::unexpected(msg);
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
@@ -142,7 +143,7 @@ namespace ergodic_moves
     // We've run out of edges to try
     std::string const msg = "No (3,2) move possible.\n";
     spdlog::warn(msg);
-    return tl::unexpected(msg);
+    return std::unexpected(msg);
   }  // do_32_move()
 
   /// @brief Find a (2,6) move location
@@ -209,7 +210,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return tl::unexpected(msg);
+          return std::unexpected(msg);
         }
 
         // Get indices of vertices of common face with respect to bottom cell
@@ -234,7 +235,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return tl::unexpected(msg);
+          return std::unexpected(msg);
         }
 
         // Do the (2,6) move
@@ -255,7 +256,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return tl::unexpected(msg);
+          return std::unexpected(msg);
         }
 
         // Each incident cell should be combinatorially and geometrically valid
@@ -273,7 +274,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return tl::unexpected(msg);
+          return std::unexpected(msg);
         }
 
         // Now assign a geometric point to the center vertex
@@ -309,7 +310,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
-          return tl::unexpected(msg);
+          return std::unexpected(msg);
         }
 
         return t_manifold;
@@ -322,7 +323,7 @@ namespace ergodic_moves
     // We've run out of (1,3) simplices to try
     std::string const msg = "No (2,6) move possible.\n";
     spdlog::warn(msg);
-    return tl::unexpected(msg);
+    return std::unexpected(msg);
   }  // do_26_move()
 
   /// @brief Find a (6,2) move location
@@ -474,7 +475,7 @@ namespace ergodic_moves
     // We've run out of vertices to try
     std::string const msg = "No (6,2) move possible.\n";
     spdlog::warn(msg);
-    return tl::unexpected(msg);
+    return std::unexpected(msg);
   }  // do_62_move()
 
   /// @brief Find all cells incident to the edge
@@ -831,7 +832,7 @@ namespace ergodic_moves
     // We've run out of edges to try
     std::string const msg = "No (4,4) move possible.\n";
     spdlog::warn(msg);
-    return tl::unexpected(msg);
+    return std::unexpected(msg);
   }  // do_44_move()
 
   /// @brief Check move correctness
