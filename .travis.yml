@@ -8,6 +8,11 @@ cache:
       - $TRAVIS_BUILD_DIR/vcpkg
       - $HOME/.cache/vcpkg/archives
 
+# Don't double build branch PRs
+branches:
+  except:
+    - /^pr\..*/
+
 addons:
   apt:
     update: true
