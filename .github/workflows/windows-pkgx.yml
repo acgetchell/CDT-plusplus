@@ -23,7 +23,7 @@ jobs:
       - name: Setup Clang
         uses: pkgxdev/setup@v2
         with:
-          +: clang@19
+          +: node@20, clang@19
 
       - run: npm install
       - run: clang --version
