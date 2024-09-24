@@ -25,6 +25,10 @@ jobs:
         with:
           +: clang@19
 
+      - run: npm install
+      - run: clang --version
+
+
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
