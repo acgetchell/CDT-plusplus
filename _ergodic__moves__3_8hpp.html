@@ -90,7 +90,7 @@ $(function() {
 
 <p>Pachner moves on 2+1 dimensional foliated Delaunay triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;tl/expected.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;expected&gt;</code><br />
 <code>#include &quot;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -124,8 +124,8 @@ Typedefs</h2></td></tr>
 <tr class="separator:aa6ca170e9cb40a0ed5aee6a33365dc0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acef7052c36940cb822c1cebdb0bb6957"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#acef7052c36940cb822c1cebdb0bb6957">ergodic_moves::Edge_handle</a> = Edge_handle_t&lt; 3 &gt;</td></tr>
 <tr class="separator:acef7052c36940cb822c1cebdb0bb6957"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49e5e2772bb8427dae45c8f49f94cb48"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a49e5e2772bb8427dae45c8f49f94cb48">ergodic_moves::Expected</a> = tl::expected&lt; Manifold, std::string &gt;</td></tr>
-<tr class="separator:a49e5e2772bb8427dae45c8f49f94cb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af10b0c156adcc24b21dccb95bbbc6c33"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#af10b0c156adcc24b21dccb95bbbc6c33">ergodic_moves::Expected</a> = std::expected&lt; Manifold, std::string &gt;</td></tr>
+<tr class="separator:af10b0c156adcc24b21dccb95bbbc6c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9966077cba51038a8418fa3dbe86006b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a9966077cba51038a8418fa3dbe86006b">ergodic_moves::Manifold</a> = <a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold_3</a></td></tr>
 <tr class="separator:a9966077cba51038a8418fa3dbe86006b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a7f7c92c8861596824298d86688a39b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a2a7f7c92c8861596824298d86688a39b">ergodic_moves::Vertex_container</a> = std::vector&lt; Vertex_handle &gt;</td></tr>
@@ -189,7 +189,7 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Pachner moves on 2+1 dimensional foliated Delaunay triangulations. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell</dd></dl>
-<p>Pachner moves operate on the level of the Manifold_3. The helper functions for the moves operate on the level of the Delaunay_Triangulation_3. </p>
+<p>Pachner moves operate on the level of the Manifold_3. The helper functions for the moves operate on the level of the Delaunay_Triangulation_3. C++23 support is required for std::expected. </p>
 
 <p class="definition">Definition in file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
@@ -205,7 +205,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00027">27</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00028">28</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -221,7 +221,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00026">26</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00027">27</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -237,7 +237,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00032">32</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00033">33</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -253,7 +253,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00029">29</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00030">30</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -269,23 +269,23 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00028">28</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00029">29</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a49e5e2772bb8427dae45c8f49f94cb48" name="a49e5e2772bb8427dae45c8f49f94cb48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49e5e2772bb8427dae45c8f49f94cb48">&#9670;&#160;</a></span>Expected</h2>
+<a id="af10b0c156adcc24b21dccb95bbbc6c33" name="af10b0c156adcc24b21dccb95bbbc6c33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af10b0c156adcc24b21dccb95bbbc6c33">&#9670;&#160;</a></span>Expected</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using ergodic_moves::Expected = typedef tl::expected&lt;Manifold, std::string&gt;</td>
+          <td class="memname">using ergodic_moves::Expected = typedef std::expected&lt;Manifold, std::string&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00025">25</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00026">26</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -301,7 +301,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00024">24</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00025">25</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00031">31</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00032">32</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -333,7 +333,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00030">30</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00031">31</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -397,11 +397,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> flipped triangulation or nullopt </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00567">567</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00568">568</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00567">ergodic_moves::bistellar_flip()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">ergodic_moves::get_incident_cells()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00568">ergodic_moves::bistellar_flip()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00538">ergodic_moves::get_incident_cells()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00567">ergodic_moves::bistellar_flip()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00568">ergodic_moves::bistellar_flip()</a>.</p>
 
 </div>
 </div>
@@ -457,11 +457,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the move correctly changed the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00842">842</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00843">843</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00842">ergodic_moves::check_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00843">ergodic_moves::check_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00842">ergodic_moves::check_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00843">ergodic_moves::check_move()</a>.</p>
 
 </div>
 </div>
@@ -502,11 +502,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (2,3) moved manifold or an Unexpected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">85</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00086">86</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">ergodic_moves::do_23_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00050">ergodic_moves::try_23_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00086">ergodic_moves::do_23_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">ergodic_moves::try_23_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">ergodic_moves::do_23_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00086">ergodic_moves::do_23_move()</a>.</p>
 
 </div>
 </div>
@@ -547,11 +547,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (2,6) moved manifold or an Unexpected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00186">186</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00187">187</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00186">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00153">ergodic_moves::find_adjacent_31_cell()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00187">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00154">ergodic_moves::find_adjacent_31_cell()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00186">ergodic_moves::do_26_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00187">ergodic_moves::do_26_move()</a>.</p>
 
 </div>
 </div>
@@ -589,11 +589,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (3,2) moved manifold or an Unexpected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00127">127</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00128">128</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00127">ergodic_moves::do_32_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00112">ergodic_moves::try_32_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00128">ergodic_moves::do_32_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00113">ergodic_moves::try_32_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00127">ergodic_moves::do_32_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00128">ergodic_moves::do_32_move()</a>.</p>
 
 </div>
 </div>
@@ -635,11 +635,11 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (4,4) moved manifold or Unexpected </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Need to debug bistellar_flip_really() </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00804">804</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00805">805</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00804">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00520">ergodic_moves::find_bistellar_flip_location()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00805">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00521">ergodic_moves::find_bistellar_flip_location()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00804">ergodic_moves::do_44_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00805">ergodic_moves::do_44_move()</a>.</p>
 
 </div>
 </div>
@@ -680,11 +680,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (6,2) moved manifold or Unexpected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00455">455</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00456">456</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00455">ergodic_moves::do_62_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00336">ergodic_moves::is_62_movable()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00456">ergodic_moves::do_62_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00337">ergodic_moves::is_62_movable()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00455">ergodic_moves::do_62_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00456">ergodic_moves::do_62_move()</a>.</p>
 
 </div>
 </div>
@@ -722,11 +722,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The integer of the neighboring (3,1) simplex or nullopt </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00153">153</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00154">154</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00153">ergodic_moves::find_adjacent_31_cell()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00154">ergodic_moves::find_adjacent_31_cell()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00186">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00153">ergodic_moves::find_adjacent_31_cell()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00187">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00154">ergodic_moves::find_adjacent_31_cell()</a>.</p>
 
 </div>
 </div>
@@ -775,11 +775,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> container of incident cells if there are exactly 4 or nullopt </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00520">520</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00521">521</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00520">ergodic_moves::find_bistellar_flip_location()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00486">ergodic_moves::incident_cells_from_edge()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00521">ergodic_moves::find_bistellar_flip_location()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00487">ergodic_moves::incident_cells_from_edge()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00804">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00520">ergodic_moves::find_bistellar_flip_location()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00805">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00521">ergodic_moves::find_bistellar_flip_location()</a>.</p>
 
 </div>
 </div>
@@ -819,11 +819,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The center edge of a 4-cell complex </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00750">750</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00751">751</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00750">ergodic_moves::find_pivot_edge()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00751">ergodic_moves::find_pivot_edge()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00750">ergodic_moves::find_pivot_edge()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00751">ergodic_moves::find_pivot_edge()</a>.</p>
 
 </div>
 </div>
@@ -872,11 +872,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> container of cells incident to the edge or nullopt </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">537</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00538">538</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">ergodic_moves::get_incident_cells()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00538">ergodic_moves::get_incident_cells()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00567">ergodic_moves::bistellar_flip()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">ergodic_moves::get_incident_cells()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00568">ergodic_moves::bistellar_flip()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00538">ergodic_moves::get_incident_cells()</a>.</p>
 
 </div>
 </div>
@@ -913,11 +913,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> container of vertices in the cells </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00773">773</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00774">774</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00773">ergodic_moves::get_vertices()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00774">ergodic_moves::get_vertices()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00773">ergodic_moves::get_vertices()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00774">ergodic_moves::get_vertices()</a>.</p>
 
 </div>
 </div>
@@ -967,11 +967,11 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> container of cells incident to the edge or nullopt </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094">https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00486">486</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00487">487</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00486">ergodic_moves::incident_cells_from_edge()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00487">ergodic_moves::incident_cells_from_edge()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00520">ergodic_moves::find_bistellar_flip_location()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00486">ergodic_moves::incident_cells_from_edge()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00521">ergodic_moves::find_bistellar_flip_location()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00487">ergodic_moves::incident_cells_from_edge()</a>.</p>
 
 </div>
 </div>
@@ -1020,11 +1020,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if (6,2) move is possible </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00336">336</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00337">337</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00336">ergodic_moves::is_62_movable()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00337">ergodic_moves::is_62_movable()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00455">ergodic_moves::do_62_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00336">ergodic_moves::is_62_movable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00456">ergodic_moves::do_62_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00337">ergodic_moves::is_62_movable()</a>.</p>
 
 </div>
 </div>
@@ -1062,11 +1062,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The null-moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00038">38</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">39</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00038">ergodic_moves::null_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">ergodic_moves::null_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00038">ergodic_moves::null_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">ergodic_moves::null_move()</a>.</p>
 
 </div>
 </div>
@@ -1116,11 +1116,11 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00050">50</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">51</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00050">ergodic_moves::try_23_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">ergodic_moves::try_23_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">ergodic_moves::do_23_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00050">ergodic_moves::try_23_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00086">ergodic_moves::do_23_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">ergodic_moves::try_23_move()</a>.</p>
 
 </div>
 </div>
@@ -1170,18 +1170,18 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00112">112</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00113">113</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00112">ergodic_moves::try_32_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00113">ergodic_moves::try_32_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00127">ergodic_moves::do_32_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00112">ergodic_moves::try_32_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00128">ergodic_moves::do_32_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00113">ergodic_moves::try_32_move()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 23 2024 20:48:43 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Tue Sep 24 2024 00:37:12 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

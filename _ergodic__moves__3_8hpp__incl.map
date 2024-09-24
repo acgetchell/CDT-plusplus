@@ -1,6 +1,6 @@
 <map id="include/Ergodic_moves_3.hpp" name="include/Ergodic_moves_3.hpp">
 <area shape="rect" id="node1" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="1097,5,1269,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="1023,93,1145,119"/>
+<area shape="rect" id="node2" title=" " alt="" coords="1063,93,1145,119"/>
 <area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1549,93,1656,119"/>
 <area shape="rect" id="node32" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="837,240,974,265"/>
 <area shape="rect" id="node4" title=" " alt="" coords="2006,313,2077,339"/>
