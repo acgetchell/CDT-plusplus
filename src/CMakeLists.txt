@@ -53,7 +53,7 @@ target_compile_features(cdt PRIVATE cxx_std_23)
 #            spdlog::spdlog_header_only
 #            TBB::tbb
 #            CGAL::CGAL_Basic_viewer)
-#  target_compile_features(cdt-viewer PRIVATE cxx_std_20)
+#  target_compile_features(cdt-viewer PRIVATE cxx_std_23)
 #endif()
 
 # Build bistellar-flip locally, but not in CI since QT takes more than an hour to build there
@@ -69,7 +69,7 @@ target_compile_features(cdt PRIVATE cxx_std_23)
 #      spdlog::spdlog_header_only
 #      TBB::tbb)
 #      CGAL::CGAL_Basic_viewer)
-#  target_compile_features(bistellar-flip PRIVATE cxx_std_20)
+#  target_compile_features(bistellar-flip PRIVATE cxx_std_23)
 #endif()
 
 #

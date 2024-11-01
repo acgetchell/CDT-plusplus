@@ -67,6 +67,14 @@ include(CMakeDependentOption)
 # Set CGAL_DATA_DIR to the location of the CGAL data files
 set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
+  message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
+  message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
+  message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
+endif()
+
 # Set NOMINMAX to avoid min/max macro errors on Windows in date.h
 #if(WIN32)
 #  # Workaround for https://github.com/CGAL/cgal/issues/4665 and https://github.com/microsoft/vcpkg/issues/23572

@@ -61,4 +61,3 @@ if (MSVC)
 else()
   add_compile_options(-finput-charset=UTF-8)
 endif()
-

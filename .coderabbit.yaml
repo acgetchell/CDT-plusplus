@@ -1,5 +1,5 @@
 language: en-US
-tone_instructions: ''
+tone_instructions: 'Be constructive and professional. Focus on technical accuracy while maintaining a friendly tone.'
 early_access: true
 enable_free_tier: true
 reviews:
@@ -15,8 +15,16 @@ reviews:
   sequence_diagrams: true
   changed_files_summary: true
   labeling_instructions: []
-  path_filters: []
-  path_instructions: []
+  path_filters:
+    - 'src/**/*.cpp'
+    - 'include/**/*.hpp'
+  path_instructions:
+    - path: 'src/**/*.cpp'
+      instructions: 'Focus on performance, memory management, and RAII principles'
+    - path: 'include/**/*.hpp'
+      instructions: 'Focus on design patterns, interfaces, and encapsulation'
+    - path: 'test/**/*.cpp'
+      instructions: 'Ensure comprehensive test coverage and proper test organization'
   abort_on_close: true
   auto_review:
     enabled: true
@@ -27,8 +35,6 @@ reviews:
     base_branches: []
   tools:
     shellcheck:
-      enabled: true
-    ruff:
       enabled: true
     markdownlint:
       enabled: true
@@ -43,24 +49,11 @@ reviews:
       enabled: true
     hadolint:
       enabled: true
-    swiftlint:
-      enabled: true
-    phpstan:
-      enabled: true
-      level: default
-    golangci-lint:
-      enabled: true
     yamllint:
       enabled: true
     gitleaks:
       enabled: true
     checkov:
-      enabled: true
-    detekt:
-      enabled: true
-    eslint:
-      enabled: true
-    rubocop:
       enabled: true
     buf:
       enabled: true
