@@ -73,6 +73,8 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSI
   message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
   message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "14.0")
+  message(FATAL_ERROR "AppleClang 14.0 or higher required for C++23 support")
 endif()
 
 # Set NOMINMAX to avoid min/max macro errors on Windows in date.h
