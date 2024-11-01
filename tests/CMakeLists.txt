@@ -17,7 +17,7 @@ add_executable(
   Torus_test.cpp
   Utilities_test.cpp
   Vertex_test.cpp)
-# Activate C++20 features
+# Activate C++23 features
 target_compile_features(CDT_unit_tests PRIVATE cxx_std_23)
 target_link_libraries(
   CDT_unit_tests
