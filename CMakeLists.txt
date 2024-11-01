@@ -30,7 +30,7 @@ include(cmake/PreventInSourceBuilds.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_20)
+target_compile_features(project_options INTERFACE cxx_std_23)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
@@ -85,7 +85,8 @@ endif()
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
-find_package(CGAL CONFIG REQUIRED OPTIONAL_COMPONENTS Qt5)
+#find_package(CGAL CONFIG REQUIRED OPTIONAL_COMPONENTS Qt5)
+find_package(CGAL CONFIG REQUIRED)
 # Don't let CGAL override flags
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE
