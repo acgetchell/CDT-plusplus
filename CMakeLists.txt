@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16...3.26)
+cmake_minimum_required(VERSION 3.16)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -67,6 +67,11 @@ include(CMakeDependentOption)
 # Set CGAL_DATA_DIR to the location of the CGAL data files
 set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 
+# Minimum compiler versions required for C++23 support:
+# - MSVC 19.34 (Visual Studio 2022 version 17.4)
+# - GCC 12.2
+# - AppleClang 14.0
+# - Clang 16.0
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
   message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
@@ -86,7 +91,6 @@ endif()
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
-#find_package(CGAL CONFIG REQUIRED OPTIONAL_COMPONENTS Qt5)
 find_package(CGAL CONFIG REQUIRED)
 # Don't let CGAL override flags
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
