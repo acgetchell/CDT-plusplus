@@ -19,8 +19,8 @@ clone_script:
       && git submodule update --init --recursive
 
 environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR : false
-  APPVEYOR_CACHE_SKIP_RESTORE : true
+  APPVEYOR_SAVE_CACHE_ON_ERROR: false
+  APPVEYOR_CACHE_SKIP_RESTORE: true
   VCPKG_DEFAULT_TRIPLET: x64-windows
   VCPKG_ROOT: c:\tools\vcpkg
 
