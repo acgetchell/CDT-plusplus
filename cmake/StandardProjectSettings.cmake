@@ -38,7 +38,7 @@ endif()
 # Set minimum Boost version
 set(BOOST_MIN_VERSION "1.75.0")
 
-# Use C++20
+# Use C++23
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -55,8 +55,9 @@ add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTC
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Check if the compiler is MSVC
+# Deal with UTF-8 encoding
 if (MSVC)
-  # Add /utf-8 flag to MSVC
   add_compile_options(/utf-8)
+else()
+  add_compile_options(-finput-charset=UTF-8)
 endif()

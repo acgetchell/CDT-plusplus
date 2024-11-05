@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16...3.26)
+cmake_minimum_required(VERSION 3.16)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -30,7 +30,7 @@ include(cmake/PreventInSourceBuilds.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_20)
+target_compile_features(project_options INTERFACE cxx_std_23)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
@@ -67,21 +67,31 @@ include(CMakeDependentOption)
 # Set CGAL_DATA_DIR to the location of the CGAL data files
 set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 
+# Minimum compiler versions required for C++23 support:
+# - MSVC 19.34 (Visual Studio 2022 version 17.4)
+# - GCC 12.2
+# - AppleClang 14.0
+# - Clang 16.0
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
+  message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
+  message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
+  message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "14.0")
+  message(FATAL_ERROR "AppleClang 14.0 or higher required for C++23 support")
+endif()
+
 # Set NOMINMAX to avoid min/max macro errors on Windows in date.h
 #if(WIN32)
 #  # Workaround for https://github.com/CGAL/cgal/issues/4665 and https://github.com/microsoft/vcpkg/issues/23572
 #  add_compile_options(/DNOMINMAX)
 #endif()
 
-if (MSVC)
-  # Add /utf-8 flag for MSVC
-  add_compile_options(/utf-8)
-endif()
-
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
-find_package(CGAL CONFIG REQUIRED OPTIONAL_COMPONENTS Qt5)
+find_package(CGAL CONFIG REQUIRED)
 # Don't let CGAL override flags
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE
