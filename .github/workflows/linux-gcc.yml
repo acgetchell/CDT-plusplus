@@ -30,9 +30,9 @@ jobs:
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
       - name: Setup GCC
-        uses: pkgxdev/setup@v2
+        uses: pkgxdev/setup@v4
         with:
-          +: gcc@14
+          +: gcc@15
 
       -  run: gcc --version
 
