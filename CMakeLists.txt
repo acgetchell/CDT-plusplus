@@ -7,6 +7,10 @@ if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
       CACHE STRING "")
 endif()
 
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 NEW)
+endif ()
+
 # In Manifest mode CMake invokes vcpkg automatically This makes setup easier, however, in CI or Docker we may want to
 # turn this off
 option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" ON)
@@ -116,7 +120,7 @@ find_package(Microsoft.GSL CONFIG REQUIRED)
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
 
-find_package(Boost REQUIRED COMPONENTS program_options)
+find_package(Boost CONFIG REQUIRED COMPONENTS program_options)
 
 # https://github.com/gabime/spdlog
 find_package(spdlog CONFIG REQUIRED)
