@@ -2,6 +2,7 @@ add_executable(
   CDT_unit_tests
   ${PROJECT_SOURCE_DIR}/tests/main.cpp
   Apply_move_test.cpp
+  Bistellar_flip_test.cpp
   Ergodic_moves_3_test.cpp
   Foliated_triangulation_test.cpp
   Function_ref_test.cpp
