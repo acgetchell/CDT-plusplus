@@ -67,7 +67,7 @@ jobs:
           popd
 
       - name: Submit to codecov.io
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
 #          directory: build/gcov-reports
           fail_ci_if_error: false
