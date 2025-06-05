@@ -17,9 +17,9 @@
 
 #include <expected>
 
+#include "Formatters.hpp"
 #include "Manifold.hpp"
 #include "Move_tracker.hpp"
-#include "Formatters.hpp"
 
 namespace ergodic_moves
 {
@@ -335,8 +335,9 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @returns True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(
-      Manifold const& manifold, Vertex_handle const& candidate) -> bool
+  [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
+                                          Vertex_handle const& candidate)
+      -> bool
   {
     if (manifold.dimensionality() != 3)
     {
@@ -486,8 +487,8 @@ namespace ergodic_moves
   /// @see
   /// https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094
   [[nodiscard]] inline auto incident_cells_from_edge(
-      Delaunay_t<3> const& triangulation,
-      Edge_handle const&   edge) -> std::optional<Cell_container>
+      Delaunay_t<3> const& triangulation, Edge_handle const& edge)
+      -> std::optional<Cell_container>
   {
     if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
     {
@@ -520,8 +521,8 @@ namespace ergodic_moves
   /// @param t_edge_candidate The edge to check
   /// @returns A container of incident cells if there are exactly 4 or nullopt
   [[nodiscard]] inline auto find_bistellar_flip_location(
-      Delaunay const&    triangulation,
-      Edge_handle const& t_edge_candidate) -> std::optional<Cell_container>
+      Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
+      -> std::optional<Cell_container>
   {
     if (auto incident_cells =
             incident_cells_from_edge(triangulation, t_edge_candidate);
@@ -566,9 +567,10 @@ namespace ergodic_moves
   /// @param top Top vertex of the cells being flipped
   /// @param bottom Bottom vertex of the cells being flipped
   /// @returns A flipped triangulation or nullopt
-  [[nodiscard]] inline auto bistellar_flip(
-      Delaunay triangulation, Edge_handle edge, Vertex_handle top,
-      Vertex_handle bottom) -> std::optional<Delaunay>
+  [[nodiscard]] inline auto bistellar_flip(Delaunay    triangulation,
+                                           Edge_handle edge, Vertex_handle top,
+                                           Vertex_handle bottom)
+      -> std::optional<Delaunay>
   {
     // Get the cells incident to the edge
     auto incident_cells = get_incident_cells(triangulation, edge);
@@ -608,25 +610,32 @@ namespace ergodic_moves
     auto const& pivot_to_2 = new_pivot_vertices[1];
 
     // Verify all vertices exist and are not infinite
-    if (triangulation.is_infinite(pivot_from_1) || triangulation.is_infinite(pivot_from_2) ||
-        triangulation.is_infinite(pivot_to_1) || triangulation.is_infinite(pivot_to_2) ||
-        triangulation.is_infinite(top) || triangulation.is_infinite(bottom)) {
+    if (triangulation.is_infinite(pivot_from_1) ||
+        triangulation.is_infinite(pivot_from_2) ||
+        triangulation.is_infinite(pivot_to_1) ||
+        triangulation.is_infinite(pivot_to_2) ||
+        triangulation.is_infinite(top) || triangulation.is_infinite(bottom))
+    {
       return std::nullopt;
     }
 
 #ifndef NDEBUG
-    spdlog::debug("Pivot from: ({}, {}), Pivot to: ({}, {}), Top: {}, Bottom: {}",
-                 pivot_from_1->point(), pivot_from_2->point(),
-                 pivot_to_1->point(), pivot_to_2->point(),
-                 top->point(), bottom->point());
+    spdlog::debug(
+        "Pivot from: ({}, {}), Pivot to: ({}, {}), Top: {}, Bottom: {}",
+        pivot_from_1->point(), pivot_from_2->point(), pivot_to_1->point(),
+        pivot_to_2->point(), top->point(), bottom->point());
 #endif
 
     // Now we need to classify the cells by the vertices they contain
-    Cell_handle before_1 = nullptr;  // top, pivot_from_1, pivot_from_2, pivot_to_1
-    Cell_handle before_2 = nullptr;  // top, pivot_from_1, pivot_from_2, pivot_to_2
-    Cell_handle before_3 = nullptr;  // bottom, pivot_from_1, pivot_from_2, pivot_to_1
-    Cell_handle before_4 = nullptr;  // bottom, pivot_from_1, pivot_from_2, pivot_to_2
-    
+    Cell_handle before_1 =
+        nullptr;  // top, pivot_from_1, pivot_from_2, pivot_to_1
+    Cell_handle before_2 =
+        nullptr;  // top, pivot_from_1, pivot_from_2, pivot_to_2
+    Cell_handle before_3 =
+        nullptr;  // bottom, pivot_from_1, pivot_from_2, pivot_to_1
+    Cell_handle before_4 =
+        nullptr;  // bottom, pivot_from_1, pivot_from_2, pivot_to_2
+
     for (auto const& cell : incident_cells.value())
     {
       if (cell->has_vertex(top))
@@ -642,8 +651,8 @@ namespace ergodic_moves
     }
 
     // Verify all cells were found
-    if (before_1 == nullptr || before_2 == nullptr || 
-        before_3 == nullptr || before_4 == nullptr)
+    if (before_1 == nullptr || before_2 == nullptr || before_3 == nullptr ||
+        before_4 == nullptr)
     {
 #ifndef NDEBUG
       spdlog::debug("Not all cells were properly identified.");
@@ -652,10 +661,11 @@ namespace ergodic_moves
     }
 
     // Verify cells are not infinite and are valid
-    if (triangulation.is_infinite(before_1) || triangulation.is_infinite(before_2) ||
-        triangulation.is_infinite(before_3) || triangulation.is_infinite(before_4) ||
-        !before_1->is_valid() || !before_2->is_valid() ||
-        !before_3->is_valid() || !before_4->is_valid())
+    if (triangulation.is_infinite(before_1) ||
+        triangulation.is_infinite(before_2) ||
+        triangulation.is_infinite(before_3) ||
+        triangulation.is_infinite(before_4) || !before_1->is_valid() ||
+        !before_2->is_valid() || !before_3->is_valid() || !before_4->is_valid())
     {
 #ifndef NDEBUG
       spdlog::debug("Some cells are invalid or infinite.");
@@ -664,22 +674,22 @@ namespace ergodic_moves
     }
 
 #ifndef NDEBUG
-    spdlog::debug("Cells in the triangulation before deleting old cells: {}", 
-                 triangulation.number_of_cells());
-    
+    spdlog::debug("Cells in the triangulation before deleting old cells: {}",
+                  triangulation.number_of_cells());
+
     // Debug info about cells
-    spdlog::debug("Before_1: vertices {}, {}, {}, {}", 
-                 before_1->vertex(0)->point(), before_1->vertex(1)->point(),
-                 before_1->vertex(2)->point(), before_1->vertex(3)->point());
-    spdlog::debug("Before_2: vertices {}, {}, {}, {}", 
-                 before_2->vertex(0)->point(), before_2->vertex(1)->point(),
-                 before_2->vertex(2)->point(), before_2->vertex(3)->point());
-    spdlog::debug("Before_3: vertices {}, {}, {}, {}", 
-                 before_3->vertex(0)->point(), before_3->vertex(1)->point(),
-                 before_3->vertex(2)->point(), before_3->vertex(3)->point());
-    spdlog::debug("Before_4: vertices {}, {}, {}, {}", 
-                 before_4->vertex(0)->point(), before_4->vertex(1)->point(),
-                 before_4->vertex(2)->point(), before_4->vertex(3)->point());
+    spdlog::debug("Before_1: vertices {}, {}, {}, {}",
+                  before_1->vertex(0)->point(), before_1->vertex(1)->point(),
+                  before_1->vertex(2)->point(), before_1->vertex(3)->point());
+    spdlog::debug("Before_2: vertices {}, {}, {}, {}",
+                  before_2->vertex(0)->point(), before_2->vertex(1)->point(),
+                  before_2->vertex(2)->point(), before_2->vertex(3)->point());
+    spdlog::debug("Before_3: vertices {}, {}, {}, {}",
+                  before_3->vertex(0)->point(), before_3->vertex(1)->point(),
+                  before_3->vertex(2)->point(), before_3->vertex(3)->point());
+    spdlog::debug("Before_4: vertices {}, {}, {}, {}",
+                  before_4->vertex(0)->point(), before_4->vertex(1)->point(),
+                  before_4->vertex(2)->point(), before_4->vertex(3)->point());
 #endif
 
     // Find the exterior neighbors of the cells
@@ -691,28 +701,31 @@ namespace ergodic_moves
     Cell_handle n_6 = before_3->neighbor(before_3->index(pivot_from_1));
     Cell_handle n_7 = before_4->neighbor(before_4->index(pivot_from_1));
     Cell_handle n_8 = before_4->neighbor(before_4->index(pivot_from_2));
-    
+
     // Store indices before deletion
-    int n1_idx = n_1->index(before_1);
-    int n2_idx = n_2->index(before_1);
-    int n3_idx = n_3->index(before_2);
-    int n4_idx = n_4->index(before_2);
-    int n5_idx = n_5->index(before_3);
-    int n6_idx = n_6->index(before_3);
-    int n7_idx = n_7->index(before_4);
-    int n8_idx = n_8->index(before_4);
+    int n1_idx      = n_1->index(before_1);
+    int n2_idx      = n_2->index(before_1);
+    int n3_idx      = n_3->index(before_2);
+    int n4_idx      = n_4->index(before_2);
+    int n5_idx      = n_5->index(before_3);
+    int n6_idx      = n_6->index(before_3);
+    int n7_idx      = n_7->index(before_4);
+    int n8_idx      = n_8->index(before_4);
 
     // Verify all neighbors exist and are not cells we're about to delete
     if (n_1 == nullptr || n_2 == nullptr || n_3 == nullptr || n_4 == nullptr ||
         n_5 == nullptr || n_6 == nullptr || n_7 == nullptr || n_8 == nullptr ||
-        n_1 == before_1 || n_1 == before_2 || n_1 == before_3 || n_1 == before_4 ||
-        n_2 == before_1 || n_2 == before_2 || n_2 == before_3 || n_2 == before_4 ||
-        n_3 == before_1 || n_3 == before_2 || n_3 == before_3 || n_3 == before_4 ||
-        n_4 == before_1 || n_4 == before_2 || n_4 == before_3 || n_4 == before_4 ||
-        n_5 == before_1 || n_5 == before_2 || n_5 == before_3 || n_5 == before_4 ||
-        n_6 == before_1 || n_6 == before_2 || n_6 == before_3 || n_6 == before_4 ||
-        n_7 == before_1 || n_7 == before_2 || n_7 == before_3 || n_7 == before_4 ||
-        n_8 == before_1 || n_8 == before_2 || n_8 == before_3 || n_8 == before_4) 
+        n_1 == before_1 || n_1 == before_2 || n_1 == before_3 ||
+        n_1 == before_4 || n_2 == before_1 || n_2 == before_2 ||
+        n_2 == before_3 || n_2 == before_4 || n_3 == before_1 ||
+        n_3 == before_2 || n_3 == before_3 || n_3 == before_4 ||
+        n_4 == before_1 || n_4 == before_2 || n_4 == before_3 ||
+        n_4 == before_4 || n_5 == before_1 || n_5 == before_2 ||
+        n_5 == before_3 || n_5 == before_4 || n_6 == before_1 ||
+        n_6 == before_2 || n_6 == before_3 || n_6 == before_4 ||
+        n_7 == before_1 || n_7 == before_2 || n_7 == before_3 ||
+        n_7 == before_4 || n_8 == before_1 || n_8 == before_2 ||
+        n_8 == before_3 || n_8 == before_4)
     {
 #ifndef NDEBUG
       spdlog::debug("Issue with neighbors");
@@ -721,16 +734,25 @@ namespace ergodic_moves
     }
 
     // Temporarily break neighbor relationships to avoid potential issues
-    // This step is important to avoid having old cells pointing to new cells during deletion
-    triangulation.tds().set_adjacency(before_1, before_1->index(pivot_from_2), nullptr, -1);
-    triangulation.tds().set_adjacency(before_1, before_1->index(pivot_from_1), nullptr, -1);
-    triangulation.tds().set_adjacency(before_2, before_2->index(pivot_from_1), nullptr, -1);
-    triangulation.tds().set_adjacency(before_2, before_2->index(pivot_from_2), nullptr, -1);
-    triangulation.tds().set_adjacency(before_3, before_3->index(pivot_from_2), nullptr, -1);
-    triangulation.tds().set_adjacency(before_3, before_3->index(pivot_from_1), nullptr, -1);
-    triangulation.tds().set_adjacency(before_4, before_4->index(pivot_from_1), nullptr, -1);
-    triangulation.tds().set_adjacency(before_4, before_4->index(pivot_from_2), nullptr, -1);
-    
+    // This step is important to avoid having old cells pointing to new cells
+    // during deletion
+    triangulation.tds().set_adjacency(before_1, before_1->index(pivot_from_2),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_1, before_1->index(pivot_from_1),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_2, before_2->index(pivot_from_1),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_2, before_2->index(pivot_from_2),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_3, before_3->index(pivot_from_2),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_3, before_3->index(pivot_from_1),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_4, before_4->index(pivot_from_1),
+                                      nullptr, -1);
+    triangulation.tds().set_adjacency(before_4, before_4->index(pivot_from_2),
+                                      nullptr, -1);
+
     // Next, delete the old cells
     triangulation.tds().delete_cell(before_1);
     triangulation.tds().delete_cell(before_2);
@@ -738,12 +760,12 @@ namespace ergodic_moves
     triangulation.tds().delete_cell(before_4);
 
 #ifndef NDEBUG
-    spdlog::debug("Cells in the triangulation after deleting old cells: {}", 
-                 triangulation.number_of_cells());
+    spdlog::debug("Cells in the triangulation after deleting old cells: {}",
+                  triangulation.number_of_cells());
 #endif
 
-    // Create new cells with consistent vertex ordering (counter-clockwise orientation)
-    // Use a consistent ordering scheme for all tetrahedra
+    // Create new cells with consistent vertex ordering (counter-clockwise
+    // orientation) Use a consistent ordering scheme for all tetrahedra
     Cell_handle after_1 = triangulation.tds().create_cell(
         pivot_to_1, pivot_to_2, pivot_from_1, top);
     Cell_handle after_2 = triangulation.tds().create_cell(
@@ -754,10 +776,9 @@ namespace ergodic_moves
         pivot_to_1, pivot_to_2, pivot_from_2, bottom);
 
     // Verify each cell was created and is valid
-    if (after_1 == nullptr || after_2 == nullptr || 
-        after_3 == nullptr || after_4 == nullptr ||
-        !after_1->is_valid() || !after_2->is_valid() || 
-        !after_3->is_valid() || !after_4->is_valid()) 
+    if (after_1 == nullptr || after_2 == nullptr || after_3 == nullptr ||
+        after_4 == nullptr || !after_1->is_valid() || !after_2->is_valid() ||
+        !after_3->is_valid() || !after_4->is_valid())
     {
 #ifndef NDEBUG
       spdlog::debug("Failed to create new cells properly");
@@ -765,52 +786,58 @@ namespace ergodic_moves
       return std::nullopt;
     }
 
-    // Copy the cell type information from the original cells to maintain cell type
+    // Copy the cell type information from the original cells to maintain cell
+    // type
     after_1->info() = before_1->info();
     after_2->info() = before_2->info();
     after_3->info() = before_3->info();
     after_4->info() = before_4->info();
 
 #ifndef NDEBUG
-    spdlog::debug("After_1: vertices {}, {}, {}, {}", 
-                 after_1->vertex(0)->point(), after_1->vertex(1)->point(),
-                 after_1->vertex(2)->point(), after_1->vertex(3)->point());
-    spdlog::debug("After_2: vertices {}, {}, {}, {}", 
-                 after_2->vertex(0)->point(), after_2->vertex(1)->point(),
-                 after_2->vertex(2)->point(), after_2->vertex(3)->point());
-    spdlog::debug("After_3: vertices {}, {}, {}, {}", 
-                 after_3->vertex(0)->point(), after_3->vertex(1)->point(),
-                 after_3->vertex(2)->point(), after_3->vertex(3)->point());
-    spdlog::debug("After_4: vertices {}, {}, {}, {}", 
-                 after_4->vertex(0)->point(), after_4->vertex(1)->point(),
-                 after_4->vertex(2)->point(), after_4->vertex(3)->point());
+    spdlog::debug("After_1: vertices {}, {}, {}, {}",
+                  after_1->vertex(0)->point(), after_1->vertex(1)->point(),
+                  after_1->vertex(2)->point(), after_1->vertex(3)->point());
+    spdlog::debug("After_2: vertices {}, {}, {}, {}",
+                  after_2->vertex(0)->point(), after_2->vertex(1)->point(),
+                  after_2->vertex(2)->point(), after_2->vertex(3)->point());
+    spdlog::debug("After_3: vertices {}, {}, {}, {}",
+                  after_3->vertex(0)->point(), after_3->vertex(1)->point(),
+                  after_3->vertex(2)->point(), after_3->vertex(3)->point());
+    spdlog::debug("After_4: vertices {}, {}, {}, {}",
+                  after_4->vertex(0)->point(), after_4->vertex(1)->point(),
+                  after_4->vertex(2)->point(), after_4->vertex(3)->point());
 #endif
 
     // Set up internal neighbor relationships between the new cells
-    // Find the correct indices for each cell based on the vertex that's not part of the shared face
+    // Find the correct indices for each cell based on the vertex that's not
+    // part of the shared face
     int after_1_after_2_idx = after_1->index(pivot_from_1);
     int after_2_after_1_idx = after_2->index(pivot_from_2);
-    
+
     int after_1_after_3_idx = after_1->index(top);
     int after_3_after_1_idx = after_3->index(bottom);
-    
+
     int after_2_after_4_idx = after_2->index(top);
     int after_4_after_2_idx = after_4->index(bottom);
-    
+
     int after_3_after_4_idx = after_3->index(pivot_from_1);
     int after_4_after_3_idx = after_4->index(pivot_from_2);
 
     // Set up internal neighbor relationships with proper indices
-    triangulation.tds().set_adjacency(after_1, after_1_after_2_idx, after_2, after_2_after_1_idx);
-    triangulation.tds().set_adjacency(after_1, after_1_after_3_idx, after_3, after_3_after_1_idx);
-    triangulation.tds().set_adjacency(after_2, after_2_after_4_idx, after_4, after_4_after_2_idx);
-    triangulation.tds().set_adjacency(after_3, after_3_after_4_idx, after_4, after_4_after_3_idx);
+    triangulation.tds().set_adjacency(after_1, after_1_after_2_idx, after_2,
+                                      after_2_after_1_idx);
+    triangulation.tds().set_adjacency(after_1, after_1_after_3_idx, after_3,
+                                      after_3_after_1_idx);
+    triangulation.tds().set_adjacency(after_2, after_2_after_4_idx, after_4,
+                                      after_4_after_2_idx);
+    triangulation.tds().set_adjacency(after_3, after_3_after_4_idx, after_4,
+                                      after_4_after_3_idx);
 
     // Verify internal neighbor relationships are set up correctly
     if (!after_1->has_neighbor(after_2) || !after_2->has_neighbor(after_1) ||
         !after_1->has_neighbor(after_3) || !after_3->has_neighbor(after_1) ||
         !after_2->has_neighbor(after_4) || !after_4->has_neighbor(after_2) ||
-        !after_3->has_neighbor(after_4) || !after_4->has_neighbor(after_3)) 
+        !after_3->has_neighbor(after_4) || !after_4->has_neighbor(after_3))
     {
 #ifndef NDEBUG
       spdlog::debug("Internal neighbor relationships are not set up correctly");
@@ -822,13 +849,13 @@ namespace ergodic_moves
     // These are the facets that are not shared with other new cells
     int after_1_ext_1_idx = after_1->index(pivot_to_2);
     int after_1_ext_2_idx = after_1->index(pivot_to_1);
-    
+
     int after_2_ext_1_idx = after_2->index(pivot_to_2);
     int after_2_ext_2_idx = after_2->index(pivot_to_1);
-    
+
     int after_3_ext_1_idx = after_3->index(pivot_to_2);
     int after_3_ext_2_idx = after_3->index(pivot_to_1);
-    
+
     int after_4_ext_1_idx = after_4->index(pivot_to_2);
     int after_4_ext_2_idx = after_4->index(pivot_to_1);
 
@@ -843,17 +870,25 @@ namespace ergodic_moves
     triangulation.tds().set_adjacency(after_4, after_4_ext_2_idx, n_8, n8_idx);
 
     // Verify external neighbor relationships are set up correctly
-    bool external_neighbors_ok = 
-        after_1->neighbor(after_1_ext_1_idx) == n_1 && n_1->neighbor(n1_idx) == after_1 &&
-        after_1->neighbor(after_1_ext_2_idx) == n_2 && n_2->neighbor(n2_idx) == after_1 &&
-        after_2->neighbor(after_2_ext_1_idx) == n_3 && n_3->neighbor(n3_idx) == after_2 &&
-        after_2->neighbor(after_2_ext_2_idx) == n_4 && n_4->neighbor(n4_idx) == after_2 &&
-        after_3->neighbor(after_3_ext_1_idx) == n_5 && n_5->neighbor(n5_idx) == after_3 &&
-        after_3->neighbor(after_3_ext_2_idx) == n_6 && n_6->neighbor(n6_idx) == after_3 &&
-        after_4->neighbor(after_4_ext_1_idx) == n_7 && n_7->neighbor(n7_idx) == after_4 &&
-        after_4->neighbor(after_4_ext_2_idx) == n_8 && n_8->neighbor(n8_idx) == after_4;
-        
-    if (!external_neighbors_ok) {
+    bool external_neighbors_ok = after_1->neighbor(after_1_ext_1_idx) == n_1 &&
+                                 n_1->neighbor(n1_idx) == after_1 &&
+                                 after_1->neighbor(after_1_ext_2_idx) == n_2 &&
+                                 n_2->neighbor(n2_idx) == after_1 &&
+                                 after_2->neighbor(after_2_ext_1_idx) == n_3 &&
+                                 n_3->neighbor(n3_idx) == after_2 &&
+                                 after_2->neighbor(after_2_ext_2_idx) == n_4 &&
+                                 n_4->neighbor(n4_idx) == after_2 &&
+                                 after_3->neighbor(after_3_ext_1_idx) == n_5 &&
+                                 n_5->neighbor(n5_idx) == after_3 &&
+                                 after_3->neighbor(after_3_ext_2_idx) == n_6 &&
+                                 n_6->neighbor(n6_idx) == after_3 &&
+                                 after_4->neighbor(after_4_ext_1_idx) == n_7 &&
+                                 n_7->neighbor(n7_idx) == after_4 &&
+                                 after_4->neighbor(after_4_ext_2_idx) == n_8 &&
+                                 n_8->neighbor(n8_idx) == after_4;
+
+    if (!external_neighbors_ok)
+    {
 #ifndef NDEBUG
       spdlog::debug("External neighbor relationships are not set up correctly");
 #endif
@@ -861,25 +896,34 @@ namespace ergodic_moves
     }
 
 #ifndef NDEBUG
-    spdlog::debug("Cells in the triangulation after adding new cells: {}", 
-                 triangulation.number_of_cells());
-    
+    spdlog::debug("Cells in the triangulation after adding new cells: {}",
+                  triangulation.number_of_cells());
+
     // Verify neighbor relationships
-    spdlog::debug("after_1 neighbors after_2: {}", after_1->has_neighbor(after_2));
-    spdlog::debug("after_2 neighbors after_1: {}", after_2->has_neighbor(after_1));
-    spdlog::debug("after_1 neighbors after_3: {}", after_1->has_neighbor(after_3));
-    spdlog::debug("after_3 neighbors after_1: {}", after_3->has_neighbor(after_1));
-    spdlog::debug("after_2 neighbors after_4: {}", after_2->has_neighbor(after_4));
-    spdlog::debug("after_4 neighbors after_2: {}", after_4->has_neighbor(after_2));
-    spdlog::debug("after_3 neighbors after_4: {}", after_3->has_neighbor(after_4));
-    spdlog::debug("after_4 neighbors after_3: {}", after_4->has_neighbor(after_3));
+    spdlog::debug("after_1 neighbors after_2: {}",
+                  after_1->has_neighbor(after_2));
+    spdlog::debug("after_2 neighbors after_1: {}",
+                  after_2->has_neighbor(after_1));
+    spdlog::debug("after_1 neighbors after_3: {}",
+                  after_1->has_neighbor(after_3));
+    spdlog::debug("after_3 neighbors after_1: {}",
+                  after_3->has_neighbor(after_1));
+    spdlog::debug("after_2 neighbors after_4: {}",
+                  after_2->has_neighbor(after_4));
+    spdlog::debug("after_4 neighbors after_2: {}",
+                  after_4->has_neighbor(after_2));
+    spdlog::debug("after_3 neighbors after_4: {}",
+                  after_3->has_neighbor(after_4));
+    spdlog::debug("after_4 neighbors after_3: {}",
+                  after_4->has_neighbor(after_3));
 #endif
 
     // Attempt to fix orientation issues if any exist
     triangulation.tds().reorient();
 
     // Final validation
-    if (!triangulation.tds().is_valid(true, 4)) {
+    if (!triangulation.tds().is_valid(true, 4))
+    {
 #ifndef NDEBUG
       spdlog::debug("Final triangulation is not valid after reorientation");
 #endif
@@ -967,44 +1011,51 @@ namespace ergodic_moves
 #endif
 
         // Get edge vertices
-        auto const& v1 = edge.first->vertex(edge.second);
-        auto const& v2 = edge.first->vertex(edge.third);
+        auto const& v1       = edge.first->vertex(edge.second);
+        auto const& v2       = edge.first->vertex(edge.third);
 
         // Find top and bottom vertices
-        Vertex_handle top = nullptr;
+        Vertex_handle top    = nullptr;
         Vertex_handle bottom = nullptr;
 
         // Analyze cells to find the top and bottom vertices
-        for (auto const& cell : *incident_cells) {
-            for (int i = 0; i < 4; ++i) {
-                auto vertex = cell->vertex(i);
-                if (vertex != v1 && vertex != v2) {
-                    // Use timevalue to determine if it's a top or bottom vertex
-                    if (top == nullptr || vertex->info() > top->info()) {
-                        top = vertex;
-                    }
-                    if (bottom == nullptr || vertex->info() < bottom->info()) {
-                        bottom = vertex;
-                    }
-                }
+        for (auto const& cell : *incident_cells)
+        {
+          for (int i = 0; i < 4; ++i)
+          {
+            auto vertex = cell->vertex(i);
+            if (vertex != v1 && vertex != v2)
+            {
+              // Use timevalue to determine if it's a top or bottom vertex
+              if (top == nullptr || vertex->info() > top->info())
+              {
+                top = vertex;
+              }
+              if (bottom == nullptr || vertex->info() < bottom->info())
+              {
+                bottom = vertex;
+              }
             }
+          }
         }
 
         // Try the bistellar flip
-        if (auto flipped_triangulation = bistellar_flip(
-                t_manifold.get_triangulation().get_delaunay(), edge, top, bottom);
-            flipped_triangulation.has_value()) {
-            
-            // Create a new foliated triangulation with the flipped Delaunay triangulation
-            auto new_triangulation = foliated_triangulations::FoliatedTriangulation<3>(
-                flipped_triangulation.value(), 
-                t_manifold.initial_radius(),
-                t_manifold.foliation_spacing());
-            
-            // Create a new manifold with the updated triangulation
-            auto new_manifold = Manifold(new_triangulation);
-            
-            return new_manifold;
+        if (auto flipped_triangulation =
+                bistellar_flip(t_manifold.get_triangulation().get_delaunay(),
+                               edge, top, bottom);
+            flipped_triangulation.has_value())
+        {
+          // Create a new foliated triangulation with the flipped Delaunay
+          // triangulation
+          auto new_triangulation =
+              foliated_triangulations::FoliatedTriangulation<3>(
+                  flipped_triangulation.value(), t_manifold.initial_radius(),
+                  t_manifold.foliation_spacing());
+
+          // Create a new manifold with the updated triangulation
+          auto new_manifold = Manifold(new_triangulation);
+
+          return new_manifold;
         }
 
         // If we get here, the flip failed but we found potential cells
@@ -1026,9 +1077,10 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(
-      Manifold const& t_before, Manifold const& t_after,
-      move_tracker::move_type const& t_move) -> bool
+  [[nodiscard]] inline auto check_move(Manifold const&                t_before,
+                                       Manifold const&                t_after,
+                                       move_tracker::move_type const& t_move)
+      -> bool
   {
     switch (t_move)
     {
