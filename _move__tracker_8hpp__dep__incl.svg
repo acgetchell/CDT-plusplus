@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 955;
+var viewWidth = 1077;
 var viewHeight = 280;
 var sectionId = 'dynsection-1';
 </script>
@@ -58,8 +58,8 @@ var sectionId = 'dynsection-1';
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Track ergodic moves.">
-<polygon fill="#999999" stroke="#666666" points="753,-272 612,-272 612,-253 753,-253 753,-272"/>
-<text text-anchor="middle" x="682.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_tracker.hpp</text>
+<polygon fill="#999999" stroke="#666666" points="825,-272 684,-272 684,-253 825,-253 825,-272"/>
+<text text-anchor="middle" x="754.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_tracker.hpp</text>
 </a>
 </g>
 </g>
@@ -67,33 +67,33 @@ var sectionId = 'dynsection-1';
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="_ergodic__moves__3_8hpp.html" target="_top" xlink:title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations.">
-<polygon fill="white" stroke="#666666" points="678,-217 549,-217 549,-187 678,-187 678,-217"/>
-<text text-anchor="start" x="557" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">include/Ergodic_moves</text>
-<text text-anchor="middle" x="613.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_3.hpp</text>
+<polygon fill="white" stroke="#666666" points="750,-217 621,-217 621,-187 750,-187 750,-217"/>
+<text text-anchor="start" x="629" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">include/Ergodic_moves</text>
+<text text-anchor="middle" x="685.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_3.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="#63b8ff" d="M664.49,-246.23C653.87,-237.23 640.52,-225.91 630.15,-217.11"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="662.43,-249.07 672.32,-252.87 666.95,-243.73 662.43,-249.07"/>
+<path fill="none" stroke="#63b8ff" d="M736.49,-246.23C725.87,-237.23 712.52,-225.91 702.15,-217.11"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="734.43,-249.07 744.32,-252.87 738.95,-243.73 734.43,-249.07"/>
 </g>
-<!-- Node15 -->
-<g id="node15" class="node">
-<title>Node15</title>
-<g id="a_node15"><a xlink:href="_move__tracker__test_8cpp.html" target="_top" xlink:title="Tests of MoveTracker, that is, that moves are tracked properly.">
-<polygon fill="white" stroke="#666666" points="806.5,-217 696.5,-217 696.5,-187 806.5,-187 806.5,-217"/>
-<text text-anchor="start" x="704.5" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_tracker</text>
-<text text-anchor="middle" x="751.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+<!-- Node16 -->
+<g id="node16" class="node">
+<title>Node16</title>
+<g id="a_node16"><a xlink:href="_move__tracker__test_8cpp.html" target="_top" xlink:title="Tests of MoveTracker, that is, that moves are tracked properly.">
+<polygon fill="white" stroke="#666666" points="878.5,-217 768.5,-217 768.5,-187 878.5,-187 878.5,-217"/>
+<text text-anchor="start" x="776.5" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_tracker</text>
+<text text-anchor="middle" x="823.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node15 -->
-<g id="edge15" class="edge">
-<title>Node1&#45;&gt;Node15</title>
-<path fill="none" stroke="#63b8ff" d="M700.51,-246.23C711.13,-237.23 724.48,-225.91 734.85,-217.11"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="698.05,-243.73 692.68,-252.87 702.57,-249.07 698.05,-243.73"/>
+<!-- Node1&#45;&gt;Node16 -->
+<g id="edge16" class="edge">
+<title>Node1&#45;&gt;Node16</title>
+<path fill="none" stroke="#63b8ff" d="M772.51,-246.23C783.13,-237.23 796.48,-225.91 806.85,-217.11"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="770.05,-243.73 764.68,-252.87 774.57,-249.07 770.05,-243.73"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
@@ -107,8 +107,8 @@ var sectionId = 'dynsection-1';
 <!-- Node2&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node2&#45;&gt;Node3</title>
-<path fill="none" stroke="#63b8ff" d="M538.67,-185.14C479.52,-172.61 399.25,-155.6 351.66,-145.51"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="538.21,-188.62 548.71,-187.27 539.66,-181.77 538.21,-188.62"/>
+<path fill="none" stroke="#63b8ff" d="M610.58,-188.18C536.51,-175.51 425.26,-156.47 361.39,-145.54"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="610.33,-191.69 620.78,-189.93 611.51,-184.79 610.33,-191.69"/>
 </g>
 <!-- Node11 -->
 <g id="node11" class="node">
@@ -122,8 +122,8 @@ var sectionId = 'dynsection-1';
 <!-- Node2&#45;&gt;Node11 -->
 <g id="edge11" class="edge">
 <title>Node2&#45;&gt;Node11</title>
-<path fill="none" stroke="#63b8ff" d="M571.46,-182.94C542.91,-170.68 506.46,-155.02 484.33,-145.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="570.23,-186.22 580.8,-186.95 572.99,-179.79 570.23,-186.22"/>
+<path fill="none" stroke="#63b8ff" d="M627.24,-184.13C584.35,-171.71 527.81,-155.33 493.91,-145.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="626.42,-187.54 637,-186.95 628.37,-180.81 626.42,-187.54"/>
 </g>
 <!-- Node12 -->
 <g id="node12" class="node">
@@ -137,40 +137,56 @@ var sectionId = 'dynsection-1';
 <!-- Node2&#45;&gt;Node12 -->
 <g id="edge12" class="edge">
 <title>Node2&#45;&gt;Node12</title>
-<path fill="none" stroke="#63b8ff" d="M613.5,-176.6C613.5,-165.8 613.5,-153.78 613.5,-145.84"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="610,-176.8 613.5,-186.8 617,-176.8 610,-176.8"/>
+<path fill="none" stroke="#63b8ff" d="M661.8,-179.93C648.77,-168.35 633.31,-154.61 623.45,-145.84"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="659.72,-182.77 669.52,-186.8 664.37,-177.54 659.72,-182.77"/>
 </g>
 <!-- Node13 -->
 <g id="node13" class="node">
 <title>Node13</title>
-<g id="a_node13"><a xlink:href="_ergodic__moves__3__test_8cpp.html" target="_top" xlink:title="Tests for ergodic moves on foliated triangulations.">
-<polygon fill="white" stroke="#666666" points="824.5,-151 706.5,-151 706.5,-121 824.5,-121 824.5,-151"/>
-<text text-anchor="start" x="714.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Ergodic_moves</text>
-<text text-anchor="middle" x="765.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_3_test.cpp</text>
+<g id="a_node13"><a xlink:href="_bistellar__flip__test_8cpp.html" target="_top" xlink:title="Comprehensive tests for bistellar flip operations.">
+<polygon fill="white" stroke="#666666" points="810.5,-151 706.5,-151 706.5,-121 810.5,-121 810.5,-151"/>
+<text text-anchor="start" x="714.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Bistellar_flip</text>
+<text text-anchor="middle" x="758.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node13 -->
 <g id="edge13" class="edge">
 <title>Node2&#45;&gt;Node13</title>
-<path fill="none" stroke="#63b8ff" d="M656.12,-183.05C680.2,-172.91 709.86,-160.43 732.22,-151.01"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="654.72,-179.85 646.86,-186.95 657.43,-186.3 654.72,-179.85"/>
+<path fill="none" stroke="#63b8ff" d="M709.22,-180.2C720.06,-170.7 732.62,-159.69 742.34,-151.16"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="706.91,-177.57 701.7,-186.8 711.53,-182.84 706.91,-177.57"/>
 </g>
 <!-- Node14 -->
 <g id="node14" class="node">
 <title>Node14</title>
-<g id="a_node14"><a xlink:href="_function__ref__test_8cpp.html" target="_top" xlink:title="Tests on function pointers, lambdas, and function_refs.">
-<polygon fill="white" stroke="#666666" points="946.5,-151 842.5,-151 842.5,-121 946.5,-121 946.5,-151"/>
-<text text-anchor="start" x="850.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Function_ref</text>
-<text text-anchor="middle" x="894.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+<g id="a_node14"><a xlink:href="_ergodic__moves__3__test_8cpp.html" target="_top" xlink:title="Tests for ergodic moves on foliated triangulations.">
+<polygon fill="white" stroke="#666666" points="946.5,-151 828.5,-151 828.5,-121 946.5,-121 946.5,-151"/>
+<text text-anchor="start" x="836.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Ergodic_moves</text>
+<text text-anchor="middle" x="887.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_3_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node14 -->
 <g id="edge14" class="edge">
 <title>Node2&#45;&gt;Node14</title>
-<path fill="none" stroke="#63b8ff" d="M685.42,-184.69C728.4,-174.94 784.08,-162.29 833.5,-151 836.36,-150.35 839.3,-149.68 842.26,-149"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="684.6,-181.29 675.62,-186.92 686.15,-188.12 684.6,-181.29"/>
+<path fill="none" stroke="#63b8ff" d="M739.61,-183.86C772.05,-173.58 812.77,-160.68 843.27,-151.01"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="738.31,-180.6 729.83,-186.95 740.42,-187.27 738.31,-180.6"/>
+</g>
+<!-- Node15 -->
+<g id="node15" class="node">
+<title>Node15</title>
+<g id="a_node15"><a xlink:href="_function__ref__test_8cpp.html" target="_top" xlink:title="Tests on function pointers, lambdas, and function_refs.">
+<polygon fill="white" stroke="#666666" points="1068.5,-151 964.5,-151 964.5,-121 1068.5,-121 1068.5,-151"/>
+<text text-anchor="start" x="972.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Function_ref</text>
+<text text-anchor="middle" x="1016.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node2&#45;&gt;Node15 -->
+<g id="edge15" class="edge">
+<title>Node2&#45;&gt;Node15</title>
+<path fill="none" stroke="#63b8ff" d="M759.98,-186.92C848.21,-170.62 871.81,-168.28 955.5,-151 958.37,-150.41 961.32,-149.78 964.29,-149.14"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="759.26,-183.5 750.07,-188.76 760.54,-190.38 759.26,-183.5"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">
