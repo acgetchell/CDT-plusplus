@@ -16,6 +16,9 @@ jobs:
           fetch-depth: 0
           submodules: true
 
+      - name: Select Xcode 15.3 (Apple Clang 17)
+        run: sudo xcode-select -s /Applications/Xcode_15.3.app
+
       - name: Setup
         run: |
           declare -a python_files=("2to3", "idle3", "pydoc3", "python3", "python3-config")
