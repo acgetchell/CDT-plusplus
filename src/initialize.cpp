@@ -114,9 +114,6 @@ try
   if (args.count("output")) { save_file = true; }
   else { save_file = false; }
 
-  // Initialize triangulation
-  manifolds::Manifold_3 universe;
-
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
   fmt::print("Number of dimensions = {}\n", dimensions);
@@ -143,17 +140,28 @@ try
             static_cast<Int_precision>(simplices),
             static_cast<Int_precision>(timeslices), initial_radius,
             foliation_spacing);
-        swap(populated_universe, universe);
+        populated_universe.print();
+        populated_universe.print_volume_per_timeslice();
+        fmt::print("Final number of simplices: {}\n", populated_universe.N3());
+        if (save_file) { utilities::write_file(populated_universe); }
       }
-      else { throw invalid_argument("Currently, dimensions cannot be >3."); }
+      else if (dimensions == 4)
+      {
+        manifolds::Manifold_4 populated_universe(
+            static_cast<Int_precision>(simplices),
+            static_cast<Int_precision>(timeslices), initial_radius,
+            foliation_spacing);
+        populated_universe.print();
+        populated_universe.print_details();
+        populated_universe.print_volume_per_timeslice();
+        fmt::print("Final number of simplices: {}\n", populated_universe.N4());
+        if (save_file) { utilities::write_file(populated_universe); }
+      }
+      else { throw invalid_argument("Currently, dimensions must be 3 or 4."); }
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
   }
-  universe.print();
-  universe.print_volume_per_timeslice();
-  fmt::print("Final number of simplices: {}\n", universe.N3());
-  if (save_file) { utilities::write_file(universe); }
   return EXIT_SUCCESS;
 }
 catch (invalid_argument const& InvalidArgument)

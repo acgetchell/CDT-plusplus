@@ -24,6 +24,22 @@ static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
 static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
 
+auto minimal_4d_vertices() -> std::vector<Point_t<4>>
+{
+  return {
+      Point_t<4>{1.0, 0.0, 0.0, 0.0},
+      Point_t<4>{0.0, 1.0, 0.0, 0.0},
+      Point_t<4>{0.0, 0.0, 1.0, 0.0},
+      Point_t<4>{0.0, 0.0, 0.0, 1.0},
+      Point_t<4>{1.0, 1.0, 1.0, 1.0}
+  };
+}
+
+auto minimal_4d_timevalues() -> std::vector<std::size_t>
+{
+  return {1, 1, 1, 1, 2};
+}
+
 SCENARIO("FoliatedTriangulation special member and swap properties" *
          doctest::test_suite("foliated_triangulation"))
 {
@@ -393,6 +409,38 @@ SCENARIO("FoliatedTriangulation free functions" *
         foliated_triangulations::print_cell<3>(cell);
         foliated_triangulations::print_neighboring_cells<3>(cell);
       }
+    }
+  }
+}
+
+SCENARIO("FoliatedTriangulation_4 initialization" *
+         doctest::test_suite("foliated_triangulation"))
+{
+  GIVEN("A minimal 3+1 dimensional foliated triangulation.")
+  {
+    auto points     = minimal_4d_vertices();
+    auto timevalues = minimal_4d_timevalues();
+    auto vertices   = make_causal_vertices<4>(points, timevalues);
+    FoliatedTriangulation_4 triangulation(vertices);
+
+    THEN("The triangulation is valid and correctly classified.")
+    {
+      REQUIRE(triangulation.is_initialized());
+      CHECK_EQ(triangulation.dimension(), 4);
+      CHECK_EQ(triangulation.number_of_vertices(), 5);
+      CHECK_EQ(triangulation.number_of_finite_edges(), 10);
+      CHECK_EQ(triangulation.number_of_finite_triangles(), 10);
+      CHECK_EQ(triangulation.number_of_finite_facets(), 5);
+      CHECK_EQ(triangulation.number_of_finite_cells(), 1);
+      CHECK_EQ(triangulation.get_four_one().size(), 1);
+      CHECK_EQ(triangulation.get_three_two().size(), 0);
+      CHECK_EQ(triangulation.get_two_three().size(), 0);
+      CHECK_EQ(triangulation.get_one_four().size(), 0);
+      CHECK_EQ(triangulation.N1_SL(), 6);
+      CHECK_EQ(triangulation.N1_TL(), 4);
+      CHECK_EQ(triangulation.N3_SL().count(1), 1);
+      CHECK(triangulation.check_all_vertices());
+      CHECK(triangulation.check_all_cells());
     }
   }
 }

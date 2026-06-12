@@ -164,6 +164,20 @@ try
         "Simplices and timeslices should be greater or equal to 2.");
   }
 
+  if (dimensions != 3 && dimensions != 4)
+  {
+    timer.stop();
+    throw invalid_argument("Currently, dimensions must be 3 or 4.");
+  }
+
+  if (dimensions == 4)
+  {
+    timer.stop();
+    throw logic_error(
+        "Metropolis evolution is not yet implemented for 3+1 dimensions. "
+        "Use initialize -d4 to generate a 3+1 foliated triangulation.");
+  }
+
   // Ensure Triangle inequalities hold
   // See http://arxiv.org/abs/hep-th/0105267 for details
   if (dimensions == 3 && abs(alpha) < static_cast<long double>(0.5))  // NOLINT
@@ -190,11 +204,6 @@ try
             foliation_spacing);
         // Manifold no-throw swapperator
         swap(populated_universe, universe);
-      }
-      else
-      {
-        timer.stop();  // End running time counter
-        throw invalid_argument("Currently, dimensions cannot be >3.");
       }
       break;
     case topology_type::TOROIDAL:

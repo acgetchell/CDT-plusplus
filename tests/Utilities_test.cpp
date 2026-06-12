@@ -336,9 +336,16 @@ SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
     }
     WHEN("We specify 4 dimensions")
     {
+      THEN("The results are correct.")
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(4, 640000, 64), 500);
+      }
+    }
+    WHEN("We specify unsupported dimensions")
+    {
       THEN("A std::invalid_argument exception is thrown.")
       {
-        REQUIRE_THROWS_AS(expected_points_per_timeslice(4, 640000, 64),
+        REQUIRE_THROWS_AS(expected_points_per_timeslice(5, 640000, 64),
                           std::invalid_argument);
       }
     }

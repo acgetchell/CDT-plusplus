@@ -82,9 +82,9 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Multithreaded logging with [spdlog]
 - [x] Visualization with [Qt]
 - [ ] Output via [HDF5]
-- [ ] 4D Simplex
-- [ ] 4D Spherical triangulation
-- [ ] 3+1 foliation
+- [x] 4D Simplex
+- [x] 4D Spherical triangulation
+- [x] 3+1 foliation
 - [ ] S4 Bulk action
 - [ ] 4D Ergodic moves
 - [ ] Initialize two masses

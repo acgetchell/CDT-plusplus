@@ -83,7 +83,9 @@ add_test(NAME cdt-triangle-inequalities COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -
 set_tests_properties(cdt-triangle-inequalities PROPERTIES PASS_REGULAR_EXPRESSION "Triangle inequalities violated")
 
 add_test(NAME cdt-dimensionality COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -d4 -a0.4 -k1.1 -l0.1)
-set_tests_properties(cdt-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be >3.")
+set_tests_properties(cdt-dimensionality
+                     PROPERTIES PASS_REGULAR_EXPRESSION
+                                "Metropolis evolution is not yet implemented for 3\\+1 dimensions.")
 
 add_test(NAME cdt-toroidal COMMAND $<TARGET_FILE:cdt> -e -n64 -t3 -a0.6 -k1.1 -l0.1)
 set_tests_properties(cdt-toroidal PROPERTIES PASS_REGULAR_EXPRESSION "Toroidal triangulations not yet supported.")
@@ -96,7 +98,11 @@ set_tests_properties(initialize-minimum-simplices
                      PROPERTIES PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
 add_test(NAME initialize-dimensionality COMMAND $<TARGET_FILE:initialize> -s -n64 -t3 -d4 -o)
-set_tests_properties(initialize-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be >3.")
+set_tests_properties(initialize-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S4-")
+
+add_test(NAME initialize-unsupported-dimensionality COMMAND $<TARGET_FILE:initialize> -s -n64 -t3 -d5 -o)
+set_tests_properties(initialize-unsupported-dimensionality
+                     PROPERTIES PASS_REGULAR_EXPRESSION "Currently, dimensions must be 3 or 4.")
 
 add_test(NAME initialize-toroidal COMMAND $<TARGET_FILE:initialize> -e -n64 -t3 -o)
 set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION

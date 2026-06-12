@@ -49,8 +49,8 @@ enum class topology_type
 /// @param t_os The output stream
 /// @param t_topology The topology
 /// @returns An output string of the topology
-inline auto operator<<(std::ostream&        t_os,
-                       topology_type const& t_topology) -> std::ostream&
+inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
+    -> std::ostream&
 {
   switch (t_topology)
   {
@@ -90,11 +90,13 @@ namespace utilities
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
   /// @returns A filename
-  [[nodiscard]] inline auto make_filename(
-      topology_type const& t_topology, Int_precision t_dimension,
-      Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices,
-      double t_initial_radius,
-      double t_foliation_spacing) noexcept -> std::filesystem::path
+  [[nodiscard]] inline auto make_filename(topology_type const& t_topology,
+                                          Int_precision        t_dimension,
+                                          Int_precision t_number_of_simplices,
+                                          Int_precision t_number_of_timeslices,
+                                          double        t_initial_radius,
+                                          double t_foliation_spacing) noexcept
+      -> std::filesystem::path
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
@@ -130,8 +132,12 @@ namespace utilities
   template <typename ManifoldType>
   [[nodiscard]] auto make_filename(ManifoldType const& manifold)
   {
+    auto const simplex_count = [&manifold]() {
+      if constexpr (ManifoldType::dimension == 4) { return manifold.N4(); }
+      else { return manifold.N3(); }
+    }();
     return make_filename(ManifoldType::topology, ManifoldType::dimension,
-                         manifold.N3(), manifold.max_time(),
+                         simplex_count, manifold.max_time(),
                          manifold.initial_radius(),
                          manifold.foliation_spacing());
   }  // make_filename
@@ -143,13 +149,22 @@ namespace utilities
   template <typename TriangulationType>
   void print_delaunay(TriangulationType const& t_triangulation)
   {
-    fmt::print(
-        "Triangulation has {} vertices and {} edges and {} faces and {} "
-        "simplices.\n",
-        t_triangulation.number_of_vertices(),
-        t_triangulation.number_of_finite_edges(),
-        t_triangulation.number_of_finite_facets(),
-        t_triangulation.number_of_finite_cells());
+    if constexpr (requires { t_triangulation.number_of_finite_cells(); })
+    {
+      fmt::print(
+          "Triangulation has {} vertices and {} edges and {} faces and {} "
+          "simplices.\n",
+          t_triangulation.number_of_vertices(),
+          t_triangulation.number_of_finite_edges(),
+          t_triangulation.number_of_finite_facets(),
+          t_triangulation.number_of_finite_cells());
+    }
+    else
+    {
+      fmt::print("Triangulation has {} vertices and {} simplices.\n",
+                 t_triangulation.number_of_vertices(),
+                 t_triangulation.number_of_finite_full_cells());
+    }
   }  // print_delaunay
 
   /// @brief Write triangulation to file
@@ -350,7 +365,36 @@ namespace utilities
       return static_cast<Int_precision>(
           0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
     }
-    throw std::invalid_argument("Currently, dimensions cannot be >3.");
+    if (t_dimension == 4)
+    {
+      auto const at_least_one_simplex = std::max<Int_precision>(
+          simplices_per_timeslice, static_cast<Int_precision>(1));
+      auto const scaled_points = [&]() -> Int_precision {
+        if (t_number_of_simplices < 1000)  // NOLINT
+        {
+          return static_cast<Int_precision>(
+              0.25L *  // NOLINT
+              static_cast<long double>(at_least_one_simplex));
+        }
+        if (t_number_of_simplices < 10000)  // NOLINT
+        {
+          return static_cast<Int_precision>(
+              0.12L *  // NOLINT
+              static_cast<long double>(at_least_one_simplex));
+        }
+        if (t_number_of_simplices < 100000)  // NOLINT
+        {
+          return static_cast<Int_precision>(
+              0.08L *  // NOLINT
+              static_cast<long double>(at_least_one_simplex));
+        }
+        return static_cast<Int_precision>(
+            0.05L * static_cast<long double>(at_least_one_simplex));  // NOLINT
+      }();
+      return std::max<Int_precision>(scaled_points,
+                                     static_cast<Int_precision>(5));
+    }
+    throw std::invalid_argument("Currently, dimensions must be 3 or 4.");
 
   }  // expected_points_per_timeslice
 

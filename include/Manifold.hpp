@@ -461,8 +461,14 @@ namespace manifolds
   template <>
   class [[nodiscard("This contains data!")]] Manifold<4>
   {
+    using Triangulation = foliated_triangulations::FoliatedTriangulation_4;
+    using Geometry      = Geometry_4;
+
+    /// @brief The data structure of geometric and combinatorial relationships
+    Triangulation m_triangulation;
+
     /// @brief The data structure of scalar values for computations
-    Geometry_4 m_geometry;
+    Geometry m_geometry;
 
    public:
     /// @brief Dimensionality of the manifold
@@ -471,6 +477,213 @@ namespace manifolds
 
     /// @brief Topology of the manifold
     static topology_type constexpr topology = topology_type::SPHERICAL;
+
+    ~Manifold()                             = default;
+
+    Manifold()                              = default;
+
+    Manifold(Manifold const& other)         = default;
+
+    auto operator=(Manifold const& other) -> Manifold&   = default;
+
+    Manifold(Manifold&& other)                           = default;
+
+    auto        operator=(Manifold&& other) -> Manifold& = default;
+
+    friend void swap(Manifold& swap_from, Manifold& swap_into) noexcept
+    {
+      using std::swap;
+      swap(swap_from.m_triangulation, swap_into.m_triangulation);
+      swap(swap_from.m_geometry, swap_into.m_geometry);
+    }
+
+    explicit Manifold(Triangulation t_foliated_triangulation)
+        : m_triangulation{std::move(t_foliated_triangulation)}
+        , m_geometry{get_triangulation()}
+    {}
+
+    Manifold(Int_precision const t_desired_simplices,
+             Int_precision const t_desired_timeslices,
+             double const        t_initial_radius    = INITIAL_RADIUS,
+             double const        t_foliation_spacing = FOLIATION_SPACING)
+        : Manifold{
+              Triangulation{t_desired_simplices, t_desired_timeslices,
+                            t_initial_radius, t_foliation_spacing}
+    }
+    {}
+
+    explicit Manifold(Causal_vertices_t<4> const& causal_vertices,
+                      double const t_initial_radius    = INITIAL_RADIUS,
+                      double const t_foliation_spacing = FOLIATION_SPACING)
+        : Manifold{
+              Triangulation{causal_vertices, t_initial_radius,
+                            t_foliation_spacing}
+    }
+    {}
+
+    void update()
+    {
+      update_triangulation();
+      update_geometry();
+    }
+
+    [[nodiscard]] auto get_triangulation() const noexcept
+        -> Triangulation const&
+    {
+      return m_triangulation;
+    }
+
+    [[nodiscard]] auto get_delaunay() const noexcept -> decltype(auto)
+    {
+      return get_triangulation().get_delaunay();
+    }
+
+    [[nodiscard]] auto triangulation() -> Triangulation&
+    {
+      return m_triangulation;
+    }
+
+    [[nodiscard]] auto get_geometry() const -> Geometry const&
+    {
+      return m_geometry;
+    }
+
+    [[nodiscard]] auto is_foliated() const -> bool
+    {
+      return m_triangulation.is_foliated();
+    }
+
+    [[nodiscard]] auto is_delaunay() const -> bool
+    {
+      return m_triangulation.is_delaunay();
+    }
+
+    [[nodiscard]] auto is_valid() const -> bool
+    {
+      return m_triangulation.is_tds_valid();
+    }
+
+    [[nodiscard]] auto is_correct() const -> bool
+    {
+      return m_triangulation.is_correct();
+    }
+
+    [[nodiscard]] auto dimensionality() const
+    {
+      return m_triangulation.dimension();
+    }
+
+    [[nodiscard]] auto initial_radius() const
+    {
+      return m_triangulation.initial_radius();
+    }
+
+    [[nodiscard]] auto foliation_spacing() const
+    {
+      return m_triangulation.foliation_spacing();
+    }
+
+    [[nodiscard]] auto N4() const { return m_geometry.N4; }
+
+    [[nodiscard]] auto N4_41() const { return m_geometry.N4_41; }
+
+    [[nodiscard]] auto N4_32() const { return m_geometry.N4_32; }
+
+    [[nodiscard]] auto N4_23() const { return m_geometry.N4_23; }
+
+    [[nodiscard]] auto N4_14() const { return m_geometry.N4_14; }
+
+    [[nodiscard]] auto simplices() const
+    {
+      return static_cast<Int_precision>(m_triangulation.get_cells().size());
+    }
+
+    [[nodiscard]] auto N3() const { return m_geometry.N3; }
+
+    [[nodiscard]] auto N3_SL() const -> auto const&
+    {
+      return m_triangulation.N3_SL();
+    }
+
+    [[nodiscard]] auto N2() const { return m_geometry.N2; }
+
+    [[nodiscard]] auto N1() const { return m_geometry.N1; }
+
+    [[nodiscard]] auto N1_SL() const { return m_triangulation.N1_SL(); }
+
+    [[nodiscard]] auto N1_TL() const { return m_triangulation.N1_TL(); }
+
+    [[nodiscard]] auto N0() const { return m_geometry.N0; }
+
+    [[nodiscard]] auto min_time() const { return m_triangulation.min_time(); }
+
+    [[nodiscard]] auto max_time() const { return m_triangulation.max_time(); }
+
+    [[nodiscard]] auto get_timelike_edges() const noexcept -> auto const&
+    {
+      return m_triangulation.get_timelike_edges();
+    }
+
+    [[nodiscard]] auto get_spacelike_edges() const -> auto const&
+    {
+      return m_triangulation.get_spacelike_edges();
+    }
+
+    [[nodiscard]] auto get_vertices() const noexcept -> auto const&
+    {
+      return m_triangulation.get_vertices();
+    }
+
+    [[nodiscard]] auto get_vertices_span() const noexcept -> auto
+    {
+      return m_triangulation.get_vertices_span();
+    }
+
+    [[nodiscard]] auto check_simplices() const -> bool
+    {
+      return this->simplices() == this->N4() &&
+             m_triangulation.check_all_cells();
+    }
+
+    void print_volume_per_timeslice() const
+    {
+      m_triangulation.print_volume_per_timeslice();
+    }
+
+    void print_vertices() const { m_triangulation.print_vertices(); }
+
+    void print_cells() const { m_triangulation.print_cells(); }
+
+    void print() const
+    {
+      fmt::print(
+          "Manifold has {} vertices, {} edges, {} triangles, {} tetrahedra, "
+          "and {} simplices.\n",
+          this->N0(), this->N1(), this->N2(), this->N3(), this->N4());
+    }
+
+    void print_details() const
+    {
+      fmt::print(
+          "There are {} (4,1) simplices, {} (3,2) simplices, {} (2,3) "
+          "simplices, and {} (1,4) simplices.\n",
+          this->N4_41(), this->N4_32(), this->N4_23(), this->N4_14());
+      fmt::print("There are {} timelike edges and {} spacelike edges.\n",
+                 this->N1_TL(), this->N1_SL());
+    }
+
+   private:
+    void update_triangulation()
+    {
+      Triangulation local_triangulation(m_triangulation.get_delaunay());
+      swap(local_triangulation, m_triangulation);
+    }
+
+    void update_geometry() noexcept
+    {
+      Geometry geom(m_triangulation);
+      swap(geom, m_geometry);
+    }
   };
 
   using Manifold_4 = Manifold<4>;

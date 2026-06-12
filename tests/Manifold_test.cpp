@@ -19,6 +19,17 @@ using namespace manifolds;
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
+auto minimal_manifold_4d_vertices() -> std::vector<Point_t<4>>
+{
+  return {
+      Point_t<4>{1.0, 0.0, 0.0, 0.0},
+      Point_t<4>{0.0, 1.0, 0.0, 0.0},
+      Point_t<4>{0.0, 0.0, 1.0, 0.0},
+      Point_t<4>{0.0, 0.0, 0.0, 1.0},
+      Point_t<4>{1.0, 1.0, 1.0, 1.0}
+  };
+}
+
 SCENARIO("Manifold special member and swap properties" *
          doctest::test_suite("manifold"))
 {
@@ -219,6 +230,35 @@ SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
       THEN("The correct dimensionality is returned.")
       {
         REQUIRE_EQ(test.dimension, 3);
+      }
+    }
+  }
+}
+
+SCENARIO("4-Manifold initialization" * doctest::test_suite("manifold"))
+{
+  GIVEN("A minimal 3+1 dimensional manifold.")
+  {
+    auto points     = minimal_manifold_4d_vertices();
+    auto timevalues = std::vector<std::size_t>{1, 1, 1, 1, 2};
+    auto vertices   = manifolds::make_causal_vertices<4>(points, timevalues);
+
+    WHEN("The manifold is constructed.")
+    {
+      Manifold_4 const manifold(vertices);
+      THEN("It is correct.")
+      {
+        REQUIRE(manifold.is_correct());
+        CHECK_EQ(manifold.dimensionality(), 4);
+        CHECK_EQ(manifold.N4(), 1);
+        CHECK_EQ(manifold.N4_41(), 1);
+        CHECK_EQ(manifold.N4_32(), 0);
+        CHECK_EQ(manifold.N4_23(), 0);
+        CHECK_EQ(manifold.N4_14(), 0);
+        CHECK_EQ(manifold.N3(), 5);
+        CHECK_EQ(manifold.N2(), 10);
+        CHECK_EQ(manifold.N1(), 10);
+        CHECK_EQ(manifold.N0(), 5);
       }
     }
   }

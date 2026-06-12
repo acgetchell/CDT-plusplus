@@ -88,7 +88,13 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
     for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
       fmt::print("=== Pass {} ===\n", pass_number);
-      auto total_simplices_this_pass = command.get_const_results().N3();
+      auto total_simplices_this_pass = [&command]() {
+        if constexpr (ManifoldType::dimension == 4)
+        {
+          return command.get_const_results().N4();
+        }
+        else { return command.get_const_results().N3(); }
+      }();
       // Make a random move per simplex
       for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
            ++move_attempt)
