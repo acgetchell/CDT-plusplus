@@ -121,6 +121,10 @@ find_package(doctest CONFIG REQUIRED)
 
 # https://eigen.tuxfamily.org/index.php?title=Main_Page
 find_package(Eigen3 CONFIG REQUIRED)
+include(CGAL_Eigen3_support)
+if(NOT TARGET CGAL::Eigen3_support)
+  message(FATAL_ERROR "CGAL Eigen3 support is required for Epick_d-based 4D triangulations.")
+endif()
 
 # https://github.com/fmtlib/fmt
 find_package(fmt CONFIG REQUIRED)

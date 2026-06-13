@@ -6,7 +6,7 @@ target_link_libraries(
           date::date-tz
           Boost::program_options
           fmt::fmt-header-only
-          Eigen3::Eigen
+          CGAL::Eigen3_support
           spdlog::spdlog_header_only
           TBB::tbb
           CGAL::CGAL)
@@ -19,7 +19,7 @@ target_link_libraries(
           project_warnings
           date::date-tz
           fmt::fmt-header-only
-          Eigen3::Eigen
+          CGAL::Eigen3_support
           spdlog::spdlog_header_only
           TBB::tbb
           CGAL::CGAL)
@@ -33,7 +33,7 @@ target_link_libraries(
           date::date-tz
           Boost::program_options
           fmt::fmt-header-only
-          Eigen3::Eigen
+          CGAL::Eigen3_support
           spdlog::spdlog_header_only
           TBB::tbb
           CGAL::CGAL)

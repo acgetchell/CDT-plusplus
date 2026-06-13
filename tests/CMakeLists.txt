@@ -37,6 +37,7 @@ target_link_libraries(
           project_warnings
           date::date-tz
           fmt::fmt-header-only
+          CGAL::Eigen3_support
           TBB::tbb
           CGAL::CGAL)
 
