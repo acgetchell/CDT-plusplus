@@ -389,27 +389,6 @@ namespace ergodic_moves
       }
     }
 
-    // Run until all vertices are fixed
-    while (foliated_triangulations::fix_vertices<3>(
-        manifold.get_delaunay(), manifold.initial_radius(),
-        manifold.foliation_spacing()))
-    {
-      spdlog::warn("Fixing vertices found by is_62_movable().\n");
-    }
-
-    // Run until all cells fixed or 50 passes
-    //    for (auto passes = 1; passes < foliated_triangulations::MAX_FIX_PASSES
-    //    + 1;
-    //         ++passes)
-    //    {
-    //      if (!foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
-    //      {
-    //        break;
-    //      }
-    //      spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n",
-    //      passes);
-    //    }
-
     auto const incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);
     auto const incident_22 = foliated_triangulations::filter_cells<3>(
@@ -460,6 +439,13 @@ namespace ergodic_moves
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
+    if (!t_manifold.is_correct())
+    {
+      std::string const msg = "No (6,2) move possible.\n";
+      spdlog::warn(msg);
+      return std::unexpected(msg);
+    }
+
     auto vertices = t_manifold.get_vertices();
     // Shuffle the container to create a random sequence of vertices
     std::ranges::shuffle(vertices, utilities::make_random_generator());

@@ -248,7 +248,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     ++m_proposed_moves[as_integer(move)];
     ++m_attempted_moves[as_integer(move)];
 
-    if (move == move_tracker::MoveType3D::FOUR_FOUR)
+    // These 3D moves still have unsafe CGAL mutation paths in long runs.
+    if (move == move_tracker::MoveType3D::FOUR_FOUR ||
+        move == move_tracker::MoveType3D::SIX_TWO)
     {
       ++m_rejected_moves[as_integer(move)];
       ++m_failed_moves[as_integer(move)];
