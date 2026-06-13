@@ -29,7 +29,6 @@
 #include <iterator>
 #include <map>
 #include <optional>
-#include <new>
 #include <set>
 #include <span>
 #include <unordered_set>
@@ -422,31 +421,16 @@ namespace foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation)
   {
     std::vector<Vertex_handle_t<dimension>> vertices;
-
-    if constexpr (dimension == 4)
+    for (auto vit = t_triangulation.finite_vertices_begin();
+         vit != t_triangulation.finite_vertices_end(); ++vit)
     {
-      // The generic d-dimensional CGAL API returns a filtered iterator.
-      // Existing CDT++ APIs expose mutable handles even from logically-const
-      // checks, so obtain the mutable iterator and extract its base handle.
-      auto& triangulation =
-          const_cast<Delaunay_t<dimension>&>(t_triangulation);
-
-      for (auto vit = triangulation.finite_vertices_begin();
-           vit != triangulation.finite_vertices_end(); ++vit)
-      {
-        vertices.emplace_back(vit.base());
-      }
-    }
-    else
-    {
-      for (auto vit = t_triangulation.finite_vertices_begin();
-           vit != t_triangulation.finite_vertices_end(); ++vit)
+      // Each vertex is valid
+      if constexpr (dimension == 3)
       {
         assert(t_triangulation.tds().is_vertex(vit));
-        vertices.emplace_back(vit);
       }
+      vertices.emplace_back(vit);
     }
-
     return vertices;
   }  // collect_vertices
 
@@ -475,21 +459,16 @@ namespace foliated_triangulations
   /// @param t_triangulation The triangulation
   /// @returns A container of finite cells
   template <int dimension>
-  [[nodiscard]] auto collect_cells(
-      Delaunay_t<dimension> const& t_triangulation)
+  [[nodiscard]] auto collect_cells(Delaunay_t<dimension> const& t_triangulation)
       -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> cells;
-
     if constexpr (dimension == 4)
     {
-      auto& triangulation =
-          const_cast<Delaunay_t<dimension>&>(t_triangulation);
-
-      for (auto cit = triangulation.finite_full_cells_begin();
-           cit != triangulation.finite_full_cells_end(); ++cit)
+      for (auto cit = t_triangulation.finite_full_cells_begin();
+           cit != t_triangulation.finite_full_cells_end(); ++cit)
       {
-        cells.emplace_back(cit.base());
+        cells.emplace_back(cit);
       }
     }
     else
@@ -497,11 +476,11 @@ namespace foliated_triangulations
       for (auto cit = t_triangulation.finite_cells_begin();
            cit != t_triangulation.finite_cells_end(); ++cit)
       {
+        // Each cell is valid
         assert(t_triangulation.tds().is_cell(cit));
         cells.emplace_back(cit);
       }
     }
-
     return cells;
   }  // collect_cells
 
@@ -1762,40 +1741,18 @@ namespace foliated_triangulations
                                 other.m_foliation_spacing)
     {}
 
-    // CGAL's generic d-dimensional Delaunay triangulation is copy-constructible
-    // but not assignable/swappable. Reconstruct the wrapper through its copy
-    // constructor so all cached vertex/cell handles are rebuilt consistently.
+    // Generic CGAL d-dimensional Delaunay_triangulation is not swappable.
+    // Move construction therefore performs a safe deep copy.
     FoliatedTriangulation(FoliatedTriangulation&& other)
         : FoliatedTriangulation(
               static_cast<FoliatedTriangulation const&>(other))
     {}
 
-    auto operator=(FoliatedTriangulation const& other)
-        -> FoliatedTriangulation&
-    {
-      if (this != &other)
-      {
-        this->~FoliatedTriangulation();
-        ::new (static_cast<void*>(this)) FoliatedTriangulation(other);
-      }
-      return *this;
-    }
+    FoliatedTriangulation& operator=(
+        FoliatedTriangulation const&) = delete;
 
-    auto operator=(FoliatedTriangulation&& other)
-        -> FoliatedTriangulation&
-    {
-      return *this = static_cast<FoliatedTriangulation const&>(other);
-    }
-
-    friend void swap(FoliatedTriangulation& lhs,
-                     FoliatedTriangulation& rhs)
-    {
-      if (&lhs == &rhs) { return; }
-
-      FoliatedTriangulation temporary(lhs);
-      lhs = rhs;
-      rhs = std::move(temporary);
-    }
+    FoliatedTriangulation& operator=(
+        FoliatedTriangulation&&) = delete;
 
     explicit FoliatedTriangulation(
         Delaunay triangulation, double const initial_radius = INITIAL_RADIUS,
@@ -2082,11 +2039,11 @@ namespace foliated_triangulations
       return cells;
     }
 
-    [[nodiscard]] auto collect_facets() -> Facet_container
+    [[nodiscard]] auto collect_facets() const -> Facet_container
     {
       Facet_container facets;
-      for (auto fit = m_triangulation.finite_facets_begin();
-           fit != m_triangulation.finite_facets_end(); ++fit)
+      for (auto fit = get_delaunay().finite_facets_begin();
+           fit != get_delaunay().finite_facets_end(); ++fit)
       {
         facets.emplace_back(*fit);
       }

@@ -490,7 +490,7 @@ namespace manifolds
 
     auto        operator=(Manifold&& other) -> Manifold& = default;
 
-    friend void swap(Manifold& swap_from, Manifold& swap_into)
+    friend void swap(Manifold& swap_from, Manifold& swap_into) noexcept
     {
       using std::swap;
       swap(swap_from.m_triangulation, swap_into.m_triangulation);

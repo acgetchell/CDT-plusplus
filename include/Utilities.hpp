@@ -314,7 +314,7 @@ namespace utilities
   }  // generate_random_real()
 
   /// @brief Generate a probability
-  [[nodiscard]] auto generate_probability() noexcept
+  [[nodiscard]] inline auto generate_probability() noexcept
   {
     auto constexpr min = 0.0L;
     auto constexpr max = 1.0L;
