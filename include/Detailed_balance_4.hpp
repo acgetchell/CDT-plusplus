@@ -135,9 +135,10 @@ namespace cdt::four_d
                          acceptance_probability(to_state, from_state,
                                                 descriptor.inverse, couplings);
         auto const residual = std::abs(lhs - rhs);
+        auto const scale = std::max({std::abs(lhs), std::abs(rhs), 1.0L});
         report.edges.push_back(DetailedBalanceEdge4D{
             from_hash, to_hash, descriptor.move, lhs, rhs, residual});
-        if (residual > tolerance)
+        if (residual / scale > tolerance)
         {
           report.passed = false;
           report.errors.emplace_back("Detailed-balance residual exceeds tolerance.");

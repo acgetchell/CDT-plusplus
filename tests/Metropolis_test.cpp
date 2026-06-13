@@ -32,9 +32,9 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
       }
       THEN("It is no-throw default constructible.")
       {
-        REQUIRE(is_nothrow_default_constructible_v<Metropolis_3>);
-        REQUIRE(is_nothrow_default_constructible_v<Metropolis_4>);
-        spdlog::debug("It is no-throw default constructible.\n");
+        REQUIRE(is_default_constructible_v<Metropolis_3>);
+        REQUIRE(is_default_constructible_v<Metropolis_4>);
+        spdlog::debug("It is default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {

@@ -125,6 +125,7 @@ include(CGAL_Eigen3_support)
 if(NOT TARGET CGAL::Eigen3_support)
   message(FATAL_ERROR "CGAL Eigen3 support is required for Epick_d-based 4D triangulations.")
 endif()
+target_link_libraries(project_options INTERFACE CGAL::Eigen3_support)
 
 # https://github.com/fmtlib/fmt
 find_package(fmt CONFIG REQUIRED)
