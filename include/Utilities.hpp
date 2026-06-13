@@ -14,11 +14,13 @@
 #include <filesystem>
 #include <fstream>
 #include <gsl/gsl>
+#include <cstdint>
 #include <mutex>
 #include <random>
 #include <span>
 #include <stdexcept>
 #include <string>
+#include <utility>
 // H. Hinnant date and time library
 #include <date/tz.h>
 
@@ -62,6 +64,23 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 
 namespace utilities
 {
+  /// @brief Persistent process-local random generator used by simulations.
+  /// @details The seed can be set from command-line programs through
+  /// seed_random(). Keeping a persistent generator avoids reseeding every
+  /// proposal from std::random_device.
+  [[nodiscard]] inline auto persistent_rng() -> pcg64&
+  {
+    static pcg_extras::seed_seq_from<std::random_device> seed_source;
+    static pcg64 generator(seed_source);
+    return generator;
+  }
+
+  /// @brief Seed the persistent random generator.
+  inline void seed_random(std::uint64_t const seed)
+  {
+    persistent_rng() = pcg64(seed);
+  }
+
   /// @brief Return current date and time
   /// @details Return current date and time in ISO 8601 format
   /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
@@ -230,14 +249,9 @@ namespace utilities
   /// @brief Roll a die with PCG
   [[nodiscard]] inline auto die_roll() noexcept
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-
-    // Make a random number generator
-    pcg64 rng(seed_source);
-
     // Choose random number from 1 to 6
     std::uniform_int_distribution uniform_dist(1, 6);  // NOLINT
-    Int_precision const           roll = uniform_dist(rng);
+    Int_precision const           roll = uniform_dist(persistent_rng());
     return roll;
   }  // die_roll()
 
@@ -258,26 +272,21 @@ namespace utilities
   [[nodiscard]] auto generate_random(NumberType t_min_value,
                                      NumberType t_max_value) noexcept
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-    // Make a random number generator
-    pcg64        generator(seed_source);
     Distribution distribution(t_min_value, t_max_value);
-    return distribution(generator);
+    return distribution(persistent_rng());
   }  // generate_random()
 
   /// @brief Make a high-quality random number generator usable by std::shuffle
   /// @returns A RNG
-  inline auto make_random_generator() noexcept
+  inline auto make_random_generator() noexcept -> pcg64&
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-    pcg64                                         generator(seed_source);
-    return generator;
+    return persistent_rng();
   }  // make_random_generator()
 
   /// @brief Generate random integers by calling generate_random, preserves
   /// template argument deduction
   template <typename IntegerType>
-  [[nodiscard]] auto constexpr generate_random_int(
+  [[nodiscard]] auto generate_random_int(
       IntegerType t_min_value, IntegerType t_max_value) noexcept
   {
     using int_dist = std::uniform_int_distribution<IntegerType>;
@@ -296,7 +305,7 @@ namespace utilities
   /// @brief Generate random real numbers by calling generate_random, preserves
   /// template argument deduction
   template <typename FloatingPointType>
-  [[nodiscard]] auto constexpr generate_random_real(
+  [[nodiscard]] auto generate_random_real(
       FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept
   {
     using real_dist = std::uniform_real_distribution<FloatingPointType>;
@@ -305,7 +314,7 @@ namespace utilities
   }  // generate_random_real()
 
   /// @brief Generate a probability
-  [[nodiscard]] auto constexpr generate_probability() noexcept
+  [[nodiscard]] auto generate_probability() noexcept
   {
     auto constexpr min = 0.0L;
     auto constexpr max = 1.0L;

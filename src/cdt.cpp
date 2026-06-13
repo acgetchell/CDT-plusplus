@@ -13,12 +13,18 @@
 #include <CGAL/Real_timer.h>
 
 #include <boost/program_options.hpp>
+#include <filesystem>
 #include <Metropolis.hpp>
+#include <Simulation_output.hpp>
 
 using Timer = CGAL::Real_timer;
 
 using namespace std;
 namespace po = boost::program_options;
+
+#ifndef CDT_GIT_COMMIT
+#define CDT_GIT_COMMIT "unknown"
+#endif
 
 /// Help message parsed by docopt into options
 static string_view constexpr USAGE{
@@ -68,8 +74,19 @@ try
   long double             alpha;
   long double             k;
   long double             lambda;
+  long double             kappa_0;
+  long double             kappa_4;
+  long double             Delta;
+  long double             volume_epsilon;
   long long               passes;
   long long               checkpoint;
+  long long               seed;
+  long long               target_N4;
+  long long               thermalization;
+  long long               measurement_interval;
+  std::string             chain_id;
+  std::string             run_id;
+  std::string             output_dir;
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -92,7 +109,33 @@ try
       "passes,p", po::value<long long>(&passes)->default_value(100),
       "Number of passes")("checkpoint,c",
                           po::value<long long>(&checkpoint)->default_value(10),
-                          "Checkpoint every n passes");
+                          "Checkpoint every n passes")(
+      "seed", po::value<long long>(&seed)->default_value(1),
+      "Seed for reproducible random proposals")(
+      "kappa0", po::value<long double>(&kappa_0),
+      "4D bare inverse Newton coupling")(
+      "kappa4", po::value<long double>(&kappa_4),
+      "4D bare cosmological coupling")(
+      "Delta", po::value<long double>(&Delta),
+      "4D asymmetry coupling")(
+      "target-n4", po::value<long long>(&target_N4)->default_value(0),
+      "4D fixed-volume target")(
+      "volume-epsilon",
+      po::value<long double>(&volume_epsilon)->default_value(0.0L),
+      "Quadratic fixed-volume strength")(
+      "thermalization",
+      po::value<long long>(&thermalization)->default_value(0),
+      "4D thermalization steps discarded before measurements")(
+      "measurement-interval",
+      po::value<long long>(&measurement_interval)->default_value(1),
+      "4D measurement interval")(
+      "chain-id", po::value<std::string>(&chain_id)->default_value("chain-0"),
+      "Independent chain identifier")(
+      "run-id", po::value<std::string>(&run_id)->default_value("run"),
+      "Structured output run ID")(
+      "output-dir",
+      po::value<std::string>(&output_dir)->default_value("results"),
+      "Structured output root directory");
 
   po::variables_map args;
   po::store(po::parse_command_line(argc, argv, description), args);
@@ -147,10 +190,20 @@ try
   fmt::print("Number of desired timeslices: {}\n", timeslices);
   fmt::print("Number of passes: {}\n", passes);
   fmt::print("Checkpoint every {} passes.\n", checkpoint);
+  fmt::print("Seed: {}\n", seed);
   fmt::print("=== Parameters ===\n");
-  fmt::print("Alpha: {}\n", alpha);
-  fmt::print("K: {}\n", k);
-  fmt::print("Lambda: {}\n", lambda);
+  if (dimensions == 3)
+  {
+    fmt::print("Alpha: {}\n", alpha);
+    fmt::print("K: {}\n", k);
+    fmt::print("Lambda: {}\n", lambda);
+  }
+  else
+  {
+    fmt::print("kappa_0: {}\n", args.count("kappa0") ? kappa_0 : 0.0L);
+    fmt::print("kappa_4: {}\n", args.count("kappa4") ? kappa_4 : 0.0L);
+    fmt::print("Delta: {}\n", args.count("Delta") ? Delta : 0.0L);
+  }
 
   // Start running time
   Timer timer;
@@ -170,12 +223,69 @@ try
     throw invalid_argument("Currently, dimensions must be 3 or 4.");
   }
 
+  utilities::seed_random(static_cast<std::uint64_t>(seed));
+
   if (dimensions == 4)
   {
+    if (topology != topology_type::SPHERICAL)
+    {
+      timer.stop();
+      throw invalid_argument("Toroidal triangulations not yet supported.");
+    }
+    if (!args.count("kappa0") || !args.count("kappa4") ||
+        !args.count("Delta"))
+    {
+      timer.stop();
+      throw invalid_argument(
+          "4D runs require explicit --kappa0, --kappa4, and --Delta.");
+    }
+
+    auto universe = cdt::four_d::FoliatedTriangulation4::periodic_seed(
+        static_cast<Int_precision>(timeslices));
+    auto const fixed_target =
+        target_N4 > 0 ? target_N4 : static_cast<long long>(simplices);
+    cdt::four_d::Metropolis4Config config;
+    config.seed = static_cast<std::uint64_t>(seed);
+    config.chain_id = chain_id;
+    config.thermalization_steps =
+        static_cast<Int_precision>(thermalization);
+    config.measurement_interval =
+        static_cast<Int_precision>(measurement_interval);
+    config.checkpoint_interval = static_cast<Int_precision>(checkpoint);
+    config.couplings = cdt::four_d::S4Couplings{
+        kappa_0,
+        kappa_4,
+        Delta,
+        static_cast<Int_precision>(fixed_target),
+        volume_epsilon};
+
+    cdt::four_d::Metropolis4 run(config);
+    auto result = run.run(std::move(universe), static_cast<Int_precision>(passes));
+    run.save_checkpoint(std::filesystem::path(output_dir) / run_id /
+                            "checkpoint",
+                        result.triangulation, static_cast<Int_precision>(passes));
+
+    cdt::four_d::output::RunManifest manifest;
+    manifest.run_id = run_id;
+    manifest.git_commit = CDT_GIT_COMMIT;
+#ifdef NDEBUG
+    manifest.build_type = "Release";
+#else
+    manifest.build_type = "Debug";
+#endif
+#ifdef _MSC_VER
+    manifest.compiler = "MSVC " + std::to_string(_MSC_VER);
+#else
+    manifest.compiler = __VERSION__;
+#endif
+    cdt::four_d::output::write_run_directory(output_dir, manifest, config,
+                                             result);
     timer.stop();
-    throw logic_error(
-        "Metropolis evolution is not yet implemented for 3+1 dimensions. "
-        "Use initialize -d4 to generate a 3+1 foliated triangulation.");
+    fmt::print("=== 4D Run Results ===\n");
+    fmt::print("Running time is {} seconds.\n", timer.time());
+    fmt::print("Structured output written to {}/{}\n", output_dir, run_id);
+    fmt::print("Verdict: restricted_ensemble_only\n");
+    return EXIT_SUCCESS;
   }
 
   // Ensure Triangle inequalities hold
@@ -188,7 +298,8 @@ try
 
   // Initialize the Metropolis algorithm
   Metropolis_3 run(alpha, k, lambda, static_cast<Int_precision>(passes),
-                   static_cast<Int_precision>(checkpoint));
+                   static_cast<Int_precision>(checkpoint), 0, 0.0L,
+                   static_cast<std::uint64_t>(seed));
 
   // Make a triangulation
   manifolds::Manifold_3 universe;

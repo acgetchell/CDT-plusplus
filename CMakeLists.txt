@@ -26,6 +26,17 @@ project(
   DESCRIPTION "Fast Causal Dynamical Triangulations in C++"
   LANGUAGES CXX)
 
+execute_process(
+  COMMAND git rev-parse --short HEAD
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  OUTPUT_VARIABLE CDT_GIT_COMMIT
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  ERROR_QUIET)
+if(NOT CDT_GIT_COMMIT)
+  set(CDT_GIT_COMMIT "unknown")
+endif()
+add_compile_definitions(CDT_GIT_COMMIT="${CDT_GIT_COMMIT}")
+
 # Project settings
 include(cmake/StandardProjectSettings.cmake)
 

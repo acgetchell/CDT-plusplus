@@ -1,0 +1,384 @@
+Update CDT++ into a scientifically valid 3+1-dimensional CDT simulator capable
+of testing for the CDT de Sitter C-phase.
+
+Work incrementally. Preserve all existing 2+1D functionality and tests.
+
+1. Fix the existing Metropolis implementation
+
+Before implementing 4D evolution:
+
+- Fix the 3D SIX_TWO action update. It must subtract four from N3_31_13, not
+  from N3_22.
+- Remove CalculateA1 based on historical move frequencies.
+- Implement the actual Metropolis-Hastings proposal ratio:
+
+  acceptance = min(1, exp(-delta_action) *
+                       reverse_proposal_probability /
+                       forward_proposal_probability)
+
+- Propose and execute one move at a time.
+- Do not queue moves that were accepted against an old geometry.
+- Construct a candidate state, validate it, calculate its complete action, and
+  only then accept or reject it.
+- A rejected or invalid move must leave the original state unchanged.
+- Use one persistent seeded RNG per simulation.
+- Add --seed to command-line programs.
+- Add tests showing that the same seed produces identical results.
+- Add a quadratic volume-fixing term:
+
+  delta_S_volume = epsilon * (N - target_N)^2
+
+- Verify incremental action differences against complete action recomputation.
+- Add move-plus-inverse tests and numerical detailed-balance tests on small
+  triangulations.
+
+2. Separate 3D and 4D move types
+
+Replace the shared ambiguous move enum with separate enums:
+
+- MoveType3D
+- MoveType4D
+
+The 4D enum must contain the complete intended inverse move pairs:
+
+- TWO_FOUR and FOUR_TWO
+- THREE_THREE
+- FOUR_SIX and SIX_FOUR
+- TWO_EIGHT and EIGHT_TWO
+
+Provide explicit reverse_move() functions and tests for every pair.
+
+3. Implement the 4D CDT Regge action
+
+Add:
+
+- include/S4Action.hpp
+- tests/S4Action_test.cpp
+
+Use the standard Wick-rotated 4D CDT action parameterized by:
+
+- kappa_0
+- kappa_4
+- Delta
+
+Do not reuse the 3D alpha/K/lambda formula.
+
+Requirements:
+
+- Document the exact action convention and source equations.
+- Express the action using the correct simplex and vertex counts.
+- Test known count changes analytically.
+- Test that full-action and local-action differences agree.
+- Add a configurable fixed-four-volume penalty around target N4.
+
+Update the CLI to accept explicit 4D couplings rather than silently reusing
+the 3D arguments.
+
+4. Implement abstract 4D causal triangulations
+
+Do not require production configurations to remain Euclidean Delaunay
+embeddable.
+
+Use an abstract combinatorial representation containing:
+
+- stable vertex IDs;
+- 4-simplex IDs;
+- five vertices per 4-simplex;
+- neighboring 4-simplices across tetrahedral facets;
+- integer timeslice per vertex;
+- simplex type;
+- incidence maps for vertices, edges, triangles and tetrahedra.
+
+CGAL coordinates may remain available for:
+
+- initial seed construction;
+- debugging;
+- visualization.
+
+They must not restrict the physical Monte Carlo ensemble.
+
+Add validation for:
+
+- manifold incidence;
+- unique simplex IDs;
+- reciprocal neighbors;
+- valid tetrahedral gluing;
+- causal adjacency;
+- every 4-simplex spanning exactly two adjacent timeslices;
+- classification as 41, 32, 23 or 14;
+- no duplicate simplices;
+- no unintended boundary in periodic simulations.
+
+5. Implement periodic time
+
+Add periodic foliation support suitable for the standard CDT phase diagram.
+
+Requirements:
+
+- configurable number of timeslices;
+- time indices modulo T;
+- spatial topology S3;
+- spacetime topology approximately S3 x S1;
+- no preferred first or last slice;
+- no boundary-generated 41/14 imbalance.
+
+Keep the existing radial open-ball initializer as a separate diagnostic mode.
+Never use its built-in radial volume profile as evidence for the C-phase.
+
+6. Implement and test all 4D causal moves
+
+Add:
+
+- include/Ergodic_moves_4.hpp
+- tests/Ergodic_moves_4_test.cpp
+
+For every move:
+
+- identify all legal candidate subsimplices;
+- calculate forward candidate multiplicity;
+- apply the local replacement;
+- preserve topology and foliation;
+- update all incidence structures;
+- calculate reverse candidate multiplicity;
+- validate the resulting manifold;
+- provide the exact count changes in N0 through N4;
+- provide changes in N41, N32, N23 and N14;
+- support the inverse move.
+
+Tests for every move must verify:
+
+- applicability and rejection conditions;
+- expected combinatorial count changes;
+- manifold validity after the move;
+- foliation validity;
+- full action difference;
+- inverse move restores a canonical combinatorial hash;
+- failed moves cause no partial mutation;
+- time reversal maps the move to the correct reversed move.
+
+Do not enable mixed Monte Carlo runs until every individual move passes.
+
+7. Implement Metropolis4
+
+Add:
+
+- include/Metropolis_4.hpp
+- tests/Metropolis_4_test.cpp
+
+Requirements:
+
+- one local proposal per step;
+- exact forward/reverse proposal ratio;
+- fixed-volume sampling;
+- seeded reproducibility;
+- thermalization phase;
+- measurement interval;
+- checkpoint/restart;
+- independent chain ID;
+- acceptance statistics per move;
+- invalid-proposal statistics;
+- action and volume traces;
+- autocorrelation-ready output.
+
+Enable:
+
+  cdt -d4
+
+only after all 4D action, move and detailed-balance tests pass.
+
+8. Add structured simulation output
+
+Do not rely on OFF files or console output for scientific analysis.
+
+Write a versioned output directory:
+
+  results/<run-id>/
+    manifest.json
+    measurements.jsonl
+    spatial_volume.csv
+    simplex_counts.csv
+    move_statistics.csv
+    action_trace.csv
+    checkpoint/
+    summary.json
+
+Record:
+
+- git commit;
+- build type;
+- compiler;
+- seed;
+- chain ID;
+- couplings;
+- target N4;
+- volume-fixing strength;
+- timeslices;
+- thermalization steps;
+- measurement interval;
+- attempted and accepted moves;
+- N0 through N4;
+- N41, N32, N23 and N14;
+- N3(t);
+- action;
+- maximum vertex order;
+- validity checks.
+
+All outputs must be reproducible and machine-readable.
+
+9. Add the C-phase measurement pipeline
+
+Add a command such as:
+
+  scripts/run-cds-phase-scan.sh
+
+and a Windows equivalent.
+
+The pipeline must:
+
+- build the project;
+- run unit tests;
+- run multiple independent chains;
+- scan selected coupling points;
+- use several target four-volumes;
+- discard thermalization;
+- estimate autocorrelation time;
+- retain only decorrelated measurements;
+- center spatial-volume profiles configuration by configuration;
+- calculate the ensemble mean and covariance.
+
+Use default target volumes such as:
+
+- 8000
+- 16000
+- 32000
+- 64000
+
+Make them configurable.
+
+10. Implement C-phase diagnostics
+
+Measure the spatial three-volume N3(t).
+
+Fit the centered ensemble profile to:
+
+  N3(t) = N_stalk + A * cos^3((t - t0) / B)
+
+Compare against:
+
+- constant;
+- Gaussian;
+- triangular;
+- collapsed one-slice;
+- unconstrained smooth profile.
+
+Report held-out likelihood and AIC/BIC.
+
+Test finite-size scaling:
+
+- temporal width proportional to N4^(1/4);
+- peak spatial volume proportional to N4^(3/4);
+- profile collapse of N4^(-3/4) N3(t) versus t / N4^(1/4).
+
+Also measure:
+
+- maximum vertex order;
+- vertex-order distribution;
+- occupied temporal width;
+- slice-to-slice roughness;
+- inverse participation ratio;
+- alternating-slice order parameter;
+- transfer matrix or effective volume action where feasible.
+
+Return only conservative verdicts:
+
+- c_ds_supported
+- c_b_like
+- collapsed_like
+- branched_polymer_like
+- no_phase_classification
+- thermalization_failed
+- insufficient_effective_samples
+- detailed_balance_failed
+- restricted_ensemble_only
+
+Never classify a phase from a single triangulation.
+
+11. Add time-reversal and orientation tests
+
+Implement a time-reversal transformation satisfying:
+
+- 41 maps to 14;
+- 14 maps to 41;
+- 32 maps to 23;
+- 23 maps to 32;
+- N3(t) is reversed;
+- unsigned action and combinatorial observables are unchanged;
+- applying reversal twice restores the canonical hash.
+
+Treat:
+
+  (N41 - N14) / (N41 + N14)
+
+as a diagnostic only.
+
+For periodic pure-gravity CDT with symmetric action, test that its ensemble
+average is compatible with zero.
+
+Do not claim weak chirality from raw 41/14 counting.
+
+12. Add CCDR-compatible orientation experiments separately
+
+After the pure-gravity C-phase works, add optional experiments:
+
+- orientation-odd source hO;
+- simulations at positive, zero and negative h;
+- verification that <O> at -h equals -<O> at h;
+- finite-size study of the zero-source distribution;
+- optional overlap/Neuberger Dirac operator;
+- low-mode chirality and spectral-asymmetry measurements;
+- correlations between fermion chirality and local simplex orientation.
+
+Keep these disabled by default and separate from standard CDT validation.
+
+13. Tests and CI
+
+Add focused test files:
+
+- Foliated_triangulation_4_test.cpp
+- Geometry_4_test.cpp
+- Manifold_4_test.cpp
+- S4Action_test.cpp
+- Ergodic_moves_4_test.cpp
+- Metropolis_4_test.cpp
+- Detailed_balance_test.cpp
+- Time_reversal_4_test.cpp
+- Observables_4_test.cpp
+- Checkpoint_4_test.cpp
+- Phase_analysis_test.cpp
+
+Update tests/CMakeLists.txt.
+
+Run:
+
+  cmake --build build
+  ctest --test-dir build --output-on-failure
+
+Add sanitizer runs where supported.
+
+14. Completion criteria
+
+The update is complete only when:
+
+- all existing 2+1D tests still pass;
+- all 4D simplex types are correctly classified;
+- periodic 4D triangulations are valid;
+- all 4D moves and inverse moves pass;
+- detailed balance passes;
+- fixed-volume simulations remain stable;
+- checkpoint restart is bitwise reproducible for the same seed;
+- multiple independent chains thermalize;
+- structured output is generated automatically;
+- the phase pipeline can distinguish synthetic C-like, collapsed and irregular
+  profiles;
+- any C-phase claim requires cos^3 agreement, finite-size scaling, adequate
+  effective sample size and exclusion of C_b-like diagnostics.

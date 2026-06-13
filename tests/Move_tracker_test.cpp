@@ -71,15 +71,15 @@ SCENARIO("Move type to integer conversion" *
   spdlog::debug("Move type to integer conversion.\n");
   GIVEN("A move type.")
   {
-    auto move23 = move_type::TWO_THREE;
+    auto move23 = MoveType3D::TWO_THREE;
     REQUIRE_EQ(as_integer(move23), 0);
-    auto move32 = move_type::THREE_TWO;
+    auto move32 = MoveType3D::THREE_TWO;
     REQUIRE_EQ(as_integer(move32), 1);
-    auto move26 = move_type::TWO_SIX;
+    auto move26 = MoveType3D::TWO_SIX;
     REQUIRE_EQ(as_integer(move26), 2);
-    auto move62 = move_type::SIX_TWO;
+    auto move62 = MoveType3D::SIX_TWO;
     REQUIRE_EQ(as_integer(move62), 3);
-    auto move44 = move_type::FOUR_FOUR;
+    auto move44 = MoveType3D::FOUR_FOUR;
     REQUIRE_EQ(as_integer(move44), 4);
   }
 }
@@ -91,16 +91,28 @@ SCENARIO("Integer to move type conversion" *
   GIVEN("An integer.")
   {
     auto move_choice = 0;
-    REQUIRE_EQ(as_move(move_choice), move_type::TWO_THREE);
+    REQUIRE_EQ(as_move(move_choice), MoveType3D::TWO_THREE);
     move_choice = 1;
-    REQUIRE_EQ(as_move(move_choice), move_type::THREE_TWO);
+    REQUIRE_EQ(as_move(move_choice), MoveType3D::THREE_TWO);
     move_choice = 2;
-    REQUIRE_EQ(as_move(move_choice), move_type::TWO_SIX);
+    REQUIRE_EQ(as_move(move_choice), MoveType3D::TWO_SIX);
     move_choice = 3;
-    REQUIRE_EQ(as_move(move_choice), move_type::SIX_TWO);
+    REQUIRE_EQ(as_move(move_choice), MoveType3D::SIX_TWO);
     move_choice = 4;
-    REQUIRE_EQ(as_move(move_choice), move_type::FOUR_FOUR);
+    REQUIRE_EQ(as_move(move_choice), MoveType3D::FOUR_FOUR);
   }
+}
+
+SCENARIO("4D move reverse pairs" * doctest::test_suite("move_tracker"))
+{
+  using move_tracker::MoveType4D;
+  CHECK_EQ(reverse_move(MoveType4D::TWO_FOUR), MoveType4D::FOUR_TWO);
+  CHECK_EQ(reverse_move(MoveType4D::FOUR_TWO), MoveType4D::TWO_FOUR);
+  CHECK_EQ(reverse_move(MoveType4D::THREE_THREE), MoveType4D::THREE_THREE);
+  CHECK_EQ(reverse_move(MoveType4D::FOUR_SIX), MoveType4D::SIX_FOUR);
+  CHECK_EQ(reverse_move(MoveType4D::SIX_FOUR), MoveType4D::FOUR_SIX);
+  CHECK_EQ(reverse_move(MoveType4D::TWO_EIGHT), MoveType4D::EIGHT_TWO);
+  CHECK_EQ(reverse_move(MoveType4D::EIGHT_TWO), MoveType4D::TWO_EIGHT);
 }
 
 SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))

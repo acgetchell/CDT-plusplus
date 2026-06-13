@@ -1079,12 +1079,12 @@ namespace ergodic_moves
   /// @return True if the move correctly changed the triangulation
   [[nodiscard]] inline auto check_move(Manifold const&                t_before,
                                        Manifold const&                t_after,
-                                       move_tracker::move_type const& t_move)
+                                       move_tracker::MoveType3D const& t_move)
       -> bool
   {
     switch (t_move)
     {
-      case move_tracker::move_type::FOUR_FOUR:
+      case move_tracker::MoveType3D::FOUR_FOUR:
         return t_after.is_valid() && t_after.N3() == t_before.N3() &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() &&
@@ -1095,7 +1095,7 @@ namespace ergodic_moves
                t_after.N0() == t_before.N0() &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::TWO_THREE:
+      case move_tracker::MoveType3D::TWO_THREE:
         return t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() + 1 &&
@@ -1107,7 +1107,7 @@ namespace ergodic_moves
                t_after.N0() == t_before.N0() &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::THREE_TWO:
+      case move_tracker::MoveType3D::THREE_TWO:
         return t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() - 1 &&
@@ -1119,7 +1119,7 @@ namespace ergodic_moves
                t_after.N0() == t_before.N0() &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::TWO_SIX:
+      case move_tracker::MoveType3D::TWO_SIX:
         return t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
                t_after.N3_31() == t_before.N3_31() + 2 &&
                t_after.N3_22() == t_before.N3_22() &&
@@ -1131,7 +1131,7 @@ namespace ergodic_moves
                t_after.N0() == t_before.N0() + 1 &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::SIX_TWO:
+      case move_tracker::MoveType3D::SIX_TWO:
         return t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
                t_after.N3_31() == t_before.N3_31() - 2 &&
                t_after.N3_22() == t_before.N3_22() &&

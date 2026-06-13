@@ -14,7 +14,9 @@
 #include <array>
 #include <cstddef>
 #include <gsl/util>
+#include <numeric>
 #include <span>
+#include <type_traits>
 
 #include "Settings.hpp"
 #include "Utilities.hpp"
@@ -27,8 +29,21 @@ namespace move_tracker
   /**
    * \brief The types of 3D ergodic moves
    */
-  enum class [[nodiscard("This contains data!")]] move_type{
+  enum class [[nodiscard("This contains data!")]] MoveType3D{
       TWO_THREE = 0, THREE_TWO = 1, TWO_SIX = 2, SIX_TWO = 3, FOUR_FOUR = 4};
+
+  /**
+   * \brief The types of 4D CDT moves.
+   */
+  enum class [[nodiscard("This contains data!")]] MoveType4D{
+      TWO_FOUR    = 0,
+      FOUR_TWO    = 1,
+      THREE_THREE = 2,
+      FOUR_SIX    = 3,
+      SIX_FOUR    = 4,
+      TWO_EIGHT   = 5,
+      EIGHT_TWO   = 6,
+      NO_MOVE     = 7};
 
   /**
    * \brief Convert enum to integer
@@ -47,27 +62,83 @@ namespace move_tracker
    * \param move_choice The move choice integer
    * \return The move_type
    */
-  inline auto as_move(int const move_choice) -> move_type
+  inline auto as_move_3d(int const move_choice) -> MoveType3D
   {
-    if (move_choice == 0) { return move_type::TWO_THREE; }
-    if (move_choice == 1) { return move_type::THREE_TWO; }
-    if (move_choice == 2) { return move_type::TWO_SIX; }
-    if (move_choice == 3) { return move_type::SIX_TWO; }
-    return move_type::FOUR_FOUR;
+    if (move_choice == 0) { return MoveType3D::TWO_THREE; }
+    if (move_choice == 1) { return MoveType3D::THREE_TWO; }
+    if (move_choice == 2) { return MoveType3D::TWO_SIX; }
+    if (move_choice == 3) { return MoveType3D::SIX_TWO; }
+    return MoveType3D::FOUR_FOUR;
+  }  // as_move_3d
+
+  inline auto as_move_4d(int const move_choice) -> MoveType4D
+  {
+    switch (move_choice)
+    {
+      case 0: return MoveType4D::TWO_FOUR;
+      case 1: return MoveType4D::FOUR_TWO;
+      case 2: return MoveType4D::THREE_THREE;
+      case 3: return MoveType4D::FOUR_SIX;
+      case 4: return MoveType4D::SIX_FOUR;
+      case 5: return MoveType4D::TWO_EIGHT;
+      case 6: return MoveType4D::EIGHT_TWO;
+      default: return MoveType4D::NO_MOVE;
+    }
+  }  // as_move_4d
+
+  inline auto as_move(int const move_choice) -> MoveType3D
+  {
+    return as_move_3d(move_choice);
   }  // as_move
+
+  [[nodiscard]] constexpr auto reverse_move(MoveType3D const move) noexcept
+      -> MoveType3D
+  {
+    switch (move)
+    {
+      case MoveType3D::TWO_THREE: return MoveType3D::THREE_TWO;
+      case MoveType3D::THREE_TWO: return MoveType3D::TWO_THREE;
+      case MoveType3D::TWO_SIX: return MoveType3D::SIX_TWO;
+      case MoveType3D::SIX_TWO: return MoveType3D::TWO_SIX;
+      case MoveType3D::FOUR_FOUR: return MoveType3D::FOUR_FOUR;
+    }
+    return MoveType3D::FOUR_FOUR;
+  }
+
+  [[nodiscard]] constexpr auto reverse_move(MoveType4D const move) noexcept
+      -> MoveType4D
+  {
+    switch (move)
+    {
+      case MoveType4D::TWO_FOUR: return MoveType4D::FOUR_TWO;
+      case MoveType4D::FOUR_TWO: return MoveType4D::TWO_FOUR;
+      case MoveType4D::THREE_THREE: return MoveType4D::THREE_THREE;
+      case MoveType4D::FOUR_SIX: return MoveType4D::SIX_FOUR;
+      case MoveType4D::SIX_FOUR: return MoveType4D::FOUR_SIX;
+      case MoveType4D::TWO_EIGHT: return MoveType4D::EIGHT_TWO;
+      case MoveType4D::EIGHT_TWO: return MoveType4D::TWO_EIGHT;
+      case MoveType4D::NO_MOVE: return MoveType4D::NO_MOVE;
+    }
+    return MoveType4D::NO_MOVE;
+  }
 
   /**
    * \brief Generate random 3D ergodic move
    * \return The move_type to be performed
    */
-  [[nodiscard]] inline auto generate_random_move_3() -> move_type
+  [[nodiscard]] inline auto generate_random_move_3() -> MoveType3D
   {
     auto move_choice = utilities::generate_random_int(0, 4);
 #ifndef NDEBUG
     fmt::print("Move choice = {}\n", move_choice);
 #endif
-    return as_move(move_choice);
+    return as_move_3d(move_choice);
   }  // generate_random_move_3
+
+  [[nodiscard]] inline auto generate_random_move_4() -> MoveType4D
+  {
+    return as_move_4d(utilities::generate_random_int(0, 6));
+  }  // generate_random_move_4
 
   /**
    * \brief Determine the ergodic moves for a given dimensionality
@@ -115,7 +186,17 @@ namespace move_tracker
      * \param move The move type to be accessed
      * \return The number of moves of that type
      */
-    auto operator[](move_type const move) const -> auto&
+    auto operator[](MoveType3D const move) const -> auto&
+    {
+      return gsl::at(moves, as_integer(move));
+    }  // operator[]
+
+    /**
+     * \brief The [] operator for 4D MoveTracker
+     * \param move The move type to be accessed
+     * \return The number of moves of that type
+     */
+    auto operator[](MoveType4D const move) const -> auto&
     {
       return gsl::at(moves, as_integer(move));
     }  // operator[]

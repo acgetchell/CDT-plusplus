@@ -85,7 +85,7 @@ SCENARIO("Invoking a move with a function pointer" *
         auto result = move23(manifold);
         result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -115,7 +115,7 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
         auto result = move23(manifold);
         result.update();
         CHECK(ergodic_moves::check_move(manifold, result,
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -144,7 +144,7 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
         auto result = apply_move(manifold, move);
         result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -235,7 +235,7 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         MoveCommand command(manifold);
         // Note: If we do a move that expands the size of the manifold,
         // without the copy ctor this will Segfault!
-        command.enqueue(move_tracker::move_type::THREE_TWO);
+        command.enqueue(move_tracker::MoveType3D::THREE_TWO);
 
         // Execute the move
         command.execute();
@@ -269,7 +269,7 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
     WHEN("A (4,4) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
+      command.enqueue(move_tracker::MoveType3D::FOUR_FOUR);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -291,14 +291,14 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::FOUR_FOUR));
+                                          move_tracker::MoveType3D::FOUR_FOUR));
         fmt::print("Move left triangulation unchanged.\n");
       }
     }
     WHEN("A (2,3) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
+      command.enqueue(move_tracker::MoveType3D::TWO_THREE);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -320,14 +320,14 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells() + 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::TWO_THREE));
+                                          move_tracker::MoveType3D::TWO_THREE));
         fmt::print("Triangulation added a finite cell.\n");
       }
     }
     WHEN("A (3,2) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType3D::THREE_TWO);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -349,14 +349,14 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells() - 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::THREE_TWO));
+                                          move_tracker::MoveType3D::THREE_TWO));
         fmt::print("Triangulation removed a finite cell.\n");
       }
     }
     WHEN("A (2,6) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_SIX);
+      command.enqueue(move_tracker::MoveType3D::TWO_SIX);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -378,14 +378,14 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells() + 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::TWO_SIX));
+                                          move_tracker::MoveType3D::TWO_SIX));
         fmt::print("Triangulation added 4 finite cells.\n");
       }
     }
     WHEN("A (6,2) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::SIX_TWO);
+      command.enqueue(move_tracker::MoveType3D::SIX_TWO);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -407,7 +407,7 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells() - 4);
         CHECK(ergodic_moves::check_move(manifold, result,
-                                        move_tracker::move_type::SIX_TWO));
+                                        move_tracker::MoveType3D::SIX_TWO));
         fmt::print("Triangulation removed 4 finite cells.\n");
       }
     }
@@ -426,8 +426,8 @@ SCENARIO("Executing multiple moves on the queue" *
     WHEN("(2,3) and (3,2) moves are queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType3D::TWO_THREE);
+      command.enqueue(move_tracker::MoveType3D::THREE_TWO);
       THEN("There are two moves in the queue.") { CHECK_EQ(command.size(), 2); }
       THEN("The moves are executed correctly.")
       {
@@ -461,18 +461,18 @@ SCENARIO("Executing multiple moves on the queue" *
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::FOUR_FOUR));
+                                          move_tracker::MoveType3D::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");
       }
     }
     WHEN("One of each move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      command.enqueue(move_tracker::move_type::TWO_SIX);
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
-      command.enqueue(move_tracker::move_type::SIX_TWO);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType3D::TWO_THREE);
+      command.enqueue(move_tracker::MoveType3D::TWO_SIX);
+      command.enqueue(move_tracker::MoveType3D::FOUR_FOUR);
+      command.enqueue(move_tracker::MoveType3D::SIX_TWO);
+      command.enqueue(move_tracker::MoveType3D::THREE_TWO);
       THEN("There are five moves in the queue.")
       {
         CHECK_EQ(command.size(), 5);
@@ -527,7 +527,7 @@ SCENARIO("Executing multiple moves on the queue" *
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::FOUR_FOUR));
+                                          move_tracker::MoveType3D::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");
       }
     }

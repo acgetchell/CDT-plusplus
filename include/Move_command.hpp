@@ -19,7 +19,7 @@ template <typename ManifoldType,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 class MoveCommand
 {
-  using Queue   = std::deque<move_tracker::move_type>;
+  using Queue   = std::deque<move_tracker::MoveType3D>;
   using Counter = move_tracker::MoveTracker<ManifoldType>;
 
   /**
@@ -120,7 +120,7 @@ class MoveCommand
    * \brief Push a Pachner move onto the move queue
    * \param t_move The move to add
    */
-  void enqueue(move_tracker::move_type const t_move)
+  void enqueue(move_tracker::MoveType3D const t_move)
   {
     m_moves.push_front(t_move);
   }
@@ -179,15 +179,15 @@ class MoveCommand
    * \param move The move to execute
    * \return The move function to execute
    */
-  static auto as_move_function(move_tracker::move_type const move)
+  static auto as_move_function(move_tracker::MoveType3D const move)
       -> FunctionType
   {
     switch (move)
     {
-      case move_tracker::move_type::TWO_THREE: return ergodic_moves::do_23_move;
-      case move_tracker::move_type::THREE_TWO: return ergodic_moves::do_32_move;
-      case move_tracker::move_type::TWO_SIX: return ergodic_moves::do_26_move;
-      case move_tracker::move_type::SIX_TWO: return ergodic_moves::do_62_move;
+      case move_tracker::MoveType3D::TWO_THREE: return ergodic_moves::do_23_move;
+      case move_tracker::MoveType3D::THREE_TWO: return ergodic_moves::do_32_move;
+      case move_tracker::MoveType3D::TWO_SIX: return ergodic_moves::do_26_move;
+      case move_tracker::MoveType3D::SIX_TWO: return ergodic_moves::do_62_move;
       default: return ergodic_moves::do_44_move;
     }
   }  // move_function

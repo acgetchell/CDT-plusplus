@@ -107,27 +107,27 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 #endif
         if (move_choice == 0 && ManifoldType::dimension == 3)
         {
-          command.enqueue(move_tracker::move_type::TWO_THREE);
+          command.enqueue(move_tracker::MoveType3D::TWO_THREE);
         }
 
         if (move_choice == 1 && ManifoldType::dimension == 3)
         {
-          command.enqueue(move_tracker::move_type::THREE_TWO);
+          command.enqueue(move_tracker::MoveType3D::THREE_TWO);
         }
 
         if (move_choice == 2 && ManifoldType::dimension == 3)
         {
-          command.enqueue(move_tracker::move_type::TWO_SIX);
+          command.enqueue(move_tracker::MoveType3D::TWO_SIX);
         }
 
         if (move_choice == 3 && ManifoldType::dimension == 3)
         {
-          command.enqueue(move_tracker::move_type::SIX_TWO);
+          command.enqueue(move_tracker::MoveType3D::SIX_TWO);
         }
 
         if (move_choice == 4 && ManifoldType::dimension == 3)
         {
-          command.enqueue(move_tracker::move_type::FOUR_FOUR);
+          command.enqueue(move_tracker::MoveType3D::FOUR_FOUR);
         }
       }
       command.execute();

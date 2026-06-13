@@ -70,7 +70,7 @@ SCENARIO("Use check_move to validate successful move" *
       THEN("check_move returns true")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
       }
     }
   }
@@ -125,7 +125,7 @@ SCENARIO(
       THEN("The move is correct and the manifold invariants are maintained")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 5);
@@ -188,7 +188,7 @@ SCENARIO(
       THEN("The move is correct and the manifold invariants are maintained")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::THREE_TWO));
+                                        move_tracker::MoveType3D::THREE_TWO));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 5);
@@ -268,7 +268,7 @@ SCENARIO(
       THEN("The move is correct and the manifold invariants are maintained")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_SIX));
+                                        move_tracker::MoveType3D::TWO_SIX));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 6);  // +1 vertex
@@ -334,7 +334,7 @@ SCENARIO(
       {
         // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::SIX_TWO));
+                                        move_tracker::MoveType3D::SIX_TWO));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK(manifold.get_triangulation().is_foliated());
@@ -427,7 +427,7 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
       {
         // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::FOUR_FOUR));
+                                        move_tracker::MoveType3D::FOUR_FOUR));
       }
     }
   }

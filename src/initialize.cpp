@@ -50,6 +50,7 @@ try
   long long               dimensions;
   double                  initial_radius;
   double                  foliation_spacing;
+  long long               seed;
   bool                    save_file;
 
   po::options_description description(intro);
@@ -65,7 +66,10 @@ try
                         po::value<double>(&initial_radius)->default_value(1.0),
                         "Initial radius")(
       "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
-      "Foliation spacing")("output,o", "Save triangulation into OFF file");
+      "Foliation spacing")(
+      "seed", po::value<long long>(&seed)->default_value(1),
+      "Seed for reproducible initialization")("output,o",
+                                             "Save triangulation into OFF file");
 
   po::variables_map args;
   po::store(po::parse_command_line(argc, argv, description), args);
@@ -121,6 +125,7 @@ try
   fmt::print("Number of desired timeslices = {}\n", timeslices);
   fmt::print("Initial radius = {}\n", initial_radius);
   fmt::print("Foliation spacing = {}\n", foliation_spacing);
+  fmt::print("Seed = {}\n", seed);
 
   if (save_file) { fmt::print("Output will be saved.\n"); }
 
@@ -129,6 +134,8 @@ try
     throw invalid_argument(
         "Simplices and timeslices should be greater or equal to 2.");
   }
+
+  utilities::seed_random(static_cast<std::uint64_t>(seed));
 
   switch (topology)
   {

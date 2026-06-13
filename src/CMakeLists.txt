@@ -85,7 +85,10 @@ set_tests_properties(cdt-triangle-inequalities PROPERTIES PASS_REGULAR_EXPRESSIO
 add_test(NAME cdt-dimensionality COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -d4 -a0.4 -k1.1 -l0.1)
 set_tests_properties(cdt-dimensionality
                      PROPERTIES PASS_REGULAR_EXPRESSION
-                                "Metropolis evolution is not yet implemented for 3\\+1 dimensions.")
+                                "4D runs require explicit --kappa0, --kappa4, and --Delta.")
+
+add_test(NAME cdt-d4 COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -d4 --kappa0 1.0 --kappa4 0.2 --Delta 0.1 --target-n4 64 --volume-epsilon 0.001 --seed 11 -p10 --run-id ctest-d4)
+set_tests_properties(cdt-d4 PROPERTIES PASS_REGULAR_EXPRESSION "Structured output written to results/ctest-d4")
 
 add_test(NAME cdt-toroidal COMMAND $<TARGET_FILE:cdt> -e -n64 -t3 -a0.6 -k1.1 -l0.1)
 set_tests_properties(cdt-toroidal PROPERTIES PASS_REGULAR_EXPRESSION "Toroidal triangulations not yet supported.")

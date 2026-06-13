@@ -116,23 +116,16 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
         auto total_attempted  = testrun.get_attempted().total();
         auto total_successful = testrun.get_succeeded().total();
         auto total_failed     = testrun.get_failed().total();
-        // Initialization proposes one move of each type
+        // Initialization no longer biases the chain by forcing one move of
+        // each type.
         for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
         {
-          CHECK_EQ(testrun.get_proposed()[i], 1);
-        }
-        // Initialization accepts one move of each type
-        for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
-        {
-          CHECK_EQ(testrun.get_accepted()[i], 1);
+          CHECK_EQ(testrun.get_proposed()[i], 0);
+          CHECK_EQ(testrun.get_accepted()[i], 0);
+          CHECK_EQ(testrun.get_attempted()[i], 0);
         }
         // Initialization does not reject any moves
         CHECK_EQ(total_rejected, 0);
-        // Initialization attempts one move of each type
-        for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
-        {
-          CHECK_EQ(testrun.get_attempted()[i], 1);
-        }
         CHECK_EQ(total_attempted, total_successful + total_failed);
 
         // Human verification
@@ -180,18 +173,50 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
           auto total_attempted  = testrun.get_attempted().total();
           auto total_successful = testrun.get_succeeded().total();
           auto total_failed     = testrun.get_failed().total();
-          // We should have at least a trial move per simplex on average
-          // per pass, times the number of passes
-          CHECK_GT(total_proposed, universe.N3() * passes);
+          // The atomic sampler proposes exactly one move per starting simplex
+          // per pass.
+          CHECK_EQ(total_proposed, universe.N3() * passes);
           CHECK_EQ(total_proposed, total_accepted + total_rejected);
-          // We should attempt a move for each accepted move
-          CHECK_EQ(total_attempted, total_accepted);
+          CHECK_EQ(total_attempted, total_proposed);
+          CHECK_LE(total_accepted, total_attempted);
           CHECK_GT(total_successful, 0);
           CHECK_GE(total_failed, 0);
           CHECK_EQ(total_attempted, total_successful + total_failed);
           // Human verification
           testrun.print_results();
         }
+      }
+    }
+  }
+}
+
+SCENARIO("Metropolis reproducibility with a seed" *
+         doctest::test_suite("metropolis"))
+{
+  auto constexpr Alpha  = static_cast<long double>(0.6);
+  auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
+  auto constexpr Lambda = static_cast<long double>(0.1);
+  GIVEN("A correctly-constructed Manifold_3 and a fixed seed.")
+  {
+    auto constexpr simplices  = 256;
+    auto constexpr timeslices = 4;
+    Manifold_3 const universe(simplices, timeslices);
+    REQUIRE(universe.is_correct());
+    WHEN("Two Metropolis runs use the same seed.")
+    {
+      Metropolis_3 run_a(Alpha, K, Lambda, 1, 1, 0, 0.0L, 123);
+      Metropolis_3 run_b(Alpha, K, Lambda, 1, 1, 0, 0.0L, 123);
+      auto result_a = run_a(universe);
+      auto result_b = run_b(universe);
+      THEN("They produce identical count observables.")
+      {
+        CHECK_EQ(result_a.N0(), result_b.N0());
+        CHECK_EQ(result_a.N1(), result_b.N1());
+        CHECK_EQ(result_a.N2(), result_b.N2());
+        CHECK_EQ(result_a.N3(), result_b.N3());
+        CHECK_EQ(result_a.N3_31(), result_b.N3_31());
+        CHECK_EQ(result_a.N3_22(), result_b.N3_22());
+        CHECK_EQ(result_a.N3_13(), result_b.N3_13());
       }
     }
   }

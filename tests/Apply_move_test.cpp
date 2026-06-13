@@ -73,7 +73,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       THEN("The resulting manifold has the applied move.")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold_before.print_details();
@@ -99,7 +99,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       THEN("The resulting manifold has the applied move.")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::THREE_TWO));
+                                        move_tracker::MoveType3D::THREE_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold_before.print_details();
@@ -125,7 +125,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       THEN("The resulting manifold has the applied move.")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_SIX));
+                                        move_tracker::MoveType3D::TWO_SIX));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold_before.print_details();
@@ -145,7 +145,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
         THEN("The resulting manifold has the applied move.")
         {
           CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                          move_tracker::move_type::SIX_TWO));
+                                          move_tracker::MoveType3D::SIX_TWO));
           // Human verification
           fmt::print("Old manifold.\n");
           manifold_before.print_details();
@@ -177,7 +177,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       THEN("The resulting manifold has the applied move.")
       {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::FOUR_FOUR));
+                                        move_tracker::MoveType3D::FOUR_FOUR));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold_before.print_details();
