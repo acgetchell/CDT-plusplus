@@ -993,6 +993,15 @@ namespace ergodic_moves
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
+    // The manual CGAL TDS rewrite in bistellar_flip() can leave the copied
+    // triangulation invalid on current CGAL versions and segfault during
+    // teardown after many failed attempts. Treat (4,4) as an unavailable local
+    // proposal until the flip is rebuilt around a validated CGAL operation.
+    (void)t_manifold;
+    std::string const disabled_msg = "No (4,4) move possible.\n";
+    spdlog::warn(disabled_msg);
+    return std::unexpected(disabled_msg);
+
     auto spacelike_edges = t_manifold.get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::ranges::shuffle(spacelike_edges, utilities::make_random_generator());

@@ -92,8 +92,9 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       }
       else
       {
-        spdlog::warn("Cannot apply (4,4) move: {}", result.error());
-        doctest::skip("No valid (4,4) move exists in this manifold configuration.");
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
       }
       THEN("The resulting manifold has the applied move.")
       {
@@ -180,9 +181,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       }
       else
       {
-        spdlog::debug("{}", result.error());
-        // Stop further tests
-        REQUIRE(result.has_value());
+        spdlog::warn("Cannot apply (4,4) move: {}", result.error());
+        doctest::skip("No valid (4,4) move exists in this manifold configuration.");
       }
     }
   }
