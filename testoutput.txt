@@ -1,7 +1,7 @@
 Test project /home/slimgreen/CDT-plusplus/build
       Start  1: cdt-unit-tests
       Start  2: cdt
- 1/12 Test  #2: cdt .....................................***Exception: SegFault  0.27 sec
+ 1/12 Test  #2: cdt .....................................***Exception: SegFault  0.26 sec
 Topology is spherical
 Dimensionality: 2+1
 Initial radius: 1
@@ -15,204 +15,523 @@ Seed: 1
 Alpha: 0.6
 K: 1.1
 Lambda: 0.1
-cdt started at 2026-06-13.12:22:53EDT
+cdt started at 2026-06-13.12:40:59EDT
 
 Generating universe ...
-Triangulation has 20 vertices and 89 edges and 129 faces and 59 simplices.
-Manifold has 20 vertices and 89 edges and 129 faces and 59 simplices.
-There are 22 (3,1) simplices and 14 (2,2) simplices and 23 (1,3) simplices.
-There are 50 timelike edges and 39 spacelike edges.
-Timeslice 2 has 1 spacelike faces.
-Timeslice 3 has 22 spacelike faces.
-Timeslice 4 has 1 spacelike faces.
+Triangulation has 22 vertices and 100 edges and 144 faces and 65 simplices.
+Manifold has 22 vertices and 100 edges and 144 faces and 65 simplices.
+There are 19 (3,1) simplices and 16 (2,2) simplices and 30 (1,3) simplices.
+There are 52 timelike edges and 48 spacelike edges.
+Timeslice 2 has 0 spacelike faces.
+Timeslice 3 has 26 spacelike faces.
+Timeslice 4 has 4 spacelike faces.
 Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
 Making random moves ...
 === Pass 1 ===
-[2026-06-13 12:22:53.958] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.947] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.959] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.947] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.963] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.948] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.963] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.950] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.964] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.951] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.964] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.953] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.964] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.953] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.965] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.953] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.965] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.954] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.965] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.954] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.966] [warning] No (6,2) move possible.
+[2026-06-13 12:40:59.954] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.967] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.955] [warning] No (6,2) move possible.
 
-[2026-06-13 12:22:53.974] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.957] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.975] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.961] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.985] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.967] [warning] No (4,4) move possible.
+
+[2026-06-13 12:40:59.967] [warning] No (4,4) move possible.
+
+[2026-06-13 12:40:59.968] [warning] No (4,4) move possible.
+
+[2026-06-13 12:40:59.968] [warning] No (4,4) move possible.
 
 === Pass 2 ===
-[2026-06-13 12:22:53.991] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.969] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.994] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.971] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.996] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.974] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:53.997] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.975] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.000] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.977] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.015] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.977] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.020] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.981] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.021] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.982] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.023] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.984] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.028] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.985] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.033] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.985] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.034] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.987] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.041] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.988] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.048] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.990] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.050] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.990] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.052] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.993] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.054] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.994] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.058] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.994] [warning] No (4,4) move possible.
 
-[2026-06-13 12:22:54.059] [warning] No (4,4) move possible.
+[2026-06-13 12:40:59.995] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.000] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.000] [warning] No (4,4) move possible.
+
+=== Pass 3 ===
+[2026-06-13 12:41:00.010] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.010] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.010] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.011] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.011] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.013] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.014] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.020] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.020] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.021] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.024] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.031] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.034] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.037] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.038] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.038] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.041] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.043] [warning] No (4,4) move possible.
 
 
-      Start 12: cdt-opt
- 2/12 Test #12: cdt-opt .................................***Exception: SegFault  0.30 sec
-cdt-opt started at 2026-06-13.12:22:54EDT
-[2026-06-13 12:22:54.223] [multi_sink] [info] Multi-sink logger initialized.
-
-
-Generating universe ...
-Triangulation has 121 vertices and 742 edges and 1199 faces and 577 simplices.
-Manifold has 121 vertices and 742 edges and 1199 faces and 577 simplices.
-There are 140 (3,1) simplices and 211 (2,2) simplices and 226 (1,3) simplices.
-There are 401 timelike edges and 341 spacelike edges.
-Timeslice 1 has 0 spacelike faces.
-Timeslice 2 has 46 spacelike faces.
-Timeslice 3 has 94 spacelike faces.
-Timeslice 4 has 86 spacelike faces.
-Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
-Making random moves ...
-=== Pass 1 ===
-[2026-06-13 12:22:54.238] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.255] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.261] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.267] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.271] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.298] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.307] [multi_sink] [warning] No (4,4) move possible.
-
-[2026-06-13 12:22:54.319] [multi_sink] [warning] No (4,4) move possible.
-
-
-      Start  7: initialize
- 3/12 Test  #7: initialize ..............................   Passed    0.03 sec
-      Start  9: initialize-dimensionality
- 4/12 Test  #9: initialize-dimensionality ...............   Passed    0.03 sec
-      Start  5: cdt-d4
- 5/12 Test  #5: cdt-d4 ..................................   Passed    0.00 sec
       Start  3: cdt-triangle-inequalities
- 6/12 Test  #3: cdt-triangle-inequalities ...............   Passed    0.00 sec
-      Start  6: cdt-toroidal
- 7/12 Test  #6: cdt-toroidal ............................   Passed    0.00 sec
+ 2/12 Test  #3: cdt-triangle-inequalities ...............   Passed    0.00 sec
       Start  4: cdt-dimensionality
- 8/12 Test  #4: cdt-dimensionality ......................   Passed    0.00 sec
+ 3/12 Test  #4: cdt-dimensionality ......................   Passed    0.00 sec
+      Start  5: cdt-d4
+ 4/12 Test  #5: cdt-d4 ..................................   Passed    0.01 sec
+      Start  6: cdt-toroidal
+ 5/12 Test  #6: cdt-toroidal ............................   Passed    0.00 sec
+      Start  7: initialize
+ 6/12 Test  #7: initialize ..............................   Passed    0.03 sec
+      Start  8: initialize-minimum-simplices
+ 7/12 Test  #8: initialize-minimum-simplices ............   Passed    0.00 sec
+      Start  9: initialize-dimensionality
+ 8/12 Test  #9: initialize-dimensionality ...............   Passed    0.03 sec
       Start 10: initialize-unsupported-dimensionality
  9/12 Test #10: initialize-unsupported-dimensionality ...   Passed    0.00 sec
       Start 11: initialize-toroidal
 10/12 Test #11: initialize-toroidal .....................   Passed    0.00 sec
-      Start  8: initialize-minimum-simplices
-11/12 Test  #8: initialize-minimum-simplices ............   Passed    0.00 sec
-12/12 Test  #1: cdt-unit-tests ..........................***Exception: SegFault 38.85 sec
+      Start 12: cdt-opt
+11/12 Test #12: cdt-opt .................................***Exception: SegFault  2.56 sec
+cdt-opt started at 2026-06-13.12:41:00EDT
+[2026-06-13 12:41:00.283] [multi_sink] [info] Multi-sink logger initialized.
+
+
+Generating universe ...
+Triangulation has 151 vertices and 936 edges and 1515 faces and 729 simplices.
+Manifold has 151 vertices and 936 edges and 1515 faces and 729 simplices.
+There are 176 (3,1) simplices and 269 (2,2) simplices and 284 (1,3) simplices.
+There are 507 timelike edges and 429 spacelike edges.
+Timeslice 1 has 0 spacelike faces.
+Timeslice 2 has 56 spacelike faces.
+Timeslice 3 has 120 spacelike faces.
+Timeslice 4 has 108 spacelike faces.
+Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
+Making random moves ...
+=== Pass 1 ===
+[2026-06-13 12:41:00.294] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.294] [multi_sink] [warning] No (6,2) move possible.
+
+[2026-06-13 12:41:00.305] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.315] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.316] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.322] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.329] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.336] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.337] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.347] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.360] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.393] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.394] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.397] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.422] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.449] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.462] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.463] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.483] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.487] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.508] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.508] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.522] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.536] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.544] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.551] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.552] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.566] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.570] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.574] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.575] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.586] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.590] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.590] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.594] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.617] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.622] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.630] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.631] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.697] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.729] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.730] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.758] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.766] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.803] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.820] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.828] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.833] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.842] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.858] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.863] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.871] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:00.927] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.003] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.024] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.032] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.044] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.077] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.090] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.091] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.092] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.097] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.151] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.187] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.213] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.217] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.250] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.264] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.337] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.338] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.339] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.344] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.345] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.395] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.399] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.409] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.409] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.439] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.439] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.444] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.457] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.505] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.514] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.515] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.524] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.524] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.534] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.535] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.561] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.588] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.610] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.627] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.628] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.628] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.646] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.647] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.655] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.688] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.697] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.722] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.727] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.740] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.753] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.774] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.783] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.793] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.815] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.888] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.935] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:01.953] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.027] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.033] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.102] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.102] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.149] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.168] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.188] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.189] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.190] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.200] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.219] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.234] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.263] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.268] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.269] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.270] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.298] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.298] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.313] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.314] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.315] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.321] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.341] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.397] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.402] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.417] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.451] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.466] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.476] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.482] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.565] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.566] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.567] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.586] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.607] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.622] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.646] [multi_sink] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:02.656] [multi_sink] [warning] No (4,4) move possible.
+
+
+12/12 Test  #1: cdt-unit-tests ..........................***Exception: SegFault 29.28 sec
 [doctest] doctest version is "2.5.2"
 [doctest] run with "--help" for options
 
 Generating universe ...
-Triangulation has 7401 vertices and 50754 edges and 84792 faces and 41438 simplices.
+Triangulation has 7400 vertices and 50572 edges and 84430 faces and 41257 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15724 (2,2) simplices and 14772 (1,3) simplices.
-There are 28593 timelike edges and 22161 spacelike edges.
+There are 10940 (3,1) simplices and 15545 (2,2) simplices and 14772 (1,3) simplices.
+There are 28413 timelike edges and 22159 spacelike edges.
 New manifold after null move:
-There are 10942 (3,1) simplices and 15724 (2,2) simplices and 14772 (1,3) simplices.
-There are 28593 timelike edges and 22161 spacelike edges.
+There are 10940 (3,1) simplices and 15545 (2,2) simplices and 14772 (1,3) simplices.
+There are 28413 timelike edges and 22159 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50750 edges and 84784 faces and 41434 simplices.
+Triangulation has 7401 vertices and 50696 edges and 84676 faces and 41380 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15720 (2,2) simplices and 14772 (1,3) simplices.
-There are 28589 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15666 (2,2) simplices and 14772 (1,3) simplices.
+There are 28535 timelike edges and 22161 spacelike edges.
 New manifold after (2,3) move:
-There are 10942 (3,1) simplices and 15721 (2,2) simplices and 14772 (1,3) simplices.
-There are 28590 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15667 (2,2) simplices and 14772 (1,3) simplices.
+There are 28536 timelike edges and 22161 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50713 edges and 84710 faces and 41397 simplices.
+Triangulation has 7399 vertices and 50629 edges and 84546 faces and 41315 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15683 (2,2) simplices and 14772 (1,3) simplices.
-There are 28552 timelike edges and 22161 spacelike edges.
+There are 10940 (3,1) simplices and 15603 (2,2) simplices and 14772 (1,3) simplices.
+There are 28471 timelike edges and 22158 spacelike edges.
 New manifold after (3,2) move:
-There are 10942 (3,1) simplices and 15682 (2,2) simplices and 14772 (1,3) simplices.
-There are 28551 timelike edges and 22161 spacelike edges.
+There are 10940 (3,1) simplices and 15602 (2,2) simplices and 14772 (1,3) simplices.
+There are 28470 timelike edges and 22158 spacelike edges.
 
 Generating universe ...
-Triangulation has 7400 vertices and 50604 edges and 84494 faces and 41289 simplices.
+Triangulation has 7401 vertices and 50711 edges and 84706 faces and 41395 simplices.
 Old manifold.
-There are 10940 (3,1) simplices and 15577 (2,2) simplices and 14772 (1,3) simplices.
-There are 28445 timelike edges and 22159 spacelike edges.
+There are 10942 (3,1) simplices and 15681 (2,2) simplices and 14772 (1,3) simplices.
+There are 28550 timelike edges and 22161 spacelike edges.
 New manifold after (2,6) move:
-There are 10942 (3,1) simplices and 15577 (2,2) simplices and 14774 (1,3) simplices.
-There are 28447 timelike edges and 22162 spacelike edges.
+There are 10944 (3,1) simplices and 15681 (2,2) simplices and 14774 (1,3) simplices.
+There are 28552 timelike edges and 22164 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50713 edges and 84710 faces and 41397 simplices.
+Triangulation has 7401 vertices and 50778 edges and 84840 faces and 41462 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15683 (2,2) simplices and 14772 (1,3) simplices.
-There are 28552 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15748 (2,2) simplices and 14772 (1,3) simplices.
+There are 28617 timelike edges and 22161 spacelike edges.
 New manifold after (6,2) move:
-There are 10940 (3,1) simplices and 15683 (2,2) simplices and 14770 (1,3) simplices.
-There are 28550 timelike edges and 22158 spacelike edges.
+There are 10940 (3,1) simplices and 15748 (2,2) simplices and 14770 (1,3) simplices.
+There are 28615 timelike edges and 22158 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50757 edges and 84798 faces and 41441 simplices.
-[2026-06-13 12:23:12.573] [warning] No (4,4) move possible.
+Triangulation has 7401 vertices and 50697 edges and 84678 faces and 41381 simplices.
+[2026-06-13 12:41:02.352] [warning] No (4,4) move possible.
 
-===============================================================================
-/home/slimgreen/CDT-plusplus/tests/Apply_move_test.cpp:20:
-TEST SUITE: apply
-  Scenario: Apply an ergodic move to 2+1 manifolds
-     Given: A 2+1 dimensional spherical manifold.
-      When: A (4,4) move is applied to the manifold.
-
-/home/slimgreen/CDT-plusplus/tests/Apply_move_test.cpp:185: FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
-  values: REQUIRE( false )
+[2026-06-13 12:41:02.352] [warning] Cannot apply (4,4) move: No (4,4) move possible.
 
 Edge has 2 incident finite cells
 Edge has 2 incident finite cells
@@ -293,7 +612,7 @@ Vertex(1) Point: (0 1 0) Timevalue: 1
 Vertex(2) Point: (1 0 0) Timevalue: 1
 Vertex(3) Point: (0 0 1) Timevalue: 1
 ---
-[2026-06-13 12:23:12.579] [warning] No (3,2) move possible.
+[2026-06-13 12:41:02.357] [warning] No (3,2) move possible.
 
 Manifold before (2,6):
 There are 1 (3,1) simplices and 0 (2,2) simplices and 1 (1,3) simplices.
@@ -403,7 +722,7 @@ Vertex(1) Point: (0 0 1) Timevalue: 1
 Vertex(2) Point: (0 1 0) Timevalue: 1
 Vertex(3) Point: (1 0 0) Timevalue: 1
 ---
-[2026-06-13 12:23:12.580] [warning] No (6,2) move possible.
+[2026-06-13 12:41:02.357] [warning] No (6,2) move possible.
 
 Edge has 2 incident finite cells
 Edge has 2 incident finite cells
@@ -443,27 +762,27 @@ Vertex: (0 0 1) Timevalue: 1 is a vertex: true and is infinite: false
 Vertex: (0 1 0) Timevalue: 1 is a vertex: true and is infinite: false
 
 Generating universe ...
-Triangulation has 13 vertices and 45 edges and 56 faces and 23 simplices.
+Triangulation has 13 vertices and 46 edges and 57 faces and 23 simplices.
 
 Generating universe ...
-Triangulation has 13 vertices and 46 edges and 60 faces and 26 simplices.
+Triangulation has 13 vertices and 47 edges and 60 faces and 25 simplices.
 The triangulation has an initial radius of 3 and a radial separation of 2
 
 Generating universe ...
-Triangulation has 13 vertices and 44 edges and 54 faces and 22 simplices.
-Vertex (-1.9718 -3.92228 -2.39327) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-2.54521 -4.26261 -0.593341) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-4.35307 -2.2023 1.09574) with timevalue of 2 has a squared radius of 25.000000000000007 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-0.910076 -1.67839 2.31404) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
-Vertex (-0.983237 2.16273 1.8319) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
-Vertex (-2.14959 3.87047 -2.32352) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-1.2414 0.202679 -4.8392) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (4.74109 1.16893 -1.07503) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (4.61624 1.90552 -0.243586) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-0.653381 0.285886 2.91399) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
-Vertex (3.24205 1.48382 3.50534) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (2.45008 -2.49882 3.57113) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-0.499126 -4.79682 -1.31961) with timevalue of 2 has a squared radius of 25.000000000000007 and a squared expected radius of 25 with an expected timevalue of 2.
+Triangulation has 13 vertices and 47 edges and 60 faces and 25 simplices.
+Vertex (-2.40768 -2.98789 -3.20556) with timevalue of 2 has a squared radius of 24.999999999999993 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-4.15381 -2.42229 -1.37054) with timevalue of 2 has a squared radius of 24.999999999999996 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-4.15022 -2.67476 0.788273) with timevalue of 2 has a squared radius of 24.999999999999996 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-3.39619 -1.63455 3.28544) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-1.6992 -0.0707051 4.70189) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (0.157254 -0.696791 2.91372) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
+Vertex (-2.69158 4.00552 -1.30813) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (3.26356 3.78095 -0.231521) with timevalue of 2 has a squared radius of 24.999999999999996 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (1.4487 -0.0490115 -4.78528) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (4.4639 0.273504 2.2358) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (2.54884 0.901821 4.20597) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (0.552342 -1.3458 2.62369) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
+Vertex (1.57823 -2.11502 1.42684) with timevalue of 1 has a squared radius of 9.000000000000002 and a squared expected radius of 9 with an expected timevalue of 1.
 Point(0,0,0) was found as vertex (0 0 0) with a timevalue of 1.
 Point(3,3,3) was not found.
 Cell info => 13
@@ -520,7 +839,7 @@ Vertex(1) Point: (0 0 0) Timevalue: 1
 Vertex(2) Point: (0 -0.707107 0.707107) Timevalue: 2
 Vertex(3) Point: (-0.707107 0 0.707107) Timevalue: 2
 ---
-Neighboring cell 0:Cell info => 0
+Neighboring cell 0:Cell info => 13
 Vertex(0) Point: (2.47033e-323 4.94066e-324 2.96439e-323) Timevalue: 1
 Vertex(1) Point: (0 -0.707107 0.707107) Timevalue: 2
 Vertex(2) Point: (0 0 0) Timevalue: 1
@@ -532,7 +851,7 @@ Vertex(1) Point: (0 0 2) Timevalue: 3
 Vertex(2) Point: (0 0.707107 0.707107) Timevalue: 2
 Vertex(3) Point: (-0.707107 0 0.707107) Timevalue: 2
 ---
-Neighboring cell 2:Cell info => 13
+Neighboring cell 2:Cell info => 0
 Vertex(0) Point: (0 0.707107 0.707107) Timevalue: 2
 Vertex(1) Point: (2.47033e-323 4.94066e-324 2.96439e-323) Timevalue: 1
 Vertex(2) Point: (0 0 0) Timevalue: 1
@@ -552,59 +871,59 @@ Vertex(3) Point: (1.1547 1.1547 1.1547) Timevalue: 2
 ---
 
 Generating universe ...
-Triangulation has 6 vertices and 15 edges and 17 faces and 7 simplices.
+Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
+
+Generating universe ...
+Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
+Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
 
 Generating universe ...
 Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
-Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
+Vertex: (-0.101256 0.290395 -0.951535) Timevalue: 1 has a squared radius of 1 and a squared expected radius of 1 with an expected timevalue of 1.
+Vertex: (-0.303581 -1.96499 -0.216013) Timevalue: 2 has a squared radius of 3.999999999999999 and a squared expected radius of 4 with an expected timevalue of 2.
+Vertex: (0.52505 -0.839668 0.138854) Timevalue: 1 has a squared radius of 1 and a squared expected radius of 1 with an expected timevalue of 1.
+Vertex: (1.97382 -0.310587 0.0869124) Timevalue: 2 has a squared radius of 3.9999999999999996 and a squared expected radius of 4 with an expected timevalue of 2.
+Vertex: (1.99743 0.0957838 -0.0331933) Timevalue: 2 has a squared radius of 4.000000000000001 and a squared expected radius of 4 with an expected timevalue of 2.
+Vertex: (-0.801583 -1.75848 -0.514995) Timevalue: 2 has a squared radius of 4.000000000000001 and a squared expected radius of 4 with an expected timevalue of 2.
 
 Generating universe ...
-Triangulation has 6 vertices and 14 edges and 15 faces and 6 simplices.
-Vertex: (-0.972516 -0.000629595 -0.232836) Timevalue: 1 has a squared radius of 0.9999999999999999 and a squared expected radius of 1 with an expected timevalue of 1.
-Vertex: (-0.227868 0.549354 -1.90953) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
-Vertex: (0.751486 0.0878311 0.653876) Timevalue: 1 has a squared radius of 1 and a squared expected radius of 1 with an expected timevalue of 1.
-Vertex: (-0.39581 -1.93982 -0.283593) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
-Vertex: (0.0361711 -1.21031 1.5918) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
-Vertex: (-1.79791 0.718639 -0.501089) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
+Triangulation has 13 vertices and 45 edges and 56 faces and 23 simplices.
 
 Generating universe ...
-Triangulation has 13 vertices and 44 edges and 53 faces and 21 simplices.
+Triangulation has 13 vertices and 45 edges and 57 faces and 24 simplices.
 
 Generating universe ...
-Triangulation has 13 vertices and 47 edges and 60 faces and 25 simplices.
+Triangulation has 11 vertices and 36 edges and 45 faces and 19 simplices.
 
 Generating universe ...
-Triangulation has 5 vertices and 10 edges and 9 faces and 3 simplices.
+Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
 
 Generating universe ...
-Triangulation has 10 vertices and 32 edges and 39 faces and 16 simplices.
+Triangulation has 4913 vertices and 33626 edges and 56159 faces and 27445 simplices.
 
 Generating universe ...
-Triangulation has 4900 vertices and 33562 edges and 56067 faces and 27404 simplices.
+Triangulation has 4913 vertices and 33604 edges and 56116 faces and 27424 simplices.
+Triangulation has 4913 vertices and 33604 edges and 56116 faces and 27424 simplices.
 
 Generating universe ...
-Triangulation has 4903 vertices and 33575 edges and 56080 faces and 27407 simplices.
-Triangulation has 4903 vertices and 33575 edges and 56080 faces and 27407 simplices.
-
-Generating universe ...
-Triangulation has 4917 vertices and 33603 edges and 56102 faces and 27415 simplices.
-Triangulation has 4917 vertices and 33603 edges and 56102 faces and 27415 simplices.
-There are 33603 edges.
-There are 18894 timelike edges and 14709 spacelike edges.
-There are 4917 vertices with a max timevalue of 7 and a min timevalue of 1.
+Triangulation has 4904 vertices and 33621 edges and 56167 faces and 27449 simplices.
+Triangulation has 4904 vertices and 33621 edges and 56167 faces and 27449 simplices.
+There are 33621 edges.
+There are 18951 timelike edges and 14670 spacelike edges.
+There are 4904 vertices with a max timevalue of 7 and a min timevalue of 1.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 724 spacelike faces.
 Timeslice 3 has 1088 spacelike faces.
-Timeslice 4 has 1452 spacelike faces.
+Timeslice 4 has 1444 spacelike faces.
 Timeslice 5 has 1816 spacelike faces.
-Timeslice 6 has 2180 spacelike faces.
-Timeslice 7 has 2544 spacelike faces.
+Timeslice 6 has 2168 spacelike faces.
+Timeslice 7 has 2538 spacelike faces.
 
 Generating universe ...
-Triangulation has 4907 vertices and 33565 edges and 56050 faces and 27391 simplices.
+Triangulation has 4912 vertices and 33758 edges and 56423 faces and 27576 simplices.
 
 Generating universe ...
-Triangulation has 4909 vertices and 33587 edges and 56093 faces and 27414 simplices.
+Triangulation has 4913 vertices and 33627 edges and 56162 faces and 27447 simplices.
 Vertex Point: (0 1 0) Timevalue: 1 Expected Timevalue: 1
 Vertex Point: (0 0 1) Timevalue: 1 Expected Timevalue: 1
 Vertex Point: (1 0 0) Timevalue: 1 Expected Timevalue: 1
@@ -671,7 +990,7 @@ Vertex(2) Point: (1 0 0) Timevalue: 1
 Vertex(3) Point: (0 0 -1) Timevalue: 1
 ---
 Bad cells:
-Cell info => 13
+Cell info => 31
 Vertex(0) Point: (2 0 0) Timevalue: 2
 Vertex(1) Point: (0 3 0) Timevalue: 3
 Vertex(2) Point: (0 1 0) Timevalue: 1
@@ -732,50 +1051,50 @@ Base Delaunay number of vertices: 5
 Base Delaunay dimension is: 3
 
 Generating universe ...
-Triangulation has 574 vertices and 3559 edges and 5721 faces and 2735 simplices.
+Triangulation has 579 vertices and 3634 edges and 5858 faces and 2802 simplices.
 Manifold properties:
-There are 630 (3,1) simplices and 973 (2,2) simplices and 1132 (1,3) simplices.
-There are 1860 timelike edges and 1699 spacelike edges.
+There are 634 (3,1) simplices and 1028 (2,2) simplices and 1140 (1,3) simplices.
+There are 1921 timelike edges and 1713 spacelike edges.
 Moved manifold properties:
-There are 630 (3,1) simplices and 974 (2,2) simplices and 1132 (1,3) simplices.
-There are 1861 timelike edges and 1699 spacelike edges.
+There are 634 (3,1) simplices and 1029 (2,2) simplices and 1140 (1,3) simplices.
+There are 1922 timelike edges and 1713 spacelike edges.
 
 Generating universe ...
-Triangulation has 568 vertices and 3568 edges and 5758 faces and 2757 simplices.
+Triangulation has 572 vertices and 3583 edges and 5775 faces and 2763 simplices.
 Manifold properties:
-There are 632 (3,1) simplices and 1007 (2,2) simplices and 1118 (1,3) simplices.
-There are 1888 timelike edges and 1680 spacelike edges.
+There are 630 (3,1) simplices and 1007 (2,2) simplices and 1126 (1,3) simplices.
+There are 1891 timelike edges and 1692 spacelike edges.
 Moved manifold properties:
-There are 632 (3,1) simplices and 1008 (2,2) simplices and 1118 (1,3) simplices.
-There are 1889 timelike edges and 1680 spacelike edges.
+There are 630 (3,1) simplices and 1008 (2,2) simplices and 1126 (1,3) simplices.
+There are 1892 timelike edges and 1692 spacelike edges.
 
 Generating universe ...
-Triangulation has 565 vertices and 3504 edges and 5636 faces and 2696 simplices.
+Triangulation has 569 vertices and 3545 edges and 5708 faces and 2731 simplices.
 Manifold properties:
-There are 626 (3,1) simplices and 958 (2,2) simplices and 1112 (1,3) simplices.
-There are 1833 timelike edges and 1671 spacelike edges.
+There are 630 (3,1) simplices and 981 (2,2) simplices and 1120 (1,3) simplices.
+There are 1862 timelike edges and 1683 spacelike edges.
 Moved manifold properties:
-There are 626 (3,1) simplices and 959 (2,2) simplices and 1112 (1,3) simplices.
-There are 1834 timelike edges and 1671 spacelike edges.
+There are 630 (3,1) simplices and 982 (2,2) simplices and 1120 (1,3) simplices.
+There are 1863 timelike edges and 1683 spacelike edges.
 
 Generating universe ...
-Triangulation has 34 vertices and 183 edges and 286 faces and 136 simplices.
-There are 136 simplices ...
-There are 34 (3,1) simplices and 52 (2,2) simplices and 50 (1,3) simplices.
-There are 183 edges.
-There are 101 timelike edges and 82 spacelike edges.
-There are 34 vertices with a max timevalue of 3 and a min timevalue of 1.
+Triangulation has 32 vertices and 163 edges and 250 faces and 118 simplices.
+There are 118 simplices ...
+There are 33 (3,1) simplices and 41 (2,2) simplices and 44 (1,3) simplices.
+There are 163 edges.
+There are 89 timelike edges and 74 spacelike edges.
+There are 32 vertices with a max timevalue of 3 and a min timevalue of 1.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 32 spacelike faces.
-Timeslice 3 has 18 spacelike faces.
+Timeslice 3 has 12 spacelike faces.
 
 Generating universe ...
-Triangulation has 565 vertices and 3530 edges and 5690 faces and 2724 simplices.
-Triangulation has 565 vertices and 3530 edges and 5690 faces and 2724 simplices.
-Timeslice 1 has 1 spacelike faces.
+Triangulation has 563 vertices and 3470 edges and 5575 faces and 2667 simplices.
+Triangulation has 563 vertices and 3470 edges and 5575 faces and 2667 simplices.
+Timeslice 1 has 0 spacelike faces.
 Timeslice 2 has 248 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 484 spacelike faces.
+Timeslice 4 has 482 spacelike faces.
 Manifold has 4 vertices and 6 edges and 4 faces and 1 simplices.
 There are 1 (3,1) simplices and 0 (2,2) simplices and 0 (1,3) simplices.
 There are 3 timelike edges and 3 spacelike edges.
@@ -812,94 +1131,94 @@ Timeslice 2 has 1 spacelike faces.
 Timeslice 3 has 0 spacelike faces.
 
 Generating universe ...
-Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
+Triangulation has 6 vertices and 14 edges and 15 faces and 6 simplices.
 
 Generating universe ...
-Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
-Manifold has 6 vertices and 13 edges and 12 faces and 4 simplices.
+Triangulation has 6 vertices and 15 edges and 16 faces and 6 simplices.
+Manifold has 6 vertices and 15 edges and 16 faces and 6 simplices.
 Timeslice 1 has 0 spacelike faces.
-Timeslice 2 has 2 spacelike faces.
+Timeslice 2 has 3 spacelike faces.
 
 Generating universe ...
-Triangulation has 574 vertices and 3583 edges and 5771 faces and 2761 simplices.
+Triangulation has 578 vertices and 3593 edges and 5779 faces and 2763 simplices.
 
 Generating universe ...
-Triangulation has 562 vertices and 3524 edges and 5685 faces and 2722 simplices.
-Manifold has 562 vertices and 3524 edges and 5685 faces and 2722 simplices.
+Triangulation has 576 vertices and 3620 edges and 5838 faces and 2793 simplices.
+Manifold has 576 vertices and 3620 edges and 5838 faces and 2793 simplices.
 Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 244 spacelike faces.
+Timeslice 2 has 250 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 482 spacelike faces.
+Timeslice 4 has 504 spacelike faces.
 
 Generating universe ...
-Triangulation has 4910 vertices and 33696 edges and 56306 faces and 27519 simplices.
+Triangulation has 4904 vertices and 33554 edges and 56035 faces and 27384 simplices.
 
 Generating universe ...
-Triangulation has 4908 vertices and 33753 edges and 56427 faces and 27581 simplices.
-Manifold has 4908 vertices and 33753 edges and 56427 faces and 27581 simplices.
-Timeslice 1 has 1 spacelike faces.
+Triangulation has 4904 vertices and 33521 edges and 55967 faces and 27349 simplices.
+Manifold has 4904 vertices and 33521 edges and 55967 faces and 27349 simplices.
+Timeslice 1 has 0 spacelike faces.
 Timeslice 2 has 724 spacelike faces.
-Timeslice 3 has 1088 spacelike faces.
+Timeslice 3 has 1084 spacelike faces.
 Timeslice 4 has 1452 spacelike faces.
-Timeslice 5 has 1812 spacelike faces.
+Timeslice 5 has 1804 spacelike faces.
 Timeslice 6 has 2180 spacelike faces.
-Timeslice 7 has 2530 spacelike faces.
+Timeslice 7 has 2538 spacelike faces.
 
 Generating universe ...
-Triangulation has 574 vertices and 3581 edges and 5766 faces and 2758 simplices.
+Triangulation has 574 vertices and 3547 edges and 5698 faces and 2724 simplices.
 
 Generating universe ...
-Triangulation has 579 vertices and 3576 edges and 5742 faces and 2744 simplices.
+Triangulation has 553 vertices and 3427 edges and 5511 faces and 2636 simplices.
 
 Generating universe ...
-Triangulation has 577 vertices and 3590 edges and 5776 faces and 2762 simplices.
+Triangulation has 566 vertices and 3512 edges and 5648 faces and 2701 simplices.
 Manifold properties:
-Manifold has 577 vertices and 3590 edges and 5776 faces and 2762 simplices.
+Manifold has 566 vertices and 3512 edges and 5648 faces and 2701 simplices.
 Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 252 spacelike faces.
+Timeslice 2 has 242 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 504 spacelike faces.
-Cell compact container size == 3266
-Now compact container size == 3266
-Vertex compact container size == 578
+Timeslice 4 has 492 spacelike faces.
+Cell compact container size == 3193
+Now compact container size == 3193
+Vertex compact container size == 567
 Copied manifold properties:
-Manifold has 577 vertices and 3590 edges and 5776 faces and 2762 simplices.
+Manifold has 566 vertices and 3512 edges and 5648 faces and 2701 simplices.
 Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 252 spacelike faces.
+Timeslice 2 has 242 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 504 spacelike faces.
+Timeslice 4 has 492 spacelike faces.
+
+Generating universe ...
+Triangulation has 564 vertices and 3502 edges and 5634 faces and 2695 simplices.
+Manifold N3 = 2695
+Manifold N2 = 5634
+Manifold N1 = 3502
+Manifold N0 = 564
+update() called.
+Manifold N3 is still 2695
+Manifold N2 is still 5634
+Manifold N1 is still 3502
+Manifold N0 is still 564
+
+Generating universe ...
+Triangulation has 575 vertices and 3588 edges and 5776 faces and 2762 simplices.
 
 Generating universe ...
 Triangulation has 576 vertices and 3585 edges and 5768 faces and 2758 simplices.
-Manifold N3 = 2758
-Manifold N2 = 5768
-Manifold N1 = 3585
-Manifold N0 = 576
-update() called.
-Manifold N3 is still 2758
-Manifold N2 is still 5768
-Manifold N1 is still 3585
-Manifold N0 is still 576
-
-Generating universe ...
-Triangulation has 576 vertices and 3571 edges and 5741 faces and 2745 simplices.
-
-Generating universe ...
-Triangulation has 566 vertices and 3551 edges and 5727 faces and 2741 simplices.
-Manifold 1 N3 = 2745
-Manifold 1 N2 = 5741
-Manifold 1 N1 = 3571
-Manifold 1 N0 = 576
-Manifold 2 N3 = 2741
-Manifold 2 N2 = 5727
-Manifold 2 N1 = 3551
-Manifold 2 N0 = 566
+Manifold 1 N3 = 2762
+Manifold 1 N2 = 5776
+Manifold 1 N1 = 3588
+Manifold 1 N0 = 575
+Manifold 2 N3 = 2758
+Manifold 2 N2 = 5768
+Manifold 2 N1 = 3585
+Manifold 2 N0 = 576
 Manifolds swapped.
 update() called.
-Manifold 1 N3 is now 2741
-Manifold 1 N2 is now 5727
-Manifold 1 N1 is now 3551
-Manifold 1 N0 is now 566
+Manifold 1 N3 is now 2758
+Manifold 1 N2 is now 5768
+Manifold 1 N1 is now 3585
+Manifold 1 N0 is now 576
 Vertex Point: (1 0 0) Timevalue: 2 Expected Timevalue: 2
 Vertex Point: (1.1547 1.1547 1.1547) Timevalue: 3 Expected Timevalue: 3
 Vertex Point: (0 0 0) Timevalue: 1 Expected Timevalue: 1
@@ -936,267 +1255,827 @@ Vertex(3) Point: (0 1 0) Timevalue: 1
 ---
 
 Generating universe ...
-Triangulation has 4902 vertices and 33528 edges and 55994 faces and 27367 simplices.
+Triangulation has 4907 vertices and 33631 edges and 56185 faces and 27460 simplices.
 
 Generating universe ...
-Triangulation has 4907 vertices and 33566 edges and 56056 faces and 27396 simplices.
+Triangulation has 4908 vertices and 33665 edges and 56251 faces and 27493 simplices.
 
 Generating universe ...
-Triangulation has 4914 vertices and 33614 edges and 56130 faces and 27429 simplices.
+Triangulation has 4893 vertices and 33569 edges and 56096 faces and 27419 simplices.
 
 Generating universe ...
-Triangulation has 4911 vertices and 33679 edges and 56271 faces and 27502 simplices.
+Triangulation has 4914 vertices and 33631 edges and 56164 faces and 27446 simplices.
 
 Generating universe ...
-Triangulation has 4915 vertices and 33639 edges and 56179 faces and 27454 simplices.
+Triangulation has 4904 vertices and 33553 edges and 56037 faces and 27387 simplices.
 
 Generating universe ...
-Triangulation has 573 vertices and 3580 edges and 5767 faces and 2759 simplices.
+Triangulation has 559 vertices and 3522 edges and 5688 faces and 2724 simplices.
 
 Generating universe ...
-Triangulation has 577 vertices and 3588 edges and 5771 faces and 2759 simplices.
+Triangulation has 567 vertices and 3557 edges and 5738 faces and 2747 simplices.
 There were 0 attempted (2,3) moves and 0 attempted (3,2) moves and 0 attempted (2,6) moves and 0 attempted (6,2) moves and 0 attempted (4,4) moves.
 There were 0 successful (2,3) moves and 0 successful (3,2) moves and 0 successful (2,6) moves and 0 successful (6,2) moves and 0 successful (4,4) moves.
 There were no failed moves.
 
 Generating universe ...
-Triangulation has 571 vertices and 3526 edges and 5663 faces and 2707 simplices.
+Triangulation has 578 vertices and 3635 edges and 5863 faces and 2805 simplices.
 Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
 Making random moves ...
 === Pass 1 ===
-[2026-06-13 12:23:14.707] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.456] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:14.783] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.458] [warning] No (6,2) move possible.
 
-[2026-06-13 12:23:14.955] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.461] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.007] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.463] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.139] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.476] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.251] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.489] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.329] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.503] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.393] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.505] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.627] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.507] [warning] No (6,2) move possible.
 
-[2026-06-13 12:23:15.703] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.510] [warning] No (6,2) move possible.
 
-[2026-06-13 12:23:15.793] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.558] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:15.948] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.584] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:16.111] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.586] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:16.433] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.759] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:16.638] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.958] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:16.799] [warning] No (4,4) move possible.
+[2026-06-13 12:41:04.983] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:16.970] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.054] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.158] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.126] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.277] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.163] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.396] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.188] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.494] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.284] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.730] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.402] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.847] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.404] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:17.927] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.464] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.048] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.467] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.155] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.551] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.254] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.565] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.346] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.602] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.437] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.628] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.637] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.654] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.755] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.809] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.908] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.848] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:18.999] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.862] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.164] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.864] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.248] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.925] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.328] [warning] No (4,4) move possible.
+[2026-06-13 12:41:05.951] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.437] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.036] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.574] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.074] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.679] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.196] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.831] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.271] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:19.999] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.286] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.205] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.300] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.320] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.471] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.424] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.473] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.515] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.620] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.645] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.695] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.785] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.759] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:20.917] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.822] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.016] [warning] No (4,4) move possible.
+[2026-06-13 12:41:06.994] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.105] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.082] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.194] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.096] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.286] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.111] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.396] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.125] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.548] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.128] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.712] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.167] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.889] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.350] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:21.994] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.451] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.171] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.539] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.282] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.554] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.382] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.669] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.514] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.734] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.692] [warning] No (4,4) move possible.
+[2026-06-13 12:41:07.871] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.829] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.024] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:22.953] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.039] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.057] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.128] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.170] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.193] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.378] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.281] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.510] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.309] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.681] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.652] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.866] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.691] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:23.973] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.806] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:24.085] [warning] No (4,4) move possible.
+[2026-06-13 12:41:08.922] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:24.222] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.000] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:24.373] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.116] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:24.659] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.131] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:24.809] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.184] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:24.965] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.186] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:25.238] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.189] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:25.379] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.204] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:25.658] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.451] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:25.888] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.453] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.021] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.469] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.233] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.471] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.353] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.513] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.494] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.580] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.597] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.582] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.714] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.623] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:26.873] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.626] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:27.012] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.706] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:27.137] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.748] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:27.497] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.750] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:27.735] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.765] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:28.005] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.860] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:28.114] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.888] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:28.348] [warning] No (4,4) move possible.
+[2026-06-13 12:41:09.967] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:28.590] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.009] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:28.852] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.050] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:29.000] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.104] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:29.127] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.146] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:29.378] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.240] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:29.520] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.242] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:29.711] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.271] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:29.846] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.326] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:30.026] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.407] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:30.273] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.489] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:30.440] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.518] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:30.581] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.521] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:30.799] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.629] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:30.913] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.632] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:31.107] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.688] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:31.249] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.704] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:31.401] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.707] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:31.573] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.762] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:31.774] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.819] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:31.910] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.861] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:32.100] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.903] [warning] No (4,4) move possible.
 
-[2026-06-13 12:23:32.459] [warning] No (4,4) move possible.
+[2026-06-13 12:41:10.919] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:10.921] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:10.937] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:10.939] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.009] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.121] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.138] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.194] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.210] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.240] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.243] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.382] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.385] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.402] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.486] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.530] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.533] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.687] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.787] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.832] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.876] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.893] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.923] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:11.967] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.065] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.096] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.140] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.226] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.228] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.317] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.838] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.855] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.886] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.931] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:12.948] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.049] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.052] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.068] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.071] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.174] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.262] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.265] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.268] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.270] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.273] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.305] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.321] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.324] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.327] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.329] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.361] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.476] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.577] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.580] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.598] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.600] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.617] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.620] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:13.910] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.056] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.059] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.245] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.306] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.309] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.426] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.443] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.460] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.606] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.710] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.727] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.802] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:14.849] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.011] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.115] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.132] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.179] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.388] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.478] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.495] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.584] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.706] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.708] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.781] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.843] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.946] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:15.962] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.034] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.037] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.039] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.112] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.142] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.159] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.217] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.291] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.308] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.354] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.371] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.474] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.476] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.479] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.482] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.485] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.517] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.535] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.627] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.659] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.661] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.694] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.696] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.830] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:16.922] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.146] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.193] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.285] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.302] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.350] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.414] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.416] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.509] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.557] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.783] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.785] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.848] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.851] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.853] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.965] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:17.997] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.016] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.063] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.080] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.083] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.145] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.224] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.256] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.582] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.630] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.710] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.743] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.848] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.851] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.854] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:18.892] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.007] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.118] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.136] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.139] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.187] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.341] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.581] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.584] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.603] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.606] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.689] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.692] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.711] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.714] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.875] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.894] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.896] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:19.914] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.177] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.383] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.417] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.420] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.438] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.688] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.769] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.927] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:20.930] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.010] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.140] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.158] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.162] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.228] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.376] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.520] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.823] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:21.891] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.020] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.039] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.075] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.096] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.133] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.169] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.268] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.384] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.722] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.898] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.901] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.984] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:22.987] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.006] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.056] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.250] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.300] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.382] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.385] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.484] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.520] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.539] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.574] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.657] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.660] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.712] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.880] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.916] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.919] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.953] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:23.988] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.184] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.284] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.303] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.307] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.341] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.344] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.411] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.495] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.515] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.518] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.607] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.611] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.614] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.670] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.674] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.694] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.750] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.788] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:24.843] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.160] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.301] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.496] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.517] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.521] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.576] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:25.774] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.073] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.111] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.149] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.221] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.274] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.427] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.515] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.658] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.677] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.782] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.952] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:26.971] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.094] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.130] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.134] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.137] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.140] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.176] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.279] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.332] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.335] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.338] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.391] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.394] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.480] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.552] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.623] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.627] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.748] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.752] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.755] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.898] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:27.934] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.191] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.245] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.284] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.353] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.406] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.478] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.534] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.554] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.557] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.595] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.699] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.803] [warning] No (4,4) move possible.
+
+[2026-06-13 12:41:28.807] [warning] No (4,4) move possible.
 
 ===============================================================================
 /home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:146:
@@ -1219,14 +2098,14 @@ DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
       Then: A lot of moves are done.
 
 ===============================================================================
-[doctest] test cases:    57 |    55 passed | 2 failed | 45 skipped
-[doctest] assertions: 34550 | 34549 passed | 1 failed |
+[doctest] test cases:    57 |    56 passed | 1 failed | 45 skipped
+[doctest] assertions: 34567 | 34567 passed | 0 failed |
 [doctest] Status: FAILURE!
 
 
 75% tests passed, 3 tests failed out of 12
 
-Total Test time (real) =  38.86 sec
+Total Test time (real) =  29.28 sec
 
 The following tests FAILED:
 	  1 - cdt-unit-tests (SEGFAULT)
