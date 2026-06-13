@@ -8,6 +8,7 @@
 #ifndef CDT_PLUSPLUS_METROPOLIS_4_HPP
 #define CDT_PLUSPLUS_METROPOLIS_4_HPP
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -18,6 +19,7 @@
 #include <random>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Ergodic_moves_4.hpp"
@@ -39,6 +41,7 @@ namespace cdt::four_d
     long double   action{0.0L};
     Int_precision max_vertex_order{0};
     bool          valid{false};
+    FoliatedTriangulation4::Profile spatial_profile;
   };
 
   struct Metropolis4Config
@@ -173,7 +176,8 @@ namespace cdt::four_d
               result.triangulation.counts(),
               action,
               result.triangulation.max_vertex_order(),
-              result.triangulation.is_valid()});
+              result.triangulation.is_valid(),
+              result.triangulation.spatial_volume_profile()});
         }
       }
 

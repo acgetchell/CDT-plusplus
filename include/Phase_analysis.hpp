@@ -11,8 +11,10 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <limits>
 #include <numeric>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Settings.hpp"
@@ -30,8 +32,7 @@ namespace cdt::four_d::phase
     no_phase_classification,
     thermalization_failed,
     insufficient_effective_samples,
-    detailed_balance_failed,
-    restricted_ensemble_only
+    detailed_balance_failed
   };
 
   [[nodiscard]] inline auto to_string(Verdict const verdict) -> std::string
@@ -47,7 +48,6 @@ namespace cdt::four_d::phase
       case Verdict::insufficient_effective_samples:
         return "insufficient_effective_samples";
       case Verdict::detailed_balance_failed: return "detailed_balance_failed";
-      case Verdict::restricted_ensemble_only: return "restricted_ensemble_only";
     }
     return "no_phase_classification";
   }
@@ -61,6 +61,28 @@ namespace cdt::four_d::phase
     long double bic{0.0L};
     Profile mean_profile;
     std::vector<Profile> covariance;
+  };
+
+  struct EffectiveActionEstimate
+  {
+    std::vector<Profile> covariance;
+    std::vector<Profile> inverse_covariance_diagonal_regularized;
+  };
+
+  struct FiniteSizeScalingReport
+  {
+    long double width_exponent{0.0L};
+    long double peak_exponent{0.0L};
+    long double collapse_error{0.0L};
+    bool        passed{false};
+  };
+
+  struct CdsValidationReport
+  {
+    Verdict verdict{Verdict::no_phase_classification};
+    FiniteSizeScalingReport scaling;
+    std::vector<long double> profile_correlations;
+    long double minimum_profile_correlation{0.0L};
   };
 
   [[nodiscard]] inline auto centered(Profile profile) -> Profile
@@ -123,6 +145,104 @@ namespace cdt::four_d::phase
     return result;
   }
 
+  [[nodiscard]] inline auto effective_action_kernel(
+      std::vector<Profile> const& profiles) -> EffectiveActionEstimate
+  {
+    auto const profile_mean = mean(profiles);
+    auto cov = covariance(profiles, profile_mean);
+    auto inverse = cov;
+    for (std::size_t i = 0; i < cov.size(); ++i)
+    {
+      for (std::size_t j = 0; j < cov.size(); ++j)
+      {
+        inverse[i][j] = 0.0L;
+      }
+      auto const regularized = cov[i][i] + 1.0e-9L;
+      inverse[i][i] = 1.0L / regularized;
+    }
+    return EffectiveActionEstimate{cov, inverse};
+  }
+
+  [[nodiscard]] inline auto profile_width(Profile const& profile)
+      -> long double
+  {
+    if (profile.empty()) { return 0.0L; }
+    auto const total =
+        std::accumulate(profile.begin(), profile.end(), 0.0L);
+    if (total == 0.0L) { return 0.0L; }
+    auto center = 0.0L;
+    for (std::size_t index = 0; index < profile.size(); ++index)
+    {
+      center += static_cast<long double>(index) * profile[index];
+    }
+    center /= total;
+    auto variance = 0.0L;
+    for (std::size_t index = 0; index < profile.size(); ++index)
+    {
+      auto const delta = static_cast<long double>(index) - center;
+      variance += delta * delta * profile[index];
+    }
+    return std::sqrt(variance / total);
+  }
+
+  [[nodiscard]] inline auto fit_power_law_exponent(
+      std::vector<std::pair<long double, long double>> const& samples)
+      -> long double
+  {
+    std::vector<std::pair<long double, long double>> positive_samples;
+    positive_samples.reserve(samples.size());
+    for (auto const& sample : samples)
+    {
+      if (sample.first > 0.0L && sample.second > 0.0L)
+      {
+        positive_samples.push_back(sample);
+      }
+    }
+    if (positive_samples.size() < 2) { return 0.0L; }
+    auto mean_x = 0.0L;
+    auto mean_y = 0.0L;
+    for (auto const& [x, y] : positive_samples)
+    {
+      mean_x += std::log(x);
+      mean_y += std::log(y);
+    }
+    mean_x /= static_cast<long double>(positive_samples.size());
+    mean_y /= static_cast<long double>(positive_samples.size());
+    auto numerator = 0.0L;
+    auto denominator = 0.0L;
+    for (auto const& [x, y] : positive_samples)
+    {
+      auto const lx = std::log(x) - mean_x;
+      auto const ly = std::log(y) - mean_y;
+      numerator += lx * ly;
+      denominator += lx * lx;
+    }
+    return denominator == 0.0L ? 0.0L : numerator / denominator;
+  }
+
+  [[nodiscard]] inline auto analyze_finite_size_scaling(
+      std::vector<std::pair<long double, Profile>> profiles_by_volume)
+      -> FiniteSizeScalingReport
+  {
+    std::vector<std::pair<long double, long double>> widths;
+    std::vector<std::pair<long double, long double>> peaks;
+    for (auto& [volume, profile] : profiles_by_volume)
+    {
+      if (profile.empty()) { continue; }
+      profile = centered(std::move(profile));
+      widths.emplace_back(volume, std::max(1.0L, profile_width(profile)));
+      peaks.emplace_back(volume, *std::ranges::max_element(profile));
+    }
+    auto report = FiniteSizeScalingReport{
+        fit_power_law_exponent(widths),
+        fit_power_law_exponent(peaks),
+        0.0L,
+        false};
+    report.passed = std::abs(report.width_exponent - 0.25L) < 0.08L &&
+                    std::abs(report.peak_exponent - 0.75L) < 0.08L;
+    return report;
+  }
+
   [[nodiscard]] inline auto profile_correlation(Profile const& lhs,
                                                 Profile const& rhs)
       -> long double
@@ -167,6 +287,62 @@ namespace cdt::four_d::phase
       }
     }
     return result;
+  }
+
+  [[nodiscard]] inline auto diagnose_c_ds_finite_size(
+      std::vector<std::pair<long double, Profile>> profiles_by_volume,
+      std::size_t const effective_sample_count) -> CdsValidationReport
+  {
+    CdsValidationReport report;
+    if (effective_sample_count < 3 || profiles_by_volume.size() < 3)
+    {
+      report.verdict = Verdict::insufficient_effective_samples;
+      return report;
+    }
+
+    report.minimum_profile_correlation =
+        std::numeric_limits<long double>::infinity();
+    for (auto const& [_, original_profile] : profiles_by_volume)
+    {
+      auto profile = centered(original_profile);
+      auto const total =
+          std::accumulate(profile.begin(), profile.end(), 0.0L);
+      if (total == 0.0L)
+      {
+        report.verdict = Verdict::thermalization_failed;
+        return report;
+      }
+      auto const peak = *std::ranges::max_element(profile) / total;
+      if (peak > 0.70L)
+      {
+        report.verdict = Verdict::collapsed_like;
+        return report;
+      }
+
+      auto alternating = 0.0L;
+      for (std::size_t index = 0; index < profile.size(); ++index)
+      {
+        alternating += (index % 2 == 0 ? 1.0L : -1.0L) * profile[index];
+      }
+      if (std::abs(alternating / total) > 0.30L)
+      {
+        report.verdict = Verdict::c_b_like;
+        return report;
+      }
+
+      auto const correlation =
+          profile_correlation(profile, cos3_reference(profile.size()));
+      report.profile_correlations.push_back(correlation);
+      report.minimum_profile_correlation =
+          std::min(report.minimum_profile_correlation, correlation);
+    }
+
+    report.scaling = analyze_finite_size_scaling(std::move(profiles_by_volume));
+    report.verdict = report.scaling.passed &&
+                             report.minimum_profile_correlation > 0.85L
+                         ? Verdict::c_ds_supported
+                         : Verdict::no_phase_classification;
+    return report;
   }
 
   [[nodiscard]] inline auto estimate_autocorrelation_time(

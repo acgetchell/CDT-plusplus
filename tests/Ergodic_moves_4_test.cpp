@@ -55,6 +55,60 @@ TEST_CASE("4D move plus inverse restores canonical hash")
   check_inverse(MoveType4D::EIGHT_TWO);
 }
 
+TEST_CASE("4D moves have documented exact combinatorial count changes")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(4);
+  for (auto const descriptor : all_move_descriptors_4d())
+  {
+    auto moved = moves::apply(triangulation, descriptor.move);
+    REQUIRE_MESSAGE(moved, descriptor.name);
+    CHECK_EQ(moved->delta.N0, descriptor.delta.N0);
+    CHECK_EQ(moved->delta.N1, descriptor.delta.N1);
+    CHECK_EQ(moved->delta.N2, descriptor.delta.N2);
+    CHECK_EQ(moved->delta.N3, descriptor.delta.N3);
+    CHECK_EQ(moved->delta.N4, descriptor.delta.N4);
+    CHECK_EQ(moved->delta.N41, descriptor.delta.N41);
+    CHECK_EQ(moved->delta.N32, descriptor.delta.N32);
+    CHECK_EQ(moved->delta.N23, descriptor.delta.N23);
+    CHECK_EQ(moved->delta.N14, descriptor.delta.N14);
+  }
+}
+
+TEST_CASE("4D local and full action differences agree for every move")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(4);
+  S4Couplings couplings{1.0L, 0.2L, 0.1L, 64, 0.001L};
+  for (auto const descriptor : all_move_descriptors_4d())
+  {
+    auto moved = moves::apply(triangulation, descriptor.move);
+    REQUIRE_MESSAGE(moved, descriptor.name);
+    auto const full_delta =
+        S4_action_difference(triangulation.counts(),
+                             moved->triangulation.counts(), couplings);
+    auto const local_delta =
+        local_action_difference(triangulation.counts(), descriptor, couplings);
+    CHECK(full_delta == doctest::Approx(local_delta));
+  }
+}
+
+TEST_CASE("4D forward and reverse proposal multiplicities are state-derived")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(4);
+  for (auto const descriptor : all_move_descriptors_4d())
+  {
+    auto const forward =
+        triangulation.candidate_multiplicity(descriptor.move);
+    auto moved = moves::apply(triangulation, descriptor.move);
+    REQUIRE_MESSAGE(moved, descriptor.name);
+    auto const reverse =
+        moved->triangulation.candidate_multiplicity(descriptor.inverse);
+    CHECK_EQ(moved->forward_candidates, forward);
+    CHECK_EQ(moved->reverse_candidates, reverse);
+    CHECK_GT(forward, 0);
+    CHECK_GT(reverse, 0);
+  }
+}
+
 TEST_CASE("4D failed moves leave the original unchanged")
 {
   auto counts = S4Counts{1, 0, 0, 0, 0, 0, 0, 0, 0};

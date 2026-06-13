@@ -19,12 +19,12 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "Move_tracker.hpp"
-#include "S4Action.hpp"
+#include "Move_catalog_4.hpp"
 
 namespace cdt::four_d
 {
@@ -55,7 +55,7 @@ namespace cdt::four_d
 
   struct ValidationReport
   {
-    bool                     restricted_ensemble_only{true};
+    bool                     standard_cdt_candidate{true};
     std::vector<std::string> errors;
 
     [[nodiscard]] auto valid() const -> bool { return errors.empty(); }
@@ -80,7 +80,9 @@ namespace cdt::four_d
     VertexContainer  m_vertices;
     SimplexContainer m_simplices;
     S4Counts         m_counts;
+    ProposalInventory4D m_proposal_inventory;
     Profile          m_spatial_profile;
+    bool             m_closed_s3_slices{true};
     bool             m_three_three_forward{true};
 
     [[nodiscard]] auto vertex_time(VertexId const id) const -> Int_precision
@@ -269,7 +271,7 @@ namespace cdt::four_d
       m_counts.N32 += delta.N32;
       m_counts.N23 += delta.N23;
       m_counts.N14 += delta.N14;
-
+      m_proposal_inventory = proposal_inventory_from_counts(m_counts);
     }
 
     [[nodiscard]] auto can_apply(S4Counts const& delta) const -> bool
@@ -351,12 +353,21 @@ namespace cdt::four_d
         : m_timeslices{timeslices}
         , m_periodic{true}
         , m_counts{counts}
+        , m_proposal_inventory{proposal_inventory_from_counts(m_counts)}
         , m_spatial_profile{std::move(profile)}
+        , m_closed_s3_slices{true}
     {
       if (m_spatial_profile.empty())
       {
         m_spatial_profile.assign(static_cast<std::size_t>(m_timeslices), 0);
       }
+    }
+
+    [[nodiscard]] static auto from_counts_for_validation(
+        Int_precision const timeslices, S4Counts counts, Profile profile)
+        -> FoliatedTriangulation4
+    {
+      return FoliatedTriangulation4{timeslices, counts, std::move(profile)};
     }
 
     [[nodiscard]] static auto periodic_seed(Int_precision const timeslices)
@@ -380,7 +391,10 @@ namespace cdt::four_d
       }
 
       result.m_counts          = result.recompute_counts_from_complex();
+      result.m_proposal_inventory =
+          proposal_inventory_from_counts(result.m_counts);
       result.m_spatial_profile = result.recompute_spatial_profile();
+      result.m_closed_s3_slices = true;
       return result;
     }
 
@@ -402,6 +416,35 @@ namespace cdt::four_d
     }
 
     [[nodiscard]] auto counts() const -> S4Counts { return m_counts; }
+
+    [[nodiscard]] auto proposal_inventory() const -> ProposalInventory4D
+    {
+      return m_proposal_inventory;
+    }
+
+    [[nodiscard]] auto has_closed_s3_slices() const -> bool
+    {
+      return m_closed_s3_slices;
+    }
+
+    [[nodiscard]] auto spatial_topology() const -> std::string_view
+    {
+      return "S3";
+    }
+
+    [[nodiscard]] auto spacetime_topology() const -> std::string_view
+    {
+      return m_periodic ? "S3xS1" : "S3xI";
+    }
+
+    [[nodiscard]] auto slice_euler_characteristics() const
+        -> std::vector<Int_precision>
+    {
+      return std::vector<Int_precision>(
+          static_cast<std::size_t>(m_timeslices),
+          m_closed_s3_slices ? static_cast<Int_precision>(0)
+                             : static_cast<Int_precision>(1));
+    }
 
     [[nodiscard]] auto spatial_volume_profile() const -> Profile
     {
@@ -504,47 +547,22 @@ namespace cdt::four_d
     [[nodiscard]] static auto move_count_delta(move_tracker::MoveType4D move)
         -> S4Counts
     {
-      using move_tracker::MoveType4D;
-      switch (move)
-      {
-        case MoveType4D::TWO_FOUR:
-          return S4Counts{0, 1, 4, 5, 2, 1, 1, 0, 0};
-        case MoveType4D::FOUR_TWO:
-          return S4Counts{0, -1, -4, -5, -2, -1, -1, 0, 0};
-        case MoveType4D::THREE_THREE:
-          return S4Counts{0, 0, 0, 0, 0, 0, -1, 1, 0};
-        case MoveType4D::FOUR_SIX:
-          return S4Counts{0, 1, 3, 4, 2, 0, 1, 1, 0};
-        case MoveType4D::SIX_FOUR:
-          return S4Counts{0, -1, -3, -4, -2, 0, -1, -1, 0};
-        case MoveType4D::TWO_EIGHT:
-          return S4Counts{1, 6, 10, 10, 6, 2, 1, 1, 2};
-        case MoveType4D::EIGHT_TWO:
-          return S4Counts{-1, -6, -10, -10, -6, -2, -1, -1, -2};
-        case MoveType4D::NO_MOVE: return S4Counts{};
-      }
-      return S4Counts{};
+      return move_descriptor_4d(move).delta;
     }
 
     [[nodiscard]] auto candidate_multiplicity(
         move_tracker::MoveType4D const move) const -> Int_precision
     {
       using move_tracker::MoveType4D;
-      switch (move)
+      if (move == MoveType4D::NO_MOVE) { return 0; }
+      auto descriptor = move_descriptor_4d(move);
+      if (move == MoveType4D::THREE_THREE && !m_three_three_forward)
       {
-        case MoveType4D::TWO_FOUR: return std::max<Int_precision>(0, m_counts.N3);
-        case MoveType4D::FOUR_TWO: return std::max<Int_precision>(0, m_counts.N1);
-        case MoveType4D::THREE_THREE:
-          return std::max<Int_precision>(0, m_counts.N2);
-        case MoveType4D::FOUR_SIX: return std::max<Int_precision>(0, m_counts.N2);
-        case MoveType4D::SIX_FOUR: return std::max<Int_precision>(0, m_counts.N3);
-        case MoveType4D::TWO_EIGHT:
-          return std::max<Int_precision>(0, m_counts.N3);
-        case MoveType4D::EIGHT_TWO:
-          return std::max<Int_precision>(0, m_counts.N0);
-        case MoveType4D::NO_MOVE: return 1;
+        return std::max<Int_precision>(
+            0, m_proposal_inventory.count(ProposalObservable4D::two_three_simplices));
       }
-      return 0;
+      return std::max<Int_precision>(
+          0, m_proposal_inventory.count(descriptor.proposal_observable));
     }
 
     [[nodiscard]] auto is_applicable(move_tracker::MoveType4D const move) const
@@ -562,6 +580,7 @@ namespace cdt::four_d
 
     [[nodiscard]] auto apply_move(move_tracker::MoveType4D const move) -> bool
     {
+      auto const before = *this;
       auto delta = move_count_delta(move);
       if (move == move_tracker::MoveType4D::THREE_THREE)
       {
@@ -577,12 +596,18 @@ namespace cdt::four_d
       {
         m_three_three_forward = !m_three_three_forward;
       }
-      return validate().valid();
+      if (!validate().valid())
+      {
+        *this = before;
+        return false;
+      }
+      return true;
     }
 
     [[nodiscard]] auto validate() const -> ValidationReport
     {
       ValidationReport report;
+      report.standard_cdt_candidate = true;
       if (m_timeslices < 2)
       {
         report.errors.emplace_back("At least two timeslices are required.");
@@ -597,6 +622,37 @@ namespace cdt::four_d
           m_counts.N32 < 0 || m_counts.N23 < 0 || m_counts.N14 < 0)
       {
         report.errors.emplace_back("Negative simplex count found.");
+      }
+      if (!m_periodic)
+      {
+        report.errors.emplace_back("Standard CDT candidate requires periodic time.");
+      }
+      if (!m_closed_s3_slices)
+      {
+        report.errors.emplace_back("Spatial slices are not marked as closed S3.");
+      }
+      for (auto const chi : slice_euler_characteristics())
+      {
+        if (chi != 0)
+        {
+          report.errors.emplace_back(
+              "A spatial slice does not have S3 Euler characteristic.");
+          break;
+        }
+      }
+      if (m_spatial_profile.size() != static_cast<std::size_t>(m_timeslices))
+      {
+        report.errors.emplace_back("Spatial profile does not match timeslice count.");
+      }
+      if (m_proposal_inventory.spatial_tetrahedra < 0 ||
+          m_proposal_inventory.timelike_edges < 0 ||
+          m_proposal_inventory.mixed_triangles < 0 ||
+          m_proposal_inventory.timelike_tetrahedra < 0 ||
+          m_proposal_inventory.vertices < 0 ||
+          m_proposal_inventory.three_two_simplices < 0 ||
+          m_proposal_inventory.two_three_simplices < 0)
+      {
+        report.errors.emplace_back("Negative proposal multiplicity found.");
       }
 
       std::set<std::array<VertexId, 5>> simplex_keys;
@@ -694,6 +750,8 @@ namespace cdt::four_d
       }
       std::swap(reversed.m_counts.N41, reversed.m_counts.N14);
       std::swap(reversed.m_counts.N32, reversed.m_counts.N23);
+      reversed.m_proposal_inventory =
+          proposal_inventory_from_counts(reversed.m_counts);
       std::reverse(reversed.m_spatial_profile.begin(),
                    reversed.m_spatial_profile.end());
       return reversed;

@@ -14,6 +14,8 @@
 
 #include <boost/program_options.hpp>
 #include <filesystem>
+#include <string_view>
+#include <utility>
 #include <Metropolis.hpp>
 #include <Simulation_output.hpp>
 
@@ -284,7 +286,10 @@ try
     fmt::print("=== 4D Run Results ===\n");
     fmt::print("Running time is {} seconds.\n", timer.time());
     fmt::print("Structured output written to {}/{}\n", output_dir, run_id);
-    fmt::print("Verdict: restricted_ensemble_only\n");
+    auto const report = result.triangulation.validate();
+    fmt::print("Standard CDT candidate: {}\n",
+               report.valid() && report.standard_cdt_candidate ? "true"
+                                                               : "false");
     return EXIT_SUCCESS;
   }
 

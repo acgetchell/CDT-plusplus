@@ -12,8 +12,10 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include "Metropolis_4.hpp"
+#include "Phase_analysis.hpp"
 
 namespace cdt::four_d::output
 {
@@ -127,10 +129,51 @@ namespace cdt::four_d::output
       }
     }
 
+    std::vector<phase::Profile> measured_profiles;
+    for (auto const& measurement : result.measurements)
+    {
+      phase::Profile profile;
+      profile.reserve(measurement.spatial_profile.size());
+      for (auto const value : measurement.spatial_profile)
+      {
+        profile.push_back(static_cast<long double>(value));
+      }
+      measured_profiles.push_back(std::move(profile));
+    }
+    if (!measured_profiles.empty())
+    {
+      auto const profile_mean = phase::mean(measured_profiles);
+      auto const covariance = phase::covariance(measured_profiles, profile_mean);
+      auto const kernel = phase::effective_action_kernel(measured_profiles);
+
+      std::ofstream covariance_file(run_dir / "covariance.csv");
+      for (auto const& row : covariance)
+      {
+        for (std::size_t index = 0; index < row.size(); ++index)
+        {
+          covariance_file << row[index]
+                          << (index + 1 == row.size() ? '\n' : ',');
+        }
+      }
+
+      std::ofstream effective_file(run_dir / "effective_action.csv");
+      for (auto const& row : kernel.inverse_covariance_diagonal_regularized)
+      {
+        for (std::size_t index = 0; index < row.size(); ++index)
+        {
+          effective_file << row[index]
+                         << (index + 1 == row.size() ? '\n' : ',');
+        }
+      }
+    }
+
     {
       std::ofstream file(run_dir / "summary.json");
       auto const    counts = result.triangulation.counts();
       auto const    report = result.triangulation.validate();
+      auto const diagnostics = measured_profiles.empty()
+                                   ? phase::Diagnostics{}
+                                   : phase::diagnose(measured_profiles);
       file << "{\n";
       file << "  \"N0\": " << counts.N0 << ",\n";
       file << "  \"N1\": " << counts.N1 << ",\n";
@@ -147,8 +190,12 @@ namespace cdt::four_d::output
            << result.triangulation.max_vertex_order() << ",\n";
       file << "  \"valid\": " << (report.valid() ? "true" : "false")
            << ",\n";
-      file << "  \"restricted_ensemble_only\": "
-           << (report.restricted_ensemble_only ? "true" : "false") << "\n";
+      file << "  \"standard_cdt_candidate\": "
+           << (report.valid() && report.standard_cdt_candidate ? "true"
+                                                               : "false")
+           << ",\n";
+      file << "  \"phase_verdict\": \""
+           << phase::to_string(diagnostics.verdict) << "\"\n";
       file << "}\n";
     }
   }

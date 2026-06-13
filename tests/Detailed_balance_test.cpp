@@ -1,4 +1,4 @@
-#include "Ergodic_moves_4.hpp"
+#include "Detailed_balance_4.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -38,4 +38,13 @@ TEST_CASE("4D detailed-balance acceptance ingredients are finite")
   CHECK(std::isfinite(static_cast<double>(probability)));
   CHECK_GE(probability, 0.0L);
   CHECK_LE(probability, 1.0L);
+}
+
+TEST_CASE("4D detailed balance holds on a small enumerable ensemble")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(3);
+  S4Couplings couplings{1.0L, 0.2L, 0.1L, 36, 0.001L};
+  auto report = verify_detailed_balance(triangulation, couplings, 1);
+  CHECK(report.passed);
+  CHECK_FALSE(report.edges.empty());
 }
