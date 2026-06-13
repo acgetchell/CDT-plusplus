@@ -248,6 +248,13 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     ++m_proposed_moves[as_integer(move)];
     ++m_attempted_moves[as_integer(move)];
 
+    if (move == move_tracker::MoveType3D::FOUR_FOUR)
+    {
+      ++m_rejected_moves[as_integer(move)];
+      ++m_failed_moves[as_integer(move)];
+      return false;
+    }
+
     auto candidate     = manifold;
     auto move_function = MoveCommand<ManifoldType>::as_move_function(move);
     auto result        = apply_move(candidate, move_function);
@@ -259,7 +266,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     }
 
     result->update();
-    if (!result->is_valid() ||
+    if (!result->is_valid() || !result->is_correct() ||
         !ergodic_moves::check_move(manifold, *result, move))
     {
       ++m_rejected_moves[as_integer(move)];

@@ -13,6 +13,8 @@
 #include <doctest/doctest.h>
 
 #include <numbers>
+#include <type_traits>
+#include <utility>
 
 using namespace std;
 using namespace manifolds;
@@ -118,6 +120,13 @@ SCENARIO("Manifold special member and swap properties" *
         spdlog::debug(
             "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
             "RADIAL_SEPARATION.\n");
+      }
+      THEN("Delaunay accessors preserve reference semantics.")
+      {
+        CHECK(is_lvalue_reference_v<decltype(
+                  declval<Manifold_3 const&>().get_delaunay())>);
+        CHECK(is_lvalue_reference_v<decltype(
+                  declval<Manifold_4 const&>().get_delaunay())>);
       }
     }
   }

@@ -149,7 +149,7 @@ namespace manifolds
     }  // get_triangulation
 
     /// @returns A read-only reference to the Delaunay triangulation
-    [[nodiscard]] auto get_delaunay() const noexcept
+    [[nodiscard]] auto get_delaunay() const noexcept -> decltype(auto)
     {
       return get_triangulation().get_delaunay();
     }  // get_delaunay
