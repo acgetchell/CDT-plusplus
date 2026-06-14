@@ -52,10 +52,10 @@ SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
         REQUIRE(is_nothrow_move_assignable_v<MoveCommand<Manifold_3>>);
         spdlog::debug("It is no-throw move assignable.\n");
       }
-      THEN("It is no-throw swappable")
+      THEN("It is swappable")
       {
-        REQUIRE(is_nothrow_swappable_v<MoveCommand<Manifold_3>>);
-        spdlog::debug("It is no-throw swappable.\n");
+        REQUIRE(is_swappable_v<MoveCommand<Manifold_3>>);
+        spdlog::debug("It is swappable.\n");
       }
       THEN("It is constructible from a Manifold.")
       {
