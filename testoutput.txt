@@ -1,60 +1,79 @@
 Test project /home/slimgreen/CDT-plusplus/build
       Start  1: cdt-unit-tests
       Start  2: cdt
- 1/12 Test  #1: cdt-unit-tests ..........................***Failed   39.02 sec
+ 1/12 Test  #2: cdt .....................................   Passed    0.03 sec
+      Start  7: initialize
+ 2/12 Test  #7: initialize ..............................   Passed    0.03 sec
+      Start  9: initialize-dimensionality
+ 3/12 Test  #9: initialize-dimensionality ...............   Passed    0.03 sec
+      Start 12: cdt-opt
+ 4/12 Test #12: cdt-opt .................................   Passed    0.01 sec
+      Start  5: cdt-d4
+ 5/12 Test  #5: cdt-d4 ..................................   Passed    0.00 sec
+      Start  4: cdt-dimensionality
+ 6/12 Test  #4: cdt-dimensionality ......................   Passed    0.00 sec
+      Start  3: cdt-triangle-inequalities
+ 7/12 Test  #3: cdt-triangle-inequalities ...............   Passed    0.00 sec
+      Start  6: cdt-toroidal
+ 8/12 Test  #6: cdt-toroidal ............................   Passed    0.00 sec
+      Start  8: initialize-minimum-simplices
+ 9/12 Test  #8: initialize-minimum-simplices ............   Passed    0.00 sec
+      Start 10: initialize-unsupported-dimensionality
+10/12 Test #10: initialize-unsupported-dimensionality ...   Passed    0.00 sec
+      Start 11: initialize-toroidal
+11/12 Test #11: initialize-toroidal .....................   Passed    0.00 sec
+12/12 Test  #1: cdt-unit-tests ..........................***Failed   35.50 sec
 [doctest] doctest version is "2.5.2"
 [doctest] run with "--help" for options
 
 Generating universe ...
-Triangulation has 7401 vertices and 50639 edges and 84562 faces and 41323 simplices.
+Triangulation has 7401 vertices and 50751 edges and 84786 faces and 41435 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15609 (2,2) simplices and 14772 (1,3) simplices.
-There are 28478 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15721 (2,2) simplices and 14772 (1,3) simplices.
+There are 28590 timelike edges and 22161 spacelike edges.
 New manifold after null move:
-There are 10942 (3,1) simplices and 15609 (2,2) simplices and 14772 (1,3) simplices.
-There are 28478 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15721 (2,2) simplices and 14772 (1,3) simplices.
+There are 28590 timelike edges and 22161 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50639 edges and 84562 faces and 41323 simplices.
+Triangulation has 7401 vertices and 50711 edges and 84706 faces and 41395 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15609 (2,2) simplices and 14772 (1,3) simplices.
-There are 28478 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15681 (2,2) simplices and 14772 (1,3) simplices.
+There are 28550 timelike edges and 22161 spacelike edges.
 New manifold after (2,3) move:
-There are 10942 (3,1) simplices and 15610 (2,2) simplices and 14772 (1,3) simplices.
-There are 28479 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15682 (2,2) simplices and 14772 (1,3) simplices.
+There are 28551 timelike edges and 22161 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50587 edges and 84458 faces and 41271 simplices.
+Triangulation has 7401 vertices and 50638 edges and 84560 faces and 41322 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15557 (2,2) simplices and 14772 (1,3) simplices.
-There are 28426 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15608 (2,2) simplices and 14772 (1,3) simplices.
+There are 28477 timelike edges and 22161 spacelike edges.
 New manifold after (3,2) move:
-There are 10942 (3,1) simplices and 15556 (2,2) simplices and 14772 (1,3) simplices.
-There are 28425 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15607 (2,2) simplices and 14772 (1,3) simplices.
+There are 28476 timelike edges and 22161 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50625 edges and 84534 faces and 41309 simplices.
+Triangulation has 7401 vertices and 50676 edges and 84636 faces and 41360 simplices.
 Old manifold.
-There are 10942 (3,1) simplices and 15595 (2,2) simplices and 14772 (1,3) simplices.
-There are 28464 timelike edges and 22161 spacelike edges.
+There are 10942 (3,1) simplices and 15646 (2,2) simplices and 14772 (1,3) simplices.
+There are 28515 timelike edges and 22161 spacelike edges.
 New manifold after (2,6) move:
-There are 10944 (3,1) simplices and 15595 (2,2) simplices and 14774 (1,3) simplices.
-There are 28466 timelike edges and 22164 spacelike edges.
+There are 10944 (3,1) simplices and 15646 (2,2) simplices and 14774 (1,3) simplices.
+There are 28517 timelike edges and 22164 spacelike edges.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50645 edges and 84574 faces and 41329 simplices.
-Old manifold.
-There are 10942 (3,1) simplices and 15615 (2,2) simplices and 14772 (1,3) simplices.
-There are 28484 timelike edges and 22161 spacelike edges.
-New manifold after (6,2) move:
-There are 10940 (3,1) simplices and 15615 (2,2) simplices and 14770 (1,3) simplices.
-There are 28482 timelike edges and 22158 spacelike edges.
+Triangulation has 7401 vertices and 50693 edges and 84670 faces and 41377 simplices.
+[2026-06-14 03:22:44.935] [warning] No (6,2) move possible.
+
+[2026-06-14 03:22:44.935] [warning] Cannot apply (6,2) move: No (6,2) move possible.
+
 
 Generating universe ...
-Triangulation has 7401 vertices and 50615 edges and 84514 faces and 41299 simplices.
-[2026-06-13 14:37:52.452] [warning] No (4,4) move possible.
+Triangulation has 7401 vertices and 50632 edges and 84548 faces and 41316 simplices.
+[2026-06-14 03:22:45.161] [warning] No (4,4) move possible.
 
-[2026-06-13 14:37:52.452] [warning] Cannot apply (4,4) move: No (4,4) move possible.
+[2026-06-14 03:22:45.161] [warning] Cannot apply (4,4) move: No (4,4) move possible.
 
 Edge has 2 incident finite cells
 Edge has 2 incident finite cells
@@ -135,7 +154,7 @@ Vertex(1) Point: (0 1 0) Timevalue: 1
 Vertex(2) Point: (1 0 0) Timevalue: 1
 Vertex(3) Point: (0 0 1) Timevalue: 1
 ---
-[2026-06-13 14:37:52.458] [warning] No (3,2) move possible.
+[2026-06-14 03:22:45.165] [warning] No (3,2) move possible.
 
 Manifold before (2,6):
 There are 1 (3,1) simplices and 0 (2,2) simplices and 1 (1,3) simplices.
@@ -233,19 +252,19 @@ Vertex(3) Point: (0.333333 0.333333 0.333333) Timevalue: 1
 Manifold after (6,2):
 There are 1 (3,1) simplices and 0 (2,2) simplices and 1 (1,3) simplices.
 There are 6 timelike edges and 3 spacelike edges.
-Cell info => 13
-Vertex(0) Point: (1 0 0) Timevalue: 1
-Vertex(1) Point: (0 0 1) Timevalue: 1
-Vertex(2) Point: (0 1 0) Timevalue: 1
-Vertex(3) Point: (0 0 0) Timevalue: 0
----
 Cell info => 31
 Vertex(0) Point: (1.1547 1.1547 1.1547) Timevalue: 2
 Vertex(1) Point: (0 0 1) Timevalue: 1
 Vertex(2) Point: (0 1 0) Timevalue: 1
 Vertex(3) Point: (1 0 0) Timevalue: 1
 ---
-[2026-06-13 14:37:52.459] [warning] No (6,2) move possible.
+Cell info => 13
+Vertex(0) Point: (1 0 0) Timevalue: 1
+Vertex(1) Point: (0 0 1) Timevalue: 1
+Vertex(2) Point: (0 1 0) Timevalue: 1
+Vertex(3) Point: (0 0 0) Timevalue: 0
+---
+[2026-06-14 03:22:45.165] [warning] No (6,2) move possible.
 
 Edge has 2 incident finite cells
 Edge has 2 incident finite cells
@@ -285,27 +304,27 @@ Vertex: (0 0 1) Timevalue: 1 is a vertex: true and is infinite: false
 Vertex: (0 1 0) Timevalue: 1 is a vertex: true and is infinite: false
 
 Generating universe ...
-Triangulation has 13 vertices and 47 edges and 60 faces and 25 simplices.
+Triangulation has 13 vertices and 48 edges and 64 faces and 28 simplices.
 
 Generating universe ...
-Triangulation has 13 vertices and 48 edges and 64 faces and 28 simplices.
+Triangulation has 13 vertices and 50 edges and 67 faces and 29 simplices.
 The triangulation has an initial radius of 3 and a radial separation of 2
 
 Generating universe ...
-Triangulation has 13 vertices and 48 edges and 64 faces and 28 simplices.
-Vertex (-0.371788 -1.56022 -2.53525) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
-Vertex (-4.10055 -0.0126296 -2.861) with timevalue of 2 has a squared radius of 24.999999999999993 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-4.78581 -1.4427 -0.121073) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-1.83487 0.534118 2.31257) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
-Vertex (-3.77351 2.60192 1.99765) with timevalue of 2 has a squared radius of 24.999999999999996 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-1.24216 2.87804 3.89537) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (-0.158643 2.30817 1.90976) with timevalue of 1 has a squared radius of 9.000000000000002 and a squared expected radius of 9 with an expected timevalue of 1.
-Vertex (-2.94032 2.8288 -2.89005) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (0.98741 4.75762 1.17903) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (0.480781 4.5235 2.07529) with timevalue of 2 has a squared radius of 24.999999999999996 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (1.72389 -4.16876 -2.15629) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (3.23902 -1.68411 3.41651) with timevalue of 2 has a squared radius of 24.999999999999993 and a squared expected radius of 25 with an expected timevalue of 2.
-Vertex (2.54642 -2.4682 -3.52474) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Triangulation has 13 vertices and 49 edges and 66 faces and 29 simplices.
+Vertex (-1.29086 1.63936 -2.1555) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
+Vertex (-2.11222 1.29984 -1.68789) with timevalue of 1 has a squared radius of 9 and a squared expected radius of 9 with an expected timevalue of 1.
+Vertex (-2.34666 1.42727 -1.20668) with timevalue of 1 has a squared radius of 9.000000000000002 and a squared expected radius of 9 with an expected timevalue of 1.
+Vertex (-1.91246 -0.501533 4.59249) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-3.26974 3.78267 0.0126999) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-2.52715 4.23679 0.814338) with timevalue of 2 has a squared radius of 25.00000000000001 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-2.69008 2.06701 -3.673) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-1.34026 2.24207 -4.26343) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (4.83946 -0.213201 1.2386) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (-1.13242 1.83859 4.50968) with timevalue of 2 has a squared radius of 25 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (2.88278 -3.96478 0.984921) with timevalue of 2 has a squared radius of 25.000000000000007 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (4.07402 -2.65732 1.15801) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
+Vertex (0.103044 -4.97293 0.509245) with timevalue of 2 has a squared radius of 25.000000000000004 and a squared expected radius of 25 with an expected timevalue of 2.
 Point(0,0,0) was found as vertex (0 0 0) with a timevalue of 1.
 Point(3,3,3) was not found.
 Cell info => 13
@@ -394,59 +413,59 @@ Vertex(3) Point: (1.1547 1.1547 1.1547) Timevalue: 2
 ---
 
 Generating universe ...
-Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
-
-Generating universe ...
-Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
-Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
-
-Generating universe ...
 Triangulation has 6 vertices and 15 edges and 16 faces and 6 simplices.
-Vertex: (-0.00640683 -0.988813 0.149021) Timevalue: 1 has a squared radius of 1 and a squared expected radius of 1 with an expected timevalue of 1.
-Vertex: (1.92206 -0.479671 0.274977) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
-Vertex: (0.193739 0.880445 0.432761) Timevalue: 1 has a squared radius of 1 and a squared expected radius of 1 with an expected timevalue of 1.
-Vertex: (1.15765 -1.6304 -0.040516) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
-Vertex: (1.9596 0.195213 0.349091) Timevalue: 2 has a squared radius of 3.9999999999999996 and a squared expected radius of 4 with an expected timevalue of 2.
-Vertex: (-1.4339 -1.30143 0.500201) Timevalue: 2 has a squared radius of 4.000000000000001 and a squared expected radius of 4 with an expected timevalue of 2.
+
+Generating universe ...
+Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
+Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
+
+Generating universe ...
+Triangulation has 6 vertices and 14 edges and 15 faces and 6 simplices.
+Vertex: (-0.0285607 -0.363113 -0.931307) Timevalue: 1 has a squared radius of 1 and a squared expected radius of 1 with an expected timevalue of 1.
+Vertex: (-1.55735 0.201931 -1.2385) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
+Vertex: (-0.769713 -0.513382 0.379449) Timevalue: 1 has a squared radius of 0.9999999999999999 and a squared expected radius of 1 with an expected timevalue of 1.
+Vertex: (-1.9777 0.222052 0.198527) Timevalue: 2 has a squared radius of 3.9999999999999996 and a squared expected radius of 4 with an expected timevalue of 2.
+Vertex: (-0.0265866 1.71603 1.02691) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
+Vertex: (-0.800026 -1.57134 0.943844) Timevalue: 2 has a squared radius of 4 and a squared expected radius of 4 with an expected timevalue of 2.
+
+Generating universe ...
+Triangulation has 13 vertices and 45 edges and 57 faces and 24 simplices.
 
 Generating universe ...
 Triangulation has 13 vertices and 47 edges and 59 faces and 24 simplices.
 
 Generating universe ...
-Triangulation has 13 vertices and 47 edges and 60 faces and 25 simplices.
+Triangulation has 7 vertices and 18 edges and 19 faces and 7 simplices.
 
 Generating universe ...
-Triangulation has 9 vertices and 27 edges and 32 faces and 13 simplices.
+Triangulation has 5 vertices and 9 edges and 7 faces and 2 simplices.
 
 Generating universe ...
-Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
+Triangulation has 4908 vertices and 33595 edges and 56107 faces and 27419 simplices.
 
 Generating universe ...
-Triangulation has 4915 vertices and 33577 edges and 56055 faces and 27392 simplices.
+Triangulation has 4911 vertices and 33643 edges and 56199 faces and 27466 simplices.
+Triangulation has 4911 vertices and 33643 edges and 56199 faces and 27466 simplices.
 
 Generating universe ...
-Triangulation has 4917 vertices and 33745 edges and 56386 faces and 27557 simplices.
-Triangulation has 4917 vertices and 33745 edges and 56386 faces and 27557 simplices.
-
-Generating universe ...
-Triangulation has 4898 vertices and 33500 edges and 55949 faces and 27346 simplices.
-Triangulation has 4898 vertices and 33500 edges and 55949 faces and 27346 simplices.
-There are 33500 edges.
-There are 18848 timelike edges and 14652 spacelike edges.
-There are 4898 vertices with a max timevalue of 7 and a min timevalue of 1.
+Triangulation has 4912 vertices and 33605 edges and 56119 faces and 27425 simplices.
+Triangulation has 4912 vertices and 33605 edges and 56119 faces and 27425 simplices.
+There are 33605 edges.
+There are 18911 timelike edges and 14694 spacelike edges.
+There are 4912 vertices with a max timevalue of 7 and a min timevalue of 1.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 724 spacelike faces.
 Timeslice 3 has 1088 spacelike faces.
 Timeslice 4 has 1452 spacelike faces.
-Timeslice 5 has 1810 spacelike faces.
-Timeslice 6 has 2178 spacelike faces.
-Timeslice 7 has 2514 spacelike faces.
+Timeslice 5 has 1812 spacelike faces.
+Timeslice 6 has 2180 spacelike faces.
+Timeslice 7 has 2538 spacelike faces.
 
 Generating universe ...
-Triangulation has 4907 vertices and 33677 edges and 56275 faces and 27504 simplices.
+Triangulation has 4917 vertices and 33619 edges and 56134 faces and 27431 simplices.
 
 Generating universe ...
-Triangulation has 4916 vertices and 33513 edges and 55925 faces and 27327 simplices.
+Triangulation has 4917 vertices and 33668 edges and 56232 faces and 27480 simplices.
 Vertex Point: (0 1 0) Timevalue: 1 Expected Timevalue: 1
 Vertex Point: (0 0 1) Timevalue: 1 Expected Timevalue: 1
 Vertex Point: (1 0 0) Timevalue: 1 Expected Timevalue: 1
@@ -513,7 +532,7 @@ Vertex(2) Point: (1 0 0) Timevalue: 1
 Vertex(3) Point: (0 0 -1) Timevalue: 1
 ---
 Bad cells:
-Cell info => 13
+Cell info => 0
 Vertex(0) Point: (2 0 0) Timevalue: 2
 Vertex(1) Point: (0 3 0) Timevalue: 3
 Vertex(2) Point: (0 1 0) Timevalue: 1
@@ -560,7 +579,6 @@ Timeslice 3 has 0 spacelike faces.
 Base Delaunay number of edges: 9
 ==> spacelike
 ==> spacelike
-==> spacelike
 ==> timelike
 ==> timelike
 ==> timelike
@@ -570,54 +588,55 @@ Base Delaunay number of edges: 9
 ==> timelike
 ==> timelike
 ==> timelike
+==> spacelike
 Base Delaunay number of vertices: 5
 Base Delaunay dimension is: 3
 
 Generating universe ...
-Triangulation has 565 vertices and 3517 edges and 5662 faces and 2709 simplices.
+Triangulation has 571 vertices and 3552 edges and 5715 faces and 2733 simplices.
 Manifold properties:
-There are 626 (3,1) simplices and 969 (2,2) simplices and 1114 (1,3) simplices.
-There are 1845 timelike edges and 1672 spacelike edges.
+There are 628 (3,1) simplices and 979 (2,2) simplices and 1126 (1,3) simplices.
+There are 1862 timelike edges and 1690 spacelike edges.
 Moved manifold properties:
-There are 626 (3,1) simplices and 970 (2,2) simplices and 1114 (1,3) simplices.
-There are 1846 timelike edges and 1672 spacelike edges.
+There are 628 (3,1) simplices and 980 (2,2) simplices and 1126 (1,3) simplices.
+There are 1863 timelike edges and 1690 spacelike edges.
 
 Generating universe ...
-Triangulation has 571 vertices and 3549 edges and 5709 faces and 2730 simplices.
+Triangulation has 579 vertices and 3598 edges and 5786 faces and 2766 simplices.
 Manifold properties:
-There are 628 (3,1) simplices and 976 (2,2) simplices and 1126 (1,3) simplices.
-There are 1859 timelike edges and 1690 spacelike edges.
+There are 634 (3,1) simplices and 992 (2,2) simplices and 1140 (1,3) simplices.
+There are 1885 timelike edges and 1713 spacelike edges.
 Moved manifold properties:
-There are 628 (3,1) simplices and 977 (2,2) simplices and 1126 (1,3) simplices.
-There are 1860 timelike edges and 1690 spacelike edges.
+There are 634 (3,1) simplices and 993 (2,2) simplices and 1140 (1,3) simplices.
+There are 1886 timelike edges and 1713 spacelike edges.
 
 Generating universe ...
-Triangulation has 575 vertices and 3596 edges and 5793 faces and 2771 simplices.
+Triangulation has 576 vertices and 3572 edges and 5742 faces and 2745 simplices.
 Manifold properties:
-There are 632 (3,1) simplices and 1007 (2,2) simplices and 1132 (1,3) simplices.
-There are 1895 timelike edges and 1701 spacelike edges.
+There are 632 (3,1) simplices and 979 (2,2) simplices and 1134 (1,3) simplices.
+There are 1868 timelike edges and 1704 spacelike edges.
 Moved manifold properties:
-There are 632 (3,1) simplices and 1008 (2,2) simplices and 1132 (1,3) simplices.
-There are 1896 timelike edges and 1701 spacelike edges.
+There are 632 (3,1) simplices and 980 (2,2) simplices and 1134 (1,3) simplices.
+There are 1869 timelike edges and 1704 spacelike edges.
 
 Generating universe ...
-Triangulation has 32 vertices and 164 edges and 251 faces and 118 simplices.
-There are 118 simplices ...
-There are 32 (3,1) simplices and 35 (2,2) simplices and 51 (1,3) simplices.
-There are 164 edges.
-There are 85 timelike edges and 79 spacelike edges.
-There are 32 vertices with a max timevalue of 3 and a min timevalue of 1.
-Timeslice 1 has 0 spacelike faces.
-Timeslice 2 has 32 spacelike faces.
-Timeslice 3 has 19 spacelike faces.
-
-Generating universe ...
-Triangulation has 568 vertices and 3529 edges and 5677 faces and 2715 simplices.
-Triangulation has 568 vertices and 3529 edges and 5677 faces and 2715 simplices.
+Triangulation has 35 vertices and 180 edges and 277 faces and 131 simplices.
+There are 131 simplices ...
+There are 34 (3,1) simplices and 45 (2,2) simplices and 52 (1,3) simplices.
+There are 180 edges.
+There are 96 timelike edges and 84 spacelike edges.
+There are 35 vertices with a max timevalue of 3 and a min timevalue of 1.
 Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 244 spacelike faces.
+Timeslice 2 has 32 spacelike faces.
+Timeslice 3 has 20 spacelike faces.
+
+Generating universe ...
+Triangulation has 577 vertices and 3612 edges and 5820 faces and 2784 simplices.
+Triangulation has 577 vertices and 3612 edges and 5820 faces and 2784 simplices.
+Timeslice 1 has 1 spacelike faces.
+Timeslice 2 has 252 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 494 spacelike faces.
+Timeslice 4 has 504 spacelike faces.
 Manifold has 4 vertices and 6 edges and 4 faces and 1 simplices.
 There are 1 (3,1) simplices and 0 (2,2) simplices and 0 (1,3) simplices.
 There are 3 timelike edges and 3 spacelike edges.
@@ -654,94 +673,94 @@ Timeslice 2 has 1 spacelike faces.
 Timeslice 3 has 0 spacelike faces.
 
 Generating universe ...
-Triangulation has 6 vertices and 15 edges and 16 faces and 6 simplices.
+Triangulation has 6 vertices and 13 edges and 12 faces and 4 simplices.
 
 Generating universe ...
-Triangulation has 6 vertices and 15 edges and 16 faces and 6 simplices.
-Manifold has 6 vertices and 15 edges and 16 faces and 6 simplices.
+Triangulation has 6 vertices and 14 edges and 14 faces and 5 simplices.
+Manifold has 6 vertices and 14 edges and 14 faces and 5 simplices.
 Timeslice 1 has 0 spacelike faces.
 Timeslice 2 has 2 spacelike faces.
 
 Generating universe ...
-Triangulation has 561 vertices and 3488 edges and 5614 faces and 2686 simplices.
+Triangulation has 569 vertices and 3548 edges and 5714 faces and 2734 simplices.
 
 Generating universe ...
-Triangulation has 579 vertices and 3586 edges and 5762 faces and 2754 simplices.
-Manifold has 579 vertices and 3586 edges and 5762 faces and 2754 simplices.
+Triangulation has 579 vertices and 3596 edges and 5782 faces and 2764 simplices.
+Manifold has 579 vertices and 3596 edges and 5782 faces and 2764 simplices.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 252 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
 Timeslice 4 has 508 spacelike faces.
 
 Generating universe ...
-Triangulation has 4908 vertices and 33590 edges and 56100 faces and 27417 simplices.
+Triangulation has 4912 vertices and 33731 edges and 56372 faces and 27552 simplices.
 
 Generating universe ...
-Triangulation has 4913 vertices and 33597 edges and 56101 faces and 27416 simplices.
-Manifold has 4913 vertices and 33597 edges and 56101 faces and 27416 simplices.
+Triangulation has 4910 vertices and 33710 edges and 56335 faces and 27534 simplices.
+Manifold has 4910 vertices and 33710 edges and 56335 faces and 27534 simplices.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 724 spacelike faces.
 Timeslice 3 has 1088 spacelike faces.
 Timeslice 4 has 1452 spacelike faces.
 Timeslice 5 has 1814 spacelike faces.
-Timeslice 6 has 2180 spacelike faces.
-Timeslice 7 has 2538 spacelike faces.
+Timeslice 6 has 2178 spacelike faces.
+Timeslice 7 has 2534 spacelike faces.
 
 Generating universe ...
-Triangulation has 578 vertices and 3610 edges and 5813 faces and 2780 simplices.
+Triangulation has 576 vertices and 3612 edges and 5822 faces and 2785 simplices.
 
 Generating universe ...
-Triangulation has 575 vertices and 3617 edges and 5835 faces and 2792 simplices.
+Triangulation has 564 vertices and 3505 edges and 5640 faces and 2698 simplices.
 
 Generating universe ...
-Triangulation has 570 vertices and 3564 edges and 5744 faces and 2749 simplices.
+Triangulation has 569 vertices and 3512 edges and 5641 faces and 2697 simplices.
 Manifold properties:
-Manifold has 570 vertices and 3564 edges and 5744 faces and 2749 simplices.
+Manifold has 569 vertices and 3512 edges and 5641 faces and 2697 simplices.
 Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 250 spacelike faces.
+Timeslice 2 has 246 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 492 spacelike faces.
-Cell compact container size == 3241
-Now compact container size == 3241
-Vertex compact container size == 571
+Timeslice 4 has 494 spacelike faces.
+Cell compact container size == 3191
+Now compact container size == 3191
+Vertex compact container size == 570
 Copied manifold properties:
-Manifold has 570 vertices and 3564 edges and 5744 faces and 2749 simplices.
+Manifold has 569 vertices and 3512 edges and 5641 faces and 2697 simplices.
 Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 250 spacelike faces.
+Timeslice 2 has 246 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 492 spacelike faces.
+Timeslice 4 has 494 spacelike faces.
 
 Generating universe ...
-Triangulation has 576 vertices and 3601 edges and 5799 faces and 2773 simplices.
-Manifold N3 = 2773
-Manifold N2 = 5799
-Manifold N1 = 3601
-Manifold N0 = 576
+Triangulation has 568 vertices and 3547 edges and 5714 faces and 2734 simplices.
+Manifold N3 = 2734
+Manifold N2 = 5714
+Manifold N1 = 3547
+Manifold N0 = 568
 update() called.
-Manifold N3 is still 2773
-Manifold N2 is still 5799
-Manifold N1 is still 3601
-Manifold N0 is still 576
+Manifold N3 is still 2734
+Manifold N2 is still 5714
+Manifold N1 is still 3547
+Manifold N0 is still 568
 
 Generating universe ...
-Triangulation has 570 vertices and 3550 edges and 5715 faces and 2734 simplices.
+Triangulation has 577 vertices and 3616 edges and 5828 faces and 2788 simplices.
 
 Generating universe ...
-Triangulation has 566 vertices and 3519 edges and 5660 faces and 2706 simplices.
-Manifold 1 N3 = 2734
-Manifold 1 N2 = 5715
-Manifold 1 N1 = 3550
-Manifold 1 N0 = 570
-Manifold 2 N3 = 2706
+Triangulation has 561 vertices and 3510 edges and 5660 faces and 2710 simplices.
+Manifold 1 N3 = 2788
+Manifold 1 N2 = 5828
+Manifold 1 N1 = 3616
+Manifold 1 N0 = 577
+Manifold 2 N3 = 2710
 Manifold 2 N2 = 5660
-Manifold 2 N1 = 3519
-Manifold 2 N0 = 566
+Manifold 2 N1 = 3510
+Manifold 2 N0 = 561
 Manifolds swapped.
 update() called.
-Manifold 1 N3 is now 2706
+Manifold 1 N3 is now 2710
 Manifold 1 N2 is now 5660
-Manifold 1 N1 is now 3519
-Manifold 1 N0 is now 566
+Manifold 1 N1 is now 3510
+Manifold 1 N0 is now 561
 Vertex Point: (1 0 0) Timevalue: 2 Expected Timevalue: 2
 Vertex Point: (1.1547 1.1547 1.1547) Timevalue: 3 Expected Timevalue: 3
 Vertex Point: (0 0 0) Timevalue: 1 Expected Timevalue: 1
@@ -778,357 +797,289 @@ Vertex(3) Point: (0 1 0) Timevalue: 1
 ---
 
 Generating universe ...
-Triangulation has 4914 vertices and 33583 edges and 56070 faces and 27400 simplices.
+Triangulation has 4908 vertices and 33536 edges and 55993 faces and 27364 simplices.
 
 Generating universe ...
-Triangulation has 4910 vertices and 33669 edges and 56253 faces and 27493 simplices.
+Triangulation has 4914 vertices and 33715 edges and 56335 faces and 27533 simplices.
 
 Generating universe ...
-Triangulation has 4890 vertices and 33503 edges and 55965 faces and 27351 simplices.
+Triangulation has 4916 vertices and 33689 edges and 56277 faces and 27503 simplices.
 
 Generating universe ...
-Triangulation has 4914 vertices and 33646 edges and 56196 faces and 27463 simplices.
+Triangulation has 4909 vertices and 33641 edges and 56197 faces and 27464 simplices.
 
 Generating universe ...
-Triangulation has 4901 vertices and 33473 edges and 55887 faces and 27314 simplices.
+Triangulation has 4911 vertices and 33621 edges and 56154 faces and 27443 simplices.
 
 Generating universe ...
-Triangulation has 575 vertices and 3579 edges and 5759 faces and 2754 simplices.
+Triangulation has 567 vertices and 3538 edges and 5697 faces and 2725 simplices.
 
 Generating universe ...
-Triangulation has 579 vertices and 3609 edges and 5808 faces and 2777 simplices.
+Triangulation has 563 vertices and 3505 edges and 5644 faces and 2701 simplices.
 There were 0 attempted (2,3) moves and 0 attempted (3,2) moves and 0 attempted (2,6) moves and 0 attempted (6,2) moves and 0 attempted (4,4) moves.
 There were 0 successful (2,3) moves and 0 successful (3,2) moves and 0 successful (2,6) moves and 0 successful (6,2) moves and 0 successful (4,4) moves.
 There were no failed moves.
 
 Generating universe ...
-Triangulation has 575 vertices and 3601 edges and 5803 faces and 2776 simplices.
+Triangulation has 566 vertices and 3508 edges and 5640 faces and 2697 simplices.
 Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
 Making random moves ...
 === Pass 1 ===
 === Pass 1 ===
 Writing to file.
 === Move Results ===
-There were 2776 proposed moves with 1244 accepted moves and 1532 rejected moves.
-There were 2776 attempted moves with 1399 successful moves and 1377 failed moves.
-(2,3) moves: 524 proposed (360 accepted and 164 rejected) with 524 attempted (515 successful and 9 failed).
-(3,2) moves: 555 proposed (319 accepted and 236 rejected) with 555 attempted (319 successful and 236 failed).
-(2,6) moves: 565 proposed (565 accepted and 0 rejected) with 565 attempted (565 successful and 0 failed).
-(6,2) moves: 588 proposed (0 accepted and 588 rejected) with 588 attempted (0 successful and 588 failed).
-(4,4) moves: 544 proposed (0 accepted and 544 rejected) with 544 attempted (0 successful and 544 failed).
-Writing to file S3-4-5077-I1.000000-R1.000000-2026-06-13.14:38:23EDT.off
+There were 2697 proposed moves with 1255 accepted moves and 1442 rejected moves.
+There were 2697 attempted moves with 1408 successful moves and 1289 failed moves.
+(2,3) moves: 533 proposed (376 accepted and 157 rejected) with 533 attempted (529 successful and 4 failed).
+(3,2) moves: 551 proposed (328 accepted and 223 rejected) with 551 attempted (328 successful and 223 failed).
+(2,6) moves: 551 proposed (551 accepted and 0 rejected) with 551 attempted (551 successful and 0 failed).
+(6,2) moves: 527 proposed (0 accepted and 527 rejected) with 527 attempted (0 successful and 527 failed).
+(4,4) moves: 535 proposed (0 accepted and 535 rejected) with 535 attempted (0 successful and 535 failed).
+Writing to file S3-4-4949-I1.000000-R1.000000-2026-06-14.03:23:13EDT.off
 === Run results ===
 === Move Results ===
-There were 2776 proposed moves with 1244 accepted moves and 1532 rejected moves.
-There were 2776 attempted moves with 1399 successful moves and 1377 failed moves.
-(2,3) moves: 524 proposed (360 accepted and 164 rejected) with 524 attempted (515 successful and 9 failed).
-(3,2) moves: 555 proposed (319 accepted and 236 rejected) with 555 attempted (319 successful and 236 failed).
-(2,6) moves: 565 proposed (565 accepted and 0 rejected) with 565 attempted (565 successful and 0 failed).
-(6,2) moves: 588 proposed (0 accepted and 588 rejected) with 588 attempted (0 successful and 588 failed).
-(4,4) moves: 544 proposed (0 accepted and 544 rejected) with 544 attempted (0 successful and 544 failed).
+There were 2697 proposed moves with 1255 accepted moves and 1442 rejected moves.
+There were 2697 attempted moves with 1408 successful moves and 1289 failed moves.
+(2,3) moves: 533 proposed (376 accepted and 157 rejected) with 533 attempted (529 successful and 4 failed).
+(3,2) moves: 551 proposed (328 accepted and 223 rejected) with 551 attempted (328 successful and 223 failed).
+(2,6) moves: 551 proposed (551 accepted and 0 rejected) with 551 attempted (551 successful and 0 failed).
+(6,2) moves: 527 proposed (0 accepted and 527 rejected) with 527 attempted (0 successful and 527 failed).
+(4,4) moves: 535 proposed (0 accepted and 535 rejected) with 535 attempted (0 successful and 535 failed).
 === Move Results ===
-There were 2776 proposed moves with 1244 accepted moves and 1532 rejected moves.
-There were 2776 attempted moves with 1399 successful moves and 1377 failed moves.
-(2,3) moves: 524 proposed (360 accepted and 164 rejected) with 524 attempted (515 successful and 9 failed).
-(3,2) moves: 555 proposed (319 accepted and 236 rejected) with 555 attempted (319 successful and 236 failed).
-(2,6) moves: 565 proposed (565 accepted and 0 rejected) with 565 attempted (565 successful and 0 failed).
-(6,2) moves: 588 proposed (0 accepted and 588 rejected) with 588 attempted (0 successful and 588 failed).
-(4,4) moves: 544 proposed (0 accepted and 544 rejected) with 544 attempted (0 successful and 544 failed).
+There were 2697 proposed moves with 1255 accepted moves and 1442 rejected moves.
+There were 2697 attempted moves with 1408 successful moves and 1289 failed moves.
+(2,3) moves: 533 proposed (376 accepted and 157 rejected) with 533 attempted (529 successful and 4 failed).
+(3,2) moves: 551 proposed (328 accepted and 223 rejected) with 551 attempted (328 successful and 223 failed).
+(2,6) moves: 551 proposed (551 accepted and 0 rejected) with 551 attempted (551 successful and 0 failed).
+(6,2) moves: 527 proposed (0 accepted and 527 rejected) with 527 attempted (0 successful and 527 failed).
+(4,4) moves: 535 proposed (0 accepted and 535 rejected) with 535 attempted (0 successful and 535 failed).
 
 Generating universe ...
-Triangulation has 97 vertices and 570 edges and 907 faces and 433 simplices.
+Triangulation has 96 vertices and 554 edges and 875 faces and 416 simplices.
 Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
 Making random moves ...
 === Pass 1 ===
 === Pass 1 ===
 Writing to file.
 === Move Results ===
-There were 433 proposed moves with 199 accepted moves and 234 rejected moves.
-There were 433 attempted moves with 226 successful moves and 207 failed moves.
-(2,3) moves: 94 proposed (63 accepted and 31 rejected) with 94 attempted (90 successful and 4 failed).
-(3,2) moves: 77 proposed (44 accepted and 33 rejected) with 77 attempted (44 successful and 33 failed).
-(2,6) moves: 94 proposed (92 accepted and 2 rejected) with 94 attempted (92 successful and 2 failed).
-(6,2) moves: 83 proposed (0 accepted and 83 rejected) with 83 attempted (0 successful and 83 failed).
-(4,4) moves: 85 proposed (0 accepted and 85 rejected) with 85 attempted (0 successful and 85 failed).
-Writing to file S3-4-820-I1.000000-R1.000000-2026-06-13.14:38:24EDT.off
+There were 416 proposed moves with 196 accepted moves and 220 rejected moves.
+There were 416 attempted moves with 228 successful moves and 188 failed moves.
+(2,3) moves: 101 proposed (64 accepted and 37 rejected) with 101 attempted (96 successful and 5 failed).
+(3,2) moves: 85 proposed (60 accepted and 25 rejected) with 85 attempted (60 successful and 25 failed).
+(2,6) moves: 79 proposed (72 accepted and 7 rejected) with 79 attempted (72 successful and 7 failed).
+(6,2) moves: 78 proposed (0 accepted and 78 rejected) with 78 attempted (0 successful and 78 failed).
+(4,4) moves: 73 proposed (0 accepted and 73 rejected) with 73 attempted (0 successful and 73 failed).
+Writing to file S3-4-708-I1.000000-R1.000000-2026-06-14.03:23:13EDT.off
 === Run results ===
 === Move Results ===
-There were 433 proposed moves with 199 accepted moves and 234 rejected moves.
-There were 433 attempted moves with 226 successful moves and 207 failed moves.
-(2,3) moves: 94 proposed (63 accepted and 31 rejected) with 94 attempted (90 successful and 4 failed).
-(3,2) moves: 77 proposed (44 accepted and 33 rejected) with 77 attempted (44 successful and 33 failed).
-(2,6) moves: 94 proposed (92 accepted and 2 rejected) with 94 attempted (92 successful and 2 failed).
-(6,2) moves: 83 proposed (0 accepted and 83 rejected) with 83 attempted (0 successful and 83 failed).
-(4,4) moves: 85 proposed (0 accepted and 85 rejected) with 85 attempted (0 successful and 85 failed).
+There were 416 proposed moves with 196 accepted moves and 220 rejected moves.
+There were 416 attempted moves with 228 successful moves and 188 failed moves.
+(2,3) moves: 101 proposed (64 accepted and 37 rejected) with 101 attempted (96 successful and 5 failed).
+(3,2) moves: 85 proposed (60 accepted and 25 rejected) with 85 attempted (60 successful and 25 failed).
+(2,6) moves: 79 proposed (72 accepted and 7 rejected) with 79 attempted (72 successful and 7 failed).
+(6,2) moves: 78 proposed (0 accepted and 78 rejected) with 78 attempted (0 successful and 78 failed).
+(4,4) moves: 73 proposed (0 accepted and 73 rejected) with 73 attempted (0 successful and 73 failed).
 Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
 Making random moves ...
 === Pass 1 ===
 === Pass 1 ===
 Writing to file.
 === Move Results ===
-There were 433 proposed moves with 196 accepted moves and 237 rejected moves.
-There were 433 attempted moves with 210 successful moves and 223 failed moves.
-(2,3) moves: 76 proposed (53 accepted and 23 rejected) with 76 attempted (67 successful and 9 failed).
-(3,2) moves: 88 proposed (48 accepted and 40 rejected) with 88 attempted (48 successful and 40 failed).
-(2,6) moves: 100 proposed (95 accepted and 5 rejected) with 100 attempted (95 successful and 5 failed).
-(6,2) moves: 88 proposed (0 accepted and 88 rejected) with 88 attempted (0 successful and 88 failed).
+There were 416 proposed moves with 185 accepted moves and 231 rejected moves.
+There were 416 attempted moves with 205 successful moves and 211 failed moves.
+(2,3) moves: 83 proposed (54 accepted and 29 rejected) with 83 attempted (74 successful and 9 failed).
+(3,2) moves: 68 proposed (41 accepted and 27 rejected) with 68 attempted (41 successful and 27 failed).
+(2,6) moves: 97 proposed (90 accepted and 7 rejected) with 97 attempted (90 successful and 7 failed).
+(6,2) moves: 87 proposed (0 accepted and 87 rejected) with 87 attempted (0 successful and 87 failed).
 (4,4) moves: 81 proposed (0 accepted and 81 rejected) with 81 attempted (0 successful and 81 failed).
-Writing to file S3-4-818-I1.000000-R1.000000-2026-06-13.14:38:24EDT.off
+Writing to file S3-4-789-I1.000000-R1.000000-2026-06-14.03:23:14EDT.off
 === Run results ===
 === Move Results ===
-There were 433 proposed moves with 196 accepted moves and 237 rejected moves.
-There were 433 attempted moves with 210 successful moves and 223 failed moves.
-(2,3) moves: 76 proposed (53 accepted and 23 rejected) with 76 attempted (67 successful and 9 failed).
-(3,2) moves: 88 proposed (48 accepted and 40 rejected) with 88 attempted (48 successful and 40 failed).
-(2,6) moves: 100 proposed (95 accepted and 5 rejected) with 100 attempted (95 successful and 5 failed).
-(6,2) moves: 88 proposed (0 accepted and 88 rejected) with 88 attempted (0 successful and 88 failed).
+There were 416 proposed moves with 185 accepted moves and 231 rejected moves.
+There were 416 attempted moves with 205 successful moves and 211 failed moves.
+(2,3) moves: 83 proposed (54 accepted and 29 rejected) with 83 attempted (74 successful and 9 failed).
+(3,2) moves: 68 proposed (41 accepted and 27 rejected) with 68 attempted (41 successful and 27 failed).
+(2,6) moves: 97 proposed (90 accepted and 7 rejected) with 97 attempted (90 successful and 7 failed).
+(6,2) moves: 87 proposed (0 accepted and 87 rejected) with 87 attempted (0 successful and 87 failed).
 (4,4) moves: 81 proposed (0 accepted and 81 rejected) with 81 attempted (0 successful and 81 failed).
-===============================================================================
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:193:
-TEST SUITE: metropolis
-  Scenario: Metropolis reproducibility with a seed
-     Given: A correctly-constructed Manifold_3 and a fixed seed.
-      When: Two Metropolis runs use the same seed.
-      Then: They produce identical count observables.
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:213: ERROR: CHECK_EQ( result_a.N0(), result_b.N0() ) is NOT correct!
-  values: CHECK_EQ( 189, 192 )
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:214: ERROR: CHECK_EQ( result_a.N1(), result_b.N1() ) is NOT correct!
-  values: CHECK_EQ( 1049, 1050 )
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:215: ERROR: CHECK_EQ( result_a.N2(), result_b.N2() ) is NOT correct!
-  values: CHECK_EQ( 1681, 1677 )
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:216: ERROR: CHECK_EQ( result_a.N3(), result_b.N3() ) is NOT correct!
-  values: CHECK_EQ( 820, 818 )
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:217: ERROR: CHECK_EQ( result_a.N3_31(), result_b.N3_31() ) is NOT correct!
-  values: CHECK_EQ( 286, 292 )
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:218: ERROR: CHECK_EQ( result_a.N3_22(), result_b.N3_22() ) is NOT correct!
-  values: CHECK_EQ( 171, 157 )
-
-/home/slimgreen/CDT-plusplus/tests/Metropolis_test.cpp:219: ERROR: CHECK_EQ( result_a.N3_13(), result_b.N3_13() ) is NOT correct!
-  values: CHECK_EQ( 363, 369 )
-
 
 Generating universe ...
-Triangulation has 571 vertices and 3554 edges and 5719 faces and 2735 simplices.
+Triangulation has 579 vertices and 3579 edges and 5748 faces and 2747 simplices.
 
 Generating universe ...
-Triangulation has 572 vertices and 3533 edges and 5675 faces and 2713 simplices.
+Triangulation has 555 vertices and 3486 edges and 5626 faces and 2694 simplices.
 
 Generating universe ...
-Triangulation has 574 vertices and 3563 edges and 5730 faces and 2740 simplices.
+Triangulation has 560 vertices and 3470 edges and 5580 faces and 2669 simplices.
 
 Generating universe ...
-Triangulation has 576 vertices and 3622 edges and 5841 faces and 2794 simplices.
+Triangulation has 550 vertices and 3424 edges and 5515 faces and 2640 simplices.
 ===============================================================================
 /home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:19:
 TEST SUITE: move_command
   Scenario: MoveCommand special members
      Given: A MoveCommand.
       When: It's properties are examined.
-      Then: It is no-throw move constructible.
+      Then: It is no-throw swappable
 
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:47: FATAL ERROR: REQUIRE( is_nothrow_move_constructible_v<MoveCommand<Manifold_3>> ) is NOT correct!
+/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:57: FATAL ERROR: REQUIRE( is_nothrow_swappable_v<MoveCommand<Manifold_3>> ) is NOT correct!
   values: REQUIRE( false )
 
 
 Generating universe ...
-Triangulation has 577 vertices and 3600 edges and 5796 faces and 2772 simplices.
+Triangulation has 568 vertices and 3555 edges and 5732 faces and 2744 simplices.
 Manifold properties:
-There are 634 (3,1) simplices and 1002 (2,2) simplices and 1136 (1,3) simplices.
-There are 1893 timelike edges and 1707 spacelike edges.
+There are 632 (3,1) simplices and 994 (2,2) simplices and 1118 (1,3) simplices.
+There are 1875 timelike edges and 1680 spacelike edges.
 Moved manifold properties:
-There are 634 (3,1) simplices and 1003 (2,2) simplices and 1136 (1,3) simplices.
-There are 1894 timelike edges and 1707 spacelike edges.
+There are 632 (3,1) simplices and 995 (2,2) simplices and 1118 (1,3) simplices.
+There are 1876 timelike edges and 1680 spacelike edges.
 
 Generating universe ...
-Triangulation has 562 vertices and 3504 edges and 5645 faces and 2702 simplices.
+Triangulation has 574 vertices and 3571 edges and 5745 faces and 2747 simplices.
 Manifold properties:
-There are 626 (3,1) simplices and 970 (2,2) simplices and 1106 (1,3) simplices.
-There are 1842 timelike edges and 1662 spacelike edges.
+There are 630 (3,1) simplices and 987 (2,2) simplices and 1130 (1,3) simplices.
+There are 1873 timelike edges and 1698 spacelike edges.
 Moved manifold properties:
-There are 626 (3,1) simplices and 971 (2,2) simplices and 1106 (1,3) simplices.
-There are 1843 timelike edges and 1662 spacelike edges.
+There are 630 (3,1) simplices and 988 (2,2) simplices and 1130 (1,3) simplices.
+There are 1874 timelike edges and 1698 spacelike edges.
 
 Generating universe ...
-Triangulation has 570 vertices and 3542 edges and 5698 faces and 2725 simplices.
+Triangulation has 575 vertices and 3578 edges and 5757 faces and 2753 simplices.
 Manifold properties:
-There are 628 (3,1) simplices and 975 (2,2) simplices and 1122 (1,3) simplices.
-There are 1856 timelike edges and 1686 spacelike edges.
+There are 632 (3,1) simplices and 989 (2,2) simplices and 1132 (1,3) simplices.
+There are 1877 timelike edges and 1701 spacelike edges.
 Moved manifold properties:
-There are 628 (3,1) simplices and 976 (2,2) simplices and 1122 (1,3) simplices.
-There are 1857 timelike edges and 1686 spacelike edges.
+There are 632 (3,1) simplices and 990 (2,2) simplices and 1132 (1,3) simplices.
+There are 1878 timelike edges and 1701 spacelike edges.
 
 Generating universe ...
-Triangulation has 564 vertices and 3503 edges and 5636 faces and 2696 simplices.
-There are 624 (3,1) simplices and 962 (2,2) simplices and 1110 (1,3) simplices.
-There are 1835 timelike edges and 1668 spacelike edges.
+Triangulation has 574 vertices and 3564 edges and 5731 faces and 2740 simplices.
+There are 630 (3,1) simplices and 980 (2,2) simplices and 1130 (1,3) simplices.
+There are 1866 timelike edges and 1698 spacelike edges.
 
 Generating universe ...
-Triangulation has 564 vertices and 3477 edges and 5585 faces and 2671 simplices.
+Triangulation has 570 vertices and 3559 edges and 5731 faces and 2741 simplices.
 Manifold properties:
-There are 626 (3,1) simplices and 935 (2,2) simplices and 1110 (1,3) simplices.
-There are 1809 timelike edges and 1668 spacelike edges.
+There are 626 (3,1) simplices and 993 (2,2) simplices and 1122 (1,3) simplices.
+There are 1873 timelike edges and 1686 spacelike edges.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 244 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 486 spacelike faces.
+Timeslice 4 has 498 spacelike faces.
 Command.get_const_results() properties:
-There are 626 (3,1) simplices and 935 (2,2) simplices and 1110 (1,3) simplices.
-There are 1809 timelike edges and 1668 spacelike edges.
+There are 626 (3,1) simplices and 993 (2,2) simplices and 1122 (1,3) simplices.
+There are 1873 timelike edges and 1686 spacelike edges.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 244 spacelike faces.
 Timeslice 3 has 380 spacelike faces.
-Timeslice 4 has 486 spacelike faces.
+Timeslice 4 has 498 spacelike faces.
 
 Generating universe ...
-Triangulation has 571 vertices and 3553 edges and 5718 faces and 2735 simplices.
+Triangulation has 562 vertices and 3507 edges and 5650 faces and 2704 simplices.
 
 Generating universe ...
-Triangulation has 574 vertices and 3574 edges and 5753 faces and 2752 simplices.
+Triangulation has 565 vertices and 3537 edges and 5704 faces and 2731 simplices.
 Attempted moves are [0, 0, 0, 0, 0]
 Successful moves are [0, 0, 0, 0, 0]
 Failed moves are [0, 0, 0, 0, 0]
 
 Generating universe ...
-Triangulation has 7401 vertices and 50712 edges and 84708 faces and 41396 simplices.
+Triangulation has 7401 vertices and 50720 edges and 84724 faces and 41404 simplices.
 The manifold and the result in the MoveCommand are distinct pointers.
 The original manifold is unchanged by Move_command.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50729 edges and 84742 faces and 41413 simplices.
-[2026-06-13 14:38:25.665] [warning] No (4,4) move possible.
+Triangulation has 7401 vertices and 50702 edges and 84688 faces and 41386 simplices.
+[2026-06-14 03:23:15.434] [warning] No (4,4) move possible.
 
 No (4,4) move possible.
-
-===============================================================================
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:221:
-TEST SUITE: move_command
-  Scenario: Queueing and executing moves
-     Given: A valid manifold.
-      When: A (4,4) move is queued.
-      Then: It is executed correctly.
-
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:282: ERROR: CHECK_EQ( command.get_succeeded().four_four_moves(), 1 ) is NOT correct!
-  values: CHECK_EQ( 0, 1 )
-
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:285: ERROR: CHECK_EQ( command.get_failed().four_four_moves(), 0 ) is NOT correct!
-  values: CHECK_EQ( 1, 0 )
 
 Move left triangulation unchanged.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50775 edges and 84834 faces and 41459 simplices.
+Triangulation has 7401 vertices and 50621 edges and 84526 faces and 41305 simplices.
 Triangulation added a finite cell.
 
 Generating universe ...
-Triangulation has 7400 vertices and 50591 edges and 84468 faces and 41276 simplices.
+Triangulation has 7400 vertices and 50581 edges and 84448 faces and 41266 simplices.
 Triangulation removed a finite cell.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50687 edges and 84658 faces and 41371 simplices.
+Triangulation has 7401 vertices and 50619 edges and 84522 faces and 41303 simplices.
 Triangulation added 4 finite cells.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50726 edges and 84736 faces and 41410 simplices.
+Triangulation has 7401 vertices and 50672 edges and 84628 faces and 41356 simplices.
 Triangulation removed 4 finite cells.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50736 edges and 84756 faces and 41420 simplices.
+Triangulation has 7401 vertices and 50651 edges and 84586 faces and 41335 simplices.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50691 edges and 84666 faces and 41375 simplices.
+Triangulation has 7394 vertices and 50649 edges and 84601 faces and 41345 simplices.
 There were 1 attempted (2,3) moves and 1 attempted (3,2) moves and 0 attempted (2,6) moves and 0 attempted (6,2) moves and 0 attempted (4,4) moves.
 There was 1 successful (2,3) move.
 There was 1 successful (3,2) move.
 There were no failed moves.
 Triangulation moves cancelled out.
 Generating universe ...
-Triangulation has 7400 vertices and 50530 edges and 84347 faces and 41216 simplices.
+Triangulation has 7401 vertices and 50699 edges and 84682 faces and 41383 simplices.
 
 Generating universe ...
-Triangulation has 7401 vertices and 50681 edges and 84646 faces and 41365 simplices.
-[2026-06-13 14:38:28.447] [warning] No (4,4) move possible.
+Triangulation has 7401 vertices and 50767 edges and 84818 faces and 41451 simplices.
+[2026-06-14 03:23:17.973] [warning] No (4,4) move possible.
 
 No (4,4) move possible.
 
 There were 1 attempted (2,3) moves and 1 attempted (3,2) moves and 1 attempted (2,6) moves and 1 attempted (6,2) moves and 1 attempted (4,4) moves.
 There was 1 successful (2,3) move.
 There was 1 successful (2,6) move.
-===============================================================================
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:416:
-TEST SUITE: move_command
-  Scenario: Executing multiple moves on the queue
-     Given: A valid manifold
-      When: One of each move is queued.
-      Then: The moves are executed correctly.
-
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:503: ERROR: CHECK_EQ( successful_44_moves, 1 ) is NOT correct!
-  values: CHECK_EQ( 0, 1 )
-
 There was 0 successful (4,4) move.
 There was 1 successful (6,2) move.
 There was 1 successful (3,2) move.
-/home/slimgreen/CDT-plusplus/tests/Move_command_test.cpp:520: ERROR: CHECK_EQ( command.get_failed().total(), 0 ) is NOT correct!
-  values: CHECK_EQ( 1, 0 )
-
 There were 0 failed (2,3) moves and 0 failed (3,2) moves and 0 failed (2,6) moves and 0 failed (6,2) moves and 1 failed (4,4) moves.
 Triangulation moves cancelled out.
 Generating universe ...
-Triangulation has 4912 vertices and 33644 edges and 56198 faces and 27465 simplices.
+Triangulation has 4910 vertices and 33539 edges and 55993 faces and 27363 simplices.
 Timeslice 1 has 1 spacelike faces.
 Timeslice 2 has 724 spacelike faces.
 Timeslice 3 has 1088 spacelike faces.
 Timeslice 4 has 1452 spacelike faces.
 Timeslice 5 has 1814 spacelike faces.
-Timeslice 6 has 2180 spacelike faces.
-Timeslice 7 has 2536 spacelike faces.
-
-Generating universe ...
-Triangulation has 4897 vertices and 33468 edges and 55881 faces and 27309 simplices.
-Timeslice 1 has 1 spacelike faces.
-Timeslice 2 has 724 spacelike faces.
-Timeslice 3 has 1088 spacelike faces.
-Timeslice 4 has 1448 spacelike faces.
-Timeslice 5 has 1806 spacelike faces.
-Timeslice 6 has 2172 spacelike faces.
-Timeslice 7 has 2526 spacelike faces.
-
-Generating universe ...
-Triangulation has 4906 vertices and 33575 edges and 56076 faces and 27406 simplices.
-Timeslice 1 has 0 spacelike faces.
-Timeslice 2 has 724 spacelike faces.
-Timeslice 3 has 1088 spacelike faces.
-Timeslice 4 has 1452 spacelike faces.
-Timeslice 5 has 1812 spacelike faces.
-Timeslice 6 has 2180 spacelike faces.
-Timeslice 7 has 2528 spacelike faces.
-
-Generating universe ...
-Triangulation has 4902 vertices and 33475 edges and 55881 faces and 27307 simplices.
-Timeslice 1 has 0 spacelike faces.
-Timeslice 2 has 724 spacelike faces.
-Timeslice 3 has 1088 spacelike faces.
-Timeslice 4 has 1448 spacelike faces.
-Timeslice 5 has 1814 spacelike faces.
-Timeslice 6 has 2168 spacelike faces.
+Timeslice 6 has 2178 spacelike faces.
 Timeslice 7 has 2534 spacelike faces.
+
+Generating universe ...
+Triangulation has 4911 vertices and 33620 edges and 56153 faces and 27443 simplices.
+Timeslice 1 has 1 spacelike faces.
+Timeslice 2 has 724 spacelike faces.
+Timeslice 3 has 1088 spacelike faces.
+Timeslice 4 has 1452 spacelike faces.
+Timeslice 5 has 1814 spacelike faces.
+Timeslice 6 has 2180 spacelike faces.
+Timeslice 7 has 2534 spacelike faces.
+
+Generating universe ...
+Triangulation has 4898 vertices and 33498 edges and 55937 faces and 27336 simplices.
+Timeslice 1 has 1 spacelike faces.
+Timeslice 2 has 724 spacelike faces.
+Timeslice 3 has 1088 spacelike faces.
+Timeslice 4 has 1446 spacelike faces.
+Timeslice 5 has 1810 spacelike faces.
+Timeslice 6 has 2168 spacelike faces.
+Timeslice 7 has 2530 spacelike faces.
+
+Generating universe ...
+Triangulation has 4916 vertices and 33693 edges and 56285 faces and 27507 simplices.
+Timeslice 1 has 1 spacelike faces.
+Timeslice 2 has 724 spacelike faces.
+Timeslice 3 has 1088 spacelike faces.
+Timeslice 4 has 1452 spacelike faces.
+Timeslice 5 has 1816 spacelike faces.
+Timeslice 6 has 2180 spacelike faces.
+Timeslice 7 has 2542 spacelike faces.
 TypeID of Int_precision is i.
-===============================================================================
-/home/slimgreen/CDT-plusplus/tests/Settings_test.cpp:19:
-TEST SUITE: settings
-  Scenario: Check settings
-     Given: Settings are retrieved.
-      When: The integer type is queried.
-      Then: The value is std::int_fast32_t.
-
-/home/slimgreen/CDT-plusplus/tests/Settings_test.cpp:29: ERROR: CHECK_EQ( int_precision, typeid(std::int_fast32_t).name() ) is NOT correct!
-  values: CHECK_EQ( 0x7f33c4e25914, 0x7f33c4e25902 )
-
 MPFR precision set to 256.
 Memory alignment is set to 64.
 Memory alignment is set to 32.
@@ -1156,27 +1107,16 @@ Vertex(3) Point: (1.1547 1.1547 1.1547) Timevalue: 2
 Generating 250 grid points in 3D
 Generating 250 grid points in 3D
 Torus = std::vector<CGAL::Point_d<CGAL::Cartesian_d<double, CGAL::Linear_algebraCd<double, std::allocator<double> > > >, std::allocator<CGAL::Point_d<CGAL::Cartesian_d<double, CGAL::Linear_algebraCd<double, std::allocator<double> > > > > >Generating 250 grid points in 4D
-===============================================================================
-/home/slimgreen/CDT-plusplus/tests/Utilities_test.cpp:21:
-TEST SUITE: utilities
-  Scenario: Various string/stream/time utilities
-     Given: A running environment.
-      When: The current time is requested.
-      Then: The output is correct.
-
-/home/slimgreen/CDT-plusplus/tests/Utilities_test.cpp:60: ERROR: CHECK_NE( year, std::string::npos ) is NOT correct!
-  values: CHECK_NE( 18446744073709551615, 18446744073709551615 )
-
-Current date and time is: 2026-06-13.14:38:29EDT
-Filename is: S3-16-6700-I1.000000-R1.000000-2026-06-13.14:38:29EDT.off
+Current date and time is: 2026-06-14.03:23:18EDT
+Filename is: S3-16-6700-I1.000000-R1.000000-2026-06-14.03:23:18EDT.off
 Triangulation has 4 vertices and 6 edges and 4 faces and 1 simplices.
-Writing to file S3-2-1-I0.000000-R1.000000-2026-06-13.14:38:29EDT.off
-Reading from file S3-2-1-I0.000000-R1.000000-2026-06-13.14:38:29EDT.off
+Writing to file S3-2-1-I0.000000-R1.000000-2026-06-14.03:23:18EDT.off
+Reading from file S3-2-1-I0.000000-R1.000000-2026-06-14.03:23:18EDT.off
 valid data structure
 Delaunay valid triangulation
 
 Shuffled container verification:
-38 8 27 69 62 67 79 61 48 77 80 6 20 75 2 60 73 32 85 82 29 18 72 65 70 53 91 10 31 81 55 59 74 22 66 89 95 68 90 40 93 26 37 21 86 16 28 50 99 39 43 78 3 98 56 94 57 42 52 25 44 71 54 45 1 14 7 97 47 49 96 63 84 9 5 13 92 76 88 30 19 51 33 35 23 41 87 34 83 0 15 46 11 36 4 24 17 12 64 58
+50 47 78 9 98 63 27 68 48 62 24 18 95 91 69 74 8 55 96 88 61 6 15 40 39 73 3 94 83 85 35 4 12 77 42 56 46 53 45 57 89 84 82 37 23 72 32 21 87 60 0 11 29 28 41 76 31 81 67 97 43 33 22 49 59 38 71 7 92 70 26 65 99 66 75 17 54 34 80 36 90 13 51 52 93 79 30 1 25 5 58 44 10 64 14 2 16 86 20 19
 When a causal vertex is inserted, the vertices are:
 Vertex Point: (0 0 0) Timevalue: 1 Expected Timevalue: 1
 When 2 causal vertices are inserted, the vertices are:
@@ -1207,40 +1147,14 @@ Vertex(2) Point: (1 0 0) Timevalue: 2
 Vertex(3) Point: (0 1 0) Timevalue: 2
 ---
 ===============================================================================
-[doctest] test cases:   100 |    94 passed |  6 failed | 2 skipped
-[doctest] assertions: 34823 | 34809 passed | 14 failed |
+[doctest] test cases:   100 |    99 passed | 1 failed | 2 skipped
+[doctest] assertions: 34934 | 34933 passed | 1 failed |
 [doctest] Status: FAILURE!
 
-      Start  3: cdt-triangle-inequalities
- 2/12 Test  #3: cdt-triangle-inequalities ...............   Passed    0.00 sec
-      Start  4: cdt-dimensionality
- 3/12 Test  #4: cdt-dimensionality ......................   Passed    0.00 sec
-      Start  5: cdt-d4
- 4/12 Test  #5: cdt-d4 ..................................   Passed    0.00 sec
-      Start  6: cdt-toroidal
- 5/12 Test  #6: cdt-toroidal ............................   Passed    0.00 sec
-      Start  7: initialize
- 6/12 Test  #7: initialize ..............................   Passed    0.03 sec
-      Start  8: initialize-minimum-simplices
- 7/12 Test  #8: initialize-minimum-simplices ............   Passed    0.00 sec
-      Start  9: initialize-dimensionality
- 8/12 Test  #9: initialize-dimensionality ...............   Passed    0.03 sec
-      Start 10: initialize-unsupported-dimensionality
- 9/12 Test #10: initialize-unsupported-dimensionality ...   Passed    0.00 sec
-      Start 11: initialize-toroidal
-10/12 Test #11: initialize-toroidal .....................   Passed    0.00 sec
-      Start 12: cdt-opt
-11/12 Test  #2: cdt .....................................   Passed  177.15 sec
-12/12 Test #12: cdt-opt .................................***Timeout 1500.05 sec
-cdt-opt started at 2026-06-13.14:38:29EDT
-[2026-06-13 14:38:29.333] [multi_sink] [info] Multi-sink logger initialized.
 
+92% tests passed, 1 tests failed out of 12
 
-
-83% tests passed, 2 tests failed out of 12
-
-Total Test time (real) = 1539.15 sec
+Total Test time (real) =  35.50 sec
 
 The following tests FAILED:
 	  1 - cdt-unit-tests (Failed)
-	 12 - cdt-opt (Timeout)
