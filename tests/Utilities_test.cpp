@@ -54,10 +54,13 @@ SCENARIO("Various string/stream/time utilities" *
     {
       THEN("The output is correct.")
       {
-        // Update test yearly
         auto const result = current_date_time();
-        auto const year   = result.find("2025");
-        CHECK_NE(year, std::string::npos);
+        REQUIRE_GE(result.size(), 19);
+        CHECK_EQ(result[4], '-');
+        CHECK_EQ(result[7], '-');
+        CHECK_EQ(result[10], '.');
+        CHECK_EQ(result[13], ':');
+        CHECK_EQ(result[16], ':');
         // Human verification
         fmt::print("Current date and time is: {}\n", current_date_time());
       }

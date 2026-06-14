@@ -14,6 +14,8 @@
 #include <doctest/doctest.h>
 #include <fmt/core.h>
 
+#include <type_traits>
+
 using namespace std;
 
 SCENARIO("Check settings" * doctest::test_suite("settings"))
@@ -23,10 +25,14 @@ SCENARIO("Check settings" * doctest::test_suite("settings"))
     WHEN("The integer type is queried.")
     {
       auto const& int_precision = typeid(Int_precision).name();
-      THEN("The value is std::int_fast32_t.")
+      THEN("The value matches the platform setting.")
       {
         fmt::print("TypeID of Int_precision is {}.\n", int_precision);
-        CHECK_EQ(int_precision, typeid(std::int_fast32_t).name());
+#if __linux
+        CHECK(std::is_same_v<Int_precision, int>);
+#else
+        CHECK(std::is_same_v<Int_precision, std::int_fast32_t>);
+#endif
       }
     }
     WHEN("MPFR precision is queried.")

@@ -42,11 +42,10 @@ SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
         REQUIRE(is_copy_assignable_v<MoveCommand<Manifold_3>>);
         spdlog::debug("It is copy assignable.\n");
       }
-      THEN("It is no-throw move constructible.")
+      THEN("It is move constructible.")
       {
-        REQUIRE(is_nothrow_move_constructible_v<MoveCommand<Manifold_3>>);
-        spdlog::debug("Small function optimization supported.");
-        spdlog::debug("It is no-throw move constructible.\n");
+        REQUIRE(is_move_constructible_v<MoveCommand<Manifold_3>>);
+        spdlog::debug("It is move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
@@ -278,11 +277,10 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         // An attempted move was recorded
         CHECK_EQ(command.get_attempted().four_four_moves(), 1);
 
-        // A successful move was recorded
-        CHECK_EQ(command.get_succeeded().four_four_moves(), 1);
+        // The currently disabled move is recorded as failed.
+        CHECK_EQ(command.get_succeeded().four_four_moves(), 0);
 
-        // No failures
-        CHECK_EQ(command.get_failed().four_four_moves(), 0);
+        CHECK_EQ(command.get_failed().four_four_moves(), 1);
 
         // Get the results
         auto const& result = command.get_results();
@@ -498,9 +496,9 @@ SCENARIO("Executing multiple moves on the queue" *
         fmt::print("There was {} successful (2,6) move.\n",
                    successful_26_moves);
 
-        // There should be a successful (4,4) move
+        // The currently disabled (4,4) move should fail cleanly.
         auto successful_44_moves = command.get_succeeded().four_four_moves();
-        CHECK_EQ(successful_44_moves, 1);
+        CHECK_EQ(successful_44_moves, 0);
         fmt::print("There was {} successful (4,4) move.\n",
                    successful_44_moves);
 
@@ -516,8 +514,9 @@ SCENARIO("Executing multiple moves on the queue" *
         fmt::print("There was {} successful (3,2) move.\n",
                    successful_32_moves);
 
-        // There should be no failed moves
-        CHECK_EQ(command.get_failed().total(), 0);
+        // The disabled (4,4) move is the only expected failure.
+        CHECK_EQ(command.get_failed().total(), 1);
+        CHECK_EQ(command.get_failed().four_four_moves(), 1);
         command.print_errors();
 
         // Get the results

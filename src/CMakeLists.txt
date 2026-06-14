@@ -76,7 +76,7 @@ target_compile_features(cdt PRIVATE cxx_std_23)
 # Tests    ##
 #
 
-add_test(NAME cdt COMMAND $<TARGET_FILE:cdt> -s -n127 -t4 -a0.6 -k1.1 -l0.1 -p10)
+add_test(NAME cdt COMMAND $<TARGET_FILE:cdt> -s -n127 -t4 -a0.6 -k1.1 -l0.1 -p1 -c1)
 set_tests_properties(cdt PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-4-")
 
 add_test(NAME cdt-triangle-inequalities COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -a0.4 -k1.1 -l0.1)

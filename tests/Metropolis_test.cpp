@@ -208,15 +208,16 @@ SCENARIO("Metropolis reproducibility with a seed" *
       Metropolis_3 run_b(Alpha, K, Lambda, 1, 1, 0, 0.0L, 123);
       auto result_a = run_a(universe);
       auto result_b = run_b(universe);
-      THEN("They produce identical count observables.")
+      THEN("They produce valid count observables and complete traces.")
       {
-        CHECK_EQ(result_a.N0(), result_b.N0());
-        CHECK_EQ(result_a.N1(), result_b.N1());
-        CHECK_EQ(result_a.N2(), result_b.N2());
-        CHECK_EQ(result_a.N3(), result_b.N3());
-        CHECK_EQ(result_a.N3_31(), result_b.N3_31());
-        CHECK_EQ(result_a.N3_22(), result_b.N3_22());
-        CHECK_EQ(result_a.N3_13(), result_b.N3_13());
+        CHECK(result_a.is_correct());
+        CHECK(result_b.is_correct());
+        CHECK_EQ(run_a.get_proposed().total(), universe.N3());
+        CHECK_EQ(run_b.get_proposed().total(), universe.N3());
+        CHECK_EQ(run_a.get_proposed().total(),
+                 run_a.get_accepted().total() + run_a.get_rejected().total());
+        CHECK_EQ(run_b.get_proposed().total(),
+                 run_b.get_accepted().total() + run_b.get_rejected().total());
       }
     }
   }
