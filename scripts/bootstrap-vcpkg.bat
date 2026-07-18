@@ -52,8 +52,11 @@ IF EXIST "%VCPKG_DIR%\.git\." (
 
   git -C "%VCPKG_DIR%" rev-parse HEAD 2>NUL ^| FINDSTR /X /I /C:"%BASELINE%" >NUL
   IF NOT ERRORLEVEL 1 IF EXIST "%VCPKG_DIR%\vcpkg.exe" (
-    echo Using vcpkg at %VCPKG_DIR% ^(%BASELINE%^)
-    EXIT /B 0
+    "%VCPKG_DIR%\vcpkg.exe" version >NUL 2>NUL
+    IF NOT ERRORLEVEL 1 (
+      echo Using vcpkg at %VCPKG_DIR% ^(%BASELINE%^)
+      EXIT /B 0
+    )
   )
 ) ELSE IF EXIST "%VCPKG_DIR%\." (
   DIR /B /A "%VCPKG_DIR%" 2>NUL ^| FINDSTR . >NUL

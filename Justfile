@@ -5,6 +5,7 @@ set minimum-version := "1.56.0"
 
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
+clang_format_version := "18"
 primary_binary := if os_family() == "windows" { "out/build/windows-msvc-release-developer-mode/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 
 # Build the supported configuration through the repository build script.
@@ -89,21 +90,25 @@ _cmake-check:
 _format-check:
     #!/usr/bin/env bash
     set -euo pipefail
-    clang_format="$(command -v clang-format || true)"
+    clang_format="$(command -v clang-format-{{ clang_format_version }} || command -v clang-format || true)"
+    if [[ -n "$clang_format" ]] && ! "$clang_format" --version | grep -Eq 'clang-format version {{ clang_format_version }}([.]|$)'; then
+      clang_format=""
+    fi
     if [[ -z "$clang_format" ]] && command -v pkgx >/dev/null; then
-      exec pkgx +llvm.org +python just _format-check
+      exec pkgx +llvm.org@{{ clang_format_version }} +python.org -- just _format-check
     fi
-    [[ -n "$clang_format" ]] || { echo "clang-format is required; install it or install pkgx." >&2; exit 1; }
-    clang_format_diff="$(command -v clang-format-diff.py || command -v clang-format-diff || true)"
-    if [[ -z "$clang_format_diff" ]]; then
-      for candidate in "$(dirname "$clang_format")/../share/clang/clang-format-diff.py" /usr/share/clang/clang-format-diff.py; do
-        if [[ -x "$candidate" ]]; then
-          clang_format_diff="$candidate"
-          break
-        fi
-      done
-    fi
-    [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py is required." >&2; exit 1; }
+    [[ -n "$clang_format" ]] || { echo "clang-format {{ clang_format_version }} is required; install it or install pkgx." >&2; exit 1; }
+    clang_format_prefix="$(cd -- "$(dirname -- "$clang_format")/.." && pwd)"
+    clang_format_diff=""
+    for candidate in \
+      "$(command -v clang-format-diff-{{ clang_format_version }} || true)" \
+      "${clang_format_prefix}/share/clang/clang-format-diff.py"; do
+      if [[ -x "$candidate" ]]; then
+        clang_format_diff="$candidate"
+        break
+      fi
+    done
+    [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py from LLVM {{ clang_format_version }} is required." >&2; exit 1; }
     diff_output="$(git diff -U0 --no-color HEAD -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp' | "$clang_format_diff" -p1 -style file -binary "$clang_format")"
     if [[ -n "$diff_output" ]]; then
       printf '%s\n' "$diff_output"
@@ -121,21 +126,25 @@ _format-check:
 _format-fix:
     #!/usr/bin/env bash
     set -euo pipefail
-    clang_format="$(command -v clang-format || true)"
+    clang_format="$(command -v clang-format-{{ clang_format_version }} || command -v clang-format || true)"
+    if [[ -n "$clang_format" ]] && ! "$clang_format" --version | grep -Eq 'clang-format version {{ clang_format_version }}([.]|$)'; then
+      clang_format=""
+    fi
     if [[ -z "$clang_format" ]] && command -v pkgx >/dev/null; then
-      exec pkgx +llvm.org +python just _format-fix
+      exec pkgx +llvm.org@{{ clang_format_version }} +python.org -- just _format-fix
     fi
-    [[ -n "$clang_format" ]] || { echo "clang-format is required; install it or install pkgx." >&2; exit 1; }
-    clang_format_diff="$(command -v clang-format-diff.py || command -v clang-format-diff || true)"
-    if [[ -z "$clang_format_diff" ]]; then
-      for candidate in "$(dirname "$clang_format")/../share/clang/clang-format-diff.py" /usr/share/clang/clang-format-diff.py; do
-        if [[ -x "$candidate" ]]; then
-          clang_format_diff="$candidate"
-          break
-        fi
-      done
-    fi
-    [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py is required." >&2; exit 1; }
+    [[ -n "$clang_format" ]] || { echo "clang-format {{ clang_format_version }} is required; install it or install pkgx." >&2; exit 1; }
+    clang_format_prefix="$(cd -- "$(dirname -- "$clang_format")/.." && pwd)"
+    clang_format_diff=""
+    for candidate in \
+      "$(command -v clang-format-diff-{{ clang_format_version }} || true)" \
+      "${clang_format_prefix}/share/clang/clang-format-diff.py"; do
+      if [[ -x "$candidate" ]]; then
+        clang_format_diff="$candidate"
+        break
+      fi
+    done
+    [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py from LLVM {{ clang_format_version }} is required." >&2; exit 1; }
     git diff -U0 --no-color HEAD -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp' | "$clang_format_diff" -p1 -i -style file -binary "$clang_format"
     untracked=()
     while IFS= read -r -d '' file; do

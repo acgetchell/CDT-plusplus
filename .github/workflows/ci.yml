@@ -8,6 +8,8 @@ name: CI
   pull_request:
     branches:
       - main
+      # Transitional: remove after develop is consolidated into main.
+      - develop
   workflow_dispatch:
 
 permissions:

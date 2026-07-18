@@ -1,6 +1,5 @@
 ---
 codecov:
-  token: 2a599f2d-815e-4c14-9c66-054407863d2b
   notify:
     require_ci_to_pass: false
 
@@ -13,7 +12,7 @@ coverage:
     project:
       default:
         threshold: 3%
-    patch: "off"
+    patch: false
     changes: false
 
 parsers:

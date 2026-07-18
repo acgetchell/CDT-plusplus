@@ -9,6 +9,7 @@ name: CodeCov
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,7 +29,6 @@ jobs:
       - name: Setup
         run: |
           sudo apt update
-          sudo apt upgrade
           sudo apt-get install --yes \
             automake autoconf autoconf-archive build-essential ccache \
             libtool-bin ninja-build texinfo yasm
@@ -76,4 +76,5 @@ jobs:
         with:
           directory: build/gcov-reports
           fail_ci_if_error: false
+          use_oidc: true
           verbose: true
