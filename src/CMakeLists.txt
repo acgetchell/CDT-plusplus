@@ -6,7 +6,6 @@ target_link_libraries(
           date::date-tz
           Boost::program_options
           fmt::fmt-header-only
-          Eigen3::Eigen
           spdlog::spdlog_header_only
           TBB::tbb
           CGAL::CGAL)
@@ -19,7 +18,6 @@ target_link_libraries(
           project_warnings
           date::date-tz
           fmt::fmt-header-only
-          Eigen3::Eigen
           spdlog::spdlog_header_only
           TBB::tbb
           CGAL::CGAL)
@@ -33,7 +31,6 @@ target_link_libraries(
           date::date-tz
           Boost::program_options
           fmt::fmt-header-only
-          Eigen3::Eigen
           spdlog::spdlog_header_only
           TBB::tbb
           CGAL::CGAL)
@@ -103,7 +100,7 @@ set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
                                                     "Toroidal triangulations not yet supported.")
 
 add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
-set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
+set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at" TIMEOUT 60)
 
 #if(APPLE AND NOT ($ENV{CI}))
 #  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --dry-run test.off)

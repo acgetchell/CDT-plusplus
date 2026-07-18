@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-      - develop
   pull_request:
     branches:
-      - develop
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -38,8 +37,6 @@ jobs:
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
 
       - name: Configure
         run: cmake --preset=lsan

@@ -31,3 +31,15 @@ target_link_libraries(
 
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_unit_tests>)
+
+# Keep deterministic regression-oracle coverage in the supported smoke suite.
+add_test(
+  NAME cdt-function-ref-tests
+  COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=function_ref)
+add_test(
+  NAME cdt-foliated-triangulation-tests
+  COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=foliated_triangulation)
+set_tests_properties(
+  cdt-function-ref-tests
+  cdt-foliated-triangulation-tests
+  PROPERTIES TIMEOUT 60)

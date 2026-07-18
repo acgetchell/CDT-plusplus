@@ -11,10 +11,9 @@ Second, here are some simple guidelines that will make it easier on me to proces
 
 1. Fork the repository.
 
-2. This project uses [GitFlow]. That is, new [features] are branched from/merged into [develop].
-New [releases] are periodically made from [develop], then merged back into [master],
-which is the stable work history. [Tagged] versions are [releases] at a point in time, citable via [ORCID].
-for reproducibility.
+2. Create a short-lived branch from `main` for each change and merge it back through a pull request.
+The final v1.0.0 release will be tagged directly from `main`; tagged versions are citable via [ORCID] for
+reproducibility.
 
 3. Familiarize yourself with [doctest] and the [Gherkin] syntax.
 
@@ -42,13 +41,11 @@ Consult existing code for examples.
 
 11. Run `clang-tidy` using the project's [clang-tidy.sh].
 
-12. Open a pull request against the develop branch of the main repository (which is the default).
-[Travis-CI] will test it against combinations of Linux (Ubuntu 22.04) with clang and gcc. [GitHub Actions] will test
-against macOS and run various other checks.
-[AppVeyor] will test it against Visual Studio 2019 with `clang-cl` (version 14.0.6). Ensure that
-your code compiles on Windows, macOS, and Linux with `msvc`, `gcc`, and `clang`.
+12. Open a pull request against the `main` branch of the repository.
+[GitHub Actions] runs the repository's platform and analysis workflows. Run `./scripts/build.sh` before opening the
+pull request; the final verified compiler and platform support matrix is part of the v1.0.0 release work.
 
-13. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+13. All required GitHub Actions checks must pass.
 In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [LSAN], [MSAN], and [TSAN], because simulations may
 run for a long time so memory leaks will be eventually fatal.
 [GitHub Actions] also has a lot of useful checks that will help fix your code.
@@ -71,15 +68,13 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Test-Driven Development]: http://alexott.net/en/cpp/CppTestingIntro.html
 [Doxygen]: http://doxygen.org
 [well-written commit message]: https://chris.beams.io/posts/git-commit/
-[Travis-CI]: https://travis-ci.org/acgetchell/CDT-plusplus
 [1]: https://isocpp.org/wiki/faq/coding-standards
 [2]: http://llvm.org/releases/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
 [ClangFormat]: https://releases.llvm.org/6.0.1/tools/clang/docs/ClangFormat.html
 [slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
-[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/clang-tidy.sh
-[AppVeyor]: https://ci.appveyor.com/project/acgetchell/cdt-plusplus
+[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/clang-tidy.sh
 [doctest]: https://github.com/doctest/doctest
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
@@ -87,12 +82,8 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Gitter]: https://gitter.im/acgetchell/CDT-plusplus
 [ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
 [LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
-[GitFlow]: https://leanpub.com/git-flow/read
-[features]: https://leanpub.com/git-flow/read#leanpub-auto-feature-branches
-[develop]: https://github.com/acgetchell/CDT-plusplus
 [releases]: https://github.com/acgetchell/CDT-plusplus/releases
-[master]: https://github.com/acgetchell/CDT-plusplus/tree/master
-[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
+[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format
 [Tagged]: https://github.com/acgetchell/CDT-plusplus/tags
 [ORCID]: https://orcid.org/
 [Cppcheck]: http://cppcheck.sourceforge.net

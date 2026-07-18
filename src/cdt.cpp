@@ -1,7 +1,7 @@
 /*******************************************************************************
  Causal Dynamical Triangulations in C++ using CGAL
 
- Copyright © 2013 Adam Getchell
+ Copyright © 2013–2026 Adam Getchell
  ******************************************************************************/
 
 /// @file cdt.cpp
@@ -24,7 +24,7 @@ namespace po = boost::program_options;
 static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2013 Adam Getchell
+Copyright (c) 2013-2026 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according

@@ -1,7 +1,0 @@
-image: acgetchell/vcpkg-image
-
-tasks:
-  - init: >
-      vcpkg install
-      && cd scripts
-      && ./fast-build.sh

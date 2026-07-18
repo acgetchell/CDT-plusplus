@@ -71,3 +71,4 @@ venv
 
 # vcpkg
 vcpkg_installed
+/.cache/

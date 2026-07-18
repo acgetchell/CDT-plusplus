@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  platform:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Ubuntu GCC
+            os: ubuntu-latest
+            pkgx: gcc@15
+            cc: gcc
+            cxx: g++
+          - name: Ubuntu Clang
+            os: ubuntu-latest
+            pkgx: clang@20
+            cc: clang
+            cxx: clang++
+          - name: macOS AppleClang
+            os: macos-latest
+            pkgx: ""
+            cc: clang
+            cxx: clang++
+          - name: Windows MSVC
+            os: windows-latest
+            pkgx: ""
+            cc: ""
+            cxx: ""
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Install Linux build prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes automake autoconf autoconf-archive build-essential ccache libtool-bin ninja-build pkg-config texinfo
+
+      - name: Install macOS build prerequisites
+        if: runner.os == 'macOS'
+        run: brew install automake autoconf autoconf-archive ccache libtool ninja pkg-config texinfo
+
+      - name: Set up ${{ matrix.name }} compiler with pkgx
+        if: matrix.pkgx != ''
+        uses: pkgxdev/setup@v4
+        with:
+          +: ${{ matrix.pkgx }}
+
+      - name: Select Unix compiler
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          echo "CC=${{ matrix.cc }}" >> "${GITHUB_ENV}"
+          echo "CXX=${{ matrix.cxx }}" >> "${GITHUB_ENV}"
+          "${{ matrix.cxx }}" --version
+
+      - name: Activate MSVC
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Select the Windows vcpkg triplet
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Add-Content -Path $env:GITHUB_ENV -Value 'VCPKG_DEFAULT_TRIPLET=x64-windows'
+
+      - name: Restore artifacts or set up vcpkg
+        uses: lukka/run-vcpkg@v11
+
+      - name: Configure
+        run: cmake --preset reference -S .
+
+      - name: Build
+        run: cmake --build --preset reference --parallel 2
+
+      - name: Test
+        run: ctest --preset reference-smoke
+
+  build:
+    name: build
+    if: ${{ always() }}
+    needs: platform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify platform matrix
+        env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "${PLATFORM_RESULT}" = success

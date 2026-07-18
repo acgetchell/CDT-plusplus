@@ -1,20 +1,19 @@
 @echo off
 
 SETLOCAL ENABLEEXTENSIONS
-SET me=%~n0
-SET parent=%~dp0
+SET "SCRIPT_DIR=%~dp0"
+FOR %%I IN ("%SCRIPT_DIR%..") DO SET "REPO_ROOT=%%~fI"
 
-cd ..
-IF EXIST "build" rmdir /S /Q build || EXIT /B 1
-:: Assumes you have cloned vcpkg into %HOMEPATH%\Projects
-set VCPKG_PATH=%HOMEPATH%\Projects\vcpkg
+IF NOT DEFINED VCPKG_ROOT (
+  echo VCPKG_ROOT must point to a bootstrapped vcpkg checkout. 1>&2
+  EXIT /B 1
+)
 
-:: In case you want to build from the command line with Ninja from vcpkg
-set PATH=%PATH%;%VCPKG_PATH%
+IF NOT EXIST "%VCPKG_ROOT%\vcpkg.exe" (
+  echo VCPKG_ROOT does not contain vcpkg.exe: %VCPKG_ROOT% 1>&2
+  EXIT /B 1
+)
 
-:: Change to your version of Visual Studio
-cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CACHE:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake -S . -B build
-cmake --build build
-
-:: Executables are in \build\src\Debug
-:: Tests are in \build\tests\Debug
+cmake --preset windows-msvc-release-developer-mode -S "%REPO_ROOT%" || EXIT /B 1
+cmake --build "%REPO_ROOT%\out\build\windows-msvc-release-developer-mode" || EXIT /B 1
+ctest --test-dir "%REPO_ROOT%\out\build\windows-msvc-release-developer-mode" --output-on-failure || EXIT /B 1

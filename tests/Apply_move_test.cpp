@@ -156,7 +156,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       else
       {
         spdlog::warn("Cannot apply (6,2) move: {}", result.error());
-        doctest::skip("No valid (6,2) move exists in this manifold configuration.");
+        MESSAGE("No valid (6,2) move exists in this manifold configuration.");
       }
     }
     WHEN("A (4,4) move is applied to the manifold.")

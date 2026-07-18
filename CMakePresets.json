@@ -111,18 +111,6 @@
       }
     },
     {
-      "name": "appveyor",
-      "inherits": "ci-unix",
-      "description": "This preset is used for AppVeyor CI",
-      "generator": "Ninja",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "ENABLE_TESTING": true,
-        "ENABLE_CACHE": "OFF",
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      }
-    },
-    {
       "name": "valgrind",
       "inherits": "ci-std",
       "description": "This preset is used for valgrind builds",
@@ -351,6 +339,26 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
+    },
+    {
+      "name": "reference",
+      "displayName": "Supported headless reference build",
+      "description": "Configure the supported C++23 regression-oracle build with tests",
+      "inherits": "ci-std",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/reference",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ENABLE_TESTING": true,
+        "ENABLE_CACHE": false
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "reference",
+      "displayName": "Build the supported headless reference targets",
+      "configurePreset": "reference"
     }
   ],
   "testPresets": [
@@ -364,6 +372,26 @@
       "execution": {
         "noTestsAction": "error",
         "stopOnFailure": true
+      }
+    },
+    {
+      "name": "reference",
+      "displayName": "Run the complete reference test suite",
+      "inherits": "test-common",
+      "configurePreset": "reference",
+      "execution": {
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "reference-smoke",
+      "displayName": "Run the supported reference smoke tests",
+      "description": "Exclude the known 4,4 unit failures and nondeterministic cdt-opt simulation",
+      "inherits": "reference",
+      "filter": {
+        "exclude": {
+          "name": "^(cdt-unit-tests|cdt-opt)$"
+        }
       }
     },
     {

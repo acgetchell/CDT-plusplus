@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -74,14 +74,14 @@ set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 # Minimum compiler versions required for C++23 support:
 # - MSVC 19.34 (Visual Studio 2022 version 17.4)
 # - GCC 12.2
-# - AppleClang 14.0
+# - AppleClang 15.0 (Xcode 15)
 # - Clang 16.0
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
   message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
   message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "14.0")
-  message(FATAL_ERROR "AppleClang 14.0 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "15.0")
+  message(FATAL_ERROR "AppleClang 15.0 (Xcode 15) or higher required for C++23 std::expected support")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
   message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
 endif()
@@ -108,9 +108,6 @@ find_package(date CONFIG REQUIRED)
 # https://github.com/doctest/doctest
 find_package(doctest CONFIG REQUIRED)
 
-# https://eigen.tuxfamily.org/index.php?title=Main_Page
-find_package(Eigen3 CONFIG REQUIRED)
-
 # https://github.com/fmtlib/fmt
 find_package(fmt CONFIG REQUIRED)
 
@@ -120,16 +117,14 @@ find_package(Microsoft.GSL CONFIG REQUIRED)
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
 
-find_package(Boost CONFIG REQUIRED COMPONENTS program_options)
+find_package(Boost CONFIG REQUIRED COMPONENTS compat program_options)
+target_link_libraries(project_options INTERFACE Boost::compat)
 
 # https://github.com/gabime/spdlog
 find_package(spdlog CONFIG REQUIRED)
 
 # https://github.com/intel/tbb
 find_package(TBB CONFIG REQUIRED)
-
-# https://github.com/TartanLlama/function_ref
-find_package(tl-function-ref CONFIG REQUIRED)
 
 # Header files
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
