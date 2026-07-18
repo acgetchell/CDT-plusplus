@@ -54,13 +54,13 @@ SCENARIO("Various string/stream/time utilities" *
     {
       THEN("The output is correct.")
       {
-        auto const             result = current_date_time();
-        date::zoned_time const now(date::current_zone(),
-                                   std::chrono::system_clock::now());
+        auto const             timestamp = std::chrono::system_clock::now();
+        auto const             result    = current_date_time(timestamp);
+        date::zoned_time const now(date::current_zone(), timestamp);
         auto const             expected_year = date::format("%Y", now);
         CHECK(result.starts_with(expected_year));
         // Human verification
-        fmt::print("Current date and time is: {}\n", current_date_time());
+        fmt::print("Current date and time is: {}\n", result);
       }
     }
     WHEN("A filename is generated.")

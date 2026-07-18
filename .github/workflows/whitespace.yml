@@ -1,6 +1,7 @@
+---
 name: Whitespace
 
-on:
+"on":
   push:
     branches:
       - main
@@ -9,10 +10,15 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   whitespace:
     name: Find Trailing Whitespace
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: erictleung/find-file-whitespace@main
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: erictleung/find-file-whitespace@5123cdea60d18de33e848ed505cb38e16c46384c  # v1.0.0

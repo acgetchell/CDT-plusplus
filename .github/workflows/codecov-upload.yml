@@ -1,10 +1,14 @@
+---
 name: CodeCov
 
-on:
+"on":
   push:
     branches:
       - main
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -16,28 +20,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup
         run: |
           sudo apt update
           sudo apt upgrade
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+          sudo apt-get install --yes \
+            automake autoconf autoconf-archive build-essential ccache \
+            libtool-bin ninja-build texinfo yasm
 
       - name: Setup GCC
-        uses: pkgxdev/setup@v4
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
-          +: gcc@15
+          +: gnu.org/gcc@16
 
-      -  run: gcc --version
+      - run: gcc --version
 
       - name: Restore artifacts or setup vcpkg
-        uses: lukka/run-vcpkg@v11
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
 
       - name: Configure
-        run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
+        run: >-
+          cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo
+          -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE
+          -S . -B build
 
       - name: Build
         run: cmake --build build -j 2
@@ -47,26 +57,23 @@ jobs:
         continue-on-error: true
         run: ctest --rerun-failed --output-on-failure -j 2
 
-#      - name: collect code coverage
-#        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-
       - name: Generate coverage info
         working-directory: build
         continue-on-error: true
         run: |
           mkdir gcov-reports
           pushd gcov-reports
-          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
-            echo "Processing $f file..."
-            gcov -o ${f} x
-          done
-          ls | wc -l
+          find ../tests/CMakeFiles/CDT_test.dir -name '*.o' -print0 |
+            while IFS= read -r -d '' object_file; do
+              echo "Processing ${object_file} file..."
+              gcov -o "${object_file}" x
+            done
+          find . -maxdepth 1 -type f | wc -l
           popd
 
       - name: Submit to codecov.io
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
-#          directory: build/gcov-reports
+          directory: build/gcov-reports
           fail_ci_if_error: false
           verbose: true
-          gcov: true

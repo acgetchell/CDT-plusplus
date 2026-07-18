@@ -1,3 +1,4 @@
+---
 additional_commands:
   foo:
     flags:

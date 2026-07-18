@@ -1,5 +1,8 @@
+---
 language: en-US
-tone_instructions: 'Be constructive and professional. Focus on technical accuracy while maintaining a friendly tone.'
+tone_instructions: >-
+  Be constructive and professional. Focus on technical accuracy while
+  maintaining a friendly tone.
 early_access: true
 enable_free_tier: true
 reviews:

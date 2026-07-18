@@ -1,14 +1,13 @@
+---
 name: CI
 
-on:
+"on":
   push:
     branches:
       - main
-      - develop
   pull_request:
     branches:
       - main
-      - develop
   workflow_dispatch:
 
 permissions:
@@ -29,17 +28,17 @@ jobs:
         include:
           - name: Ubuntu GCC
             os: ubuntu-latest
-            pkgx: gcc@15
+            pkgx: gnu.org/gcc@16
             cc: gcc
             cxx: g++
           - name: Ubuntu Clang
             os: ubuntu-latest
-            pkgx: clang@20
+            pkgx: llvm.org@20
             cc: clang
             cxx: clang++
           - name: macOS AppleClang
             os: macos-latest
-            pkgx: ""
+            pkgx: gnu.org/bash
             cc: clang
             cxx: clang++
           - name: Windows MSVC
@@ -50,24 +49,15 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
           submodules: true
 
-      - name: Install Linux build prerequisites
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes automake autoconf autoconf-archive build-essential ccache libtool-bin ninja-build pkg-config texinfo
-
-      - name: Install macOS build prerequisites
-        if: runner.os == 'macOS'
-        run: brew install automake autoconf autoconf-archive ccache libtool ninja pkg-config texinfo
-
-      - name: Set up ${{ matrix.name }} compiler with pkgx
-        if: matrix.pkgx != ''
-        uses: pkgxdev/setup@v4
+      - name: Set up Unix environment with pkgx
+        if: runner.os != 'Windows'
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
           +: ${{ matrix.pkgx }}
 
@@ -81,7 +71,7 @@ jobs:
 
       - name: Activate MSVC
         if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756  # v1.13.0
         with:
           arch: x64
 
@@ -91,15 +81,22 @@ jobs:
         run: Add-Content -Path $env:GITHUB_ENV -Value 'VCPKG_DEFAULT_TRIPLET=x64-windows'
 
       - name: Restore artifacts or set up vcpkg
-        uses: lukka/run-vcpkg@v11
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
 
-      - name: Configure
+      - name: Build and test Unix
+        if: runner.os != 'Windows'
+        run: ./scripts/pkgx-build.sh
+
+      - name: Configure Windows
+        if: runner.os == 'Windows'
         run: cmake --preset reference -S .
 
-      - name: Build
+      - name: Build Windows
+        if: runner.os == 'Windows'
         run: cmake --build --preset reference --parallel 2
 
-      - name: Test
+      - name: Test Windows
+        if: runner.os == 'Windows'
         run: ctest --preset reference-smoke
 
   build:

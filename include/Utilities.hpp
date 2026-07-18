@@ -67,18 +67,20 @@ namespace utilities
   /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
   /// Parser. std::chrono::zoned_time would be a replacement if supported by
   /// current compilers.
+  /// @param timestamp The system time point to format
   /// @returns A formatted string with the system local time
   /// @see https://github.com/HowardHinnant/date
   /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
-  [[nodiscard]] inline auto current_date_time()
+  [[nodiscard]] inline auto current_date_time(
+      std::chrono::system_clock::time_point const timestamp =
+          std::chrono::system_clock::now())
   {
     /// When AppleClang fully supports std::chrono and std::format, use this:
     //    auto time = std::chrono::zoned_time(std::chrono::current_zone(),
     //    std::chrono::system_clock::now());
     //    return std::formatter<std::chrono::system_clock::time_point,
     //                          char>::format(time, "{:%Y-%m-%d.%X%Z}");
-    date::zoned_time const time(date::current_zone(),
-                                std::chrono::system_clock::now());
+    date::zoned_time const time(date::current_zone(), timestamp);
     return format("%Y-%m-%d.%X%Z", time);
   }  // current_date_time
 

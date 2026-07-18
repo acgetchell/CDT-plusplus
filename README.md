@@ -26,6 +26,7 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
         - [Current reference-suite status](#current-reference-suite-status)
     - [Setup](#setup)
         - [Prerequisites](#prerequisites)
+        - [Developer workflow](#developer-workflow)
         - [vcpkg maintenance](#vcpkg-maintenance)
     - [Build](#build)
         - [Project Layout](#project-layout)
@@ -117,33 +118,36 @@ After building, run that fixture directly with:
 
 ## Quickstart
 
-From a fresh checkout, the supported headless build, dependency bootstrap, and test path is:
+From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:
 
 ```bash
-./scripts/build.sh
+just build
 ```
 
-The first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
+The `build` recipe uses the pkgx launcher on Unix when pkgx is available, then delegates to `scripts/build.sh`. Its
+first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
 bootstraps vcpkg, installs the manifest dependencies, builds in `out/build/reference`, and runs the supported CTest
 smoke suite. The first dependency build can take several minutes; subsequent runs use vcpkg's binary cache.
 
-If [pkgx](https://pkgx.sh/) is installed, the optional quality-of-life path supplies Git, Bash, CMake, Ninja, and
-Python ephemerally before invoking the same build contract:
+If Just is not installed globally, the optional [pkgx](https://pkgx.sh/) entry point supplies it and the complete
+Unix developer-tool environment ephemerally before invoking the same recipe and build contract:
 
 ```bash
 ./scripts/pkgx-build.sh
 ```
 
-pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest.
+pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest. The
+underlying `./scripts/build.sh` and `scripts\build.bat` entry points remain available for troubleshooting and native
+Windows development.
 
 ### Current reference-suite status
 
 With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. `build.sh` runs
-eight lightweight CLI integration tests that pass consistently. The full `reference` test preset additionally runs
-the `cdt-opt` simulation, which can nondeterministically stall during a Metropolis pass, and the unit-test executable,
-which remains red in eight test cases tracing to the existing 4,4 move/bistellar-flip path: the direct move
-application, four flip fixtures, the ergodic-move fixture, and two queued move scenarios. These tests remain present
-and can be run explicitly. Issue
+ten supported smoke tests: eight lightweight CLI integration tests and two focused doctest suites. The full
+`reference` test preset additionally runs the `cdt-opt` simulation, which can nondeterministically stall during a
+Metropolis pass, and the unit-test executable, which remains red in eight test cases tracing to the existing 4,4
+move/bistellar-flip path: the direct move application, four flip fixtures, the ergodic-move fixture, and two queued
+move scenarios. These tests remain present and can be run explicitly. Issue
 [#91](https://github.com/acgetchell/CDT-plusplus/issues/91) owns the 4,4 mutation repair, while
 [#92](https://github.com/acgetchell/CDT-plusplus/issues/92) owns the Metropolis transition work.
 
@@ -155,10 +159,18 @@ it is verified.
 
 ### Prerequisites
 
-On macOS or Linux, you will first need to install some prerequisites using your favorite
-package manager (e.g. [homebrew] or [apt]):
+The smallest pkgx-assisted host setup is:
+
+- Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
+- pkgx
+- Just when invoking the recipes directly; `scripts/pkgx-build.sh` supplies Just when it is not installed globally
+
+The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, ccache, M4, Autoconf, Autoconf Archive, Automake, GNU
+Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through a package
+manager such as [Homebrew] or apt:
 
 - build-essential (Linux only)
+- m4
 - automake
 - autoconf
 - autoconf-archive
@@ -167,8 +179,34 @@ package manager (e.g. [homebrew] or [apt]):
 - texinfo
 - ninja (macOS) or ninja-build (Linux)
 
-The build script requires Git, Bash, CMake, Ninja, and a compiler satisfying the checks in `CMakeLists.txt`. It does
-not require a pre-existing personal vcpkg checkout, a fork, a submodule, Docker, or a hosted development environment.
+The build does not require a pre-existing personal vcpkg checkout, a fork, a submodule, Docker, or a hosted
+development environment.
+
+### Developer workflow
+
+The repository-root [Justfile](Justfile) provides the same small command vocabulary used by the related projects:
+
+```bash
+just check                 # Fast, non-mutating local checks
+just fix                   # Format changed C++ lines and the Justfile
+just build                 # Bootstrap, configure, build, and smoke-test
+just run --help            # Build as needed and run cdt with forwarded arguments
+just ci                    # Comprehensive pre-commit/pre-push validation
+just update-actions        # Update and repin Actions with pinact, then validate
+```
+
+`check` covers changed-line C++ formatting, YAML, GitHub Actions syntax and security, whitespace, and CMake preset
+parsing. `ci` adds the pinact policy check and the supported build/test contract. Install the developer tools with
+Homebrew, use equivalent system packages, or let pkgx supply them ephemerally; pkgx remains optional. For example:
+
+```bash
+pkgx +just.systems +git-scm.org +cmake.org +ninja-build.org +python.org +llvm.org \
+  +yamllint +actionlint +zizmor just check
+```
+
+[pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
+SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact or
+a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass.
 
 ### vcpkg maintenance
 
@@ -191,10 +229,12 @@ binary cache. No separately maintained repository variable is required.
 
 ## Build
 
-Run `./scripts/build.sh` from any working directory. If `VCPKG_ROOT` already names the clean official checkout at the
-manifest baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. The
-script invokes the `reference` configure and build presets followed by the `reference-smoke` test preset; products
-and tests are isolated under `out/build/reference`.
+Run `just build` from the repository root. It delegates to `./scripts/build.sh`, which can itself be run from any
+working directory for troubleshooting. If `VCPKG_ROOT` already names the clean official checkout at the manifest
+baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. The script
+invokes the `reference` configure and build presets followed by the `reference-smoke` test preset; products and tests
+are isolated under `out/build/reference`. On Windows, `scripts\build.bat` provides the corresponding developer-mode
+entry point and `scripts\fast-build.bat` retains the user-mode build path.
 
 ### Project Layout
 
@@ -212,11 +252,14 @@ The project is similar to [PitchFork Layout], as follows:
 
 ### Run
 
-The supported build produces `cdt`, `cdt-opt`, and `initialize` in `out/build/reference/src`:
+The supported build produces `cdt`, `cdt-opt`, and `initialize` in `out/build/reference/src`. Run the primary `cdt`
+executable through Just and pass its arguments after the recipe name:
 
 ```bash
-./out/build/reference/src/cdt --help
+just run --help
 ```
+
+For troubleshooting, the equivalent direct command is `./out/build/reference/src/cdt --help`.
 
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0 target by
@@ -305,28 +348,28 @@ If you do not have GraphViz installed, set this option to **NO**
 
 ## Testing
 
-Run `./scripts/build.sh`; it builds the test target and executes the ten supported smoke tests. These include focused
-doctest runs for the Boost.Compat `function_ref` migration and the causal-foliation construction code used as a
-regression oracle.
+Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes the ten supported smoke
+tests. These include focused doctest runs for the Boost.Compat `function_ref` migration and the causal-foliation
+construction code used as a regression oracle. Run `just ci` for the complete local validation gate.
 
 The doctest executable can also be run directly:
 
-~~~bash
+````bash
 ./out/build/reference/tests/CDT_unit_tests
-~~~
+````
 
 To rerun the supported smoke suite without rebuilding:
 
-~~~bash
+````bash
 ctest --preset reference-smoke
-~~~
+````
 
 To run every currently registered test, including the known 4,4 failures and the nondeterministic `cdt-opt`
 simulation:
 
-~~~bash
+````bash
 ctest --preset reference
-~~~
+````
 
 In addition to the command line output, you can see detailed results in the
 `out/build/reference/Testing` directory generated by CTest.
@@ -350,14 +393,6 @@ The [cppcheck.sh] script runs a quick static analysis using [cppcheck].
 brew install cppcheck
 cd scripts
 ./cppcheck-build.sh
-~~~
-
-[Clang] comes with [scan-build] which can run a much more thorough,
-but slower static analysis integrated with [CMake] and [Ninja].
-
-~~~bash
-cd scripts
-./scan.sh
 ~~~
 
 [PVS-Studio] - static analyzer for C, C++, C#, and Java code.
@@ -400,21 +435,20 @@ Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
 
 Your code should pass Continuous Integration:
 
-- Whitespace formatting (`git diff --check HEAD^`)
+- `just fix` for safe automatic formatting with the repository's [.clang-format]
 
-- [clang-format] with project settings ([.clang-format])
+- `just check` for fast, non-mutating source, YAML, workflow, and CMake validation
 
-- [cppcheck] test with [cppcheck.sh]
+- `just ci` for the supported build and smoke-test contract before pushing
 
-- [Valgrind] be sure to look at the results to ensure you're not leaking memory
+The slower [cppcheck], [Valgrind], and sanitizer workflows remain available through [GitHub Actions] and their
+repository scripts when relevant to a change:
 
-- [AddressSanitizer] and [UndefinedBehaviorSanitizer]; test with [asan.sh]
+- [cppcheck] with [cppcheck.sh]
 
-- [LeakSanitizer] (if supported by your platform); test with [lsan.sh]
+- [Valgrind] for leak diagnostics
 
-- [MemorySanitizer] (if supported by your platform); test with [msan.sh]
-
-- [ThreadSanitizer] test with [tsan.sh]
+- [AddressSanitizer], [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer]
 
 Optional:
 
@@ -435,7 +469,6 @@ Optional:
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
-[Clang]: https://clang.llvm.org
 [gcc]: https://gcc.gnu.org/
 [doctest]: https://github.com/doctest/doctest
 [guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
@@ -448,23 +481,17 @@ Optional:
 [program_options]: https://www.boost.org/doc/libs/1_85_0/doc/html/program_options/tutorial.html
 [Mathjax]: https://www.mathjax.org
 [GraphViz]: https://www.graphviz.org
-[CMakeLists.txt]: https://github.com/acgetchell/CDT-plusplus/blob/main/CMakeLists.txt
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
 [HDF5]: https://www.hdfgroup.org
-[scan-build]: https://clang-analyzer.llvm.org/scan-build.html
-[scan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/scan.sh
 [cppcheck]: http://cppcheck.sourceforge.net
 [cppcheck.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/cppcheck.sh
 [functional]: https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [TBB]: https://www.threadingbuildingblocks.org
-[CDT++]: https://github.com/acgetchell/CDT-plusplus
 [Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile
 [Boost]: https://www.boost.org
-[contrib]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
 [ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
-[conduct]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md
 [date]: https://howardhinnant.github.io/date/date.html
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
@@ -507,16 +534,5 @@ Optional:
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/tsan.sh
 [PVS-Studio]: https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/pvs-studio.sh
-[CLion]: https://www.jetbrains.com/clion/
-[Docker]: https://www.docker.com/
-[vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
-[vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/main/vcpkg.json
 [spdlog]: https://github.com/gabime/spdlog
-[triplet]: https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks
-[AppleClang-14]: https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes
-[spack]: https://spack.io
-[modules]: https://hpc-wiki.info/hpc/Modules
-[SLURM]: https://hpc-wiki.info/hpc/SLURM
 [Qt]: https://www.qt.io
-[CodeCov]: https://app.codecov.io/gh/acgetchell/CDT-plusplus
-[gcov]: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html

@@ -35,15 +35,17 @@ Consult existing code for examples.
 
 8. Commit your changes with a clear, [well-written commit message].
 
-9. Check your whitespace with `git diff --check HEAD^`.
+9. Run `just fix` to apply safe formatting to changed C++ lines using the project's [.clang-format].
 
-10. Run `clang-format` using the project's [.clang-format].
+10. Run `just check` for the fast, non-mutating local validation gate.
 
-11. Run `clang-tidy` using the project's [clang-tidy.sh].
+11. Run `just ci` before pushing; it adds the supported build and smoke-test contract. Run `clang-tidy` using the
+project's [clang-tidy.sh] when changing C++ behavior.
 
 12. Open a pull request against the `main` branch of the repository.
-[GitHub Actions] runs the repository's platform and analysis workflows. Run `./scripts/build.sh` before opening the
-pull request; the final verified compiler and platform support matrix is part of the v1.0.0 release work.
+[GitHub Actions] runs the repository's platform and analysis workflows. The Just recipes delegate to the existing
+CMake presets, CTest presets, vcpkg bootstrap, and build scripts rather than replacing them. Use
+`./scripts/build.sh`, `scripts\build.bat`, or `scripts\fast-build.bat` directly when troubleshooting those layers.
 
 13. All required GitHub Actions checks must pass.
 In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [LSAN], [MSAN], and [TSAN], because simulations may
@@ -51,7 +53,6 @@ run for a long time so memory leaks will be eventually fatal.
 [GitHub Actions] also has a lot of useful checks that will help fix your code.
 
 14. I will get to your change as soon as I can.
-Feel free to ping me on [Gitter] with any questions.
 You will receive proper credit for your contributions both in the code and any resulting scientific papers
 using the output of `git log --format='%aN | sort -u`.
 
@@ -79,12 +80,8 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [doctest test cases]: https://github.com/doctest/doctest/blob/master/doc/markdown/testcases.md
-[Gitter]: https://gitter.im/acgetchell/CDT-plusplus
 [ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
-[LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
-[releases]: https://github.com/acgetchell/CDT-plusplus/releases
 [.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format
-[Tagged]: https://github.com/acgetchell/CDT-plusplus/tags
 [ORCID]: https://orcid.org/
 [Cppcheck]: http://cppcheck.sourceforge.net
 [ASAN]: https://github.com/google/sanitizers/wiki/AddressSanitizer

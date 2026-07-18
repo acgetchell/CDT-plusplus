@@ -1,5 +1,7 @@
+---
 name: clang-format Check
-on:
+
+"on":
   push:
     branches:
       - main
@@ -7,6 +9,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   formatting-check:
@@ -18,10 +23,12 @@ jobs:
           - 'src'
           - 'include'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        with:
+          persist-credentials: false
       - name: Run clang-format style check for C/C++/Protobuf programs.
-        uses: jidicula/clang-format-action@v4.15.0
+        uses: jidicula/clang-format-action@654a770daa28443dd111d133e4083e21c1075674  # v4.18.0
         with:
           clang-format-version: '18'
           check-path: ${{ matrix.path }}
-          fallback-style: 'Google' # optional
+          fallback-style: 'Google'  # optional

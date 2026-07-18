@@ -4,16 +4,26 @@ SETLOCAL ENABLEEXTENSIONS
 SET "SCRIPT_DIR=%~dp0"
 FOR %%I IN ("%SCRIPT_DIR%..") DO SET "REPO_ROOT=%%~fI"
 
-IF NOT DEFINED VCPKG_ROOT (
-  echo VCPKG_ROOT must point to a bootstrapped vcpkg checkout. 1>&2
-  EXIT /B 1
+IF DEFINED CDT_VCPKG_CACHE_DIR (
+  SET "PINNED_VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
+) ELSE (
+  SET "PINNED_VCPKG_ROOT=%REPO_ROOT%\.cache\vcpkg"
 )
 
-IF NOT EXIST "%VCPKG_ROOT%\vcpkg.exe" (
-  echo VCPKG_ROOT does not contain vcpkg.exe: %VCPKG_ROOT% 1>&2
-  EXIT /B 1
+IF DEFINED VCPKG_ROOT (
+  SET "CDT_VCPKG_CACHE_DIR=%VCPKG_ROOT%"
+  CALL "%SCRIPT_DIR%bootstrap-vcpkg.bat" --check >NUL 2>NUL
+  IF NOT ERRORLEVEL 1 GOTO VCPKG_READY
+  echo Ignoring VCPKG_ROOT=%VCPKG_ROOT%; using the repository-pinned checkout instead. 1>&2
 )
 
+SET "CDT_VCPKG_CACHE_DIR=%PINNED_VCPKG_ROOT%"
+SET "VCPKG_ROOT=%PINNED_VCPKG_ROOT%"
+CALL "%SCRIPT_DIR%bootstrap-vcpkg.bat" || EXIT /B 1
+
+:VCPKG_READY
+SET "VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
 cmake --preset windows-msvc-release-developer-mode -S "%REPO_ROOT%" || EXIT /B 1
 cmake --build "%REPO_ROOT%\out\build\windows-msvc-release-developer-mode" || EXIT /B 1
 ctest --test-dir "%REPO_ROOT%\out\build\windows-msvc-release-developer-mode" --output-on-failure || EXIT /B 1
+EXIT /B 0

@@ -1,0 +1,8 @@
+---
+version: 3
+files:
+  - pattern: .github/workflows/*.yml
+  - pattern: .github/workflows/*.yaml
+separator: "  # "
+min_age:
+  value: 7
