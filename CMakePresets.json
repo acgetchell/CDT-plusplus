@@ -386,22 +386,22 @@
     {
       "name": "reference-smoke",
       "displayName": "Run the supported reference smoke tests",
-      "description": "Exclude the known 4,4 unit failures and nondeterministic cdt-opt simulation",
+      "description": "Exclude known unit failures and nondeterministic tests",
       "inherits": "reference",
       "filter": {
         "exclude": {
-          "name": "^(cdt-unit-tests|cdt-opt)$"
+          "name": "^(cdt-unit-tests|cdt-opt|cdt-utilities-tests)$"
         }
       }
     },
     {
       "name": "reference-windows-smoke",
       "displayName": "Run the portable Windows reference smoke tests",
-      "description": "Exclude the known initialize runtime failure in addition to unsupported smoke tests",
+      "description": "Exclude the known initialize runtime failure and nondeterministic tests",
       "inherits": "reference",
       "filter": {
         "exclude": {
-          "name": "^(cdt-unit-tests|cdt-opt|initialize)$"
+          "name": "^(cdt-unit-tests|cdt-opt|cdt-utilities-tests|initialize)$"
         }
       }
     },

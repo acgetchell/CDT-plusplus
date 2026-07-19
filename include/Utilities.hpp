@@ -116,7 +116,12 @@ namespace utilities
 
     // Append current time
     filename += "-";
-    filename += current_date_time();
+    auto timestamp = current_date_time();
+    for (auto& character : timestamp)
+    {
+      if (character == ':') { character = '-'; }
+    }
+    filename += timestamp;
 
     // Append .off file extension
     filename += ".off";

@@ -83,6 +83,7 @@ SCENARIO("Various string/stream/time utilities" *
         CHECK_NE(initial_radius, std::string::npos);
         auto const file_suffix = filename.string().find("off");
         CHECK_NE(file_suffix, std::string::npos);
+        CHECK_EQ(filename.string().find(':'), std::string::npos);
         // Human verification
         fmt::print("Filename is: {}\n", filename.string());
       }
