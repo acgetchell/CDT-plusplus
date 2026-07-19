@@ -213,7 +213,6 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
 
         // All elements are <= max
         CHECK_LE(*ranges::max_element(container), max);
-
       }
     }
   }
@@ -237,7 +236,6 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
 
         // All elements are <= max
         CHECK_LE(*ranges::max_element(container), max);
-
       }
     }
   }

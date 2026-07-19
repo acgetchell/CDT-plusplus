@@ -175,9 +175,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
         manifold.update();
         THEN("The resulting manifold has the applied move.")
         {
-          CHECK(ergodic_moves::check_move(
-              manifold_before, manifold,
-              move_tracker::move_type::FOUR_FOUR));
+          CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                          move_tracker::move_type::FOUR_FOUR));
           // Human verification
           fmt::print("Old manifold.\n");
           manifold_before.print_details();
