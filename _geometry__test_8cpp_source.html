@@ -98,7 +98,7 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">using namespace </span>std;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">using namespace </span>foliated_triangulations;</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><a class="code hl_function" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Geometry special member and swap properties&quot;</span> *</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>SCENARIO(<span class="stringliteral">&quot;Geometry special member and swap properties&quot;</span> *</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>         doctest::test_suite(<span class="stringliteral">&quot;geometry&quot;</span>))</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  spdlog::debug(<span class="stringliteral">&quot;Geometry special member and swap properties.\n&quot;</span>);</div>
@@ -145,7 +145,7 @@ $(function() {
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  }</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><a class="code hl_function" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;3-Geometry classification&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;geometry&quot;</span>))</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>SCENARIO(<span class="stringliteral">&quot;3-Geometry classification&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;geometry&quot;</span>))</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  spdlog::debug(<span class="stringliteral">&quot;3-Geometry classification.\n&quot;</span>);</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  GIVEN(<span class="stringliteral">&quot;A small 3-dimensional geometry.&quot;</span>)</div>
@@ -165,23 +165,23 @@ $(function() {
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <span class="stringliteral">&quot;simplices.\n&quot;</span>,</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            geometry.N3_31, geometry.N3_22, geometry.N3_13);</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        CHECK_GT(geometry.N3, 2);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        CHECK_EQ(geometry.N3, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        CHECK_EQ(geometry.N3, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                                  triangulation.number_of_finite_cells()));</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        CHECK_EQ(geometry.N3_31, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        CHECK_EQ(geometry.N3_31, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                                     triangulation.get_three_one().size()));</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        CHECK_EQ(geometry.N3_13, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        CHECK_EQ(geometry.N3_13, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                     triangulation.get_one_three().size()));</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        CHECK_EQ(geometry.N3_31 + geometry.N3_22 + geometry.N3_13, geometry.N3);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        CHECK_EQ(geometry.N3_22, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        CHECK_EQ(geometry.N3_22, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                     triangulation.get_two_two().size()));</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        CHECK_EQ(geometry.N2, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        CHECK_EQ(geometry.N2, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                                  triangulation.number_of_finite_facets()));</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        CHECK_EQ(geometry.N1, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        CHECK_EQ(geometry.N1, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                                  triangulation.number_of_finite_edges()));</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        CHECK_NE(geometry.N1_TL, 0);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        CHECK_NE(geometry.N1_SL, 0);</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        CHECK_EQ(geometry.N1, geometry.N1_TL + geometry.N1_SL);</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        CHECK_EQ(geometry.N0, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        CHECK_EQ(geometry.N0, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                                  triangulation.number_of_vertices()));</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="comment">// Human verification</span></div>
@@ -202,7 +202,7 @@ $(function() {
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  }</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><a class="code hl_function" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;3-Geometry initialization&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;geometry&quot;</span>))</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>SCENARIO(<span class="stringliteral">&quot;3-Geometry initialization&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;geometry&quot;</span>))</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>{</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  spdlog::debug(<span class="stringliteral">&quot;3-Geometry initialization.\n&quot;</span>);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  GIVEN(<span class="stringliteral">&quot;A 3-dimensional geometry.&quot;</span>)</div>
@@ -234,23 +234,23 @@ $(function() {
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>          <span class="stringliteral">&quot;The properties of the Delaunay triangulation are saved in geometry &quot;</span></div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>          <span class="stringliteral">&quot;info.&quot;</span>)</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      {</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        CHECK_EQ(geometry.N3, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        CHECK_EQ(geometry.N3, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                                  triangulation.number_of_finite_cells()));</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        CHECK_EQ(geometry.N3_31, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        CHECK_EQ(geometry.N3_31, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                                     triangulation.get_three_one().size()));</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        CHECK_EQ(geometry.N3_13, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        CHECK_EQ(geometry.N3_13, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                                     triangulation.get_one_three().size()));</div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        CHECK_EQ(geometry.N3_31 + geometry.N3_22 + geometry.N3_13, geometry.N3);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        CHECK_EQ(geometry.N3_22, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        CHECK_EQ(geometry.N3_22, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                                     triangulation.get_two_two().size()));</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        CHECK_EQ(geometry.N2, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        CHECK_EQ(geometry.N2, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                                  triangulation.number_of_finite_facets()));</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        CHECK_EQ(geometry.N1, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        CHECK_EQ(geometry.N1, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>                                  triangulation.number_of_finite_edges()));</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        CHECK_NE(geometry.N1_TL, 0);</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        CHECK_NE(geometry.N1_SL, 0);</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        CHECK_EQ(geometry.N1_TL + geometry.N1_SL, geometry.N1);</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        CHECK_EQ(geometry.N0, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        CHECK_EQ(geometry.N0, <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                                  triangulation.number_of_vertices()));</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        triangulation.print();</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        triangulation.print_volume_per_timeslice();</div>
@@ -259,9 +259,8 @@ $(function() {
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  }</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>}</div>
 <div class="ttc" id="a_geometry_8hpp_html"><div class="ttname"><a href="_geometry_8hpp.html">Geometry.hpp</a></div><div class="ttdoc">Geometric scalars of the Manifold used to calculate the Regge action.</div></div>
-<div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
-<div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00092">bistellar-flip.cpp:92</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Foliated triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00995">Foliated_triangulation.hpp:996</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_a9b4d7cf81076dcbf230bb7afddc82385"><div class="ttname"><a href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div><div class="ttdeci">std::int32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00028">Settings.hpp:28</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Foliated triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00984">Foliated_triangulation.hpp:985</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html"><div class="ttname"><a href="struct_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></div><div class="ttdoc">3D Geometry</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00026">Geometry.hpp:27</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_a1f1e0c0450b579742545330aac0dab4c"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a1f1e0c0450b579742545330aac0dab4c">Geometry&lt; 3 &gt;::N1</a></div><div class="ttdeci">Int_precision N1</div><div class="ttdoc">Number of 1D edges.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00047">Geometry.hpp:47</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_a2ba5bdb45507af570ca7af7553417354"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a2ba5bdb45507af570ca7af7553417354">Geometry&lt; 3 &gt;::N3_31</a></div><div class="ttdeci">Int_precision N3_31</div><div class="ttdoc">Number of (3,1) simplices.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00032">Geometry.hpp:32</a></div></div>
@@ -275,7 +274,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 6 2025 00:34:09 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Sun Jul 19 2026 23:41:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

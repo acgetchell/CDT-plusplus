@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pyexample_0',['pyexample',['../namespacepyexample.html',1,'']]]
+  ['optimize_0',['optimize',['../namespaceoptimize.html',1,'']]]
 ];

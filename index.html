@@ -80,22 +80,33 @@ $(function() {
   <div class="headertitle"><div class="title">CDT-plusplus </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a><b>Quantize spacetime on your laptop.</b></p>
-<p><a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml/badge.svg" alt="Linux Clang" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml/badge.svg" alt="Linux GCC" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml/badge.svg" alt="macOS" style="pointer-events: none;" class="inline"/></a> <a href="https://ci.appveyor.com/project/acgetchell/cdt-plusplus"><img src="https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true&amp;passingText=Windows" alt="Build status" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop" alt="CodeQL" style="pointer-events: none;" class="inline"/></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"><img src="https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a> <a href="https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus"><img src="https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&amp;metric=alert_status" alt="Quality Gate Status" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/cpp-linter.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/cpp-linter.yml/badge.svg" alt="cpp-linter" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/whitespace.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/whitespace.yml/badge.svg" alt="Whitespace" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/issues"><img src="https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg" alt="Open Issues" style="pointer-events: none;" class="inline"/></a> <a href="https://gitter.im/acgetchell/CDT-plusplus"><img src="https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg" alt="Join the chat at https://gitter.im/acgetchell/CDT-plusplus" style="pointer-events: none;" class="inline"/></a> <a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"><img src="https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod" alt="Gitpod Ready-to-Code" class="inline"/></a></p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a> <b>Quantize spacetime on your laptop.</b></p>
+<p><a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"><img src="https://codecov.io/gh/acgetchell/CDT-plusplus/branch/main/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
 <div class="image">
 <img src="S3-7-27528-I1-R1.png" alt=""/>
 <div class="caption">
 7 timeslices 27528 simplices</div></div>
     <h1><a class="anchor" id="autotoc_md1"></a>
+Maintenance status</h1>
+<p>CDT++ is being prepared for one final C++23 release, v1.0.0, after which this repository will be archived. It is maintained as an independent scientific reference and regression oracle for <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>, the supported Rust successor. New C++ work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1<a class="el" href="class_d.html">D</a> move set, and the final release contract tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/90">issue #90</a>.</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Table of contents</h1>
 <ul>
 <li>CDT-plusplus<ul>
-<li>Introduction</li>
+<li>Maintenance status</li>
+<li>Introduction<ul>
+<li>Regression-oracle scope</li>
+</ul>
+</li>
 <li>Roadmap</li>
-<li>Quickstart</li>
+<li>Quickstart<ul>
+<li>Current reference-suite status</li>
+</ul>
+</li>
 <li>Setup<ul>
-<li>Short</li>
-<li>Long</li>
+<li>Prerequisites</li>
+<li>Developer workflow</li>
+<li>vcpkg maintenance</li>
 </ul>
 </li>
 <li>Build<ul>
@@ -117,11 +128,18 @@ Table of contents</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Introduction</h1>
 <p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> and <a href="https://codeql.github.com">CodeQL</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, and <a href="https://www.threadingbuildingblocks.org">TBB</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://www.comet.ml/">CometML</a> provides experiment tracking for the optional Python workflows.</p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Regression-oracle scope</h2>
+<p>The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in <a href="include/Foliated_triangulation.hpp"><code>include/Foliated_triangulation.hpp</code></a>. <code>check_timevalues</code> classifies cells from stored vertex time labels, <code>find_bad_vertex</code> selects a vertex responsible for an acausal local configuration, and <code>fix_timevalues</code> removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract is satisfied.</p>
+<p>The deterministic doctest scenario **"Detecting and fixing problems with vertices and cells"** in <a href="tests/Foliated_triangulation_test.cpp"><code>tests/Foliated_triangulation_test.cpp</code></a> exercises this path with fixed points and time labels. Its inputs, detected bad vertex, final initialization state, cell counts, and causal classification are the first comparison fixture for <code>causal-triangulations</code>; exact Monte Carlo trajectories are not required to match.</p>
+<p>After building, run that fixture directly with:</p>
+<div class="fragment"><div class="line">./out/build/reference/tests/CDT_unit_tests \</div>
+<div class="line">  --test-case=&#39;*Detecting and fixing problems with vertices and cells*&#39;</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
 Roadmap</h1>
 <ul>
 <li>[x] Cross-platform support on Linux, macOS (x64 &amp; arm64), and Windows</li>
@@ -130,29 +148,20 @@ Roadmap</h1>
 <li>[x] <a href="https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/">Efficient Pure Functional Programming in C++ Using Move Semantics</a></li>
 <li>[x] <a class="el" href="class_test.html" title="This is a test class.">Test</a> using <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a></li>
 <li>[x] Develop using Behavior-driven development (<a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>) with <a href="https://github.com/doctest/doctest">doctest</a></li>
-<li>[x] Continuous integration by <a href="https://travis-ci.com/getting_started">Travis-CI</a> on macOS and Linux with <a href="https://gcc.gnu.org/">gcc</a>/<a href="https://clang.llvm.org">Clang</a></li>
-<li>[x] Continuous integration by <a href="https://www.appveyor.com">AppVeyor</a> on Windows with <a href="https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019">MSVC</a></li>
-<li>[x] Continuous integration by <a href="https://github.com/features/actions">Github Actions</a> on the leading edge</li>
+<li>[x] Continuous integration by <a href="https://github.com/features/actions">GitHub Actions</a> on the leading edge</li>
 <li>[x] 3<a class="el" href="class_d.html">D</a> Simplex</li>
 <li>[x] 3<a class="el" href="class_d.html">D</a> Spherical triangulation</li>
 <li>[x] 2+1 foliation</li>
 <li>[x] S3 Bulk action</li>
 <li>[x] 3<a class="el" href="class_d.html">D</a> Ergodic moves</li>
 <li>[x] High-quality Random Number Generation with M.E. O'Neill's <a href="http://www.pcg-random.org/paper.html">PCG</a> library</li>
-<li>[x] Multithreading via <a href="https://www.threadingbuildingblocks.org">TBB</a></li>
-<li>[x] Automated code analysis with [LGTM]</li>
-<li>[x] Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a></li>
+<li>[ ] Restore optional parallel triangulation with [TBB] (<a href="https://github.com/acgetchell/CDT-plusplus/issues/74">#74</a>)</li>
+<li>[x] Automated code analysis with <a href="https://codeql.github.com/">CodeQL</a></li>
+<li>[x] Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2022</a></li>
 <li>[x] Use <a href="https://github.com/fmtlib/fmt">{fmt}</a> library (instead of <code>iostream</code>)</li>
-<li>[x] Static code analysis with <a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a></li>
 <li>[x] 3<a class="el" href="class_d.html">D</a> Metropolis algorithm</li>
 <li>[x] Multithreaded logging with <a href="https://github.com/gabime/spdlog">spdlog</a></li>
-<li>[x] Visualization with <a href="https://www.qt.io">Qt</a></li>
-<li>[ ] Output via <a href="https://www.hdfgroup.org">HDF5</a></li>
-<li>[ ] 4<a class="el" href="class_d.html">D</a> Simplex</li>
-<li>[ ] 4<a class="el" href="class_d.html">D</a> Spherical triangulation</li>
-<li>[ ] 3+1 foliation</li>
-<li>[ ] S4 Bulk action</li>
-<li>[ ] 4<a class="el" href="class_d.html">D</a> Ergodic moves</li>
+<li>[ ] Restore optional visualization with [Qt] (<a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>)</li>
 <li>[ ] Initialize two masses</li>
 <li>[ ] The shortest path algorithm</li>
 <li>[ ] Einstein tensor</li>
@@ -160,59 +169,80 @@ Roadmap</h1>
 <li>[ ] Complete documentation</li>
 <li>[ ] Quantize Spacetime!</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Quickstart</h1>
-<p><a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"><img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in Gitpod" style="pointer-events: none;" class="inline"/></a></p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Setup</h1>
-<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> to manage C++ libraries. Using <a href="https://en.cppreference.com/w/cpp/20">C++20</a> features, it successfully builds with <a href="https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes">AppleClang-14</a>, <a href="https://gcc.gnu.org/gcc-12/">gcc-12</a>, <a href="https://releases.llvm.org/15.0.0/tools/clang/docs/ReleaseNotes.html">clang-15</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
-Short</h2>
-<p>If you use [Docker]:</p>
-<div class="fragment"><div class="line">docker pull acgetchell/cdt-plusplus</div>
-<div class="line">docker run -it --name cdt cdt-plusplus</div>
-</div><!-- fragment --><p> Binaries will be in <code>/CDT-plusplus/build/src</code>. Proceed to Use.</p>
+<p>From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:</p>
+<div class="fragment"><div class="line">just build</div>
+</div><!-- fragment --><p>The <code>build</code> recipe uses the pkgx launcher on Unix when pkgx is available, then delegates to <code>scripts/build.sh</code>. Its first run creates an ignored <code>.cache/vcpkg</code> checkout at the exact <code>builtin-baseline</code> recorded in <code>vcpkg.json</code>, bootstraps vcpkg, installs the manifest dependencies, builds in <code>out/build/reference</code>, and runs the supported CTest smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and CMake/Ninja outputs, so an unchanged build is a no-op apart from configuration and tests.</p>
+<p>The optional <a href="https://pkgx.sh/">pkgx</a> entry point supplies the complete Unix developer-tool environment ephemerally and invokes the same build contract directly, without requiring Just:</p>
+<div class="fragment"><div class="line">./scripts/pkgx-build.sh</div>
+</div><!-- fragment --><p>pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest. The underlying <code>./scripts/build.sh</code> and <code>scripts\build.bat</code> entry points remain available for troubleshooting and native Windows development.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>
-Long</h2>
-<p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://brew.sh">homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>):</p>
+Current reference-suite status</h2>
+<p>With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. <code>build.sh</code> runs eleven supported smoke tests on Unix: nine lightweight CLI integration tests and two focused doctest suites. The known failing <code>initialize</code> scenario is excluded from Windows smoke runs, while the other initialization cases remain enabled. The complete registered suite additionally runs the full unit-test executable and a focused utilities registration; the focused registrations remain available for quick iteration and are labeled as full-suite duplicates for sanitizer runs.</p>
+<h1><a class="anchor" id="autotoc_md8"></a>
+Setup</h1>
+<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build C++23 sources and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> manifest mode to manage C++ libraries. macOS with AppleClang is the primary v1.0.0 restoration target; the remaining compiler and platform matrix will be recorded as it is verified.</p>
+<h2><a class="anchor" id="autotoc_md9"></a>
+Prerequisites</h2>
+<p>The smallest pkgx-assisted host setup is:</p>
 <ul>
+<li>Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux</li>
+<li>pkgx</li>
+<li>Just when invoking the recipes directly; <code>scripts/pkgx-build.sh</code> does not require it</li>
+<li>Python 3.12 and uv when checking or running the Python support scripts</li>
+</ul>
+<p>The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, M4, Autoconf, Autoconf Archive, Automake, GNU Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through a package manager such as <a href="https://brew.sh">Homebrew</a> or apt:</p>
+<ul>
+<li>Git</li>
+<li>Bash</li>
 <li>build-essential (Linux only)</li>
+<li>m4</li>
 <li>automake</li>
 <li>autoconf</li>
 <li>autoconf-archive</li>
 <li>libtool (macOS) or libtool-bin (Linux)</li>
 <li>pkg-config</li>
 <li>texinfo</li>
-<li>yasm</li>
 <li>ninja (macOS) or ninja-build (Linux)</li>
-<li>pkg-config (macOS)</li>
 </ul>
-<p>Next, install [vcpkg]:</p>
-<div class="fragment"><div class="line">git clone https://github.com/Microsoft/vcpkg.git</div>
-<div class="line">cd vcpkg</div>
-<div class="line">./bootstrap-vcpkg.sh</div>
-<div class="line">./vcpkg integrate install</div>
-</div><!-- fragment --><p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> is then invoked by CMake in <a href="https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md">vcpkg manifest</a> mode and install the project dependencies listed in <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json">vcpkg.json</a> into a local <code>vcpkg_installed</code> directory.</p>
-<p>Proceed to Build.</p>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<p>The build does not require a pre-existing personal vcpkg checkout, a fork, a submodule, Docker, or a hosted development environment.</p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+Developer workflow</h2>
+<p>The repository-root [Justfile](Justfile) provides the same small command vocabulary used by the related projects:</p>
+<div class="fragment"><div class="line">just check                 # Fast, non-mutating local checks</div>
+<div class="line">just fix                   # Format C++/Python source and the Justfile</div>
+<div class="line">just clang-tidy            # Analyze C++ with LLVM 22</div>
+<div class="line">just sanitize asan         # Build and exercise one Linux sanitizer preset</div>
+<div class="line">just build                 # Bootstrap, configure, build, and smoke-test</div>
+<div class="line">just run --help            # Build as needed and run cdt with forwarded arguments</div>
+<div class="line">just ci                    # Comprehensive pre-commit/pre-push validation</div>
+<div class="line">just update-actions        # Update and repin Actions with pinact, then validate</div>
+<div class="line">just python-sync           # Install the locked Ruff and ty development environment</div>
+<div class="line">just python-check          # Check Python formatting, lint, and types</div>
+<div class="line">just python-fix            # Apply safe Ruff fixes and formatting</div>
+</div><!-- fragment --><p><code>check</code> covers repository-wide C++ formatting, Python formatting/lint/type checks, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. <code>ci</code> adds the pinact policy check and the supported build/test contract. Install the developer tools with Homebrew, use equivalent system packages, or let pkgx supply them ephemerally; pkgx remains optional. For example:</p>
+<div class="fragment"><div class="line">pkgx +just.systems +git-scm.org +cmake.org +ninja-build.org +python.org +llvm.org@22 \</div>
+<div class="line">  +yamllint +actionlint +zizmor just check</div>
+</div><!-- fragment --><p><a href="https://github.com/suzuki-shunsuke/pinact">pinact</a> uses <a href=".pinact.yaml"><code>.pinact.yaml</code></a> to retain immutable action SHAs, readable release comments, and a seven-day release cooldown. <code>just update-actions</code> uses an installed pinact or a pkgx-provided Go fallback, then requires <code>yamllint</code>, <code>actionlint</code>, and <code>zizmor</code> to pass.</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+vcpkg maintenance</h2>
+<p><code>vcpkg.json</code> is the dependency source of truth. Its <code>builtin-baseline</code> pins the official <a href="https://github.com/microsoft/vcpkg"><code>microsoft/vcpkg</code></a> registry commit used locally and in CI. The repository-local <code>.cache/vcpkg</code> checkout is disposable tool/cache infrastructure and must not be edited or committed.</p>
+<p>To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, review the manifest diff, and then rerun the complete build:</p>
+<div class="fragment"><div class="line">./scripts/bootstrap-vcpkg.sh</div>
+<div class="line">export VCPKG_ROOT=&quot;$PWD/.cache/vcpkg&quot;</div>
+<div class="line">&quot;$VCPKG_ROOT/vcpkg&quot; x-update-baseline</div>
+<div class="line">./scripts/build.sh</div>
+</div><!-- fragment --><p>CI uses <code>lukka/run-vcpkg</code>, which derives the vcpkg checkout commit from the same manifest baseline and supplies a binary cache. No separately maintained repository variable is required.</p>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Build</h1>
-<p>You'll need a reasonably modern compiler that supports <a href="https://en.cppreference.com/w/cpp/20">C++20</a> features.</p>
-<p>Clone the repo:</p>
-<div class="fragment"><div class="line">git clone https://github.com/acgetchell/CDT-plusplus.git</div>
-</div><!-- fragment --><p>To get <a href="https://www.cmake.org">CMake</a> and the build scripts to run correctly, you'll need to set <code>$VCPKG_ROOT</code> to wherever you cloned <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, e.g.</p>
-<div class="fragment"><div class="line">export VCPKG_ROOT=&quot;$HOME/vcpkg&quot;</div>
-</div><!-- fragment --><p>This will set the <code>CMAKE_TOOLCHAIN_FILE</code> option for <a href="https://www.cmake.org">CMake</a>.</p>
-<p>You may also need to set <code>VCPKG_DEFAULT_TRIPLET</code> to your platform <a href="https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks">triplet</a>, e.g.</p>
-<div class="fragment"><div class="line">export VCPKG_DEFAULT_TRIPLET=&quot;x64-linux&quot;</div>
-</div><!-- fragment --><p>You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:</p>
-<div class="fragment"><div class="line">vcpkg install</div>
-</div><!-- fragment --><p>At this point, you can build via the scripts in <code>scripts</code>, which will build the project and install the dependencies into <code>vcpkg_installed</code>.</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<p>Run <code>just build</code> from the repository root. It delegates to <code>./scripts/build.sh</code>, which can itself be run from any working directory for troubleshooting. If <code>VCPKG_ROOT</code> already names the clean official checkout at the manifest baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. The script invokes the <code>reference</code> configure and build presets followed by the <code>reference-smoke</code> test preset; products and tests are isolated under <code>out/build/reference</code>. Windows uses the same presets through <code>scripts\build.bat</code>, while <code>scripts\fast-build.bat</code> configures the same reference tree and builds only the primary <code>cdt</code> target. All entry points preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes.</p>
+<h2><a class="anchor" id="autotoc_md13"></a>
 Project Layout</h2>
 <p>The project is similar to <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
-<li>build - Ephemeral out-of-source build directory</li>
+<li>out/build/reference - Ephemeral supported headless build directory</li>
 <li>cmake - Cmake configurations</li>
 <li>docs - Documentation</li>
 <li>external - Includes submodules of external projects (none so far, all using <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>)</li>
@@ -221,28 +251,24 @@ Project Layout</h2>
 <li>src - Source files</li>
 <li>tests - Unit tests</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Run</h2>
-<p>Run one of the following in <code>scripts</code>, depending on your operating system and environment:</p>
-<ul>
-<li>No unit tests, <code>Release</code> mode - <code>fast-build.sh</code> or <code>fast-build.bat</code></li>
-<li>Unit tests, <code>RelWithDebInfo</code> mode - <code>build.sh</code> or <code>build.bat</code></li>
-<li>On an HPC cluster with <a href="https://hpc-wiki.info/hpc/SLURM">SLURM</a>, <a href="https://hpc-wiki.info/hpc/Modules">modules</a>, and <a href="https://spack.io">spack</a> - <code>slurm.sh</code></li>
-<li>Full debugging mode with asserts and tests, <code>debug.sh</code> (this will take some time, ~280 seconds on my current laptop)</li>
-</ul>
-<p>This should result in the main program executable, <code>cdt</code> in <code>build/src</code> or <code>build\Debug</code>, along with several others.</p>
-<ul>
-<li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
-<li><code>cdt-viewer</code> (macOS only) is a simple Qt-based viewer for the output of <code>cdt</code></li>
+<p>The supported build produces <code>cdt</code> and <code>initialize</code> in <code>out/build/reference/src</code>. Run the primary <code>cdt</code> executable through Just and pass its arguments after the recipe name:</p>
+<div class="fragment"><div class="line">just run --help</div>
+</div><!-- fragment --><p>For troubleshooting, the equivalent direct command is <code>./out/build/reference/src/cdt --help</code>.</p>
+<p>Use <code>--no-output</code> for batch, debugging, or scripted runs that should print results without writing checkpoint or final triangulation files:</p>
+<div class="fragment"><div class="line">just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --no-output</div>
+</div><!-- fragment --><ul>
+<li><code>cdt-viewer</code> is currently disabled and will be restored as an opt-in v1.0.0 target by <a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a></li>
 <li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run parameter optimization</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Usage</h1>
 <p>CDT-plusplus uses <a href="https://www.boost.org/doc/libs/1_85_0/doc/html/program_options/tutorial.html">program_options</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
-<div class="fragment"><div class="line">./build/src/cdt --help</div>
+<div class="fragment"><div class="line">./out/build/reference/src/cdt --help</div>
 <div class="line">Causal Dynamical Triangulations in C++ using CGAL.</div>
 <div class="line"> </div>
-<div class="line">Copyright (c) 2013 Adam Getchell</div>
+<div class="line">Copyright (c) 2013-2026 Adam Getchell</div>
 <div class="line"> </div>
 <div class="line">A program that generates d-dimensional triangulated spacetimes</div>
 <div class="line">with a defined causal structure and evolves them according</div>
@@ -254,6 +280,7 @@ Usage</h1>
 <div class="line">            [-d DIM]</div>
 <div class="line">            [--init INITIAL RADIUS]</div>
 <div class="line">            [--foliate FOLIATION SPACING]</div>
+<div class="line">            [--no-output]</div>
 <div class="line">            -k K</div>
 <div class="line">            --alpha ALPHA</div>
 <div class="line">            --lambda LAMBDA</div>
@@ -276,92 +303,80 @@ Usage</h1>
 <div class="line">  -d [ --dimensions ] arg (=3)  Dimensionality</div>
 <div class="line">  -i [ --init ] arg (=1)        Initial radius</div>
 <div class="line">  -f [ --foliate ] arg (=1)     Foliation spacing</div>
+<div class="line">  --no-output                   Do not write checkpoint or final triangulation</div>
+<div class="line">                                files</div>
 <div class="line">  -a [ --alpha ] arg            Negative squared geodesic length of 1-d</div>
 <div class="line">                                timelike edges</div>
 <div class="line">  -k [ --k ] arg                K = 1/(8*pi*G_newton)</div>
 <div class="line">  -l [ --lambda ] arg           K * Cosmological constant</div>
 <div class="line">  -p [ --passes ] arg (=100)    Number of passes</div>
 <div class="line">  -c [ --checkpoint ] arg (=10) Checkpoint every n passes</div>
-</div><!-- fragment --><p>The dimensionality of the spacetime is such that each slice of spacetime is <code>d-1</code>-dimensional, so setting <code>d=3</code> generates 2 spacelike dimensions and one timelike dimension, with a defined global time foliation. <a class="el" href="class_a.html">A</a> <code>d</code>-dimensional simplex will have some <code>d-1</code> sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (span two timeslices). In <a href="https://arxiv.org/abs/hep-th/0105267">CDT</a> we actually care more about the timelike links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).</p>
-<h1><a class="anchor" id="autotoc_md12"></a>
+</div><!-- fragment --><p>The dimensionality of the spacetime is such that each slice of spacetime is <code>d-1</code>-dimensional, so setting <code>d=3</code> generates two spacelike dimensions and one timelike dimension, with a defined global time foliation. <a class="el" href="class_a.html">A</a> <code>d</code>-dimensional simplex will have some <code>d-1</code> sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (span two timeslices). In <a href="https://arxiv.org/abs/hep-th/0105267">CDT</a> we actually care more about the timelike links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).</p>
+<h1><a class="anchor" id="autotoc_md16"></a>
 Documentation</h1>
 <p>Online documentation is at <a href="https://adamgetchell.org/CDT-plusplus/">https://adamgetchell.org/CDT-plusplus/</a>.</p>
-<p>If you have <a href="http://www.doxygen.org">Doxygen</a> installed you can generate the same information locally using the configuration file in <code>docs\Doxyfile</code> by simply typing at the top level directory (<a href="http://www.doxygen.org">Doxygen</a> will recursively search):</p>
+<p>If you have <a href="http://www.doxygen.org">Doxygen</a> installed you can generate the same information locally using the configuration file in <code>docs/Doxyfile</code> by simply typing at the top level directory (<a href="http://www.doxygen.org">Doxygen</a> will recursively search):</p>
 <div class="fragment"><div class="line">doxygen ./docs/Doxyfile</div>
-</div><!-- fragment --><p>This will generate a <code>docs/html/</code> directory containing documentation generated from CDT++ source files. <code>USE_MATHJAX</code> has been enabled in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile">Doxyfile</a> so that the LaTeX formulae can be rendered in the html documentation using <a href="https://www.mathjax.org">MathJax</a>. <code>HAVE_DOT</code> is set to <b>YES</b> which allows various graphs to be autogenerated by <a href="http://www.doxygen.org">Doxygen</a> using <a href="https://www.graphviz.org">GraphViz</a>. If you do not have GraphViz installed, set this option to <b>NO</b> (along with <code>UML_LOOK</code>).</p>
-<h1><a class="anchor" id="autotoc_md13"></a>
-Testing</h1>
-<p>In the <code>scripts</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
-<p>Unit tests run (in <code>build/tests</code> or <code>build\tests\Debug</code>) via <code>CDT_unit_tests</code>, the <a href="https://github.com/doctest/doctest">doctest</a> executable:</p>
-<div class="fragment"><div class="line">./CDT_unit_tests</div>
-</div><!-- fragment --><p>or (Windows):</p>
-<div class="fragment"><div class="line">CDT_unit_tests.exe</div>
-</div><!-- fragment --><p>You can also run both <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a> integration and <a href="https://github.com/doctest/doctest">doctest</a> unit tests in the <code>build</code> directory with:</p>
-<div class="fragment"><div class="line">cmake --build . --target test</div>
-</div><!-- fragment --><p>or (Windows):</p>
-<div class="fragment"><div class="line">ctest -C Debug</div>
-</div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>build/Testing</code> directory which is generated thereby.</p>
-<p>Deactivate Unit tests with <code>-<a class="el" href="class_d.html">D</a> ENABLE_TESTING:BOOL=FALSE</code>, e.g. <code>scripts/fast-build.sh</code>.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
-Static Analysis</h2>
-<p>This project follows the <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">CppCore Guidelines</a> as enforced by <a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a>, which you can install and then run using the <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh">clang-tidy.sh</a> script:</p>
-<div class="fragment"><div class="line">sudo apt-get install clang-tidy</div>
-<div class="line">cd scripts</div>
-<div class="line">./clang-tidy.sh</div>
-</div><!-- fragment --><p>(Or use your favorite linter plugin for your editor/IDE.)</p>
-<p>The <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/cppcheck.sh">cppcheck.sh</a> script runs a quick static analysis using <a href="http://cppcheck.sourceforge.net">cppcheck</a>.</p>
-<div class="fragment"><div class="line">brew install cppcheck</div>
-<div class="line">cd scripts</div>
-<div class="line">./cppcheck-build.sh</div>
-</div><!-- fragment --><p><a href="https://clang.llvm.org">Clang</a> comes with <a href="https://clang-analyzer.llvm.org/scan-build.html">scan-build</a> which can run a much more thorough, but slower static analysis integrated with <a href="https://www.cmake.org">CMake</a> and <a href="https://ninja-build.org">Ninja</a>.</p>
-<div class="fragment"><div class="line">cd scripts</div>
-<div class="line">./scan.sh</div>
-</div><!-- fragment --><p><a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> - static analyzer for <a class="el" href="class_c.html">C</a>, C++, <a class="el" href="class_c.html">C</a>#, and Java code.</p>
-<div class="fragment"><div class="line">cd scripts</div>
-<div class="line">./pvs-studio.sh</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md15"></a>
-Sanitizers</h2>
-<p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> + <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer">LeakSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a> are run with <code>scripts/asan.sh</code>, <code>scripts/lsan.sh</code>, <code>scripts/msan.sh</code>, and <code>scripts/tsan.sh</code>. They are also checked by <a href="https://travis-ci.com/getting_started">Travis-CI</a> during commits.</p>
-<h1><a class="anchor" id="autotoc_md16"></a>
-Optimizing Parameters</h1>
-<p><a href="https://www.comet.ml/">CometML</a> is used to record <a href="https://www.comet.ml/acgetchell/cdt-plusplus">Experiments</a> which conduct <a href="https://www.comet.ml/parameter-optimization">Model Optimization</a>. The script to do this is <code><a class="el" href="optimize-initialize_8py_source.html">optimize-initialize.py</a></code>. In order for this to work, you must install the following into your Python <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>.</p>
-<div class="fragment"><div class="line">pip install tensorflow</div>
-<div class="line">pip install comet-ml</div>
-</div><!-- fragment --><p>You can then run experiments and look at results on <a href="https://www.comet.ml!">https://www.comet.ml!</a></p>
+</div><!-- fragment --><p>This will generate a <code>docs/html/</code> directory containing documentation generated from CDT++ source files. <code>USE_MATHJAX</code> has been enabled in <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile">Doxyfile</a> so that the LaTeX formulae can be rendered in the HTML documentation using <a href="https://www.mathjax.org">MathJax</a>. <code>HAVE_DOT</code> is set to <b>YES</b> which allows various graphs to be autogenerated by <a href="http://www.doxygen.org">Doxygen</a> using <a href="https://www.graphviz.org">GraphViz</a>. If you do not have GraphViz installed, set this option to <b>NO</b> (along with <code>UML_LOOK</code>).</p>
 <h1><a class="anchor" id="autotoc_md17"></a>
+Testing</h1>
+<p>Run <code>just build</code>; it delegates to <code>./scripts/build.sh</code>, builds the test target, and executes the eleven supported smoke tests. These include focused doctest runs for the Boost.Compat <code>function_ref</code> migration and the causal-foliation construction code used as a regression oracle. Run <code>just ci</code> for the complete local validation gate.</p>
+<p>The doctest executable can also be run directly:</p>
+<div class="fragment"><div class="line">./out/build/reference/tests/CDT_unit_tests</div>
+</div><!-- fragment --><p>To rerun the supported smoke suite without rebuilding:</p>
+<div class="fragment"><div class="line">ctest --preset reference-smoke</div>
+</div><!-- fragment --><p>To run every currently registered test, including the full unit-test executable and focused duplicate registrations, bypass the smoke filter explicitly:</p>
+<div class="fragment"><div class="line">ctest --test-dir out/build/reference --output-on-failure</div>
+</div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>out/build/reference/Testing</code> directory generated by CTest.</p>
+<h2><a class="anchor" id="autotoc_md18"></a>
+Static Analysis</h2>
+<p>Python 3.12 is selected by <a href=".python-version"><code>.python-version</code></a>, uv locks the environment in <code>uv.lock</code>, Ruff owns Python formatting and linting, and ty owns static type checking. Run <code>just python-sync</code> once and then use <code>just python-check</code> or <code>just python-fix</code>; both commands are also part of the repository-wide validation recipes.</p>
+<p>This project follows the <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">CppCore Guidelines</a> as enforced by <a href="https://clang.llvm.org/extra/clang-tidy/">ClangTidy</a>. The repository pins LLVM 22; run Clang-Tidy through its Just recipe:</p>
+<div class="fragment"><div class="line">just clang-tidy</div>
+</div><!-- fragment --><p>(Or use your favorite linter plugin for your editor/IDE.)</p>
+<h2><a class="anchor" id="autotoc_md19"></a>
+Sanitizers</h2>
+<p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> + <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer">LeakSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a> share the repository-owned Linux driver and CMake presets. Run one locally with <code>just sanitize asan</code>, <code>just sanitize lsan</code>, <code>just sanitize msan</code>, or <code>just sanitize tsan</code>; the GitHub Actions workflows invoke the same commands. MemorySanitizer remains experimental because third-party dependencies are not instrumented.</p>
+<h1><a class="anchor" id="autotoc_md20"></a>
+Optimizing Parameters</h1>
+<p><a href="https://www.comet.ml/">CometML</a> is used to record <a href="https://www.comet.ml/acgetchell/cdt-plusplus">Experiments</a> conducted by <code><a class="el" href="optimize-initialize_8py_source.html">src/optimize-initialize.py</a></code>; <code><a class="el" href="test_8py_source.html">src/test.py</a></code> is the existing TensorFlow MNIST experiment. These optional, heavyweight dependencies are kept out of the normal lint environment. Synchronize them from the same uv lockfile when working on the experiment scripts:</p>
+<div class="fragment"><div class="line">just python-sync-experiments</div>
+<div class="line">uv run --locked --group experiments python src/optimize-initialize.py</div>
+</div><!-- fragment --><p>Set <code>COMET_API_KEY</code> before starting an online experiment. The experiment results are then available in Comet. Migration of these legacy scripts to Python 3.14, PyTorch, and the current Comet API is tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/104">#104</a>.</p>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Visualization</h1>
-<p><a href="https://www.qt.io">Qt</a> is used to visualize 3<a class="el" href="class_d.html">D</a> triangulations via <code>cdt-viewer</code>.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<p>The Qt-based <code>cdt-viewer</code> target is currently disabled. Its opt-in dependency feature, deterministic smoke fixture, supported desktop matrix, and v1.0.0 restoration are tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>; Qt and Eigen are intentionally absent from the default headless build until that work is complete.</p>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Contributing</h1>
-<p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
+<p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
 <p>Your code should pass Continuous Integration:</p>
 <ul>
-<li>Whitespace formatting (<code>git diff --check HEAD^</code>)</li>
-<li><a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html#clang-format">clang-format</a> with project settings (<a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format">.clang-format</a>)</li>
-<li><a href="http://cppcheck.sourceforge.net">cppcheck</a> test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/cppcheck.sh">cppcheck.sh</a></li>
-<li><a href="http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun">Valgrind</a> be sure to look at the results to ensure you're not leaking memory</li>
-<li><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> and <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>; test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh">asan.sh</a></li>
-<li>[LeakSanitizer] (if supported by your platform); test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/lsan.sh">lsan.sh</a></li>
-<li>[MemorySanitizer] (if supported by your platform); test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh">msan.sh</a></li>
-<li><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a> test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh">tsan.sh</a></li>
-<li><a href="https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus">Sonarcloud</a> provides a lot of good suggestions.</li>
+<li><code>just fix</code> for safe automatic formatting with the repository's <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format">.clang-format</a></li>
+<li><code>just clang-tidy</code> to analyze C++ with the pinned LLVM 22 toolchain</li>
+<li><code>just check</code> for fast, non-mutating source, YAML, workflow, and CMake validation</li>
+<li><code>just ci</code> for the supported build and smoke-test contract before pushing</li>
 </ul>
+<p>The slower sanitizer workflows remain available through <a href="https://github.com/features/actions">GitHub Actions</a> and repository commands when relevant to a change:</p>
+<ul>
+<li><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a>, <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer">LeakSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a></li>
+</ul>
+<p>Valgrind is intentionally unsupported: on x86/AMD64 its floating-point emulation does not honor the directed rounding required by CGAL's interval predicates. Disabling CGAL's rounding check would make geometric results untrustworthy, so memory diagnostics use the supported sanitizer workflows instead.</p>
 <p>Optional:</p>
 <ul>
-<li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
-<li><a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
+<li><a href="https://clang.llvm.org/extra/clang-tidy/">ClangTidy</a> on all changed files</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Issues</h1>
 <ul>
 <li><a href="https://github.com/Microsoft/vcpkg">vcpkg</a>'s version of <a href="https://howardhinnant.github.io/date/date.html">date</a> has an unfixed bug <a href="https://github.com/microsoft/vcpkg/issues/23637">#23637</a> which produces <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</li>
-<li><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> has issues with <code>fontconfig:arm64-osx</code> <a href="https://github.com/microsoft/vcpkg/issues/40623">#40623</a>. </li>
+<li><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> has issues with <code>fontconfig:arm64-osx</code> <a href="https://github.com/microsoft/vcpkg/issues/40623">#40623</a>.</li>
+<li><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> fails to build <a href="https://gmplib.org">gmp</a> on Linux (which breaks CI) <a href="https://github.com/microsoft/vcpkg/issues/45336">#45336</a> </li>
 </ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 6 2025 00:34:09 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Sun Jul 19 2026 23:41:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

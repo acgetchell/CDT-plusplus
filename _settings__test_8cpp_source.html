@@ -96,57 +96,53 @@ $(function() {
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;doctest/doctest.h&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;fmt/core.h&gt;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">using namespace </span>std;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;concepts&gt;</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><a class="code hl_function" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Check settings&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;settings&quot;</span>))</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  GIVEN(<span class="stringliteral">&quot;Settings are retrieved.&quot;</span>)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    WHEN(<span class="stringliteral">&quot;The integer type is queried.&quot;</span>)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>      <span class="keyword">auto</span> <span class="keyword">const</span>&amp; int_precision = <span class="keyword">typeid</span>(<a class="code hl_typedef" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>).name();</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      THEN(<span class="stringliteral">&quot;The value is std::int_fast32_t.&quot;</span>)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        fmt::print(<span class="stringliteral">&quot;TypeID of Int_precision is {}.\n&quot;</span>, int_precision);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        CHECK_EQ(int_precision, <span class="keyword">typeid</span>(std::int_fast32_t).name());</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>      }</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    WHEN(<span class="stringliteral">&quot;MPFR precision is queried.&quot;</span>)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      <span class="keyword">auto</span> precision = <a class="code hl_variable" href="_settings_8hpp.html#ad5b86ed0f422d4c11a91b14d34e47bca">PRECISION</a>;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      THEN(<span class="stringliteral">&quot;The value is 256 bits.&quot;</span>)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      {</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.\n&quot;</span>, precision);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        REQUIRE_EQ(precision, 256);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      }</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    WHEN(<span class="stringliteral">&quot;Memory alignment is queried.&quot;</span>)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    {</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      <span class="keyword">auto</span> <span class="keyword">constexpr</span> align_64 = <a class="code hl_variable" href="_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346">ALIGNMENT_64_BIT</a>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      THEN(<span class="stringliteral">&quot;The value is 64 bits.&quot;</span>)</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>      {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_64);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        REQUIRE_EQ(align_64, 64);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      <span class="keyword">auto</span> <span class="keyword">constexpr</span> align_32 = <a class="code hl_variable" href="_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314">ALIGNMENT_32_BIT</a>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>      THEN(<span class="stringliteral">&quot;The value is 32 bits.&quot;</span>)</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_32);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        REQUIRE_EQ(align_32, 32);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      }</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  }</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">using namespace </span>std;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>SCENARIO(<span class="stringliteral">&quot;Check settings&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;settings&quot;</span>))</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  GIVEN(<span class="stringliteral">&quot;Settings are retrieved.&quot;</span>)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    WHEN(<span class="stringliteral">&quot;The integer type is queried.&quot;</span>)</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      THEN(<span class="stringliteral">&quot;The type is a portable signed 32-bit integer.&quot;</span>)</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      { CHECK((std::same_as&lt;Int_precision, std::int32_t&gt;)); }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    WHEN(<span class="stringliteral">&quot;MPFR precision is queried.&quot;</span>)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>      <span class="keyword">auto</span> precision = <a class="code hl_variable" href="_settings_8hpp.html#ad5b86ed0f422d4c11a91b14d34e47bca">PRECISION</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      THEN(<span class="stringliteral">&quot;The value is 256 bits.&quot;</span>)</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.\n&quot;</span>, precision);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        REQUIRE_EQ(precision, 256);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    WHEN(<span class="stringliteral">&quot;Memory alignment is queried.&quot;</span>)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>      <span class="keyword">auto</span> <span class="keyword">constexpr</span> align_64 = <a class="code hl_variable" href="_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346">ALIGNMENT_64_BIT</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>      THEN(<span class="stringliteral">&quot;The value is 64 bits.&quot;</span>)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_64);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        REQUIRE_EQ(align_64, 64);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      <span class="keyword">auto</span> <span class="keyword">constexpr</span> align_32 = <a class="code hl_variable" href="_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314">ALIGNMENT_32_BIT</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      THEN(<span class="stringliteral">&quot;The value is 32 bits.&quot;</span>)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_32);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        REQUIRE_EQ(align_32, 32);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
-<div class="ttc" id="a_settings_8hpp_html_a570ee849bb08947cecb0d42dcc0ee314"><div class="ttname"><a href="_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314">ALIGNMENT_32_BIT</a></div><div class="ttdeci">static int constexpr ALIGNMENT_32_BIT</div><div class="ttdoc">Except when we only need 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00061">Settings.hpp:61</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_ac1c914e061a5afa9833a563411daf346"><div class="ttname"><a href="_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346">ALIGNMENT_64_BIT</a></div><div class="ttdeci">static int constexpr ALIGNMENT_64_BIT</div><div class="ttdoc">Aligns data for ease of access on 64-bit CPUs at the expense of padding.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00058">Settings.hpp:58</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_ad5b86ed0f422d4c11a91b14d34e47bca"><div class="ttname"><a href="_settings_8hpp.html#ad5b86ed0f422d4c11a91b14d34e47bca">PRECISION</a></div><div class="ttdeci">static Int_precision constexpr PRECISION</div><div class="ttdoc">Sets the precision for MPFR.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00044">Settings.hpp:44</a></div></div>
-<div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00092">bistellar-flip.cpp:92</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_a570ee849bb08947cecb0d42dcc0ee314"><div class="ttname"><a href="_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314">ALIGNMENT_32_BIT</a></div><div class="ttdeci">static int constexpr ALIGNMENT_32_BIT</div><div class="ttdoc">Except when we only need 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00057">Settings.hpp:57</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_ac1c914e061a5afa9833a563411daf346"><div class="ttname"><a href="_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346">ALIGNMENT_64_BIT</a></div><div class="ttdeci">static int constexpr ALIGNMENT_64_BIT</div><div class="ttdoc">Aligns data for ease of access on 64-bit CPUs at the expense of padding.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00054">Settings.hpp:54</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_ad5b86ed0f422d4c11a91b14d34e47bca"><div class="ttname"><a href="_settings_8hpp.html#ad5b86ed0f422d4c11a91b14d34e47bca">PRECISION</a></div><div class="ttdeci">static Int_precision constexpr PRECISION</div><div class="ttdoc">Sets the precision for MPFR.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00040">Settings.hpp:40</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 6 2025 00:34:09 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Sun Jul 19 2026 23:41:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

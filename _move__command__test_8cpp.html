@@ -92,6 +92,13 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>&quot;</code><br />
 <code>#include &lt;doctest/doctest.h&gt;</code><br />
 <code>#include &lt;fmt/ranges.h&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
+<code>#include &lt;tuple&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Move_command_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -113,8 +120,10 @@ Functions</h2></td></tr>
 <tr class="separator:a9ae1fc8db978db6195f99ef0a014a4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab940e1965c681930a02cd02257cd4227"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_move__command__test_8cpp.html#ab940e1965c681930a02cd02257cd4227">SCENARIO</a> (&quot;Invoking a move with a function pointer&quot; *doctest::test_suite(&quot;move_command&quot;))</td></tr>
 <tr class="separator:ab940e1965c681930a02cd02257cd4227"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb1c3e2bb15c5a8d508acd7d3476778c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_move__command__test_8cpp.html#abb1c3e2bb15c5a8d508acd7d3476778c">SCENARIO</a> (&quot;Invoking a move with <a class="el" href="_apply__move_8hpp.html#a358713e17b7cc18aeda33efaaa63011c">apply_move</a> and a function pointer&quot; *doctest::test_suite(&quot;move_command&quot;))</td></tr>
+<tr class="memitem:abb1c3e2bb15c5a8d508acd7d3476778c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_move__command__test_8cpp.html#abb1c3e2bb15c5a8d508acd7d3476778c">SCENARIO</a> (&quot;Invoking a move with <a class="el" href="_apply__move_8hpp.html#a178cbdb602b1b9d3c3d314205256de92">apply_move</a> and a function pointer&quot; *doctest::test_suite(&quot;move_command&quot;))</td></tr>
 <tr class="separator:abb1c3e2bb15c5a8d508acd7d3476778c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ca86db70a7aab43d6c6cb92b0bf84a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_move__command__test_8cpp.html#a46ca86db70a7aab43d6c6cb92b0bf84a">SCENARIO</a> (&quot;Rejected moves preserve manifold state&quot; *doctest::test_suite(&quot;move_command&quot;))</td></tr>
+<tr class="separator:a46ca86db70a7aab43d6c6cb92b0bf84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests of <a class="el" href="class_move_command.html">MoveCommand</a>, that is, that moves are handled properly. </p>
@@ -138,7 +147,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00022">22</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00131">131</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -160,12 +169,12 @@ Functions</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">  spdlog::debug(<span class="stringliteral">&quot;MoveCommand initialization.\n&quot;</span>)</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00102">102</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00208">208</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a9ae1fc8db978db6195f99ef0a014a4f9" name="a9ae1fc8db978db6195f99ef0a014a4f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ae1fc8db978db6195f99ef0a014a4f9">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ae1fc8db978db6195f99ef0a014a4f9">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,12 +189,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00416">416</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00459">459</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="ab940e1965c681930a02cd02257cd4227" name="ab940e1965c681930a02cd02257cd4227"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab940e1965c681930a02cd02257cd4227">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab940e1965c681930a02cd02257cd4227">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,12 +209,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00070">70</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00176">176</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="abb1c3e2bb15c5a8d508acd7d3476778c" name="abb1c3e2bb15c5a8d508acd7d3476778c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb1c3e2bb15c5a8d508acd7d3476778c">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abb1c3e2bb15c5a8d508acd7d3476778c">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,21 +222,41 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">SCENARIO </td>
           <td>(</td>
-          <td class="paramtype">&quot;Invoking a move with <a class="el" href="_apply__move_8hpp.html#a358713e17b7cc18aeda33efaaa63011c">apply_move</a> and a function pointer&quot; *&#160;</td>
+          <td class="paramtype">&quot;Invoking a move with <a class="el" href="_apply__move_8hpp.html#a178cbdb602b1b9d3c3d314205256de92">apply_move</a> and a function pointer&quot; *&#160;</td>
           <td class="paramname"><em>doctest::test_suite</em>&quot;move_command&quot;</td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00129">129</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00235">235</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a46ca86db70a7aab43d6c6cb92b0bf84a" name="a46ca86db70a7aab43d6c6cb92b0bf84a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46ca86db70a7aab43d6c6cb92b0bf84a">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SCENARIO </td>
+          <td>(</td>
+          <td class="paramtype">&quot;Rejected moves preserve manifold state&quot; *&#160;</td>
+          <td class="paramname"><em>doctest::test_suite</em>&quot;move_command&quot;</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_move__command__test_8cpp_source.html#l00429">429</a> of file <a class="el" href="_move__command__test_8cpp_source.html">Move_command_test.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 6 2025 00:34:09 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Sun Jul 19 2026 23:41:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

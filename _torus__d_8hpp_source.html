@@ -105,27 +105,26 @@ $(function() {
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">using </span>Point     = Kd::Point_d;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">using </span>Creator_d = CGAL::Creator_uniform_d&lt;std::vector&lt;double&gt;::iterator, Point&gt;;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f">   34</a></span><span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f">make_d_cube</a>(std::vector&lt;Point&gt; t_points,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                        std::size_t t_number_of_points, <span class="keywordtype">int</span> t_dimension)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>{</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">double</span> <span class="keyword">constexpr</span> size = 1.0;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  fmt::print(<span class="stringliteral">&quot;Generating {} grid points in {}D\n&quot;</span>, t_number_of_points,</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>             t_dimension);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  t_points.reserve(t_number_of_points);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordflow">return</span> points_on_cube_grid_d(t_dimension, size, t_number_of_points,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                               std::back_inserter(t_points),</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                               Creator_d(t_dimension));</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_TORUS_D_HPP_</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="_torus__d_8hpp.html#aa4a13ef6788d74e31278762172f3dfd2">   33</a></span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="_torus__d_8hpp.html#aa4a13ef6788d74e31278762172f3dfd2">make_d_cube</a>(std::vector&lt;Point&gt;&amp; t_points,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                        std::size_t t_number_of_points, <span class="keywordtype">int</span> t_dimension)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keywordtype">double</span> <span class="keyword">constexpr</span> size = 1.0;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  fmt::print(<span class="stringliteral">&quot;Generating {} grid points in {}D\n&quot;</span>, t_number_of_points,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>             t_dimension);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  t_points.reserve(t_number_of_points);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  points_on_cube_grid_d(t_dimension, size, t_number_of_points,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                        std::back_inserter(t_points), Creator_d(t_dimension));</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_TORUS_D_HPP_</span></div>
 <div class="ttc" id="a_periodic__3__triangulations_8hpp_html_a47758eef4587eeb8e5419c87a5cd9943"><div class="ttname"><a href="_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">Kd</a></div><div class="ttdeci">CGAL::Cartesian_d&lt; double &gt; Kd</div><div class="ttdoc">Random point generators for d-dimensional points in a d-cube per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_periodic__3__triangulations_8hpp_source.html#l00041">Periodic_3_triangulations.hpp:41</a></div></div>
-<div class="ttc" id="a_torus__d_8hpp_html_a8121c327137366c97fabaf76848fb32f"><div class="ttname"><a href="_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f">make_d_cube</a></div><div class="ttdeci">auto make_d_cube(std::vector&lt; Point &gt; t_points, std::size_t t_number_of_points, int t_dimension)</div><div class="ttdoc">Make a d-dimensional torus.</div><div class="ttdef"><b>Definition:</b> <a href="_torus__d_8hpp_source.html#l00034">Torus_d.hpp:34</a></div></div>
+<div class="ttc" id="a_torus__d_8hpp_html_aa4a13ef6788d74e31278762172f3dfd2"><div class="ttname"><a href="_torus__d_8hpp.html#aa4a13ef6788d74e31278762172f3dfd2">make_d_cube</a></div><div class="ttdeci">void make_d_cube(std::vector&lt; Point &gt; &amp;t_points, std::size_t t_number_of_points, int t_dimension)</div><div class="ttdoc">Make a d-dimensional torus.</div><div class="ttdef"><b>Definition:</b> <a href="_torus__d_8hpp_source.html#l00033">Torus_d.hpp:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 6 2025 00:34:09 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Sun Jul 19 2026 23:41:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

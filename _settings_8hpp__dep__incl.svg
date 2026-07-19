@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1489;
+var viewWidth = 1430;
 var viewHeight = 522;
 var sectionId = 'dynsection-1';
 </script>
@@ -58,8 +58,8 @@ var sectionId = 'dynsection-1';
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Global integer and precision settings.">
-<polygon fill="#999999" stroke="#666666" points="1006.5,-514 890.5,-514 890.5,-495 1006.5,-495 1006.5,-514"/>
-<text text-anchor="middle" x="948.5" y="-502" font-family="Helvetica,sans-Serif" font-size="10.00">include/Settings.hpp</text>
+<polygon fill="#999999" stroke="#666666" points="947.5,-514 831.5,-514 831.5,-495 947.5,-495 947.5,-514"/>
+<text text-anchor="middle" x="889.5" y="-502" font-family="Helvetica,sans-Serif" font-size="10.00">include/Settings.hpp</text>
 </a>
 </g>
 </g>
@@ -67,109 +67,109 @@ var sectionId = 'dynsection-1';
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="_move__tracker_8hpp.html" target="_top" xlink:title="Track ergodic moves.">
-<polygon fill="white" stroke="#666666" points="750,-393 609,-393 609,-374 750,-374 750,-393"/>
-<text text-anchor="middle" x="679.5" y="-381" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_tracker.hpp</text>
+<polygon fill="white" stroke="#666666" points="691,-393 550,-393 550,-374 691,-374 691,-393"/>
+<text text-anchor="middle" x="620.5" y="-381" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_tracker.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="#63b8ff" d="M926.44,-489.22C913.48,-480.69 896.87,-469.49 882.5,-459 865.12,-446.31 863.72,-438.67 844.5,-429 808.98,-411.14 765.44,-399.79 732,-393.02"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="924.87,-492.38 935.15,-494.92 928.7,-486.52 924.87,-492.38"/>
+<path fill="none" stroke="#63b8ff" d="M867.44,-489.22C854.48,-480.69 837.87,-469.49 823.5,-459 806.12,-446.31 804.72,-438.67 785.5,-429 749.98,-411.14 706.44,-399.79 673,-393.02"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="865.87,-492.38 876.15,-494.92 869.7,-486.52 865.87,-492.38"/>
+</g>
+<!-- Node16 -->
+<g id="node16" class="node">
+<title>Node16</title>
+<g id="a_node16"><a xlink:href="_s3_action_8hpp.html" target="_top" xlink:title="Calculate S3 bulk actions on 3D Delaunay Triangulations.">
+<polygon fill="white" stroke="#666666" points="1401,-272 1282,-272 1282,-253 1401,-253 1401,-272"/>
+<text text-anchor="middle" x="1341.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">include/S3Action.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node16 -->
+<g id="edge15" class="edge">
+<title>Node1&#45;&gt;Node16</title>
+<path fill="none" stroke="#63b8ff" d="M914.74,-490.1C997.18,-446.32 1257.2,-308.26 1325.13,-272.19"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="912.78,-487.18 905.59,-494.96 916.06,-493.36 912.78,-487.18"/>
 </g>
 <!-- Node18 -->
 <g id="node18" class="node">
 <title>Node18</title>
-<g id="a_node18"><a xlink:href="_s3_action_8hpp.html" target="_top" xlink:title="Calculate S3 bulk actions on 3D Delaunay Triangulations.">
-<polygon fill="white" stroke="#666666" points="1460,-272 1341,-272 1341,-253 1460,-253 1460,-272"/>
-<text text-anchor="middle" x="1400.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">include/S3Action.hpp</text>
+<g id="a_node18"><a xlink:href="_triangulation__traits_8hpp.html" target="_top" xlink:title="Traits class for particular uses of CGAL.">
+<polygon fill="white" stroke="#666666" points="776.5,-459 658.5,-459 658.5,-429 776.5,-429 776.5,-459"/>
+<text text-anchor="start" x="666.5" y="-447" font-family="Helvetica,sans-Serif" font-size="10.00">include/Triangulation</text>
+<text text-anchor="middle" x="717.5" y="-436" font-family="Helvetica,sans-Serif" font-size="10.00">_traits.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node18 -->
 <g id="edge18" class="edge">
 <title>Node1&#45;&gt;Node18</title>
-<path fill="none" stroke="#63b8ff" d="M973.74,-490.1C1056.18,-446.32 1316.2,-308.26 1384.13,-272.19"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="971.78,-487.18 964.59,-494.96 975.06,-493.36 971.78,-487.18"/>
+<path fill="none" stroke="#63b8ff" d="M854.83,-491.71C827.11,-482.28 788.19,-469.04 758.85,-459.06"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="853.9,-495.09 864.49,-494.99 856.15,-488.46 853.9,-495.09"/>
 </g>
-<!-- Node20 -->
-<g id="node20" class="node">
-<title>Node20</title>
-<g id="a_node20"><a xlink:href="_triangulation__traits_8hpp.html" target="_top" xlink:title="Traits class for particular uses of CGAL.">
-<polygon fill="white" stroke="#666666" points="835.5,-459 717.5,-459 717.5,-429 835.5,-429 835.5,-459"/>
-<text text-anchor="start" x="725.5" y="-447" font-family="Helvetica,sans-Serif" font-size="10.00">include/Triangulation</text>
-<text text-anchor="middle" x="776.5" y="-436" font-family="Helvetica,sans-Serif" font-size="10.00">_traits.hpp</text>
+<!-- Node31 -->
+<g id="node31" class="node">
+<title>Node31</title>
+<g id="a_node31"><a xlink:href="_utilities_8hpp.html" target="_top" xlink:title="Utility functions.">
+<polygon fill="white" stroke="#666666" points="946.5,-453.5 832.5,-453.5 832.5,-434.5 946.5,-434.5 946.5,-453.5"/>
+<text text-anchor="middle" x="889.5" y="-441.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Utilities.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node20 -->
-<g id="edge21" class="edge">
-<title>Node1&#45;&gt;Node20</title>
-<path fill="none" stroke="#63b8ff" d="M913.83,-491.71C886.11,-482.28 847.19,-469.04 817.85,-459.06"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="912.9,-495.09 923.49,-494.99 915.15,-488.46 912.9,-495.09"/>
+<!-- Node1&#45;&gt;Node31 -->
+<g id="edge35" class="edge">
+<title>Node1&#45;&gt;Node31</title>
+<path fill="none" stroke="#63b8ff" d="M889.5,-484.66C889.5,-474.24 889.5,-461.8 889.5,-453.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="886,-484.87 889.5,-494.87 893,-484.87 886,-484.87"/>
 </g>
-<!-- Node33 -->
-<g id="node33" class="node">
-<title>Node33</title>
-<g id="a_node33"><a xlink:href="_utilities_8hpp.html" target="_top" xlink:title="Utility functions.">
-<polygon fill="white" stroke="#666666" points="1005.5,-453.5 891.5,-453.5 891.5,-434.5 1005.5,-434.5 1005.5,-453.5"/>
-<text text-anchor="middle" x="948.5" y="-441.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Utilities.hpp</text>
+<!-- Node32 -->
+<g id="node32" class="node">
+<title>Node32</title>
+<g id="a_node32"><a xlink:href="_settings__test_8cpp.html" target="_top" xlink:title="Global settings on integer types and MPFR precision.">
+<polygon fill="white" stroke="#666666" points="1247.5,-453.5 1119.5,-453.5 1119.5,-434.5 1247.5,-434.5 1247.5,-453.5"/>
+<text text-anchor="middle" x="1183.5" y="-441.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Settings_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node33 -->
-<g id="edge38" class="edge">
-<title>Node1&#45;&gt;Node33</title>
-<path fill="none" stroke="#63b8ff" d="M948.5,-484.66C948.5,-474.24 948.5,-461.8 948.5,-453.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="945,-484.87 948.5,-494.87 952,-484.87 945,-484.87"/>
-</g>
-<!-- Node34 -->
-<g id="node34" class="node">
-<title>Node34</title>
-<g id="a_node34"><a xlink:href="_settings__test_8cpp.html" target="_top" xlink:title="Global settings on integer types and MPFR precision.">
-<polygon fill="white" stroke="#666666" points="1306.5,-453.5 1178.5,-453.5 1178.5,-434.5 1306.5,-434.5 1306.5,-453.5"/>
-<text text-anchor="middle" x="1242.5" y="-441.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Settings_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node34 -->
-<g id="edge42" class="edge">
-<title>Node1&#45;&gt;Node34</title>
-<path fill="none" stroke="#63b8ff" d="M1001.1,-493.03C1057.84,-481.74 1147.09,-463.98 1199.7,-453.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1000.37,-489.61 991.25,-494.99 1001.74,-496.47 1000.37,-489.61"/>
+<!-- Node1&#45;&gt;Node32 -->
+<g id="edge39" class="edge">
+<title>Node1&#45;&gt;Node32</title>
+<path fill="none" stroke="#63b8ff" d="M942.1,-493.03C998.84,-481.74 1088.09,-463.98 1140.7,-453.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="941.37,-489.61 932.25,-494.99 942.74,-496.47 941.37,-489.61"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:href="_ergodic__moves__3_8hpp.html" target="_top" xlink:title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations.">
-<polygon fill="white" stroke="#666666" points="520,-217 391,-217 391,-187 520,-187 520,-217"/>
-<text text-anchor="start" x="399" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">include/Ergodic_moves</text>
-<text text-anchor="middle" x="455.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_3.hpp</text>
+<polygon fill="white" stroke="#666666" points="461,-217 332,-217 332,-187 461,-187 461,-217"/>
+<text text-anchor="start" x="340" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">include/Ergodic_moves</text>
+<text text-anchor="middle" x="396.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_3.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node2&#45;&gt;Node3</title>
-<path fill="none" stroke="#63b8ff" d="M650.99,-369.61C634.42,-361.55 613.53,-350.36 596.5,-338 544.12,-299.97 491.41,-243.54 468.02,-217.34"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="649.64,-372.85 660.18,-373.98 652.65,-366.52 649.64,-372.85"/>
+<path fill="none" stroke="#63b8ff" d="M591.29,-369.53C574.57,-361.5 553.59,-350.39 536.5,-338 484.28,-300.15 432.05,-243.63 408.89,-217.37"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="590.04,-372.81 600.58,-373.88 593.01,-366.47 590.04,-372.81"/>
 </g>
-<!-- Node17 -->
-<g id="node17" class="node">
-<title>Node17</title>
-<g id="a_node17"><a xlink:href="_move__tracker__test_8cpp.html" target="_top" xlink:title="Tests of MoveTracker, that is, that moves are tracked properly.">
-<polygon fill="white" stroke="#666666" points="648.5,-217 538.5,-217 538.5,-187 648.5,-187 648.5,-217"/>
-<text text-anchor="start" x="546.5" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_tracker</text>
-<text text-anchor="middle" x="593.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+<!-- Node15 -->
+<g id="node15" class="node">
+<title>Node15</title>
+<g id="a_node15"><a xlink:href="_move__tracker__test_8cpp.html" target="_top" xlink:title="Tests of MoveTracker, that is, that moves are tracked properly.">
+<polygon fill="white" stroke="#666666" points="589.5,-217 479.5,-217 479.5,-187 589.5,-187 589.5,-217"/>
+<text text-anchor="start" x="487.5" y="-205" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_tracker</text>
+<text text-anchor="middle" x="534.5" y="-194" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node2&#45;&gt;Node17 -->
-<g id="edge17" class="edge">
-<title>Node2&#45;&gt;Node17</title>
-<path fill="none" stroke="#63b8ff" d="M648.83,-369.31C635.54,-362.01 621.09,-351.63 612.5,-338 588.4,-299.75 589.69,-243.43 591.89,-217.29"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="647.26,-372.44 657.76,-373.87 650.45,-366.2 647.26,-372.44"/>
+<!-- Node2&#45;&gt;Node15 -->
+<g id="edge14" class="edge">
+<title>Node2&#45;&gt;Node15</title>
+<path fill="none" stroke="#63b8ff" d="M589.83,-369.31C576.54,-362.01 562.09,-351.63 553.5,-338 529.4,-299.75 530.69,-243.43 532.89,-217.29"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="588.26,-372.44 598.76,-373.87 591.45,-366.2 588.26,-372.44"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">
@@ -183,442 +183,406 @@ var sectionId = 'dynsection-1';
 <!-- Node3&#45;&gt;Node4 -->
 <g id="edge3" class="edge">
 <title>Node3&#45;&gt;Node4</title>
-<path fill="none" stroke="#63b8ff" d="M380.67,-185.14C321.52,-172.61 241.25,-155.6 193.66,-145.51"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="380.21,-188.62 390.71,-187.27 381.66,-181.77 380.21,-188.62"/>
+<path fill="none" stroke="#63b8ff" d="M333.33,-184.36C286.06,-171.91 223.34,-155.4 185.84,-145.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="332.61,-187.79 343.17,-186.95 334.39,-181.02 332.61,-187.79"/>
+</g>
+<!-- Node11 -->
+<g id="node11" class="node">
+<title>Node11</title>
+<g id="a_node11"><a xlink:href="_apply__move__test_8cpp.html" target="_top" xlink:title="Applying ergodic moves to manifolds.">
+<polygon fill="white" stroke="#666666" points="399,-145.5 250,-145.5 250,-126.5 399,-126.5 399,-145.5"/>
+<text text-anchor="middle" x="324.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Apply_move_test.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node3&#45;&gt;Node11 -->
+<g id="edge10" class="edge">
+<title>Node3&#45;&gt;Node11</title>
+<path fill="none" stroke="#63b8ff" d="M372.8,-179.93C359.77,-168.35 344.31,-154.61 334.45,-145.84"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="370.72,-182.77 380.52,-186.8 375.37,-177.54 370.72,-182.77"/>
 </g>
 <!-- Node12 -->
 <g id="node12" class="node">
 <title>Node12</title>
-<g id="a_node12"><a xlink:href="bistellar-flip_8cpp.html" target="_top" xlink:title="Tests and views bistellar flips.">
-<polygon fill="white" stroke="#666666" points="363,-145.5 250,-145.5 250,-126.5 363,-126.5 363,-145.5"/>
-<text text-anchor="middle" x="306.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/bistellar&#45;flip.cpp</text>
+<g id="a_node12"><a xlink:href="_bistellar__flip__test_8cpp.html" target="_top" xlink:title="Comprehensive tests for bistellar flip operations.">
+<polygon fill="white" stroke="#666666" points="521.5,-151 417.5,-151 417.5,-121 521.5,-121 521.5,-151"/>
+<text text-anchor="start" x="425.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Bistellar_flip</text>
+<text text-anchor="middle" x="469.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node12 -->
-<g id="edge12" class="edge">
+<g id="edge11" class="edge">
 <title>Node3&#45;&gt;Node12</title>
-<path fill="none" stroke="#63b8ff" d="M413.46,-182.94C384.91,-170.68 348.46,-155.02 326.33,-145.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="412.23,-186.22 422.8,-186.95 414.99,-179.79 412.23,-186.22"/>
+<path fill="none" stroke="#63b8ff" d="M420.22,-180.2C431.06,-170.7 443.62,-159.69 453.34,-151.16"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="417.91,-177.57 412.7,-186.8 422.53,-182.84 417.91,-177.57"/>
 </g>
 <!-- Node13 -->
 <g id="node13" class="node">
 <title>Node13</title>
-<g id="a_node13"><a xlink:href="_apply__move__test_8cpp.html" target="_top" xlink:title="Applying ergodic moves to manifolds.">
-<polygon fill="white" stroke="#666666" points="530,-145.5 381,-145.5 381,-126.5 530,-126.5 530,-145.5"/>
-<text text-anchor="middle" x="455.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Apply_move_test.cpp</text>
+<g id="a_node13"><a xlink:href="_ergodic__moves__3__test_8cpp.html" target="_top" xlink:title="Tests for ergodic moves on foliated triangulations.">
+<polygon fill="white" stroke="#666666" points="657.5,-151 539.5,-151 539.5,-121 657.5,-121 657.5,-151"/>
+<text text-anchor="start" x="547.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Ergodic_moves</text>
+<text text-anchor="middle" x="598.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_3_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node13 -->
-<g id="edge13" class="edge">
+<g id="edge12" class="edge">
 <title>Node3&#45;&gt;Node13</title>
-<path fill="none" stroke="#63b8ff" d="M455.5,-176.6C455.5,-165.8 455.5,-153.78 455.5,-145.84"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="452,-176.8 455.5,-186.8 459,-176.8 452,-176.8"/>
+<path fill="none" stroke="#63b8ff" d="M450.61,-183.86C483.05,-173.58 523.77,-160.68 554.27,-151.01"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="449.31,-180.6 440.83,-186.95 451.42,-187.27 449.31,-180.6"/>
 </g>
 <!-- Node14 -->
 <g id="node14" class="node">
 <title>Node14</title>
-<g id="a_node14"><a xlink:href="_bistellar__flip__test_8cpp.html" target="_top" xlink:title="Comprehensive tests for bistellar flip operations.">
-<polygon fill="white" stroke="#666666" points="652.5,-151 548.5,-151 548.5,-121 652.5,-121 652.5,-151"/>
-<text text-anchor="start" x="556.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Bistellar_flip</text>
-<text text-anchor="middle" x="600.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+<g id="a_node14"><a xlink:href="_function__ref__test_8cpp.html" target="_top" xlink:title="Tests on function pointers, lambdas, and function_refs.">
+<polygon fill="white" stroke="#666666" points="779.5,-151 675.5,-151 675.5,-121 779.5,-121 779.5,-151"/>
+<text text-anchor="start" x="683.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Function_ref</text>
+<text text-anchor="middle" x="727.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node14 -->
-<g id="edge14" class="edge">
+<g id="edge13" class="edge">
 <title>Node3&#45;&gt;Node14</title>
-<path fill="none" stroke="#63b8ff" d="M496.77,-182.78C519.63,-172.69 547.62,-160.34 568.75,-151.01"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="495.06,-179.71 487.32,-186.95 497.88,-186.12 495.06,-179.71"/>
-</g>
-<!-- Node15 -->
-<g id="node15" class="node">
-<title>Node15</title>
-<g id="a_node15"><a xlink:href="_ergodic__moves__3__test_8cpp.html" target="_top" xlink:title="Tests for ergodic moves on foliated triangulations.">
-<polygon fill="white" stroke="#666666" points="788.5,-151 670.5,-151 670.5,-121 788.5,-121 788.5,-151"/>
-<text text-anchor="start" x="678.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Ergodic_moves</text>
-<text text-anchor="middle" x="729.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_3_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node3&#45;&gt;Node15 -->
-<g id="edge15" class="edge">
-<title>Node3&#45;&gt;Node15</title>
-<path fill="none" stroke="#63b8ff" d="M525.58,-184.63C570.42,-174.16 627.94,-160.72 670.45,-150.79"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="524.57,-181.27 515.63,-186.95 526.16,-188.09 524.57,-181.27"/>
-</g>
-<!-- Node16 -->
-<g id="node16" class="node">
-<title>Node16</title>
-<g id="a_node16"><a xlink:href="_function__ref__test_8cpp.html" target="_top" xlink:title="Tests on function pointers, lambdas, and function_refs.">
-<polygon fill="white" stroke="#666666" points="910.5,-151 806.5,-151 806.5,-121 910.5,-121 910.5,-151"/>
-<text text-anchor="start" x="814.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Function_ref</text>
-<text text-anchor="middle" x="858.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node3&#45;&gt;Node16 -->
-<g id="edge16" class="edge">
-<title>Node3&#45;&gt;Node16</title>
-<path fill="none" stroke="#63b8ff" d="M529.97,-186.99C649.84,-168.05 682.37,-171.9 797.5,-151 800.39,-150.48 803.34,-149.91 806.32,-149.31"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="529.36,-183.54 520.04,-188.58 530.47,-190.46 529.36,-183.54"/>
+<path fill="none" stroke="#63b8ff" d="M470.98,-186.92C559.21,-170.62 582.81,-168.28 666.5,-151 669.37,-150.41 672.32,-149.78 675.29,-149.14"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="470.26,-183.5 461.07,-188.76 471.54,-190.38 470.26,-183.5"/>
 </g>
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
 <g id="a_node5"><a xlink:href="_metropolis_8hpp.html" target="_top" xlink:title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations.">
-<polygon fill="white" stroke="#666666" points="438.5,-79.5 310.5,-79.5 310.5,-60.5 438.5,-60.5 438.5,-79.5"/>
-<text text-anchor="middle" x="374.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Metropolis.hpp</text>
+<polygon fill="white" stroke="#666666" points="968.5,-79.5 840.5,-79.5 840.5,-60.5 968.5,-60.5 968.5,-79.5"/>
+<text text-anchor="middle" x="904.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Metropolis.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node5 -->
 <g id="edge4" class="edge">
 <title>Node4&#45;&gt;Node5</title>
-<path fill="none" stroke="#63b8ff" d="M192.99,-123.56C236.55,-110.95 305.64,-90.94 344.82,-79.6"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="191.94,-120.23 183.31,-126.37 193.88,-126.95 191.94,-120.23"/>
+<path fill="none" stroke="#63b8ff" d="M212.64,-124.91C222.27,-123.46 232.15,-122.09 241.5,-121 460.48,-95.37 721.76,-80.15 840.33,-74.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="212.09,-121.45 202.74,-126.43 213.15,-128.37 212.09,-121.45"/>
 </g>
-<!-- Node9 -->
-<g id="node9" class="node">
-<title>Node9</title>
-<g id="a_node9"><a xlink:href="_move__always_8hpp.html" target="_top" xlink:title="Randomly selects moves to always perform on triangulations.">
+<!-- Node8 -->
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:href="_move__always_8hpp.html" target="_top" xlink:title="Randomly selects moves to always perform on triangulations.">
 <polygon fill="white" stroke="#666666" points="149,-79.5 6,-79.5 6,-60.5 149,-60.5 149,-79.5"/>
 <text text-anchor="middle" x="77.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_always.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node9 -->
-<g id="edge8" class="edge">
-<title>Node4&#45;&gt;Node9</title>
+<!-- Node4&#45;&gt;Node8 -->
+<g id="edge7" class="edge">
+<title>Node4&#45;&gt;Node8</title>
 <path fill="none" stroke="#63b8ff" d="M135.31,-119.68C120.56,-107.26 100.28,-90.18 88.07,-79.91"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="133.35,-122.6 143.25,-126.37 137.86,-117.25 133.35,-122.6"/>
 </g>
-<!-- Node11 -->
-<g id="node11" class="node">
-<title>Node11</title>
-<g id="a_node11"><a xlink:href="_move__command__test_8cpp.html" target="_top" xlink:title="Tests of MoveCommand, that is, that moves are handled properly.">
+<!-- Node10 -->
+<g id="node10" class="node">
+<title>Node10</title>
+<g id="a_node10"><a xlink:href="_move__command__test_8cpp.html" target="_top" xlink:title="Tests of MoveCommand, that is, that moves are handled properly.">
 <polygon fill="white" stroke="#666666" points="292,-85 167,-85 167,-55 292,-55 292,-85"/>
 <text text-anchor="start" x="175" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_command</text>
 <text text-anchor="middle" x="229.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node11 -->
-<g id="edge11" class="edge">
-<title>Node4&#45;&gt;Node11</title>
+<!-- Node4&#45;&gt;Node10 -->
+<g id="edge9" class="edge">
+<title>Node4&#45;&gt;Node10</title>
 <path fill="none" stroke="#63b8ff" d="M171.65,-119.71C184.13,-109.21 200.57,-95.36 212.74,-85.12"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="169.14,-117.25 163.75,-126.37 173.65,-122.6 169.14,-117.25"/>
 </g>
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
-<g id="a_node6"><a xlink:href="cdt-opt_8cpp.html" target="_top" xlink:title="Outputs values to determine optimizations.">
-<polygon fill="white" stroke="#666666" points="292,-19 203,-19 203,0 292,0 292,-19"/>
-<text text-anchor="middle" x="247.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt&#45;opt.cpp</text>
+<g id="a_node6"><a xlink:href="cdt_8cpp.html" target="_top" xlink:title="The main executable.">
+<polygon fill="white" stroke="#666666" points="1000,-19 931,-19 931,0 1000,0 1000,-19"/>
+<text text-anchor="middle" x="965.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node5&#45;&gt;Node6 -->
 <g id="edge5" class="edge">
 <title>Node5&#45;&gt;Node6</title>
-<path fill="none" stroke="#63b8ff" d="M346.89,-56.28C322.38,-44.99 287.26,-28.81 265.99,-19.02"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="345.49,-59.49 356.03,-60.49 348.41,-53.13 345.49,-59.49"/>
+<path fill="none" stroke="#63b8ff" d="M920.76,-53.41C932.2,-42.44 947.08,-28.17 956.46,-19.17"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="918.3,-50.92 913.5,-60.37 923.14,-55.97 918.3,-50.92"/>
 </g>
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a xlink:href="cdt_8cpp.html" target="_top" xlink:title="The main executable.">
-<polygon fill="white" stroke="#666666" points="394,-19 325,-19 325,0 394,0 394,-19"/>
-<text text-anchor="middle" x="359.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt.cpp</text>
+<g id="a_node7"><a xlink:href="_metropolis__test_8cpp.html" target="_top" xlink:title="Tests for the Metropolis&#45;Hastings algorithm.">
+<polygon fill="white" stroke="#666666" points="912.5,-19 772.5,-19 772.5,0 912.5,0 912.5,-19"/>
+<text text-anchor="middle" x="842.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Metropolis_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node5&#45;&gt;Node7 -->
 <g id="edge6" class="edge">
 <title>Node5&#45;&gt;Node7</title>
-<path fill="none" stroke="#63b8ff" d="M369.75,-50.49C367.07,-40.01 363.83,-27.39 361.72,-19.17"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="366.41,-51.55 372.29,-60.37 373.19,-49.81 366.41,-51.55"/>
+<path fill="none" stroke="#63b8ff" d="M887.98,-53.41C876.35,-42.44 861.22,-28.17 851.69,-19.17"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="885.68,-56.05 895.35,-60.37 890.48,-50.96 885.68,-56.05"/>
 </g>
-<!-- Node8 -->
-<g id="node8" class="node">
-<title>Node8</title>
-<g id="a_node8"><a xlink:href="_metropolis__test_8cpp.html" target="_top" xlink:title="Tests for the Metropolis&#45;Hastings algorithm.">
-<polygon fill="white" stroke="#666666" points="552.5,-19 412.5,-19 412.5,0 552.5,0 552.5,-19"/>
-<text text-anchor="middle" x="482.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Metropolis_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node5&#45;&gt;Node8 -->
-<g id="edge7" class="edge">
-<title>Node5&#45;&gt;Node8</title>
-<path fill="none" stroke="#63b8ff" d="M399.28,-55.58C419.94,-44.38 448.76,-28.77 466.5,-19.17"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="397.56,-52.53 390.44,-60.37 400.9,-58.68 397.56,-52.53"/>
-</g>
-<!-- Node9&#45;&gt;Node6 -->
-<g id="edge9" class="edge">
-<title>Node9&#45;&gt;Node6</title>
-<path fill="none" stroke="#63b8ff" d="M111.87,-57.17C144.75,-45.86 193.53,-29.07 222.75,-19.02"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="110.54,-53.93 102.22,-60.49 112.81,-60.55 110.54,-53.93"/>
-</g>
-<!-- Node10 -->
-<g id="node10" class="node">
-<title>Node10</title>
-<g id="a_node10"><a xlink:href="_move__always__test_8cpp.html" target="_top" xlink:title="Tests for the Move Always algorithm.">
+<!-- Node9 -->
+<g id="node9" class="node">
+<title>Node9</title>
+<g id="a_node9"><a xlink:href="_move__always__test_8cpp.html" target="_top" xlink:title="Tests for the Move Always algorithm.">
 <polygon fill="white" stroke="#666666" points="155,-19 0,-19 0,0 155,0 155,-19"/>
 <text text-anchor="middle" x="77.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_always_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node10 -->
-<g id="edge10" class="edge">
-<title>Node9&#45;&gt;Node10</title>
+<!-- Node8&#45;&gt;Node9 -->
+<g id="edge8" class="edge">
+<title>Node8&#45;&gt;Node9</title>
 <path fill="none" stroke="#63b8ff" d="M77.5,-50.16C77.5,-39.74 77.5,-27.3 77.5,-19.17"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="74,-50.37 77.5,-60.37 81,-50.37 74,-50.37"/>
 </g>
-<!-- Node18&#45;&gt;Node5 -->
-<g id="edge19" class="edge">
-<title>Node18&#45;&gt;Node5</title>
-<path fill="none" stroke="#63b8ff" d="M1437.52,-248.85C1452.05,-241.86 1467.2,-231.57 1475.5,-217 1482.1,-205.41 1484.35,-196.97 1475.5,-187 1406.25,-109.05 663.31,-79.9 438.55,-72.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1435.89,-245.75 1428.15,-252.98 1438.71,-252.15 1435.89,-245.75"/>
+<!-- Node16&#45;&gt;Node5 -->
+<g id="edge16" class="edge">
+<title>Node16&#45;&gt;Node5</title>
+<path fill="none" stroke="#63b8ff" d="M1378.52,-248.85C1393.05,-241.86 1408.2,-231.57 1416.5,-217 1423.1,-205.41 1424.82,-197.42 1416.5,-187 1361.11,-117.66 1093.69,-86.69 968.89,-75.84"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1376.89,-245.75 1369.15,-252.98 1379.71,-252.15 1376.89,-245.75"/>
+</g>
+<!-- Node17 -->
+<g id="node17" class="node">
+<title>Node17</title>
+<g id="a_node17"><a xlink:href="_s3_action__test_8cpp.html" target="_top" xlink:title="Tests for the S3 action functions.">
+<polygon fill="white" stroke="#666666" points="1407,-211.5 1276,-211.5 1276,-192.5 1407,-192.5 1407,-211.5"/>
+<text text-anchor="middle" x="1341.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/S3Action_test.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node16&#45;&gt;Node17 -->
+<g id="edge17" class="edge">
+<title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="#63b8ff" d="M1341.5,-242.66C1341.5,-232.24 1341.5,-219.8 1341.5,-211.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1338,-242.87 1341.5,-252.87 1345,-242.87 1338,-242.87"/>
 </g>
 <!-- Node19 -->
 <g id="node19" class="node">
 <title>Node19</title>
-<g id="a_node19"><a xlink:href="_s3_action__test_8cpp.html" target="_top" xlink:title="Tests for the S3 action functions.">
-<polygon fill="white" stroke="#666666" points="1466,-211.5 1335,-211.5 1335,-192.5 1466,-192.5 1466,-211.5"/>
-<text text-anchor="middle" x="1400.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/S3Action_test.cpp</text>
+<g id="a_node19"><a xlink:href="_foliated__triangulation_8hpp.html" target="_top" xlink:title="Create foliated spherical triangulations.">
+<polygon fill="white" stroke="#666666" points="894.5,-393 712.5,-393 712.5,-374 894.5,-374 894.5,-393"/>
+<text text-anchor="middle" x="803.5" y="-381" font-family="Helvetica,sans-Serif" font-size="10.00">include/Foliated_triangulation.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node18&#45;&gt;Node19 -->
-<g id="edge20" class="edge">
+<g id="edge19" class="edge">
 <title>Node18&#45;&gt;Node19</title>
-<path fill="none" stroke="#63b8ff" d="M1400.5,-242.66C1400.5,-232.24 1400.5,-219.8 1400.5,-211.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1397,-242.87 1400.5,-252.87 1404,-242.87 1397,-242.87"/>
+<path fill="none" stroke="#63b8ff" d="M746.81,-423.06C761.82,-412.85 779.32,-400.95 790.87,-393.09"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="744.62,-420.32 738.32,-428.84 748.56,-426.11 744.62,-420.32"/>
+</g>
+<!-- Node30 -->
+<g id="node30" class="node">
+<title>Node30</title>
+<g id="a_node30"><a xlink:href="_formatters_8hpp.html" target="_top" xlink:title="Formatter specializations for various types.">
+<polygon fill="white" stroke="#666666" points="526,-393 397,-393 397,-374 526,-374 526,-393"/>
+<text text-anchor="middle" x="461.5" y="-381" font-family="Helvetica,sans-Serif" font-size="10.00">include/Formatters.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node18&#45;&gt;Node30 -->
+<g id="edge33" class="edge">
+<title>Node18&#45;&gt;Node30</title>
+<path fill="none" stroke="#63b8ff" d="M648.41,-427.21C600.29,-416.22 537.97,-401.98 498.85,-393.04"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="647.92,-430.69 658.45,-429.51 649.48,-423.87 647.92,-430.69"/>
+</g>
+<!-- Node20 -->
+<g id="node20" class="node">
+<title>Node20</title>
+<g id="a_node20"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric scalars of the Manifold used to calculate the Regge action.">
+<polygon fill="white" stroke="#666666" points="1018,-332.5 895,-332.5 895,-313.5 1018,-313.5 1018,-332.5"/>
+<text text-anchor="middle" x="956.5" y="-320.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node19&#45;&gt;Node20 -->
+<g id="edge20" class="edge">
+<title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="#63b8ff" d="M835.2,-370.38C864.78,-359.07 908.15,-342.49 934.23,-332.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="833.84,-367.15 825.75,-373.99 836.34,-373.69 833.84,-367.15"/>
+</g>
+<!-- Node28 -->
+<g id="node28" class="node">
+<title>Node28</title>
+<g id="a_node28"><a xlink:href="_foliated__triangulation__test_8cpp.html" target="_top" xlink:title="Tests for foliated triangulations.">
+<polygon fill="white" stroke="#666666" points="712.5,-338 562.5,-338 562.5,-308 712.5,-308 712.5,-338"/>
+<text text-anchor="start" x="570.5" y="-326" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Foliated_triangulation</text>
+<text text-anchor="middle" x="637.5" y="-315" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node19&#45;&gt;Node28 -->
+<g id="edge31" class="edge">
+<title>Node19&#45;&gt;Node28</title>
+<path fill="none" stroke="#63b8ff" d="M769.68,-370.58C742.96,-361.16 705.6,-348 677.41,-338.06"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="768.77,-373.97 779.36,-373.99 771.09,-367.37 768.77,-373.97"/>
+</g>
+<!-- Node29 -->
+<g id="node29" class="node">
+<title>Node29</title>
+<g id="a_node29"><a xlink:href="_tetrahedron__test_8cpp.html" target="_top" xlink:title="Tests for 3D triangulated and foliated tetrahedrons.">
+<polygon fill="white" stroke="#666666" points="876.5,-332.5 730.5,-332.5 730.5,-313.5 876.5,-313.5 876.5,-332.5"/>
+<text text-anchor="middle" x="803.5" y="-320.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Tetrahedron_test.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node19&#45;&gt;Node29 -->
+<g id="edge32" class="edge">
+<title>Node19&#45;&gt;Node29</title>
+<path fill="none" stroke="#63b8ff" d="M803.5,-363.66C803.5,-353.24 803.5,-340.8 803.5,-332.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="800,-363.87 803.5,-373.87 807,-363.87 800,-363.87"/>
 </g>
 <!-- Node21 -->
 <g id="node21" class="node">
 <title>Node21</title>
-<g id="a_node21"><a xlink:href="_foliated__triangulation_8hpp.html" target="_top" xlink:title="Create foliated spherical triangulations.">
-<polygon fill="white" stroke="#666666" points="953.5,-393 771.5,-393 771.5,-374 953.5,-374 953.5,-393"/>
-<text text-anchor="middle" x="862.5" y="-381" font-family="Helvetica,sans-Serif" font-size="10.00">include/Foliated_triangulation.hpp</text>
+<g id="a_node21"><a xlink:href="_manifold_8hpp.html" target="_top" xlink:title="Data structures for manifolds.">
+<polygon fill="white" stroke="#666666" points="870,-272 751,-272 751,-253 870,-253 870,-272"/>
+<text text-anchor="middle" x="810.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">include/Manifold.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node20&#45;&gt;Node21 -->
-<g id="edge22" class="edge">
+<g id="edge21" class="edge">
 <title>Node20&#45;&gt;Node21</title>
-<path fill="none" stroke="#63b8ff" d="M805.81,-423.06C820.82,-412.85 838.32,-400.95 849.87,-393.09"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="803.62,-420.32 797.32,-428.84 807.56,-426.11 803.62,-420.32"/>
+<path fill="none" stroke="#63b8ff" d="M925.88,-309.73C897.66,-298.42 856.53,-281.94 831.76,-272.02"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="924.69,-313.02 935.27,-313.49 927.29,-306.53 924.69,-313.02"/>
 </g>
-<!-- Node32 -->
-<g id="node32" class="node">
-<title>Node32</title>
-<g id="a_node32"><a xlink:href="_formatters_8hpp.html" target="_top" xlink:title="Formatter specializations for various types.">
-<polygon fill="white" stroke="#666666" points="585,-393 456,-393 456,-374 585,-374 585,-393"/>
-<text text-anchor="middle" x="520.5" y="-381" font-family="Helvetica,sans-Serif" font-size="10.00">include/Formatters.hpp</text>
+<!-- Node27 -->
+<g id="node27" class="node">
+<title>Node27</title>
+<g id="a_node27"><a xlink:href="_geometry__test_8cpp.html" target="_top" xlink:title="Tests of new geometry data structure.">
+<polygon fill="white" stroke="#666666" points="1025,-272 888,-272 888,-253 1025,-253 1025,-272"/>
+<text text-anchor="middle" x="956.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Geometry_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node20&#45;&gt;Node32 -->
-<g id="edge36" class="edge">
-<title>Node20&#45;&gt;Node32</title>
-<path fill="none" stroke="#63b8ff" d="M707.41,-427.21C659.29,-416.22 596.97,-401.98 557.85,-393.04"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="706.92,-430.69 717.45,-429.51 708.48,-423.87 706.92,-430.69"/>
+<!-- Node20&#45;&gt;Node27 -->
+<g id="edge30" class="edge">
+<title>Node20&#45;&gt;Node27</title>
+<path fill="none" stroke="#63b8ff" d="M956.5,-303.16C956.5,-292.74 956.5,-280.3 956.5,-272.17"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="953,-303.37 956.5,-313.37 960,-303.37 953,-303.37"/>
+</g>
+<!-- Node21&#45;&gt;Node3 -->
+<g id="edge22" class="edge">
+<title>Node21&#45;&gt;Node3</title>
+<path fill="none" stroke="#63b8ff" d="M740.49,-253.52C671.63,-245.38 563.6,-231.89 470.5,-217 467.4,-216.5 464.23,-215.98 461.04,-215.43"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="740.44,-257.03 750.78,-254.72 741.25,-250.08 740.44,-257.03"/>
+</g>
+<!-- Node21&#45;&gt;Node15 -->
+<g id="edge26" class="edge">
+<title>Node21&#45;&gt;Node15</title>
+<path fill="none" stroke="#63b8ff" d="M759.76,-250.86C717.02,-241.89 654.24,-228.67 599.5,-217 596.34,-216.33 593.09,-215.63 589.81,-214.93"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="759.14,-254.31 769.64,-252.94 760.58,-247.46 759.14,-254.31"/>
+</g>
+<!-- Node21&#45;&gt;Node17 -->
+<g id="edge27" class="edge">
+<title>Node21&#45;&gt;Node17</title>
+<path fill="none" stroke="#63b8ff" d="M880.52,-252.93C1052.97,-234.67 1098.67,-240.42 1266.5,-217 1277.26,-215.5 1288.82,-213.52 1299.56,-211.53"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="879.9,-249.47 870.33,-254.02 880.64,-256.43 879.9,-249.47"/>
 </g>
 <!-- Node22 -->
 <g id="node22" class="node">
 <title>Node22</title>
-<g id="a_node22"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric scalars of the Manifold used to calculate the Regge action.">
-<polygon fill="white" stroke="#666666" points="1077,-332.5 954,-332.5 954,-313.5 1077,-313.5 1077,-332.5"/>
-<text text-anchor="middle" x="1015.5" y="-320.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
+<g id="a_node22"><a xlink:href="cdt-viewer_8cpp.html" target="_top" xlink:title="Views 3D spacetimes.">
+<polygon fill="white" stroke="#666666" points="1257.5,-211.5 1153.5,-211.5 1153.5,-192.5 1257.5,-192.5 1257.5,-211.5"/>
+<text text-anchor="middle" x="1205.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt&#45;viewer.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node21&#45;&gt;Node22 -->
 <g id="edge23" class="edge">
 <title>Node21&#45;&gt;Node22</title>
-<path fill="none" stroke="#63b8ff" d="M894.2,-370.38C923.78,-359.07 967.15,-342.49 993.23,-332.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="892.84,-367.15 884.75,-373.99 895.34,-373.69 892.84,-367.15"/>
-</g>
-<!-- Node30 -->
-<g id="node30" class="node">
-<title>Node30</title>
-<g id="a_node30"><a xlink:href="_foliated__triangulation__test_8cpp.html" target="_top" xlink:title="Tests for foliated triangulations.">
-<polygon fill="white" stroke="#666666" points="771.5,-338 621.5,-338 621.5,-308 771.5,-308 771.5,-338"/>
-<text text-anchor="start" x="629.5" y="-326" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Foliated_triangulation</text>
-<text text-anchor="middle" x="696.5" y="-315" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node21&#45;&gt;Node30 -->
-<g id="edge34" class="edge">
-<title>Node21&#45;&gt;Node30</title>
-<path fill="none" stroke="#63b8ff" d="M828.68,-370.58C801.96,-361.16 764.6,-348 736.41,-338.06"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="827.77,-373.97 838.36,-373.99 830.09,-367.37 827.77,-373.97"/>
-</g>
-<!-- Node31 -->
-<g id="node31" class="node">
-<title>Node31</title>
-<g id="a_node31"><a xlink:href="_tetrahedron__test_8cpp.html" target="_top" xlink:title="Tests for 3D triangulated and foliated tetrahedrons.">
-<polygon fill="white" stroke="#666666" points="935.5,-332.5 789.5,-332.5 789.5,-313.5 935.5,-313.5 935.5,-332.5"/>
-<text text-anchor="middle" x="862.5" y="-320.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Tetrahedron_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node21&#45;&gt;Node31 -->
-<g id="edge35" class="edge">
-<title>Node21&#45;&gt;Node31</title>
-<path fill="none" stroke="#63b8ff" d="M862.5,-363.66C862.5,-353.24 862.5,-340.8 862.5,-332.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="859,-363.87 862.5,-373.87 866,-363.87 859,-363.87"/>
+<path fill="none" stroke="#63b8ff" d="M880.22,-252.56C970.45,-240.94 1119.14,-221.59 1144.5,-217 1153.05,-215.45 1162.22,-213.5 1170.78,-211.56"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="879.53,-249.12 870.06,-253.87 880.43,-256.07 879.53,-249.12"/>
 </g>
 <!-- Node23 -->
 <g id="node23" class="node">
 <title>Node23</title>
-<g id="a_node23"><a xlink:href="_manifold_8hpp.html" target="_top" xlink:title="Data structures for manifolds.">
-<polygon fill="white" stroke="#666666" points="929,-272 810,-272 810,-253 929,-253 929,-272"/>
-<text text-anchor="middle" x="869.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">include/Manifold.hpp</text>
+<g id="a_node23"><a xlink:href="initialize_8cpp.html" target="_top" xlink:title="Generates initial spacetimes.">
+<polygon fill="white" stroke="#666666" points="841.5,-211.5 745.5,-211.5 745.5,-192.5 841.5,-192.5 841.5,-211.5"/>
+<text text-anchor="middle" x="793.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/initialize.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node22&#45;&gt;Node23 -->
+<!-- Node21&#45;&gt;Node23 -->
 <g id="edge24" class="edge">
-<title>Node22&#45;&gt;Node23</title>
-<path fill="none" stroke="#63b8ff" d="M984.88,-309.73C956.66,-298.42 915.53,-281.94 890.76,-272.02"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="983.69,-313.02 994.27,-313.49 986.29,-306.53 983.69,-313.02"/>
-</g>
-<!-- Node29 -->
-<g id="node29" class="node">
-<title>Node29</title>
-<g id="a_node29"><a xlink:href="_geometry__test_8cpp.html" target="_top" xlink:title="Tests of new geometry data structure.">
-<polygon fill="white" stroke="#666666" points="1084,-272 947,-272 947,-253 1084,-253 1084,-272"/>
-<text text-anchor="middle" x="1015.5" y="-260" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Geometry_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node22&#45;&gt;Node29 -->
-<g id="edge33" class="edge">
-<title>Node22&#45;&gt;Node29</title>
-<path fill="none" stroke="#63b8ff" d="M1015.5,-303.16C1015.5,-292.74 1015.5,-280.3 1015.5,-272.17"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1012,-303.37 1015.5,-313.37 1019,-303.37 1012,-303.37"/>
-</g>
-<!-- Node23&#45;&gt;Node3 -->
-<g id="edge25" class="edge">
-<title>Node23&#45;&gt;Node3</title>
-<path fill="none" stroke="#63b8ff" d="M799.49,-253.52C730.63,-245.38 622.6,-231.89 529.5,-217 526.4,-216.5 523.23,-215.98 520.04,-215.43"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="799.44,-257.03 809.78,-254.72 800.25,-250.08 799.44,-257.03"/>
-</g>
-<!-- Node23&#45;&gt;Node17 -->
-<g id="edge29" class="edge">
-<title>Node23&#45;&gt;Node17</title>
-<path fill="none" stroke="#63b8ff" d="M818.51,-250.92C775.55,-241.98 712.48,-228.78 657.5,-217 654.61,-216.38 651.64,-215.74 648.65,-215.1"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="817.94,-254.38 828.44,-252.99 819.36,-247.53 817.94,-254.38"/>
-</g>
-<!-- Node23&#45;&gt;Node19 -->
-<g id="edge30" class="edge">
-<title>Node23&#45;&gt;Node19</title>
-<path fill="none" stroke="#63b8ff" d="M939.36,-252.83C1111.4,-234.5 1157.24,-240.46 1325.5,-217 1336.26,-215.5 1347.82,-213.52 1358.56,-211.53"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="938.76,-249.38 929.19,-253.93 939.51,-256.34 938.76,-249.38"/>
+<title>Node21&#45;&gt;Node23</title>
+<path fill="none" stroke="#63b8ff" d="M805.12,-242.99C802.08,-232.51 798.41,-219.89 796.02,-211.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="801.84,-244.24 807.99,-252.87 808.56,-242.29 801.84,-244.24"/>
 </g>
 <!-- Node24 -->
 <g id="node24" class="node">
 <title>Node24</title>
-<g id="a_node24"><a xlink:href="cdt-viewer_8cpp.html" target="_top" xlink:title="Views 3D spacetimes.">
-<polygon fill="white" stroke="#666666" points="1316.5,-211.5 1212.5,-211.5 1212.5,-192.5 1316.5,-192.5 1316.5,-211.5"/>
-<text text-anchor="middle" x="1264.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt&#45;viewer.cpp</text>
+<g id="a_node24"><a xlink:href="_manifold__test_8cpp.html" target="_top" xlink:title="Tests of new manifold data structure.">
+<polygon fill="white" stroke="#666666" points="991,-211.5 860,-211.5 860,-192.5 991,-192.5 991,-211.5"/>
+<text text-anchor="middle" x="925.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Manifold_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node23&#45;&gt;Node24 -->
-<g id="edge26" class="edge">
-<title>Node23&#45;&gt;Node24</title>
-<path fill="none" stroke="#63b8ff" d="M939.22,-252.56C1029.45,-240.94 1178.14,-221.59 1203.5,-217 1212.05,-215.45 1221.22,-213.5 1229.78,-211.56"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="938.53,-249.12 929.06,-253.87 939.43,-256.07 938.53,-249.12"/>
+<!-- Node21&#45;&gt;Node24 -->
+<g id="edge25" class="edge">
+<title>Node21&#45;&gt;Node24</title>
+<path fill="none" stroke="#63b8ff" d="M836.59,-248.23C858.61,-237.03 889.49,-221.32 908.46,-211.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="834.79,-245.21 827.47,-252.87 837.97,-251.45 834.79,-245.21"/>
 </g>
 <!-- Node25 -->
 <g id="node25" class="node">
 <title>Node25</title>
-<g id="a_node25"><a xlink:href="initialize_8cpp.html" target="_top" xlink:title="Generates initial spacetimes.">
-<polygon fill="white" stroke="#666666" points="900.5,-211.5 804.5,-211.5 804.5,-192.5 900.5,-192.5 900.5,-211.5"/>
-<text text-anchor="middle" x="852.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/initialize.cpp</text>
+<g id="a_node25"><a xlink:href="_utilities__test_8cpp.html" target="_top" xlink:title="Tests on utility functions.">
+<polygon fill="white" stroke="#666666" points="1135.5,-211.5 1009.5,-211.5 1009.5,-192.5 1135.5,-192.5 1135.5,-211.5"/>
+<text text-anchor="middle" x="1072.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Utilities_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node23&#45;&gt;Node25 -->
-<g id="edge27" class="edge">
-<title>Node23&#45;&gt;Node25</title>
-<path fill="none" stroke="#63b8ff" d="M864.12,-242.99C861.08,-232.51 857.41,-219.89 855.02,-211.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="860.84,-244.24 866.99,-252.87 867.56,-242.29 860.84,-244.24"/>
+<!-- Node21&#45;&gt;Node25 -->
+<g id="edge28" class="edge">
+<title>Node21&#45;&gt;Node25</title>
+<path fill="none" stroke="#63b8ff" d="M858.64,-250.75C909.25,-239.45 987.86,-221.9 1034.36,-211.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="857.59,-247.4 848.6,-252.99 859.12,-254.23 857.59,-247.4"/>
 </g>
 <!-- Node26 -->
 <g id="node26" class="node">
 <title>Node26</title>
-<g id="a_node26"><a xlink:href="_manifold__test_8cpp.html" target="_top" xlink:title="Tests of new manifold data structure.">
-<polygon fill="white" stroke="#666666" points="1050,-211.5 919,-211.5 919,-192.5 1050,-192.5 1050,-211.5"/>
-<text text-anchor="middle" x="984.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Manifold_test.cpp</text>
+<g id="a_node26"><a xlink:href="_vertex__test_8cpp.html" target="_top" xlink:title="Tests on points and vertices in foliated Delaunay triangulations.">
+<polygon fill="white" stroke="#666666" points="727,-211.5 608,-211.5 608,-192.5 727,-192.5 727,-211.5"/>
+<text text-anchor="middle" x="667.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Vertex_test.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node23&#45;&gt;Node26 -->
-<g id="edge28" class="edge">
-<title>Node23&#45;&gt;Node26</title>
-<path fill="none" stroke="#63b8ff" d="M895.59,-248.23C917.61,-237.03 948.49,-221.32 967.46,-211.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="893.79,-245.21 886.47,-252.87 896.97,-251.45 893.79,-245.21"/>
+<!-- Node21&#45;&gt;Node26 -->
+<g id="edge29" class="edge">
+<title>Node21&#45;&gt;Node26</title>
+<path fill="none" stroke="#63b8ff" d="M780.14,-249.08C752.52,-237.78 712.48,-221.4 688.32,-211.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="779.13,-252.45 789.71,-252.99 781.78,-245.97 779.13,-252.45"/>
 </g>
-<!-- Node27 -->
-<g id="node27" class="node">
-<title>Node27</title>
-<g id="a_node27"><a xlink:href="_utilities__test_8cpp.html" target="_top" xlink:title="Tests on utility functions.">
-<polygon fill="white" stroke="#666666" points="1194.5,-211.5 1068.5,-211.5 1068.5,-192.5 1194.5,-192.5 1194.5,-211.5"/>
-<text text-anchor="middle" x="1131.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Utilities_test.cpp</text>
-</a>
+<!-- Node30&#45;&gt;Node3 -->
+<g id="edge34" class="edge">
+<title>Node30&#45;&gt;Node3</title>
+<path fill="none" stroke="#63b8ff" d="M454.87,-364.19C441.88,-328.33 413.34,-249.51 401.65,-217.22"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="451.67,-365.63 458.36,-373.84 458.25,-363.25 451.67,-365.63"/>
 </g>
-</g>
-<!-- Node23&#45;&gt;Node27 -->
-<g id="edge31" class="edge">
-<title>Node23&#45;&gt;Node27</title>
-<path fill="none" stroke="#63b8ff" d="M917.64,-250.75C968.25,-239.45 1046.86,-221.9 1093.36,-211.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="916.59,-247.4 907.6,-252.99 918.12,-254.23 916.59,-247.4"/>
-</g>
-<!-- Node28 -->
-<g id="node28" class="node">
-<title>Node28</title>
-<g id="a_node28"><a xlink:href="_vertex__test_8cpp.html" target="_top" xlink:title="Tests on points and vertices in foliated Delaunay triangulations.">
-<polygon fill="white" stroke="#666666" points="786,-211.5 667,-211.5 667,-192.5 786,-192.5 786,-211.5"/>
-<text text-anchor="middle" x="726.5" y="-199.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Vertex_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node23&#45;&gt;Node28 -->
-<g id="edge32" class="edge">
-<title>Node23&#45;&gt;Node28</title>
-<path fill="none" stroke="#63b8ff" d="M839.14,-249.08C811.52,-237.78 771.48,-221.4 747.32,-211.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="838.13,-252.45 848.71,-252.99 840.78,-245.97 838.13,-252.45"/>
-</g>
-<!-- Node32&#45;&gt;Node3 -->
+<!-- Node31&#45;&gt;Node2 -->
 <g id="edge37" class="edge">
-<title>Node32&#45;&gt;Node3</title>
-<path fill="none" stroke="#63b8ff" d="M513.87,-364.19C500.88,-328.33 472.34,-249.51 460.65,-217.22"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="510.67,-365.63 517.36,-373.84 517.25,-363.25 510.67,-365.63"/>
+<title>Node31&#45;&gt;Node2</title>
+<path fill="none" stroke="#63b8ff" d="M840.4,-432.32C788.44,-421.02 707.5,-403.42 659.66,-393.02"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="839.87,-435.79 850.39,-434.49 841.36,-428.95 839.87,-435.79"/>
 </g>
-<!-- Node33&#45;&gt;Node2 -->
-<g id="edge40" class="edge">
-<title>Node33&#45;&gt;Node2</title>
-<path fill="none" stroke="#63b8ff" d="M899.4,-432.32C847.44,-421.02 766.5,-403.42 718.66,-393.02"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="898.87,-435.79 909.39,-434.49 900.36,-428.95 898.87,-435.79"/>
+<!-- Node31&#45;&gt;Node19 -->
+<g id="edge36" class="edge">
+<title>Node31&#45;&gt;Node19</title>
+<path fill="none" stroke="#63b8ff" d="M868.42,-428.66C852.08,-417.55 829.98,-402.51 816.24,-393.17"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="866.57,-431.64 876.81,-434.37 870.51,-425.85 866.57,-431.64"/>
 </g>
-<!-- Node33&#45;&gt;Node21 -->
-<g id="edge39" class="edge">
-<title>Node33&#45;&gt;Node21</title>
-<path fill="none" stroke="#63b8ff" d="M927.42,-428.66C911.08,-417.55 888.98,-402.51 875.24,-393.17"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="925.57,-431.64 935.81,-434.37 929.51,-425.85 925.57,-431.64"/>
-</g>
-<!-- Node33&#45;&gt;Node24 -->
-<g id="edge41" class="edge">
-<title>Node33&#45;&gt;Node24</title>
-<path fill="none" stroke="#63b8ff" d="M967.94,-428.24C1027.46,-383.03 1206.05,-247.39 1253.06,-211.69"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="965.59,-425.62 959.75,-434.46 969.83,-431.2 965.59,-425.62"/>
+<!-- Node31&#45;&gt;Node22 -->
+<g id="edge38" class="edge">
+<title>Node31&#45;&gt;Node22</title>
+<path fill="none" stroke="#63b8ff" d="M908.94,-428.24C968.46,-383.03 1147.05,-247.39 1194.06,-211.69"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="906.59,-425.62 900.75,-434.46 910.83,-431.2 906.59,-425.62"/>
 </g>
 </g>
 </svg>

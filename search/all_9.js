@@ -9,7 +9,7 @@ var searchData=
   ['initial_5fradius_6',['INITIAL_RADIUS',['../_settings_8hpp.html#abb58efc843064f674896fc0c68175555',1,'Settings.hpp']]],
   ['initialize_7',['initialize',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae55aa58a21620204cc98f08f5506b870',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
   ['initialize_2ecpp_8',['initialize.cpp',['../initialize_8cpp.html',1,'']]],
-  ['int_5fprecision_9',['Int_precision',['../_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078',1,'Settings.hpp']]],
+  ['int_5fprecision_9',['Int_precision',['../_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385',1,'Settings.hpp']]],
   ['is_5f62_5fmovable_10',['is_62_movable',['../_ergodic__moves__3_8hpp.html#a81ab9a8b2435c93e49decbf535b0690e',1,'ergodic_moves']]],
   ['is_5fcell_5ftype_5fcorrect_11',['is_cell_type_correct',['../_foliated__triangulation_8hpp.html#a56cafd71487e81bb5f18fce5b6ba0394',1,'foliated_triangulations']]],
   ['is_5fcorrect_12',['is_correct',['../classmanifolds_1_1_manifold_3_013_01_4.html#af6b984475125529aed5d3b706637644f',1,'manifolds::Manifold&lt; 3 &gt;::is_correct()'],['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a4ce558235e520263572dda01b4b6984e',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_correct() const -&gt; bool']]],
@@ -22,5 +22,6 @@ var searchData=
   ['is_5ftds_5fvalid_19',['is_tds_valid',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#acaa86a3a4d4415cda8b14ddd8a219f50',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5fvalid_20',['is_valid',['../classmanifolds_1_1_manifold_3_013_01_4.html#ad32097f96dc5e033bca522fc8bb4ca98',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['is_5fvertex_21',['is_vertex',['../classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['is_5fvertex_5ftimevalue_5fcorrect_22',['is_vertex_timevalue_correct',['../_foliated__triangulation_8hpp.html#a81fd88a5544c1fda6835e2edea2a0c83',1,'foliated_triangulations']]]
+  ['is_5fvertex_5ftimevalue_5fcorrect_22',['is_vertex_timevalue_correct',['../_foliated__triangulation_8hpp.html#a81fd88a5544c1fda6835e2edea2a0c83',1,'foliated_triangulations']]],
+  ['is_5fwell_5fformed_5fedge_23',['is_well_formed_edge',['../_ergodic__moves__3_8hpp.html#a5783a47a1e913b24e79d9abc64de9c5f',1,'ergodic_moves::detail']]]
 ];
