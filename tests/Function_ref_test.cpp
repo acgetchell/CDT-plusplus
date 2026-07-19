@@ -12,7 +12,7 @@
 
 #include <doctest/doctest.h>
 
-#include <tl/function_ref.hpp>
+#include <boost/compat/function_ref.hpp>
 
 #include "Ergodic_moves_3.hpp"
 
@@ -75,7 +75,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
   GIVEN("A simple lambda stored in a function_ref.")
   {
     auto const increment = [](int incr) { return ++incr; };
-    tl::function_ref<int(int)> const lambda_ref(increment);
+    boost::compat::function_ref<int(int)> const lambda_ref(increment);
     WHEN("Function_ref is called with 0.")
     {
       THEN("We should get 1.") { REQUIRE_EQ(lambda_ref(1), 2); }
@@ -87,7 +87,8 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     auto constexpr desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    tl::function_ref const complex_ref(ergodic_moves::do_23_move);
+    boost::compat::function_ref<ergodic_moves::Expected(
+        ergodic_moves::Manifold&)> const complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
       auto result = complex_ref(manifold);
@@ -113,7 +114,8 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     auto const move23 = [](Manifold_3& t_manifold) {
       return ergodic_moves::do_23_move(t_manifold).value();
     };
-    tl::function_ref<Manifold_3(Manifold_3&)> const complex_ref(move23);
+    boost::compat::function_ref<Manifold_3(Manifold_3&)> const complex_ref(
+        move23);
     WHEN("The function_ref is invoked.")
     {
       auto result = complex_ref(manifold);

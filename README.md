@@ -1,30 +1,33 @@
 # CDT-plusplus
 **Quantize spacetime on your laptop.**
 
-[![Linux Clang](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-clang.yml)
-[![Linux GCC](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/linux-gcc.yml)
-[![macOS](https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/macos.yml)
-[![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true&passingText=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
-[![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
-[![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)
+[![CI](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/main/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![cpp-linter](https://github.com/acgetchell/CDT-plusplus/actions/workflows/cpp-linter.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/cpp-linter.yml)
-[![Whitespace](https://github.com/acgetchell/CDT-plusplus/actions/workflows/whitespace.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/whitespace.yml)
-[![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
-[![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
 
 ![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
+
+## Maintenance status
+
+CDT++ is being prepared for one final C++23 release, v1.0.0, after which this repository will be archived. It is
+maintained as an independent scientific reference and regression oracle for
+[causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. New C++
+work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move
+set, and the final release contract tracked by [issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90).
 
 ## Table of contents
 
 - [CDT-plusplus](#cdt-plusplus)
+    - [Maintenance status](#maintenance-status)
     - [Introduction](#introduction)
+        - [Regression-oracle scope](#regression-oracle-scope)
     - [Roadmap](#roadmap)
     - [Quickstart](#quickstart)
+        - [Current reference-suite status](#current-reference-suite-status)
     - [Setup](#setup)
-        - [Short](#short)
-        - [Long](#long)
+        - [Prerequisites](#prerequisites)
+        - [Developer workflow](#developer-workflow)
+        - [vcpkg maintenance](#vcpkg-maintenance)
     - [Build](#build)
         - [Project Layout](#project-layout)
         - [Run](#run)
@@ -44,7 +47,7 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
 [Causal Dynamical Triangulations][CDT] in [C++] uses the
-[Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
+[Computational Geometry Algorithms Library][CGAL], [Boost], and [TBB].
 Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library provides high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
@@ -53,8 +56,29 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Doxygen] provides automated document generation.
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
-[PVS-Studio] and [CodeQL] provide commercial-grade static analysis and security checks.
+[PVS-Studio] provides commercial-grade static analysis.
 [CometML] provides machine learning for model building.
+
+### Regression-oracle scope
+
+The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in
+[`include/Foliated_triangulation.hpp`](include/Foliated_triangulation.hpp). `check_timevalues` classifies cells from
+stored vertex time labels, `find_bad_vertex` selects a vertex responsible for an acausal local configuration, and
+`fix_timevalues` removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract
+is satisfied.
+
+The deterministic doctest scenario **"Detecting and fixing problems with vertices and cells"** in
+[`tests/Foliated_triangulation_test.cpp`](tests/Foliated_triangulation_test.cpp) exercises this path with fixed points
+and time labels. Its inputs, detected bad vertex, final initialization state, cell counts, and causal classification
+are the first comparison fixture for `causal-triangulations`; exact Monte Carlo trajectories are not required to
+match.
+
+After building, run that fixture directly with:
+
+```bash
+./out/build/reference/tests/CDT_unit_tests \
+  --test-case='*Detecting and fixing problems with vertices and cells*'
+```
 
 ## Roadmap
 
@@ -64,8 +88,6 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
 - [x] Test using [CTest]
 - [x] Develop using Behavior-driven development ([BDD]) with [doctest]
-- [x] Continuous integration by [Travis-CI] on macOS and Linux with [gcc]/[Clang]
-- [x] Continuous integration by [AppVeyor] on Windows with [MSVC]
 - [x] Continuous integration by [GitHub Actions] on the leading edge
 - [x] 3D Simplex
 - [x] 3D Spherical triangulation
@@ -80,7 +102,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
-- [x] Visualization with [Qt]
+- [ ] Restore optional visualization with [Qt] ([#98](https://github.com/acgetchell/CDT-plusplus/issues/98))
 - [ ] Output via [HDF5]
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
@@ -96,94 +118,133 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 
 ## Quickstart
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
+From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:
+
+```bash
+just build
+```
+
+The `build` recipe uses the pkgx launcher on Unix when pkgx is available, then delegates to `scripts/build.sh`. Its
+first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
+bootstraps vcpkg, installs the manifest dependencies, builds in `out/build/reference`, and runs the supported CTest
+smoke suite. The first dependency build can take several minutes; subsequent runs use vcpkg's binary cache.
+
+If Just is not installed globally, the optional [pkgx](https://pkgx.sh/) entry point supplies it and the complete
+Unix developer-tool environment ephemerally before invoking the same recipe and build contract:
+
+```bash
+./scripts/pkgx-build.sh
+```
+
+pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest. The
+underlying `./scripts/build.sh` and `scripts\build.bat` entry points remain available for troubleshooting and native
+Windows development.
+
+### Current reference-suite status
+
+With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. `build.sh` runs
+ten supported smoke tests on Unix: eight lightweight CLI integration tests and two focused doctest suites. The known
+failing `initialize` scenario is excluded from Windows smoke runs, while the other initialization cases remain enabled.
+The complete registered suite additionally runs the `cdt-opt` simulation, which can nondeterministically stall during
+a Metropolis pass, and the unit-test executable, which remains red in eight test cases tracing to the existing 4,4
+move/bistellar-flip path: the direct move application, four flip fixtures, the ergodic-move fixture, and two queued
+move scenarios. These tests remain present and can be run explicitly. Issue
+[#91](https://github.com/acgetchell/CDT-plusplus/issues/91) owns the 4,4 mutation repair, while
+[#92](https://github.com/acgetchell/CDT-plusplus/issues/92) owns the Metropolis transition work.
 
 ## Setup
 
-This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++20] features, it successfully
-builds with [AppleClang-14], [gcc-12], [clang-15], and [Visual Studio 2019].
+This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. macOS with
+AppleClang is the primary v1.0.0 restoration target; the remaining compiler and platform matrix will be recorded as
+it is verified.
 
-### Short
+### Prerequisites
 
-If you use [Docker]:
+The smallest pkgx-assisted host setup is:
 
-```bash
-docker pull acgetchell/cdt-plusplus
-docker run -it --name cdt cdt-plusplus
-```
-Binaries will be in `/CDT-plusplus/build/src`.
-Proceed to [Use](#usage).
+- Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
+- pkgx
+- Just when invoking the recipes directly; `scripts/pkgx-build.sh` supplies Just when it is not installed globally
 
-### Long
+The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, M4, Autoconf, Autoconf Archive, Automake, GNU
+Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through a package
+manager such as [Homebrew] or apt:
 
-On macOS or Linux, you will first need to install some prerequisites using your favorite
-package manager (e.g. [homebrew] or [apt]):
-
+- Git
+- Bash
 - build-essential (Linux only)
+- m4
 - automake
 - autoconf
 - autoconf-archive
 - libtool (macOS) or libtool-bin (Linux)
 - pkg-config
 - texinfo
-- yasm
 - ninja (macOS) or ninja-build (Linux)
-- pkg-config (macOS)
 
-Next, install [vcpkg]:
+The build does not require a pre-existing personal vcpkg checkout, a fork, a submodule, Docker, or a hosted
+development environment.
+
+### Developer workflow
+
+The repository-root [Justfile](Justfile) provides the same small command vocabulary used by the related projects:
 
 ```bash
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-./bootstrap-vcpkg.sh
-./vcpkg integrate install
+just check                 # Fast, non-mutating local checks
+just fix                   # Format changed C++ lines and the Justfile
+just build                 # Bootstrap, configure, build, and smoke-test
+just run --help            # Build as needed and run cdt with forwarded arguments
+just ci                    # Comprehensive pre-commit/pre-push validation
+just update-actions        # Update and repin Actions with pinact, then validate
 ```
 
-[vcpkg] is then invoked by CMake in [vcpkg manifest] mode and install the project dependencies
-listed in [vcpkg.json] into a local `vcpkg_installed` directory.
+`check` covers changed-line C++ formatting, YAML, GitHub Actions syntax and security, whitespace, and CMake preset
+parsing. `ci` adds the pinact policy check and the supported build/test contract. Install the developer tools with
+Homebrew, use equivalent system packages, or let pkgx supply them ephemerally; pkgx remains optional. For example:
 
-Proceed to [Build](#build).
+```bash
+pkgx +just.systems +git-scm.org +cmake.org +ninja-build.org +python.org +llvm.org \
+  +yamllint +actionlint +zizmor just check
+```
+
+[pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
+SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact or
+a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass.
+
+### vcpkg maintenance
+
+`vcpkg.json` is the dependency source of truth. Its `builtin-baseline` pins the official
+[`microsoft/vcpkg`](https://github.com/microsoft/vcpkg) registry commit used locally and in CI. The repository-local
+`.cache/vcpkg` checkout is disposable tool/cache infrastructure and must not be edited or committed.
+
+To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, review the
+manifest diff, and then rerun the complete build:
+
+```bash
+./scripts/bootstrap-vcpkg.sh
+export VCPKG_ROOT="$PWD/.cache/vcpkg"
+"$VCPKG_ROOT/vcpkg" x-update-baseline
+./scripts/build.sh
+```
+
+CI uses `lukka/run-vcpkg`, which derives the vcpkg checkout commit from the same manifest baseline and supplies a
+binary cache. No separately maintained repository variable is required.
 
 ## Build
 
-You'll need a reasonably modern compiler that supports [C++20] features.
-
-Clone the repo:
-
-~~~
-git clone https://github.com/acgetchell/CDT-plusplus.git
-~~~
-
-To get [CMake] and the build scripts to run correctly, you'll need to set `$VCPKG_ROOT` to wherever you cloned
-[vcpkg], e.g.
-
-```bash
-export VCPKG_ROOT="$HOME/vcpkg"
-```
-
-This will set the `CMAKE_TOOLCHAIN_FILE` option for [CMake].
-
-You may also need to set `VCPKG_DEFAULT_TRIPLET` to your platform [triplet], e.g.
-
-```bash
-export VCPKG_DEFAULT_TRIPLET="x64-linux"
-```
-
-You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:
-
-```
-vcpkg install
-```
-
-At this point, you can build via the scripts in `scripts`, which will build the project and install
-the dependencies into `vcpkg_installed`.
+Run `just build` from the repository root. It delegates to `./scripts/build.sh`, which can itself be run from any
+working directory for troubleshooting. If `VCPKG_ROOT` already names the clean official checkout at the manifest
+baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. The script
+invokes the `reference` configure and build presets followed by the `reference-smoke` test preset; products and tests
+are isolated under `out/build/reference`. Windows uses the same presets through `scripts\build.bat`, while
+`scripts\fast-build.bat` configures the same reference tree and builds only the primary `cdt` target.
 
 ### Project Layout
 
 The project is similar to [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
-- build - Ephemeral out-of-source build directory
+- out/build/reference - Ephemeral supported headless build directory
 - cmake - Cmake configurations
 - docs - Documentation
 - external - Includes submodules of external projects (none so far, all using [vcpkg])
@@ -193,18 +254,19 @@ The project is similar to [PitchFork Layout], as follows:
 - tests - Unit tests
 
 ### Run
-Run one of the following in `scripts`, depending on your operating system and environment:
 
-- No unit tests, `Release` mode - `fast-build.sh` or `fast-build.bat`
-- Unit tests, `RelWithDebInfo` mode - `build.sh` or `build.bat`
-- On an HPC cluster with [SLURM], [modules], and [spack] - `slurm.sh`
-- Full debugging mode with asserts and tests, `debug.sh` (this will take some time, ~280 seconds on my current laptop)
+The supported build produces `cdt`, `cdt-opt`, and `initialize` in `out/build/reference/src`. Run the primary `cdt`
+executable through Just and pass its arguments after the recipe name:
 
-This should result in the main program executable, `cdt` in `build/src` or `build\Debug`,
-along with several others.
+```bash
+just run --help
+```
+
+For troubleshooting, the equivalent direct command is `./out/build/reference/src/cdt --help`.
 
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
-- `cdt-viewer` (macOS only) is a simple Qt-based viewer for the output of `cdt`
+- `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0 target by
+  [#98](https://github.com/acgetchell/CDT-plusplus/issues/98)
 - `initialize` is used by [CometML] to run [parameter optimization](#optimizing-parameters)
 
 ## Usage
@@ -214,10 +276,10 @@ understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
 ~~~text
-./build/src/cdt --help
+./out/build/reference/src/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2013 Adam Getchell
+Copyright (c) 2013-2026 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -289,36 +351,31 @@ If you do not have GraphViz installed, set this option to **NO**
 
 ## Testing
 
-In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
+Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes the ten supported smoke
+tests. These include focused doctest runs for the Boost.Compat `function_ref` migration and the causal-foliation
+construction code used as a regression oracle. Run `just ci` for the complete local validation gate.
 
-Unit tests run (in `build/tests` or `build\tests\Debug`) via `CDT_unit_tests`, the [doctest] executable:
+The doctest executable can also be run directly:
 
-~~~bash
-./CDT_unit_tests
-~~~
+````bash
+./out/build/reference/tests/CDT_unit_tests
+````
 
-or (Windows):
+To rerun the supported smoke suite without rebuilding:
 
-~~~cmd
-CDT_unit_tests.exe
-~~~
+````bash
+ctest --preset reference-smoke
+````
 
-You can also run both [CTest] integration and [doctest] unit tests in the `build` directory with:
+To run every currently registered test, including the known 4,4 failures and the nondeterministic `cdt-opt`
+simulation, bypass the smoke filter explicitly:
 
-~~~bash
-cmake --build . --target test
-~~~
-
-or (Windows):
-
-~~~
-ctest -C Debug
-~~~
+````bash
+ctest --test-dir out/build/reference --output-on-failure
+````
 
 In addition to the command line output, you can see detailed results in the
-`build/Testing` directory which is generated thereby.
-
-Deactivate Unit tests with `-D ENABLE_TESTING:BOOL=FALSE`, e.g. `scripts/fast-build.sh`.
+`out/build/reference/Testing` directory generated by CTest.
 
 ### Static Analysis
 
@@ -341,14 +398,6 @@ cd scripts
 ./cppcheck-build.sh
 ~~~
 
-[Clang] comes with [scan-build] which can run a much more thorough,
-but slower static analysis integrated with [CMake] and [Ninja].
-
-~~~bash
-cd scripts
-./scan.sh
-~~~
-
 [PVS-Studio] - static analyzer for C, C++, C#, and Java code.
 
 ~~~bash
@@ -360,7 +409,8 @@ cd scripts
 
 [AddressSanitizer] + [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer],
 and [ThreadSanitizer] are run with `scripts/asan.sh`, `scripts/lsan.sh`, `scripts/msan.sh`,
-and `scripts/tsan.sh`. They are also checked by [Travis-CI] during commits.
+and `scripts/tsan.sh`. Their release-gate consolidation is tracked by
+[#95](https://github.com/acgetchell/CDT-plusplus/issues/95).
 
 ## Optimizing Parameters
 
@@ -377,7 +427,10 @@ You can then run experiments and look at results on https://www.comet.ml!
 
 ## Visualization
 
-[Qt] is used to visualize 3D triangulations via `cdt-viewer`.
+The Qt-based `cdt-viewer` target is currently disabled. Its opt-in dependency feature, deterministic smoke fixture,
+supported desktop matrix, and v1.0.0 restoration are tracked by
+[#98](https://github.com/acgetchell/CDT-plusplus/issues/98); Qt and Eigen are intentionally absent from the default
+headless build until that work is complete.
 
 ## Contributing
 
@@ -385,23 +438,20 @@ Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
 
 Your code should pass Continuous Integration:
 
-- Whitespace formatting (`git diff --check HEAD^`)
+- `just fix` for safe automatic formatting with the repository's [.clang-format]
 
-- [clang-format] with project settings ([.clang-format])
+- `just check` for fast, non-mutating source, YAML, workflow, and CMake validation
 
-- [cppcheck] test with [cppcheck.sh]
+- `just ci` for the supported build and smoke-test contract before pushing
 
-- [Valgrind] be sure to look at the results to ensure you're not leaking memory
+The slower [cppcheck], [Valgrind], and sanitizer workflows remain available through [GitHub Actions] and their
+repository scripts when relevant to a change:
 
-- [AddressSanitizer] and [UndefinedBehaviorSanitizer]; test with [asan.sh]
+- [cppcheck] with [cppcheck.sh]
 
-- [LeakSanitizer] (if supported by your platform); test with [lsan.sh]
+- [Valgrind] for leak diagnostics
 
-- [MemorySanitizer] (if supported by your platform); test with [msan.sh]
-
-- [ThreadSanitizer] test with [tsan.sh]
-
-- [Sonarcloud] provides a lot of good suggestions.
+- [AddressSanitizer], [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer]
 
 Optional:
 
@@ -422,13 +472,11 @@ Optional:
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
-[Clang]: https://clang.llvm.org
 [gcc]: https://gcc.gnu.org/
 [doctest]: https://github.com/doctest/doctest
 [guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
-[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
+[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/clang-tidy.sh
 [CTest]: https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest
-[Travis-CI]: https://travis-ci.com/getting_started
 [literate programming]: http://www.literateprogramming.com
 [Doxygen]: http://www.doxygen.org
 [Homebrew]: https://brew.sh
@@ -436,30 +484,20 @@ Optional:
 [program_options]: https://www.boost.org/doc/libs/1_85_0/doc/html/program_options/tutorial.html
 [Mathjax]: https://www.mathjax.org
 [GraphViz]: https://www.graphviz.org
-[Eigen]: http://eigen.tuxfamily.org/index.php?title=Main_Page
-[CMakeLists.txt]: https://github.com/acgetchell/CDT-plusplus/blob/master/CMakeLists.txt
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
 [HDF5]: https://www.hdfgroup.org
-[scan-build]: https://clang-analyzer.llvm.org/scan-build.html
-[scan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan.sh
 [cppcheck]: http://cppcheck.sourceforge.net
-[cppcheck.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/cppcheck.sh
+[cppcheck.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/cppcheck.sh
 [functional]: https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [TBB]: https://www.threadingbuildingblocks.org
-[CDT++]: https://github.com/acgetchell/CDT-plusplus
-[.travis.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml
-[Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile
+[Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile
 [Boost]: https://www.boost.org
-[contrib]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
-[conduct]: https://github.com/acgetchell/CDT-plusplus/blob/master/CODE_OF_CONDUCT.md
 [date]: https://howardhinnant.github.io/date/date.html
-[AppVeyor]: https://www.appveyor.com
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
-[.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
 [CometML]: https://www.comet.ml/
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [Model Optimization]: https://www.comet.ml/parameter-optimization
@@ -481,8 +519,8 @@ Optional:
 [1]: https://github.com/microsoft/vcpkg/issues/9082
 [2]: https://github.com/microsoft/vcpkg/issues/9087
 [3]: https://github.com/microsoft/vcpkg/issues/8627
-[CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
-[CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
+[CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
+[CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md
 [GitHub Actions]: https://github.com/features/actions
 [Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt
@@ -492,26 +530,12 @@ Optional:
 [MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
 [UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
 [clang-format]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html#clang-format
-[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
-[asan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh
-[lsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/lsan.sh
-[msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh
-[tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
+[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format
+[asan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/asan.sh
+[lsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/lsan.sh
+[msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/msan.sh
+[tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/tsan.sh
 [PVS-Studio]: https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source
-[pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
-[CLion]: https://www.jetbrains.com/clion/
-[Docker]: https://www.docker.com/
-[GitPod]: https://gitpod.io
-[vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
-[vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
-[Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
+[pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/pvs-studio.sh
 [spdlog]: https://github.com/gabime/spdlog
-[triplet]: https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks
-[AppleClang-14]: https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes
-[spack]: https://spack.io
-[modules]: https://hpc-wiki.info/hpc/Modules
-[SLURM]: https://hpc-wiki.info/hpc/SLURM
 [Qt]: https://www.qt.io
-[CodeQL]: https://codeql.github.com
-[CodeCov]: https://app.codecov.io/gh/acgetchell/CDT-plusplus
-[gcov]: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html

@@ -13,9 +13,11 @@
 
 #include <spdlog/spdlog.h>
 
+#include <boost/compat/function_ref.hpp>
 #include <expected>
+#include <functional>
 #include <string>
-#include <tl/function_ref.hpp>
+#include <utility>
 
 /**
  * \brief An applicative function similar to std::apply on a manifold
@@ -28,7 +30,8 @@
  */
 template <typename ManifoldType,
           typename ExpectedType = std::expected<ManifoldType, std::string>,
-          typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
+          typename FunctionType =
+              boost::compat::function_ref<ExpectedType(ManifoldType&)>>
 auto constexpr apply_move(ManifoldType&& t_manifold,
                           FunctionType   t_move) noexcept -> decltype(auto)
 {

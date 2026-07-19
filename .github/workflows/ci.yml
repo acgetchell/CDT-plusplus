@@ -1,0 +1,108 @@
+---
+name: CI
+
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      # Transitional: remove after develop is consolidated into main.
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  platform:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Ubuntu GCC
+            os: ubuntu-latest
+            compiler_package: gnu.org/gcc@16
+            cc: gcc
+            cxx: g++
+          - name: Ubuntu Clang
+            os: ubuntu-latest
+            compiler_package: llvm.org@20
+            cc: clang
+            cxx: clang++
+          - name: macOS AppleClang
+            os: macos-latest
+            compiler_package: ""
+            cc: clang
+            cxx: clang++
+          - name: Windows MSVC
+            os: windows-latest
+            pkgx: ""
+            cc: ""
+            cxx: ""
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up Unix environment with pkgx
+        if: runner.os != 'Windows'
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
+
+      - name: Activate MSVC
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756  # v1.13.0
+        with:
+          arch: x64
+
+      - name: Select the Windows vcpkg triplet
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Add-Content -Path $env:GITHUB_ENV -Value 'VCPKG_DEFAULT_TRIPLET=x64-windows'
+
+      - name: Restore artifacts or set up vcpkg
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+
+      - name: Build and test Unix
+        if: runner.os != 'Windows'
+        env:
+          CC: ${{ matrix.cc }}
+          CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
+          CXX: ${{ matrix.cxx }}
+        run: ./scripts/pkgx-build.sh
+
+      - name: Configure Windows
+        if: runner.os == 'Windows'
+        run: cmake --preset reference -S .
+
+      - name: Build Windows
+        if: runner.os == 'Windows'
+        run: cmake --build --preset reference --parallel 2
+
+      - name: Test Windows
+        if: runner.os == 'Windows'
+        run: ctest --preset reference-smoke
+
+  build:
+    name: build
+    if: ${{ always() }}
+    needs: platform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify platform matrix
+        env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "${PLATFORM_RESULT}" = success

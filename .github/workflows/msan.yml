@@ -1,14 +1,17 @@
+---
 name: Memory Sanitizer
 
-on:
+"on":
   push:
     branches:
       - main
-      - develop
   pull_request:
     branches:
-      - develop
+      - main
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,27 +22,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
           submodules: true
 
       - name: Setup
         run: |
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+          sudo apt-get install --yes \
+            automake autoconf autoconf-archive build-essential ccache \
+            libtool-bin ninja-build texinfo yasm
 
       - name: Setup Clang
-        uses: pkgxdev/setup@v4
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
-          +: clang@20
+          +: llvm.org@20
 
-      -  run: clang --version
+      - run: clang --version
 
       - name: Restore artifacts or setup vcpkg
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
 
       - name: Configure
         run: cmake --preset=msan

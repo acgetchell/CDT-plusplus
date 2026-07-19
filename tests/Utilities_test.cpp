@@ -47,19 +47,19 @@ SCENARIO("Various string/stream/time utilities" *
       }
     }
   }
-#ifndef _WIN32
   GIVEN("A running environment.")
   {
     WHEN("The current time is requested.")
     {
       THEN("The output is correct.")
       {
-        // Update test yearly
-        auto const result = current_date_time();
-        auto const year   = result.find("2025");
-        CHECK_NE(year, std::string::npos);
+        auto const             timestamp = std::chrono::system_clock::now();
+        auto const             result    = current_date_time(timestamp);
+        auto const             expected_year = date::format(
+            "%Y", std::chrono::floor<std::chrono::seconds>(timestamp));
+        CHECK(result.starts_with(expected_year));
         // Human verification
-        fmt::print("Current date and time is: {}\n", current_date_time());
+        fmt::print("Current date and time is: {}\n", result);
       }
     }
     WHEN("A filename is generated.")
@@ -83,12 +83,12 @@ SCENARIO("Various string/stream/time utilities" *
         CHECK_NE(initial_radius, std::string::npos);
         auto const file_suffix = filename.string().find("off");
         CHECK_NE(file_suffix, std::string::npos);
+        CHECK_EQ(filename.string().find(':'), std::string::npos);
         // Human verification
         fmt::print("Filename is: {}\n", filename.string());
       }
     }
   }
-#endif
 }
 
 SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))

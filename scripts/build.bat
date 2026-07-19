@@ -1,20 +1,30 @@
 @echo off
 
 SETLOCAL ENABLEEXTENSIONS
-SET me=%~n0
-SET parent=%~dp0
+SET "SCRIPT_DIR=%~dp0"
+FOR %%I IN ("%SCRIPT_DIR%..") DO SET "REPO_ROOT=%%~fI"
 
-cd ..
-IF EXIST "build" rmdir /S /Q build || EXIT /B 1
-:: Assumes you have cloned vcpkg into %HOMEPATH%\Projects
-set VCPKG_PATH=%HOMEPATH%\Projects\vcpkg
+IF DEFINED CDT_VCPKG_CACHE_DIR (
+  SET "PINNED_VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
+) ELSE (
+  SET "PINNED_VCPKG_ROOT=%REPO_ROOT%\.cache\vcpkg"
+)
 
-:: In case you want to build from the command line with Ninja from vcpkg
-set PATH=%PATH%;%VCPKG_PATH%
+IF DEFINED VCPKG_ROOT (
+  SET "CDT_VCPKG_CACHE_DIR=%VCPKG_ROOT%"
+  CALL "%SCRIPT_DIR%bootstrap-vcpkg.bat" --check >NUL 2>NUL
+  IF NOT ERRORLEVEL 1 GOTO VCPKG_READY
+  echo Ignoring VCPKG_ROOT=%VCPKG_ROOT%; using the repository-pinned checkout instead. 1>&2
+)
 
-:: Change to your version of Visual Studio
-cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CACHE:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake -S . -B build
-cmake --build build
+SET "CDT_VCPKG_CACHE_DIR=%PINNED_VCPKG_ROOT%"
+SET "VCPKG_ROOT=%PINNED_VCPKG_ROOT%"
+CALL "%SCRIPT_DIR%bootstrap-vcpkg.bat" || EXIT /B 1
 
-:: Executables are in \build\src\Debug
-:: Tests are in \build\tests\Debug
+:VCPKG_READY
+SET "VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
+CD /D "%REPO_ROOT%" || EXIT /B 1
+cmake --preset reference -S . || EXIT /B 1
+cmake --build --preset reference || EXIT /B 1
+ctest --preset reference-smoke || EXIT /B 1
+EXIT /B 0
