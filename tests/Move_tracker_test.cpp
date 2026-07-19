@@ -100,6 +100,10 @@ SCENARIO("Integer to move type conversion" *
     REQUIRE_EQ(as_move(move_choice), move_type::SIX_TWO);
     move_choice = 4;
     REQUIRE_EQ(as_move(move_choice), move_type::FOUR_FOUR);
+    move_choice = -1;
+    REQUIRE_EQ(as_move(move_choice), move_type::FOUR_FOUR);
+    move_choice = 5;
+    REQUIRE_EQ(as_move(move_choice), move_type::FOUR_FOUR);
   }
 }
 
