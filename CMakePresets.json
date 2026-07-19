@@ -395,6 +395,17 @@
       }
     },
     {
+      "name": "reference-windows-smoke",
+      "displayName": "Run the portable Windows reference smoke tests",
+      "description": "Exclude the known initialize runtime failure in addition to unsupported smoke tests",
+      "inherits": "reference",
+      "filter": {
+        "exclude": {
+          "name": "^(cdt-unit-tests|cdt-opt|initialize)$"
+        }
+      }
+    },
+    {
       "name": "test-windows-msvc-debug-developer-mode",
       "displayName": "Strict",
       "description": "Enable output and stop on failure",

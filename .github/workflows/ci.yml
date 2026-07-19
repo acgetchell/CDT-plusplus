@@ -30,17 +30,17 @@ jobs:
         include:
           - name: Ubuntu GCC
             os: ubuntu-latest
-            pkgx: gnu.org/gcc@16
+            compiler_package: gnu.org/gcc@16
             cc: gcc
             cxx: g++
           - name: Ubuntu Clang
             os: ubuntu-latest
-            pkgx: llvm.org@20
+            compiler_package: llvm.org@20
             cc: clang
             cxx: clang++
           - name: macOS AppleClang
             os: macos-latest
-            pkgx: gnu.org/bash
+            compiler_package: ""
             cc: clang
             cxx: clang++
           - name: Windows MSVC
@@ -60,16 +60,6 @@ jobs:
       - name: Set up Unix environment with pkgx
         if: runner.os != 'Windows'
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
-        with:
-          +: ${{ matrix.pkgx }}
-
-      - name: Select Unix compiler
-        if: runner.os != 'Windows'
-        shell: bash
-        run: |
-          echo "CC=${{ matrix.cc }}" >> "${GITHUB_ENV}"
-          echo "CXX=${{ matrix.cxx }}" >> "${GITHUB_ENV}"
-          "${{ matrix.cxx }}" --version
 
       - name: Activate MSVC
         if: runner.os == 'Windows'
@@ -87,6 +77,10 @@ jobs:
 
       - name: Build and test Unix
         if: runner.os != 'Windows'
+        env:
+          CC: ${{ matrix.cc }}
+          CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
+          CXX: ${{ matrix.cxx }}
         run: ./scripts/pkgx-build.sh
 
       - name: Configure Windows
@@ -99,7 +93,7 @@ jobs:
 
       - name: Test Windows
         if: runner.os == 'Windows'
-        run: ctest --preset reference-smoke
+        run: ctest --preset reference-windows-smoke
 
   build:
     name: build

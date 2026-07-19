@@ -39,7 +39,11 @@ add_test(
 add_test(
   NAME cdt-foliated-triangulation-tests
   COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=foliated_triangulation)
+add_test(
+  NAME cdt-utilities-tests
+  COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=utilities)
 set_tests_properties(
   cdt-function-ref-tests
   cdt-foliated-triangulation-tests
+  cdt-utilities-tests
   PROPERTIES TIMEOUT 60)

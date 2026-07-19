@@ -20,7 +20,7 @@
 #include <stdexcept>
 #include <string>
 // H. Hinnant date and time library
-#include <date/tz.h>
+#include <date/date.h>
 
 /// clang-15 does not support std::format
 // #include <format>
@@ -64,24 +64,18 @@ namespace utilities
 {
   /// @brief Return current date and time
   /// @details Return current date and time in ISO 8601 format
-  /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
-  /// Parser. std::chrono::zoned_time would be a replacement if supported by
-  /// current compilers.
+  /// Use Howard Hinnant's date library to format UTC without requiring an
+  /// external time zone database.
   /// @param timestamp The system time point to format
-  /// @returns A formatted string with the system local time
+  /// @returns A formatted string with the system time in UTC
   /// @see https://github.com/HowardHinnant/date
   /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
   [[nodiscard]] inline auto current_date_time(
       std::chrono::system_clock::time_point const timestamp =
           std::chrono::system_clock::now())
   {
-    /// When AppleClang fully supports std::chrono and std::format, use this:
-    //    auto time = std::chrono::zoned_time(std::chrono::current_zone(),
-    //    std::chrono::system_clock::now());
-    //    return std::formatter<std::chrono::system_clock::time_point,
-    //                          char>::format(time, "{:%Y-%m-%d.%X%Z}");
-    date::zoned_time const time(date::current_zone(), timestamp);
-    return format("%Y-%m-%d.%X%Z", time);
+    auto const time = std::chrono::floor<std::chrono::seconds>(timestamp);
+    return date::format("%Y-%m-%d.%TUTC", time);
   }  // current_date_time
 
   /// @brief  Generate useful filenames

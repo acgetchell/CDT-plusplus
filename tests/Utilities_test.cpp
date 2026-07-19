@@ -47,7 +47,6 @@ SCENARIO("Various string/stream/time utilities" *
       }
     }
   }
-#ifndef _WIN32
   GIVEN("A running environment.")
   {
     WHEN("The current time is requested.")
@@ -56,8 +55,8 @@ SCENARIO("Various string/stream/time utilities" *
       {
         auto const             timestamp = std::chrono::system_clock::now();
         auto const             result    = current_date_time(timestamp);
-        date::zoned_time const now(date::current_zone(), timestamp);
-        auto const             expected_year = date::format("%Y", now);
+        auto const             expected_year = date::format(
+            "%Y", std::chrono::floor<std::chrono::seconds>(timestamp));
         CHECK(result.starts_with(expected_year));
         // Human verification
         fmt::print("Current date and time is: {}\n", result);
@@ -89,7 +88,6 @@ SCENARIO("Various string/stream/time utilities" *
       }
     }
   }
-#endif
 }
 
 SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))

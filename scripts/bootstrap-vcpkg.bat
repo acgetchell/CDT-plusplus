@@ -52,7 +52,7 @@ IF EXIST "%VCPKG_DIR%\.git\." (
 
   git -C "%VCPKG_DIR%" rev-parse HEAD 2>NUL ^| FINDSTR /X /I /C:"%BASELINE%" >NUL
   IF NOT ERRORLEVEL 1 IF EXIST "%VCPKG_DIR%\vcpkg.exe" (
-    "%VCPKG_DIR%\vcpkg.exe" version >NUL 2>NUL
+    CALL :VALIDATE_CACHED_VCPKG "%VCPKG_DIR%"
     IF NOT ERRORLEVEL 1 (
       echo Using vcpkg at %VCPKG_DIR% ^(%BASELINE%^)
       EXIT /B 0
@@ -86,6 +86,35 @@ git -C "%VCPKG_DIR%" checkout --detach "%BASELINE%"
 IF ERRORLEVEL 1 EXIT /B 1
 CALL "%VCPKG_DIR%\bootstrap-vcpkg.bat" -disableMetrics
 IF ERRORLEVEL 1 EXIT /B 1
+CALL :VALIDATE_CACHED_VCPKG "%VCPKG_DIR%"
+IF ERRORLEVEL 1 (
+  echo Bootstrapped vcpkg does not match the tool release pinned by %BASELINE%. 1>&2
+  EXIT /B 1
+)
 
 echo Bootstrapped vcpkg at %VCPKG_DIR% ^(%BASELINE%^)
 EXIT /B 0
+
+:VALIDATE_CACHED_VCPKG
+SETLOCAL
+SET "VALIDATE_DIR=%~1"
+SET "EXPECTED_TOOL_TAG="
+IF NOT EXIST "%VALIDATE_DIR%\scripts\vcpkg-tool-metadata.txt" (
+  ENDLOCAL
+  EXIT /B 1
+)
+FOR /F "usebackq tokens=1,* delims==" %%A IN ("%VALIDATE_DIR%\scripts\vcpkg-tool-metadata.txt") DO (
+  IF /I "%%A"=="VCPKG_TOOL_RELEASE_TAG" SET "EXPECTED_TOOL_TAG=%%B"
+)
+IF NOT DEFINED EXPECTED_TOOL_TAG (
+  ENDLOCAL
+  EXIT /B 1
+)
+ECHO(%EXPECTED_TOOL_TAG%| FINDSTR /R /X "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]" >NUL
+IF ERRORLEVEL 1 (
+  ENDLOCAL
+  EXIT /B 1
+)
+"%VALIDATE_DIR%\vcpkg.exe" version 2>NUL | FINDSTR /B /I /L /C:"vcpkg package management program version %EXPECTED_TOOL_TAG%-" >NUL
+SET "VALIDATION_RESULT=%ERRORLEVEL%"
+ENDLOCAL & EXIT /B %VALIDATION_RESULT%

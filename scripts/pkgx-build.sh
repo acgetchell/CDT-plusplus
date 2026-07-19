@@ -22,6 +22,10 @@ pkgx_tools=(
   +freedesktop.org/pkg-config
 )
 
+if [[ -n "${CDT_PKGX_COMPILER_PACKAGE:-}" ]]; then
+  pkgx_tools+=("+${CDT_PKGX_COMPILER_PACKAGE}")
+fi
+
 cd -- "${repo_root}"
 export CDT_PKGX_ACTIVE=1
 exec pkgx "${pkgx_tools[@]}" just build
