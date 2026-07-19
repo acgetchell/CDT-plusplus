@@ -124,6 +124,13 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
       // Now check that it's added
       for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 1); }
     }
+    THEN("Moves can be updated and read by move type.")
+    {
+      tracked_moves[move_type::SIX_TWO]              = 2;
+      MoveTracker<Manifold_3> const& read_only_moves = tracked_moves;
+      CHECK_EQ(read_only_moves[move_type::SIX_TWO], 2);
+      CHECK_EQ(tracked_moves.six_two_moves(), 2);
+    }
     THEN("Two move trackers can be added.")
     {
       // Add +1 move to left-hand side

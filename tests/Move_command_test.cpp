@@ -13,11 +13,19 @@
 #include <doctest/doctest.h>
 #include <fmt/ranges.h>
 
+#include <type_traits>
+#include <utility>
+
 using namespace std;
 using namespace manifolds;
 
 namespace
 {
+  static_assert(
+      std::is_same_v<decltype(std::declval<MoveCommand<Manifold_3> const&>()
+                                  .get_succeeded()),
+                     move_tracker::MoveTracker<Manifold_3> const&>);
+
   void check_single_move_outcome(MoveCommand<Manifold_3> const& command,
                                  Manifold_3 const&              before,
                                  move_tracker::move_type const  move,

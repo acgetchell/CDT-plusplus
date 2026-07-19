@@ -150,7 +150,8 @@ try
       }
       else
       {
-        throw invalid_argument("Currently, dimensions cannot be >3.");
+        throw invalid_argument(
+            "Only three-dimensional triangulations are supported.");
       }
       break;
     case topology_type::TOROIDAL:

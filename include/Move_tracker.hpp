@@ -107,6 +107,14 @@ namespace move_tracker
      * \param move The move type to be accessed
      * \return The number of moves of that type
      */
+    auto operator[](move_type const move) -> auto&
+    { return gsl::at(moves, as_integer(move)); }  // operator[]
+
+    /**
+     * \brief The [] operator for a read-only MoveTracker
+     * \param move The move type to be accessed
+     * \return The number of moves of that type
+     */
     auto operator[](move_type const move) const -> auto&
     { return gsl::at(moves, as_integer(move)); }  // operator[]
 

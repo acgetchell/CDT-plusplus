@@ -45,6 +45,7 @@ jobs:
   sanitizer:
     name: ${{ inputs.job_name }}
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
       ASAN_OPTIONS: ${{ inputs.asan_options }}
       LSAN_OPTIONS: ${{ inputs.lsan_options }}

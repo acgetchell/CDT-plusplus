@@ -75,7 +75,7 @@ class MoveCommand
    * \brief A read-only reference to the manifold
    */
   auto get_const_results() const -> ManifoldType const&
-  { return std::cref(m_manifold); }  // get_const_results
+  { return m_manifold; }  // get_const_results
 
   /**
    * \brief Results of the moves invoked by MoveCommand
@@ -91,7 +91,7 @@ class MoveCommand
   /**
    * \brief Successful moves by MoveCommand
    */
-  [[nodiscard]] auto get_succeeded() const
+  [[nodiscard]] auto get_succeeded() const -> Counter const&
   { return m_succeeded; }  // get_succeeded
 
   /**

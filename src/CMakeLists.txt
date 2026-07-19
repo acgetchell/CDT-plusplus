@@ -58,8 +58,9 @@ add_test(NAME initialize-minimum-simplices COMMAND $<TARGET_FILE:initialize> -s 
 set_tests_properties(initialize-minimum-simplices
                      PROPERTIES PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
-add_test(NAME initialize-dimensionality COMMAND $<TARGET_FILE:initialize> -s -n64 -t3 -d4 -o)
-set_tests_properties(initialize-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be >3.")
+add_test(NAME initialize-dimensionality COMMAND $<TARGET_FILE:initialize> -s -n64 -t3 -d2 -o)
+set_tests_properties(initialize-dimensionality
+                     PROPERTIES PASS_REGULAR_EXPRESSION "Only three-dimensional triangulations are supported.")
 
 add_test(NAME initialize-toroidal COMMAND $<TARGET_FILE:initialize> -e -n64 -t3 -o)
 set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION

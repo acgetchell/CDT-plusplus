@@ -447,8 +447,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
         if (m_write_files)
         {
           fmt::print("Writing to file.\n");
-          auto result = command.get_results();
-          utilities::write_file(result);
+          utilities::write_file(command.get_results());
         }
       }
     }  // Ends loop through m_passes

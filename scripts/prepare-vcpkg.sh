@@ -8,8 +8,10 @@ prepare_reference_environment()
   unset CPATH
   unset C_INCLUDE_PATH
   unset CPLUS_INCLUDE_PATH
+  unset CC
   unset CFLAGS
   unset CPPFLAGS
+  unset CXX
   unset CXXFLAGS
   unset LDFLAGS
   unset LIBRARY_PATH

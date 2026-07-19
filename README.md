@@ -101,7 +101,6 @@ After building, run that fixture directly with:
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
 - [ ] Restore optional visualization with [Qt] ([#98](https://github.com/acgetchell/CDT-plusplus/issues/98))
-- [ ] Output via [HDF5]
 - [ ] Initialize two masses
 - [ ] The shortest path algorithm
 - [ ] Einstein tensor
@@ -480,7 +479,6 @@ Optional:
 [GraphViz]: https://www.graphviz.org
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
-[HDF5]: https://www.hdfgroup.org
 [functional]: https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [TBB]: https://www.threadingbuildingblocks.org
 [Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile
