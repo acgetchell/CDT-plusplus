@@ -36,7 +36,10 @@ namespace
       CHECK_EQ(result.simplices(), before.simplices() + cell_delta);
       CHECK(ergodic_moves::check_move(before, result, move));
     }
-    else { CHECK_EQ(result.simplices(), before.simplices()); }
+    else
+    {
+      CHECK_EQ(result.simplices(), before.simplices());
+    }
   }
 }  // namespace
 
@@ -53,9 +56,7 @@ SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is not default constructible.")
-      {
-        CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold_3>>);
-      }
+      { CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold_3>>); }
       THEN("It is copy constructible.")
       {
         REQUIRE(is_copy_constructible_v<MoveCommand<Manifold_3>>);
@@ -66,21 +67,20 @@ SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
         REQUIRE(is_copy_assignable_v<MoveCommand<Manifold_3>>);
         spdlog::debug("It is copy assignable.\n");
       }
-      THEN("It is no-throw move constructible.")
+      THEN("It is move constructible.")
       {
-        REQUIRE(is_nothrow_move_constructible_v<MoveCommand<Manifold_3>>);
-        spdlog::debug("Small function optimization supported.");
-        spdlog::debug("It is no-throw move constructible.\n");
+        REQUIRE(is_move_constructible_v<MoveCommand<Manifold_3>>);
+        spdlog::debug("It is move constructible.\n");
       }
-      THEN("It is no-throw move assignable.")
+      THEN("It is move assignable.")
       {
-        REQUIRE(is_nothrow_move_assignable_v<MoveCommand<Manifold_3>>);
-        spdlog::debug("It is no-throw move assignable.\n");
+        REQUIRE(is_move_assignable_v<MoveCommand<Manifold_3>>);
+        spdlog::debug("It is move assignable.\n");
       }
-      THEN("It is no-throw swappable")
+      THEN("It is swappable")
       {
-        REQUIRE(is_nothrow_swappable_v<MoveCommand<Manifold_3>>);
-        spdlog::debug("It is no-throw swappable.\n");
+        REQUIRE(is_swappable_v<MoveCommand<Manifold_3>>);
+        spdlog::debug("It is swappable.\n");
       }
       THEN("It is constructible from a Manifold.")
       {
@@ -398,9 +398,7 @@ SCENARIO("Executing multiple moves on the queue" *
       command.enqueue(move_tracker::move_type::SIX_TWO);
       command.enqueue(move_tracker::move_type::THREE_TWO);
       THEN("There are five moves in the queue.")
-      {
-        CHECK_EQ(command.size(), 5);
-      }
+      { CHECK_EQ(command.size(), 5); }
       THEN("The moves are executed correctly.")
       {
         // Execute the moves

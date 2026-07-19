@@ -46,4 +46,4 @@ set_tests_properties(
   cdt-function-ref-tests
   cdt-foliated-triangulation-tests
   cdt-utilities-tests
-  PROPERTIES TIMEOUT 60)
+  PROPERTIES LABELS "full-suite-duplicate" TIMEOUT 60)

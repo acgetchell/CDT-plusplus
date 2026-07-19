@@ -27,49 +27,41 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties" *
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_destructible_v<MoveAlways_4>);
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
         REQUIRE(is_nothrow_default_constructible_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_default_constructible_v<MoveAlways_4>);
         spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {
         REQUIRE(is_nothrow_copy_constructible_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_copy_constructible_v<MoveAlways_4>);
         spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
         REQUIRE(is_nothrow_copy_assignable_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_copy_assignable_v<MoveAlways_4>);
         spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
         REQUIRE(is_nothrow_move_constructible_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_move_constructible_v<MoveAlways_4>);
         spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
         REQUIRE(is_nothrow_move_assignable_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_move_assignable_v<MoveAlways_4>);
         spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<MoveAlways_3>);
-        REQUIRE(is_nothrow_swappable_v<MoveAlways_4>);
         spdlog::debug("It is no-throw swappable.\n");
       }
       THEN("It is constructible from 2 parameters.")
       {
         REQUIRE(is_constructible_v<MoveAlways_3, Int_precision, Int_precision>);
-        REQUIRE(is_constructible_v<MoveAlways_4, Int_precision, Int_precision>);
         spdlog::debug("It is constructible from 2 parameters.\n");
       }
     }
@@ -155,25 +147,6 @@ SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always") *
           // Human verification
           mover.print_results();
         }
-      }
-    }
-  }
-  GIVEN("A 4D manifold.")
-  {
-    WHEN("A MoveStrategy4 is constructed.")
-    {
-      auto constexpr passes     = 1;
-      auto constexpr checkpoint = 1;
-      MoveAlways_4 const mover(passes, checkpoint);
-      THEN("The correct passes and checkpoints are instantiated.")
-      {
-        CHECK_EQ(mover.passes(), passes);
-        CHECK_EQ(mover.checkpoint(), checkpoint);
-      }
-      THEN("Attempted moves and successful moves are zero-initialized.")
-      {
-        CHECK_EQ(mover.get_attempted().two_four_moves(), 0);
-        CHECK_EQ(mover.get_failed().two_four_moves(), 0);
       }
     }
   }

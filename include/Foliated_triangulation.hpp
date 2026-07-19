@@ -67,11 +67,6 @@ enum class Cell_type
   THREE_ONE    = 31,  // (3,1)
   TWO_TWO      = 22,  // (2,2)
   ONE_THREE    = 13,  // (1,3)
-                      // 4D simplices
-  FOUR_ONE     = 41,  // (4,1)
-  THREE_TWO    = 32,  // (3,2)
-  TWO_THREE    = 23,  // (2,3)
-  ONE_FOUR     = 14,  // (1,4)
   ACAUSAL      = 99,  // The vertex timevalues differ by > 1 or are all equal
   UNCLASSIFIED = 0    // An error happened classifying cell
 };
@@ -540,12 +535,6 @@ namespace foliated_triangulations
     if (max_vertices == 3 && min_vertices == 1) { return Cell_type::ONE_THREE; }
     if (max_vertices == 2 && min_vertices == 2) { return Cell_type::TWO_TWO; }
     if (max_vertices == 1 && min_vertices == 3) { return Cell_type::THREE_ONE; }
-
-    // 4D simplices
-    if (max_vertices == 4 && min_vertices == 1) { return Cell_type::ONE_FOUR; }
-    if (max_vertices == 3 && min_vertices == 2) { return Cell_type::TWO_THREE; }
-    if (max_vertices == 2 && min_vertices == 3) { return Cell_type::THREE_TWO; }
-    if (max_vertices == 1 && min_vertices == 4) { return Cell_type::FOUR_ONE; }
 
     // If we got here, there's some kind of error
 #ifndef NDEBUG
@@ -1046,9 +1035,7 @@ namespace foliated_triangulations
     /// @brief Move ctor
     FoliatedTriangulation(FoliatedTriangulation&& other) noexcept
         : FoliatedTriangulation{}
-    {
-      swap(other, *this);
-    }
+    { swap(other, *this); }
 
     /// @brief Non-member swap function for Foliated Triangulations.
     /// @details Note that this function calls swap() from CGAL's
@@ -1154,15 +1141,11 @@ namespace foliated_triangulations
 
     /// @return True if the triangulation is Delaunay
     [[nodiscard]] auto is_delaunay() const -> bool
-    {
-      return get_delaunay().is_valid();
-    }  // is_delaunay
+    { return get_delaunay().is_valid(); }  // is_delaunay
 
     /// @return True if the triangulation data structure is valid
     [[nodiscard]] auto is_tds_valid() const -> bool
-    {
-      return get_delaunay().tds().is_valid();
-    }  // is_tds_valid
+    { return get_delaunay().tds().is_valid(); }  // is_tds_valid
 
     /// @return True if the Foliated Triangulation class invariants hold
     [[nodiscard]] auto is_correct() const -> bool
@@ -1173,9 +1156,7 @@ namespace foliated_triangulations
     /// @return True if the Foliated Triangulation has been initialized
     /// correctly
     [[nodiscard]] auto is_initialized() const -> bool
-    {
-      return is_correct() && is_delaunay();
-    }  // is_initialized
+    { return is_correct() && is_delaunay(); }  // is_initialized
 
     /// @return True if fixes were done on the Delaunay triangulation
     [[nodiscard]] auto is_fixed() -> bool
@@ -1194,9 +1175,7 @@ namespace foliated_triangulations
 
     /// @return A read-only reference to the Delaunay triangulation
     [[nodiscard]] auto get_delaunay() const -> Delaunay const&
-    {
-      return m_triangulation;
-    }  // get_delaunay
+    { return m_triangulation; }  // get_delaunay
 
     /// @return Number of 3D simplices in triangulation data structure
     [[nodiscard]] auto number_of_finite_cells() const
@@ -1218,9 +1197,7 @@ namespace foliated_triangulations
 
     /// @return Number of vertices in triangulation data structure
     [[nodiscard]] auto number_of_vertices() const
-    {
-      return m_triangulation.number_of_vertices();
-    }  // number_of_vertices
+    { return m_triangulation.number_of_vertices(); }  // number_of_vertices
 
     /// @return If a cell or vertex contains or is the infinite vertex
     /// Forward parameters (see F.19 of C++ Core Guidelines)
@@ -1240,15 +1217,11 @@ namespace foliated_triangulations
     /// @return True if the flip occurred
     template <typename... Ts>
     [[nodiscard]] auto flip(Ts&&... args)
-    {
-      return m_triangulation.flip(std::forward<Ts>(args)...);
-    }  // flip
+    { return m_triangulation.flip(std::forward<Ts>(args)...); }  // flip
 
     /// @return Returns the infinite vertex in the triangulation
     [[maybe_unused]] [[nodiscard]] auto infinite_vertex() const
-    {
-      return m_triangulation.infinite_vertex();
-    }  // infinite_vertex
+    { return m_triangulation.infinite_vertex(); }  // infinite_vertex
 
     /// @return Dimensionality of triangulation data structure (int)
     [[nodiscard]] auto dimension() const { return m_triangulation.dimension(); }
@@ -1256,47 +1229,33 @@ namespace foliated_triangulations
     /// @return Container of spacelike facets indexed by time value
     [[nodiscard]] auto N2_SL() const
         -> std::multimap<Int_precision, TriangulationTraits<3>::Facet> const&
-    {
-      return m_spacelike_facets;
-    }  // N2_SL
+    { return m_spacelike_facets; }  // N2_SL
 
     /// @return Number of timelike edges
     [[nodiscard]] auto N1_TL() const
-    {
-      return static_cast<Int_precision>(m_timelike_edges.size());
-    }  // N1_TL
+    { return static_cast<Int_precision>(m_timelike_edges.size()); }  // N1_TL
 
     /// @return Number of spacelike edges
     [[nodiscard]] auto N1_SL() const
-    {
-      return static_cast<Int_precision>(m_spacelike_edges.size());
-    }  // N1_SL
+    { return static_cast<Int_precision>(m_spacelike_edges.size()); }  // N1_SL
 
     /// @return Container of timelike edges
     [[nodiscard]] auto get_timelike_edges() const noexcept
         -> Edge_container const&
-    {
-      return m_timelike_edges;
-    }  // get_timelike_edges
+    { return m_timelike_edges; }  // get_timelike_edges
 
     /// @return Container of spacelike edges
     [[nodiscard]] auto get_spacelike_edges() const -> Edge_container const&
-    {
-      return m_spacelike_edges;
-    }  // get_spacelike_edges
+    { return m_spacelike_edges; }  // get_spacelike_edges
 
     /// @return Container of vertices
     [[nodiscard]] auto get_vertices() const noexcept -> Vertex_container const&
-    {
-      return m_vertices;
-    }  // get_vertices
+    { return m_vertices; }  // get_vertices
 
     /// @return A span of vertices
     [[nodiscard]] auto get_vertices_span() const noexcept
         -> std::span<Vertex_handle const>
-    {
-      return std::span{m_vertices};
-    }  // get_vertices_span
+    { return std::span{m_vertices}; }  // get_vertices_span
 
     /// @return Maximum time value in triangulation
     [[nodiscard]] auto max_time() const { return m_max_timevalue; }
@@ -1432,7 +1391,10 @@ namespace foliated_triangulations
       for (auto const& edge : m_edges)
       {
         if (classify_edge<3>(edge)) { fmt::print("==> timelike\n"); }
-        else { fmt::print("==> spacelike\n"); }
+        else
+        {
+          fmt::print("==> spacelike\n");
+        }
       }
     }  // print_edges
 
@@ -1456,21 +1418,15 @@ namespace foliated_triangulations
     /// @return Container of (3,1) cells
     [[nodiscard]] auto get_three_one() const noexcept
         -> std::span<Cell_handle const>
-    {
-      return std::span{m_three_one};
-    }  // get_three_one
+    { return std::span{m_three_one}; }  // get_three_one
 
     /// @return Container of (2,2) cells
     [[nodiscard]] auto get_two_two() const noexcept -> Cell_container const&
-    {
-      return m_two_two;
-    }  // get_two_two
+    { return m_two_two; }  // get_two_two
 
     /// @return Container of (1,3) cells
     [[nodiscard]] auto get_one_three() const noexcept -> Cell_container const&
-    {
-      return m_one_three;
-    }  // get_one_three
+    { return m_one_three; }  // get_one_three
 
     /// @brief Check that all cells are correctly classified
     /// @details A default triangulation will have no cells, and for this case
@@ -1491,9 +1447,7 @@ namespace foliated_triangulations
     /// @brief Print timevalues of each vertex in the cell and the resulting
     /// cell->info()
     void print_cells() const
-    {
-      foliated_triangulations::print_cells<3>(m_cells);
-    }
+    { foliated_triangulations::print_cells<3>(m_cells); }
 
     /// @brief Print triangulation statistics
     void print() const
@@ -1575,13 +1529,6 @@ namespace foliated_triangulations
   };
 
   using FoliatedTriangulation_3 = FoliatedTriangulation<3>;
-
-  /// 4D Triangulation
-  template <>
-  class [[nodiscard("This contains data!")]] FoliatedTriangulation<4>
-  {};
-
-  using FoliatedTriangulation_4 = FoliatedTriangulation<4>;
 
 }  // namespace foliated_triangulations
 

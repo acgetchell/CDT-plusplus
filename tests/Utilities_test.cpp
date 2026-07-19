@@ -104,9 +104,7 @@ SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
     WHEN("The triangulation is printed.")
     {
       THEN("No exception is thrown.")
-      {
-        CHECK_NOTHROW(print_delaunay(triangulation));
-      }
+      { CHECK_NOTHROW(print_delaunay(triangulation)); }
     }
   }
 }
@@ -282,37 +280,27 @@ SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
     WHEN("We request 2 simplices on 2 timeslices.")
     {
       THEN("The results are correct.")
-      {
-        REQUIRE_EQ(expected_points_per_timeslice(3, 2, 2), 2);
-      }
+      { REQUIRE_EQ(expected_points_per_timeslice(3, 2, 2), 2); }
     }
     WHEN("We request 500 simplices on 4 timeslices.")
     {
       THEN("The results are correct.")
-      {
-        REQUIRE_EQ(expected_points_per_timeslice(3, 500, 4), 50);
-      }
+      { REQUIRE_EQ(expected_points_per_timeslice(3, 500, 4), 50); }
     }
     WHEN("We request 5000 simplices on 8 timeslices.")
     {
       THEN("The results are correct.")
-      {
-        REQUIRE_EQ(expected_points_per_timeslice(3, 5000, 8), 125);
-      }
+      { REQUIRE_EQ(expected_points_per_timeslice(3, 5000, 8), 125); }
     }
     WHEN("We request 64,000 simplices on 16 timeslices.")
     {
       THEN("The results are correct.")
-      {
-        REQUIRE_EQ(expected_points_per_timeslice(3, 64000, 16), 600);
-      }
+      { REQUIRE_EQ(expected_points_per_timeslice(3, 64000, 16), 600); }
     }
     WHEN("We request 640,000 simplices on 64 timeslices.")
     {
       THEN("The results are correct.")
-      {
-        REQUIRE_EQ(expected_points_per_timeslice(3, 640000, 64), 1000);
-      }
+      { REQUIRE_EQ(expected_points_per_timeslice(3, 640000, 64), 1000); }
     }
     WHEN("We specify 4 dimensions")
     {
@@ -335,9 +323,7 @@ SCENARIO("Exact number (Gmpzf) conversion" * doctest::test_suite("utilities"))
     {
       auto const converted_value = Gmpzf_to_double(TEST_VALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
-      {
-        REQUIRE_EQ(TEST_VALUE, Gmpzf(converted_value));
-      }
+      { REQUIRE_EQ(TEST_VALUE, Gmpzf(converted_value)); }
     }
   }
 }

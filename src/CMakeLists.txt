@@ -11,18 +11,6 @@ target_link_libraries(
           CGAL::CGAL)
 target_compile_features(initialize PRIVATE cxx_std_23)
 
-add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
-target_link_libraries(
-  cdt-opt
-  PRIVATE project_options
-          project_warnings
-          date::date-tz
-          fmt::fmt-header-only
-          spdlog::spdlog_header_only
-          TBB::tbb
-          CGAL::CGAL)
-target_compile_features(cdt-opt PRIVATE cxx_std_23)
-
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
 target_link_libraries(
   cdt
@@ -36,45 +24,19 @@ target_link_libraries(
           CGAL::CGAL)
 target_compile_features(cdt PRIVATE cxx_std_23)
 
-# Build cdt-viewer locally, but not in CI since QT takes more than an hour to build there
-#if(APPLE AND NOT ($ENV{CI}))
-#  add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
-#  target_link_libraries(
-#    cdt-viewer
-#    PRIVATE project_options
-#            project_warnings
-#            date::date-tz
-#            Boost::program_options
-#            fmt::fmt-header-only
-#            Eigen3::Eigen
-#            spdlog::spdlog_header_only
-#            TBB::tbb
-#            CGAL::CGAL_Basic_viewer)
-#  target_compile_features(cdt-viewer PRIVATE cxx_std_23)
-#endif()
-
-# Build bistellar-flip locally, but not in CI since QT takes more than an hour to build there
-#if(APPLE AND NOT ($ENV{CI}))
-#  add_executable(bistellar-flip ${PROJECT_SOURCE_DIR}/src/bistellar-flip.cpp)
-#  target_link_libraries(
-#      bistellar-flip
-#      PRIVATE project_options
-#      project_warnings
-#      date::date-tz
-#      fmt::fmt-header-only
-#      Eigen3::Eigen
-#      spdlog::spdlog_header_only
-#      TBB::tbb)
-#      CGAL::CGAL_Basic_viewer)
-#  target_compile_features(bistellar-flip PRIVATE cxx_std_23)
-#endif()
-
 #
 # Tests    ##
 #
 
 add_test(NAME cdt COMMAND $<TARGET_FILE:cdt> -s -n127 -t4 -a0.6 -k1.1 -l0.1 -p10)
 set_tests_properties(cdt PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-[0-9]+-")
+
+add_test(
+  NAME cdt-no-output
+  COMMAND
+    ${CMAKE_COMMAND} -DCDT_EXECUTABLE=$<TARGET_FILE:cdt>
+    -DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-no-output
+    -P ${PROJECT_SOURCE_DIR}/cmake/RunCdtNoOutputTest.cmake)
 
 add_test(NAME cdt-triangle-inequalities COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -a0.4 -k1.1 -l0.1)
 set_tests_properties(cdt-triangle-inequalities PROPERTIES PASS_REGULAR_EXPRESSION "Triangle inequalities violated")
@@ -102,11 +64,3 @@ set_tests_properties(initialize-dimensionality PROPERTIES PASS_REGULAR_EXPRESSIO
 add_test(NAME initialize-toroidal COMMAND $<TARGET_FILE:initialize> -e -n64 -t3 -o)
 set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
                                                     "Toroidal triangulations not yet supported.")
-
-add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
-set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at" TIMEOUT 60)
-
-#if(APPLE AND NOT ($ENV{CI}))
-#  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --dry-run test.off)
-#  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "Dry run. Exiting.")
-#endif()

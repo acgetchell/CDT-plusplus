@@ -56,18 +56,14 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       }
 
       THEN("The Delaunay triangulation is valid.")
-      {
-        REQUIRE(manifold.is_valid());
-      }
+      { REQUIRE(manifold.is_valid()); }
 
       THEN("There is 1 vertex.") { REQUIRE_EQ(manifold.N0(), 1); }
 
       THEN("There are no edges.") { REQUIRE_EQ(manifold.N1(), 0); }
 
       THEN("A 1 vertex manifold has dimension 0.")
-      {
-        REQUIRE_EQ(manifold.dimensionality(), 0);
-      }
+      { REQUIRE_EQ(manifold.dimensionality(), 0); }
 
       THEN("The vertex is valid.")
       {
@@ -91,9 +87,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       }
 
       THEN("The Delaunay triangulation is valid.")
-      {
-        REQUIRE(manifold.is_valid());
-      }
+      { REQUIRE(manifold.is_valid()); }
 
       THEN("There are 2 vertices.") { REQUIRE_EQ(manifold.N0(), 2); }
 
@@ -102,9 +96,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("There are no faces.") { REQUIRE_EQ(manifold.N2(), 0); }
 
       THEN("A 2 vertex manifold has dimension 1.")
-      {
-        REQUIRE_EQ(manifold.dimensionality(), 1);
-      }
+      { REQUIRE_EQ(manifold.dimensionality(), 1); }
 
       THEN("The vertices are valid.")
       {
@@ -131,9 +123,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       }
 
       THEN("The Delaunay triangulation is valid.")
-      {
-        REQUIRE(manifold.is_valid());
-      }
+      { REQUIRE(manifold.is_valid()); }
 
       THEN("There are 3 vertices.") { REQUIRE_EQ(manifold.N0(), 3); }
 
@@ -144,9 +134,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("There are no simplices.") { REQUIRE_EQ(manifold.N3(), 0); }
 
       THEN("A 3 vertex manifold has dimension 2.")
-      {
-        REQUIRE_EQ(manifold.dimensionality(), 2);
-      }
+      { REQUIRE_EQ(manifold.dimensionality(), 2); }
 
       THEN("The vertices are valid.")
       {
@@ -174,9 +162,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       }
 
       THEN("The Delaunay triangulation is valid.")
-      {
-        REQUIRE(manifold.is_valid());
-      }
+      { REQUIRE(manifold.is_valid()); }
 
       THEN("There are 4 vertices.") { REQUIRE_EQ(manifold.N0(), 4); }
 
@@ -187,9 +173,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("There is a simplex.") { REQUIRE_EQ(manifold.N3(), 1); }
 
       THEN("A 4 vertex manifold has dimension 3.")
-      {
-        REQUIRE_EQ(manifold.dimensionality(), 3);
-      }
+      { REQUIRE_EQ(manifold.dimensionality(), 3); }
 
       THEN("The vertices are valid.")
       {
@@ -219,9 +203,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       }
 
       THEN("The Delaunay triangulation is valid.")
-      {
-        REQUIRE(manifold.is_valid());
-      }
+      { REQUIRE(manifold.is_valid()); }
 
       THEN("There are 5 vertices.") { REQUIRE_EQ(manifold.N0(), 5); }
 
@@ -232,9 +214,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("There are 2 simplexes.") { REQUIRE_EQ(manifold.N3(), 2); }
 
       THEN("A 5 vertex manifold still has dimension 3.")
-      {
-        REQUIRE_EQ(manifold.dimensionality(), 3);
-      }
+      { REQUIRE_EQ(manifold.dimensionality(), 3); }
 
       THEN("The vertices are valid.")
       {

@@ -268,9 +268,7 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
       auto result = bistellar_flip(triangulation, invalid_edge, top, bottom);
 
       THEN("The bistellar flip should fail")
-      {
-        CHECK_FALSE(result.has_value());
-      }
+      { CHECK_FALSE(result.has_value()); }
     }
 
     WHEN("We provide invalid edge indices")
@@ -301,17 +299,13 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
           bistellar_flip(triangulation, pivot_edge.value(), nullptr, bottom);
 
       THEN("The bistellar flip should fail")
-      {
-        CHECK_FALSE(result.has_value());
-      }
+      { CHECK_FALSE(result.has_value()); }
 
       auto result2 =
           bistellar_flip(triangulation, pivot_edge.value(), top, nullptr);
 
       THEN("The bistellar flip should fail")
-      {
-        CHECK_FALSE(result2.has_value());
-      }
+      { CHECK_FALSE(result2.has_value()); }
     }
 
     WHEN("We provide infinite vertices")
@@ -321,17 +315,13 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
                                             infinite_vertex, bottom);
 
       THEN("The bistellar flip should fail")
-      {
-        CHECK_FALSE(result.has_value());
-      }
+      { CHECK_FALSE(result.has_value()); }
 
       auto result2 = bistellar_flip(triangulation, pivot_edge.value(), top,
                                     infinite_vertex);
 
       THEN("The bistellar flip should fail")
-      {
-        CHECK_FALSE(result2.has_value());
-      }
+      { CHECK_FALSE(result2.has_value()); }
     }
   }
 }

@@ -12,6 +12,7 @@ coverage_file="${build_dir}/coverage.info"
 
 rm -rf -- "${build_dir}"
 cmake -S "${repo_root}" -B "${build_dir}" -D ENABLE_COVERAGE:BOOL=TRUE \
+  -D CMAKE_BUILD_TYPE=Debug \
   --trace-source="${repo_root}/CMakeLists.txt" \
   --trace-source="${repo_root}/cmake/Coverage.cmake"
 cmake --build "${build_dir}" --config Debug

@@ -56,9 +56,7 @@ namespace ergodic_moves
   /// @returns The null-moved manifold
   [[nodiscard]] inline auto null_move(Manifold const& t_manifold) noexcept
       -> Expected
-  {
-    return t_manifold;
-  }  // null_move
+  { return t_manifold; }  // null_move
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
   /// @param t_manifold The manifold containing the cell to flip
@@ -329,7 +327,10 @@ namespace ergodic_moves
         {
           spdlog::trace("It's a vertex in the TDS.\n");
         }
-        else { spdlog::trace("It's not a vertex in the TDS.\n"); }
+        else
+        {
+          spdlog::trace("It's not a vertex in the TDS.\n");
+        }
         spdlog::trace("Spacelike face timevalue is {}.\n", timevalue);
         spdlog::trace("Inserted vertex ({}) with timevalue {}.\n",
                       utilities::point_to_str(v_center->point()),
@@ -368,8 +369,9 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @returns True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(
-      Manifold const& manifold, Vertex_handle const& candidate) -> bool
+  [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
+                                          Vertex_handle const& candidate)
+      -> bool
   {
     if (manifold.dimensionality() != 3)
     {
@@ -469,6 +471,75 @@ namespace ergodic_moves
 
   }  // find_62_moves()
 
+  /// @brief Apply the combinatorial (6,2) retriangulation on a private copy.
+  /// @details A (3,2) flip of either timelike edge incident to the removable
+  /// vertex leaves that vertex with degree four. Removing it from its maximal
+  /// simplex then replaces the original six cells with the required two cells.
+  /// Keeping both operations in a private copy makes rejection failure-atomic.
+  /// @param source_triangulation The triangulation containing the candidate
+  /// @param source_candidate The degree-five vertex to remove
+  /// @returns The moved triangulation, or nullopt when the topology is not
+  /// flippable or the result violates a triangulation or causal-cell invariant
+  [[nodiscard]] inline auto try_62_move(Delaunay const& source_triangulation,
+                                        Vertex_handle const source_candidate)
+      -> std::optional<Delaunay>
+  {
+    if (!source_triangulation.tds().is_vertex(source_candidate) ||
+        source_triangulation.is_infinite(source_candidate))
+    {
+      return std::nullopt;
+    }
+
+    auto const candidate_point = source_candidate->point();
+    Delaunay   triangulation{source_triangulation};
+    auto const copied_candidate =
+        foliated_triangulations::find_vertex<3>(triangulation, candidate_point);
+    if (!copied_candidate) { return std::nullopt; }
+
+    auto const     candidate    = *copied_candidate;
+    auto&          tds          = triangulation.tds();
+    auto const     old_cells    = triangulation.number_of_finite_cells();
+    auto const     old_vertices = triangulation.number_of_vertices();
+
+    Edge_container incident_edges;
+    triangulation.finite_incident_edges(candidate,
+                                        std::back_inserter(incident_edges));
+    std::ranges::shuffle(incident_edges, utilities::make_random_generator());
+
+    auto const is_timelike = [](Edge_handle const& edge) {
+      auto const first_time  = edge.first->vertex(edge.second)->info();
+      auto const second_time = edge.first->vertex(edge.third)->info();
+      return first_time != second_time;
+    };
+    auto const flipped = std::ranges::any_of(
+        incident_edges,
+        [&](auto const& edge) { return is_timelike(edge) && tds.flip(edge); });
+    if (!flipped || tds.degree(candidate) != 4 || !tds.is_valid())
+    {
+      return std::nullopt;
+    }
+
+    tds.remove_from_maximal_dimension_simplex(candidate);
+    if (!tds.is_valid() ||
+        triangulation.number_of_finite_cells() + 4 != old_cells ||
+        triangulation.number_of_vertices() + 1 != old_vertices)
+    {
+      return std::nullopt;
+    }
+
+    for (auto const cell : triangulation.finite_cell_handles())
+    {
+      auto const type = foliated_triangulations::expected_cell_type<3>(cell);
+      if (type == Cell_type::ACAUSAL || type == Cell_type::UNCLASSIFIED)
+      {
+        return std::nullopt;
+      }
+      cell->info() = static_cast<Int_precision>(type);
+    }
+
+    return triangulation;
+  }  // try_62_move()
+
   /// @brief Perform a (6,2) move
   /// @details This function performs a (6,2) move on the given manifold.
   /// A (6,2) move removes a vertex which has 3 incident (3,1) simplices
@@ -503,8 +574,12 @@ namespace ergodic_moves
                                  });
         movable_vertex_iterator != vertices.end())
     {
-      t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);
-      return t_manifold;
+      if (auto moved =
+              try_62_move(t_manifold.get_delaunay(), *movable_vertex_iterator))
+      {
+        t_manifold.triangulation().delaunay().swap(*moved);
+        return t_manifold;
+      }
     }
     // We've run out of vertices to try
     std::string const msg = "No (6,2) move possible.\n";
@@ -519,8 +594,8 @@ namespace ergodic_moves
   /// @see
   /// https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094
   [[nodiscard]] inline auto incident_cells_from_edge(
-      Delaunay_t<3> const& triangulation,
-      Edge_handle const&   edge) -> std::optional<Cell_container>
+      Delaunay_t<3> const& triangulation, Edge_handle const& edge)
+      -> std::optional<Cell_container>
   {
     if (!detail::is_well_formed_edge(edge) ||
         !triangulation.tds().is_edge(edge.first, edge.second, edge.third))
@@ -533,7 +608,8 @@ namespace ergodic_moves
     Cell_container incident_cells;
     // Add cells to the container until we get back to the first one in the
     // circulator
-    do {  // NOLINT(cppcoreguidelines-avoid-do-while)
+    do
+    {  // NOLINT(cppcoreguidelines-avoid-do-while)
       // Ignore cells containing the infinite vertex
       if (triangulation.is_infinite(circulator)) { continue; }
       incident_cells.emplace_back(circulator);
@@ -554,8 +630,8 @@ namespace ergodic_moves
   /// @param t_edge_candidate The edge to check
   /// @returns A container of incident cells if there are exactly 4 or nullopt
   [[nodiscard]] inline auto find_bistellar_flip_location(
-      Delaunay const&    triangulation,
-      Edge_handle const& t_edge_candidate) -> std::optional<Cell_container>
+      Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
+      -> std::optional<Cell_container>
   {
     if (auto incident_cells =
             incident_cells_from_edge(triangulation, t_edge_candidate);
@@ -594,10 +670,11 @@ namespace ergodic_moves
   /// @param source_top Top vertex of the cells being flipped
   /// @param source_bottom Bottom vertex of the cells being flipped
   /// @returns A flipped triangulation or nullopt
-  [[nodiscard]] inline auto bistellar_flip(
-      Delaunay const& source_triangulation, Edge_handle const source_edge,
-      Vertex_handle const source_top,
-      Vertex_handle const source_bottom) -> std::optional<Delaunay>
+  [[nodiscard]] inline auto bistellar_flip(Delaunay const& source_triangulation,
+                                           Edge_handle const   source_edge,
+                                           Vertex_handle const source_top,
+                                           Vertex_handle const source_bottom)
+      -> std::optional<Delaunay>
   {
     if (!detail::is_well_formed_edge(source_edge) || source_top == nullptr ||
         source_bottom == nullptr ||
@@ -865,9 +942,10 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(
-      Manifold const& t_before, Manifold const& t_after,
-      move_tracker::move_type const& t_move) -> bool
+  [[nodiscard]] inline auto check_move(Manifold const&                t_before,
+                                       Manifold const&                t_after,
+                                       move_tracker::move_type const& t_move)
+      -> bool
   {
     switch (t_move)
     {

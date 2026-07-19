@@ -20,6 +20,7 @@
 
 /// @brief The Move Always algorithm
 template <typename ManifoldType>
+  requires(ManifoldType::dimension == 3)
 class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
   using Counter = move_tracker::MoveTracker<ManifoldType>;
@@ -110,14 +111,11 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
       {
         // Pick a move to attempt
         auto move_choice = utilities::generate_random_int(
-            0, move_tracker::moves_per_dimension(ManifoldType::dimension) - 1);
+            0, move_tracker::NUMBER_OF_3D_MOVES - 1);
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);
 #endif
-        if constexpr (ManifoldType::dimension == 3)
-        {
-          command.enqueue(move_tracker::as_move(move_choice));
-        }
+        command.enqueue(move_tracker::as_move(move_choice));
       }
       command.execute();
       // Update attempted, successful, and failed moves
@@ -140,36 +138,31 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @brief Display results of run
   void print_results()
   {
-    if (ManifoldType::dimension == 3)
-    {
-      fmt::print("=== Move Results ===\n");
-      fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.two_three_moves(),
-                 m_successful_moves.two_three_moves(),
-                 m_failed_moves.two_three_moves());
-      fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.three_two_moves(),
-                 m_successful_moves.three_two_moves(),
-                 m_failed_moves.three_two_moves());
-      fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.two_six_moves(),
-                 m_successful_moves.two_six_moves(),
-                 m_failed_moves.two_six_moves());
-      fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.six_two_moves(),
-                 m_successful_moves.six_two_moves(),
-                 m_failed_moves.six_two_moves());
-      fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.four_four_moves(),
-                 m_successful_moves.four_four_moves(),
-                 m_failed_moves.four_four_moves());
-    }
+    fmt::print("=== Move Results ===\n");
+    fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.two_three_moves(),
+               m_successful_moves.two_three_moves(),
+               m_failed_moves.two_three_moves());
+    fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.three_two_moves(),
+               m_successful_moves.three_two_moves(),
+               m_failed_moves.three_two_moves());
+    fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.two_six_moves(),
+               m_successful_moves.two_six_moves(),
+               m_failed_moves.two_six_moves());
+    fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.six_two_moves(),
+               m_successful_moves.six_two_moves(),
+               m_failed_moves.six_two_moves());
+    fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.four_four_moves(),
+               m_successful_moves.four_four_moves(),
+               m_failed_moves.four_four_moves());
   }
 };
 
 using MoveAlways_3 =
     MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_3>;
-using MoveAlways_4 =
-    MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_4>;
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

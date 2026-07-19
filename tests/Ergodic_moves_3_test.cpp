@@ -329,7 +329,10 @@ SCENARIO(
       {
         manifold.update();
       }
-      else { spdlog::info("The (6,2) move failed.\n"); }
+      else
+      {
+        spdlog::info("The (6,2) move failed.\n");
+      }
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Check the move
@@ -420,7 +423,10 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
         manifold = std::move(result).value();
         manifold.update();
       }
-      else { spdlog::info("The (4,4) move failed.\n"); }
+      else
+      {
+        spdlog::info("The (4,4) move failed.\n");
+      }
       fmt::print("Manifold after (4,4):\n");
       manifold.print_details();
       manifold.print_cells();
@@ -495,9 +501,7 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
         if (incident_cells)
         {
           THEN("We can obtain the cells incident to that edge")
-          {
-            REQUIRE_EQ(incident_cells->size(), 4);
-          }
+          { REQUIRE_EQ(incident_cells->size(), 4); }
           AND_THEN("We can obtain the vertices from the incident cells")
           {
             auto incident_vertices =
@@ -533,9 +537,22 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
         Point_t<3>{          0,           0,          2}
     };
     ergodic_moves::Delaunay triangulation(vertices.begin(), vertices.end());
+
+    for (auto vertex = triangulation.finite_vertices_begin();
+         vertex != triangulation.finite_vertices_end(); ++vertex)
+    {
+      auto const z = vertex->point().z();
+      if (z < 0.1) { vertex->info() = 0; }
+      else if (z < 1.5) { vertex->info() = 1; }
+      else
+      {
+        vertex->info() = 2;
+      }
+    }
+
     WHEN("We have a valid triangulation")
     {
-      CHECK(triangulation.is_valid());
+      REQUIRE(triangulation.is_valid());
       THEN("We can perform a bistellar flip")
       {
         // Obtain top and bottom vertices by re-inserting, which returns the
@@ -557,9 +574,18 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
           REQUIRE_MESSAGE(flipped_triangulation, "Bistellar flip failed.");
           if (flipped_triangulation)
           {
-            /// FIXME: This fails because the triangulation is not valid after
-            /// the flip neighbor of c has not c as neighbor
-            WARN(flipped_triangulation->is_valid());
+            REQUIRE(flipped_triangulation->is_valid());
+            CHECK(flipped_triangulation->tds().is_valid());
+            for (auto cell = flipped_triangulation->finite_cells_begin();
+                 cell != flipped_triangulation->finite_cells_end(); ++cell)
+            {
+              for (int index = 0; index < 4; ++index)
+              {
+                auto const neighbor = cell->neighbor(index);
+                REQUIRE(neighbor != nullptr);
+                CHECK(neighbor->has_neighbor(cell));
+              }
+            }
           }
         }
       }

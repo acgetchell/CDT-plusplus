@@ -103,16 +103,4 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
 
 using Geometry_3 = Geometry<3>;
 
-template <>
-struct [[nodiscard("This contains data!")]] Geometry<4>
-{
-  Int_precision N4{0};
-  Int_precision N3{0};
-  Int_precision N2{0};
-  Int_precision N1{0};
-  Int_precision N0{0};
-};  // struct Geometry<4>
-
-using Geometry_4 = Geometry<4>;
-
 #endif  // CDT_PLUSPLUS_GEOMETRY_HPP

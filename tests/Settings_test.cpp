@@ -25,9 +25,7 @@ SCENARIO("Check settings" * doctest::test_suite("settings"))
     WHEN("The integer type is queried.")
     {
       THEN("The type is a portable signed 32-bit integer.")
-      {
-        CHECK((std::same_as<Int_precision, std::int32_t>));
-      }
+      { CHECK((std::same_as<Int_precision, std::int32_t>)); }
     }
     WHEN("MPFR precision is queried.")
     {

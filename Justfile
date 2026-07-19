@@ -7,7 +7,7 @@ just_version := "1.56.0"
 uv_version := "0.11.29"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
-clang_format_version := "18"
+llvm_version := "22"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 
 # Build the supported configuration through the repository build script.
@@ -25,11 +25,21 @@ check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespac
 ci: check _pinact-check build
     @echo "CI validation complete."
 
-# Apply safe automatic formatting to changed C++/Python source and the Justfile.
+# Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]
 fix: _format-fix python-fix
     just --fmt
     @echo "Fixes applied."
+
+# Run Clang-Tidy with the pinned LLVM toolchain.
+[group('workflows')]
+clang-tidy:
+    ./scripts/clang-tidy.sh
+
+# Build and exercise one supported Linux sanitizer configuration.
+[group('workflows')]
+sanitize kind:
+    ./scripts/sanitizer.sh {{ kind }}
 
 # Run every non-mutating Python source check.
 [group('workflows')]
@@ -91,7 +101,7 @@ _action-lint:
     set -euo pipefail
     files=()
     while IFS= read -r -d '' file; do
-      files+=("$file")
+      [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '.github/workflows/*.yml' '.github/workflows/*.yaml')
     if command -v actionlint >/dev/null; then
       actionlint "${files[@]}"
@@ -106,7 +116,7 @@ _action-lint:
 _build-unix:
     #!/usr/bin/env bash
     set -euo pipefail
-    if [[ "${CDT_PKGX_ACTIVE:-0}" != 1 ]] && command -v pkgx >/dev/null; then
+    if command -v pkgx >/dev/null; then
       exec ./scripts/pkgx-build.sh
     fi
     exec ./scripts/build.sh
@@ -139,57 +149,40 @@ _ensure-uv:
 _resolve-clang-format:
     #!/usr/bin/env bash
     set -euo pipefail
-    clang_format="$(command -v clang-format-{{ clang_format_version }} || command -v clang-format || true)"
-    if [[ -n "$clang_format" ]] && ! "$clang_format" --version | grep -Eq 'clang-format version {{ clang_format_version }}([.]|$)'; then
+    clang_format="$(command -v clang-format-{{ llvm_version }} || command -v clang-format || true)"
+    if [[ -n "$clang_format" ]] && ! "$clang_format" --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'; then
       clang_format=""
     fi
     if [[ -z "$clang_format" ]] && command -v pkgx >/dev/null; then
-      exec pkgx +llvm.org@{{ clang_format_version }} +python.org -- just _resolve-clang-format
+      exec pkgx +llvm.org@{{ llvm_version }} -- just _resolve-clang-format
     fi
-    [[ -n "$clang_format" ]] || { echo "clang-format {{ clang_format_version }} is required; install it or install pkgx." >&2; exit 1; }
-    clang_format_prefix="$(cd -- "$(dirname -- "$clang_format")/.." && pwd)"
-    clang_format_diff=""
-    for candidate in \
-      "$(command -v clang-format-diff-{{ clang_format_version }} || true)" \
-      "${clang_format_prefix}/share/clang/clang-format-diff.py"; do
-      if [[ -x "$candidate" ]]; then
-        clang_format_diff="$candidate"
-        break
-      fi
-    done
-    [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py from LLVM {{ clang_format_version }} is required." >&2; exit 1; }
-    printf '%s\t%s\n' "$clang_format" "$clang_format_diff"
+    [[ -n "$clang_format" ]] || { echo "clang-format {{ llvm_version }} is required; install it or install pkgx." >&2; exit 1; }
+    printf '%s\n' "$clang_format"
 
 [private]
 _format-check:
     #!/usr/bin/env bash
     set -euo pipefail
-    IFS=$'\t' read -r clang_format clang_format_diff < <(just _resolve-clang-format)
-    diff_output="$(git diff -U0 --no-color HEAD -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp' | "$clang_format_diff" -p1 -style file -binary "$clang_format")"
-    if [[ -n "$diff_output" ]]; then
-      printf '%s\n' "$diff_output"
-      exit 1
-    fi
-    untracked=()
+    clang_format="$(just _resolve-clang-format)"
+    files=()
     while IFS= read -r -d '' file; do
-      untracked+=("$file")
-    done < <(git ls-files --others --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
-    if [[ "${#untracked[@]}" -gt 0 ]]; then
-      "$clang_format" --dry-run --Werror "${untracked[@]}"
+      [[ -f "$file" ]] && files+=("$file")
+    done < <(git ls-files -co --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
+    if [[ "${#files[@]}" -gt 0 ]]; then
+      "$clang_format" --dry-run --Werror "${files[@]}"
     fi
 
 [private]
 _format-fix:
     #!/usr/bin/env bash
     set -euo pipefail
-    IFS=$'\t' read -r clang_format clang_format_diff < <(just _resolve-clang-format)
-    git diff -U0 --no-color HEAD -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp' | "$clang_format_diff" -p1 -i -style file -binary "$clang_format"
-    untracked=()
+    clang_format="$(just _resolve-clang-format)"
+    files=()
     while IFS= read -r -d '' file; do
-      untracked+=("$file")
-    done < <(git ls-files --others --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
-    if [[ "${#untracked[@]}" -gt 0 ]]; then
-      "$clang_format" -i "${untracked[@]}"
+      [[ -f "$file" ]] && files+=("$file")
+    done < <(git ls-files -co --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
+    if [[ "${#files[@]}" -gt 0 ]]; then
+      "$clang_format" -i "${files[@]}"
     fi
 
 [private]
@@ -218,7 +211,17 @@ _pinact-check:
 
 [private]
 _whitespace-check:
-    git diff --check HEAD
+    #!/usr/bin/env bash
+    set -euo pipefail
+    set +e
+    git --no-pager grep -nI -E '[[:blank:]]+$' -- .
+    status=$?
+    set -e
+    if [[ "$status" -eq 0 ]]; then
+      echo "Trailing whitespace found in tracked files." >&2
+      exit 1
+    fi
+    [[ "$status" -eq 1 ]] || exit "$status"
 
 [private]
 _yaml-check:
@@ -226,7 +229,7 @@ _yaml-check:
     set -euo pipefail
     files=(.clang-format)
     while IFS= read -r -d '' file; do
-      files+=("$file")
+      [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.yml' '*.yaml')
     if command -v yamllint >/dev/null; then
       yamllint "${files[@]}"

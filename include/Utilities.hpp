@@ -50,8 +50,8 @@ enum class topology_type
 /// @param t_os The output stream
 /// @param t_topology The topology
 /// @returns An output string of the topology
-inline auto operator<<(std::ostream&        t_os,
-                       topology_type const& t_topology) -> std::ostream&
+inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
+    -> std::ostream&
 {
   switch (t_topology)
   {
@@ -87,15 +87,20 @@ namespace utilities
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
   /// @returns A filename
-  [[nodiscard]] inline auto make_filename(
-      topology_type const& t_topology, Int_precision t_dimension,
-      Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices,
-      double t_initial_radius,
-      double t_foliation_spacing) noexcept -> std::filesystem::path
+  [[nodiscard]] inline auto make_filename(topology_type const& t_topology,
+                                          Int_precision        t_dimension,
+                                          Int_precision t_number_of_simplices,
+                                          Int_precision t_number_of_timeslices,
+                                          double        t_initial_radius,
+                                          double t_foliation_spacing) noexcept
+      -> std::filesystem::path
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
-    else { filename += "T"; }
+    else
+    {
+      filename += "T";
+    }
     // std::to_string() works in C++11, but not earlier
     filename += std::to_string(t_dimension);
 
@@ -212,7 +217,7 @@ namespace utilities
   }  // read_file
 
   /// @brief Roll a die with PCG
-  [[nodiscard]] inline auto die_roll() noexcept
+  [[nodiscard]] inline auto die_roll()
   {
     pcg_extras::seed_seq_from<std::random_device> seed_source;
 
@@ -240,7 +245,7 @@ namespace utilities
   /// max_value
   template <typename NumberType, class Distribution>
   [[nodiscard]] auto generate_random(NumberType t_min_value,
-                                     NumberType t_max_value) noexcept
+                                     NumberType t_max_value)
   {
     pcg_extras::seed_seq_from<std::random_device> seed_source;
     // Make a random number generator
@@ -251,7 +256,7 @@ namespace utilities
 
   /// @brief Make a high-quality random number generator usable by std::shuffle
   /// @returns A RNG
-  inline auto make_random_generator() noexcept
+  inline auto make_random_generator()
   {
     pcg_extras::seed_seq_from<std::random_device> seed_source;
     pcg64                                         generator(seed_source);
@@ -262,7 +267,7 @@ namespace utilities
   /// template argument deduction
   template <typename IntegerType>
   [[nodiscard]] auto generate_random_int(IntegerType t_min_value,
-                                         IntegerType t_max_value) noexcept
+                                         IntegerType t_max_value)
   {
     using int_dist = std::uniform_int_distribution<IntegerType>;
     return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
@@ -270,8 +275,8 @@ namespace utilities
 
   /// @brief Generate a random timeslice
   template <typename IntegerType>
-  [[nodiscard]] auto generate_random_timeslice(
-      IntegerType&& t_max_timeslice) noexcept -> decltype(auto)
+  [[nodiscard]] auto generate_random_timeslice(IntegerType&& t_max_timeslice)
+      -> decltype(auto)
   {
     return generate_random_int(static_cast<IntegerType>(1),
                                std::forward<IntegerType>(t_max_timeslice));
@@ -280,8 +285,8 @@ namespace utilities
   /// @brief Generate random real numbers by calling generate_random, preserves
   /// template argument deduction
   template <typename FloatingPointType>
-  [[nodiscard]] auto generate_random_real(
-      FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept
+  [[nodiscard]] auto generate_random_real(FloatingPointType t_min_value,
+                                          FloatingPointType t_max_value)
   {
     using real_dist = std::uniform_real_distribution<FloatingPointType>;
     return generate_random<FloatingPointType, real_dist>(t_min_value,
@@ -289,7 +294,7 @@ namespace utilities
   }  // generate_random_real()
 
   /// @brief Generate a probability
-  [[nodiscard]] inline auto generate_probability() noexcept
+  [[nodiscard]] inline auto generate_probability()
   {
     auto constexpr min = 0.0L;
     auto constexpr max = 1.0L;
@@ -362,9 +367,7 @@ namespace utilities
   /// @param t_value An exact Gmpzf multiple-precision floating point number
   /// @returns The double conversion
   [[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& t_value) -> double
-  {
-    return t_value.to_double();
-  }  // Gmpzf_to_double
+  { return t_value.to_double(); }  // Gmpzf_to_double
 
   /// @brief Create console and file loggers
   /// @details Create a console and file loggers.

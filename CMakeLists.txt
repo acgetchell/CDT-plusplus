@@ -14,11 +14,11 @@ endif ()
 # In Manifest mode CMake invokes vcpkg automatically This makes setup easier, however, in CI or Docker we may want to
 # turn this off
 option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" ON)
-
-# Ensure we install vcpkg ports in the same place so they can be reused between builds
-set(_VCPKG_INSTALLED_DIR
-    "${CMAKE_CURRENT_LIST_DIR}/vcpkg_installed"
-    CACHE STRING "")
+set(_vcpkg_install_options ${VCPKG_INSTALL_OPTIONS})
+list(APPEND _vcpkg_install_options "--no-print-usage")
+list(REMOVE_DUPLICATES _vcpkg_install_options)
+set(VCPKG_INSTALL_OPTIONS "${_vcpkg_install_options}" CACHE STRING "Additional options passed to vcpkg install" FORCE)
+unset(_vcpkg_install_options)
 
 project(
   CDT-plusplus
@@ -59,9 +59,6 @@ enable_coverage(project_options)
 
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
-
-include(cmake/Valgrind.cmake)
-enable_valgrind(project_options)
 
 # allow for static analysis options
 include(cmake/StaticAnalyzers.cmake)

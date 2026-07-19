@@ -19,53 +19,9 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    env:
-      ASAN_OPTIONS: fast_unwind_on_malloc=0:halt_on_error=1:symbolize=1
-      UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
-
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-          submodules: true
-
-      - name: Setup
-        run: |
-          sudo apt update
-          sudo apt-get install --yes \
-            automake autoconf autoconf-archive build-essential ccache \
-            libtool-bin ninja-build texinfo yasm
-
-      - name: Setup Clang
-        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
-        with:
-          +: llvm.org@20
-
-      - run: clang --version
-
-      - name: Restore artifacts or setup vcpkg
-        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
-
-      - name: Configure
-        run: cmake --preset=asan
-
-      - name: Build
-        run: cmake --build build -j 2
-
-      - name: Run tests
-        working-directory: build
-        run: ctest --no-tests=error --output-on-failure
-
-      - name: Run ASAN on initialize
-        working-directory: build/src
-        run: ./initialize --s -n32000 -t11 -o
-
-      - name: Run ASAN on cdt-opt
-        working-directory: build/src
-        run: ./cdt-opt
-
-      - name: Run ASAN on cdt
-        working-directory: build/src
-        run: ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10
+    uses: ./.github/workflows/_sanitizer.yml
+    with:
+      preset: asan
+      job_name: AddressSanitizer + UndefinedBehaviorSanitizer
+      asan_options: fast_unwind_on_malloc=0:halt_on_error=1:symbolize=1
+      ubsan_options: halt_on_error=1:print_stacktrace=1

@@ -23,13 +23,18 @@
 namespace move_tracker
 {
   static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
-  static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
 
   /**
    * \brief The types of 3D ergodic moves
    */
-  enum class [[nodiscard("This contains data!")]] move_type{
-      TWO_THREE = 0, THREE_TWO = 1, TWO_SIX = 2, SIX_TWO = 3, FOUR_FOUR = 4};
+  enum class [[nodiscard("This contains data!")]] move_type
+  {
+    TWO_THREE = 0,
+    THREE_TWO = 1,
+    TWO_SIX   = 2,
+    SIX_TWO   = 3,
+    FOUR_FOUR = 4
+  };
 
   /**
    * \brief Convert enum to integer
@@ -71,26 +76,14 @@ namespace move_tracker
   }  // generate_random_move_3
 
   /**
-   * \brief Determine the ergodic moves for a given dimensionality
-   * \param dim Dimensionality of the manifold
-   * \return The number of ergodic moves for that dimensionality
-   */
-  auto constexpr moves_per_dimension(Int_precision const dim) -> Int_precision
-  {
-    if (dim == 3) { return NUMBER_OF_3D_MOVES; }
-    if (dim == 4) { return NUMBER_OF_4D_MOVES; }
-    return 0;  // Error condition
-  }  // moves_per_dimension
-
-  /**
    * \brief The data and methods to track ergodic moves
    * \tparam ManifoldType The type of manifold on which moves are made
    */
   template <typename ManifoldType>
+    requires(ManifoldType::dimension == 3)
   class MoveTracker
   {
-    using Container =
-        std::array<Int_precision, moves_per_dimension(ManifoldType::dimension)>;
+    using Container = std::array<Int_precision, NUMBER_OF_3D_MOVES>;
 
     Container moves = {0};  // NOLINT
 
@@ -107,9 +100,7 @@ namespace move_tracker
      * \return The number of moves at the index
      */
     auto operator[](gsl::index index) -> auto&
-    {
-      return gsl::at(moves, index);
-    }  // operator[]
+    { return gsl::at(moves, index); }  // operator[]
 
     /**
      * \brief The [] operator for MoveTracker
@@ -117,9 +108,7 @@ namespace move_tracker
      * \return The number of moves of that type
      */
     auto operator[](move_type const move) const -> auto&
-    {
-      return gsl::at(moves, as_integer(move));
-    }  // operator[]
+    { return gsl::at(moves, as_integer(move)); }  // operator[]
 
     /**
      * \brief The += operator for MoveTracker
@@ -211,49 +200,6 @@ namespace move_tracker
      * \return Value of number of (4,4) moves
      */
     auto four_four_moves() const { return gsl::at(moves, 4); }
-
-    // 4D
-    /// @brief Write access to (2,4) moves
-    auto two_four_moves() -> auto& { return gsl::at(moves, 0); }
-
-    /// @brief Read access to (2,4) moves
-    auto two_four_moves() const { return gsl::at(moves, 0); }
-
-    /// @brief Write access to (4,2) moves
-    auto four_two_moves() -> auto& { return gsl::at(moves, 1); }
-
-    /// @brief Read access to (4,2) moves
-    auto four_two_moves() const { return gsl::at(moves, 1); }
-
-    /// @brief Write access to (3,3) moves
-    auto three_three_moves() -> auto& { return gsl::at(moves, 2); }
-
-    /// @brief Read access to (3,3) moves
-    auto three_three_moves() const { return gsl::at(moves, 2); }
-
-    /// @brief Write access to (4,6) moves
-    auto four_six_moves() -> auto& { return gsl::at(moves, 3); }
-
-    /// @brief Read access to (4,6) moves
-    auto four_six_moves() const { return gsl::at(moves, 3); }
-
-    /// @brief Write access to (6,4) moves
-    auto six_four_moves() -> auto& { return gsl::at(moves, 4); }
-
-    /// @brief Read access to (6,4) moves
-    auto six_four_moves() const { return gsl::at(moves, 4); }
-
-    /// @brief Write access to (2,8) moves
-    auto two_eight_moves() -> auto& { return gsl::at(moves, 5); }  // NOLINT
-
-    /// @brief Read access to (2,8) moves
-    auto two_eight_moves() const { return gsl::at(moves, 5); }  // NOLINT
-
-    /// @brief Write access to (8,2) moves
-    auto eight_two_moves() -> auto& { return gsl::at(moves, 6); }  // NOLINT
-
-    /// @brief Read access to (8,2) moves
-    auto eight_two_moves() const { return gsl::at(moves, 6); }  // NOLINT
 
     /// @brief Reset all moves counts to zero
     void reset() { moves.fill(0); }

@@ -92,24 +92,6 @@
       }
     },
     {
-      "name": "valgrind",
-      "description": "Configure the Valgrind diagnostics",
-      "inherits": "common",
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Linux"
-      },
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
-        "CMAKE_BUILD_TYPE": "Debug",
-        "ENABLE_CACHE": false,
-        "ENABLE_TESTING": true,
-        "ENABLE_VALGRIND": true
-      }
-    },
-    {
       "name": "cppcheck",
       "description": "Configure the cppcheck diagnostics",
       "inherits": "common",
@@ -139,14 +121,14 @@
     {
       "name": "reference-smoke",
       "displayName": "Run the supported reference smoke tests",
-      "description": "Exclude known failures and nondeterministic tests",
+      "description": "Exclude the full and duplicate unit-test registrations",
       "configurePreset": "reference",
       "output": {
         "outputOnFailure": true
       },
       "filter": {
         "exclude": {
-          "name": "^(cdt-unit-tests|cdt-opt|cdt-utilities-tests)$",
+          "name": "^(cdt-unit-tests|cdt-utilities-tests)$",
           "label": "reference-smoke-exclude"
         }
       },

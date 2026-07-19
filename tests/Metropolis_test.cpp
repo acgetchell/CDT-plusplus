@@ -27,52 +27,46 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible_v<Metropolis_3>);
-        REQUIRE(is_nothrow_destructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
         REQUIRE(is_nothrow_default_constructible_v<Metropolis_3>);
-        REQUIRE(is_nothrow_default_constructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {
         REQUIRE(is_nothrow_copy_constructible_v<Metropolis_3>);
-        REQUIRE(is_nothrow_copy_constructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
         REQUIRE(is_nothrow_copy_assignable_v<Metropolis_3>);
-        REQUIRE(is_nothrow_copy_assignable_v<Metropolis_4>);
         spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
         REQUIRE(is_nothrow_move_constructible_v<Metropolis_3>);
-        REQUIRE(is_nothrow_move_constructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
         REQUIRE(is_nothrow_move_assignable_v<Metropolis_3>);
-        REQUIRE(is_nothrow_move_assignable_v<Metropolis_4>);
         spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<Metropolis_3>);
-        REQUIRE(is_nothrow_swappable_v<Metropolis_4>);
         spdlog::debug("It is no-throw swappable.\n");
       }
-      THEN("It is constructible from 5 parameters.")
+      THEN("It is constructible with default or explicit file output.")
       {
         REQUIRE(is_constructible_v<Metropolis_3, long double, long double,
                                    long double, Int_precision, Int_precision>);
-        REQUIRE(is_constructible_v<Metropolis_4, long double, long double,
-                                   long double, Int_precision, Int_precision>);
-        spdlog::debug("It is constructible from 5 parameters.\n");
+        REQUIRE(is_constructible_v<Metropolis_3, long double, long double,
+                                   long double, Int_precision, Int_precision,
+                                   bool>);
+        spdlog::debug("Its file-output policy is configurable.\n");
       }
     }
   }
@@ -102,12 +96,20 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
         CHECK_EQ(testrun.Lambda(), Lambda);
         CHECK_EQ(testrun.passes(), passes);
         CHECK_EQ(testrun.checkpoint(), output_every_n_passes);
+        CHECK(testrun.writes_files());
         CHECK_EQ(testrun.get_proposed().total(), 0);
         CHECK_EQ(testrun.get_accepted().total(), 0);
         CHECK_EQ(testrun.get_rejected().total(), 0);
         CHECK_EQ(testrun.get_attempted().total(), 0);
         CHECK_EQ(testrun.get_succeeded().total(), 0);
         CHECK_EQ(testrun.get_failed().total(), 0);
+      }
+      THEN("File output can be disabled without changing checkpoint cadence.")
+      {
+        Metropolis_3 const no_file_output_run(Alpha, K, Lambda, passes,
+                                              output_every_n_passes, false);
+        CHECK_EQ(no_file_output_run.checkpoint(), output_every_n_passes);
+        CHECK_FALSE(no_file_output_run.writes_files());
       }
       CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, -1, output_every_n_passes),
                       std::invalid_argument);

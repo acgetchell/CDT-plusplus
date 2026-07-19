@@ -16,7 +16,3 @@ rm -rf -- "${build_dir}"
 cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S "${repo_root}" -B "${build_dir}"
 cmake --build "${build_dir}"
 ctest --test-dir "${build_dir}" --no-tests=error --output-on-failure -j2
-#mkdir "$HOME"/data/"$(date +%Y-%m-%d.%R%Z)"
-#cp cdt-opt "$HOME"/data/"$(date +%Y-%m-%d.%R%Z)"/
-#cd "$HOME"/data/"$(date +%Y-%m-%d.%R%Z)" || exit
-#./cdt-opt 2>>errors 1>>output

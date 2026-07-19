@@ -110,13 +110,9 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
   {
     MoveTracker<Manifold_3> tracked_moves;
     THEN("There are the correct number of elements.")
-    {
-      REQUIRE_EQ(tracked_moves.size(), NUMBER_OF_3D_MOVES);
-    }
+    { REQUIRE_EQ(tracked_moves.size(), NUMBER_OF_3D_MOVES); }
     THEN("Each element is zero-initialized.")
-    {
-      REQUIRE_EQ(tracked_moves.total(), 0);
-    }
+    { REQUIRE_EQ(tracked_moves.total(), 0); }
     THEN("Moves can be added.")
     {
       // Add +1 to each move
@@ -143,54 +139,6 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
       added_moves.six_two_moves() += 2;
       added_moves.four_four_moves() += 2;
       // Add the MoveTrackers
-      tracked_moves += added_moves;
-
-      // Now check
-      for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 3); }
-    }
-  }
-  GIVEN("A 4D Move_tracker.")
-  {
-    MoveTracker<Manifold_4> tracked_moves;
-    THEN("There are the correct number of elements.")
-    {
-      REQUIRE_EQ(tracked_moves.size(), NUMBER_OF_4D_MOVES);
-    }
-    THEN("Each element is zero-initialized.")
-    {
-      REQUIRE_EQ(tracked_moves.total(), 0);
-    }
-    THEN("Moves can be added.")
-    {
-      // Add +1 to each move
-      tracked_moves.two_four_moves()++;
-      tracked_moves.four_two_moves()++;
-      tracked_moves.three_three_moves()++;
-      tracked_moves.four_six_moves()++;
-      tracked_moves.six_four_moves()++;
-      tracked_moves.two_eight_moves()++;
-      tracked_moves.eight_two_moves()++;
-      for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 1); }
-    }
-    THEN("Two move trackers can be added.")
-    {
-      // Add +1 move to left-hand side
-      tracked_moves.two_four_moves() += 1;
-      tracked_moves.four_two_moves() += 1;
-      tracked_moves.three_three_moves() += 1;
-      tracked_moves.four_six_moves() += 1;
-      tracked_moves.six_four_moves() += 1;
-      tracked_moves.two_eight_moves() += 1;
-      tracked_moves.eight_two_moves() += 1;
-      MoveTracker<Manifold_4> added_moves;
-      added_moves.two_four_moves() += 2;
-      added_moves.four_two_moves() += 2;
-      added_moves.three_three_moves() += 2;
-      added_moves.four_six_moves() += 2;
-      added_moves.six_four_moves() += 2;
-      added_moves.two_eight_moves() += 2;
-      added_moves.eight_two_moves() += 2;
-      // Add the Move_trackers
       tracked_moves += added_moves;
 
       // Now check

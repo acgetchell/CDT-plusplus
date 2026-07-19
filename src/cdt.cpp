@@ -37,6 +37,7 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [-d DIM]
             [--init INITIAL RADIUS]
             [--foliate FOLIATION SPACING]
+            [--no-output]
             -k K
             --alpha ALPHA
             --lambda LAMBDA
@@ -86,6 +87,7 @@ try
                         "Initial radius")(
       "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
       "Foliation spacing")(
+      "no-output", "Do not write checkpoint or final triangulation files")(
       "alpha,a", po::value<long double>(&alpha)->required(),
       "Negative squared geodesic length of 1-d timelike edges")(
       "k,k", po::value<long double>(&k)->required(), "K = 1/(8*pi*G_newton)")(
@@ -112,6 +114,7 @@ try
   }
 
   po::notify(args);
+  auto const write_files = !args.count("no-output");
 
   if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
   else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
@@ -196,7 +199,7 @@ try
 
   // Initialize the Metropolis algorithm
   Metropolis_3 run(alpha, k, lambda, static_cast<Int_precision>(passes),
-                   static_cast<Int_precision>(checkpoint));
+                   static_cast<Int_precision>(checkpoint), write_files);
 
   // Make a triangulation
   manifolds::Manifold_3 universe;
@@ -250,7 +253,7 @@ try
   result.print_volume_per_timeslice();
 
   // Write results to file
-  utilities::write_file(result);
+  if (write_files) { utilities::write_file(result); }
 
   return EXIT_SUCCESS;
 }
