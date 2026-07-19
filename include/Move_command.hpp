@@ -35,11 +35,6 @@ class MoveCommand
   Queue m_moves;
 
   /**
-   * \brief The queue of moves to retry
-   */
-  Queue m_moves_to_retry;
-
-  /**
    * \brief The counter of attempted moves
    */
   Counter m_attempted;
@@ -155,7 +150,6 @@ class MoveCommand
         {
           fmt::print("Move produced an invalid manifold.\n");
           ++m_failed[as_integer(move_type)];
-          m_moves_to_retry.push_front(move_type);
         }
       }
       else
@@ -163,7 +157,6 @@ class MoveCommand
         fmt::print("{}\n", result.error());
         // Track failed moves
         ++m_failed[as_integer(move_type)];
-        m_moves_to_retry.push_front(move_type);
       }
       // Remove move from queue
       m_moves.pop_back();
@@ -171,6 +164,7 @@ class MoveCommand
 #ifndef NDEBUG
     fmt::print("=== After moves ===\n");
     print_attempts();
+    print_successful();
     print_errors();
     m_manifold.print_details();
     fmt::print("===================\n");

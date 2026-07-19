@@ -71,8 +71,8 @@ prepare_cmake_cache()
 
   cached_toolchain="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' "${cache_file}" | head -n 1)"
   cached_installed_dir="$(sed -n 's/^VCPKG_INSTALLED_DIR:[^=]*=//p' "${cache_file}" | head -n 1)"
-  if [[ -n "${cached_toolchain}" && "${cached_toolchain}" != "${expected_toolchain}" ]] ||
-     [[ -n "${cached_installed_dir}" && "${cached_installed_dir}" != "${expected_installed_dir}" ]]; then
+  if [[ "${cached_toolchain}" != "${expected_toolchain}" ]] ||
+     [[ "${cached_installed_dir}" != "${expected_installed_dir}" ]]; then
     printf 'vcpkg configuration changed; refreshing CMake configuration state.\n' >&2
     cmake -E rm -f "${cache_file}"
     cmake -E rm -rf "${build_directory}/CMakeFiles"

@@ -116,7 +116,13 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
     THEN("There are the correct number of elements.")
     { REQUIRE_EQ(tracked_moves.size(), NUMBER_OF_3D_MOVES); }
     THEN("Each element is zero-initialized.")
-    { REQUIRE_EQ(tracked_moves.total(), 0); }
+    {
+      REQUIRE_EQ(tracked_moves.total(), 0);
+      for (auto const counter : tracked_moves.moves_view())
+      {
+        CHECK_EQ(counter, 0);
+      }
+    }
     THEN("Moves can be added.")
     {
       // Add +1 to each move

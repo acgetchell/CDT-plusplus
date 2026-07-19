@@ -13,14 +13,85 @@
 #include <doctest/doctest.h>
 #include <fmt/ranges.h>
 
+#include <algorithm>
+#include <array>
+#include <numbers>
+#include <tuple>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 using namespace std;
 using namespace manifolds;
 
 namespace
 {
+  using VertexState = std::tuple<double, double, double, Int_precision>;
+  using CellState   = std::pair<std::array<VertexState, 4>, Int_precision>;
+
+  auto vertex_state(Vertex_handle_t<3> const& vertex) -> VertexState
+  {
+    auto const& point = vertex->point();
+    return {CGAL::to_double(point.x()), CGAL::to_double(point.y()),
+            CGAL::to_double(point.z()), vertex->info()};
+  }
+
+  auto vertex_states(Manifold_3 const& manifold) -> std::vector<VertexState>
+  {
+    std::vector<VertexState> states;
+    states.reserve(static_cast<std::size_t>(manifold.vertices()));
+    for (auto vertex = manifold.get_delaunay().finite_vertices_begin();
+         vertex != manifold.get_delaunay().finite_vertices_end(); ++vertex)
+    {
+      states.push_back(vertex_state(vertex));
+    }
+    std::ranges::sort(states);
+    return states;
+  }
+
+  auto cell_states(Manifold_3 const& manifold) -> std::vector<CellState>
+  {
+    std::vector<CellState> states;
+    states.reserve(static_cast<std::size_t>(manifold.simplices()));
+    for (auto cell = manifold.get_delaunay().finite_cells_begin();
+         cell != manifold.get_delaunay().finite_cells_end(); ++cell)
+    {
+      std::array<VertexState, 4> vertices;
+      for (auto index = 0; index < 4; ++index)
+      {
+        vertices.at(static_cast<std::size_t>(index)) =
+            vertex_state(cell->vertex(index));
+      }
+      std::ranges::sort(vertices);
+      states.emplace_back(vertices, cell->info());
+    }
+    std::ranges::sort(states);
+    return states;
+  }
+
+  auto manifold_counts(Manifold_3 const& manifold)
+  {
+    return std::tuple{manifold.dimensionality(),
+                      manifold.initial_radius(),
+                      manifold.foliation_spacing(),
+                      manifold.N0(),
+                      manifold.N1(),
+                      manifold.N1_SL(),
+                      manifold.N1_TL(),
+                      manifold.N2(),
+                      manifold.N3(),
+                      manifold.N3_31(),
+                      manifold.N3_22(),
+                      manifold.N3_13(),
+                      manifold.N3_31_13(),
+                      manifold.vertices(),
+                      manifold.edges(),
+                      manifold.faces(),
+                      manifold.simplices(),
+                      manifold.min_time(),
+                      manifold.max_time()};
+  }
+
   static_assert(
       std::is_same_v<decltype(std::declval<MoveCommand<Manifold_3> const&>()
                                   .get_succeeded()),
@@ -46,7 +117,10 @@ namespace
     }
     else
     {
-      CHECK_EQ(result.simplices(), before.simplices());
+      CHECK(result.get_delaunay() == before.get_delaunay());
+      CHECK(vertex_states(result) == vertex_states(before));
+      CHECK(cell_states(result) == cell_states(before));
+      CHECK(manifold_counts(result) == manifold_counts(before));
     }
   }
 }  // namespace
@@ -351,6 +425,37 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
     }
   }
 }
+
+SCENARIO("Rejected moves preserve manifold state" *
+         doctest::test_suite("move_command"))
+{
+  GIVEN("A single tetrahedron with no movable (2,2) simplex.")
+  {
+    auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    Causal_vertices_t<3> causal_vertices;
+    causal_vertices.emplace_back(Point_t<3>{1, 0, 0}, 1);
+    causal_vertices.emplace_back(Point_t<3>{0, 1, 0}, 1);
+    causal_vertices.emplace_back(Point_t<3>{0, 0, 1}, 1);
+    causal_vertices.emplace_back(Point_t<3>{radius_2, radius_2, radius_2}, 2);
+    Manifold_3 const manifold(causal_vertices);
+    REQUIRE(manifold.is_correct());
+    REQUIRE(manifold.get_triangulation().get_two_two().empty());
+    MoveCommand command(manifold);
+    command.enqueue(move_tracker::move_type::TWO_THREE);
+
+    WHEN("The move is executed.")
+    {
+      command.execute();
+      THEN("The rejection leaves the complete manifold unchanged.")
+      {
+        REQUIRE_EQ(command.get_failed().two_three_moves(), 1);
+        check_single_move_outcome(command, manifold,
+                                  move_tracker::move_type::TWO_THREE, 1);
+      }
+    }
+  }
+}
+
 SCENARIO("Executing multiple moves on the queue" *
          doctest::test_suite("move_command"))
 {
