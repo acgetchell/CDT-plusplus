@@ -12,7 +12,6 @@ pkgx_tools=(
   +ninja-build.org
   +python.org
   "+just.systems>=1.56.0"
-  +ccache.dev
   +gnu.org/m4
   +gnu.org/autoconf
   +gnu.org/autoconf-archive

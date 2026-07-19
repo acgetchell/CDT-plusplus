@@ -165,7 +165,7 @@ The smallest pkgx-assisted host setup is:
 - pkgx
 - Just when invoking the recipes directly; `scripts/pkgx-build.sh` supplies Just when it is not installed globally
 
-The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, ccache, M4, Autoconf, Autoconf Archive, Automake, GNU
+The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, M4, Autoconf, Autoconf Archive, Automake, GNU
 Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through a package
 manager such as [Homebrew] or apt:
 

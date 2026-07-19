@@ -11,6 +11,7 @@
 #ifndef INCLUDE_UTILITIES_HPP_
 #define INCLUDE_UTILITIES_HPP_
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <gsl/gsl>
@@ -117,10 +118,7 @@ namespace utilities
     // Append current time
     filename += "-";
     auto timestamp = current_date_time();
-    for (auto& character : timestamp)
-    {
-      if (character == ':') { character = '-'; }
-    }
+    std::replace(timestamp.begin(), timestamp.end(), ':', '-');
     filename += timestamp;
 
     // Append .off file extension
