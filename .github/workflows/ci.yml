@@ -93,7 +93,7 @@ jobs:
 
       - name: Test Windows
         if: runner.os == 'Windows'
-        run: ctest --preset reference-windows-smoke
+        run: ctest --preset reference-smoke
 
   build:
     name: build

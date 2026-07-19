@@ -143,9 +143,10 @@ Windows development.
 ### Current reference-suite status
 
 With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. `build.sh` runs
-ten supported smoke tests: eight lightweight CLI integration tests and two focused doctest suites. The full
-`reference` test preset additionally runs the `cdt-opt` simulation, which can nondeterministically stall during a
-Metropolis pass, and the unit-test executable, which remains red in eight test cases tracing to the existing 4,4
+ten supported smoke tests on Unix: eight lightweight CLI integration tests and two focused doctest suites. The known
+failing `initialize` scenario is excluded from Windows smoke runs, while the other initialization cases remain enabled.
+The complete registered suite additionally runs the `cdt-opt` simulation, which can nondeterministically stall during
+a Metropolis pass, and the unit-test executable, which remains red in eight test cases tracing to the existing 4,4
 move/bistellar-flip path: the direct move application, four flip fixtures, the ergodic-move fixture, and two queued
 move scenarios. These tests remain present and can be run explicitly. Issue
 [#91](https://github.com/acgetchell/CDT-plusplus/issues/91) owns the 4,4 mutation repair, while
@@ -169,6 +170,8 @@ The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, M4, Autoconf, Autoco
 Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through a package
 manager such as [Homebrew] or apt:
 
+- Git
+- Bash
 - build-essential (Linux only)
 - m4
 - automake
@@ -233,8 +236,8 @@ Run `just build` from the repository root. It delegates to `./scripts/build.sh`,
 working directory for troubleshooting. If `VCPKG_ROOT` already names the clean official checkout at the manifest
 baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. The script
 invokes the `reference` configure and build presets followed by the `reference-smoke` test preset; products and tests
-are isolated under `out/build/reference`. On Windows, `scripts\build.bat` provides the corresponding developer-mode
-entry point and `scripts\fast-build.bat` retains the user-mode build path.
+are isolated under `out/build/reference`. Windows uses the same presets through `scripts\build.bat`, while
+`scripts\fast-build.bat` configures the same reference tree and builds only the primary `cdt` target.
 
 ### Project Layout
 
@@ -365,10 +368,10 @@ ctest --preset reference-smoke
 ````
 
 To run every currently registered test, including the known 4,4 failures and the nondeterministic `cdt-opt`
-simulation:
+simulation, bypass the smoke filter explicitly:
 
 ````bash
-ctest --preset reference
+ctest --test-dir out/build/reference --output-on-failure
 ````
 
 In addition to the command line output, you can see detailed results in the

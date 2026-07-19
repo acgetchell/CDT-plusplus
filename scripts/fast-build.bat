@@ -23,6 +23,7 @@ CALL "%SCRIPT_DIR%bootstrap-vcpkg.bat" || EXIT /B 1
 
 :VCPKG_READY
 SET "VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
-cmake --preset windows-msvc-release-user-mode -S "%REPO_ROOT%" || EXIT /B 1
-cmake --build "%REPO_ROOT%\out\build\windows-msvc-release-user-mode" || EXIT /B 1
+CD /D "%REPO_ROOT%" || EXIT /B 1
+cmake --preset reference -S . || EXIT /B 1
+cmake --build --preset reference --target cdt || EXIT /B 1
 EXIT /B 0

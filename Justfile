@@ -6,7 +6,7 @@ set minimum-version := "1.56.0"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 clang_format_version := "18"
-primary_binary := if os_family() == "windows" { "out/build/windows-msvc-release-developer-mode/src/cdt.exe" } else { "out/build/reference/src/cdt" }
+primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 
 # Build the supported configuration through the repository build script.
 [group('workflows')]

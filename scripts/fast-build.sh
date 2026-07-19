@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-# Before running this script, make sure $VCPKG_ROOT is set, e.g.
-# VCPKG_ROOT="$HOME"/vcpkg && export VCPKG_ROOT
+# Before running this script, make sure $VCPKG_ROOT names the pinned checkout.
 
-cd ..
-rm -rf build/
-cmake --preset fast-build
-cmake --build build
-cd build || exit
-ctest --output-on-failure -j2
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+
+cd -- "${repo_root}"
+cmake --preset reference
+cmake --build --preset reference --target cdt
