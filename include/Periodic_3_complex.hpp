@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2013-2017 Adam Getchell
+/// Copyright © 2013 Adam Getchell
 ///
 /// Periodic (toroidal) simplicial complexes
 
@@ -8,16 +8,15 @@
 /// @brief Toroidal simplicial complexes
 /// @author Adam Getchell
 
-#ifndef SRC_PERIODIC_3_COMPLEX_HPP_
-#define SRC_PERIODIC_3_COMPLEX_HPP_
+#ifndef INCLUDE_PERIODIC_3_COMPLEX_HPP_
+#define INCLUDE_PERIODIC_3_COMPLEX_HPP_
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
 #include <CGAL/Periodic_3_triangulation_traits_3.h>
-
+#include <CGAL/point_generators_3.h>
 #include <CGAL/Random.h>
 #include <CGAL/Timer.h>
-#include <CGAL/point_generators_3.h>
 
 #include <cassert>
 #include <vector>
@@ -40,10 +39,11 @@ void make_random_T3_simplicial_complex(PDT* T3,
   std::vector<PDT::Point> pts;
 
   // Generate random points
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++)
+  {
     PDT::Point p = *in_cube;
     in_cube++;
-    pts.push_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));
+    pts.emplace_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));
   }
 
   // Iterator range insertion using spatial sorting and dummy point heuristic
@@ -52,4 +52,4 @@ void make_random_T3_simplicial_complex(PDT* T3,
   assert(T3->dimension() == 3);
   assert(T3->is_valid());
 }
-#endif  // SRC_PERIODIC_3_COMPLEX_HPP_
+#endif  // INCLUDE_PERIODIC_3_COMPLEX_HPP_

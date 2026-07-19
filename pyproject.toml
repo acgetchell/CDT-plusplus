@@ -1,0 +1,115 @@
+[project]
+name = "cdt-plusplus-scripts"
+version = "0.0.0"
+description = "Python support and experiment scripts for CDT++"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[tool.uv]
+default-groups = ["dev"]
+package = false
+
+[dependency-groups]
+dev = ["ruff==0.15.21", "ty==0.0.59"]
+experiments = [
+  "comet-ml>=3.58.3,<4",
+  "matplotlib>=3.10,<4",
+  "numpy>=2,<3",
+  "tensorflow>=2.21,<2.22",
+]
+
+[tool.ruff]
+line-length = 160
+src = ["src"]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "W",
+  "ANN201",
+  "ANN202",
+  "ANN204",
+  "C90",
+  "I",
+  "N",
+  "UP",
+  "YTT",
+  "ASYNC",
+  "S",
+  "BLE",
+  "FBT",
+  "B",
+  "A",
+  "COM",
+  "C4",
+  "DTZ",
+  "FA",
+  "T10",
+  "EM",
+  "EXE",
+  "FIX",
+  "FLY",
+  "FURB",
+  "ISC",
+  "ICN",
+  "LOG",
+  "G",
+  "INP",
+  "PERF",
+  "PIE",
+  "T20",
+  "PYI",
+  "PT",
+  "Q",
+  "RSE",
+  "RET",
+  "SLF",
+  "SIM",
+  "SLOT",
+  "TC",
+  "TID",
+  "TD",
+  "ARG",
+  "PTH",
+  "ERA",
+  "PD",
+  "PGH",
+  "PL",
+  "TRY",
+  "NPY",
+  "RUF",
+  "D100",
+  "D101",
+  "D102",
+  "D103",
+  "D104",
+  "D105",
+  "D106",
+  "D107",
+]
+fixable = ["ALL"]
+ignore = [
+  "COM812",  # Conflicts with the formatter.
+  "ERA001",  # Historical experiment alternatives remain documented inline.
+  "FBT001",  # Boolean CLI parameters are idiomatic when these scripts gain CLIs.
+  "FBT002",  # Boolean CLI defaults are idiomatic when these scripts gain CLIs.
+  "ISC001",  # Conflicts with the formatter.
+  "PLR2004", # Scientific constants are clearer at their point of use.
+  "T201",    # These scripts intentionally report progress on the command line.
+  "TRY300",  # Straight-line experiment control flow is clearer here.
+  "TRY301",  # Local exception construction is sufficient for these scripts.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/*.py" = ["INP001"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false

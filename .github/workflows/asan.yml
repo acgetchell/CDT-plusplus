@@ -1,0 +1,27 @@
+---
+name: Address Sanitizer
+
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/_sanitizer.yml
+    with:
+      preset: asan
+      job_name: AddressSanitizer + UndefinedBehaviorSanitizer
+      asan_options: fast_unwind_on_malloc=0:halt_on_error=1:symbolize=1
+      ubsan_options: halt_on_error=1:print_stacktrace=1

@@ -1,0 +1,21 @@
+[src]
+include = ["src"]
+
+[environment]
+python-version = "3.12"
+
+[analysis]
+# Experiment dependencies are lockfile-managed but omitted from the lightweight
+# development environment. Their imports are validated when the experiment
+# environment is synchronized and the scripts are run.
+allowed-unresolved-imports = [
+  "comet_ml.**",
+  "matplotlib.**",
+  "numpy",
+  "numpy.**",
+  "tensorflow",
+  "tensorflow.**",
+]
+
+[terminal]
+output-format = "concise"

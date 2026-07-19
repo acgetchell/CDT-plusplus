@@ -1,0 +1,93 @@
+---
+name: Reusable sanitizer build
+
+"on":
+  workflow_call:
+    inputs:
+      preset:
+        description: CMake sanitizer preset to run
+        required: true
+        type: string
+      job_name:
+        description: Display name for the sanitizer job
+        required: true
+        type: string
+      asan_options:
+        description: AddressSanitizer runtime options
+        required: false
+        type: string
+        default: ''
+      lsan_options:
+        description: LeakSanitizer runtime options
+        required: false
+        type: string
+        default: ''
+      msan_options:
+        description: MemorySanitizer runtime options
+        required: false
+        type: string
+        default: ''
+      tsan_options:
+        description: ThreadSanitizer runtime options
+        required: false
+        type: string
+        default: ''
+      ubsan_options:
+        description: UndefinedBehaviorSanitizer runtime options
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  sanitizer:
+    name: ${{ inputs.job_name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ASAN_OPTIONS: ${{ inputs.asan_options }}
+      LSAN_OPTIONS: ${{ inputs.lsan_options }}
+      MSAN_OPTIONS: ${{ inputs.msan_options }}
+      TSAN_OPTIONS: ${{ inputs.tsan_options }}
+      UBSAN_OPTIONS: ${{ inputs.ubsan_options }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          submodules: true
+
+      - name: Install system build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes \
+            automake autoconf autoconf-archive build-essential ccache \
+            libtool-bin ninja-build texinfo yasm
+
+      - name: Set up Just
+        uses: ./.github/actions/setup-just
+
+      - name: Resolve LLVM version
+        id: llvm-version
+        shell: bash
+        run: echo "version=$(just --evaluate llvm_version)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Clang
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
+        with:
+          +: llvm.org@${{ steps.llvm-version.outputs.version }}
+
+      - name: Report compiler version
+        run: clang --version
+
+      - name: Restore artifacts or set up vcpkg
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+
+      - name: Build and exercise sanitizer configuration
+        env:
+          SANITIZER_PRESET: ${{ inputs.preset }}
+        run: just sanitize "$SANITIZER_PRESET"

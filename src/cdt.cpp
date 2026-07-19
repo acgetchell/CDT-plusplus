@@ -1,40 +1,31 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2014-2018 Adam Getchell
-///
-/// A program that generates spacetimes
-///
-/// Inspired by https://github.com/ucdavis/CDT
-///
-/// @todo Invoke complete set of ergodic (Pachner) moves
-/// @todo Fix write_file() to include cell->info() and vertex->info()
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2013–2026 Adam Getchell
+ ******************************************************************************/
 
 /// @file cdt.cpp
 /// @brief The main executable
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
+/// @details A program that generates spacetime ensembles. Inspired by
+/// https://github.com/ucdavis/CDT.
 
-// CGAL headers
 #include <CGAL/Real_timer.h>
 
-// C++ headers
-#include <vector>
-
-// Docopt
-#include "docopt/docopt.h"
-
-// CDT headers
+#include <boost/program_options.hpp>
 #include <Metropolis.hpp>
-#include <Simulation.hpp>
+#include <utility>
 
 using Timer = CGAL::Real_timer;
 
-/// Help message parsed by docopt into options
-static const char USAGE[]{
+using namespace std;
+namespace po = boost::program_options;
+
+/// Help text used by Boost.Program_options
+static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2018 Adam Getchell
+Copyright (c) 2013-2026 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -42,185 +33,255 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
+            [-d DIM]
+            [--init INITIAL RADIUS]
+            [--foliate FOLIATION SPACING]
+            [--no-output]
+            -k K
+            --alpha ALPHA
+            --lambda LAMBDA
+            [-p PASSES]
+            [-c CHECKPOINT]
+
+Optional arguments are in square brackets.
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt --s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
+./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
 
-Options:
-  -h --help                   Show this message
-  --version                   Show program version
-  -n SIMPLICES                Approximate number of simplices
-  -t TIMESLICES               Number of timeslices
-  -d DIM                      Dimensionality [default: 3]
-  -a --alpha ALPHA            Negative squared geodesic length of 1-d
-                              timelike edges
-  -k K                        K = 1/(8*pi*G_newton)
-  -l --lambda LAMBDA          K * Cosmological constant
-  -p --passes PASSES          Number of passes [default: 100]
-  -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]
-)"};
+Options)"};
 
 /// @brief The main path of the CDT++ program
-///
-/// @param[in,out]  argc  Argument count = 1 + number of arguments
-/// @param[in,out]  argv  Argument vector (array) to be passed to docopt
-/// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char* const argv[])
+/// @param argc Argument count = 1 + number of arguments
+/// @param argv Argument vector passed to Boost.Program_options
+/// @return Integer value 0 if successful, 1 on failure
+auto main(int const argc, char* const argv[]) -> int
+try
 {
-  // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
-  std::ios_base::sync_with_stdio(false);
-  try
+  std::string const intro{USAGE};
+  // Parsed arguments
+  topology_type           topology;
+  long long               simplices;
+  long long               timeslices;
+  long long               dimensions;
+  double                  initial_radius;
+  double                  foliation_spacing;
+  long double             alpha;
+  long double             k;
+  long double             lambda;
+  long long               passes;
+  long long               checkpoint;
+
+  po::options_description description(intro);
+  description.add_options()("help,h", "Show this message")(
+      "version,v", "Show program version")("spherical,s", "Spherical topology")(
+      "toroidal,e", "Toroidal topology")("simplices,n",
+                                         po::value<long long>(&simplices),
+                                         "Approximate number of simplices")(
+      "timeslices,t", po::value<long long>(&timeslices),
+      "Number of timeslices")(
+      "dimensions,d", po::value<long long>(&dimensions)->default_value(3),
+      "Dimensionality")("init,i",
+                        po::value<double>(&initial_radius)->default_value(1.0),
+                        "Initial radius")(
+      "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
+      "Foliation spacing")(
+      "no-output", "Do not write checkpoint or final triangulation files")(
+      "alpha,a", po::value<long double>(&alpha)->required(),
+      "Negative squared geodesic length of 1-d timelike edges")(
+      "k,k", po::value<long double>(&k)->required(), "K = 1/(8*pi*G_newton)")(
+      "lambda,l", po::value<long double>(&lambda)->required(),
+      "K * Cosmological constant")(
+      "passes,p", po::value<long long>(&passes)->default_value(100),
+      "Number of passes")("checkpoint,c",
+                          po::value<long long>(&checkpoint)->default_value(10),
+                          "Checkpoint every n passes");
+
+  po::variables_map args;
+  po::store(po::parse_command_line(argc, argv, description), args);
+
+  if (args.count("help"))
   {
-    // Start running time
-    Timer t;
-    t.start();
-
-    // docopt option parser
-    std::map<std::string, docopt::value> args =
-        docopt::docopt(USAGE, {argv + 1, argv + argc},
-                       true,          // print help message automatically
-                       "CDT 0.1.8");  // Version
-
-    // Debugging
-    // for (auto const& arg : args) {
-    //   std::cout << arg.first << " " << arg.second << "\n";
-    // }
-
-    // Parse docopt::values in args map
-    auto simplices  = std::stol(args["-n"].asString());
-    auto timeslices = std::stol(args["-t"].asString());
-    auto dimensions = std::stol(args["-d"].asString());
-    auto alpha      = std::stold(args["--alpha"].asString());
-    auto k          = std::stold(args["-k"].asString());
-    auto lambda     = std::stold(args["--lambda"].asString());
-    auto passes     = std::stol(args["--passes"].asString());
-    auto checkpoint = std::stol(args["--checkpoint"].asString());
-
-    // Topology of simulation
-    topology_type topology;
-    if (args["--spherical"].asBool()) {
-      topology = topology_type::SPHERICAL;
-    }
-    else
-    {
-      topology = topology_type::TOROIDAL;
-    }
-
-    // Display job parameters
-    std::cout << "Topology is "
-              << (topology == topology_type::TOROIDAL ? " toroidal "
-                                                      : "spherical ")
-              << "\n";
-    std::cout << "Number of dimensions = " << dimensions << "\n";
-    std::cout << "Number of simplices = " << simplices << "\n";
-    std::cout << "Number of timeslices = " << timeslices << "\n";
-    std::cout << "Alpha = " << alpha << "\n";
-    std::cout << "K = " << k << "\n";
-    std::cout << "Lambda = " << lambda << "\n";
-    std::cout << "Number of passes = " << passes << "\n";
-    std::cout << "Checkpoint every n passes = " << checkpoint << "\n";
-    std::cout << "User = " << getEnvVar("USER") << "\n";
-    std::cout << "Hostname = " << hostname() << "\n";
-
-    if (simplices < 2 || timeslices < 2) {
-      t.stop();
-      throw std::invalid_argument(
-          "Simplices and timeslices should be greater or equal to 2.");
-    }
-
-    // Initialize simulation
-    Simulation my_simulation;
-
-    // Initialize the Metropolis algorithm
-    // \todo: add strong exception-safety guarantee on Metropolis functor
-    Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
-
-    // Initialize triangulation
-    SimplicialManifold universe;
-
-    // Queue up simulation with desired algorithm
-    my_simulation.queue(
-        [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
-
-    // Measure results
-    my_simulation.queue(
-        [](SimplicialManifold s) { return VolumePerTimeslice(s); });
-
-    // Ensure Triangle inequalities hold
-    // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && std::abs(alpha) < 0.5) {
-      t.stop();  // End running time counter
-      throw std::domain_error("Alpha in 3D should be greater than 1/2.");
-    }
-
-    switch (topology)
-    {
-      case topology_type::SPHERICAL:
-        if (dimensions == 3) {
-          SimplicialManifold populated_universe(simplices, timeslices);
-          // SimplicialManifold swapperator for no-throw
-          swap(universe, populated_universe);
-        }
-        else
-        {
-          t.stop();  // End running time counter
-          throw std::invalid_argument("Currently, dimensions cannot be >3.");
-        }
-        break;
-      case topology_type::TOROIDAL:
-        t.stop();  // End running time counter
-        throw std::invalid_argument(
-            "Toroidal triangulations not yet supported.");  // NOLINT
-    }
-
-    if (!fix_timeslices(universe.triangulation)) {
-      t.stop();  // End running time counter
-      throw std::logic_error("Delaunay triangulation not correctly foliated.");
-    }
-
-    std::cout << "Universe has been initialized ...\n";
-    std::cout << "Now performing " << passes << " passes of ergodic moves.\n";
-
-    // The main work of the program
-    universe = my_simulation.start(std::move(universe));
-
-    // Output results
-    t.stop();  // End running time counter
-    std::cout << "Final Delaunay triangulation has ";
-    print_results(universe, t);
-
-    // Write results to file
-    // Strong exception-safety guarantee
-    // \todo: Fixup so that cell->info() and vertex->info() values
-    //                   are written
-    write_file(universe, topology, dimensions,
-               universe.triangulation->number_of_finite_cells(), timeslices);
-
-    return 0;
+    cout << description << "\n";
+    return EXIT_SUCCESS;
   }
-  catch (std::domain_error& DomainError)
+
+  if (args.count("version"))
   {
-    std::cerr << DomainError.what() << "\n";
-    std::cerr << "Triangle inequalities violated ... Exiting.\n";
-    return 1;
+    fmt::print("CDT++ version 0.1.8\n");
+    return EXIT_SUCCESS;
   }
-  catch (std::invalid_argument& InvalidArgument)
+
+  po::notify(args);
+  auto const write_files = !args.count("no-output");
+
+  if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
+  else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
+  else
   {
-    std::cerr << InvalidArgument.what() << "\n";
-    std::cerr << "Invalid parameter ... Exiting.\n";
-    return 1;
+    fmt::print("Topology not specified.\n");
+    return EXIT_FAILURE;
   }
-  catch (std::logic_error& LogicError)
+
+  if (args.count("simplices"))
   {
-    std::cerr << LogicError.what() << "\n";
-    std::cerr << "Simulation startup failed ... Exiting.\n";
-    return 1;
+    simplices = args["simplices"].as<long long>();
   }
-  catch (...)
+  else
   {
-    std::cerr << "Something went wrong ... Exiting.\n";
-    return 1;
+    fmt::print("Number of simplices not specified.\n");
+    return EXIT_FAILURE;
   }
+
+  if (args.count("timeslices"))
+  {
+    timeslices = args["timeslices"].as<long long>();
+  }
+  else
+  {
+    fmt::print("Number of timeslices not specified.\n");
+    return EXIT_FAILURE;
+  }
+
+  // Display job parameters
+  fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
+  fmt::print("Dimensionality: {}+{}\n", dimensions - 1, 1);
+  fmt::print("Initial radius: {}\n", initial_radius);
+  fmt::print("Foliation spacing: {}\n", foliation_spacing);
+  fmt::print("Number of desired simplices: {}\n", simplices);
+  fmt::print("Number of desired timeslices: {}\n", timeslices);
+  fmt::print("Number of passes: {}\n", passes);
+  fmt::print("Checkpoint every {} passes.\n", checkpoint);
+  fmt::print("=== Parameters ===\n");
+  fmt::print("Alpha: {}\n", alpha);
+  fmt::print("K: {}\n", k);
+  fmt::print("Lambda: {}\n", lambda);
+
+  // Start running time
+  Timer timer;
+  timer.start();
+  fmt::print("cdt started at {}\n", utilities::current_date_time());
+
+  if (simplices < 2 || timeslices < 2)
+  {
+    timer.stop();
+    throw invalid_argument(
+        "Simplices and timeslices should be greater or equal to 2.");
+  }
+
+  if (passes < 0)
+  {
+    timer.stop();
+    throw invalid_argument("Passes cannot be negative.");
+  }
+  if (checkpoint <= 0)
+  {
+    timer.stop();
+    throw invalid_argument("Checkpoint interval must be positive.");
+  }
+  if (!std::in_range<Int_precision>(simplices) ||
+      !std::in_range<Int_precision>(timeslices) ||
+      !std::in_range<Int_precision>(passes) ||
+      !std::in_range<Int_precision>(checkpoint))
+  {
+    timer.stop();
+    throw out_of_range("Integer argument exceeds the supported range.");
+  }
+
+  // Ensure Triangle inequalities hold
+  // See http://arxiv.org/abs/hep-th/0105267 for details
+  if (dimensions == 3 && abs(alpha) < static_cast<long double>(0.5))  // NOLINT
+  {
+    timer.stop();  // End running time counter
+    throw domain_error("Alpha in 3D should be greater than 1/2.");
+  }
+
+  // Initialize the Metropolis algorithm
+  Metropolis_3 run(alpha, k, lambda, static_cast<Int_precision>(passes),
+                   static_cast<Int_precision>(checkpoint), write_files);
+
+  // Make a triangulation
+  manifolds::Manifold_3 universe;
+
+  switch (topology)
+  {
+    case topology_type::SPHERICAL:
+      if (dimensions == 3)
+      {
+        manifolds::Manifold_3 populated_universe(
+            static_cast<Int_precision>(simplices),
+            static_cast<Int_precision>(timeslices), initial_radius,
+            foliation_spacing);
+        // Manifold no-throw swapperator
+        swap(populated_universe, universe);
+      }
+      else
+      {
+        timer.stop();  // End running time counter
+        throw invalid_argument("Currently, dimensions cannot be >3.");
+      }
+      break;
+    case topology_type::TOROIDAL:
+      timer.stop();  // End running time counter
+      throw invalid_argument("Toroidal triangulations not yet supported.");
+  }
+
+  // Look at triangulation
+  universe.print();
+  universe.print_details();
+  universe.print_volume_per_timeslice();
+
+  // The main work of the program
+  auto const result = run(universe);
+
+  // Do we have enough timeslices?
+  if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)
+  {
+    fmt::print("You wanted {} timeslices, but only got {}.\n", timeslices,
+               max_timevalue);
+  }
+
+  if (!result.is_valid()) { throw runtime_error("Result is invalid!\n"); }
+
+  // Print results
+  timer.stop();  // End running time counter
+  fmt::print("=== Run Results ===\n");
+  fmt::print("Running time is {} seconds.\n", timer.time());
+  result.print();
+  result.print_details();
+  result.print_volume_per_timeslice();
+
+  // Write results to file
+  if (write_files) { utilities::write_file(result); }
+
+  return EXIT_SUCCESS;
+}
+catch (domain_error const& DomainError)
+{
+  spdlog::critical("{}\n", DomainError.what());
+  spdlog::critical("Triangle inequalities violated ... Exiting.\n");
+  return EXIT_FAILURE;
+}
+catch (invalid_argument const& InvalidArgument)
+{
+  spdlog::critical("{}\n", InvalidArgument.what());
+  spdlog::critical("Invalid parameter ... Exiting.\n");
+  return EXIT_FAILURE;
+}
+catch (logic_error const& LogicError)
+{
+  spdlog::critical("{}\n", LogicError.what());
+  spdlog::critical("Simulation startup failed ... Exiting.\n");
+  return EXIT_FAILURE;
+}
+catch (runtime_error const& RuntimeError)
+{
+  spdlog::critical("{}\n", RuntimeError.what());
+  return EXIT_FAILURE;
+}
+catch (...)
+{
+  spdlog::critical("Something went wrong ... Exiting.\n");
+  return EXIT_FAILURE;
 }

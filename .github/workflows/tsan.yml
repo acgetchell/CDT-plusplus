@@ -1,0 +1,26 @@
+---
+name: Thread Sanitizer
+
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/_sanitizer.yml
+    with:
+      preset: tsan
+      job_name: ThreadSanitizer
+      tsan_options: halt_on_error=1

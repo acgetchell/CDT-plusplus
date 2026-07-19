@@ -1,0 +1,123 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "common",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_CXX_EXTENSIONS": false,
+        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD_REQUIRED": true
+      }
+    },
+    {
+      "name": "unix-diagnostics",
+      "hidden": true,
+      "inherits": "common",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast",
+        "ENABLE_CACHE": false,
+        "ENABLE_TESTING": true
+      }
+    },
+    {
+      "name": "reference",
+      "displayName": "Supported headless reference build",
+      "description": "Configure the supported C++23 regression-oracle build with tests",
+      "inherits": "common",
+      "binaryDir": "${sourceDir}/out/build/reference",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ENABLE_CACHE": false,
+        "ENABLE_TESTING": true
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Local debug build",
+      "description": "Configure an optional debug build for interactive diagnostics",
+      "inherits": "common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_CACHE": false,
+        "ENABLE_TESTING": true
+      }
+    },
+    {
+      "name": "asan",
+      "description": "Configure the AddressSanitizer and UndefinedBehaviorSanitizer diagnostics",
+      "inherits": "unix-diagnostics",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_ADDRESS": true,
+        "ENABLE_SANITIZER_UNDEFINED_BEHAVIOR": true
+      }
+    },
+    {
+      "name": "lsan",
+      "description": "Configure the LeakSanitizer diagnostics",
+      "inherits": "unix-diagnostics",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_LEAK": true
+      }
+    },
+    {
+      "name": "msan",
+      "description": "Configure experimental MemorySanitizer diagnostics; dependencies are not instrumented",
+      "inherits": "unix-diagnostics",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_MEMORY": true
+      }
+    },
+    {
+      "name": "tsan",
+      "description": "Configure the ThreadSanitizer diagnostics",
+      "inherits": "unix-diagnostics",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_THREAD": true
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "reference",
+      "displayName": "Build the supported headless reference targets",
+      "configurePreset": "reference"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "reference-smoke",
+      "displayName": "Run the supported reference smoke tests",
+      "description": "Exclude the full and duplicate unit-test registrations",
+      "configurePreset": "reference",
+      "output": {
+        "outputOnFailure": true
+      },
+      "filter": {
+        "exclude": {
+          "name": "^(cdt-unit-tests|cdt-utilities-tests)$",
+          "label": "reference-smoke-exclude"
+        }
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    }
+  ]
+}

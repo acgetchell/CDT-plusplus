@@ -1,0 +1,44 @@
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2017 Adam Getchell
+///
+/// Tests that 2-tori and 3-tori are correctly constructed in 3D and 4D.
+///
+/// @file Torus_test.cpp
+/// @brief Tests for wraparound grids
+/// @author Adam Getchell
+
+#include <doctest/doctest.h>
+
+#include "Torus_d.hpp"
+
+SCENARIO("Torus construction" * doctest::test_suite("torus"))
+{
+  std::size_t constexpr NUMBER_OF_POINTS = 250;
+  std::vector<Point> points;
+  points.reserve(NUMBER_OF_POINTS);
+  GIVEN("A 2-torus")
+  {
+    WHEN("A 2-torus is constructed.")
+    {
+      THEN("It should not throw.")
+      {
+        int constexpr dim = 3;
+        REQUIRE_NOTHROW(make_d_cube(points, NUMBER_OF_POINTS, dim));
+        CHECK_EQ(points.size(), NUMBER_OF_POINTS);
+      }
+    }
+  }
+  GIVEN("A 3-torus")
+  {
+    WHEN("A 3-torus is constructed.")
+    {
+      THEN("It should not throw.")
+      {
+        int constexpr dim = 4;
+        REQUIRE_NOTHROW(make_d_cube(points, NUMBER_OF_POINTS, dim));
+        CHECK_EQ(points.size(), NUMBER_OF_POINTS);
+      }
+    }
+  }
+}

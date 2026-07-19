@@ -1,0 +1,17 @@
+{
+  "name": "cdt-plusplus",
+  "version": "0.1.8",
+  "builtin-baseline": "4e82e29f14eac2b3422f18f72c7524d04f19924e",
+  "dependencies": [
+    "boost-compat",
+    "boost-program-options",
+    "doctest",
+    "date",
+    "fmt",
+    "ms-gsl",
+    "pcg",
+    "spdlog",
+    "tbb",
+    "cgal"
+  ]
+}

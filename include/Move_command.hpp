@@ -1,0 +1,248 @@
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2018 Adam Getchell
+ ******************************************************************************/
+
+/// @file Move_command.hpp
+/// @brief Do ergodic moves using the Command pattern
+/// @author Adam Getchell
+
+#ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
+#define CDT_PLUSPLUS_MOVECOMMAND_HPP
+
+#include "Apply_move.hpp"
+#include "Ergodic_moves_3.hpp"
+
+template <typename ManifoldType,
+          typename ExpectedType = std::expected<ManifoldType, std::string>,
+          typename FunctionType =
+              boost::compat::function_ref<ExpectedType(ManifoldType&)>>
+  requires(ManifoldType::dimension == 3)
+class MoveCommand
+{
+  using Queue   = std::deque<move_tracker::move_type>;
+  using Counter = move_tracker::MoveTracker<ManifoldType>;
+
+  /**
+   * \brief The manifold on which to perform moves
+   */
+  ManifoldType m_manifold;
+
+  /**
+   * \brief The queue of moves to perform
+   */
+  Queue m_moves;
+
+  /**
+   * \brief The counter of attempted moves
+   */
+  Counter m_attempted;
+
+  /**
+   * \brief The counter of successful moves
+   */
+  Counter m_succeeded;
+
+  /**
+   * \brief The counter of failed moves
+   */
+  Counter m_failed;
+
+ public:
+  /**
+   * \brief Remove default ctor
+   */
+  MoveCommand() = delete;
+
+  /**
+   * \brief MoveCommand ctor
+   * \param t_manifold The manifold to perform moves on
+   * \details The manifold to perform moves upon should be copied by value into
+   * the MoveCommand to ensure moves are executed atomically and either succeed
+   * or fail and can be discarded without affecting the original manifold.
+   */
+  explicit MoveCommand(ManifoldType t_manifold)
+      : m_manifold{std::move(t_manifold)}
+  {}
+
+  /**
+   * \brief A read-only reference to the manifold
+   */
+  auto get_const_results() const -> ManifoldType const&
+  { return m_manifold; }  // get_const_results
+
+  /**
+   * \brief Results of the moves invoked by MoveCommand
+   */
+  [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
+
+  /**
+   * \brief Attempted moves by MoveCommand
+   */
+  [[nodiscard]] auto get_attempted() const -> Counter const&
+  { return m_attempted; }  // get_attempts
+
+  /**
+   * \brief Successful moves by MoveCommand
+   */
+  [[nodiscard]] auto get_succeeded() const -> Counter const&
+  { return m_succeeded; }  // get_succeeded
+
+  /**
+   * \brief Failed moves by MoveCommand
+   */
+  [[nodiscard]] auto get_failed() const -> Counter const&
+  { return m_failed; }  // get_errors
+
+  /**
+   * \brief Reset counters
+   */
+  void reset_counters()
+  {
+    m_attempted.reset();
+    m_succeeded.reset();
+    m_failed.reset();
+  }
+
+  /**
+   * \brief Push a Pachner move onto the move queue
+   * \param t_move The move to add
+   */
+  void enqueue(move_tracker::move_type const t_move)
+  { m_moves.push_front(t_move); }
+
+  /**
+   * \brief The number of moves on the queue
+   */
+  auto size() const { return m_moves.size(); }
+
+  /**
+   * \brief Execute all moves in the queue on the manifold
+   */
+  void execute()
+  {
+#ifndef NDEBUG
+    fmt::print("=== Executing: Before moves ===\n");
+    m_manifold.print_details();
+    fmt::print("===============================\n");
+#endif
+
+    while (!m_moves.empty())
+    {
+      auto move_type = m_moves.back();
+      // Record attempted move
+      ++m_attempted[as_integer(move_type)];
+      // Convert move_type to function
+      auto move_function = as_move_function(move_type);
+      // Execute each move on a private candidate so rejection is atomic even
+      // when a move discovers an error after beginning a topology mutation.
+      ManifoldType candidate{m_manifold};
+      if (auto result = apply_move(candidate, move_function); result)
+      {
+        result->update();
+        if (result->is_correct())
+        {
+          swap(result.value(), m_manifold);
+          ++m_succeeded[as_integer(move_type)];
+        }
+        else
+        {
+          fmt::print("Move produced an invalid manifold.\n");
+          ++m_failed[as_integer(move_type)];
+        }
+      }
+      else
+      {
+        fmt::print("{}\n", result.error());
+        // Track failed moves
+        ++m_failed[as_integer(move_type)];
+      }
+      // Remove move from queue
+      m_moves.pop_back();
+    }
+#ifndef NDEBUG
+    fmt::print("=== After moves ===\n");
+    print_attempts();
+    print_successful();
+    print_errors();
+    m_manifold.print_details();
+    fmt::print("===================\n");
+#endif
+  }  // execute
+
+  /**
+   * \brief Execute a move function on a manifold
+   * \param move The move to execute
+   * \return The move function to execute
+   */
+  static auto as_move_function(move_tracker::move_type const move)
+      -> FunctionType
+  {
+    switch (move)
+    {
+      case move_tracker::move_type::TWO_THREE: return ergodic_moves::do_23_move;
+      case move_tracker::move_type::THREE_TWO: return ergodic_moves::do_32_move;
+      case move_tracker::move_type::TWO_SIX: return ergodic_moves::do_26_move;
+      case move_tracker::move_type::SIX_TWO: return ergodic_moves::do_62_move;
+      default: return ergodic_moves::do_44_move;
+    }
+  }  // move_function
+
+  /**
+   * \brief Print attempted moves
+   */
+  void print_attempts() const
+  {
+    fmt::print(
+        "There were {} attempted (2,3) moves and {} attempted (3,2) moves "
+        "and {} "
+        "attempted (2,6) moves and {} attempted (6,2) moves and {} attempted "
+        "(4,4) "
+        "moves.\n",
+        m_attempted.two_three_moves(), m_attempted.three_two_moves(),
+        m_attempted.two_six_moves(), m_attempted.six_two_moves(),
+        m_attempted.four_four_moves());
+  }
+
+  /**
+   * \brief Print successful moves
+   */
+  void print_successful() const
+  {
+    fmt::print(
+        "There were {} successful (2,3) moves and {} successful (3,2) moves "
+        "and {} "
+        "successful (2,6) moves and {} successful (6,2) moves and {} "
+        "successful "
+        "(4,4) "
+        "moves.\n",
+        m_succeeded.two_three_moves(), m_succeeded.three_two_moves(),
+        m_succeeded.two_six_moves(), m_succeeded.six_two_moves(),
+        m_succeeded.four_four_moves());
+  }
+
+  /**
+   * \brief Print move errors
+   */
+  void print_errors() const
+  {
+    if (std::all_of(m_failed.moves_view().begin(), m_failed.moves_view().end(),
+                    [](auto const& value) { return value == 0; }))
+    {
+      fmt::print("There were no failed moves.\n");
+    }
+    else
+    {
+      fmt::print(
+          "There were {} failed (2,3) moves and {} failed (3,2) moves and {} "
+          "failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) "
+          "moves.\n",
+          m_failed.two_three_moves(), m_failed.three_two_moves(),
+          m_failed.two_six_moves(), m_failed.six_two_moves(),
+          m_failed.four_four_moves());
+    }
+  }
+};
+
+#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP

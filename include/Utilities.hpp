@@ -1,46 +1,44 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2013-2017 Adam Getchell
-///
-/// Utility functions
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
 
-/// @file utilities.hpp
+ Copyright © 2017 Adam Getchell
+ ******************************************************************************/
+
+/// @file Utilities.hpp
 /// @brief Utility functions
 /// @author Adam Getchell
 
-#ifndef SRC_UTILITIES_HPP_
-#define SRC_UTILITIES_HPP_
+#ifndef INCLUDE_UTILITIES_HPP_
+#define INCLUDE_UTILITIES_HPP_
 
-/// Toggles detailed random number generator debugging output
-#define DETAILED_DEBUGGING
-#undef DETAILED_DEBUGGING
-
-// CGAL headers
-#include <CGAL/Gmpzf.h>
-#include <CGAL/Timer.h>
-
-// C headers
-#ifndef _WIN32
-#include <sys/utsname.h>
-#endif
-
-// C++ headers
 #include <algorithm>
-#include <cassert>
-#include <cstdlib>
+#include <filesystem>
 #include <fstream>
-#include <functional>
-#include <iostream>
+#include <gsl/gsl>
 #include <mutex>
 #include <random>
+#include <span>
 #include <stdexcept>
 #include <string>
-#include <typeindex>
+// H. Hinnant date and time library
+#include <date/date.h>
 
-// H. Hinnant's date and time library
-#include <date/tz.h>
+/// clang-15 does not support std::format
+// #include <format>
 
-using Gmpzf = CGAL::Gmpzf;
+// M. O'Neill Permutation Congruential Generator library
+#include "pcg_random.hpp"
+
+// V. Zverovich {fmt} library
+#include <fmt/ostream.h>
+
+// G. Melman spdlog library
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
+// Global project settings
+#include "Settings.hpp"
 
 enum class topology_type
 {
@@ -48,361 +46,413 @@ enum class topology_type
   SPHERICAL
 };
 
-/// @brief Return an environment variable
-///
-/// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
-///
-/// @param key The string value
-/// @return The environment variable corresponding to the key
-inline auto getEnvVar(std::string const& key) noexcept
+/// @brief Convert topology_type to string output
+/// @param t_os The output stream
+/// @param t_topology The topology
+/// @returns An output string of the topology
+inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
+    -> std::ostream&
 {
-  const char* val = getenv(key.c_str());
-  val == nullptr ? std::string() : std::string(val);
-  return val;
-}
-
-/// @brief Return the hostname
-///
-/// **auto** doesn't work here as a return type because **name.nodename** is a
-/// stack memory address. Uses utsname.h, which isn't present in Windows
-/// (easily) so just default to "windows" on that platform.
-///
-/// @return The hostname
-inline std::string hostname() noexcept
-{
-#ifndef _WIN32
-  struct utsname name
+  switch (t_topology)
   {
-  };
-  // Ensure uname returns a value
-  if (uname(&name)) exit(-1);
-  return name.nodename;
-#else
-  std::string const hostname("windows");
-  return hostname;
-#endif
-}
-
-/// @brief Return current date and time
-///
-/// Use's Howard Hinnant's C++11/14 data and time library and Time Zone Database
-/// Parser. https://github.com/HowardHinnant/date
-///
-/// @return A formatted string with the system local time
-inline const auto currentDateTime()
-{
-  using namespace date;
-  using namespace std::chrono;
-  auto t = make_zoned(current_zone(), system_clock::now());
-  return format("%Y-%m-%d.%X%Z", t);
-}
-
-/// @brief  Generate useful filenames
-/// @param top The topology type from the scoped enum topology_type
-/// @param dimensions The number of dimensions of the triangulation
-/// @param number_of_simplices The number of simplices in the triangulation
-/// @param number_of_timeslices The number of foliated timeslices
-/// @return A filename
-inline auto generate_filename(const topology_type& top,
-                              const std::int_fast32_t  dimensions,
-                              const std::int_fast32_t  number_of_simplices,
-                              const std::int_fast32_t number_of_timeslices) noexcept
-{
-  std::string filename;
-  if (top == topology_type::SPHERICAL) {
-    filename += "S";
+    case topology_type::SPHERICAL: return t_os << "spherical";
+    case topology_type::TOROIDAL: return t_os << "toroidal";
+    default: return t_os << "none";
   }
-  else
+}  // operator<<
+
+namespace utilities
+{
+  /// @brief Return current date and time
+  /// @details Return current date and time in ISO 8601 format
+  /// Use Howard Hinnant's date library to format UTC without requiring an
+  /// external time zone database.
+  /// @param timestamp The system time point to format
+  /// @returns A formatted string with the system time in UTC
+  /// @see https://github.com/HowardHinnant/date
+  /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
+  [[nodiscard]] inline auto current_date_time(
+      std::chrono::system_clock::time_point const timestamp =
+          std::chrono::system_clock::now())
   {
-    filename += "T";
-  }
-  // std::to_string() works in C++11, but not earlier
-  filename += std::to_string(dimensions);
+    auto const time = std::chrono::floor<std::chrono::seconds>(timestamp);
+    return date::format("%Y-%m-%d.%TUTC", time);
+  }  // current_date_time
 
-  filename += "-";
-
-  filename += std::to_string(number_of_timeslices);
-
-  filename += "-";
-
-  filename += std::to_string(number_of_simplices);
-
-  // Get user
-  filename += "-";
-  filename += getEnvVar("USER");
-
-  // Get machine name
-  filename += "@";
-  filename += hostname();
-
-  // Append current time
-  filename += "-";
-  filename += currentDateTime();
-
-  // Append .dat file extension
-  filename += ".dat";
-  return filename;
-}
-
-/// @brief Print out runtime results
-///
-/// This function prints out vertices, edges, facets (2D), and cells (3D).
-///
-/// @tparam T The manifold type
-/// @param universe A SimplicialManifold
-template <typename T>
-void print_results(const T& universe) noexcept
-{
-  std::cout << universe.triangulation->number_of_vertices() << " vertices and "
-            << universe.triangulation->number_of_finite_edges() << " edges and "
-            << universe.triangulation->number_of_finite_facets() << " faces\n"
-            << "and " << universe.triangulation->number_of_finite_cells()
-            << " cells.\n";
-}
-
-/// @brief Print out runtime results including time elapsed
-///
-/// This function prints out vertices, edges, facets (2D), cells (3D)
-/// and running time on a Triangulation. This calls a simpler version
-/// without a timer object.
-///
-/// @tparam T1 The manifold type
-/// @tparam T2 The timer type
-/// @param universe A SimplicialManifold
-/// @param timer A timer object used to determine elapsed time
-template <typename T1, typename T2>
-void print_results(const T1& universe, const T2& timer) noexcept
-{
-  print_results(std::as_const(universe));
-
-  // Display program running time
-  std::cout << "Running time is " << timer.time() << " seconds.\n";
-}
-
-/// @brief Writes the runtime results to a file
-///
-/// This function writes the Delaunay triangulation to a file.
-/// The filename is generated by the **generate_filename()** function.
-/// Provides strong exception-safety.
-///
-/// @tparam T The manifold type
-/// @param universe A SimplicialManifold
-/// @param topology The topology type from the scoped enum topology_type
-/// @param dimensions The number of dimensions of the triangulation
-/// @param number_of_simplices The number of simplices in the triangulation
-/// @param number_of_timeslices The number of foliated timeslices
-template <typename T>
-void write_file(const T& universe, const topology_type& topology,
-                const std::int_fast32_t dimensions,
-                const std::int_fast32_t number_of_simplices,
-                const std::int_fast32_t number_of_timeslices)
-{
-  // mutex to protect file access across threads
-  static std::mutex mutex;
-
-  std::string filename;
-  filename.assign(generate_filename(topology, dimensions, number_of_simplices,
-                                    number_of_timeslices));
-  std::cout << "Writing to file " << filename << "\n";
-
-  std::lock_guard<std::mutex> lock(mutex);
-
-  std::ofstream file(filename, std::ios::out);
-  if (!file.is_open()) throw std::runtime_error("Unable to open file.");
-
-  file << *universe.triangulation;
-}
-
-/// @brief Seed sequence class for high-quality pseudo-random number generator
-///
-/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
-/// @tparam T1 Type of number
-template <typename T1>
-struct SeedSeq
-{
-  T1 begin_;
-  T1 end_;
-
- public:
-  SeedSeq(T1 begin, T1 end) : begin_{begin}, end_{end} {}
-
-  template <typename T2>
-  void generate(T2 b, T2 e)
+  /// @brief  Generate useful filenames
+  /// @param t_topology The topology type from the scoped enum topology_type
+  /// @param t_dimension The dimensionality of the triangulation
+  /// @param t_number_of_simplices The number of simplices in the triangulation
+  /// @param t_number_of_timeslices The number of time foliations
+  /// @param t_initial_radius The radius of the first foliation t=1
+  /// @param t_foliation_spacing The spacing between foliations
+  /// @returns A filename
+  [[nodiscard]] inline auto make_filename(topology_type const& t_topology,
+                                          Int_precision        t_dimension,
+                                          Int_precision t_number_of_simplices,
+                                          Int_precision t_number_of_timeslices,
+                                          double        t_initial_radius,
+                                          double t_foliation_spacing) noexcept
+      -> std::filesystem::path
   {
-    assert((e - b) <= (end_ - begin_));
-    std::copy(begin_, begin_ + (e - b), b);
-  }
-};
+    std::string filename;
+    if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
+    else
+    {
+      filename += "T";
+    }
+    // std::to_string() works in C++11, but not earlier
+    filename += std::to_string(t_dimension);
 
-/// @brief Generate random integers
-///
-/// This function generates a random integer from [1, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
-/// for more details.
-///
-/// @param min_value The minimum value in the range
-/// @param max_value The maximum value in the range
-/// @return A random integer between min_value and max_value
-inline auto generate_random_signed(const int_fast32_t min_value,
-                                   const int_fast32_t max_value) noexcept
-{
-  // Non-deterministic random number generator
-  std::random_device rd;
-  // The simple way which works in C++14
-  std::mt19937_64 generator(rd());
-  //  // The tedious but more accurate way which works in C++17 but not C++14
-  //  uint32_t numbers[624];
-  //  // Initial state
-  //  std::generate(numbers, std::end(numbers), std::ref(rd));
-  //  // Copy into heap-allocated "seed sequence"
-  //  SeedSeq seedSeq(numbers, std::end(numbers));
-  //  // Initialized mt19937_64
-  //  std::mt19937 g(seedSeq);
+    filename += "-";
 
-  std::uniform_int_distribution<int_fast32_t> distribution(min_value, max_value);
+    filename += std::to_string(t_number_of_timeslices);
 
-  auto result = distribution(generator);
+    filename += "-";
 
-#ifdef DETAILED_DEBUGGING
-  std::cout << "Random " << (typeid(result)).name() << " is " << result << "\n";
-#endif
+    filename += std::to_string(t_number_of_simplices);
 
-  return result;
-}  // generate_random_signed()
+    filename += "-I";
 
-/// @brief Generate a random timeslice
-///
-/// This function generates a random timeslice
-/// using **generate_random_unsigned()**. Timeslices go from
-/// 1 to max_timeslice.
-///
-/// @param max_timeslice The maximum timeslice
-/// @return A random timeslice from 1 to max_timeslice
-inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept
-{
-  return generate_random_signed(1, max_timeslice);
-}  // generate_random_timeslice()
+    filename += std::to_string(t_initial_radius);
 
-/// @brief Generate random real numbers
-///
-/// This function generates a random real number from [min_value, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
-/// for more details.
-///
-/// @tparam T The real number type
-/// @param min_value The minimum value in the range
-/// @param max_value The maximum value in the range
-/// @return A random real number between min_value and max_value, inclusive
-template <typename T>
-auto generate_random_real(const T min_value, const T max_value) noexcept
-{
-  std::random_device                rd;
-  std::mt19937_64                   generator(rd());
-  std::uniform_real_distribution<T> distribution(min_value, max_value);
+    filename += "-R";
 
-  auto result = distribution(generator);
+    filename += std::to_string(t_foliation_spacing);
 
+    // Append current time
+    filename += "-";
+    auto timestamp = current_date_time();
+    std::replace(timestamp.begin(), timestamp.end(), ':', '-');
+    filename += timestamp;
+
+    // Append .off file extension
+    filename += ".off";
+    return filename;
+  }  // make_filename
+
+  template <typename ManifoldType>
+  [[nodiscard]] auto make_filename(ManifoldType const& manifold)
+  {
+    return make_filename(ManifoldType::topology, ManifoldType::dimension,
+                         manifold.N3(), manifold.max_time(),
+                         manifold.initial_radius(),
+                         manifold.foliation_spacing());
+  }  // make_filename
+
+  /// @brief Print triangulation statistics
+  /// @tparam TriangulationType The triangulation type
+  /// @param t_triangulation A triangulation (typically a Delaunay_t<3>
+  /// triangulation)
+  template <typename TriangulationType>
+  void print_delaunay(TriangulationType const& t_triangulation)
+  {
+    fmt::print(
+        "Triangulation has {} vertices and {} edges and {} faces and {} "
+        "simplices.\n",
+        t_triangulation.number_of_vertices(),
+        t_triangulation.number_of_finite_edges(),
+        t_triangulation.number_of_finite_facets(),
+        t_triangulation.number_of_finite_cells());
+  }  // print_delaunay
+
+  /// @brief Write triangulation to file
+  /// @details This function writes the Delaunay triangulation in the manifold
+  /// to an OFF file. http://www.geomview.org/docs/html/OFF.html#OFF Provides
+  /// strong exception-safety.
+  /// @tparam TriangulationType The type of triangulation
+  /// @param filename The filename to write to
+  /// @param triangulation The triangulation to write
+  template <typename TriangulationType>
+  void write_file(std::filesystem::path const& filename,
+                  TriangulationType const&     triangulation)
+  {
+    static std::mutex mutex;
+    fmt::print("Writing to file {}\n", filename.string());
+    std::scoped_lock const lock(mutex);
+    std::ofstream          file(filename, std::ios::out);
+    if (!file.is_open())
+    {
+      throw std::filesystem::filesystem_error(
+          "Could not open file for writing", filename,
+          std::make_error_code(std::errc::bad_file_descriptor));
+    }
+    file << triangulation;
+  }  // write_file
+
+  /// @brief Write the runtime results to a file
+  /// @details The filename is generated by the **make_filename()** and
+  /// writen using another **write_file()** function, which is currently
+  /// implemented using the << operator for triangulations.
+  /// @tparam ManifoldType The manifold type
+  /// @param t_universe The simplicial manifold
+  template <typename ManifoldType>
+  void write_file(ManifoldType const& t_universe)
+  {
+    std::filesystem::path filename;
+    filename.assign(make_filename(t_universe));
+    write_file(filename, t_universe.get_delaunay());
+  }  // write_file
+
+  /// @brief Read triangulation from file
+  /// @tparam TriangulationType The type of triangulation
+  /// @param filename The file to read from
+  /// @returns A Delaunay triangulation
+  template <typename TriangulationType>
+  auto read_file(std::filesystem::path const& filename) -> TriangulationType
+  {
+    static std::mutex mutex;
+    fmt::print("Reading from file {}\n", filename.string());
+    std::scoped_lock const lock(mutex);
+    std::ifstream          file(filename, std::ios::in);
+    if (!file.is_open())
+    {
+      throw std::filesystem::filesystem_error(
+          "Could not open file for reading", filename,
+          std::make_error_code(std::errc::bad_file_descriptor));
+    }
+    TriangulationType triangulation;
+    file >> triangulation;
+    return triangulation;
+  }  // read_file
+
+  /// @brief Roll a die with PCG
+  [[nodiscard]] inline auto die_roll()
+  {
+    pcg_extras::seed_seq_from<std::random_device> seed_source;
+
+    // Make a random number generator
+    pcg64 rng(seed_source);
+
+    // Choose random number from 1 to 6
+    std::uniform_int_distribution uniform_dist(1, 6);  // NOLINT
+    Int_precision const           roll = uniform_dist(rng);
+    return roll;
+  }  // die_roll()
+
+  /// @brief Generate random numbers
+  ///
+  /// Uses Melissa E. O'Neill's Permuted Congruential Generator for high-quality
+  /// RNG which passes the TestU01 statistical tests. See:
+  /// http://www.pcg-random.org/paper.html
+  /// for more details
+  ///
+  /// @tparam NumberType The type of number in the RNG
+  /// @tparam Distribution The distribution type, usually uniform
+  /// @param t_min_value The minimum value
+  /// @param t_max_value The maximum value
+  /// @returns A random value in the distribution between min_value and
+  /// max_value
+  template <typename NumberType, class Distribution>
+  [[nodiscard]] auto generate_random(NumberType t_min_value,
+                                     NumberType t_max_value)
+  {
+    pcg_extras::seed_seq_from<std::random_device> seed_source;
+    // Make a random number generator
+    pcg64        generator(seed_source);
+    Distribution distribution(t_min_value, t_max_value);
+    return distribution(generator);
+  }  // generate_random()
+
+  /// @brief Make a high-quality random number generator usable by std::shuffle
+  /// @returns A RNG
+  inline auto make_random_generator()
+  {
+    pcg_extras::seed_seq_from<std::random_device> seed_source;
+    pcg64                                         generator(seed_source);
+    return generator;
+  }  // make_random_generator()
+
+  /// @brief Generate random integers by calling generate_random, preserves
+  /// template argument deduction
+  template <typename IntegerType>
+  [[nodiscard]] auto generate_random_int(IntegerType t_min_value,
+                                         IntegerType t_max_value)
+  {
+    using int_dist = std::uniform_int_distribution<IntegerType>;
+    return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
+  }  // generate_random_int()
+
+  /// @brief Generate a random timeslice
+  template <typename IntegerType>
+  [[nodiscard]] auto generate_random_timeslice(IntegerType&& t_max_timeslice)
+      -> decltype(auto)
+  {
+    return generate_random_int(static_cast<IntegerType>(1),
+                               std::forward<IntegerType>(t_max_timeslice));
+  }  // generate_random_timeslice()
+
+  /// @brief Generate random real numbers by calling generate_random, preserves
+  /// template argument deduction
+  template <typename FloatingPointType>
+  [[nodiscard]] auto generate_random_real(FloatingPointType t_min_value,
+                                          FloatingPointType t_max_value)
+  {
+    using real_dist = std::uniform_real_distribution<FloatingPointType>;
+    return generate_random<FloatingPointType, real_dist>(t_min_value,
+                                                         t_max_value);
+  }  // generate_random_real()
+
+  /// @brief Generate a probability
+  [[nodiscard]] inline auto generate_probability()
+  {
+    auto constexpr min = 0.0L;
+    auto constexpr max = 1.0L;
+    return generate_random_real(min, max);
+  }  // generate_probability()
+
+  /// @brief Calculate expected # of points per simplex
+  ///
+  /// Usually, there are less vertices than simplices.
+  /// Here, we throw away a number of simplices that aren't correctly
+  /// foliated.
+  /// The exact formula is given by Dwyer:
+  /// http://link.springer.com/article/10.1007/BF02574694
+  ///
+  /// @param t_dimension  Number of dimensions
+  /// @param t_number_of_simplices  Number of desired simplices
+  /// @param t_number_of_timeslices Number of desired timeslices
+  /// @returns  The number of points per timeslice to obtain
+  /// the desired number of simplices
+  inline auto expected_points_per_timeslice(
+      Int_precision const t_dimension, Int_precision t_number_of_simplices,
+      Int_precision t_number_of_timeslices)
+  {
 #ifndef NDEBUG
-  std::cout << "Random trial is " << result << "\n";
+    spdlog::debug("{} simplices on {} timeslices desired.\n",
+                  t_number_of_simplices, t_number_of_timeslices);
 #endif
 
-  return result;
-}
-
-/// @brief Generate a random timeslice
-///
-/// This function generates a probability
-/// using **generate_random_real()**.
-///
-/// @return A probability from 0 to 1
-inline auto generate_probability() noexcept
-{
-  auto min = static_cast<long double>(0.0);
-  auto max = static_cast<long double>(1.0);
-  return generate_random_real(min, max);
-}  // generate_probability()
-
-/// @brief Calculate expected # of points per simplex
-///
-/// Usually, there are less vertices than simplices.
-/// Here, we throw away a number of simplices that aren't correctly
-/// foliated.
-/// The exact formula is given by Dwyer:
-/// http://link.springer.com/article/10.1007/BF02574694
-///
-/// @param dimension  Number of dimensions
-/// @param simplices  Number of desired simplices
-/// @param timeslices Number of desired timeslices
-/// @param output     Prints desired number of simplices on timeslices
-/// @return  The number of points per timeslice to obtain
-/// the desired number of simplices
-inline auto expected_points_per_simplex(const int           dimension,
-                                        const std::int_fast32_t simplices,
-                                        const std::int_fast32_t timeslices,
-                                        const bool          output = true)
-{
-  if (output) {
-    std::cout << simplices << " simplices on " << timeslices
-              << " timeslices desired.\n";
-  }
-
-  const auto simplices_per_timeslice = simplices / timeslices;
-  switch (dimension)
-  {
-    case 3:
+    auto const simplices_per_timeslice =
+        t_number_of_simplices / t_number_of_timeslices;
+    if (t_dimension == 3)
     {
       // Avoid segfaults for small values
-      if (simplices == timeslices) {
+      if (t_number_of_simplices == t_number_of_timeslices)
+      {
         return 2 * simplices_per_timeslice;
       }
-      else if (simplices < 1000)
+      if (t_number_of_simplices < 1000)  // NOLINT
       {
-        return static_cast<std::int_fast32_t>(0.4 * simplices_per_timeslice);
+        return static_cast<Int_precision>(
+            0.4L *  // NOLINT
+            static_cast<long double>(simplices_per_timeslice));
       }
-      else if (simplices < 10000)
+      if (t_number_of_simplices < 10000)  // NOLINT
       {
-        return static_cast<std::int_fast32_t>(0.2 * simplices_per_timeslice);
+        return static_cast<Int_precision>(
+            0.2L *  // NOLINT
+            static_cast<long double>(simplices_per_timeslice));
       }
-      else if (simplices < 100000)
+      if (t_number_of_simplices < 100000)  // NOLINT
       {
-        return static_cast<std::int_fast32_t>(0.15 * simplices_per_timeslice);
+        return static_cast<Int_precision>(
+            0.15L *  // NOLINT
+            static_cast<long double>(simplices_per_timeslice));
       }
-      else
-      {
-        return static_cast<std::int_fast32_t>(0.1 * simplices_per_timeslice);
-      }
+
+      return static_cast<Int_precision>(
+          0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
     }
-    default:
-    {
-      throw std::invalid_argument("Currently, dimensions cannot be >3.");
-    }
+    throw std::invalid_argument("Currently, dimensions cannot be >3.");
+
+  }  // expected_points_per_timeslice
+
+  /// @brief Convert Gmpzf into a double
+  ///
+  /// This function is mainly for testing, since to_double()
+  /// seems to work. However, if something more elaborate is required
+  /// this function can be expanded.
+  ///
+  /// @param t_value An exact Gmpzf multiple-precision floating point number
+  /// @returns The double conversion
+  [[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& t_value) -> double
+  { return t_value.to_double(); }  // Gmpzf_to_double
+
+  /// @brief Create console and file loggers
+  /// @details Create a console and file loggers.
+  /// There are six logging levels by default:
+  /// | Logging level | Description                            |
+  /// | ------------- | -------------------------------------- |
+  /// | Trace         | Used to trace the internals            |
+  /// | Debug         | Diagnostic information                 |
+  /// | Info          | General information                    |
+  /// | Warn          | Errors that are handled                |
+  /// | Err           | Errors which cause a function to fail  |
+  /// | Critical      | Errors which cause the program to fail |
+  ///
+  /// A logging level covers all levels beneath it, e.g. trace covers
+  /// everything, critical only shows up in spdlog::level::critical.
+  ///
+  /// Logging levels and formatting are set by loggers.
+  /// The sink is the object that writes the log to the target.
+  ///
+  /// So, this function creates 3 sinks:
+  /// -# Console, which logs *Info* and below to the terminal
+  /// -# Debug, which logs *Debug* and below to logs/debug-log.txt
+  /// -# Trace, which logs everything to logs/trace-log.txt
+  ///
+  /// If an exception is thrown, then the default global console logger is used.
+  inline void create_logger()
+  try
+  {
+    auto const console_sink =
+        std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    console_sink->set_level(spdlog::level::info);
+
+    auto const debug_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+        "logs/debug-log.txt", true);
+    debug_sink->set_level(spdlog::level::debug);
+
+    auto const trace_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+        "logs/trace-log.txt", true);
+    trace_sink->set_level(spdlog::level::trace);
+
+    spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};
+
+    auto const              logger    = std::make_shared<spdlog::logger>(
+        "multi_sink", sink_list.begin(), sink_list.end());
+    // This allows the logger to capture all events
+    logger->set_level(spdlog::level::trace);
+    // The sinks will filter items further via should_log()
+    logger->info("Multi-sink logger initialized.\n");
+    logger->debug("Debug logger initialized.\n");
+    logger->trace("Trace logger initialized.\n");
+    logger->debug(
+        "You must build in Debug mode for anything to be recorded in this "
+        "file.\n");
+
+    register_logger(logger);
+    set_default_logger(logger);
   }
-}
+  catch (spdlog::spdlog_ex const& ex)
+  {
+    // Use default logger
+    spdlog::error("Logger initialization failed: {}\n", ex.what());
+    spdlog::warn("Default logger set.\n");
 
-/// @brief Convert Gmpzf into a double
-///
-/// This function is mainly for testing, since to_double()
-/// seems to work. However, if something more elaborate is required
-/// this function can be expanded.
-///
-/// @param value An exact Gmpzf multiple-precision floating point number
-/// @return The double conversion
-inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
+  }  // create_logger
 
-/// @brief Calculate if lower <= value <= upper; used in GoogleTests
-/// @tparam T Value type
-/// @param arg Value to be compared
-/// @param lower Lower bound
-/// @param upper Upper bound
-/// @return True if arg lies within [lower, upper]
-template <typename T>
-bool IsBetween(T arg, T lower, T upper)
-{
-  return arg >= lower && arg <= upper;
-}
+  /// @brief Covert a CGAL point to a string
+  /// @tparam Point The type of point (e.g. 3D, 4D)
+  /// @param t_point The point
+  /// @returns A string representation of the point
+  template <typename Point>
+  auto point_to_str(Point const& t_point) -> std::string
+  {
+    std::stringstream stream;
+    stream << t_point;
+    return stream.str();
+  }  // point_to_str
 
-#endif  // SRC_UTILITIES_HPP_
+  /// @brief Convert a topology to a string using it's << operator
+  /// @param t_topology The topology_type to convert
+  /// @returns A string representation of the topology_type
+  inline auto topology_to_str(topology_type const& t_topology) -> std::string
+  {
+    std::stringstream stream;
+    stream << t_topology;
+    return stream.str();
+  }  // topology_to_str
+}  // namespace utilities
+#endif  // INCLUDE_UTILITIES_HPP_

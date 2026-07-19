@@ -19,18 +19,23 @@
 .DS_Store
 *.swp
 *.lock
+!uv.lock
 profile
 
 # Build, Doc, and Testing dirs
-build/*
+/build*
 html/
+/cmake-build*
 cov-int
+/out/*
+/Testing
 
 # Editor files
 .clang_complete
 .idea
-.vscode/
+.vs*
 xcode/
+CMakeSettings.json
 
 # Program/script executables
 cdt_tests
@@ -42,14 +47,35 @@ errors
 *.off
 *.dat
 slurm-*.out
-*.tmp
 
 # Instrumentation
 *.trace
 build-wrapper-macosx-x86
 *.scannerwork
 bw-output/*
+coverage.info
 
 # Cruft
 *.old.*
 *.bak
+
+# SourceTrail
+*.srctrlbm
+*.srctrldb*
+*.srctrlprj
+
+# Pipenv
+Pipfile
+scanresults/
+venv
+
+# Python tooling and virtual environments
+/.venv/
+**/__pycache__/
+*.py[cod]
+/.ruff_cache/
+/.pytest_cache/
+
+# vcpkg
+vcpkg_installed
+/.cache/

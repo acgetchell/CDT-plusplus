@@ -1,0 +1,168 @@
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2017 Adam Getchell
+ ******************************************************************************/
+
+/// @file Move_always.hpp
+/// @brief Randomly selects moves to always perform on triangulations
+/// @author Adam Getchell
+/// @details Picks a random move on the FoliatedTriangulation.
+/// For testing purposes.
+
+#ifndef INCLUDE_MOVE_ALWAYS_HPP_
+#define INCLUDE_MOVE_ALWAYS_HPP_
+
+#include <stdexcept>
+
+#include "Move_command.hpp"
+#include "Move_strategy.hpp"
+
+/// @brief The Move Always algorithm
+template <typename ManifoldType>
+  requires(ManifoldType::dimension == 3)
+class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
+{
+  using Counter = move_tracker::MoveTracker<ManifoldType>;
+
+  /// @brief The number of move passes executed by the algorithm
+  /// @details Each move pass makes a number of attempts equal to the number
+  /// of simplices in the triangulation.
+  Int_precision m_passes{1};
+
+  /// @brief The number of passes before a checkpoint
+  /// @details Each checkpoint writes a file containing the current
+  /// triangulation.
+  Int_precision m_checkpoint{1};
+
+  /// @brief The number of moves that were attempted by a MoveCommand
+  Counter m_attempted_moves;
+
+  /// @brief The number of moves that succeeded in the MoveCommand
+  Counter m_successful_moves;
+
+  /// @brief The number of moves that a MoveCommand failed to make due to an
+  /// error.
+  Counter m_failed_moves;
+
+ public:
+  /// @brief Default ctor
+  MoveStrategy() = default;
+
+  /// @brief Constructor for MoveAlways
+  /// @param t_number_of_passes Number of passes to run
+  /// @param t_checkpoint Number of passes per checkpoint
+  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
+                                Int_precision const t_checkpoint)
+      : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
+  {
+    if (m_passes < 0)
+    {
+      throw std::invalid_argument{"MoveAlways passes cannot be negative"};
+    }
+    if (m_checkpoint <= 0)
+    {
+      throw std::invalid_argument{
+          "MoveAlways checkpoint interval must be positive"};
+    }
+  }
+
+  /// @returns The number of passes made on a triangulation
+  [[nodiscard]] auto passes() const { return m_passes; }
+
+  /// @returns The number of passes per checkpoint
+  [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
+
+  /// @returns The MoveTracker of attempted moves
+  auto get_attempted() const { return m_attempted_moves; }
+
+  /// @returns The MoveTracker of successful moves
+  auto get_succeeded() const { return m_successful_moves; }
+
+  /// @returns The array of failed moves
+  auto get_failed() const { return m_failed_moves; }
+
+  /// @brief Call operator
+  auto operator()(ManifoldType const& t_manifold) -> ManifoldType
+  {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
+               ManifoldType::dimension - 1);
+
+    m_attempted_moves.reset();
+    m_successful_moves.reset();
+    m_failed_moves.reset();
+
+    // Start the move command
+    MoveCommand command(t_manifold);
+
+    fmt::print("Making random moves ...\n");
+
+    // Loop through passes
+    for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
+    {
+      fmt::print("=== Pass {} ===\n", pass_number);
+      auto total_simplices_this_pass = command.get_const_results().N3();
+      // Make a random move per simplex
+      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+           ++move_attempt)
+      {
+        // Pick a move to attempt
+        auto move_choice = utilities::generate_random_int(
+            0, move_tracker::NUMBER_OF_3D_MOVES - 1);
+#ifndef NDEBUG
+        fmt::print("Move choice = {}\n", move_choice);
+#endif
+        command.enqueue(move_tracker::as_move(move_choice));
+      }
+      command.execute();
+      // Update attempted, successful, and failed moves
+      m_attempted_moves += command.get_attempted();
+      m_successful_moves += command.get_succeeded();
+      m_failed_moves += command.get_failed();
+      command.reset_counters();
+
+      if (pass_number % m_checkpoint == 0)
+      {
+        fmt::print("Writing checkpoint for pass {}.\n", pass_number);
+        print_results();
+        utilities::write_file(command.get_results());
+      }
+    }
+    print_results();
+    return command.get_results();
+  }
+
+  /// @brief Display results of run
+  void print_results()
+  {
+    fmt::print("=== Move Results ===\n");
+    fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.two_three_moves(),
+               m_successful_moves.two_three_moves(),
+               m_failed_moves.two_three_moves());
+    fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.three_two_moves(),
+               m_successful_moves.three_two_moves(),
+               m_failed_moves.three_two_moves());
+    fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.two_six_moves(),
+               m_successful_moves.two_six_moves(),
+               m_failed_moves.two_six_moves());
+    fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.six_two_moves(),
+               m_successful_moves.six_two_moves(),
+               m_failed_moves.six_two_moves());
+    fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
+               m_attempted_moves.four_four_moves(),
+               m_successful_moves.four_four_moves(),
+               m_failed_moves.four_four_moves());
+  }
+};
+
+using MoveAlways_3 =
+    MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_3>;
+
+#endif  // INCLUDE_MOVE_ALWAYS_HPP_

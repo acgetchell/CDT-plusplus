@@ -1,191 +1,140 @@
-cmake_minimum_required(VERSION 3.8.2)
+cmake_minimum_required(VERSION 3.21)
 
-project(CDT-plusplus VERSION 0.1.8 LANGUAGES CXX)
-
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR "Do not build in-source.
-                       Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
+# vcpkg settings must be set before project()
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE
+      "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
 endif()
 
-############################
-##  Modules and scripts   ##
-############################
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 NEW)
+endif ()
 
-#Standard CMake modules
+# In Manifest mode CMake invokes vcpkg automatically This makes setup easier, however, in CI or Docker we may want to
+# turn this off
+option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" ON)
+set(_vcpkg_install_options ${VCPKG_INSTALL_OPTIONS})
+list(APPEND _vcpkg_install_options "--no-print-usage")
+list(REMOVE_DUPLICATES _vcpkg_install_options)
+set(VCPKG_INSTALL_OPTIONS "${_vcpkg_install_options}" CACHE STRING "Additional options passed to vcpkg install" FORCE)
+unset(_vcpkg_install_options)
+
+project(
+  CDT-plusplus
+  VERSION 0.1.8
+  DESCRIPTION "Fast Causal Dynamical Triangulations in C++"
+  LANGUAGES CXX)
+
+# Project settings
+include(cmake/StandardProjectSettings.cmake)
+
+# Prevent in source builds
+include(cmake/PreventInSourceBuilds.cmake)
+
+# Link this 'library' to set the c++ standard / compile-time options requested
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_23)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
+  if(ENABLE_BUILD_WITH_TIME_TRACE)
+    target_compile_options(project_options INTERFACE -ftime-trace)
+  endif()
+endif()
+
+# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
+add_library(project_warnings INTERFACE)
+
+# enable cache system
+include(cmake/Cache.cmake)
+
+# standard compiler warnings
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
+
+# diagnostic compile and link options
+include(cmake/Coverage.cmake)
+enable_coverage(project_options)
+
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
+
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
+
+# Options ##
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+option(ENABLE_TESTING "Enable building of tests" ON)
+
+# Modules and scripts ##
 include(CTest)
 include(CMakeDependentOption)
 
-#Coverage
-if (ENABLE_COVERAGE)
-  set(CMAKE_BUILD_TYPE Debug)
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fprofile-arcs")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ftest-coverage")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-endif ()
-
-#Valgrind
-if (VALGRIND)
-  set(CMAKE_BUILD_TYPE Debug)
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
-  set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-  set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-  # Known Valgrind issue
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+# Minimum compiler versions required for C++23 support:
+# - MSVC 19.34 (Visual Studio 2022 version 17.4)
+# - GCC 12.2
+# - AppleClang 15.0 (Xcode 15)
+# - Clang 16.0
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
+  message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
+  message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "15.0")
+  message(FATAL_ERROR "AppleClang 15.0 (Xcode 15) or higher required for C++23 std::expected support")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
+  message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
 endif()
 
-###############
-##  OPTIONS  ##
-###############
+# Set NOMINMAX to avoid min/max macro errors on Windows in date.h
+#if(WIN32)
+#  # Workaround for https://github.com/CGAL/cgal/issues/4665 and https://github.com/microsoft/vcpkg/issues/23572
+#  add_compile_options(/DNOMINMAX)
+#endif()
 
-#Turn on / off Catch Tests
-option(TESTS ON)
-#Turn on / off TBB
-set(TBB_ON TRUE)
-#Set mimumum Boost
-set(BOOST_MIN_VERSION "1.64.0")
-#Compile commands for ClangTidy et. al
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# Project vcpkg dependencies
 
+# https://github.com/CGAL/cgal
+# Do not let CGAL override project compiler/linker flags during package discovery.
+set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
+    TRUE
+    CACHE BOOL "Force CGAL to maintain CMAKE flags")
+find_package(CGAL CONFIG REQUIRED)
 
-#Threads
-set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+# https://howardhinnant.github.io/date/date.html
+find_package(date CONFIG REQUIRED)
 
-#Compiler flags
-if (CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS  "-frounding-math")
+# https://github.com/doctest/doctest
+find_package(doctest CONFIG REQUIRED)
+
+# https://github.com/fmtlib/fmt
+find_package(fmt CONFIG REQUIRED)
+
+# https://github.com/microsoft/GSL
+find_package(Microsoft.GSL CONFIG REQUIRED)
+
+# https://www.pcg-random.org
+find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
+
+find_package(Boost CONFIG REQUIRED COMPONENTS compat program_options)
+target_link_libraries(project_options INTERFACE Boost::compat)
+
+# https://github.com/gabime/spdlog
+find_package(spdlog CONFIG REQUIRED)
+
+# https://github.com/intel/tbb
+find_package(TBB CONFIG REQUIRED)
+
+# Header files
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
+
+# doctest
+if(ENABLE_TESTING)
+  enable_testing()
+  message(STATUS "Building tests. Look at /tests for unit tests.")
+  message(STATUS "Look at /tests/logs for spdlog results from unit tests.")
+  message(NOTICE "These logs can get quite big in DEBUG mode if you run all tests.")
+  add_subdirectory(tests)
 endif()
 
-#Turn off CGAL Triangulation Assertions and Postconditions
-add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
-
-#Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
-#with CGAL_SetupFlags.cmake
-set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
-
-#Extra warnings
-add_compile_options(-Wall -Wno-comment)
-
-#Easier navigation in an IDE when projects are organized in folders.
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-###############
-##  Project  ##
-###############
-
-set(EXECUTABLE_NAME "CDT")
-
-#Boost
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_MULTITHREAD ON)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
-if (Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIR})
-else()
-message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
-endif ()
-
-#CGAL
-find_package(CGAL QUIET COMPONENTS Core )
-if(CGAL_FOUND)
-#Don't let CGAL override flags
-  set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain CMAKE flags")
-  include(${CGAL_USE_FILE})
-  include(CGAL_CreateSingleSourceCGALProgram)
-#TBB
-  find_package(TBB)
-  if(TBB_FOUND AND TBB_ON)
-    include(${TBB_USE_FILE})
-    list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
-    MESSAGE(${TBB_LIBRARIES})
-  endif()
-#Eigen
-  find_package(Eigen3)
-  if(EIGEN3_FOUND)
-    include(${EIGEN3_USE_FILE})
-  else()
-    message(FATAL_ERROR "Notice: This program requires the Eigen3 library, and will not be compiled.")
-  endif()
-else()
-  message(FATAL_ERROR "Notice: This program requires the CGAL library, and will not be compiled.")
-endif()
-
-#Curl
-find_package(CURL)
-if(CURL_FOUND)
-  include_directories(${CURL_INCLUDE_DIR})
-else()
-  message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
-endif()
-
-include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
-add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
-target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${CURL_LIBRARIES})
-#Activate C++17
-target_compile_features(cdt PRIVATE cxx_std_17)
-
-if (UNIX)
-  add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
-  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
-  #Activate C++17
-  target_compile_features(cdt-gv PRIVATE cxx_std_17)
-
-
-  add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
-  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${CURL_LIBRARIES})
-  #Activate C++17
-  target_compile_features(cdt-opt PRIVATE cxx_std_17)
-
-endif(UNIX)
-
-###############
-##  Tests    ##
-###############
-
-#Catch
-add_subdirectory(test)
-
-#CTest basic testing
-
-#Does the usage message work ?
-add_test (CDT-Usage cdt)
-set_tests_properties (CDT-Usage
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Usage:./cdt")
-
-#Dimensions != 4
-add_test (CDT-3Donly cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
-set_tests_properties (CDT-3Donly
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
-
-#Simplices and timeslices >= 2
-add_test(CDT-Simplices cdt --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
-set_tests_properties(CDT-Simplices
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
-add_test(CDT-Timeslices cdt --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
-set_tests_properties(CDT-Timeslices
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
-
-# 3D Triangle inequality
-add_test (CDT-3Dtriangle cdt --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
-set_tests_properties (CDT-3Dtriangle
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
-
-#Minimum run
-add_test(CDT-MinimalS3 cdt --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
-set_tests_properties(CDT-MinimalS3
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Writing to file S3")
-#Run an S3
-add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
-set_tests_properties(CDT-S3Runs
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Writing to file S3")
+add_subdirectory(src)
