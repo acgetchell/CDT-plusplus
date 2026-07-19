@@ -65,7 +65,7 @@ prepare_cmake_cache()
   local cached_toolchain
   local cached_installed_dir
 
-  [[ -f "${cache_file}" ]] || return
+  [[ -f "${cache_file}" ]] || return 0
 
   cached_toolchain="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' "${cache_file}" | head -n 1)"
   cached_installed_dir="$(sed -n 's/^VCPKG_INSTALLED_DIR:[^=]*=//p' "${cache_file}" | head -n 1)"

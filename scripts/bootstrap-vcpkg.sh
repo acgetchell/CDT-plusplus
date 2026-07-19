@@ -90,7 +90,7 @@ if [[ -d "${vcpkg_dir}/.git" ]]; then
     printf 'Refusing to reuse %s because its origin is not microsoft/vcpkg.\n' "${vcpkg_dir}" >&2
     exit 1
   fi
-  if [[ -n "$(git -C "${vcpkg_dir}" status --short)" ]]; then
+  if [[ -n "$(git -C "${vcpkg_dir}" status --short --untracked-files=no)" ]]; then
     printf 'Refusing to reuse a modified vcpkg checkout at %s.\n' "${vcpkg_dir}" >&2
     exit 1
   fi

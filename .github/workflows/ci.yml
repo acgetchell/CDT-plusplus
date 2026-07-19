@@ -110,8 +110,11 @@ jobs:
         id: tool-versions
         shell: bash
         run: |
-          echo "llvm=$(just --evaluate llvm_version)" >> "$GITHUB_OUTPUT"
-          echo "uv=$(just --evaluate uv_version)" >> "$GITHUB_OUTPUT"
+          {
+            echo "llvm=$(just --evaluate llvm_version)"
+            echo "uv=$(just --evaluate uv_version)"
+            echo "zizmor=$(just --evaluate zizmor_version)"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Set up repository tools with pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
@@ -130,6 +133,11 @@ jobs:
 
       - name: Synchronize Python development dependencies
         run: uv sync --locked --group dev
+
+      - name: Install zizmor
+        uses: taiki-e/cache-cargo-install-action@417450f3c33ee20393705369577571770643d4c7  # v3.0.7
+        with:
+          tool: zizmor@${{ steps.tool-versions.outputs.zizmor }}
 
       - name: Check repository quality
         run: just check

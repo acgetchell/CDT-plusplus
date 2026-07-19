@@ -8,6 +8,7 @@ uv_version := "0.11.29"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 llvm_version := "22"
+zizmor_version := "1.26.1"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 
 # Build the supported configuration through the repository build script.
