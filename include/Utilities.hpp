@@ -160,7 +160,7 @@ namespace utilities
   /// @param triangulation The triangulation to write
   template <typename TriangulationType>
   void write_file(std::filesystem::path const& filename,
-                  TriangulationType            triangulation)
+                  TriangulationType const&     triangulation)
   {
     static std::mutex mutex;
     fmt::print("Writing to file {}\n", filename.string());
@@ -261,8 +261,8 @@ namespace utilities
   /// @brief Generate random integers by calling generate_random, preserves
   /// template argument deduction
   template <typename IntegerType>
-  [[nodiscard]] auto constexpr generate_random_int(
-      IntegerType t_min_value, IntegerType t_max_value) noexcept
+  [[nodiscard]] auto generate_random_int(IntegerType t_min_value,
+                                         IntegerType t_max_value) noexcept
   {
     using int_dist = std::uniform_int_distribution<IntegerType>;
     return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
@@ -280,7 +280,7 @@ namespace utilities
   /// @brief Generate random real numbers by calling generate_random, preserves
   /// template argument deduction
   template <typename FloatingPointType>
-  [[nodiscard]] auto constexpr generate_random_real(
+  [[nodiscard]] auto generate_random_real(
       FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept
   {
     using real_dist = std::uniform_real_distribution<FloatingPointType>;
@@ -289,7 +289,7 @@ namespace utilities
   }  // generate_random_real()
 
   /// @brief Generate a probability
-  [[nodiscard]] auto constexpr generate_probability() noexcept
+  [[nodiscard]] inline auto generate_probability() noexcept
   {
     auto constexpr min = 0.0L;
     auto constexpr max = 1.0L;

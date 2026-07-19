@@ -95,6 +95,8 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
         CHECK_EQ(mover.passes(), passes);
         CHECK_EQ(mover.checkpoint(), checkpoint);
       }
+      CHECK_THROWS_AS(MoveAlways_3(-1, checkpoint), std::invalid_argument);
+      CHECK_THROWS_AS(MoveAlways_3(passes, 0), std::invalid_argument);
       THEN("Attempted, successful, and failed moves are zero-initialized.")
       {
         CHECK_EQ(mover.get_attempted().total(), 0);

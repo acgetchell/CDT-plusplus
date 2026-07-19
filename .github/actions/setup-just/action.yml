@@ -1,0 +1,41 @@
+---
+name: Set up Just
+description: Resolve the pinned Just version from the Justfile and install it.
+
+outputs:
+  version:
+    description: The Just version declared by the repository.
+    value: ${{ steps.resolve.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve Just version
+      id: resolve
+      shell: bash
+      run: |
+        set -euo pipefail
+        shopt -s extglob
+        version=""
+        declaration_re='^[[:space:]]*just_version[[:space:]]*:=[[:space:]]*(.*)$'
+        while IFS= read -r line; do
+          if [[ "$line" =~ $declaration_re ]]; then
+            version="${BASH_REMATCH[1]}"
+            version="${version%%#*}"
+            version="${version##+([[:space:]])}"
+            version="${version%%+([[:space:]])}"
+            version="${version#\"}"
+            version="${version%\"}"
+            break
+          fi
+        done < Justfile
+        if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Could not resolve a semantic Just version from Justfile." >&2
+          exit 1
+        fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+
+    - name: Install Just
+      uses: taiki-e/cache-cargo-install-action@417450488d8d54be2db717bdb70a02a6a9f94512  # v3.0.7
+      with:
+        tool: just@${{ steps.resolve.outputs.version }}

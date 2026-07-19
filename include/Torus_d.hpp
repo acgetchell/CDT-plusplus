@@ -29,9 +29,8 @@ using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
  * \param t_points The container of points
  * \param t_number_of_points The number of points to insert
  * \param t_dimension The dimensionality of the torus
- * \return A d-dimensional torus
  */
-inline auto make_d_cube(std::vector<Point> t_points,
+inline void make_d_cube(std::vector<Point>& t_points,
                         std::size_t t_number_of_points, int t_dimension)
 {
   double constexpr size = 1.0;
@@ -40,9 +39,8 @@ inline auto make_d_cube(std::vector<Point> t_points,
              t_dimension);
 
   t_points.reserve(t_number_of_points);
-  return points_on_cube_grid_d(t_dimension, size, t_number_of_points,
-                               std::back_inserter(t_points),
-                               Creator_d(t_dimension));
+  points_on_cube_grid_d(t_dimension, size, t_number_of_points,
+                        std::back_inserter(t_points), Creator_d(t_dimension));
 }
 
 #endif  // INCLUDE_TORUS_D_HPP_

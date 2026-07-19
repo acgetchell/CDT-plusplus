@@ -156,33 +156,44 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       else
       {
         spdlog::warn("Cannot apply (6,2) move: {}", result.error());
-        REQUIRE(result.has_value());
+        THEN("Move unavailability is reported without mutating the manifold.")
+        {
+          CHECK_FALSE(result.error().empty());
+          CHECK(manifold.is_correct());
+          CHECK_EQ(manifold.simplices(), manifold_before.simplices());
+        }
       }
     }
     WHEN("A (4,4) move is applied to the manifold.")
     {
       spdlog::debug("Applying (4,4) move to manifold.\n");
-      if (auto result = apply_move(manifold, ergodic_moves::do_44_move); result)
+      auto result = apply_move(manifold, ergodic_moves::do_44_move);
+      if (result)
       {
         manifold = result.value();
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
+        THEN("The resulting manifold has the applied move.")
+        {
+          CHECK(ergodic_moves::check_move(
+              manifold_before, manifold,
+              move_tracker::move_type::FOUR_FOUR));
+          // Human verification
+          fmt::print("Old manifold.\n");
+          manifold_before.print_details();
+          fmt::print("New manifold after (4,4) move:\n");
+          manifold.print_details();
+        }
       }
       else
       {
         spdlog::debug("{}", result.error());
-        // Stop further tests
-        REQUIRE(result.has_value());
-      }
-      THEN("The resulting manifold has the applied move.")
-      {
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::FOUR_FOUR));
-        // Human verification
-        fmt::print("Old manifold.\n");
-        manifold_before.print_details();
-        fmt::print("New manifold after (4,4) move:\n");
-        manifold.print_details();
+        THEN("Move unavailability is reported without mutating the manifold.")
+        {
+          CHECK_FALSE(result.error().empty());
+          CHECK(manifold.is_correct());
+          CHECK_EQ(manifold.simplices(), manifold_before.simplices());
+        }
       }
     }
   }

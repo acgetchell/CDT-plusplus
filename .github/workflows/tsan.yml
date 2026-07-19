@@ -20,6 +20,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TSAN_OPTIONS: halt_on_error=1
 
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -53,20 +55,16 @@ jobs:
 
       - name: Run tests
         working-directory: build
-        continue-on-error: true
-        run: ctest -VV
+        run: ctest --no-tests=error --output-on-failure
 
       - name: Run TSAN on initialize
         working-directory: build/src
-        continue-on-error: true
         run: ./initialize --s -n32000 -t11 -o
 
       - name: Run TSAN on cdt-opt
         working-directory: build/src
-        continue-on-error: true
         run: ./cdt-opt
 
       - name: Run TSAN on cdt
         working-directory: build/src
-        continue-on-error: true
         run: ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10

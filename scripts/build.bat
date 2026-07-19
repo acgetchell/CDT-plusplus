@@ -24,6 +24,8 @@ CALL "%SCRIPT_DIR%bootstrap-vcpkg.bat" || EXIT /B 1
 :VCPKG_READY
 SET "VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
 CD /D "%REPO_ROOT%" || EXIT /B 1
+IF EXIST "%REPO_ROOT%\out\build\reference\CMakeCache.txt" DEL /F /Q "%REPO_ROOT%\out\build\reference\CMakeCache.txt" || EXIT /B 1
+IF EXIST "%REPO_ROOT%\out\build\reference\CMakeFiles\." RMDIR /S /Q "%REPO_ROOT%\out\build\reference\CMakeFiles" || EXIT /B 1
 cmake --preset reference -S . || EXIT /B 1
 cmake --build --preset reference || EXIT /B 1
 ctest --preset reference-smoke || EXIT /B 1

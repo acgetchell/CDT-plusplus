@@ -14,6 +14,7 @@
 #include <array>
 #include <cstddef>
 #include <gsl/util>
+#include <numeric>
 #include <span>
 
 #include "Settings.hpp"
@@ -125,7 +126,7 @@ namespace move_tracker
      * \param rhs The MoveTracker to be added
      * \return The sum of the individual elements of the MoveTrackers
      */
-    auto operator+=(MoveTracker const& rhs)
+    auto operator+=(MoveTracker const& rhs) -> MoveTracker&
     {
       for (std::size_t i = 0; i < moves.size(); ++i)
       {
@@ -140,7 +141,7 @@ namespace move_tracker
      */
     auto total() const noexcept
     {
-      return std::accumulate(moves.begin(), moves.end(), 0);
+      return std::accumulate(moves.begin(), moves.end(), Int_precision{0});
     }  // total
 
     /**

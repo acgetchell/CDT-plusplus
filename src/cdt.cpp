@@ -14,13 +14,14 @@
 
 #include <boost/program_options.hpp>
 #include <Metropolis.hpp>
+#include <utility>
 
 using Timer = CGAL::Real_timer;
 
 using namespace std;
 namespace po = boost::program_options;
 
-/// Help message parsed by docopt into options
+/// Help text used by Boost.Program_options
 static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -52,7 +53,7 @@ Options)"};
 
 /// @brief The main path of the CDT++ program
 /// @param argc Argument count = 1 + number of arguments
-/// @param argv Argument vector (array) to be passed to docopt
+/// @param argv Argument vector passed to Boost.Program_options
 /// @return Integer value 0 if successful, 1 on failure
 auto main(int const argc, char* const argv[]) -> int
 try
@@ -85,10 +86,11 @@ try
                         "Initial radius")(
       "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
       "Foliation spacing")(
-      "alpha,a", po::value<long double>(&alpha),
+      "alpha,a", po::value<long double>(&alpha)->required(),
       "Negative squared geodesic length of 1-d timelike edges")(
-      "k,k", po::value<long double>(&k), "K = 1/(8*pi*G_newton)")(
-      "lambda,l", po::value<long double>(&lambda), "K * Cosmological constant")(
+      "k,k", po::value<long double>(&k)->required(), "K = 1/(8*pi*G_newton)")(
+      "lambda,l", po::value<long double>(&lambda)->required(),
+      "K * Cosmological constant")(
       "passes,p", po::value<long long>(&passes)->default_value(100),
       "Number of passes")("checkpoint,c",
                           po::value<long long>(&checkpoint)->default_value(10),
@@ -96,7 +98,6 @@ try
 
   po::variables_map args;
   po::store(po::parse_command_line(argc, argv, description), args);
-  po::notify(args);
 
   if (args.count("help"))
   {
@@ -109,6 +110,8 @@ try
     fmt::print("CDT++ version 0.1.8\n");
     return EXIT_SUCCESS;
   }
+
+  po::notify(args);
 
   if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
   else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
@@ -162,6 +165,25 @@ try
     timer.stop();
     throw invalid_argument(
         "Simplices and timeslices should be greater or equal to 2.");
+  }
+
+  if (passes < 0)
+  {
+    timer.stop();
+    throw invalid_argument("Passes cannot be negative.");
+  }
+  if (checkpoint <= 0)
+  {
+    timer.stop();
+    throw invalid_argument("Checkpoint interval must be positive.");
+  }
+  if (!std::in_range<Int_precision>(simplices) ||
+      !std::in_range<Int_precision>(timeslices) ||
+      !std::in_range<Int_precision>(passes) ||
+      !std::in_range<Int_precision>(checkpoint))
+  {
+    timer.stop();
+    throw out_of_range("Integer argument exceeds the supported range.");
   }
 
   // Ensure Triangle inequalities hold

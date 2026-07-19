@@ -9,10 +9,11 @@
 /// @author Adam Getchell
 /// @details Picks a random move on the FoliatedTriangulation.
 /// For testing purposes.
-/// @bug Fix initialization
 
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
 #define INCLUDE_MOVE_ALWAYS_HPP_
+
+#include <stdexcept>
 
 #include "Move_command.hpp"
 #include "Move_strategy.hpp"
@@ -53,7 +54,17 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
                                 Int_precision const t_checkpoint)
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
-  {}
+  {
+    if (m_passes < 0)
+    {
+      throw std::invalid_argument{"MoveAlways passes cannot be negative"};
+    }
+    if (m_checkpoint <= 0)
+    {
+      throw std::invalid_argument{
+          "MoveAlways checkpoint interval must be positive"};
+    }
+  }
 
   /// @returns The number of passes made on a triangulation
   [[nodiscard]] auto passes() const { return m_passes; }
@@ -79,6 +90,10 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
     fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
                ManifoldType::dimension - 1);
 
+    m_attempted_moves.reset();
+    m_successful_moves.reset();
+    m_failed_moves.reset();
+
     // Start the move command
     MoveCommand command(t_manifold);
 
@@ -99,29 +114,9 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);
 #endif
-        if (move_choice == 0 && ManifoldType::dimension == 3)
+        if constexpr (ManifoldType::dimension == 3)
         {
-          command.enqueue(move_tracker::move_type::TWO_THREE);
-        }
-
-        if (move_choice == 1 && ManifoldType::dimension == 3)
-        {
-          command.enqueue(move_tracker::move_type::THREE_TWO);
-        }
-
-        if (move_choice == 2 && ManifoldType::dimension == 3)
-        {
-          command.enqueue(move_tracker::move_type::TWO_SIX);
-        }
-
-        if (move_choice == 3 && ManifoldType::dimension == 3)
-        {
-          command.enqueue(move_tracker::move_type::SIX_TWO);
-        }
-
-        if (move_choice == 4 && ManifoldType::dimension == 3)
-        {
-          command.enqueue(move_tracker::move_type::FOUR_FOUR);
+          command.enqueue(move_tracker::as_move(move_choice));
         }
       }
       command.execute();
@@ -129,7 +124,16 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
       m_attempted_moves += command.get_attempted();
       m_successful_moves += command.get_succeeded();
       m_failed_moves += command.get_failed();
+      command.reset_counters();
+
+      if (pass_number % m_checkpoint == 0)
+      {
+        fmt::print("Writing checkpoint for pass {}.\n", pass_number);
+        print_results();
+        utilities::write_file(command.get_results());
+      }
     }
+    print_results();
     return command.get_results();
   }
 

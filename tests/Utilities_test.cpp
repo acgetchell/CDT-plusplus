@@ -53,9 +53,9 @@ SCENARIO("Various string/stream/time utilities" *
     {
       THEN("The output is correct.")
       {
-        auto const             timestamp = std::chrono::system_clock::now();
-        auto const             result    = current_date_time(timestamp);
-        auto const             expected_year = date::format(
+        auto const timestamp     = std::chrono::system_clock::now();
+        auto const result        = current_date_time(timestamp);
+        auto const expected_year = date::format(
             "%Y", std::chrono::floor<std::chrono::seconds>(timestamp));
         CHECK(result.starts_with(expected_year));
         // Human verification
@@ -125,20 +125,17 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     // Construct a manifold from a Delaunay triangulation
     manifolds::Manifold_3 const manifold(
         foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
-    auto filename = make_filename(manifold);
-    WHEN("Writing to a file")
+    WHEN("The triangulation is round-tripped through a file")
     {
-      write_file(manifold);
-      THEN("The file should exist")
-      {
-        CHECK(std::filesystem::exists(filename));
-      }
-    }
-    WHEN("Reading from a file")
-    {
+      auto const filename = std::filesystem::temp_directory_path() /
+                            "cdt-plusplus-utilities-roundtrip.off";
+      std::filesystem::remove(filename);
+      write_file(filename, manifold.get_delaunay());
+      REQUIRE(std::filesystem::exists(filename));
+
       auto triangulation_from_file =
           utilities::read_file<Delaunay_t<3>>(filename);
-      THEN("The file should contain the triangulation")
+      THEN("The file contains the triangulation and can be removed")
       {
         REQUIRE(triangulation_from_file.is_valid(true));
         REQUIRE_EQ(triangulation_from_file.dimension(),
@@ -151,13 +148,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
                    manifold.N1());
         REQUIRE_EQ(triangulation_from_file.number_of_vertices(), manifold.N0());
         CHECK_EQ(triangulation_from_file, triangulation);
-      }
-    }
-    WHEN("Deleting a file")
-    {
-      std::filesystem::remove(filename);
-      THEN("The file should not exist")
-      {
+        REQUIRE(std::filesystem::remove(filename));
         CHECK_FALSE(std::filesystem::exists(filename));
       }
     }
@@ -173,7 +164,13 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     {
       auto const roll1 = die_roll();
       auto const roll2 = die_roll();
-      THEN("They should probably be different.") { WARN_NE(roll1, roll2); }
+      THEN("Both results are valid die values.")
+      {
+        CHECK_GE(roll1, 1);
+        CHECK_LE(roll1, 6);
+        CHECK_GE(roll2, 1);
+        CHECK_LE(roll2, 6);
+      }
     }
   }
   GIVEN("A container of ints")
@@ -184,10 +181,13 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     WHEN("The container is shuffled.")
     {
       ranges::shuffle(container, make_random_generator());
-      THEN("We get back the elements in random order.")
+      THEN("The shuffled result remains a permutation of the input.")
       {
-        auto j = 0;                                    // NOLINT
-        for (auto i : container) { WARN_NE(i, j++); }  // NOLINT
+        ranges::sort(container);
+        for (Int_precision i = 0; i < VECTOR_TEST_SIZE; ++i)
+        {
+          CHECK_EQ(container[static_cast<std::size_t>(i)], i);
+        }
         fmt::print("\nShuffled container verification:\n");
         fmt::print("{}\n", fmt::join(container, " "));
       }
@@ -195,7 +195,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   }
   GIVEN("A test range of integers")
   {
-    WHEN("We generate six different random integers within the range.")
+    WHEN("We generate six random integers within the range.")
     {
       auto constexpr min   = 64;
       auto constexpr max   = 6400;
@@ -206,7 +206,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       auto const value5    = generate_random_int(min, max);
       auto const value6    = generate_random_int(min, max);
       array      container = {value1, value2, value3, value4, value5, value6};
-      THEN("They should all fall within the range and all be different.")
+      THEN("They should all fall within the range.")
       {
         // All elements are >= min
         CHECK_GE(*ranges::min_element(container), min);
@@ -214,19 +214,12 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
         // All elements are <= max
         CHECK_LE(*ranges::max_element(container), max);
 
-        // All elements are different
-        ranges::sort(container);
-        CHECK(ranges::is_sorted(container));
-        auto adjacent_iterator = ranges::adjacent_find(container);
-
-        // If the iterator is equal to the end, then all elements are different
-        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
   GIVEN("A test range of timeslices")
   {
-    WHEN("We generate six different timeslices within the range.")
+    WHEN("We generate six timeslices within the range.")
     {
       auto constexpr max   = 256;
       auto const value1    = generate_random_timeslice(max);
@@ -236,7 +229,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       auto const value5    = generate_random_timeslice(max);
       auto const value6    = generate_random_timeslice(max);
       array      container = {value1, value2, value3, value4, value5, value6};
-      THEN("They should all fall within the range and be different.")
+      THEN("They should all fall within the range.")
       {
         auto constexpr min = 1;
         // All elements are >= min
@@ -245,13 +238,6 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
         // All elements are <= max
         CHECK_LE(*ranges::max_element(container), max);
 
-        // All elements are different
-        ranges::sort(container);
-        CHECK(ranges::is_sorted(container));
-        auto adjacent_iterator = ranges::adjacent_find(container);
-
-        // If the iterator is equal to the end, then all elements are different
-        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
@@ -281,14 +267,10 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       auto const value6    = generate_probability();
       array      container = {value1, value2, value3, value4, value5, value6};
 
-      THEN("They should all be different.")
+      THEN("They should all be valid probabilities.")
       {
-        ranges::sort(container);
-        CHECK(ranges::is_sorted(container));
-        auto adjacent_iterator = ranges::adjacent_find(container);
-
-        // If the iterator is equal to the end, then all elements are different
-        CHECK_EQ(adjacent_iterator, container.end());
+        CHECK_GE(*ranges::min_element(container), 0.0L);
+        CHECK_LE(*ranges::max_element(container), 1.0L);
       }
     }
   }

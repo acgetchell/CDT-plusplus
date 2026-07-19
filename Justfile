@@ -3,6 +3,8 @@
 
 set minimum-version := "1.56.0"
 
+just_version := "1.56.0"
+uv_version := "0.11.29"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 clang_format_version := "18"
@@ -15,7 +17,7 @@ build:
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check python-check
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
@@ -23,11 +25,47 @@ check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespac
 ci: check _pinact-check build
     @echo "CI validation complete."
 
-# Apply safe automatic formatting to the Justfile and changed C++ lines.
+# Apply safe automatic formatting to changed C++/Python source and the Justfile.
 [group('workflows')]
-fix: _format-fix
+fix: _format-fix python-fix
     just --fmt
     @echo "Fixes applied."
+
+# Run every non-mutating Python source check.
+[group('workflows')]
+python-check: python-format-check python-lint python-typecheck
+    @echo "Python source checks complete."
+
+# Apply Ruff lint fixes and formatting to Python source.
+[group('workflows')]
+python-fix: _ensure-uv
+    uv run --locked ruff check src/ --fix
+    uv run --locked ruff format src/
+
+# Check Python formatting with Ruff.
+[group('workflows')]
+python-format-check: _ensure-uv
+    uv run --locked ruff format --check src/
+
+# Lint Python source with Ruff.
+[group('workflows')]
+python-lint: _ensure-uv
+    uv run --locked ruff check src/
+
+# Synchronize the lightweight Python development environment from the lockfile.
+[group('workflows')]
+python-sync: _ensure-uv
+    uv sync --locked --group dev
+
+# Synchronize dependencies required by the optional experiment scripts.
+[group('workflows')]
+python-sync-experiments: _ensure-uv
+    uv sync --locked --group dev --group experiments
+
+# Type-check Python support code with ty.
+[group('workflows')]
+python-typecheck: _ensure-uv
+    uv run --locked ty check src/ --error all
 
 # Build as needed and run the primary CDT++ executable.
 [group('workflows')]
@@ -87,7 +125,18 @@ _cmake-check:
     exit 1
 
 [private]
-_format-check:
+_ensure-uv:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v uv >/dev/null || { echo "uv {{ uv_version }} is required." >&2; exit 1; }
+    actual_version="$(uv --version | awk '{print $2}')"
+    if [[ "$actual_version" != "{{ uv_version }}" ]]; then
+      echo "uv {{ uv_version }} is required; found $actual_version." >&2
+      exit 1
+    fi
+
+[private]
+_resolve-clang-format:
     #!/usr/bin/env bash
     set -euo pipefail
     clang_format="$(command -v clang-format-{{ clang_format_version }} || command -v clang-format || true)"
@@ -95,7 +144,7 @@ _format-check:
       clang_format=""
     fi
     if [[ -z "$clang_format" ]] && command -v pkgx >/dev/null; then
-      exec pkgx +llvm.org@{{ clang_format_version }} +python.org -- just _format-check
+      exec pkgx +llvm.org@{{ clang_format_version }} +python.org -- just _resolve-clang-format
     fi
     [[ -n "$clang_format" ]] || { echo "clang-format {{ clang_format_version }} is required; install it or install pkgx." >&2; exit 1; }
     clang_format_prefix="$(cd -- "$(dirname -- "$clang_format")/.." && pwd)"
@@ -109,6 +158,13 @@ _format-check:
       fi
     done
     [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py from LLVM {{ clang_format_version }} is required." >&2; exit 1; }
+    printf '%s\t%s\n' "$clang_format" "$clang_format_diff"
+
+[private]
+_format-check:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    IFS=$'\t' read -r clang_format clang_format_diff < <(just _resolve-clang-format)
     diff_output="$(git diff -U0 --no-color HEAD -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp' | "$clang_format_diff" -p1 -style file -binary "$clang_format")"
     if [[ -n "$diff_output" ]]; then
       printf '%s\n' "$diff_output"
@@ -126,25 +182,7 @@ _format-check:
 _format-fix:
     #!/usr/bin/env bash
     set -euo pipefail
-    clang_format="$(command -v clang-format-{{ clang_format_version }} || command -v clang-format || true)"
-    if [[ -n "$clang_format" ]] && ! "$clang_format" --version | grep -Eq 'clang-format version {{ clang_format_version }}([.]|$)'; then
-      clang_format=""
-    fi
-    if [[ -z "$clang_format" ]] && command -v pkgx >/dev/null; then
-      exec pkgx +llvm.org@{{ clang_format_version }} +python.org -- just _format-fix
-    fi
-    [[ -n "$clang_format" ]] || { echo "clang-format {{ clang_format_version }} is required; install it or install pkgx." >&2; exit 1; }
-    clang_format_prefix="$(cd -- "$(dirname -- "$clang_format")/.." && pwd)"
-    clang_format_diff=""
-    for candidate in \
-      "$(command -v clang-format-diff-{{ clang_format_version }} || true)" \
-      "${clang_format_prefix}/share/clang/clang-format-diff.py"; do
-      if [[ -x "$candidate" ]]; then
-        clang_format_diff="$candidate"
-        break
-      fi
-    done
-    [[ -n "$clang_format_diff" ]] || { echo "clang-format-diff.py from LLVM {{ clang_format_version }} is required." >&2; exit 1; }
+    IFS=$'\t' read -r clang_format clang_format_diff < <(just _resolve-clang-format)
     git diff -U0 --no-color HEAD -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp' | "$clang_format_diff" -p1 -i -style file -binary "$clang_format"
     untracked=()
     while IFS= read -r -d '' file; do

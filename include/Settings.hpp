@@ -25,11 +25,7 @@ using Gmpzf = CGAL::Gmpzf;
 /// Casts to unsigned types are still necessary for certain library functions
 /// to work.
 
-#if __linux
-using Int_precision = int;
-#else
-using Int_precision = std::int_fast32_t;
-#endif
+using Int_precision = std::int32_t;
 
 #ifdef _WIN32
 #define __PRETTY_FUNCTION__ __FUNCSIG__

@@ -1,7 +1,7 @@
 #file: noinspection SpellCheckingInspection
 ---
 Checks:          'clang-diagnostic-*,clang-analyzer-*,clang-diagnostic-*,clang-analyzer-*,clang-diagnostic-*,clang-analyzer-*,*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvm-*,-cppcoreguidelines-avoid-c-arrays,-hicpp-avoid-c-arrays,-modernize-avoid-c-arrays, -hicpp-vararg, -cppcoreguidelines-pro-type-vararg, -llvmlibc-*, -readability-function-cognitive-complexity, -readability-function-size, -hicpp-function-size, -altera-*, -misc-include-cleaner'
-WarningsAsErrors: '0'
+WarningsAsErrors: ''
 HeaderFileExtensions:
   - ''
   - h
@@ -13,7 +13,7 @@ ImplementationFileExtensions:
   - cc
   - cpp
   - cxx
-HeaderFilterRegex: '^.(include|src|tests).*'
+HeaderFilterRegex: '^(.*/)?(include|src|tests)/.*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     none
 User:            adam
@@ -234,7 +234,7 @@ CheckOptions:
   bugprone-argument-comment.CommentNullPtrs: '0'
   cert-oop54-cpp.WarnOnlyIfThisHasSuspiciousField: 'false'
   modernize-make-unique.MakeSmartPtrFunctionHeader: memory
-  readability-suspicious-call-argument.Abbreviations: 'lst=list;arr=array;num=number;ptr=pointer;i=index;val=value;ln=line;cpy=copy;idx=index;vec=vector;src=source;dest=destination;wdth=width;nr=number;elem=element;srv=server;pos=position;cl=client;stmt=statement;len=length;buf=buffer;dist=distancedst=distance;hght=height;var=variable;ref=reference;col=column;attr=attribute;str=string;cnt=count;addr=address'
+  readability-suspicious-call-argument.Abbreviations: 'lst=list;arr=array;num=number;ptr=pointer;i=index;val=value;ln=line;cpy=copy;idx=index;vec=vector;src=source;dest=destination;wdth=width;nr=number;elem=element;srv=server;pos=position;cl=client;stmt=statement;len=length;buf=buffer;dist=distance;dst=distance;hght=height;var=variable;ref=reference;col=column;attr=attribute;str=string;cnt=count;addr=address'
   cppcoreguidelines-avoid-magic-numbers.IgnoreTypeAliases: 'false'
   misc-use-anonymous-namespace.HeaderFileExtensions: ';h;hh;hpp;hxx'
   bugprone-easily-swappable-parameters.ModelImplicitConversions: true

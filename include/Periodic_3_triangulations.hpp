@@ -65,14 +65,18 @@ void make_random_T3_triangulation(T* T3, int simplices, int timeslices) noexcept
   CGAL::Random_points_in_cube_d<Point> gen(dim, size);
 
   /// Setup random point creation in a square (2-cube)
-  for (size_t i = 0; i < timeslices; i++)
+  for (int timeslice_index = 0; timeslice_index < timeslices; ++timeslice_index)
   {
     /// Debugging
-    std::cout << "Timeslice " << i << std::endl;
-    for (size_t i = 0; i < points_per_timeslice; i++) { v.push_back(*gen++); }
-    for (size_t i = 0; i < points_per_timeslice; i++)
+    std::cout << "Timeslice " << timeslice_index << std::endl;
+    for (int point_index = 0; point_index < points_per_timeslice; ++point_index)
     {
-      std::cout << " " << v[i] << std::endl;
+      v.push_back(*gen++);
+    }
+    for (int point_index = 0; point_index < points_per_timeslice; ++point_index)
+    {
+      auto const offset = timeslice_index * points_per_timeslice + point_index;
+      std::cout << " " << v[static_cast<std::size_t>(offset)] << std::endl;
     }
   }
 }

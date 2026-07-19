@@ -109,6 +109,10 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
         CHECK_EQ(testrun.get_succeeded().total(), 0);
         CHECK_EQ(testrun.get_failed().total(), 0);
       }
+      CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, -1, output_every_n_passes),
+                      std::invalid_argument);
+      CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, passes, 0),
+                      std::invalid_argument);
       THEN("The initial moves are made correctly.")
       {
         auto result           = testrun.initialize(universe);

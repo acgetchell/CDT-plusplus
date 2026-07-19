@@ -33,6 +33,23 @@ namespace ergodic_moves
   using Vertex_container = std::vector<Vertex_handle>;
   using Delaunay         = Delaunay_t<3>;
 
+  namespace detail
+  {
+    /// @brief Check an edge handle without dereferencing its cell handle.
+    /// @details A tetrahedral cell has four local vertex indices in [0, 4).
+    [[nodiscard]] inline auto is_well_formed_edge(
+        Edge_handle const& edge) noexcept -> bool
+    {
+      static auto constexpr vertex_count = Int_precision{4};
+      auto const valid_index             = [](Int_precision const index) {
+        return index >= 0 && index < vertex_count;
+      };
+
+      return edge.first != nullptr && valid_index(edge.second) &&
+             valid_index(edge.third) && edge.second != edge.third;
+    }
+  }  // namespace detail
+
   /// @brief Perform a null move
   ///
   /// @param t_manifold The simplicial manifold
@@ -53,11 +70,27 @@ namespace ergodic_moves
                                         Cell_handle const& to_be_moved) -> bool
   {
     if (to_be_moved->info() != 22) { return false; }  // NOLINT
-    auto flipped = false;
+    auto& triangulation = t_manifold.triangulation();
+    auto  flipped       = false;
     // Try every facet of the (2,2) cell
     for (auto i = 0; i < 4; ++i)
     {
-      if (t_manifold.triangulation().flip(to_be_moved, i))
+      auto const neighbor = to_be_moved->neighbor(i);
+      if (triangulation.is_infinite(neighbor)) { continue; }
+
+      // A causal (2,3) move must replace the facet with a timelike edge.
+      // CGAL also permits topological flips that create a spacelike edge.
+      auto const mirror_index = neighbor->index(to_be_moved);
+      auto const first_time =
+          static_cast<long long>(to_be_moved->vertex(i)->info());
+      auto const second_time =
+          static_cast<long long>(neighbor->vertex(mirror_index)->info());
+      auto const time_difference = first_time > second_time
+                                     ? first_time - second_time
+                                     : second_time - first_time;
+      if (time_difference != 1) { continue; }
+
+      if (triangulation.flip(to_be_moved, i))
       {
 #ifndef NDEBUG
         spdlog::trace("Facet {} was flippable.\n", i);
@@ -335,9 +368,8 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @returns True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
-                                          Vertex_handle const& candidate)
-      -> bool
+  [[nodiscard]] inline auto is_62_movable(
+      Manifold const& manifold, Vertex_handle const& candidate) -> bool
   {
     if (manifold.dimensionality() != 3)
     {
@@ -487,10 +519,11 @@ namespace ergodic_moves
   /// @see
   /// https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094
   [[nodiscard]] inline auto incident_cells_from_edge(
-      Delaunay_t<3> const& triangulation, Edge_handle const& edge)
-      -> std::optional<Cell_container>
+      Delaunay_t<3> const& triangulation,
+      Edge_handle const&   edge) -> std::optional<Cell_container>
   {
-    if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
+    if (!detail::is_well_formed_edge(edge) ||
+        !triangulation.tds().is_edge(edge.first, edge.second, edge.third))
     {
       return std::nullopt;
     }
@@ -521,14 +554,23 @@ namespace ergodic_moves
   /// @param t_edge_candidate The edge to check
   /// @returns A container of incident cells if there are exactly 4 or nullopt
   [[nodiscard]] inline auto find_bistellar_flip_location(
-      Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
-      -> std::optional<Cell_container>
+      Delaunay const&    triangulation,
+      Edge_handle const& t_edge_candidate) -> std::optional<Cell_container>
   {
     if (auto incident_cells =
             incident_cells_from_edge(triangulation, t_edge_candidate);
         incident_cells.has_value() && incident_cells->size() == 4)
     {
-      return incident_cells.value();
+      auto const cell_type_count = [&](Cell_type const type) {
+        return std::ranges::count_if(*incident_cells, [&](auto const cell) {
+          return cell->info() == static_cast<Int_precision>(type);
+        });
+      };
+      if (cell_type_count(Cell_type::THREE_ONE) == 2 &&
+          cell_type_count(Cell_type::ONE_THREE) == 2)
+      {
+        return incident_cells.value();
+      }
     }
     return std::nullopt;
   }  // find_bistellar_flip_location()
@@ -541,396 +583,144 @@ namespace ergodic_moves
                                                Edge_handle const edge)
       -> std::optional<Cell_container>
   {
-    // Check that the edge is valid
-    if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
-    {
-      return std::nullopt;
-    }
-
-    Cell_container incident_cells;
-    auto           circulator = triangulation.incident_cells(edge, edge.first);
-    do {  // NOLINT(cppcoreguidelines-avoid-do-while)
-      // filter out boundary edges with incident infinite cells
-      if (triangulation.is_infinite(circulator)) { continue; }
-      incident_cells.emplace_back(circulator);
-    }
-    while (++circulator != edge.first);
-
-    return incident_cells;
+    return incident_cells_from_edge(triangulation, edge);
   }  // get_incident_cells()
 
   /// @brief Perform a bistellar flip on triangulation via the given edge
   /// @details Pass by value to avoid modifying the original triangulation
   /// in the event that the flip is unsuccessful.
-  /// @param triangulation The triangulation to flip
-  /// @param edge The edge to pivot on
-  /// @param top Top vertex of the cells being flipped
-  /// @param bottom Bottom vertex of the cells being flipped
+  /// @param source_triangulation The triangulation to flip
+  /// @param source_edge The edge to pivot on
+  /// @param source_top Top vertex of the cells being flipped
+  /// @param source_bottom Bottom vertex of the cells being flipped
   /// @returns A flipped triangulation or nullopt
-  [[nodiscard]] inline auto bistellar_flip(Delaunay    triangulation,
-                                           Edge_handle edge, Vertex_handle top,
-                                           Vertex_handle bottom)
-      -> std::optional<Delaunay>
+  [[nodiscard]] inline auto bistellar_flip(
+      Delaunay const& source_triangulation, Edge_handle const source_edge,
+      Vertex_handle const source_top,
+      Vertex_handle const source_bottom) -> std::optional<Delaunay>
   {
-    // Get the cells incident to the edge
-    auto incident_cells = get_incident_cells(triangulation, edge);
-
-    // Check that there are exactly 4 incident cells
-    if (!incident_cells || incident_cells->size() != 4) { return std::nullopt; }
-
-    // Check incident cells are valid
-    if (std::ranges::any_of(*incident_cells,
-                            [](auto const& cell) { return !cell->is_valid(); }))
+    if (!detail::is_well_formed_edge(source_edge) || source_top == nullptr ||
+        source_bottom == nullptr ||
+        !source_triangulation.tds().is_edge(
+            source_edge.first, source_edge.second, source_edge.third) ||
+        !source_triangulation.tds().is_vertex(source_top) ||
+        !source_triangulation.tds().is_vertex(source_bottom) ||
+        source_triangulation.is_infinite(source_top) ||
+        source_triangulation.is_infinite(source_bottom))
     {
       return std::nullopt;
     }
 
-    // Get vertices from pivot edge
-    auto const& pivot_from_1 = edge.first->vertex(edge.second);
-    auto const& pivot_from_2 = edge.first->vertex(edge.third);
+    // CGAL copy construction duplicates its vertices and cells, invalidating
+    // all handles from the source triangulation. Capture stable point values,
+    // then resolve the corresponding handles in the private copy before
+    // attempting the mutation.
+    auto const pivot_from_1_point =
+        source_edge.first->vertex(source_edge.second)->point();
+    auto const pivot_from_2_point =
+        source_edge.first->vertex(source_edge.third)->point();
+    auto const top_point    = source_top->point();
+    auto const bottom_point = source_bottom->point();
 
-    // Get vertices from cells
-    auto vertices = foliated_triangulations::get_vertices_from_cells<3>(
-        incident_cells.value());
-
-    // Get vertices for new pivot edge
-    Vertex_container new_pivot_vertices;
-    std::ranges::copy_if(vertices, std::back_inserter(new_pivot_vertices),
-                         [&](auto const& vertex) {
-                           return vertex != pivot_from_1 &&
-                                  vertex != pivot_from_2 && vertex != top &&
-                                  vertex != bottom;
-                         });
-
-    // Check that there are exactly 2 new pivot vertices
-    if (new_pivot_vertices.size() != 2) { return std::nullopt; }
-
-    // Label the vertices in the new pivot edge
-    auto const& pivot_to_1 = new_pivot_vertices[0];
-    auto const& pivot_to_2 = new_pivot_vertices[1];
-
-    // Verify all vertices exist and are not infinite
-    if (triangulation.is_infinite(pivot_from_1) ||
-        triangulation.is_infinite(pivot_from_2) ||
-        triangulation.is_infinite(pivot_to_1) ||
-        triangulation.is_infinite(pivot_to_2) ||
-        triangulation.is_infinite(top) || triangulation.is_infinite(bottom))
+    Delaunay   triangulation{source_triangulation};
+    auto const pivot_from_1_handle = foliated_triangulations::find_vertex<3>(
+        triangulation, pivot_from_1_point);
+    auto const pivot_from_2_handle = foliated_triangulations::find_vertex<3>(
+        triangulation, pivot_from_2_point);
+    auto const top_handle =
+        foliated_triangulations::find_vertex<3>(triangulation, top_point);
+    auto const bottom_handle =
+        foliated_triangulations::find_vertex<3>(triangulation, bottom_point);
+    if (!pivot_from_1_handle || !pivot_from_2_handle || !top_handle ||
+        !bottom_handle)
     {
       return std::nullopt;
     }
 
-#ifndef NDEBUG
-    spdlog::debug(
-        "Pivot from: ({}, {}), Pivot to: ({}, {}), Top: {}, Bottom: {}",
-        pivot_from_1->point(), pivot_from_2->point(), pivot_to_1->point(),
-        pivot_to_2->point(), top->point(), bottom->point());
-#endif
+    auto const  pivot_from_1     = *pivot_from_1_handle;
+    auto const  pivot_from_2     = *pivot_from_2_handle;
+    auto const  top              = *top_handle;
+    auto const  bottom           = *bottom_handle;
 
-    // Now we need to classify the cells by the vertices they contain
-    Cell_handle before_1 =
-        nullptr;  // top, pivot_from_1, pivot_from_2, pivot_to_1
-    Cell_handle before_2 =
-        nullptr;  // top, pivot_from_1, pivot_from_2, pivot_to_2
-    Cell_handle before_3 =
-        nullptr;  // bottom, pivot_from_1, pivot_from_2, pivot_to_1
-    Cell_handle before_4 =
-        nullptr;  // bottom, pivot_from_1, pivot_from_2, pivot_to_2
-
-    for (auto const& cell : incident_cells.value())
+    Cell_handle copied_edge_cell = nullptr;
+    int         copied_edge_first_index{};
+    int         copied_edge_second_index{};
+    if (!triangulation.is_edge(pivot_from_1, pivot_from_2, copied_edge_cell,
+                               copied_edge_first_index,
+                               copied_edge_second_index))
     {
-      if (cell->has_vertex(top))
-      {
-        if (cell->has_vertex(pivot_to_1)) { before_1 = cell; }
-        else { before_2 = cell; }
-      }
-      else
-      {
-        if (cell->has_vertex(pivot_to_1)) { before_3 = cell; }
-        else { before_4 = cell; }
-      }
+      return std::nullopt;
     }
+    Edge_handle const edge{copied_edge_cell, copied_edge_first_index,
+                           copied_edge_second_index};
 
-    // Verify all cells were found
-    if (before_1 == nullptr || before_2 == nullptr || before_3 == nullptr ||
-        before_4 == nullptr)
+    auto const        incident_cells = get_incident_cells(triangulation, edge);
+    if (!incident_cells || incident_cells->size() != 4 || top == bottom ||
+        top == pivot_from_1 || top == pivot_from_2 || bottom == pivot_from_1 ||
+        bottom == pivot_from_2 ||
+        std::ranges::any_of(*incident_cells, [&](auto const& cell) {
+          return triangulation.is_infinite(cell) || !cell->is_valid();
+        }))
     {
-#ifndef NDEBUG
-      spdlog::debug("Not all cells were properly identified.");
-#endif
       return std::nullopt;
     }
 
-    // Verify cells are not infinite and are valid
-    if (triangulation.is_infinite(before_1) ||
-        triangulation.is_infinite(before_2) ||
-        triangulation.is_infinite(before_3) ||
-        triangulation.is_infinite(before_4) || !before_1->is_valid() ||
-        !before_2->is_valid() || !before_3->is_valid() || !before_4->is_valid())
+    auto const incident_count = [&](Vertex_handle const vertex) {
+      return std::ranges::count_if(
+          *incident_cells,
+          [&](Cell_handle const cell) { return cell->has_vertex(vertex); });
+    };
+    if (incident_count(top) != 2 || incident_count(bottom) != 2)
     {
-#ifndef NDEBUG
-      spdlog::debug("Some cells are invalid or infinite.");
-#endif
       return std::nullopt;
     }
 
-#ifndef NDEBUG
-    spdlog::debug("Cells in the triangulation before deleting old cells: {}",
-                  triangulation.number_of_cells());
-
-    // Debug info about cells
-    spdlog::debug("Before_1: vertices {}, {}, {}, {}",
-                  before_1->vertex(0)->point(), before_1->vertex(1)->point(),
-                  before_1->vertex(2)->point(), before_1->vertex(3)->point());
-    spdlog::debug("Before_2: vertices {}, {}, {}, {}",
-                  before_2->vertex(0)->point(), before_2->vertex(1)->point(),
-                  before_2->vertex(2)->point(), before_2->vertex(3)->point());
-    spdlog::debug("Before_3: vertices {}, {}, {}, {}",
-                  before_3->vertex(0)->point(), before_3->vertex(1)->point(),
-                  before_3->vertex(2)->point(), before_3->vertex(3)->point());
-    spdlog::debug("Before_4: vertices {}, {}, {}, {}",
-                  before_4->vertex(0)->point(), before_4->vertex(1)->point(),
-                  before_4->vertex(2)->point(), before_4->vertex(3)->point());
-#endif
-
-    // Find the exterior neighbors of the cells
-    Cell_handle n_1 = before_1->neighbor(before_1->index(pivot_from_2));
-    Cell_handle n_2 = before_1->neighbor(before_1->index(pivot_from_1));
-    Cell_handle n_3 = before_2->neighbor(before_2->index(pivot_from_1));
-    Cell_handle n_4 = before_2->neighbor(before_2->index(pivot_from_2));
-    Cell_handle n_5 = before_3->neighbor(before_3->index(pivot_from_2));
-    Cell_handle n_6 = before_3->neighbor(before_3->index(pivot_from_1));
-    Cell_handle n_7 = before_4->neighbor(before_4->index(pivot_from_1));
-    Cell_handle n_8 = before_4->neighbor(before_4->index(pivot_from_2));
-
-    // Store indices before deletion
-    int n1_idx      = n_1->index(before_1);
-    int n2_idx      = n_2->index(before_1);
-    int n3_idx      = n_3->index(before_2);
-    int n4_idx      = n_4->index(before_2);
-    int n5_idx      = n_5->index(before_3);
-    int n6_idx      = n_6->index(before_3);
-    int n7_idx      = n_7->index(before_4);
-    int n8_idx      = n_8->index(before_4);
-
-    // Verify all neighbors exist and are not cells we're about to delete
-    if (n_1 == nullptr || n_2 == nullptr || n_3 == nullptr || n_4 == nullptr ||
-        n_5 == nullptr || n_6 == nullptr || n_7 == nullptr || n_8 == nullptr ||
-        n_1 == before_1 || n_1 == before_2 || n_1 == before_3 ||
-        n_1 == before_4 || n_2 == before_1 || n_2 == before_2 ||
-        n_2 == before_3 || n_2 == before_4 || n_3 == before_1 ||
-        n_3 == before_2 || n_3 == before_3 || n_3 == before_4 ||
-        n_4 == before_1 || n_4 == before_2 || n_4 == before_3 ||
-        n_4 == before_4 || n_5 == before_1 || n_5 == before_2 ||
-        n_5 == before_3 || n_5 == before_4 || n_6 == before_1 ||
-        n_6 == before_2 || n_6 == before_3 || n_6 == before_4 ||
-        n_7 == before_1 || n_7 == before_2 || n_7 == before_3 ||
-        n_7 == before_4 || n_8 == before_1 || n_8 == before_2 ||
-        n_8 == before_3 || n_8 == before_4)
+    // A 3D 4-to-4 bistellar move is the composition of CGAL's checked TDS
+    // 2-to-3 facet flip and checked 3-to-2 edge flip. The TDS operations are
+    // intentional: either geometrically checked Triangulation_3 facet flip
+    // can reject the transient, degenerate intermediate even when the final
+    // 4-to-4 configuration is valid. Flipping a facet that contains the old
+    // edge and either boundary vertex creates the new diagonal; the old edge
+    // then has degree three and can be removed by the second flip.
+    Cell_handle boundary_facet_cell = nullptr;
+    int         pivot_from_1_index{};
+    int         pivot_from_2_index{};
+    int         boundary_index{};
+    if (!triangulation.is_facet(pivot_from_1, pivot_from_2, bottom,
+                                boundary_facet_cell, pivot_from_1_index,
+                                pivot_from_2_index, boundary_index))
     {
-#ifndef NDEBUG
-      spdlog::debug("Issue with neighbors");
-#endif
+      return std::nullopt;
+    }
+    auto constexpr cell_index_sum   = 0 + 1 + 2 + 3;
+    auto const boundary_facet_index = cell_index_sum - pivot_from_1_index -
+                                      pivot_from_2_index - boundary_index;
+    if (!triangulation.tds().flip(
+            Delaunay::Facet{boundary_facet_cell, boundary_facet_index}))
+    {
       return std::nullopt;
     }
 
-    // Temporarily break neighbor relationships to avoid potential issues
-    // This step is important to avoid having old cells pointing to new cells
-    // during deletion
-    triangulation.tds().set_adjacency(before_1, before_1->index(pivot_from_2),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_1, before_1->index(pivot_from_1),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_2, before_2->index(pivot_from_1),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_2, before_2->index(pivot_from_2),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_3, before_3->index(pivot_from_2),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_3, before_3->index(pivot_from_1),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_4, before_4->index(pivot_from_1),
-                                      nullptr, -1);
-    triangulation.tds().set_adjacency(before_4, before_4->index(pivot_from_2),
-                                      nullptr, -1);
-
-    // Next, delete the old cells
-    triangulation.tds().delete_cell(before_1);
-    triangulation.tds().delete_cell(before_2);
-    triangulation.tds().delete_cell(before_3);
-    triangulation.tds().delete_cell(before_4);
-
-#ifndef NDEBUG
-    spdlog::debug("Cells in the triangulation after deleting old cells: {}",
-                  triangulation.number_of_cells());
-#endif
-
-    // Create new cells with consistent vertex ordering (counter-clockwise
-    // orientation) Use a consistent ordering scheme for all tetrahedra
-    Cell_handle after_1 = triangulation.tds().create_cell(
-        pivot_to_1, pivot_to_2, pivot_from_1, top);
-    Cell_handle after_2 = triangulation.tds().create_cell(
-        pivot_to_1, pivot_to_2, pivot_from_2, top);
-    Cell_handle after_3 = triangulation.tds().create_cell(
-        pivot_to_1, pivot_to_2, pivot_from_1, bottom);
-    Cell_handle after_4 = triangulation.tds().create_cell(
-        pivot_to_1, pivot_to_2, pivot_from_2, bottom);
-
-    // Verify each cell was created and is valid
-    if (after_1 == nullptr || after_2 == nullptr || after_3 == nullptr ||
-        after_4 == nullptr || !after_1->is_valid() || !after_2->is_valid() ||
-        !after_3->is_valid() || !after_4->is_valid())
+    Cell_handle old_edge_cell = nullptr;
+    int         old_edge_first_index{};
+    int         old_edge_second_index{};
+    if (!triangulation.is_edge(pivot_from_1, pivot_from_2, old_edge_cell,
+                               old_edge_first_index, old_edge_second_index) ||
+        !triangulation.tds().flip(Delaunay::Edge{
+            old_edge_cell, old_edge_first_index, old_edge_second_index}))
     {
-#ifndef NDEBUG
-      spdlog::debug("Failed to create new cells properly");
-#endif
       return std::nullopt;
     }
 
-    // Copy the cell type information from the original cells to maintain cell
-    // type
-    after_1->info() = before_1->info();
-    after_2->info() = before_2->info();
-    after_3->info() = before_3->info();
-    after_4->info() = before_4->info();
+    if (!triangulation.tds().is_valid()) { return std::nullopt; }
 
-#ifndef NDEBUG
-    spdlog::debug("After_1: vertices {}, {}, {}, {}",
-                  after_1->vertex(0)->point(), after_1->vertex(1)->point(),
-                  after_1->vertex(2)->point(), after_1->vertex(3)->point());
-    spdlog::debug("After_2: vertices {}, {}, {}, {}",
-                  after_2->vertex(0)->point(), after_2->vertex(1)->point(),
-                  after_2->vertex(2)->point(), after_2->vertex(3)->point());
-    spdlog::debug("After_3: vertices {}, {}, {}, {}",
-                  after_3->vertex(0)->point(), after_3->vertex(1)->point(),
-                  after_3->vertex(2)->point(), after_3->vertex(3)->point());
-    spdlog::debug("After_4: vertices {}, {}, {}, {}",
-                  after_4->vertex(0)->point(), after_4->vertex(1)->point(),
-                  after_4->vertex(2)->point(), after_4->vertex(3)->point());
-#endif
-
-    // Set up internal neighbor relationships between the new cells
-    // Find the correct indices for each cell based on the vertex that's not
-    // part of the shared face
-    int after_1_after_2_idx = after_1->index(pivot_from_1);
-    int after_2_after_1_idx = after_2->index(pivot_from_2);
-
-    int after_1_after_3_idx = after_1->index(top);
-    int after_3_after_1_idx = after_3->index(bottom);
-
-    int after_2_after_4_idx = after_2->index(top);
-    int after_4_after_2_idx = after_4->index(bottom);
-
-    int after_3_after_4_idx = after_3->index(pivot_from_1);
-    int after_4_after_3_idx = after_4->index(pivot_from_2);
-
-    // Set up internal neighbor relationships with proper indices
-    triangulation.tds().set_adjacency(after_1, after_1_after_2_idx, after_2,
-                                      after_2_after_1_idx);
-    triangulation.tds().set_adjacency(after_1, after_1_after_3_idx, after_3,
-                                      after_3_after_1_idx);
-    triangulation.tds().set_adjacency(after_2, after_2_after_4_idx, after_4,
-                                      after_4_after_2_idx);
-    triangulation.tds().set_adjacency(after_3, after_3_after_4_idx, after_4,
-                                      after_4_after_3_idx);
-
-    // Verify internal neighbor relationships are set up correctly
-    if (!after_1->has_neighbor(after_2) || !after_2->has_neighbor(after_1) ||
-        !after_1->has_neighbor(after_3) || !after_3->has_neighbor(after_1) ||
-        !after_2->has_neighbor(after_4) || !after_4->has_neighbor(after_2) ||
-        !after_3->has_neighbor(after_4) || !after_4->has_neighbor(after_3))
+    for (auto const cell : triangulation.finite_cell_handles())
     {
-#ifndef NDEBUG
-      spdlog::debug("Internal neighbor relationships are not set up correctly");
-#endif
-      return std::nullopt;
+      cell->info() = static_cast<Int_precision>(
+          foliated_triangulations::expected_cell_type<3>(cell));
     }
 
-    // Find the correct indices for external neighbor relationships
-    // These are the facets that are not shared with other new cells
-    int after_1_ext_1_idx = after_1->index(pivot_to_2);
-    int after_1_ext_2_idx = after_1->index(pivot_to_1);
-
-    int after_2_ext_1_idx = after_2->index(pivot_to_2);
-    int after_2_ext_2_idx = after_2->index(pivot_to_1);
-
-    int after_3_ext_1_idx = after_3->index(pivot_to_2);
-    int after_3_ext_2_idx = after_3->index(pivot_to_1);
-
-    int after_4_ext_1_idx = after_4->index(pivot_to_2);
-    int after_4_ext_2_idx = after_4->index(pivot_to_1);
-
-    // Set up external neighbor relationships
-    triangulation.tds().set_adjacency(after_1, after_1_ext_1_idx, n_1, n1_idx);
-    triangulation.tds().set_adjacency(after_1, after_1_ext_2_idx, n_2, n2_idx);
-    triangulation.tds().set_adjacency(after_2, after_2_ext_1_idx, n_3, n3_idx);
-    triangulation.tds().set_adjacency(after_2, after_2_ext_2_idx, n_4, n4_idx);
-    triangulation.tds().set_adjacency(after_3, after_3_ext_1_idx, n_5, n5_idx);
-    triangulation.tds().set_adjacency(after_3, after_3_ext_2_idx, n_6, n6_idx);
-    triangulation.tds().set_adjacency(after_4, after_4_ext_1_idx, n_7, n7_idx);
-    triangulation.tds().set_adjacency(after_4, after_4_ext_2_idx, n_8, n8_idx);
-
-    // Verify external neighbor relationships are set up correctly
-    bool external_neighbors_ok = after_1->neighbor(after_1_ext_1_idx) == n_1 &&
-                                 n_1->neighbor(n1_idx) == after_1 &&
-                                 after_1->neighbor(after_1_ext_2_idx) == n_2 &&
-                                 n_2->neighbor(n2_idx) == after_1 &&
-                                 after_2->neighbor(after_2_ext_1_idx) == n_3 &&
-                                 n_3->neighbor(n3_idx) == after_2 &&
-                                 after_2->neighbor(after_2_ext_2_idx) == n_4 &&
-                                 n_4->neighbor(n4_idx) == after_2 &&
-                                 after_3->neighbor(after_3_ext_1_idx) == n_5 &&
-                                 n_5->neighbor(n5_idx) == after_3 &&
-                                 after_3->neighbor(after_3_ext_2_idx) == n_6 &&
-                                 n_6->neighbor(n6_idx) == after_3 &&
-                                 after_4->neighbor(after_4_ext_1_idx) == n_7 &&
-                                 n_7->neighbor(n7_idx) == after_4 &&
-                                 after_4->neighbor(after_4_ext_2_idx) == n_8 &&
-                                 n_8->neighbor(n8_idx) == after_4;
-
-    if (!external_neighbors_ok)
-    {
-#ifndef NDEBUG
-      spdlog::debug("External neighbor relationships are not set up correctly");
-#endif
-      // Don't return null here - attempt to fix with reorientation
-    }
-
-#ifndef NDEBUG
-    spdlog::debug("Cells in the triangulation after adding new cells: {}",
-                  triangulation.number_of_cells());
-
-    // Verify neighbor relationships
-    spdlog::debug("after_1 neighbors after_2: {}",
-                  after_1->has_neighbor(after_2));
-    spdlog::debug("after_2 neighbors after_1: {}",
-                  after_2->has_neighbor(after_1));
-    spdlog::debug("after_1 neighbors after_3: {}",
-                  after_1->has_neighbor(after_3));
-    spdlog::debug("after_3 neighbors after_1: {}",
-                  after_3->has_neighbor(after_1));
-    spdlog::debug("after_2 neighbors after_4: {}",
-                  after_2->has_neighbor(after_4));
-    spdlog::debug("after_4 neighbors after_2: {}",
-                  after_4->has_neighbor(after_2));
-    spdlog::debug("after_3 neighbors after_4: {}",
-                  after_3->has_neighbor(after_4));
-    spdlog::debug("after_4 neighbors after_3: {}",
-                  after_4->has_neighbor(after_3));
-#endif
-
-    // Attempt to fix orientation issues if any exist
-    triangulation.tds().reorient();
-
-    // Final validation
-    if (!triangulation.tds().is_valid(true, 4))
-    {
-#ifndef NDEBUG
-      spdlog::debug("Final triangulation is not valid after reorientation");
-#endif
-      return std::nullopt;
-    }
-
-    return std::make_optional(triangulation);
+    return triangulation;
   }  // bistellar_flip()
 
   /// @return The center edge of a 4-cell complex
@@ -940,16 +730,14 @@ namespace ergodic_moves
   {
     for (auto const& edge : edges)
     {
-      auto circulator = triangulation.incident_cells(edge, edge.first);
-      Cell_container incident_cells;
-      do {  // NOLINT(cppcoreguidelines-avoid-do-while)
-        // filter out boundary edges with incident infinite cells
-        if (triangulation.is_infinite(circulator)) { continue; }
-        incident_cells.emplace_back(circulator);
+      if (auto incident_cells = incident_cells_from_edge(triangulation, edge))
+      {
+#ifndef NDEBUG
+        fmt::print("Edge has {} incident finite cells\n",
+                   incident_cells->size());
+#endif
+        if (incident_cells->size() == 4) { return edge; }
       }
-      while (++circulator != edge.first);
-      fmt::print("Edge has {} incident finite cells\n", incident_cells.size());
-      if (incident_cells.size() == 4) { return edge; }
     }
     return std::nullopt;
   }  // find_pivot_edge()
@@ -982,12 +770,12 @@ namespace ergodic_moves
   /// This function calls is_44_movable() on a randomly shuffled container
   /// of edges until it succeeds or runs out of edges.
   ///
-  /// If successful, the triangulation remains Delaunay. (Other moves may
-  /// change this, however.)
+  /// If successful, the triangulation remains combinatorially valid. A CDT
+  /// move is not required to preserve the Euclidean Delaunay property of the
+  /// coordinates used to represent the abstract triangulation.
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The Expected (4,4) moved manifold or Unexpected
-  /// @todo Need to debug bistellar_flip_really()
   [[nodiscard]] inline auto do_44_move(Manifold const& t_manifold) -> Expected
   {
 #ifndef NDEBUG
@@ -1077,10 +865,9 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(Manifold const&                t_before,
-                                       Manifold const&                t_after,
-                                       move_tracker::move_type const& t_move)
-      -> bool
+  [[nodiscard]] inline auto check_move(
+      Manifold const& t_before, Manifold const& t_after,
+      move_tracker::move_type const& t_move) -> bool
   {
     switch (t_move)
     {

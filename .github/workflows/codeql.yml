@@ -20,6 +20,13 @@ name: "CodeQL Advanced"
   schedule:
     - cron: '29 0 * * 2'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
@@ -48,7 +55,7 @@ jobs:
           - language: actions
             build-mode: none
           - language: c-cpp
-            build-mode: autobuild
+            build-mode: manual
           - language: python
             build-mode: none
     steps:
@@ -57,7 +64,13 @@ jobs:
         with:
           persist-credentials: false
 
-      # Add setup steps before initializing CodeQL when manual builds need them.
+      - name: Set up C++ environment with pkgx
+        if: matrix.language == 'c-cpp'
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
+
+      - name: Restore artifacts or set up vcpkg
+        if: matrix.language == 'c-cpp'
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9  # v4.37.0
@@ -65,11 +78,13 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
-      - if: matrix.build-mode == 'manual'
-        shell: bash
-        run: |
-          echo 'Replace this step with the commands needed to build the project.'
-          exit 1
+      - name: Build C/C++
+        if: matrix.language == 'c-cpp'
+        env:
+          CC: gcc
+          CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@16
+          CXX: g++
+        run: ./scripts/pkgx-build.sh
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9  # v4.37.0

@@ -24,7 +24,7 @@ reviews:
       instructions: 'Focus on performance, memory management, and RAII principles'
     - path: 'include/**/*.hpp'
       instructions: 'Focus on design patterns, interfaces, and encapsulation'
-    - path: 'test/**/*.cpp'
+    - path: 'tests/**/*.cpp'
       instructions: |
         Review the following unit test code written using doctest. Ensure the following:
           - Comprehensive test coverage and proper test organization.

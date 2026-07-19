@@ -1,4 +1,4 @@
-## How to Contribute
+# How to Contribute
 
 First, thank you!
 
@@ -12,8 +12,10 @@ Second, here are some simple guidelines that will make it easier on me to proces
 1. Fork the repository.
 
 2. Create a short-lived branch from `main` for each change and merge it back through a pull request.
-The final v1.0.0 release will be tagged directly from `main`; tagged versions are citable via [ORCID] for
-reproducibility.
+The final v1.0.0 release will be tagged from `main` and archived through [Zenodo]. The GitHub release triggers the
+automatic software archive and version DOI; a DOI can be reserved before publication, but it does not identify a
+published software record until that record is released. Release metadata and the archival handoff are tracked by
+[issue #96](https://github.com/acgetchell/CDT-plusplus/issues/96).
 
 3. Familiarize yourself with [doctest] and the [Gherkin] syntax.
 
@@ -35,7 +37,8 @@ Consult existing code for examples.
 
 8. Commit your changes with a clear, [well-written commit message].
 
-9. Run `just fix` to apply safe formatting to changed C++ lines using the project's [.clang-format].
+9. Run `just fix` to format changed C++ and Python source and the repository Justfile using the repository's
+[.clang-format] and Ruff configuration.
 
 10. Run `just check` for the fast, non-mutating local validation gate.
 
@@ -48,13 +51,13 @@ CMake presets, CTest presets, vcpkg bootstrap, and build scripts rather than rep
 `./scripts/build.sh`, `scripts\build.bat`, or `scripts\fast-build.bat` directly when troubleshooting those layers.
 
 13. All required GitHub Actions checks must pass.
-In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [LSAN], [MSAN], and [TSAN], because simulations may
-run for a long time so memory leaks will be eventually fatal.
+Review the relevant [Cppcheck], [Valgrind], [ASAN], [LSAN], and [TSAN] results because long-running simulations make
+memory and concurrency defects especially costly. [MSAN] remains an experimental, manually dispatched workflow.
 [GitHub Actions] also has a lot of useful checks that will help fix your code.
 
 14. I will get to your change as soon as I can.
 You will receive proper credit for your contributions both in the code and any resulting scientific papers
-using the output of `git log --format='%aN | sort -u`.
+using the output of `git log --format='%aN' | sort -u`.
 
 ## Style Guide
 
@@ -70,8 +73,7 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Doxygen]: http://doxygen.org
 [well-written commit message]: https://chris.beams.io/posts/git-commit/
 [1]: https://isocpp.org/wiki/faq/coding-standards
-[2]: http://llvm.org/releases/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
-[ClangFormat]: https://releases.llvm.org/6.0.1/tools/clang/docs/ClangFormat.html
+[ClangFormat]: https://clang.llvm.org/docs/ClangFormat.html
 [slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
@@ -80,9 +82,9 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [doctest test cases]: https://github.com/doctest/doctest/blob/master/doc/markdown/testcases.md
-[ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
+[ClangTidy]: https://clang.llvm.org/extra/clang-tidy/
 [.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format
-[ORCID]: https://orcid.org/
+[Zenodo]: https://zenodo.org/
 [Cppcheck]: http://cppcheck.sourceforge.net
 [ASAN]: https://github.com/google/sanitizers/wiki/AddressSanitizer
 [MSAN]: https://github.com/google/sanitizers/wiki/MemorySanitizer

@@ -372,7 +372,7 @@ SCENARIO(
   }
 }
 SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
-         doctest::test_suite("ergodic") * doctest::skip())
+         doctest::test_suite("ergodic"))
 {
   spdlog::debug(
       "Perform ergodic moves on the minimal manifold necessary (4,4) moves.\n");
@@ -417,6 +417,7 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
       // Do move and check results
       if (auto result = ergodic_moves::do_44_move(manifold); result)
       {
+        manifold = std::move(result).value();
         manifold.update();
       }
       else { spdlog::info("The (4,4) move failed.\n"); }
@@ -428,6 +429,9 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
         // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::FOUR_FOUR));
+        CHECK_EQ(manifold.initial_radius(), manifold_before.initial_radius());
+        CHECK_EQ(manifold.foliation_spacing(),
+                 manifold_before.foliation_spacing());
       }
     }
   }

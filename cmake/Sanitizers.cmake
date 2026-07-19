@@ -1,108 +1,80 @@
 # Derived from:
-#
-# https://github.com/lefticus/cpp_starter_project/blob/master/cmake/Sanitizers.cmake
-#
+# https://github.com/cpp-best-practices/cmake_template/blob/main/cmake/Sanitizers.cmake
 
-function(enable_sanitizers project_name)
+option(ENABLE_SANITIZER_ADDRESS "Enable AddressSanitizer" OFF)
+option(ENABLE_SANITIZER_LEAK "Enable LeakSanitizer" OFF)
+option(ENABLE_SANITIZER_MEMORY "Enable MemorySanitizer" OFF)
+option(ENABLE_SANITIZER_THREAD "Enable ThreadSanitizer" OFF)
+option(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR "Enable UndefinedBehaviorSanitizer" OFF)
 
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-    option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" OFF)
-
-    if(ENABLE_COVERAGE)
-      target_compile_options(${project_name} INTERFACE --coverage -O0 -g)
-      target_link_libraries(${project_name} INTERFACE --coverage)
-      message(STATUS "Coverage enabled.")
-    endif()
-
-    option(ENABLE_VALGRIND "Enable Valgrind" OFF)
-    if(ENABLE_VALGRIND)
-      target_compile_options(project_options INTERFACE -g -O0)
-      target_link_libraries(project_options INTERFACE -fsanitize=address -static-libasan)
-      message(STATUS "Valgrind enabled.")
-      set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-      set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-      set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-      set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-    endif()
-
-    set(SANITIZERS "")
-
-    option(ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
-    if(ENABLE_SANITIZER_ADDRESS)
-      list(APPEND SANITIZERS "address")
-      message(STATUS "AddressSanitizer enabled.")
-      set(ENV{ASAN_OPTIONS} "fast_unwind_on_malloc=0")
-      set(ENV{ASAN_OPTIONS} "$ENV{ASAN_OPTIONS}:help=1")
-      set(ENV{ASAN_OPTIONS} "$ENV{ASAN_OPTIONS}:symbolize=1")
-      set(ENV{ASAN_OPTIONS} "$ENV{ASAN_OPTIONS}:verbosity=2")
-      message(STATUS "ASAN_OPTIONS=$ENV{ASAN_OPTIONS}")
-    endif()
-
-    option(ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    if(ENABLE_SANITIZER_LEAK)
-      if(${APPLE})
-        message(FATAL_ERROR "Leak sanitizer not supported on x86_64-apple-darwin")
-      else()
-        list(APPEND SANITIZERS "leak")
-        message(STATUS "LeakSanitizer enabled.")
-      endif()
-    endif()
-
-    option(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR "Enable undefined behavior sanitizer" OFF)
-    if(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
-      list(APPEND SANITIZERS "undefined")
-      message(STATUS "UndefinedBehaviorSanitizer enabled.")
-      set(ENV{UBSAN_OPTIONS} "print_stacktrace=1")
-      message(STATUS "UBSAN_OPTIONS=$ENV{UBSAN_OPTIONS}")
-    endif()
-
-    option(ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    if(ENABLE_SANITIZER_THREAD)
-      if("address" IN_LIST SANITIZERS OR "leak" IN_LIST SANITIZERS)
-        message(WARNING "Thread sanitizer does not work with Address and Leak sanitizer enabled.")
-      else()
-        list(APPEND SANITIZERS "thread")
-        message(STATUS "ThreadSanitizer enabled.")
-      endif()
-    endif()
-
-    option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    if(ENABLE_SANITIZER_MEMORY AND CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-      if(${APPLE})
-        message(FATAL_ERROR "Memory sanitizer not supported on x86_64-apple-darwin")
-      else()
-        if("address" IN_LIST SANITIZERS
-           OR "thread" IN_LIST SANITIZERS
-           OR "leak" IN_LIST SANITIZERS)
-          message(WARNING "Memory sanitizer does not work with Address, Thread, and Leak sanitizer enabled.")
-        else()
-          list(APPEND SANITIZERS "memory")
-          message(STATUS "Memory sanitizer enabled.")
-        endif()
-      endif()
-    endif()
-
-    list(
-      JOIN
-      SANITIZERS
-      ","
-      LIST_OF_SANITIZERS)
-
+function(enable_sanitizers target)
+  if(NOT
+     ENABLE_SANITIZER_ADDRESS
+     AND NOT ENABLE_SANITIZER_LEAK
+     AND NOT ENABLE_SANITIZER_MEMORY
+     AND NOT ENABLE_SANITIZER_THREAD
+     AND NOT ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
+    return()
   endif()
 
-  if(LIST_OF_SANITIZERS)
-    if(NOT
-       "${LIST_OF_SANITIZERS}"
-       STREQUAL
-       "")
-      target_compile_options(
-        ${project_name}
-        INTERFACE -g
-                  -O1
-                  -fsanitize=${LIST_OF_SANITIZERS}
-                  -fno-omit-frame-pointer)
-      target_link_libraries(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
-    endif()
+  if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang"))
+    message(FATAL_ERROR "The requested sanitizers require GCC or Clang")
   endif()
 
+  set(_sanitizers "")
+
+  if(ENABLE_SANITIZER_ADDRESS)
+    list(APPEND _sanitizers "address")
+    message(STATUS "AddressSanitizer enabled")
+  endif()
+
+  if(ENABLE_SANITIZER_LEAK)
+    if(APPLE)
+      message(FATAL_ERROR "Standalone LeakSanitizer is not supported on Apple platforms")
+    endif()
+    list(APPEND _sanitizers "leak")
+    message(STATUS "LeakSanitizer enabled")
+  endif()
+
+  if(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
+    list(APPEND _sanitizers "undefined")
+    message(STATUS "UndefinedBehaviorSanitizer enabled")
+  endif()
+
+  if(ENABLE_SANITIZER_THREAD)
+    if(ENABLE_SANITIZER_ADDRESS OR ENABLE_SANITIZER_LEAK)
+      message(FATAL_ERROR "ThreadSanitizer cannot be combined with AddressSanitizer or LeakSanitizer")
+    endif()
+    list(APPEND _sanitizers "thread")
+    message(STATUS "ThreadSanitizer enabled")
+  endif()
+
+  if(ENABLE_SANITIZER_MEMORY)
+    if(NOT CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+      message(FATAL_ERROR "MemorySanitizer requires Clang")
+    endif()
+    if(NOT CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD|NetBSD")
+      message(FATAL_ERROR "MemorySanitizer is not supported on ${CMAKE_SYSTEM_NAME}")
+    endif()
+    if(ENABLE_SANITIZER_ADDRESS OR ENABLE_SANITIZER_LEAK OR ENABLE_SANITIZER_THREAD)
+      message(
+        FATAL_ERROR
+          "MemorySanitizer cannot be combined with AddressSanitizer, LeakSanitizer, or ThreadSanitizer")
+    endif()
+    message(
+      WARNING
+        "MemorySanitizer requires an instrumented standard library and instrumented dependencies; otherwise reports are not authoritative"
+    )
+    list(APPEND _sanitizers "memory")
+    message(STATUS "MemorySanitizer enabled")
+  endif()
+
+  list(JOIN _sanitizers "," _sanitizer_flags)
+  target_compile_options(
+    ${target}
+    INTERFACE -g
+              -O1
+              -fsanitize=${_sanitizer_flags}
+              -fno-omit-frame-pointer)
+  target_link_options(${target} INTERFACE -fsanitize=${_sanitizer_flags})
 endfunction()

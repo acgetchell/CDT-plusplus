@@ -10,8 +10,8 @@
 /// @details Template class for all move algorithms, e.g. Metropolis,
 /// MoveAlways.
 
-#ifndef INCLUDE_MOVE_ALGORITHM_HPP_
-#define INCLUDE_MOVE_ALGORITHM_HPP_
+#ifndef INCLUDE_MOVE_STRATEGY_HPP_
+#define INCLUDE_MOVE_STRATEGY_HPP_
 
 /**
  * \brief The algorithms available to make ergodic moves on triangulations
@@ -31,4 +31,4 @@ template <Strategies strategies, typename ManifoldType>
 class MoveStrategy
 {};
 
-#endif  // INCLUDE_MOVE_ALGORITHM_HPP_
+#endif  // INCLUDE_MOVE_STRATEGY_HPP_

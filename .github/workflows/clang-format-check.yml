@@ -13,6 +13,10 @@ name: clang-format Check
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   formatting-check:
     name: Formatting Check
@@ -22,6 +26,7 @@ jobs:
         path:
           - 'src'
           - 'include'
+          - 'tests'
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:

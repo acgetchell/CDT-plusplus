@@ -145,11 +145,11 @@ namespace manifolds
     [[nodiscard]] auto get_triangulation() const noexcept
         -> Triangulation const&
     {
-      return std::cref(m_triangulation);
+      return m_triangulation;
     }  // get_triangulation
 
     /// @returns A read-only reference to the Delaunay triangulation
-    [[nodiscard]] auto get_delaunay() const noexcept
+    [[nodiscard]] auto get_delaunay() const noexcept -> Delaunay_t<3> const&
     {
       return get_triangulation().get_delaunay();
     }  // get_delaunay
@@ -434,7 +434,9 @@ namespace manifolds
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       // Constructing a new triangulation updates all data structures
-      Triangulation local_triangulation(m_triangulation.get_delaunay());
+      Triangulation local_triangulation(m_triangulation.get_delaunay(),
+                                        m_triangulation.initial_radius(),
+                                        m_triangulation.foliation_spacing());
       swap(local_triangulation, m_triangulation);
     }
     catch (std::system_error const& ex)

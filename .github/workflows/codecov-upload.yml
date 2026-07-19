@@ -56,27 +56,14 @@ jobs:
 
       - name: Test
         working-directory: build
-        continue-on-error: true
-        run: ctest --rerun-failed --output-on-failure -j 2
-
-      - name: Generate coverage info
-        working-directory: build
-        continue-on-error: true
-        run: |
-          mkdir gcov-reports
-          pushd gcov-reports
-          find ../tests/CMakeFiles/CDT_test.dir -name '*.o' -print0 |
-            while IFS= read -r -d '' object_file; do
-              echo "Processing ${object_file} file..."
-              gcov -o "${object_file}" x
-            done
-          find . -maxdepth 1 -type f | wc -l
-          popd
+        run: ctest --no-tests=error --output-on-failure -j 2
 
       - name: Submit to codecov.io
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
-          directory: build/gcov-reports
-          fail_ci_if_error: false
+          fail_ci_if_error: true
+          gcov_executable: gcov
+          gcov_ignore: vcpkg_installed
+          plugins: gcov
           use_oidc: true
           verbose: true

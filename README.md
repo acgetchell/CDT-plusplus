@@ -1,4 +1,5 @@
 # CDT-plusplus
+
 **Quantize spacetime on your laptop.**
 
 [![CI](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml)
@@ -18,28 +19,28 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
 ## Table of contents
 
 - [CDT-plusplus](#cdt-plusplus)
-    - [Maintenance status](#maintenance-status)
-    - [Introduction](#introduction)
-        - [Regression-oracle scope](#regression-oracle-scope)
-    - [Roadmap](#roadmap)
-    - [Quickstart](#quickstart)
-        - [Current reference-suite status](#current-reference-suite-status)
-    - [Setup](#setup)
-        - [Prerequisites](#prerequisites)
-        - [Developer workflow](#developer-workflow)
-        - [vcpkg maintenance](#vcpkg-maintenance)
-    - [Build](#build)
-        - [Project Layout](#project-layout)
-        - [Run](#run)
-    - [Usage](#usage)
-    - [Documentation](#documentation)
-    - [Testing](#testing)
-        - [Static Analysis](#static-analysis)
-        - [Sanitizers](#sanitizers)
-    - [Optimizing Parameters](#optimizing-parameters)
-    - [Visualization](#visualization)
-    - [Contributing](#contributing)
-    - [Issues](#issues)
+  - [Maintenance status](#maintenance-status)
+  - [Introduction](#introduction)
+    - [Regression-oracle scope](#regression-oracle-scope)
+  - [Roadmap](#roadmap)
+  - [Quickstart](#quickstart)
+    - [Current reference-suite status](#current-reference-suite-status)
+  - [Setup](#setup)
+    - [Prerequisites](#prerequisites)
+    - [Developer workflow](#developer-workflow)
+    - [vcpkg maintenance](#vcpkg-maintenance)
+  - [Build](#build)
+    - [Project Layout](#project-layout)
+    - [Run](#run)
+  - [Usage](#usage)
+  - [Documentation](#documentation)
+  - [Testing](#testing)
+    - [Static Analysis](#static-analysis)
+    - [Sanitizers](#sanitizers)
+  - [Optimizing Parameters](#optimizing-parameters)
+  - [Visualization](#visualization)
+  - [Contributing](#contributing)
+  - [Issues](#issues)
 
 ## Introduction
 
@@ -56,8 +57,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Doxygen] provides automated document generation.
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
-[PVS-Studio] provides commercial-grade static analysis.
-[CometML] provides machine learning for model building.
+[CometML] provides experiment tracking for the optional Python workflows.
 
 ### Regression-oracle scope
 
@@ -96,10 +96,9 @@ After building, run that fixture directly with:
 - [x] 3D Ergodic moves
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
 - [x] Multithreading via [TBB]
-- [x] Automated code analysis with [LGTM]
-- [x] Build/debug with [Visual Studio 2019]
+- [x] Automated code analysis with [CodeQL]
+- [x] Build/debug with [Visual Studio 2022]
 - [x] Use [{fmt}] library (instead of `iostream`)
-- [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
 - [ ] Restore optional visualization with [Qt] ([#98](https://github.com/acgetchell/CDT-plusplus/issues/98))
@@ -165,6 +164,7 @@ The smallest pkgx-assisted host setup is:
 - Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
 - pkgx
 - Just when invoking the recipes directly; `scripts/pkgx-build.sh` supplies Just when it is not installed globally
+- Python 3.12 and uv when checking or running the Python support scripts
 
 The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, M4, Autoconf, Autoconf Archive, Automake, GNU
 Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through a package
@@ -191,15 +191,19 @@ The repository-root [Justfile](Justfile) provides the same small command vocabul
 
 ```bash
 just check                 # Fast, non-mutating local checks
-just fix                   # Format changed C++ lines and the Justfile
+just fix                   # Format changed C++/Python source and the Justfile
 just build                 # Bootstrap, configure, build, and smoke-test
 just run --help            # Build as needed and run cdt with forwarded arguments
 just ci                    # Comprehensive pre-commit/pre-push validation
 just update-actions        # Update and repin Actions with pinact, then validate
+just python-sync           # Install the locked Ruff and ty development environment
+just python-check          # Check Python formatting, lint, and types
+just python-fix            # Apply safe Ruff fixes and formatting
 ```
 
-`check` covers changed-line C++ formatting, YAML, GitHub Actions syntax and security, whitespace, and CMake preset
-parsing. `ci` adds the pinact policy check and the supported build/test contract. Install the developer tools with
+`check` covers changed-line C++ formatting, Python formatting/lint/type checks, YAML, GitHub Actions syntax and
+security, whitespace, and CMake preset parsing. `ci` adds the pinact policy check and the supported build/test
+contract. Install the developer tools with
 Homebrew, use equivalent system packages, or let pkgx supply them ephemerally; pkgx remains optional. For example:
 
 ```bash
@@ -275,7 +279,7 @@ CDT-plusplus uses [program_options] to parse options from the help message, and 
 understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
-~~~text
+```text
 ./out/build/reference/src/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -319,7 +323,7 @@ Options:
   -l [ --lambda ] arg           K * Cosmological constant
   -p [ --passes ] arg (=100)    Number of passes
   -c [ --checkpoint ] arg (=10) Checkpoint every n passes
-~~~
+```
 
 The dimensionality of the spacetime is such that each slice of spacetime is
 `d-1`-dimensional, so setting `d=3` generates two spacelike dimensions and one
@@ -334,12 +338,12 @@ links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).
 Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 
 If you have [Doxygen] installed you can generate the same information
-locally using the configuration file in `docs\Doxyfile` by simply typing at the top
+locally using the configuration file in `docs/Doxyfile` by simply typing at the top
 level directory ([Doxygen] will recursively search):
 
-~~~bash
+```bash
 doxygen ./docs/Doxyfile
-~~~
+```
 
 This will generate a `docs/html/` directory containing
 documentation generated from CDT++ source files. `USE_MATHJAX` has been enabled
@@ -357,53 +361,50 @@ construction code used as a regression oracle. Run `just ci` for the complete lo
 
 The doctest executable can also be run directly:
 
-````bash
+```bash
 ./out/build/reference/tests/CDT_unit_tests
-````
+```
 
 To rerun the supported smoke suite without rebuilding:
 
-````bash
+```bash
 ctest --preset reference-smoke
-````
+```
 
 To run every currently registered test, including the known 4,4 failures and the nondeterministic `cdt-opt`
 simulation, bypass the smoke filter explicitly:
 
-````bash
+```bash
 ctest --test-dir out/build/reference --output-on-failure
-````
+```
 
 In addition to the command line output, you can see detailed results in the
 `out/build/reference/Testing` directory generated by CTest.
 
 ### Static Analysis
 
+Python 3.12 is selected by [`.python-version`](.python-version), uv locks the environment in `uv.lock`, Ruff owns
+Python formatting and linting, and ty owns static type checking. Run `just python-sync` once and then use
+`just python-check` or `just python-fix`; both commands are also part of the repository-wide validation recipes.
+
 This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can install
 and then run using the [clang-tidy.sh] script:
 
-~~~bash
+```bash
 sudo apt-get install clang-tidy
 cd scripts
 ./clang-tidy.sh
-~~~
+```
 
 (Or use your favorite linter plugin for your editor/IDE.)
 
 The [cppcheck.sh] script runs a quick static analysis using [cppcheck].
 
-~~~bash
+```bash
 brew install cppcheck
 cd scripts
-./cppcheck-build.sh
-~~~
-
-[PVS-Studio] - static analyzer for C, C++, C#, and Java code.
-
-~~~bash
-cd scripts
-./pvs-studio.sh
-~~~
+./cppcheck.sh
+```
 
 ### Sanitizers
 
@@ -414,16 +415,18 @@ and `scripts/tsan.sh`. Their release-gate consolidation is tracked by
 
 ## Optimizing Parameters
 
-[CometML] is used to record [Experiments] which conduct [Model Optimization]. The script to do
-this is `optimize-initialize.py`. In order for this to work, you must install the following
-into your Python [virtual environment].
+[CometML] is used to record [Experiments] conducted by `src/optimize-initialize.py`; `src/test.py` is the existing
+TensorFlow MNIST experiment. These optional, heavyweight dependencies are kept out of the normal lint environment.
+Synchronize them from the same uv lockfile when working on the experiment scripts:
 
-~~~bash
-pip install tensorflow
-pip install comet-ml
-~~~
+```bash
+just python-sync-experiments
+uv run --locked --group experiments python src/optimize-initialize.py
+```
 
-You can then run experiments and look at results on https://www.comet.ml!
+Set `COMET_API_KEY` before starting an online experiment. The experiment results are then available in Comet.
+Migration of these legacy scripts to Python 3.14, PyTorch, and the current Comet API is tracked by
+[#104](https://github.com/acgetchell/CDT-plusplus/issues/104).
 
 ## Visualization
 
@@ -457,14 +460,11 @@ Optional:
 
 - [ClangTidy] on all changed files
 
-- [PVS-Studio] using [pvs-studio.sh] if you have it installed
-
 ## Issues
 
 - [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 - [vcpkg] has issues with `fontconfig:arm64-osx` [#40623].
 - [vcpkg] fails to build [gmp] on Linux (which breaks CI) [#45336]
-
 
 [#45336]: https://github.com/microsoft/vcpkg/issues/45336
 [#40623]: https://github.com/microsoft/vcpkg/issues/40623
@@ -472,7 +472,6 @@ Optional:
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
-[gcc]: https://gcc.gnu.org/
 [doctest]: https://github.com/doctest/doctest
 [guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
 [clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/clang-tidy.sh
@@ -493,49 +492,29 @@ Optional:
 [TBB]: https://www.threadingbuildingblocks.org
 [Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile
 [Boost]: https://www.boost.org
-[ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
+[ClangTidy]: https://clang.llvm.org/extra/clang-tidy/
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [date]: https://howardhinnant.github.io/date/date.html
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [CometML]: https://www.comet.ml/
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
-[Model Optimization]: https://www.comet.ml/parameter-optimization
-[virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
-[clang-15]: https://releases.llvm.org/15.0.0/tools/clang/docs/ReleaseNotes.html
-[gcc-12]: https://gcc.gnu.org/gcc-12/
 [C++]: https://isocpp.org/
-[C++20]: https://en.cppreference.com/w/cpp/20
-[development]: https://github.com/acgetchell/CDT-plusplus
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [PCG]: http://www.pcg-random.org/paper.html
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
-[apt]: https://wiki.debian.org/Apt
-[ms-gsl]: https://github.com/microsoft/GSL
-[yasm-tool:x86-windows]: https://github.com/microsoft/vcpkg/issues/15956#issuecomment-782370823
-[MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
-[m4]: https://www.gnu.org/software/m4/
-[1]: https://github.com/microsoft/vcpkg/issues/9082
-[2]: https://github.com/microsoft/vcpkg/issues/9087
-[3]: https://github.com/microsoft/vcpkg/issues/8627
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md
 [GitHub Actions]: https://github.com/features/actions
-[Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
+[CodeQL]: https://codeql.github.com/
+[Visual Studio 2022]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt
 [AddressSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizer
 [LeakSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
 [ThreadSanitizer]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
 [MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
 [UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
-[clang-format]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html#clang-format
 [.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format
-[asan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/asan.sh
-[lsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/lsan.sh
-[msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/msan.sh
-[tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/tsan.sh
-[PVS-Studio]: https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source
-[pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/pvs-studio.sh
 [spdlog]: https://github.com/gabime/spdlog
 [Qt]: https://www.qt.io

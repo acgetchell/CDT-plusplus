@@ -1,10 +1,11 @@
-# Disable CLion generation of MinSizeRel to avoid conflicts with CGAL_SetupFlags.cmake
-set(CMAKE_CONFIGURATION_TYPES
-    "Release" "Debug" "RelWithDebInfo"
-    CACHE STRING "" FORCE)
-
-# Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+# Disable CLion generation of MinSizeRel for multi-config generators to avoid
+# conflicts with CGAL_SetupFlags.cmake.
+if(CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_CONFIGURATION_TYPES
+      "Release" "Debug" "RelWithDebInfo"
+      CACHE STRING "" FORCE)
+elseif(NOT CMAKE_BUILD_TYPE)
+  # Set a default build type for single-config generators when none was specified.
   message(STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
   set(CMAKE_BUILD_TYPE
       RelWithDebInfo

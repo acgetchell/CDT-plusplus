@@ -12,12 +12,33 @@
 
 #include <doctest/doctest.h>
 
+#include <array>
 #include <boost/compat/function_ref.hpp>
+#include <numbers>
 
 #include "Ergodic_moves_3.hpp"
 
 using namespace std;
 using namespace manifolds;
+
+namespace
+{
+  [[nodiscard]] auto make_23_move_manifold() -> Manifold_3
+  {
+    auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    auto constexpr sqrt_2   = std::numbers::sqrt2_v<double>;
+    auto const vertices     = std::array{
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{radius_2, radius_2, radius_2},
+        Point_t<3>{  sqrt_2,   sqrt_2,        0}
+    };
+    auto const timevalues = std::array<size_t, 5>{1, 1, 1, 2, 2};
+
+    return Manifold_3{make_causal_vertices<3>(vertices, timevalues)};
+  }
+}  // namespace
 
 SCENARIO("Simple Lambda operations" * doctest::test_suite("function_ref"))
 {
@@ -45,9 +66,7 @@ SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
 {
   GIVEN("A lambda storing a move.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    auto manifold = make_23_move_manifold();
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
@@ -56,9 +75,10 @@ SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
       };
       THEN("Running the lambda makes the move.")
       {
-        auto result = move23(manifold);
+        auto const manifold_before = manifold;
+        auto       result          = move23(manifold);
         result.update();
-        CHECK(ergodic_moves::check_move(manifold, result,
+        CHECK(ergodic_moves::check_move(manifold_before, result,
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
@@ -83,19 +103,19 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
   }
   GIVEN("A function pointer to a move stored in a function_ref.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    auto manifold = make_23_move_manifold();
     REQUIRE(manifold.is_correct());
     boost::compat::function_ref<ergodic_moves::Expected(
         ergodic_moves::Manifold&)> const complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
-      auto result = complex_ref(manifold);
+      auto const manifold_before = manifold;
+      auto       result          = complex_ref(manifold);
+      REQUIRE(result.has_value());
       result->update();
       THEN("The move from the function_ref is correct.")
       {
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
+        CHECK(ergodic_moves::check_move(manifold_before, result.value(),
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
@@ -107,9 +127,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
   }
   GIVEN("A lambda invoking a move stored in a function_ref.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    auto manifold = make_23_move_manifold();
     REQUIRE(manifold.is_correct());
     auto const move23 = [](Manifold_3& t_manifold) {
       return ergodic_moves::do_23_move(t_manifold).value();
@@ -118,13 +136,14 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
         move23);
     WHEN("The function_ref is invoked.")
     {
-      auto result = complex_ref(manifold);
+      auto const manifold_before = manifold;
+      auto       result          = complex_ref(manifold);
       result.update();
       THEN(
           "The move stored in the lambda invoked by the function_ref is "
           "correct.")
       {
-        CHECK(ergodic_moves::check_move(manifold, result,
+        CHECK(ergodic_moves::check_move(manifold_before, result,
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");

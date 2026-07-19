@@ -31,8 +31,8 @@ struct fmt::formatter<CGAL::Point_3<Kernel>>
 
   // Format the point as a string with coordinates
   template <typename FormatContext>
-  auto format(const CGAL::Point_3<Kernel>& point, FormatContext& ctx) const
-      -> decltype(ctx.out())
+  auto format(CGAL::Point_3<Kernel> const& point,
+              FormatContext&               ctx) const -> decltype(ctx.out())
   {
     std::stringstream ss;
     ss << point;

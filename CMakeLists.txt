@@ -39,7 +39,7 @@ target_compile_features(project_options INTERFACE cxx_std_23)
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(ENABLE_BUILD_WITH_TIME_TRACE)
-    add_compile_definitions(project_options INTERFACE -ftime-trace)
+    target_compile_options(project_options INTERFACE -ftime-trace)
   endif()
 endif()
 
@@ -53,9 +53,15 @@ include(cmake/Cache.cmake)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
-# sanitizer options if supported by compiler
+# diagnostic compile and link options
+include(cmake/Coverage.cmake)
+enable_coverage(project_options)
+
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
+
+include(cmake/Valgrind.cmake)
+enable_valgrind(project_options)
 
 # allow for static analysis options
 include(cmake/StaticAnalyzers.cmake)
@@ -67,9 +73,6 @@ option(ENABLE_TESTING "Enable building of tests" ON)
 # Modules and scripts ##
 include(CTest)
 include(CMakeDependentOption)
-
-# Set CGAL_DATA_DIR to the location of the CGAL data files
-set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 
 # Minimum compiler versions required for C++23 support:
 # - MSVC 19.34 (Visual Studio 2022 version 17.4)
@@ -95,12 +98,11 @@ endif()
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
-find_package(CGAL CONFIG REQUIRED)
-# Don't let CGAL override flags
+# Do not let CGAL override project compiler/linker flags during package discovery.
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE
     CACHE BOOL "Force CGAL to maintain CMAKE flags")
-set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
+find_package(CGAL CONFIG REQUIRED)
 
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)

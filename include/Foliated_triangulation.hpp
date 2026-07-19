@@ -1195,7 +1195,7 @@ namespace foliated_triangulations
     /// @return A read-only reference to the Delaunay triangulation
     [[nodiscard]] auto get_delaunay() const -> Delaunay const&
     {
-      return std::cref(m_triangulation);
+      return m_triangulation;
     }  // get_delaunay
 
     /// @return Number of 3D simplices in triangulation data structure

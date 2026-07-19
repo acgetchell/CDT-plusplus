@@ -17,6 +17,8 @@
 #ifndef INCLUDE_METROPOLIS_HPP_
 #define INCLUDE_METROPOLIS_HPP_
 
+#include <stdexcept>
+
 // CDT headers
 #include "Move_command.hpp"
 #include "Move_strategy.hpp"
@@ -104,6 +106,15 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       , m_passes(passes)
       , m_checkpoint{checkpoint}
   {
+    if (m_passes < 0)
+    {
+      throw std::invalid_argument{"Metropolis passes cannot be negative"};
+    }
+    if (m_checkpoint <= 0)
+    {
+      throw std::invalid_argument{
+          "Metropolis checkpoint interval must be positive"};
+    }
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
@@ -386,7 +397,16 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
         "Starting Metropolis-Hastings algorithm in {}+1 dimensions ...\n",
         ManifoldType::dimension - 1);
 
-    auto command = initialize(t_manifold).value_or(MoveCommand(t_manifold));
+    m_proposed_moves.reset();
+    m_accepted_moves.reset();
+    m_rejected_moves.reset();
+    m_attempted_moves.reset();
+    m_succeeded_moves.reset();
+    m_failed_moves.reset();
+
+    auto initialized = initialize(t_manifold);
+    auto command     = initialized ? std::move(*initialized)
+                                   : MoveCommand<ManifoldType>{t_manifold};
 
     fmt::print("Making random moves ...\n");
 
@@ -414,6 +434,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       this->m_attempted_moves += command.get_attempted();
       this->m_succeeded_moves += command.get_succeeded();
       this->m_failed_moves += command.get_failed();
+      command.reset_counters();
 
       // Do stuff on checkpoint
       if (pass_number % m_checkpoint == 0)

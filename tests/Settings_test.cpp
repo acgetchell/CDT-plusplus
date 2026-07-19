@@ -14,6 +14,8 @@
 #include <doctest/doctest.h>
 #include <fmt/core.h>
 
+#include <concepts>
+
 using namespace std;
 
 SCENARIO("Check settings" * doctest::test_suite("settings"))
@@ -22,11 +24,9 @@ SCENARIO("Check settings" * doctest::test_suite("settings"))
   {
     WHEN("The integer type is queried.")
     {
-      auto const& int_precision = typeid(Int_precision).name();
-      THEN("The value is std::int_fast32_t.")
+      THEN("The type is a portable signed 32-bit integer.")
       {
-        fmt::print("TypeID of Int_precision is {}.\n", int_precision);
-        CHECK_EQ(int_precision, typeid(std::int_fast32_t).name());
+        CHECK((std::same_as<Int_precision, std::int32_t>));
       }
     }
     WHEN("MPFR precision is queried.")
