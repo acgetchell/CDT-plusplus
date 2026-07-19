@@ -90,24 +90,6 @@
       "cacheVariables": {
         "ENABLE_SANITIZER_THREAD": true
       }
-    },
-    {
-      "name": "cppcheck",
-      "description": "Configure the cppcheck diagnostics",
-      "inherits": "common",
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Linux"
-      },
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
-        "CMAKE_BUILD_TYPE": "Debug",
-        "ENABLE_CACHE": false,
-        "ENABLE_CPPCHECK": true,
-        "ENABLE_TESTING": true
-      }
     }
   ],
   "buildPresets": [

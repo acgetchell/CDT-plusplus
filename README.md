@@ -400,14 +400,6 @@ just clang-tidy
 
 (Or use your favorite linter plugin for your editor/IDE.)
 
-The [cppcheck.sh] script runs a quick static analysis using [cppcheck].
-
-```bash
-brew install cppcheck
-cd scripts
-./cppcheck.sh
-```
-
 ### Sanitizers
 
 [AddressSanitizer] + [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer] share the
@@ -451,10 +443,8 @@ Your code should pass Continuous Integration:
 
 - `just ci` for the supported build and smoke-test contract before pushing
 
-The slower [cppcheck] and sanitizer workflows remain available through [GitHub Actions] and repository commands when
-relevant to a change:
-
-- [cppcheck] with [cppcheck.sh]
+The slower sanitizer workflows remain available through [GitHub Actions] and repository commands when relevant to a
+change:
 
 - [AddressSanitizer], [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer]
 
@@ -491,8 +481,6 @@ Optional:
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
 [HDF5]: https://www.hdfgroup.org
-[cppcheck]: http://cppcheck.sourceforge.net
-[cppcheck.sh]: https://github.com/acgetchell/CDT-plusplus/blob/main/scripts/cppcheck.sh
 [functional]: https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [TBB]: https://www.threadingbuildingblocks.org
 [Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile

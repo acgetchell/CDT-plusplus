@@ -48,8 +48,6 @@ reviews:
       timeout_ms: 90000
     gitleaks:
       enabled: true
-    cppcheck:
-      enabled: true
     languagetool:
       enabled: true
       enabled_only: false
