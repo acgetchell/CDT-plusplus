@@ -76,10 +76,6 @@ jobs:
         shell: bash
         run: |
           {
-            echo "doxygen=$(just --evaluate doxygen_version)"
-            echo "doxygen-windows-sha256=$(just --evaluate doxygen_windows_sha256)"
-            echo "graphviz=$(just --evaluate graphviz_version)"
-            echo "graphviz-windows-sha256=$(just --evaluate graphviz_windows_sha256)"
             echo "llvm=$(just --evaluate llvm_version)"
             echo "uv=$(just --evaluate uv_version)"
             echo "zizmor=$(just --evaluate zizmor_version)"
@@ -89,60 +85,7 @@ jobs:
         if: runner.os != 'Windows'
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
-          +: >-
-            doxygen.nl@${{ steps.tool-versions.outputs.doxygen }}
-            graphviz.org@${{ steps.tool-versions.outputs.graphviz }}
-            llvm.org@${{ steps.tool-versions.outputs.llvm }}
-
-      - name: Install verified documentation tools on Windows
-        if: runner.os == 'Windows'
-        shell: pwsh
-        env:
-          DOXYGEN_SHA256: ${{ steps.tool-versions.outputs.doxygen-windows-sha256 }}
-          DOXYGEN_VERSION: ${{ steps.tool-versions.outputs.doxygen }}
-          GRAPHVIZ_SHA256: ${{ steps.tool-versions.outputs.graphviz-windows-sha256 }}
-          GRAPHVIZ_VERSION: ${{ steps.tool-versions.outputs.graphviz }}
-        run: |
-          $ErrorActionPreference = 'Stop'
-
-          function Assert-ArchiveHash {
-            param(
-              [string] $Archive,
-              [string] $Expected
-            )
-
-            $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $Archive).Hash.ToLowerInvariant()
-            if ($actual -ne $Expected.ToLowerInvariant()) {
-              throw "SHA-256 mismatch for $Archive`: expected $Expected, received $actual"
-            }
-          }
-
-          $doxygenArchive = Join-Path $env:RUNNER_TEMP 'doxygen.zip'
-          $doxygenRoot = Join-Path $env:RUNNER_TEMP 'doxygen'
-          $doxygenTag = 'Release_' + ($env:DOXYGEN_VERSION -replace '\.', '_')
-          $doxygenBase = 'https://github.com/doxygen/doxygen/releases/download'
-          $doxygenUrl = "$doxygenBase/$doxygenTag/doxygen-$env:DOXYGEN_VERSION.windows.x64.bin.zip"
-          Invoke-WebRequest -Uri $doxygenUrl -OutFile $doxygenArchive
-          Assert-ArchiveHash -Archive $doxygenArchive -Expected $env:DOXYGEN_SHA256
-          Expand-Archive -LiteralPath $doxygenArchive -DestinationPath $doxygenRoot
-
-          $graphvizArchive = Join-Path $env:RUNNER_TEMP 'graphviz.zip'
-          $graphvizRoot = Join-Path $env:RUNNER_TEMP 'graphviz'
-          $graphvizPackage = "windows_10_cmake_Release_Graphviz-$env:GRAPHVIZ_VERSION-win64.zip"
-          $graphvizBase = 'https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases'
-          $graphvizUrl = "$graphvizBase/$env:GRAPHVIZ_VERSION/$graphvizPackage"
-          Invoke-WebRequest -Uri $graphvizUrl -OutFile $graphvizArchive
-          Assert-ArchiveHash -Archive $graphvizArchive -Expected $env:GRAPHVIZ_SHA256
-          Expand-Archive -LiteralPath $graphvizArchive -DestinationPath $graphvizRoot
-
-          $doxygen = Get-ChildItem -Path $doxygenRoot -Filter doxygen.exe -Recurse | Select-Object -First 1
-          $dot = Get-ChildItem -Path $graphvizRoot -Filter dot.exe -Recurse | Select-Object -First 1
-          if ($null -eq $doxygen -or $null -eq $dot) {
-            throw 'The downloaded documentation archives did not contain doxygen.exe and dot.exe.'
-          }
-
-          $doxygen.Directory.FullName >> $env:GITHUB_PATH
-          $dot.Directory.FullName >> $env:GITHUB_PATH
+          +: llvm.org@${{ steps.tool-versions.outputs.llvm }}
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0

@@ -28,21 +28,8 @@ jobs:
       - name: Set up Just
         uses: ./.github/actions/setup-just
 
-      - name: Resolve documentation tool versions
-        id: tool-versions
-        shell: bash
-        run: |
-          {
-            echo "doxygen=$(just --evaluate doxygen_version)"
-            echo "graphviz=$(just --evaluate graphviz_version)"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Set up documentation tools with pkgx
+      - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
-        with:
-          +: |
-            doxygen.nl@${{ steps.tool-versions.outputs.doxygen }}
-            graphviz.org@${{ steps.tool-versions.outputs.graphviz }}
 
       - name: Build documentation
         run: just docs

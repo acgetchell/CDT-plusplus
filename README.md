@@ -161,9 +161,9 @@ The smallest pkgx-assisted host setup is:
 - Python 3.12 and uv when checking or running the Python support scripts
 - Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
 
-The pkgx launcher supplies Git, Bash, CMake, Ninja, Python, Doxygen, Graphviz, M4, Autoconf, Autoconf Archive,
-Automake, GNU Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these tools conventionally through
-a package manager such as [Homebrew] or apt:
+The pkgx build and documentation launchers supply their required tools ephemerally, including Git, Bash, CMake,
+Ninja, Python, Doxygen, Graphviz, M4, Autoconf, Autoconf Archive, Automake, GNU Libtool, Texinfo, and pkg-config. If
+pkgx is not installed, provide these tools conventionally through a package manager such as [Homebrew] or apt:
 
 - Git
 - Bash
@@ -203,18 +203,17 @@ just python-check          # Check Python formatting, lint, and types
 just python-fix            # Apply safe Ruff fixes and formatting
 ```
 
-`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, strict Doxygen generation,
-release metadata and citation fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing.
-`ci` adds the pinact policy check and the supported build/test contract. The GitHub Actions Ubuntu GCC, Ubuntu Clang,
-macOS AppleClang, and Windows MSVC jobs all run the same `just ci` command. Windows continues to compile with native
-MSVC; the locked Python environment supplies `clang-format` only as a source formatter. Install the developer tools
-with Homebrew, use equivalent system packages, or let pkgx supply the Unix environment ephemerally; pkgx remains
-optional. For example:
+`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, release metadata and citation
+fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
+check and the supported build/test contract. Documentation validation remains available separately through
+`just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs all run the
+same `just ci` command. Windows continues to compile with native MSVC; the locked Python environment supplies
+`clang-format` only as a source formatter. Install the developer tools with Homebrew, use equivalent system packages,
+or let pkgx supply the Unix environment ephemerally; pkgx remains optional. For example:
 
 ```bash
 uv sync --locked --group dev
-pkgx +just.systems@1.57.0 +git-scm.org +cmake.org +ninja-build.org +python.org \
-  +doxygen.nl@1.17.0 +graphviz.org@15.1.0 +zizmor just check
+pkgx +just.systems@1.57.0 +git-scm.org +cmake.org +ninja-build.org +python.org +zizmor just check
 ```
 
 [pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
@@ -380,8 +379,9 @@ just docs-check
 To generate the same publishable output used by the documentation workflow, run `just docs`; it writes `docs/html/`
 only after strict generation succeeds. Both recipes require the pinned Doxygen and Graphviz versions and use pkgx
 ephemerally when matching local tools are unavailable. `USE_MATHJAX` allows [MathJax] to render LaTeX formulae, and
-`HAVE_DOT` enables [GraphViz] diagrams. `just check` and therefore `just ci` include the non-mutating docs check on
-every supported platform. The documentation workflow publishes the `just docs` output to the `gh-pages` branch.
+`HAVE_DOT` enables [GraphViz] diagrams. Documentation validation is intentionally separate from the cross-platform
+`just ci` contract. The documentation workflow runs `just docs` on Ubuntu and publishes its output to the `gh-pages`
+branch.
 
 ## Citing CDT++
 

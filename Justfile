@@ -11,8 +11,6 @@ pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_ve
 llvm_version := "22"
 doxygen_version := "1.17.0"
 graphviz_version := "15.1.0"
-doxygen_windows_sha256 := "94594407c4cbca3049d76aacbb05d4a6f7d0f4e93c0de410b825d25ca5621c83"
-graphviz_windows_sha256 := "c3ee71ff81ab97352082225574a140f20f5d6929d5f33d1097a1fe0e4161962a"
 zizmor_version := "1.26.1"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
@@ -24,7 +22,7 @@ build:
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check docs-check release-check python-check semgrep semgrep-test
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check semgrep semgrep-test
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.

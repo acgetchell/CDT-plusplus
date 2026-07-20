@@ -365,7 +365,8 @@ namespace utilities
     return triangulation;
   }  // read_file
 
-  /// @brief Roll a die with PCG
+  /// @brief Roll a die using a caller-supplied
+  /// `std::uniform_random_bit_generator`
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto die_roll(Generator& generator)
   {
