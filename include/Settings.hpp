@@ -18,14 +18,18 @@
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
-using Gmpzf         = CGAL::Gmpzf;
+using Gmpzf = CGAL::Gmpzf;
 
 /// Sets the type of integer to use throughout the project.
 /// These are the base values read into the program or used in calculations.
 /// Casts to unsigned types are still necessary for certain library functions
 /// to work.
 
-using Int_precision = std::int32_t;
+#if __linux
+using Int_precision = int;
+#else
+using Int_precision = std::int_fast32_t;
+#endif
 
 #ifdef _WIN32
 #define __PRETTY_FUNCTION__ __FUNCSIG__

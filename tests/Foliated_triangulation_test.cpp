@@ -7,7 +7,8 @@
 /// @file Foliated_triangulation_test.cpp
 /// @brief Tests for foliated triangulations
 /// @author Adam Getchell
-/// @details Tests that foliated triangulations are correctly constructed in 3D.
+/// @details Tests that foliated triangulations are correctly constructed in 3D
+/// and 4D respectively.
 
 #include "Foliated_triangulation.hpp"
 
@@ -22,6 +23,22 @@ static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
 static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
+
+auto minimal_4d_vertices() -> std::vector<Point_t<4>>
+{
+  return {
+      Point_t<4>{1.0, 0.0, 0.0, 0.0},
+      Point_t<4>{0.0, 1.0, 0.0, 0.0},
+      Point_t<4>{0.0, 0.0, 1.0, 0.0},
+      Point_t<4>{0.0, 0.0, 0.0, 1.0},
+      Point_t<4>{1.0, 1.0, 1.0, 1.0}
+  };
+}
+
+auto minimal_4d_timevalues() -> std::vector<std::size_t>
+{
+  return {1, 1, 1, 1, 2};
+}
 
 SCENARIO("FoliatedTriangulation special member and swap properties" *
          doctest::test_suite("foliated_triangulation"))
@@ -47,7 +64,9 @@ SCENARIO("FoliatedTriangulation special member and swap properties" *
             is_trivially_default_constructible_v<FoliatedTriangulation_3>);
       }
       THEN("Delaunay_triangulation_3 is NOT no-throw default constructible.")
-      { CHECK_FALSE(is_nothrow_default_constructible_v<Delaunay_t<3>>); }
+      {
+        CHECK_FALSE(is_nothrow_default_constructible_v<Delaunay_t<3>>);
+      }
       THEN(
           "Therefore FoliatedTriangulation is NOT no-throw default "
           "constructible.")
@@ -126,8 +145,8 @@ SCENARIO("FoliatedTriangulation free functions" *
   GIVEN("A vector of points and timevalues.")
   {
     vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-                                  Point_t<3>(0, 0, 1),
-                                  Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+                          Point_t<3>(0, 0, 1),
+                          Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const Timevalues{1, 1, 1, 2};
     WHEN("Causal vertices are created.")
     {
@@ -150,13 +169,15 @@ SCENARIO("FoliatedTriangulation free functions" *
   GIVEN("A mismatched set of points and timevalues.")
   {
     vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-                                  Point_t<3>(0, 0, 1),
-                                  Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+                          Point_t<3>(0, 0, 1),
+                          Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const Timevalues{1, 1, 1};
     WHEN("Causal vertices are created.")
     {
       THEN("An exception is thrown.")
-      { REQUIRE_THROWS(make_causal_vertices<3>(Vertices, Timevalues)); }
+      {
+        REQUIRE_THROWS(make_causal_vertices<3>(Vertices, Timevalues));
+      }
     }
   }
 
@@ -174,7 +195,7 @@ SCENARIO("FoliatedTriangulation free functions" *
     auto                    print = [&triangulation](auto& vertex) {
       fmt::print(
           "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-          "infinite: {}\n",
+                             "infinite: {}\n",
           utilities::point_to_str(vertex->point()), vertex->info(),
           triangulation.get_delaunay().tds().is_vertex(vertex),
           triangulation.is_infinite(vertex));
@@ -232,7 +253,9 @@ SCENARIO("FoliatedTriangulation free functions" *
         desired_simplices, desired_timeslices, initial_radius,
         foliation_spacing);
     THEN("The triangulation is initialized correctly.")
-    { REQUIRE(triangulation.is_initialized()); }
+    {
+      REQUIRE(triangulation.is_initialized());
+    }
     THEN("The initial radius and radial separation are correct.")
     {
       REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
@@ -374,7 +397,9 @@ SCENARIO("FoliatedTriangulation free functions" *
     WHEN("A container of cells is printed.")
     {
       THEN("The container is printed correctly.")
-      { foliated_triangulations::print_cells<3>(triangulation.get_cells()); }
+      {
+        foliated_triangulations::print_cells<3>(triangulation.get_cells());
+      }
     }
     WHEN("We choose a cell in the triangulation.")
     {
@@ -384,6 +409,38 @@ SCENARIO("FoliatedTriangulation free functions" *
         foliated_triangulations::print_cell<3>(cell);
         foliated_triangulations::print_neighboring_cells<3>(cell);
       }
+    }
+  }
+}
+
+SCENARIO("FoliatedTriangulation_4 initialization" *
+         doctest::test_suite("foliated_triangulation"))
+{
+  GIVEN("A minimal 3+1 dimensional foliated triangulation.")
+  {
+    auto points     = minimal_4d_vertices();
+    auto timevalues = minimal_4d_timevalues();
+    auto vertices   = make_causal_vertices<4>(points, timevalues);
+    FoliatedTriangulation_4 triangulation(vertices);
+
+    THEN("The triangulation is valid and correctly classified.")
+    {
+      REQUIRE(triangulation.is_initialized());
+      CHECK_EQ(triangulation.dimension(), 4);
+      CHECK_EQ(triangulation.number_of_vertices(), 5);
+      CHECK_EQ(triangulation.number_of_finite_edges(), 10);
+      CHECK_EQ(triangulation.number_of_finite_triangles(), 10);
+      CHECK_EQ(triangulation.number_of_finite_facets(), 5);
+      CHECK_EQ(triangulation.number_of_finite_cells(), 1);
+      CHECK_EQ(triangulation.get_four_one().size(), 1);
+      CHECK_EQ(triangulation.get_three_two().size(), 0);
+      CHECK_EQ(triangulation.get_two_three().size(), 0);
+      CHECK_EQ(triangulation.get_one_four().size(), 0);
+      CHECK_EQ(triangulation.N1_SL(), 6);
+      CHECK_EQ(triangulation.N1_TL(), 4);
+      CHECK_EQ(triangulation.N3_SL().count(1), 1);
+      CHECK(triangulation.check_all_vertices());
+      CHECK(triangulation.check_all_cells());
     }
   }
 }
@@ -443,7 +500,9 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       FoliatedTriangulation_3 triangulation(desired_simplices,
                                             desired_timeslices);
       THEN("Triangulation is valid and foliated.")
-      { REQUIRE(triangulation.is_initialized()); }
+      {
+        REQUIRE(triangulation.is_initialized());
+      }
       THEN("The triangulation has sensible values.")
       {
         //        // We have 1 to 8 vertex_count
@@ -489,7 +548,9 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
-      { REQUIRE(triangulation.is_initialized()); }
+      {
+        REQUIRE(triangulation.is_initialized());
+      }
       THEN("The initial radius and radial separation are correct.")
       {
         REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
@@ -507,7 +568,9 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
-      { REQUIRE(triangulation.is_initialized()); }
+      {
+        REQUIRE(triangulation.is_initialized());
+      }
       THEN("The initial radius and radial separation are correct.")
       {
         REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
@@ -521,7 +584,9 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       FoliatedTriangulation_3 const triangulation(desired_simplices,
                                                   desired_timeslices);
       THEN("Triangulation is valid and foliated.")
-      { REQUIRE(triangulation.is_initialized()); }
+      {
+        REQUIRE(triangulation.is_initialized());
+      }
       THEN("The triangulation has sensible values.")
       {
         REQUIRE_EQ(triangulation.min_time(), 1);

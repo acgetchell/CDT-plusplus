@@ -13,11 +13,24 @@
 #include <doctest/doctest.h>
 
 #include <numbers>
+#include <type_traits>
+#include <utility>
 
 using namespace std;
 using namespace manifolds;
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+
+auto minimal_manifold_4d_vertices() -> std::vector<Point_t<4>>
+{
+  return {
+      Point_t<4>{1.0, 0.0, 0.0, 0.0},
+      Point_t<4>{0.0, 1.0, 0.0, 0.0},
+      Point_t<4>{0.0, 0.0, 1.0, 0.0},
+      Point_t<4>{0.0, 0.0, 0.0, 1.0},
+      Point_t<4>{1.0, 1.0, 1.0, 1.0}
+  };
+}
 
 SCENARIO("Manifold special member and swap properties" *
          doctest::test_suite("manifold"))
@@ -38,9 +51,13 @@ SCENARIO("Manifold special member and swap properties" *
         spdlog::debug("It is default constructible.\n");
       }
       THEN("It is NOT trivially constructible.")
-      { CHECK_FALSE(is_trivially_constructible_v<Manifold_3>); }
+      {
+        CHECK_FALSE(is_trivially_constructible_v<Manifold_3>);
+      }
       THEN("It is NOT trivially default constructible.")
-      { CHECK_FALSE(is_trivially_default_constructible_v<Manifold_3>); }
+      {
+        CHECK_FALSE(is_trivially_default_constructible_v<Manifold_3>);
+      }
       THEN("It is no-throw copy constructible.")
       {
         REQUIRE(is_nothrow_copy_constructible_v<Manifold_3>);
@@ -104,6 +121,13 @@ SCENARIO("Manifold special member and swap properties" *
             "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
             "RADIAL_SEPARATION.\n");
       }
+      THEN("Delaunay accessors preserve reference semantics.")
+      {
+        CHECK(is_lvalue_reference_v<decltype(
+                  declval<Manifold_3 const&>().get_delaunay())>);
+        CHECK(is_lvalue_reference_v<decltype(
+                  declval<Manifold_4 const&>().get_delaunay())>);
+      }
     }
   }
 }
@@ -115,8 +139,8 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
   GIVEN("A vector of points and timevalues.")
   {
     vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-                                  Point_t<3>(0, 0, 1),
-                                  Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+                          Point_t<3>(0, 0, 1),
+                          Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const Timevalues{1, 1, 1, 2};
     WHEN("Causal vertices are created.")
     {
@@ -140,8 +164,8 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
   GIVEN("A mismatched set of points and timevalues.")
   {
     vector const         Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-                                  Point_t<3>(0, 0, 1),
-                                  Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+                          Point_t<3>(0, 0, 1),
+                          Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const Timevalues{1, 1, 1};
     WHEN("Causal vertices are created.")
     {
@@ -213,7 +237,38 @@ SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
     WHEN("The dimensionality of the manifold is queried.")
     {
       THEN("The correct dimensionality is returned.")
-      { REQUIRE_EQ(test.dimension, 3); }
+      {
+        REQUIRE_EQ(test.dimension, 3);
+      }
+    }
+  }
+}
+
+SCENARIO("4-Manifold initialization" * doctest::test_suite("manifold"))
+{
+  GIVEN("A minimal 3+1 dimensional manifold.")
+  {
+    auto points     = minimal_manifold_4d_vertices();
+    auto timevalues = std::vector<std::size_t>{1, 1, 1, 1, 2};
+    auto vertices   = manifolds::make_causal_vertices<4>(points, timevalues);
+
+    WHEN("The manifold is constructed.")
+    {
+      Manifold_4 const manifold(vertices);
+      THEN("It is correct.")
+      {
+        REQUIRE(manifold.is_correct());
+        CHECK_EQ(manifold.dimensionality(), 4);
+        CHECK_EQ(manifold.N4(), 1);
+        CHECK_EQ(manifold.N4_41(), 1);
+        CHECK_EQ(manifold.N4_32(), 0);
+        CHECK_EQ(manifold.N4_23(), 0);
+        CHECK_EQ(manifold.N4_14(), 0);
+        CHECK_EQ(manifold.N3(), 5);
+        CHECK_EQ(manifold.N2(), 10);
+        CHECK_EQ(manifold.N1(), 10);
+        CHECK_EQ(manifold.N0(), 5);
+      }
     }
   }
 }
@@ -659,7 +714,7 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
     auto       print = [&manifold](auto& vertex) {
       fmt::print(
           "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-          "infinite: {}\n",
+                "infinite: {}\n",
           utilities::point_to_str(vertex->point()), vertex->info(),
           manifold.is_vertex(vertex),
           manifold.get_triangulation().is_infinite(vertex));
@@ -716,7 +771,9 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
       auto constexpr desired_simplices  = 6400;
       Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("The triangulation is valid and Delaunay.")
-      { REQUIRE(manifold.is_correct()); }
+      {
+        REQUIRE(manifold.is_correct());
+      }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -731,9 +788,13 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
         REQUIRE_EQ(manifold.max_time(), desired_timeslices);
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
-      { REQUIRE(manifold.get_triangulation().check_all_vertices()); }
+      {
+        REQUIRE(manifold.get_triangulation().check_all_vertices());
+      }
       THEN("Every cell in the manifold is correctly classified.")
-      { REQUIRE(manifold.check_simplices()); }
+      {
+        REQUIRE(manifold.check_simplices());
+      }
     }
   }
 }

@@ -40,28 +40,44 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
       FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
 
       THEN("The triangulation has dimension 3.")
-      { REQUIRE_EQ(triangulation.dimension(), 3); }
+      {
+        REQUIRE_EQ(triangulation.dimension(), 3);
+      }
 
       THEN("The triangulation has 4 vertices.")
-      { REQUIRE_EQ(triangulation.number_of_vertices(), 4); }
+      {
+        REQUIRE_EQ(triangulation.number_of_vertices(), 4);
+      }
 
       THEN("The triangulation has 6 edges.")
-      { REQUIRE_EQ(triangulation.number_of_finite_edges(), 6); }
+      {
+        REQUIRE_EQ(triangulation.number_of_finite_edges(), 6);
+      }
 
       THEN("The triangulation has 4 faces.")
-      { REQUIRE_EQ(triangulation.number_of_finite_facets(), 4); }
+      {
+        REQUIRE_EQ(triangulation.number_of_finite_facets(), 4);
+      }
 
       THEN("The triangulation has 1 cell.")
-      { REQUIRE_EQ(triangulation.number_of_finite_cells(), 1); }
+      {
+        REQUIRE_EQ(triangulation.number_of_finite_cells(), 1);
+      }
 
       THEN("The triangulation is Delaunay.")
-      { REQUIRE(triangulation.is_delaunay()); }
+      {
+        REQUIRE(triangulation.is_delaunay());
+      }
 
       THEN("The triangulation data structure is valid.")
-      { REQUIRE(triangulation.is_tds_valid()); }
+      {
+        REQUIRE(triangulation.is_tds_valid());
+      }
 
       THEN("The vertices are valid.")
-      { REQUIRE(triangulation.check_all_vertices()); }
+      {
+        REQUIRE(triangulation.check_all_vertices());
+      }
     }
   }
 }
@@ -91,7 +107,9 @@ SCENARIO("Find distances between points of the tetrahedron" *
       FoliatedTriangulation triangulation(causal_vertices);
       squared_distance constexpr r_2;
       THEN("The triangulation is initialized correctly.")
-      { REQUIRE(triangulation.is_initialized()); }
+      {
+        REQUIRE(triangulation.is_initialized());
+      }
       THEN("The squared distances of vertices from origin are correct.")
       {
         fmt::print("v_1 is {}\n", utilities::point_to_str(v_1));
@@ -172,25 +190,39 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
       FoliatedTriangulation const triangulation(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")
-      { REQUIRE(triangulation.is_initialized()); }
+      {
+        REQUIRE(triangulation.is_initialized());
+      }
 
       THEN("The triangulation has dimension 3.")
-      { REQUIRE_EQ(triangulation.dimension(), 3); }
+      {
+        REQUIRE_EQ(triangulation.dimension(), 3);
+      }
 
       THEN("The triangulation has 4 vertices.")
-      { REQUIRE_EQ(triangulation.number_of_vertices(), 4); }
+      {
+        REQUIRE_EQ(triangulation.number_of_vertices(), 4);
+      }
 
       THEN("The triangulation has 6 edges.")
-      { REQUIRE_EQ(triangulation.number_of_finite_edges(), 6); }
+      {
+        REQUIRE_EQ(triangulation.number_of_finite_edges(), 6);
+      }
 
       THEN("The triangulation has 4 faces.")
-      { REQUIRE_EQ(triangulation.number_of_finite_facets(), 4); }
+      {
+        REQUIRE_EQ(triangulation.number_of_finite_facets(), 4);
+      }
 
       THEN("The triangulation has 1 cell.")
-      { REQUIRE_EQ(triangulation.number_of_finite_cells(), 1); }
+      {
+        REQUIRE_EQ(triangulation.number_of_finite_cells(), 1);
+      }
 
       THEN("Timevalues are correct.")
-      { CHECK(triangulation.check_all_vertices()); }
+      {
+        CHECK(triangulation.check_all_vertices());
+      }
 
       THEN("The cell info is correct.")
       {
@@ -201,19 +233,29 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
       }
 
       THEN("There is one (3,1) simplex.")
-      { REQUIRE_EQ(triangulation.get_three_one().size(), 1); }
+      {
+        REQUIRE_EQ(triangulation.get_three_one().size(), 1);
+      }
 
       THEN("There are no (2,2) simplices.")
-      { REQUIRE(triangulation.get_two_two().empty()); }
+      {
+        REQUIRE(triangulation.get_two_two().empty());
+      }
 
       THEN("There are no (1,3) simplices.")
-      { REQUIRE(triangulation.get_one_three().empty()); }
+      {
+        REQUIRE(triangulation.get_one_three().empty());
+      }
 
       THEN("There are 3 timelike edges.")
-      { REQUIRE_EQ(triangulation.N1_TL(), 3); }
+      {
+        REQUIRE_EQ(triangulation.N1_TL(), 3);
+      }
 
       THEN("There are 3 spacelike edges.")
-      { REQUIRE_EQ(triangulation.N1_SL(), 3); }
+      {
+        REQUIRE_EQ(triangulation.N1_SL(), 3);
+      }
     }
   }
 }

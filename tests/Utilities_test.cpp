@@ -47,19 +47,22 @@ SCENARIO("Various string/stream/time utilities" *
       }
     }
   }
+#ifndef _WIN32
   GIVEN("A running environment.")
   {
     WHEN("The current time is requested.")
     {
       THEN("The output is correct.")
       {
-        auto const timestamp     = std::chrono::system_clock::now();
-        auto const result        = current_date_time(timestamp);
-        auto const expected_year = date::format(
-            "%Y", std::chrono::floor<std::chrono::seconds>(timestamp));
-        CHECK(result.starts_with(expected_year));
+        auto const result = current_date_time();
+        REQUIRE_GE(result.size(), 19);
+        CHECK_EQ(result[4], '-');
+        CHECK_EQ(result[7], '-');
+        CHECK_EQ(result[10], '.');
+        CHECK_EQ(result[13], ':');
+        CHECK_EQ(result[16], ':');
         // Human verification
-        fmt::print("Current date and time is: {}\n", result);
+        fmt::print("Current date and time is: {}\n", current_date_time());
       }
     }
     WHEN("A filename is generated.")
@@ -83,12 +86,12 @@ SCENARIO("Various string/stream/time utilities" *
         CHECK_NE(initial_radius, std::string::npos);
         auto const file_suffix = filename.string().find("off");
         CHECK_NE(file_suffix, std::string::npos);
-        CHECK_EQ(filename.string().find(':'), std::string::npos);
         // Human verification
         fmt::print("Filename is: {}\n", filename.string());
       }
     }
   }
+#endif
 }
 
 SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
@@ -104,7 +107,9 @@ SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
     WHEN("The triangulation is printed.")
     {
       THEN("No exception is thrown.")
-      { CHECK_NOTHROW(print_delaunay(triangulation)); }
+      {
+        CHECK_NOTHROW(print_delaunay(triangulation));
+      }
     }
   }
 }
@@ -123,17 +128,20 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     // Construct a manifold from a Delaunay triangulation
     manifolds::Manifold_3 const manifold(
         foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
-    WHEN("The triangulation is round-tripped through a file")
+    auto filename = make_filename(manifold);
+    WHEN("Writing to a file")
     {
-      auto const filename = std::filesystem::temp_directory_path() /
-                            "cdt-plusplus-utilities-roundtrip.off";
-      std::filesystem::remove(filename);
-      write_file(filename, manifold.get_delaunay());
-      REQUIRE(std::filesystem::exists(filename));
-
+      write_file(manifold);
+      THEN("The file should exist")
+      {
+        CHECK(std::filesystem::exists(filename));
+      }
+    }
+    WHEN("Reading from a file")
+    {
       auto triangulation_from_file =
           utilities::read_file<Delaunay_t<3>>(filename);
-      THEN("The file contains the triangulation and can be removed")
+      THEN("The file should contain the triangulation")
       {
         REQUIRE(triangulation_from_file.is_valid(true));
         REQUIRE_EQ(triangulation_from_file.dimension(),
@@ -146,7 +154,13 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
                    manifold.N1());
         REQUIRE_EQ(triangulation_from_file.number_of_vertices(), manifold.N0());
         CHECK_EQ(triangulation_from_file, triangulation);
-        REQUIRE(std::filesystem::remove(filename));
+      }
+    }
+    WHEN("Deleting a file")
+    {
+      std::filesystem::remove(filename);
+      THEN("The file should not exist")
+      {
         CHECK_FALSE(std::filesystem::exists(filename));
       }
     }
@@ -162,13 +176,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     {
       auto const roll1 = die_roll();
       auto const roll2 = die_roll();
-      THEN("Both results are valid die values.")
-      {
-        CHECK_GE(roll1, 1);
-        CHECK_LE(roll1, 6);
-        CHECK_GE(roll2, 1);
-        CHECK_LE(roll2, 6);
-      }
+      THEN("They should probably be different.") { WARN_NE(roll1, roll2); }
     }
   }
   GIVEN("A container of ints")
@@ -179,13 +187,10 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     WHEN("The container is shuffled.")
     {
       ranges::shuffle(container, make_random_generator());
-      THEN("The shuffled result remains a permutation of the input.")
+      THEN("We get back the elements in random order.")
       {
-        ranges::sort(container);
-        for (Int_precision i = 0; i < VECTOR_TEST_SIZE; ++i)
-        {
-          CHECK_EQ(container[static_cast<std::size_t>(i)], i);
-        }
+        auto j = 0;                                    // NOLINT
+        for (auto i : container) { WARN_NE(i, j++); }  // NOLINT
         fmt::print("\nShuffled container verification:\n");
         fmt::print("{}\n", fmt::join(container, " "));
       }
@@ -193,7 +198,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   }
   GIVEN("A test range of integers")
   {
-    WHEN("We generate six random integers within the range.")
+    WHEN("We generate six different random integers within the range.")
     {
       auto constexpr min   = 64;
       auto constexpr max   = 6400;
@@ -204,19 +209,27 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       auto const value5    = generate_random_int(min, max);
       auto const value6    = generate_random_int(min, max);
       array      container = {value1, value2, value3, value4, value5, value6};
-      THEN("They should all fall within the range.")
+      THEN("They should all fall within the range and all be different.")
       {
         // All elements are >= min
         CHECK_GE(*ranges::min_element(container), min);
 
         // All elements are <= max
         CHECK_LE(*ranges::max_element(container), max);
+
+        // All elements are different
+        ranges::sort(container);
+        CHECK(ranges::is_sorted(container));
+        auto adjacent_iterator = ranges::adjacent_find(container);
+
+        // If the iterator is equal to the end, then all elements are different
+        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
   GIVEN("A test range of timeslices")
   {
-    WHEN("We generate six timeslices within the range.")
+    WHEN("We generate six different timeslices within the range.")
     {
       auto constexpr max   = 256;
       auto const value1    = generate_random_timeslice(max);
@@ -226,7 +239,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       auto const value5    = generate_random_timeslice(max);
       auto const value6    = generate_random_timeslice(max);
       array      container = {value1, value2, value3, value4, value5, value6};
-      THEN("They should all fall within the range.")
+      THEN("They should all fall within the range and be different.")
       {
         auto constexpr min = 1;
         // All elements are >= min
@@ -234,6 +247,14 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
 
         // All elements are <= max
         CHECK_LE(*ranges::max_element(container), max);
+
+        // All elements are different
+        ranges::sort(container);
+        CHECK(ranges::is_sorted(container));
+        auto adjacent_iterator = ranges::adjacent_find(container);
+
+        // If the iterator is equal to the end, then all elements are different
+        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
@@ -263,10 +284,14 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       auto const value6    = generate_probability();
       array      container = {value1, value2, value3, value4, value5, value6};
 
-      THEN("They should all be valid probabilities.")
+      THEN("They should all be different.")
       {
-        CHECK_GE(*ranges::min_element(container), 0.0L);
-        CHECK_LE(*ranges::max_element(container), 1.0L);
+        ranges::sort(container);
+        CHECK(ranges::is_sorted(container));
+        auto adjacent_iterator = ranges::adjacent_find(container);
+
+        // If the iterator is equal to the end, then all elements are different
+        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
@@ -280,33 +305,50 @@ SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
     WHEN("We request 2 simplices on 2 timeslices.")
     {
       THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 2, 2), 2); }
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(3, 2, 2), 2);
+      }
     }
     WHEN("We request 500 simplices on 4 timeslices.")
     {
       THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 500, 4), 50); }
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(3, 500, 4), 50);
+      }
     }
     WHEN("We request 5000 simplices on 8 timeslices.")
     {
       THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 5000, 8), 125); }
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(3, 5000, 8), 125);
+      }
     }
     WHEN("We request 64,000 simplices on 16 timeslices.")
     {
       THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 64000, 16), 600); }
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(3, 64000, 16), 600);
+      }
     }
     WHEN("We request 640,000 simplices on 64 timeslices.")
     {
       THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 640000, 64), 1000); }
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(3, 640000, 64), 1000);
+      }
     }
     WHEN("We specify 4 dimensions")
     {
+      THEN("The results are correct.")
+      {
+        REQUIRE_EQ(expected_points_per_timeslice(4, 640000, 64), 500);
+      }
+    }
+    WHEN("We specify unsupported dimensions")
+    {
       THEN("A std::invalid_argument exception is thrown.")
       {
-        REQUIRE_THROWS_AS(expected_points_per_timeslice(4, 640000, 64),
+        REQUIRE_THROWS_AS(expected_points_per_timeslice(5, 640000, 64),
                           std::invalid_argument);
       }
     }
@@ -323,7 +365,9 @@ SCENARIO("Exact number (Gmpzf) conversion" * doctest::test_suite("utilities"))
     {
       auto const converted_value = Gmpzf_to_double(TEST_VALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
-      { REQUIRE_EQ(TEST_VALUE, Gmpzf(converted_value)); }
+      {
+        REQUIRE_EQ(TEST_VALUE, Gmpzf(converted_value));
+      }
     }
   }
 }

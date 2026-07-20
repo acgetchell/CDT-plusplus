@@ -15,6 +15,17 @@
 using namespace std;
 using namespace foliated_triangulations;
 
+auto minimal_geometry_4d_vertices() -> std::vector<Point_t<4>>
+{
+  return {
+      Point_t<4>{1.0, 0.0, 0.0, 0.0},
+      Point_t<4>{0.0, 1.0, 0.0, 0.0},
+      Point_t<4>{0.0, 0.0, 1.0, 0.0},
+      Point_t<4>{0.0, 0.0, 0.0, 1.0},
+      Point_t<4>{1.0, 1.0, 1.0, 1.0}
+  };
+}
+
 SCENARIO("Geometry special member and swap properties" *
          doctest::test_suite("geometry"))
 {
@@ -115,6 +126,34 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
             geometry.N0, triangulation.max_time(), triangulation.min_time());
         triangulation.print_volume_per_timeslice();
       }
+    }
+  }
+}
+
+SCENARIO("4-Geometry classification" * doctest::test_suite("geometry"))
+{
+  GIVEN("A minimal 4-dimensional geometry.")
+  {
+    auto points     = minimal_geometry_4d_vertices();
+    auto timevalues = std::vector<std::size_t>{1, 1, 1, 1, 2};
+    auto vertices   = make_causal_vertices<4>(points, timevalues);
+    FoliatedTriangulation_4 const triangulation(vertices);
+    Geometry_4 const              geometry(triangulation);
+
+    THEN("The Delaunay triangulation is described by the geometry.")
+    {
+      CHECK_EQ(geometry.N4, 1);
+      CHECK_EQ(geometry.N4_41, 1);
+      CHECK_EQ(geometry.N4_32, 0);
+      CHECK_EQ(geometry.N4_23, 0);
+      CHECK_EQ(geometry.N4_14, 0);
+      CHECK_EQ(geometry.N3, 5);
+      CHECK_EQ(geometry.N3_SL, 1);
+      CHECK_EQ(geometry.N2, 10);
+      CHECK_EQ(geometry.N1, 10);
+      CHECK_EQ(geometry.N1_SL, 6);
+      CHECK_EQ(geometry.N1_TL, 4);
+      CHECK_EQ(geometry.N0, 5);
     }
   }
 }

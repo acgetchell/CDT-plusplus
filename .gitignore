@@ -19,7 +19,6 @@
 .DS_Store
 *.swp
 *.lock
-!uv.lock
 profile
 
 # Build, Doc, and Testing dirs
@@ -35,7 +34,7 @@ cov-int
 .idea
 .vs*
 xcode/
-CMakeSettings.json
+CMakeSEttings.json
 
 # Program/script executables
 cdt_tests
@@ -47,6 +46,7 @@ errors
 *.off
 *.dat
 slurm-*.out
+*PVS-Studio*
 
 # Instrumentation
 *.trace
@@ -69,13 +69,5 @@ Pipfile
 scanresults/
 venv
 
-# Python tooling and virtual environments
-/.venv/
-**/__pycache__/
-*.py[cod]
-/.ruff_cache/
-/.pytest_cache/
-
 # vcpkg
 vcpkg_installed
-/.cache/

@@ -103,4 +103,82 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
 
 using Geometry_3 = Geometry<3>;
 
+template <>
+struct [[nodiscard("This contains data!")]] Geometry<4>
+{
+  /// @brief Number of 4D simplices
+  Int_precision N4{0};  // NOLINT
+
+  /// @brief Number of (4,1) simplices
+  Int_precision N4_41{0};  // NOLINT
+
+  /// @brief Number of (3,2) simplices
+  Int_precision N4_32{0};  // NOLINT
+
+  /// @brief Number of (2,3) simplices
+  Int_precision N4_23{0};  // NOLINT
+
+  /// @brief Number of (1,4) simplices
+  Int_precision N4_14{0};  // NOLINT
+
+  /// @brief Number of 3D tetrahedral facets
+  Int_precision N3{0};  // NOLINT
+
+  /// @brief Number of spacelike 3D tetrahedral facets
+  Int_precision N3_SL{0};  // NOLINT
+
+  /// @brief Number of 2D triangular faces
+  Int_precision N2{0};  // NOLINT
+
+  /// @brief Number of 1D edges
+  Int_precision N1{0};  // NOLINT
+
+  /// @brief Number of timelike edges
+  Int_precision N1_TL{0};  // NOLINT
+
+  /// @brief Number of spacelike edges
+  Int_precision N1_SL{0};  // NOLINT
+
+  /// @brief Number of vertices
+  Int_precision N0{0};  // NOLINT
+
+  Geometry() = default;
+
+  explicit Geometry(
+      foliated_triangulations::FoliatedTriangulation_4 const& triangulation)
+      : N4{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
+      , N4_41{static_cast<Int_precision>(triangulation.get_four_one().size())}
+      , N4_32{static_cast<Int_precision>(triangulation.get_three_two().size())}
+      , N4_23{static_cast<Int_precision>(triangulation.get_two_three().size())}
+      , N4_14{static_cast<Int_precision>(triangulation.get_one_four().size())}
+      , N3{static_cast<Int_precision>(triangulation.number_of_finite_facets())}
+      , N3_SL{static_cast<Int_precision>(triangulation.N3_SL().size())}
+      , N2{static_cast<Int_precision>(
+            triangulation.number_of_finite_triangles())}
+      , N1{static_cast<Int_precision>(triangulation.number_of_finite_edges())}
+      , N1_TL{triangulation.N1_TL()}
+      , N1_SL{triangulation.N1_SL()}
+      , N0{static_cast<Int_precision>(triangulation.number_of_vertices())}
+  {}
+
+  friend void swap(Geometry& swap_from, Geometry& swap_into) noexcept
+  {
+    using std::swap;
+    swap(swap_from.N4, swap_into.N4);
+    swap(swap_from.N4_41, swap_into.N4_41);
+    swap(swap_from.N4_32, swap_into.N4_32);
+    swap(swap_from.N4_23, swap_into.N4_23);
+    swap(swap_from.N4_14, swap_into.N4_14);
+    swap(swap_from.N3, swap_into.N3);
+    swap(swap_from.N3_SL, swap_into.N3_SL);
+    swap(swap_from.N2, swap_into.N2);
+    swap(swap_from.N1, swap_into.N1);
+    swap(swap_from.N1_TL, swap_into.N1_TL);
+    swap(swap_from.N1_SL, swap_into.N1_SL);
+    swap(swap_from.N0, swap_into.N0);
+  }
+};  // struct Geometry<4>
+
+using Geometry_4 = Geometry<4>;
+
 #endif  // CDT_PLUSPLUS_GEOMETRY_HPP

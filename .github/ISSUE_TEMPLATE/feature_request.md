@@ -7,19 +7,14 @@ assignees: ''
 
 ---
 
-## Problem
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
-Describe the problem this request would solve. CDT++ is approaching its final archival release; new development may
-belong in the supported [causal-triangulations](https://github.com/acgetchell/causal-triangulations) successor.
+**Describe the solution you'd like**
+A clear and concise description of what you want to happen.
 
-## Proposed solution
+**Describe alternatives you've considered**
+A clear and concise description of any alternative solutions or features you've considered.
 
-Describe the behavior you would like and why it belongs in this C++ reference implementation.
-
-## Alternatives considered
-
-Describe any alternative solutions or workarounds you considered.
-
-## Additional context
-
+**Additional context**
 Add any other context or screenshots about the feature request here.

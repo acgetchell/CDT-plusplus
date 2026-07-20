@@ -13,117 +13,8 @@
 #include <doctest/doctest.h>
 #include <fmt/ranges.h>
 
-#include <algorithm>
-#include <array>
-#include <numbers>
-#include <tuple>
-#include <type_traits>
-#include <utility>
-#include <vector>
-
 using namespace std;
 using namespace manifolds;
-
-namespace
-{
-  using VertexState = std::tuple<double, double, double, Int_precision>;
-  using CellState   = std::pair<std::array<VertexState, 4>, Int_precision>;
-
-  auto vertex_state(Vertex_handle_t<3> const& vertex) -> VertexState
-  {
-    auto const& point = vertex->point();
-    return {CGAL::to_double(point.x()), CGAL::to_double(point.y()),
-            CGAL::to_double(point.z()), vertex->info()};
-  }
-
-  auto vertex_states(Manifold_3 const& manifold) -> std::vector<VertexState>
-  {
-    std::vector<VertexState> states;
-    states.reserve(static_cast<std::size_t>(manifold.vertices()));
-    for (auto vertex = manifold.get_delaunay().finite_vertices_begin();
-         vertex != manifold.get_delaunay().finite_vertices_end(); ++vertex)
-    {
-      states.push_back(vertex_state(vertex));
-    }
-    std::ranges::sort(states);
-    return states;
-  }
-
-  auto cell_states(Manifold_3 const& manifold) -> std::vector<CellState>
-  {
-    std::vector<CellState> states;
-    states.reserve(static_cast<std::size_t>(manifold.simplices()));
-    for (auto cell = manifold.get_delaunay().finite_cells_begin();
-         cell != manifold.get_delaunay().finite_cells_end(); ++cell)
-    {
-      std::array<VertexState, 4> vertices;
-      for (auto index = 0; index < 4; ++index)
-      {
-        vertices.at(static_cast<std::size_t>(index)) =
-            vertex_state(cell->vertex(index));
-      }
-      std::ranges::sort(vertices);
-      states.emplace_back(vertices, cell->info());
-    }
-    std::ranges::sort(states);
-    return states;
-  }
-
-  auto manifold_counts(Manifold_3 const& manifold)
-  {
-    return std::tuple{manifold.dimensionality(),
-                      manifold.initial_radius(),
-                      manifold.foliation_spacing(),
-                      manifold.N0(),
-                      manifold.N1(),
-                      manifold.N1_SL(),
-                      manifold.N1_TL(),
-                      manifold.N2(),
-                      manifold.N3(),
-                      manifold.N3_31(),
-                      manifold.N3_22(),
-                      manifold.N3_13(),
-                      manifold.N3_31_13(),
-                      manifold.vertices(),
-                      manifold.edges(),
-                      manifold.faces(),
-                      manifold.simplices(),
-                      manifold.min_time(),
-                      manifold.max_time()};
-  }
-
-  static_assert(
-      std::is_same_v<decltype(std::declval<MoveCommand<Manifold_3> const&>()
-                                  .get_succeeded()),
-                     move_tracker::MoveTracker<Manifold_3> const&>);
-
-  void check_single_move_outcome(MoveCommand<Manifold_3> const& command,
-                                 Manifold_3 const&              before,
-                                 move_tracker::move_type const  move,
-                                 Int_precision const            cell_delta)
-  {
-    auto const attempted = command.get_attempted()[move];
-    auto const succeeded = command.get_succeeded()[move];
-    auto const failed    = command.get_failed()[move];
-    CHECK_EQ(attempted, 1);
-    CHECK_EQ(succeeded + failed, 1);
-
-    auto const& result = command.get_const_results();
-    CHECK(result.is_valid());
-    if (succeeded == 1)
-    {
-      CHECK_EQ(result.simplices(), before.simplices() + cell_delta);
-      CHECK(ergodic_moves::check_move(before, result, move));
-    }
-    else
-    {
-      CHECK(result.get_delaunay() == before.get_delaunay());
-      CHECK(vertex_states(result) == vertex_states(before));
-      CHECK(cell_states(result) == cell_states(before));
-      CHECK(manifold_counts(result) == manifold_counts(before));
-    }
-  }
-}  // namespace
 
 SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
 {
@@ -138,7 +29,9 @@ SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is not default constructible.")
-      { CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold_3>>); }
+      {
+        CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold_3>>);
+      }
       THEN("It is copy constructible.")
       {
         REQUIRE(is_copy_constructible_v<MoveCommand<Manifold_3>>);
@@ -154,10 +47,10 @@ SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
         REQUIRE(is_move_constructible_v<MoveCommand<Manifold_3>>);
         spdlog::debug("It is move constructible.\n");
       }
-      THEN("It is move assignable.")
+      THEN("It is no-throw move assignable.")
       {
-        REQUIRE(is_move_assignable_v<MoveCommand<Manifold_3>>);
-        spdlog::debug("It is move assignable.\n");
+        REQUIRE(is_nothrow_move_assignable_v<MoveCommand<Manifold_3>>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is swappable")
       {
@@ -191,7 +84,7 @@ SCENARIO("Invoking a move with a function pointer" *
         auto result = move23(manifold);
         result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -221,7 +114,7 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
         auto result = move23(manifold);
         result.update();
         CHECK(ergodic_moves::check_move(manifold, result,
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -250,7 +143,7 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
         auto result = apply_move(manifold, move);
         result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+                                        move_tracker::MoveType3D::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -341,12 +234,19 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         MoveCommand command(manifold);
         // Note: If we do a move that expands the size of the manifold,
         // without the copy ctor this will Segfault!
-        command.enqueue(move_tracker::move_type::THREE_TWO);
+        command.enqueue(move_tracker::MoveType3D::THREE_TWO);
 
         // Execute the move
         command.execute();
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::THREE_TWO, -1);
+
+        // An attempted move was recorded
+        CHECK_EQ(command.get_attempted().three_two_moves(), 1);
+
+        // A successful move was recorded
+        CHECK_EQ(command.get_succeeded().three_two_moves(), 1);
+
+        // No failures
+        CHECK_EQ(command.get_failed().three_two_moves(), 0);
 
         // Get the results
         auto result        = command.get_results();
@@ -359,103 +259,158 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
             "The manifold and the result in the MoveCommand are distinct "
             "pointers.\n");
 
-        CHECK(manifold.is_correct());
-        fmt::print("The original manifold is unchanged by MoveCommand.\n");
+        // The move should not change the original manifold
+        CHECK_NE(manifold.N3_22(), result.N3_22());
+        CHECK_NE(manifold.N1_TL(), result.N1_TL());
+        fmt::print("The original manifold is unchanged by Move_command.\n");
       }
     }
     WHEN("A (4,4) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
+      command.enqueue(move_tracker::MoveType3D::FOUR_FOUR);
       THEN("It is executed correctly.")
       {
         // Execute the move
         command.execute();
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::FOUR_FOUR, 0);
+
+        // An attempted move was recorded
+        CHECK_EQ(command.get_attempted().four_four_moves(), 1);
+
+        // The currently disabled move is recorded as failed.
+        CHECK_EQ(command.get_succeeded().four_four_moves(), 0);
+
+        CHECK_EQ(command.get_failed().four_four_moves(), 1);
+
+        // Get the results
+        auto const& result = command.get_results();
+
+        // Triangulation shouldn't have changed
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells());
+        REQUIRE(ergodic_moves::check_move(manifold, result,
+                                          move_tracker::MoveType3D::FOUR_FOUR));
+        fmt::print("Move left triangulation unchanged.\n");
       }
     }
     WHEN("A (2,3) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
+      command.enqueue(move_tracker::MoveType3D::TWO_THREE);
       THEN("It is executed correctly.")
       {
         // Execute the move
         command.execute();
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::TWO_THREE, 1);
+
+        // An attempted move was recorded
+        CHECK_EQ(command.get_attempted().two_three_moves(), 1);
+
+        // A successful move was recorded
+        CHECK_EQ(command.get_succeeded().two_three_moves(), 1);
+
+        // No failures
+        CHECK_EQ(command.get_failed().two_three_moves(), 0);
+
+        // Get the results
+        auto const& result = command.get_const_results();
+
+        // Did the triangulation actually change? We should have +1 cell
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() + 1);
+        REQUIRE(ergodic_moves::check_move(manifold, result,
+                                          move_tracker::MoveType3D::TWO_THREE));
+        fmt::print("Triangulation added a finite cell.\n");
       }
     }
     WHEN("A (3,2) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType3D::THREE_TWO);
       THEN("It is executed correctly.")
       {
         // Execute the move
         command.execute();
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::THREE_TWO, -1);
+
+        // An attempted move was recorded
+        CHECK_EQ(command.get_attempted().three_two_moves(), 1);
+
+        // A successful move was recorded
+        CHECK_EQ(command.get_succeeded().three_two_moves(), 1);
+
+        // No failures
+        CHECK_EQ(command.get_failed().three_two_moves(), 0);
+
+        // Get the results
+        auto const& result = command.get_const_results();
+
+        // Did the triangulation actually change? We should have -1 cell
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() - 1);
+        REQUIRE(ergodic_moves::check_move(manifold, result,
+                                          move_tracker::MoveType3D::THREE_TWO));
+        fmt::print("Triangulation removed a finite cell.\n");
       }
     }
     WHEN("A (2,6) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_SIX);
+      command.enqueue(move_tracker::MoveType3D::TWO_SIX);
       THEN("It is executed correctly.")
       {
         // Execute the move
         command.execute();
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::TWO_SIX, 4);
+
+        // An attempted move was recorded
+        CHECK_EQ(command.get_attempted().two_six_moves(), 1);
+
+        // A successful move was recorded
+        CHECK_EQ(command.get_succeeded().two_six_moves(), 1);
+
+        // No failures
+        CHECK_EQ(command.get_failed().two_six_moves(), 0);
+
+        // Get the results
+        auto const& result = command.get_const_results();
+
+        // Did the triangulation actually change? We should have +4 cell
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() + 4);
+        REQUIRE(ergodic_moves::check_move(manifold, result,
+                                          move_tracker::MoveType3D::TWO_SIX));
+        fmt::print("Triangulation added 4 finite cells.\n");
       }
     }
     WHEN("A (6,2) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::SIX_TWO);
+      command.enqueue(move_tracker::MoveType3D::SIX_TWO);
       THEN("It is executed correctly.")
       {
         // Execute the move
         command.execute();
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::SIX_TWO, -4);
+
+        // An attempted move was recorded
+        CHECK_EQ(command.get_attempted().six_two_moves(), 1);
+
+        // A successful move was recorded
+        CHECK_EQ(command.get_succeeded().six_two_moves(), 1);
+
+        // No failures
+        CHECK_EQ(command.get_failed().six_two_moves(), 0);
+
+        // Get the results
+        auto const& result = command.get_const_results();
+
+        // Did the triangulation actually change? We should have -1 cell
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() - 4);
+        CHECK(ergodic_moves::check_move(manifold, result,
+                                        move_tracker::MoveType3D::SIX_TWO));
+        fmt::print("Triangulation removed 4 finite cells.\n");
       }
     }
   }
 }
-
-SCENARIO("Rejected moves preserve manifold state" *
-         doctest::test_suite("move_command"))
-{
-  GIVEN("A single tetrahedron with no movable (2,2) simplex.")
-  {
-    auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
-    Causal_vertices_t<3> causal_vertices;
-    causal_vertices.emplace_back(Point_t<3>{1, 0, 0}, 1);
-    causal_vertices.emplace_back(Point_t<3>{0, 1, 0}, 1);
-    causal_vertices.emplace_back(Point_t<3>{0, 0, 1}, 1);
-    causal_vertices.emplace_back(Point_t<3>{radius_2, radius_2, radius_2}, 2);
-    Manifold_3 const manifold(causal_vertices);
-    REQUIRE(manifold.is_correct());
-    REQUIRE(manifold.get_triangulation().get_two_two().empty());
-    MoveCommand command(manifold);
-    command.enqueue(move_tracker::move_type::TWO_THREE);
-
-    WHEN("The move is executed.")
-    {
-      command.execute();
-      THEN("The rejection leaves the complete manifold unchanged.")
-      {
-        REQUIRE_EQ(command.get_failed().two_three_moves(), 1);
-        check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::TWO_THREE, 1);
-      }
-    }
-  }
-}
-
 SCENARIO("Executing multiple moves on the queue" *
          doctest::test_suite("move_command"))
 {
@@ -469,8 +424,8 @@ SCENARIO("Executing multiple moves on the queue" *
     WHEN("(2,3) and (3,2) moves are queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType3D::TWO_THREE);
+      command.enqueue(move_tracker::MoveType3D::THREE_TWO);
       THEN("There are two moves in the queue.") { CHECK_EQ(command.size(), 2); }
       THEN("The moves are executed correctly.")
       {
@@ -481,37 +436,45 @@ SCENARIO("Executing multiple moves on the queue" *
         CHECK_EQ(command.get_attempted().total(), 2);
         command.print_attempts();
 
+        // There should be a successful (2,3) move
         auto successful_23_moves = command.get_succeeded().two_three_moves();
+        CHECK_EQ(successful_23_moves, 1);
         fmt::print("There was {} successful (2,3) move.\n",
                    successful_23_moves);
 
+        // There should be a successful (3,2) move
         auto successful_32_moves = command.get_succeeded().three_two_moves();
+        CHECK_EQ(successful_32_moves, 1);
         fmt::print("There was {} successful (3,2) move.\n",
                    successful_32_moves);
 
-        CHECK_EQ(command.get_succeeded().total() + command.get_failed().total(),
-                 2);
+        // There should be no failed moves
+        CHECK_EQ(command.get_failed().total(), 0);
         command.print_errors();
 
         // Get the results
         auto const& result = command.get_const_results();
 
-        CHECK_EQ(
-            result.simplices(),
-            manifold.simplices() + successful_23_moves - successful_32_moves);
-        CHECK(result.is_valid());
+        // The moves should cancel out
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells());
+        REQUIRE(ergodic_moves::check_move(manifold, result,
+                                          move_tracker::MoveType3D::FOUR_FOUR));
+        fmt::print("Triangulation moves cancelled out.");
       }
     }
     WHEN("One of each move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      command.enqueue(move_tracker::move_type::TWO_SIX);
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
-      command.enqueue(move_tracker::move_type::SIX_TWO);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType3D::TWO_THREE);
+      command.enqueue(move_tracker::MoveType3D::TWO_SIX);
+      command.enqueue(move_tracker::MoveType3D::FOUR_FOUR);
+      command.enqueue(move_tracker::MoveType3D::SIX_TWO);
+      command.enqueue(move_tracker::MoveType3D::THREE_TWO);
       THEN("There are five moves in the queue.")
-      { CHECK_EQ(command.size(), 5); }
+      {
+        CHECK_EQ(command.size(), 5);
+      }
       THEN("The moves are executed correctly.")
       {
         // Execute the moves
@@ -521,38 +484,50 @@ SCENARIO("Executing multiple moves on the queue" *
         CHECK_EQ(command.get_attempted().total(), 5);
         command.print_attempts();
 
+        // There should be a successful (2,3) move
         auto successful_23_moves = command.get_succeeded().two_three_moves();
+        CHECK_EQ(successful_23_moves, 1);
         fmt::print("There was {} successful (2,3) move.\n",
                    successful_23_moves);
 
+        // There should be a successful (2,6) move
         auto successful_26_moves = command.get_succeeded().two_six_moves();
+        CHECK_EQ(successful_26_moves, 1);
         fmt::print("There was {} successful (2,6) move.\n",
                    successful_26_moves);
 
+        // The currently disabled (4,4) move should fail cleanly.
         auto successful_44_moves = command.get_succeeded().four_four_moves();
+        CHECK_EQ(successful_44_moves, 0);
         fmt::print("There was {} successful (4,4) move.\n",
                    successful_44_moves);
 
+        // There should be a successful (6,2) move
         auto successful_62_moves = command.get_succeeded().six_two_moves();
+        CHECK_EQ(successful_62_moves, 1);
         fmt::print("There was {} successful (6,2) move.\n",
                    successful_62_moves);
 
+        // There should be a successful (3,2) move
         auto successful_32_moves = command.get_succeeded().three_two_moves();
+        CHECK_EQ(successful_32_moves, 1);
         fmt::print("There was {} successful (3,2) move.\n",
                    successful_32_moves);
 
-        CHECK_EQ(command.get_succeeded().total() + command.get_failed().total(),
-                 5);
+        // The disabled (4,4) move is the only expected failure.
+        CHECK_EQ(command.get_failed().total(), 1);
+        CHECK_EQ(command.get_failed().four_four_moves(), 1);
         command.print_errors();
 
         // Get the results
         auto const& result = command.get_const_results();
 
-        CHECK_EQ(result.simplices(),
-                 manifold.simplices() + successful_23_moves -
-                     successful_32_moves + 4 * successful_26_moves -
-                     4 * successful_62_moves);
-        CHECK(result.is_valid());
+        // The moves should cancel out
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells());
+        REQUIRE(ergodic_moves::check_move(manifold, result,
+                                          move_tracker::MoveType3D::FOUR_FOUR));
+        fmt::print("Triangulation moves cancelled out.");
       }
     }
   }

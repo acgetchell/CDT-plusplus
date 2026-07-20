@@ -11,17 +11,18 @@
 #ifndef INCLUDE_UTILITIES_HPP_
 #define INCLUDE_UTILITIES_HPP_
 
-#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <gsl/gsl>
+#include <cstdint>
 #include <mutex>
 #include <random>
 #include <span>
 #include <stdexcept>
 #include <string>
+#include <utility>
 // H. Hinnant date and time library
-#include <date/date.h>
+#include <date/tz.h>
 
 /// clang-15 does not support std::format
 // #include <format>
@@ -63,20 +64,41 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 
 namespace utilities
 {
+  /// @brief Persistent process-local random generator used by simulations.
+  /// @details The seed can be set from command-line programs through
+  /// seed_random(). Keeping a persistent generator avoids reseeding every
+  /// proposal from std::random_device.
+  [[nodiscard]] inline auto persistent_rng() -> pcg64&
+  {
+    static pcg_extras::seed_seq_from<std::random_device> seed_source;
+    static pcg64 generator(seed_source);
+    return generator;
+  }
+
+  /// @brief Seed the persistent random generator.
+  inline void seed_random(std::uint64_t const seed)
+  {
+    persistent_rng() = pcg64(seed);
+  }
+
   /// @brief Return current date and time
   /// @details Return current date and time in ISO 8601 format
-  /// Use Howard Hinnant's date library to format UTC without requiring an
-  /// external time zone database.
-  /// @param timestamp The system time point to format
-  /// @returns A formatted string with the system time in UTC
+  /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
+  /// Parser. std::chrono::zoned_time would be a replacement if supported by
+  /// current compilers.
+  /// @returns A formatted string with the system local time
   /// @see https://github.com/HowardHinnant/date
   /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
-  [[nodiscard]] inline auto current_date_time(
-      std::chrono::system_clock::time_point const timestamp =
-          std::chrono::system_clock::now())
+  [[nodiscard]] inline auto current_date_time()
   {
-    auto const time = std::chrono::floor<std::chrono::seconds>(timestamp);
-    return date::format("%Y-%m-%d.%TUTC", time);
+    /// When AppleClang fully supports std::chrono and std::format, use this:
+    //    auto time = std::chrono::zoned_time(std::chrono::current_zone(),
+    //    std::chrono::system_clock::now());
+    //    return std::formatter<std::chrono::system_clock::time_point,
+    //                          char>::format(time, "{:%Y-%m-%d.%X%Z}");
+    date::zoned_time const time(date::current_zone(),
+                                std::chrono::system_clock::now());
+    return format("%Y-%m-%d.%X%Z", time);
   }  // current_date_time
 
   /// @brief  Generate useful filenames
@@ -97,10 +119,7 @@ namespace utilities
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
-    else
-    {
-      filename += "T";
-    }
+    else { filename += "T"; }
     // std::to_string() works in C++11, but not earlier
     filename += std::to_string(t_dimension);
 
@@ -122,9 +141,7 @@ namespace utilities
 
     // Append current time
     filename += "-";
-    auto timestamp = current_date_time();
-    std::replace(timestamp.begin(), timestamp.end(), ':', '-');
-    filename += timestamp;
+    filename += current_date_time();
 
     // Append .off file extension
     filename += ".off";
@@ -134,8 +151,12 @@ namespace utilities
   template <typename ManifoldType>
   [[nodiscard]] auto make_filename(ManifoldType const& manifold)
   {
+    auto const simplex_count = [&manifold]() {
+      if constexpr (ManifoldType::dimension == 4) { return manifold.N4(); }
+      else { return manifold.N3(); }
+    }();
     return make_filename(ManifoldType::topology, ManifoldType::dimension,
-                         manifold.N3(), manifold.max_time(),
+                         simplex_count, manifold.max_time(),
                          manifold.initial_radius(),
                          manifold.foliation_spacing());
   }  // make_filename
@@ -147,13 +168,22 @@ namespace utilities
   template <typename TriangulationType>
   void print_delaunay(TriangulationType const& t_triangulation)
   {
-    fmt::print(
-        "Triangulation has {} vertices and {} edges and {} faces and {} "
-        "simplices.\n",
-        t_triangulation.number_of_vertices(),
-        t_triangulation.number_of_finite_edges(),
-        t_triangulation.number_of_finite_facets(),
-        t_triangulation.number_of_finite_cells());
+    if constexpr (requires { t_triangulation.number_of_finite_cells(); })
+    {
+      fmt::print(
+          "Triangulation has {} vertices and {} edges and {} faces and {} "
+          "simplices.\n",
+          t_triangulation.number_of_vertices(),
+          t_triangulation.number_of_finite_edges(),
+          t_triangulation.number_of_finite_facets(),
+          t_triangulation.number_of_finite_cells());
+    }
+    else
+    {
+      fmt::print("Triangulation has {} vertices and {} simplices.\n",
+                 t_triangulation.number_of_vertices(),
+                 t_triangulation.number_of_finite_full_cells());
+    }
   }  // print_delaunay
 
   /// @brief Write triangulation to file
@@ -165,7 +195,7 @@ namespace utilities
   /// @param triangulation The triangulation to write
   template <typename TriangulationType>
   void write_file(std::filesystem::path const& filename,
-                  TriangulationType const&     triangulation)
+                  TriangulationType            triangulation)
   {
     static std::mutex mutex;
     fmt::print("Writing to file {}\n", filename.string());
@@ -217,16 +247,11 @@ namespace utilities
   }  // read_file
 
   /// @brief Roll a die with PCG
-  [[nodiscard]] inline auto die_roll()
+  [[nodiscard]] inline auto die_roll() noexcept
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-
-    // Make a random number generator
-    pcg64 rng(seed_source);
-
     // Choose random number from 1 to 6
     std::uniform_int_distribution uniform_dist(1, 6);  // NOLINT
-    Int_precision const           roll = uniform_dist(rng);
+    Int_precision const           roll = uniform_dist(persistent_rng());
     return roll;
   }  // die_roll()
 
@@ -245,29 +270,24 @@ namespace utilities
   /// max_value
   template <typename NumberType, class Distribution>
   [[nodiscard]] auto generate_random(NumberType t_min_value,
-                                     NumberType t_max_value)
+                                     NumberType t_max_value) noexcept
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-    // Make a random number generator
-    pcg64        generator(seed_source);
     Distribution distribution(t_min_value, t_max_value);
-    return distribution(generator);
+    return distribution(persistent_rng());
   }  // generate_random()
 
   /// @brief Make a high-quality random number generator usable by std::shuffle
   /// @returns A RNG
-  inline auto make_random_generator()
+  inline auto make_random_generator() noexcept -> pcg64&
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-    pcg64                                         generator(seed_source);
-    return generator;
+    return persistent_rng();
   }  // make_random_generator()
 
   /// @brief Generate random integers by calling generate_random, preserves
   /// template argument deduction
   template <typename IntegerType>
-  [[nodiscard]] auto generate_random_int(IntegerType t_min_value,
-                                         IntegerType t_max_value)
+  [[nodiscard]] auto generate_random_int(
+      IntegerType t_min_value, IntegerType t_max_value) noexcept
   {
     using int_dist = std::uniform_int_distribution<IntegerType>;
     return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
@@ -275,8 +295,8 @@ namespace utilities
 
   /// @brief Generate a random timeslice
   template <typename IntegerType>
-  [[nodiscard]] auto generate_random_timeslice(IntegerType&& t_max_timeslice)
-      -> decltype(auto)
+  [[nodiscard]] auto generate_random_timeslice(
+      IntegerType&& t_max_timeslice) noexcept -> decltype(auto)
   {
     return generate_random_int(static_cast<IntegerType>(1),
                                std::forward<IntegerType>(t_max_timeslice));
@@ -285,8 +305,8 @@ namespace utilities
   /// @brief Generate random real numbers by calling generate_random, preserves
   /// template argument deduction
   template <typename FloatingPointType>
-  [[nodiscard]] auto generate_random_real(FloatingPointType t_min_value,
-                                          FloatingPointType t_max_value)
+  [[nodiscard]] auto generate_random_real(
+      FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept
   {
     using real_dist = std::uniform_real_distribution<FloatingPointType>;
     return generate_random<FloatingPointType, real_dist>(t_min_value,
@@ -294,7 +314,7 @@ namespace utilities
   }  // generate_random_real()
 
   /// @brief Generate a probability
-  [[nodiscard]] inline auto generate_probability()
+  [[nodiscard]] inline auto generate_probability() noexcept
   {
     auto constexpr min = 0.0L;
     auto constexpr max = 1.0L;
@@ -354,7 +374,36 @@ namespace utilities
       return static_cast<Int_precision>(
           0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
     }
-    throw std::invalid_argument("Currently, dimensions cannot be >3.");
+    if (t_dimension == 4)
+    {
+      auto const at_least_one_simplex = std::max<Int_precision>(
+          simplices_per_timeslice, static_cast<Int_precision>(1));
+      auto const scaled_points = [&]() -> Int_precision {
+        if (t_number_of_simplices < 1000)  // NOLINT
+        {
+          return static_cast<Int_precision>(
+              0.25L *  // NOLINT
+              static_cast<long double>(at_least_one_simplex));
+        }
+        if (t_number_of_simplices < 10000)  // NOLINT
+        {
+          return static_cast<Int_precision>(
+              0.12L *  // NOLINT
+              static_cast<long double>(at_least_one_simplex));
+        }
+        if (t_number_of_simplices < 100000)  // NOLINT
+        {
+          return static_cast<Int_precision>(
+              0.08L *  // NOLINT
+              static_cast<long double>(at_least_one_simplex));
+        }
+        return static_cast<Int_precision>(
+            0.05L * static_cast<long double>(at_least_one_simplex));  // NOLINT
+      }();
+      return std::max<Int_precision>(scaled_points,
+                                     static_cast<Int_precision>(5));
+    }
+    throw std::invalid_argument("Currently, dimensions must be 3 or 4.");
 
   }  // expected_points_per_timeslice
 
@@ -367,7 +416,9 @@ namespace utilities
   /// @param t_value An exact Gmpzf multiple-precision floating point number
   /// @returns The double conversion
   [[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& t_value) -> double
-  { return t_value.to_double(); }  // Gmpzf_to_double
+  {
+    return t_value.to_double();
+  }  // Gmpzf_to_double
 
   /// @brief Create console and file loggers
   /// @details Create a console and file loggers.

@@ -1,90 +1,103 @@
-# Contributing during maintenance mode
+## How to Contribute
 
-Thank you for helping improve CDT++.
+First, thank you!
 
-CDT++ is being prepared for one final C++23 release, v1.0.0, after which this repository will be archived. The project
-is maintained as a scientific reference implementation and regression oracle for
-[causal-triangulations](https://github.com/acgetchell/causal-triangulations), its supported Rust successor. The
-maintenance and archival scope is tracked by
-[issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90).
+Writing esoteric scientific software can be its own reward, but it's not for the faint of heart.
 
-## Accepted work
+If you want a general overview as to why this software package exists, please look at the [Wiki] or my talk
+[Causal Dynamical Triangulations with CGAL][slides].
 
-Until archival, contributions should be limited to:
+Second, here are some simple guidelines that will make it easier on me to process and accept your contributions.
 
-- correctness fixes, especially for causal invariants, bistellar moves, and scientific results;
-- deterministic tests, reproducibility improvements, and cross-implementation validation;
-- documentation, build, CI, portability, dependency, and release-readiness fixes;
-- work already approved in a project issue or release milestone, including
-  [Qt restoration #98](https://github.com/acgetchell/CDT-plusplus/issues/98) and
-  [domain invariant work #101](https://github.com/acgetchell/CDT-plusplus/issues/101); and
-- changes required to complete the v1.0.0 release and Zenodo archival handoff.
+1. Fork the repository.
 
-New simulation features, 3+1D/4D development, and unrelated C++ expansion are out of scope. Propose ongoing feature
-development in the Rust successor instead. If a change is not already tracked, open an issue before investing in a
-substantial implementation so its maintenance value and scope can be agreed upon.
+2. This project uses [GitFlow]. That is, new [features] are branched from/merged into [develop].
+New [releases] are periodically made from [develop], then merged back into [master],
+which is the stable work history. [Tagged] versions are [releases] at a point in time, citable via [ORCID].
+for reproducibility.
 
-## Contribution workflow
+3. Familiarize yourself with [doctest] and the [Gherkin] syntax.
 
-1. Fork the repository and create a short-lived branch from `main`.
+4. Write a unit test for your proposed contribution. Unit tests go in the `tests` directory and are named
+\{YourContribution\}_test.cpp, don't forget to add to `/tests/CMakeLists.txt`.
+All proposed features of your contribution should have a corresponding test in \{YourContribution\}_test.cpp.
+Consult the [doctest test cases] if you are unsure, or consult existing tests for examples.
 
-2. Keep the change focused and preserve scientific behavior unless the purpose of the change is to correct a
-   documented bug.
+5. I highly recommend writing your tests first, before your contribution, as this helps to think about how the
+rest of the program will use your functions and/or classes.
+[Test-Driven Development] (and [BDD]) has saved me quite a bit from various mistakes.
 
-3. Add or update deterministic tests for behavior changes. Tests use [doctest] and live in `tests`; register new test
-   files in `tests/CMakeLists.txt`. Existing tests use descriptive BDD-style `SCENARIO`, `GIVEN`, `WHEN`, and `THEN`
-   sections where that structure clarifies behavior.
+6. Project source files go into the `src` directory; header files go into `include`.
+This makes integration into various tests and the main program easy and modular, and follows convention.
 
-4. Update relevant documentation and Doxygen comments when interfaces, supported workflows, or scientific behavior
-   change.
+7. Don't forget documentation! It's helpful if you state explicitly what your functions and classes do.
+I use [Doxygen] to automatically build documentation, so using `/// @brief` and `/// @param` is helpful and easy.
+Consult existing code for examples.
 
-5. Run the repository-owned validation commands:
+8. Commit your changes with a clear, [well-written commit message].
 
-   ```bash
-   just fix
-   just check
-   just ci
-   ```
+9. Check your whitespace with `git diff --check HEAD^`.
 
-   `just check` is the fast, non-mutating source and tooling gate. `just ci` adds the supported build and 11-test smoke
-   suite. When changing C++ behavior, also run `just clang-tidy` with the pinned LLVM 22 toolchain and review its
-   advisory diagnostics.
+10. Run `clang-format` using the project's [.clang-format].
 
-6. Run the relevant Linux sanitizer configuration for changes involving memory, lifetime, undefined behavior, or
-   concurrency:
+11. Run `clang-tidy` using the project's [clang-tidy.sh].
 
-   ```bash
-   just sanitize asan
-   just sanitize lsan
-   just sanitize tsan
-   ```
+12. Open a pull request against the develop branch of the main repository (which is the default).
+[Travis-CI] will test it against combinations of Linux (Ubuntu 22.04) with clang and gcc. [GitHub Actions] will test
+against macOS and run various other checks.
+[AppVeyor] will test it against Visual Studio 2019 with `clang-cl` (version 14.0.6). Ensure that
+your code compiles on Windows, macOS, and Linux with `msvc`, `gcc`, and `clang`.
 
-   MemorySanitizer is experimental because third-party dependencies are not instrumented; run it manually with
-   `just sanitize msan` when useful.
+13. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [LSAN], [MSAN], and [TSAN], because simulations may
+run for a long time so memory leaks will be eventually fatal.
+[GitHub Actions] also has a lot of useful checks that will help fix your code.
 
-7. Open a pull request against `main`, explain the maintenance issue being addressed, and identify any scientific or
-   reproducibility implications. All required GitHub Actions checks must pass.
+14. I will get to your change as soon as I can.
+Feel free to ping me on [Gitter] with any questions.
+You will receive proper credit for your contributions both in the code and any resulting scientific papers
+using the output of `git log --format='%aN | sort -u`.
 
-The project [Code of Conduct](CODE_OF_CONDUCT.md) applies to all participation.
+## Style Guide
 
-## Style
+This project generally follows [Stroustrup formatting with Allman brackets][1], enforced by [ClangFormat].
+The [C++ Core Guidelines][cpp-core] are checked using [ClangTidy].
+Running [clang-tidy.sh] changes the code (using `-fix`), so compare results and run unit tests before you commit.
+Especially since some of ClangTidy's fixes break the codebase (the script runs just the tests that don't).
 
-The project uses Stroustrup-style formatting with Allman braces, enforced by the repository's `.clang-format` and
-LLVM 22. The C++ Core Guidelines inform the `.clang-tidy` policy. Prefer minimal, readable changes over cosmetic
-modernization, and do not suppress diagnostics without documenting why the check is inappropriate for this codebase.
+Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 
-Project source files belong in `src`, public or shared headers in `include`, and tests in `tests`. Use the existing
-CMake targets, presets, CTest registrations, Just recipes, and pinned vcpkg manifest rather than introducing parallel
-build paths.
-
-## Release and archival
-
-The final v1.0.0 release will be tagged from `main` and archived through [Zenodo]. Release metadata and the archival
-handoff are tracked by [issue #96](https://github.com/acgetchell/CDT-plusplus/issues/96). After archival, the repository
-will be read-only and will no longer accept issues or pull requests. Further development should occur in
-[causal-triangulations](https://github.com/acgetchell/causal-triangulations) or in an independent fork.
-
-Contributors retain credit through the repository history and resulting project citation metadata.
-
+[Wiki]: https://github.com/acgetchell/CDT-plusplus/wiki
+[Test-Driven Development]: http://alexott.net/en/cpp/CppTestingIntro.html
+[Doxygen]: http://doxygen.org
+[well-written commit message]: https://chris.beams.io/posts/git-commit/
+[Travis-CI]: https://travis-ci.org/acgetchell/CDT-plusplus
+[1]: https://isocpp.org/wiki/faq/coding-standards
+[2]: http://llvm.org/releases/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
+[ClangFormat]: https://releases.llvm.org/6.0.1/tools/clang/docs/ClangFormat.html
+[slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
+[Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
+[cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
+[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/clang-tidy.sh
+[AppVeyor]: https://ci.appveyor.com/project/acgetchell/cdt-plusplus
 [doctest]: https://github.com/doctest/doctest
-[Zenodo]: https://zenodo.org/
+[Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
+[BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
+[doctest test cases]: https://github.com/doctest/doctest/blob/master/doc/markdown/testcases.md
+[Gitter]: https://gitter.im/acgetchell/CDT-plusplus
+[ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
+[LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
+[GitFlow]: https://leanpub.com/git-flow/read
+[features]: https://leanpub.com/git-flow/read#leanpub-auto-feature-branches
+[develop]: https://github.com/acgetchell/CDT-plusplus
+[releases]: https://github.com/acgetchell/CDT-plusplus/releases
+[master]: https://github.com/acgetchell/CDT-plusplus/tree/master
+[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
+[Tagged]: https://github.com/acgetchell/CDT-plusplus/tags
+[ORCID]: https://orcid.org/
+[Cppcheck]: http://cppcheck.sourceforge.net
+[ASAN]: https://github.com/google/sanitizers/wiki/AddressSanitizer
+[MSAN]: https://github.com/google/sanitizers/wiki/MemorySanitizer
+[GitHub Actions]: https://github.com/acgetchell/CDT-plusplus/actions
+[LSAN]: https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
+[TSAN]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual

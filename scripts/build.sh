@@ -1,17 +1,33 @@
 #!/usr/bin/env bash
+set -euxo pipefail
 
-set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VCPKG_ROOT="$HOME/vcpkg"
+VCPKG_PREFIX="$ROOT/vcpkg_installed/x64-linux"
 
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd -- "${script_dir}/.." && pwd)"
-reference_build_dir="${repo_root}/out/build/reference"
+CGAL_DIR="$VCPKG_PREFIX/share/cgal"
+TL_DIR="$VCPKG_PREFIX/share/cmake/tl-function-ref"
+TOOLCHAIN="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
 
-source "${script_dir}/prepare-vcpkg.sh"
-prepare_reference_environment
-prepare_vcpkg "${repo_root}"
-prepare_cmake_cache "${reference_build_dir}"
+test -f "$TOOLCHAIN"
+test -f "$CGAL_DIR/CGALConfig.cmake"
+test -f "$TL_DIR/tl-function-ref-config.cmake"
 
-cd -- "${repo_root}"
-cmake --preset reference -S "${repo_root}"
-cmake --build --preset reference
-ctest --preset reference-smoke
+rm -rf "$ROOT/build"
+
+cmake \
+  -S "$ROOT" \
+  -B "$ROOT/build" \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DENABLE_TESTING=ON \
+  -DCMAKE_TOOLCHAIN_FILE:FILEPATH="$TOOLCHAIN" \
+  -DVCPKG_TARGET_TRIPLET:STRING=x64-linux \
+  -DVCPKG_MANIFEST_MODE:BOOL=ON \
+  -D_VCPKG_INSTALLED_DIR:PATH="$ROOT/vcpkg_installed" \
+  -DCMAKE_PREFIX_PATH:PATH="$VCPKG_PREFIX" \
+  -DCGAL_DIR:PATH="$CGAL_DIR" \
+  -D"tl-function-ref_DIR:PATH=$TL_DIR"
+
+cmake --build "$ROOT/build" --parallel "$(nproc)"
+ctest --test-dir "$ROOT/build" --output-on-failure -j2

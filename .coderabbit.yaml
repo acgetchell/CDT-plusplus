@@ -1,8 +1,5 @@
----
 language: en-US
-tone_instructions: >-
-  Be constructive and professional. Focus on technical accuracy while
-  maintaining a friendly tone.
+tone_instructions: 'Be constructive and professional. Focus on technical accuracy while maintaining a friendly tone.'
 early_access: true
 enable_free_tier: true
 reviews:
@@ -24,7 +21,7 @@ reviews:
       instructions: 'Focus on performance, memory management, and RAII principles'
     - path: 'include/**/*.hpp'
       instructions: 'Focus on design patterns, interfaces, and encapsulation'
-    - path: 'tests/**/*.cpp'
+    - path: 'test/**/*.cpp'
       instructions: |
         Review the following unit test code written using doctest. Ensure the following:
           - Comprehensive test coverage and proper test organization.
@@ -47,6 +44,8 @@ reviews:
       enabled: true
       timeout_ms: 90000
     gitleaks:
+      enabled: true
+    cppcheck:
       enabled: true
     languagetool:
       enabled: true

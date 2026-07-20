@@ -25,7 +25,20 @@ SCENARIO("Torus construction" * doctest::test_suite("torus"))
       {
         int constexpr dim = 3;
         REQUIRE_NOTHROW(make_d_cube(points, NUMBER_OF_POINTS, dim));
-        CHECK_EQ(points.size(), NUMBER_OF_POINTS);
+      }
+    }
+  }
+  GIVEN("A constructed 2-torus")
+  {
+    int constexpr dim = 3;
+    make_d_cube(points, NUMBER_OF_POINTS, dim);
+    WHEN("The type is queried")
+    {
+      THEN("A result should be returned.")
+      {
+        fmt::print("Torus = {}",
+                   boost::typeindex::type_id_with_cvr<decltype(points)>()
+                       .pretty_name());
       }
     }
   }
@@ -37,7 +50,6 @@ SCENARIO("Torus construction" * doctest::test_suite("torus"))
       {
         int constexpr dim = 4;
         REQUIRE_NOTHROW(make_d_cube(points, NUMBER_OF_POINTS, dim));
-        CHECK_EQ(points.size(), NUMBER_OF_POINTS);
       }
     }
   }

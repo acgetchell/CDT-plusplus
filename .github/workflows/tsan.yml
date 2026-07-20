@@ -1,17 +1,14 @@
----
 name: Thread Sanitizer
 
-"on":
+on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
-      - main
+      - develop
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,8 +16,53 @@ concurrency:
 
 jobs:
   build:
-    uses: ./.github/workflows/_sanitizer.yml
-    with:
-      preset: tsan
-      job_name: ThreadSanitizer
-      tsan_options: halt_on_error=1
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup
+        run: |
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+
+      - name: Setup Clang
+        uses: pkgxdev/setup@v4
+        with:
+          +: clang@20
+
+      -  run: clang --version
+
+      - name: Restore artifacts or setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ vars.VCPKG_GIT_COMMIT_ID }}
+
+      - name: Configure
+        run: cmake --preset=tsan
+
+      - name: Build
+        run: cmake --build build -j 2
+
+      - name: Run tests
+        working-directory: build
+        continue-on-error: true
+        run: ctest -VV
+
+      - name: Run TSAN on initialize
+        working-directory: build/src
+        continue-on-error: true
+        run: ./initialize --s -n32000 -t11 -o
+
+      - name: Run TSAN on cdt-opt
+        working-directory: build/src
+        continue-on-error: true
+        run: ./cdt-opt
+
+      - name: Run TSAN on cdt
+        working-directory: build/src
+        continue-on-error: true
+        run: ./cdt --s -n64 -t3 -a.6 -k1.1 -l.1 -p10

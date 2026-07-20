@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.16)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -14,17 +14,28 @@ endif ()
 # In Manifest mode CMake invokes vcpkg automatically This makes setup easier, however, in CI or Docker we may want to
 # turn this off
 option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" ON)
-set(_vcpkg_install_options ${VCPKG_INSTALL_OPTIONS})
-list(APPEND _vcpkg_install_options "--no-print-usage")
-list(REMOVE_DUPLICATES _vcpkg_install_options)
-set(VCPKG_INSTALL_OPTIONS "${_vcpkg_install_options}" CACHE STRING "Additional options passed to vcpkg install" FORCE)
-unset(_vcpkg_install_options)
+
+# Ensure we install vcpkg ports in the same place so they can be reused between builds
+set(_VCPKG_INSTALLED_DIR
+    "${CMAKE_CURRENT_LIST_DIR}/vcpkg_installed"
+    CACHE STRING "")
 
 project(
   CDT-plusplus
   VERSION 0.1.8
   DESCRIPTION "Fast Causal Dynamical Triangulations in C++"
   LANGUAGES CXX)
+
+execute_process(
+  COMMAND git rev-parse --short HEAD
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  OUTPUT_VARIABLE CDT_GIT_COMMIT
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  ERROR_QUIET)
+if(NOT CDT_GIT_COMMIT)
+  set(CDT_GIT_COMMIT "unknown")
+endif()
+add_compile_definitions(CDT_GIT_COMMIT="${CDT_GIT_COMMIT}")
 
 # Project settings
 include(cmake/StandardProjectSettings.cmake)
@@ -39,7 +50,7 @@ target_compile_features(project_options INTERFACE cxx_std_23)
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(ENABLE_BUILD_WITH_TIME_TRACE)
-    target_compile_options(project_options INTERFACE -ftime-trace)
+    add_compile_definitions(project_options INTERFACE -ftime-trace)
   endif()
 endif()
 
@@ -53,10 +64,7 @@ include(cmake/Cache.cmake)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
-# diagnostic compile and link options
-include(cmake/Coverage.cmake)
-enable_coverage(project_options)
-
+# sanitizer options if supported by compiler
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
 
@@ -71,17 +79,20 @@ option(ENABLE_TESTING "Enable building of tests" ON)
 include(CTest)
 include(CMakeDependentOption)
 
+# Set CGAL_DATA_DIR to the location of the CGAL data files
+set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
+
 # Minimum compiler versions required for C++23 support:
 # - MSVC 19.34 (Visual Studio 2022 version 17.4)
 # - GCC 12.2
-# - AppleClang 15.0 (Xcode 15)
+# - AppleClang 14.0
 # - Clang 16.0
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
   message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
   message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "15.0")
-  message(FATAL_ERROR "AppleClang 15.0 (Xcode 15) or higher required for C++23 std::expected support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "14.0")
+  message(FATAL_ERROR "AppleClang 14.0 or higher required for C++23 support")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
   message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
 endif()
@@ -95,17 +106,26 @@ endif()
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
-# Do not let CGAL override project compiler/linker flags during package discovery.
+find_package(CGAL CONFIG REQUIRED)
+# Don't let CGAL override flags
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE
     CACHE BOOL "Force CGAL to maintain CMAKE flags")
-find_package(CGAL CONFIG REQUIRED)
+set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)
 
 # https://github.com/doctest/doctest
 find_package(doctest CONFIG REQUIRED)
+
+# https://eigen.tuxfamily.org/index.php?title=Main_Page
+find_package(Eigen3 CONFIG REQUIRED)
+include(CGAL_Eigen3_support)
+if(NOT TARGET CGAL::Eigen3_support)
+  message(FATAL_ERROR "CGAL Eigen3 support is required for Epick_d-based 4D triangulations.")
+endif()
+target_link_libraries(project_options INTERFACE CGAL::Eigen3_support)
 
 # https://github.com/fmtlib/fmt
 find_package(fmt CONFIG REQUIRED)
@@ -116,14 +136,16 @@ find_package(Microsoft.GSL CONFIG REQUIRED)
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
 
-find_package(Boost CONFIG REQUIRED COMPONENTS compat program_options)
-target_link_libraries(project_options INTERFACE Boost::compat)
+find_package(Boost CONFIG REQUIRED COMPONENTS program_options)
 
 # https://github.com/gabime/spdlog
 find_package(spdlog CONFIG REQUIRED)
 
 # https://github.com/intel/tbb
 find_package(TBB CONFIG REQUIRED)
+
+# https://github.com/TartanLlama/function_ref
+find_package(tl-function-ref CONFIG REQUIRED)
 
 # Header files
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)

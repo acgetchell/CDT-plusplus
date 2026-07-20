@@ -25,11 +25,13 @@ struct fmt::formatter<CGAL::Point_3<Kernel>>
 {
   // Format specification handling - keeping it simple for now
   auto constexpr parse(format_parse_context& ctx) -> decltype(ctx.begin())
-  { return ctx.begin(); }
+  {
+    return ctx.begin();
+  }
 
   // Format the point as a string with coordinates
   template <typename FormatContext>
-  auto format(CGAL::Point_3<Kernel> const& point, FormatContext& ctx) const
+  auto format(const CGAL::Point_3<Kernel>& point, FormatContext& ctx) const
       -> decltype(ctx.out())
   {
     std::stringstream ss;

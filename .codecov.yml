@@ -1,8 +1,7 @@
----
 codecov:
-  branch: main
+  token: 2a599f2d-815e-4c14-9c66-054407863d2b
   notify:
-    require_ci_to_pass: false
+    require_ci_to_pass: no
 
 coverage:
   precision: 2
@@ -13,16 +12,22 @@ coverage:
     project:
       default:
         threshold: 3%
-    patch: false
+    patch: off
     changes: false
+
+  notify:
+      gitter:
+        default:
+          url: https://webhooks.gitter.im/e/c70e4d2749931f601747
+          threshold: 1%
 
 parsers:
   gcov:
     branch_detection:
-      conditional: true
-      loop: true
-      method: false
-      macro: false
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
 
 comment:
   layout: "reach, diff, flags, files, footer"

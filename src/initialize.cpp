@@ -50,6 +50,7 @@ try
   long long               dimensions;
   double                  initial_radius;
   double                  foliation_spacing;
+  long long               seed;
   bool                    save_file;
 
   po::options_description description(intro);
@@ -65,7 +66,10 @@ try
                         po::value<double>(&initial_radius)->default_value(1.0),
                         "Initial radius")(
       "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
-      "Foliation spacing")("output,o", "Save triangulation into OFF file");
+      "Foliation spacing")(
+      "seed", po::value<long long>(&seed)->default_value(1),
+      "Seed for reproducible initialization")("output,o",
+                                             "Save triangulation into OFF file");
 
   po::variables_map args;
   po::store(po::parse_command_line(argc, argv, description), args);
@@ -112,13 +116,7 @@ try
   }
 
   if (args.count("output")) { save_file = true; }
-  else
-  {
-    save_file = false;
-  }
-
-  // Initialize triangulation
-  manifolds::Manifold_3 universe;
+  else { save_file = false; }
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
@@ -127,6 +125,7 @@ try
   fmt::print("Number of desired timeslices = {}\n", timeslices);
   fmt::print("Initial radius = {}\n", initial_radius);
   fmt::print("Foliation spacing = {}\n", foliation_spacing);
+  fmt::print("Seed = {}\n", seed);
 
   if (save_file) { fmt::print("Output will be saved.\n"); }
 
@@ -135,6 +134,8 @@ try
     throw invalid_argument(
         "Simplices and timeslices should be greater or equal to 2.");
   }
+
+  utilities::seed_random(static_cast<std::uint64_t>(seed));
 
   switch (topology)
   {
@@ -146,21 +147,28 @@ try
             static_cast<Int_precision>(simplices),
             static_cast<Int_precision>(timeslices), initial_radius,
             foliation_spacing);
-        swap(populated_universe, universe);
+        populated_universe.print();
+        populated_universe.print_volume_per_timeslice();
+        fmt::print("Final number of simplices: {}\n", populated_universe.N3());
+        if (save_file) { utilities::write_file(populated_universe); }
       }
-      else
+      else if (dimensions == 4)
       {
-        throw invalid_argument(
-            "Only three-dimensional triangulations are supported.");
+        manifolds::Manifold_4 populated_universe(
+            static_cast<Int_precision>(simplices),
+            static_cast<Int_precision>(timeslices), initial_radius,
+            foliation_spacing);
+        populated_universe.print();
+        populated_universe.print_details();
+        populated_universe.print_volume_per_timeslice();
+        fmt::print("Final number of simplices: {}\n", populated_universe.N4());
+        if (save_file) { utilities::write_file(populated_universe); }
       }
+      else { throw invalid_argument("Currently, dimensions must be 3 or 4."); }
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
   }
-  universe.print();
-  universe.print_volume_per_timeslice();
-  fmt::print("Final number of simplices: {}\n", universe.N3());
-  if (save_file) { utilities::write_file(universe); }
   return EXIT_SUCCESS;
 }
 catch (invalid_argument const& InvalidArgument)

@@ -14,7 +14,7 @@
 #include <doctest/doctest.h>
 #include <fmt/core.h>
 
-#include <concepts>
+#include <type_traits>
 
 using namespace std;
 
@@ -24,8 +24,16 @@ SCENARIO("Check settings" * doctest::test_suite("settings"))
   {
     WHEN("The integer type is queried.")
     {
-      THEN("The type is a portable signed 32-bit integer.")
-      { CHECK((std::same_as<Int_precision, std::int32_t>)); }
+      auto const& int_precision = typeid(Int_precision).name();
+      THEN("The value matches the platform setting.")
+      {
+        fmt::print("TypeID of Int_precision is {}.\n", int_precision);
+#if __linux
+        CHECK(std::is_same_v<Int_precision, int>);
+#else
+        CHECK(std::is_same_v<Int_precision, std::int_fast32_t>);
+#endif
+      }
     }
     WHEN("MPFR precision is queried.")
     {
