@@ -1,5 +1,5 @@
 ---
-name: Doxygen GitHub Pages Deploy Action
+name: Doxygen
 
 "on":
   push:
