@@ -12,8 +12,12 @@
 
 #include <doctest/doctest.h>
 
+#include <type_traits>
+
 using namespace std;
 using namespace foliated_triangulations;
+
+static_assert(std::is_nothrow_swappable_v<Geometry_3>);
 
 SCENARIO("Geometry special member and swap properties" *
          doctest::test_suite("geometry"))
@@ -84,13 +88,15 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
         CHECK_GT(geometry.N3, 2);
         CHECK_EQ(geometry.N3, static_cast<Int_precision>(
                                   triangulation.number_of_finite_cells()));
-        CHECK_EQ(geometry.N3_31, static_cast<Int_precision>(
-                                     triangulation.get_three_one().size()));
-        CHECK_EQ(geometry.N3_13, static_cast<Int_precision>(
-                                     triangulation.get_one_three().size()));
+        CHECK_EQ(geometry.N3_31,
+                 static_cast<Int_precision>(
+                     triangulation.number_of_three_one_cells()));
+        CHECK_EQ(geometry.N3_13,
+                 static_cast<Int_precision>(
+                     triangulation.number_of_one_three_cells()));
         CHECK_EQ(geometry.N3_31 + geometry.N3_22 + geometry.N3_13, geometry.N3);
         CHECK_EQ(geometry.N3_22, static_cast<Int_precision>(
-                                     triangulation.get_two_two().size()));
+                                     triangulation.number_of_two_two_cells()));
         CHECK_EQ(geometry.N2, static_cast<Int_precision>(
                                   triangulation.number_of_finite_facets()));
         CHECK_EQ(geometry.N1, static_cast<Int_precision>(
@@ -153,13 +159,15 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
       {
         CHECK_EQ(geometry.N3, static_cast<Int_precision>(
                                   triangulation.number_of_finite_cells()));
-        CHECK_EQ(geometry.N3_31, static_cast<Int_precision>(
-                                     triangulation.get_three_one().size()));
-        CHECK_EQ(geometry.N3_13, static_cast<Int_precision>(
-                                     triangulation.get_one_three().size()));
+        CHECK_EQ(geometry.N3_31,
+                 static_cast<Int_precision>(
+                     triangulation.number_of_three_one_cells()));
+        CHECK_EQ(geometry.N3_13,
+                 static_cast<Int_precision>(
+                     triangulation.number_of_one_three_cells()));
         CHECK_EQ(geometry.N3_31 + geometry.N3_22 + geometry.N3_13, geometry.N3);
         CHECK_EQ(geometry.N3_22, static_cast<Int_precision>(
-                                     triangulation.get_two_two().size()));
+                                     triangulation.number_of_two_two_cells()));
         CHECK_EQ(geometry.N2, static_cast<Int_precision>(
                                   triangulation.number_of_finite_facets()));
         CHECK_EQ(geometry.N1, static_cast<Int_precision>(

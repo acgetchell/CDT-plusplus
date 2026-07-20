@@ -145,7 +145,8 @@ SCENARIO("Find distances between points of the tetrahedron" *
               std::pow(triangulation.expected_radius(vertex), 2),
               triangulation.expected_timevalue(vertex));
         };
-        ranges::for_each(triangulation.get_vertices(), print);
+        auto snapshot = triangulation.delaunay_snapshot();
+        ranges::for_each(collect_vertices<3>(snapshot), print);
       }
     }
   }
@@ -194,20 +195,21 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
 
       THEN("The cell info is correct.")
       {
-        auto cell = triangulation.get_delaunay().finite_cells_begin();
+        auto snapshot = triangulation.delaunay_snapshot();
+        auto cell     = snapshot.finite_cells_begin();
         CHECK_EQ(expected_cell_type<3>(cell), Cell_type::THREE_ONE);
         // Human verification
         triangulation.print_cells();
       }
 
       THEN("There is one (3,1) simplex.")
-      { REQUIRE_EQ(triangulation.get_three_one().size(), 1); }
+      { REQUIRE_EQ(triangulation.number_of_three_one_cells(), 1); }
 
       THEN("There are no (2,2) simplices.")
-      { REQUIRE(triangulation.get_two_two().empty()); }
+      { REQUIRE_EQ(triangulation.number_of_two_two_cells(), 0); }
 
       THEN("There are no (1,3) simplices.")
-      { REQUIRE(triangulation.get_one_three().empty()); }
+      { REQUIRE_EQ(triangulation.number_of_one_three_cells(), 0); }
 
       THEN("There are 3 timelike edges.")
       { REQUIRE_EQ(triangulation.N1_TL(), 3); }

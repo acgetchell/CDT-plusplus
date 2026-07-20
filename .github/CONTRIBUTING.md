@@ -46,7 +46,7 @@ substantial implementation so its maintenance value and scope can be agreed upon
    just ci
    ```
 
-   `just check` is the fast, non-mutating source and tooling gate. `just ci` adds the supported build and 11-test smoke
+   `just check` is the fast, non-mutating source and tooling gate. `just ci` adds the supported build and 22-test smoke
    suite. When changing C++ behavior, also run `just clang-tidy` with the pinned LLVM 22 toolchain and review its
    advisory diagnostics.
 

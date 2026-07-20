@@ -40,8 +40,9 @@ namespace
   {
     std::vector<VertexState> states;
     states.reserve(static_cast<std::size_t>(manifold.vertices()));
-    for (auto vertex = manifold.get_delaunay().finite_vertices_begin();
-         vertex != manifold.get_delaunay().finite_vertices_end(); ++vertex)
+    auto snapshot = manifold.delaunay_snapshot();
+    for (auto vertex = snapshot.finite_vertices_begin();
+         vertex != snapshot.finite_vertices_end(); ++vertex)
     {
       states.push_back(vertex_state(vertex));
     }
@@ -53,8 +54,9 @@ namespace
   {
     std::vector<CellState> states;
     states.reserve(static_cast<std::size_t>(manifold.simplices()));
-    for (auto cell = manifold.get_delaunay().finite_cells_begin();
-         cell != manifold.get_delaunay().finite_cells_end(); ++cell)
+    auto snapshot = manifold.delaunay_snapshot();
+    for (auto cell = snapshot.finite_cells_begin();
+         cell != snapshot.finite_cells_end(); ++cell)
     {
       std::array<VertexState, 4> vertices;
       for (auto index = 0; index < 4; ++index)
@@ -117,7 +119,7 @@ namespace
     }
     else
     {
-      CHECK(result.get_delaunay() == before.get_delaunay());
+      CHECK(result.delaunay_snapshot() == before.delaunay_snapshot());
       CHECK(vertex_states(result) == vertex_states(before));
       CHECK(cell_states(result) == cell_states(before));
       CHECK(manifold_counts(result) == manifold_counts(before));
@@ -189,7 +191,6 @@ SCENARIO("Invoking a move with a function pointer" *
       THEN("Running the function makes the move.")
       {
         auto result = move23(manifold);
-        result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
@@ -213,13 +214,12 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold_3& manifold_3) {
+      auto const move23 = [](Manifold_3 const& manifold_3) {
         return ergodic_moves::do_23_move(manifold_3).value();
       };
       THEN("Running the lambda makes the move.")
       {
         auto result = move23(manifold);
-        result.update();
         CHECK(ergodic_moves::check_move(manifold, result,
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
@@ -248,7 +248,6 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
       THEN("Invoking apply_move() makes the move.")
       {
         auto result = apply_move(manifold, move);
-        result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
@@ -439,7 +438,7 @@ SCENARIO("Rejected moves preserve manifold state" *
     causal_vertices.emplace_back(Point_t<3>{radius_2, radius_2, radius_2}, 2);
     Manifold_3 const manifold(causal_vertices);
     REQUIRE(manifold.is_correct());
-    REQUIRE(manifold.get_triangulation().get_two_two().empty());
+    REQUIRE_EQ(manifold.N3_22(), 0);
     MoveCommand command(manifold);
     command.enqueue(move_tracker::move_type::TWO_THREE);
 

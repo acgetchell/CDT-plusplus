@@ -20,6 +20,19 @@ using namespace manifolds;
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
+namespace
+{
+  [[nodiscard]] auto snapshot_vertices_are_owned(Manifold_3 const& manifold)
+      -> bool
+  {
+    auto snapshot = manifold.delaunay_snapshot();
+    auto vertices = foliated_triangulations::collect_vertices<3>(snapshot);
+    return std::ranges::all_of(vertices, [&snapshot](auto const& vertex) {
+      return snapshot.tds().is_vertex(vertex);
+    });
+  }
+}  // namespace
+
 SCENARIO("Point operations" * doctest::test_suite("vertex"))
 {
   using Point = Point_t<3>;
@@ -49,11 +62,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       causal_vertices.emplace_back(Point(0, 0, 0), 1);
       Manifold const manifold(causal_vertices, 0, 1);
       THEN("The vertex is in the manifold.")
-      {
-        //        auto vertex = manifold.get_vertices();
-        auto vertex = manifold.get_vertices_span();
-        REQUIRE(manifold.is_vertex(vertex.front()));
-      }
+      { REQUIRE(snapshot_vertices_are_owned(manifold)); }
 
       THEN("The Delaunay triangulation is valid.")
       { REQUIRE(manifold.is_valid()); }
@@ -65,11 +74,21 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("A 1 vertex manifold has dimension 0.")
       { REQUIRE_EQ(manifold.dimensionality(), 0); }
 
+      THEN("Value copies and rebuilds preserve the lower-dimensional state.")
+      {
+        auto const copied  = manifold;
+        auto const rebuilt = manifold.updated();
+        CHECK_EQ(copied.N0(), 1);
+        CHECK_EQ(copied.dimensionality(), 0);
+        CHECK_EQ(rebuilt.N0(), 1);
+        CHECK_EQ(rebuilt.dimensionality(), 0);
+      }
+
       THEN("The vertex is valid.")
       {
         fmt::print("When a causal vertex is inserted, the vertices are:\n");
         manifold.print_vertices();
-        CHECK(manifold.get_triangulation().check_all_vertices());
+        CHECK(manifold.check_vertices());
       }
     }
 
@@ -80,11 +99,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       Manifold const manifold(causal_vertices, 0, 1);
 
       THEN("The vertices are in the manifold.")
-      {
-        auto vertex = manifold.get_vertices_span();
-        REQUIRE(manifold.is_vertex(vertex.front()));
-        REQUIRE(manifold.is_vertex(vertex.back()));
-      }
+      { REQUIRE(snapshot_vertices_are_owned(manifold)); }
 
       THEN("The Delaunay triangulation is valid.")
       { REQUIRE(manifold.is_valid()); }
@@ -102,7 +117,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       {
         fmt::print("When 2 causal vertices are inserted, the vertices are:\n");
         manifold.print_vertices();
-        CHECK(manifold.get_triangulation().check_all_vertices());
+        CHECK(manifold.check_vertices());
       }
     }
 
@@ -114,13 +129,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       Manifold manifold(causal_vertices, 0, 1);
 
       THEN("The vertices are in the manifold.")
-      {
-        auto vertices = manifold.get_vertices_span();
-        auto require  = [&manifold](auto& vertex) {
-          REQUIRE(manifold.is_vertex(vertex));
-        };
-        std::ranges::for_each(vertices, require);
-      }
+      { REQUIRE(snapshot_vertices_are_owned(manifold)); }
 
       THEN("The Delaunay triangulation is valid.")
       { REQUIRE(manifold.is_valid()); }
@@ -140,7 +149,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       {
         fmt::print("When 3 causal vertices are inserted, the vertices are:\n");
         manifold.print_vertices();
-        CHECK(manifold.get_triangulation().check_all_vertices());
+        CHECK(manifold.check_vertices());
       }
     }
 
@@ -153,13 +162,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       Manifold manifold(causal_vertices, 0, 1);
 
       THEN("The vertices are in the manifold.")
-      {
-        auto vertices = manifold.get_vertices_span();
-        auto require  = [&manifold](auto& vertex) {
-          REQUIRE(manifold.is_vertex(vertex));
-        };
-        std::ranges::for_each(vertices, require);
-      }
+      { REQUIRE(snapshot_vertices_are_owned(manifold)); }
 
       THEN("The Delaunay triangulation is valid.")
       { REQUIRE(manifold.is_valid()); }
@@ -180,7 +183,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         fmt::print(
             "When 4 causal vertices are inserted, there is a simplex:\n");
         manifold.print_cells();
-        CHECK(manifold.get_triangulation().check_all_vertices());
+        CHECK(manifold.check_vertices());
       }
     }
 
@@ -194,13 +197,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       Manifold manifold(causal_vertices, 0, 1);
 
       THEN("The vertices are in the manifold.")
-      {
-        auto vertices = manifold.get_vertices_span();
-        auto require  = [&manifold](auto& vertex_candidate) {
-          REQUIRE(manifold.is_vertex(vertex_candidate));
-        };
-        std::ranges::for_each(vertices, require);
-      }
+      { REQUIRE(snapshot_vertices_are_owned(manifold)); }
 
       THEN("The Delaunay triangulation is valid.")
       { REQUIRE(manifold.is_valid()); }
@@ -221,7 +218,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         fmt::print(
             "When 5 causal vertices are inserted, there are 2 simplices:\n");
         manifold.print_cells();
-        CHECK(manifold.get_triangulation().check_all_vertices());
+        CHECK(manifold.check_vertices());
       }
     }
   }

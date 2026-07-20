@@ -11,6 +11,7 @@
 #include <boost/program_options.hpp>
 
 #include "Manifold.hpp"
+#include "Runtime_config.hpp"
 
 using namespace std;
 namespace po = boost::program_options;
@@ -44,13 +45,11 @@ try
 {
   std::string const intro{USAGE};
   // Parsed arguments
-  topology_type           topology;
-  long long               simplices;
-  long long               timeslices;
-  long long               dimensions;
-  double                  initial_radius;
-  double                  foliation_spacing;
-  bool                    save_file;
+  long long               simplices{};
+  long long               timeslices{};
+  long long               dimensions{};
+  double                  initial_radius{};
+  double                  foliation_spacing{};
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -69,7 +68,6 @@ try
 
   po::variables_map args;
   po::store(po::parse_command_line(argc, argv, description), args);
-  po::notify(args);
 
   if (args.count("help"))
   {
@@ -83,80 +81,35 @@ try
     return EXIT_SUCCESS;
   }
 
-  if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
-  else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
-  else
+  po::notify(args);
+
+  if (!args.count("simplices"))
   {
-    fmt::print("Topology not specified.\n");
-    return EXIT_FAILURE;
+    throw invalid_argument("Number of simplices not specified.");
+  }
+  if (!args.count("timeslices"))
+  {
+    throw invalid_argument("Number of timeslices not specified.");
   }
 
-  if (args.count("simplices"))
-  {
-    simplices = args["simplices"].as<long long>();
-  }
-  else
-  {
-    fmt::print("Number of simplices not specified.\n");
-    return EXIT_FAILURE;
-  }
-
-  if (args.count("timeslices"))
-  {
-    timeslices = args["timeslices"].as<long long>();
-  }
-  else
-  {
-    fmt::print("Number of timeslices not specified.\n");
-    return EXIT_FAILURE;
-  }
-
-  if (args.count("output")) { save_file = true; }
-  else
-  {
-    save_file = false;
-  }
-
-  // Initialize triangulation
-  manifolds::Manifold_3 universe;
+  auto const config = runtime_config::make_triangulation(
+      args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
+      timeslices, dimensions, initial_radius, foliation_spacing);
+  auto const save_file = args.count("output") != 0;
 
   // Display job parameters
-  fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
-  fmt::print("Number of dimensions = {}\n", dimensions);
-  fmt::print("Number of desired simplices = {}\n", simplices);
-  fmt::print("Number of desired timeslices = {}\n", timeslices);
-  fmt::print("Initial radius = {}\n", initial_radius);
-  fmt::print("Foliation spacing = {}\n", foliation_spacing);
+  fmt::print("Topology is {}\n", utilities::topology_to_str(config.topology()));
+  fmt::print("Number of dimensions = {}\n", config.dimensions());
+  fmt::print("Number of desired simplices = {}\n", config.simplices());
+  fmt::print("Number of desired timeslices = {}\n", config.timeslices());
+  fmt::print("Initial radius = {}\n", config.initial_radius());
+  fmt::print("Foliation spacing = {}\n", config.foliation_spacing());
 
   if (save_file) { fmt::print("Output will be saved.\n"); }
 
-  if (simplices < 2 || timeslices < 2)
-  {
-    throw invalid_argument(
-        "Simplices and timeslices should be greater or equal to 2.");
-  }
-
-  switch (topology)
-  {
-    case topology_type::SPHERICAL:
-      if (dimensions == 3)
-      {
-        // Start your run
-        manifolds::Manifold_3 populated_universe(
-            static_cast<Int_precision>(simplices),
-            static_cast<Int_precision>(timeslices), initial_radius,
-            foliation_spacing);
-        swap(populated_universe, universe);
-      }
-      else
-      {
-        throw invalid_argument(
-            "Only three-dimensional triangulations are supported.");
-      }
-      break;
-    case topology_type::TOROIDAL:
-      throw invalid_argument("Toroidal triangulations not yet supported.");
-  }
+  manifolds::Manifold_3 universe(config.simplices(), config.timeslices(),
+                                 config.initial_radius(),
+                                 config.foliation_spacing());
   universe.print();
   universe.print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
@@ -167,6 +120,11 @@ catch (invalid_argument const& InvalidArgument)
 {
   spdlog::critical("{}\n", InvalidArgument.what());
   spdlog::critical("Invalid parameter ... Exiting.\n");
+  return EXIT_FAILURE;
+}
+catch (std::exception const& Exception)
+{
+  spdlog::critical("{}\n", Exception.what());
   return EXIT_FAILURE;
 }
 catch (...)

@@ -12,11 +12,15 @@
 
 #include <doctest/doctest.h>
 
+#include <type_traits>
+
 #include "Manifold.hpp"
 
 using namespace std;
 using namespace manifolds;
 using namespace move_tracker;
+
+static_assert(std::is_nothrow_swappable_v<MoveTracker<Manifold_3>>);
 
 SCENARIO("MoveTracker special members" * doctest::test_suite("move_tracker"))
 {

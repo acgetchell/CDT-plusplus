@@ -48,8 +48,6 @@ SCENARIO("Use check_move to validate successful move" *
       if (auto result = ergodic_moves::do_23_move(manifold); result)
       {
         manifold = result.value();
-        // Update geometry with new triangulation
-        manifold.update();
       }
       else
       {
@@ -113,8 +111,6 @@ SCENARIO(
       if (auto result = ergodic_moves::do_23_move(manifold); result)
       {
         manifold = result.value();
-        // Update geometry with new triangulation info
-        manifold.update();
       }
       else
       {
@@ -149,8 +145,6 @@ SCENARIO(
       if (auto start = ergodic_moves::do_23_move(manifold); start)
       {
         manifold = start.value();
-        // Update geometry with new triangulation info
-        manifold.update();
       }
       else
       {
@@ -176,8 +170,6 @@ SCENARIO(
       if (auto result = ergodic_moves::do_32_move(manifold); result)
       {
         manifold = result.value();
-        // Update geometry with new triangulation info
-        manifold.update();
       }
       else
       {
@@ -247,59 +239,59 @@ SCENARIO(
     REQUIRE_EQ(manifold.N1_SL(), 3);
     REQUIRE_EQ(manifold.N1_TL(), 6);
     REQUIRE(manifold.is_delaunay());
-    WHEN("A (2,6) move is performed")
+    WHEN("A (2,6) move is proposed")
     {
-      spdlog::debug("When a (2,6) move is performed.\n");
-      // Copy manifold
-      auto manifold_before = manifold;
-      // Do move and check results
-      if (auto result = ergodic_moves::do_26_move(manifold); result)
+      spdlog::debug("When a (2,6) move is proposed.\n");
+      auto const manifold_before = manifold;
+      auto       result          = ergodic_moves::do_26_move(manifold);
+      if (!result) { spdlog::debug("The (2,6) move failed.\n"); }
+      REQUIRE(result.has_value());
+
+      THEN("The proposal leaves the source manifold unchanged")
       {
-        manifold = result.value();
-        // Update geometry with new triangulation info
-        manifold.update();
+        CHECK_EQ(manifold.delaunay_snapshot(),
+                 manifold_before.delaunay_snapshot());
+        CHECK_EQ(manifold.N3(), manifold_before.N3());
       }
-      else
+      AND_WHEN("The proposed value is accepted")
       {
-        spdlog::debug("The (2,6) move failed.\n");
-        // Stop further tests
-        REQUIRE(result.has_value());
-      }
-      THEN("The move is correct and the manifold invariants are maintained")
-      {
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_SIX));
-        // Manual check
-        REQUIRE(manifold.is_correct());
-        CHECK_EQ(manifold.vertices(), 6);  // +1 vertex
-        CHECK_EQ(manifold.edges(), 14);    // +3 spacelike and +2 timelike edges
-        CHECK_EQ(manifold.faces(), 15);    // +8 faces
-        CHECK_EQ(manifold.simplices(), 6);  // +2 (3,1) and +2 (1,3) simplices
-        CHECK_EQ(manifold.N3_31(), 3);
-        CHECK_EQ(manifold.N3_22(), 0);
-        CHECK_EQ(manifold.N3_13(), 3);
-        CHECK_EQ(manifold.N3_31_13(), 6);
-        CHECK_EQ(manifold.N1_SL(), 6);  // +3 spacelike edges
-        CHECK_EQ(manifold.N1_TL(), 8);  // +2 timelike edges
-        CHECK(manifold.is_delaunay());
-        // Human-readable output
-        fmt::print("Manifold before (2,6):\n");
-        manifold_before.print_details();
-        manifold_before.print_cells();
-        fmt::print("Manifold after (2,6):\n");
-        manifold.print_details();
-        manifold.print_cells();
+        manifold = std::move(result).value();
+        THEN("The move is correct and the manifold invariants are maintained")
+        {
+          CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                          move_tracker::move_type::TWO_SIX));
+          // Manual check
+          REQUIRE(manifold.is_correct());
+          CHECK_EQ(manifold.vertices(), 6);  // +1 vertex
+          CHECK_EQ(manifold.edges(),
+                   14);                    // +3 spacelike and +2 timelike edges
+          CHECK_EQ(manifold.faces(), 15);  // +8 faces
+          CHECK_EQ(manifold.simplices(),
+                   6);  // +2 (3,1) and +2 (1,3) simplices
+          CHECK_EQ(manifold.N3_31(), 3);
+          CHECK_EQ(manifold.N3_22(), 0);
+          CHECK_EQ(manifold.N3_13(), 3);
+          CHECK_EQ(manifold.N3_31_13(), 6);
+          CHECK_EQ(manifold.N1_SL(), 6);  // +3 spacelike edges
+          CHECK_EQ(manifold.N1_TL(), 8);  // +2 timelike edges
+          CHECK(manifold.is_delaunay());
+          // Human-readable output
+          fmt::print("Manifold before (2,6):\n");
+          manifold_before.print_details();
+          manifold_before.print_cells();
+          fmt::print("Manifold after (2,6):\n");
+          manifold.print_details();
+          manifold.print_cells();
+        }
       }
     }
-    WHEN("A (6,2) move is performed")
+    WHEN("A (6,2) move is proposed")
     {
-      spdlog::debug("When a (6,2) move is performed.\n");
+      spdlog::debug("When a (6,2) move is proposed.\n");
       // First, do a (2,6) move to set up the manifold
       if (auto start = ergodic_moves::do_26_move(manifold); start)
       {
         manifold = start.value();
-        // Update geometry with new triangulation info
-        manifold.update();
       }
       else
       {
@@ -323,44 +315,49 @@ SCENARIO(
       REQUIRE(manifold.is_delaunay());
 
       // Copy manifold
-      auto manifold_before = manifold;
-      // Do move and check results
-      if (auto result = ergodic_moves::do_62_move(manifold); result)
+      auto const manifold_before = manifold;
+      auto       result          = ergodic_moves::do_62_move(manifold);
+      if (!result) { spdlog::info("The (6,2) move failed.\n"); }
+      REQUIRE(result.has_value());
+
+      THEN("The proposal leaves the source manifold unchanged")
       {
-        manifold.update();
+        CHECK_EQ(manifold.delaunay_snapshot(),
+                 manifold_before.delaunay_snapshot());
+        CHECK_EQ(manifold.N3(), manifold_before.N3());
       }
-      else
+      AND_WHEN("The proposed value is accepted")
       {
-        spdlog::info("The (6,2) move failed.\n");
-      }
-      THEN("The move is correct and the manifold invariants are maintained")
-      {
-        // Check the move
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::SIX_TWO));
-        // Manual check
-        REQUIRE(manifold.is_correct());
-        CHECK(manifold.get_triangulation().is_foliated());
-        CHECK(manifold.get_triangulation().is_tds_valid());
-        CHECK(manifold.get_triangulation().check_all_cells());
-        CHECK_EQ(manifold.vertices(), 5);
-        CHECK_EQ(manifold.edges(), 9);
-        CHECK_EQ(manifold.faces(), 7);
-        CHECK_EQ(manifold.simplices(), 2);
-        CHECK_EQ(manifold.N3_31(), 1);
-        CHECK_EQ(manifold.N3_22(), 0);
-        CHECK_EQ(manifold.N3_13(), 1);
-        CHECK_EQ(manifold.N3_31_13(), 2);
-        CHECK_EQ(manifold.N1_SL(), 3);
-        CHECK_EQ(manifold.N1_TL(), 6);
-        CHECK(manifold.is_delaunay());
-        // Human-readable output
-        fmt::print("Manifold before (6,2):\n");
-        manifold_before.print_details();
-        manifold_before.print_cells();
-        fmt::print("Manifold after (6,2):\n");
-        manifold.print_details();
-        manifold.print_cells();
+        manifold = std::move(result).value();
+        THEN("The move is correct and the manifold invariants are maintained")
+        {
+          // Check the move
+          CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                          move_tracker::move_type::SIX_TWO));
+          // Manual check
+          REQUIRE(manifold.is_correct());
+          CHECK(manifold.is_foliated());
+          CHECK(manifold.is_valid());
+          CHECK(manifold.check_simplices());
+          CHECK_EQ(manifold.vertices(), 5);
+          CHECK_EQ(manifold.edges(), 9);
+          CHECK_EQ(manifold.faces(), 7);
+          CHECK_EQ(manifold.simplices(), 2);
+          CHECK_EQ(manifold.N3_31(), 1);
+          CHECK_EQ(manifold.N3_22(), 0);
+          CHECK_EQ(manifold.N3_13(), 1);
+          CHECK_EQ(manifold.N3_31_13(), 2);
+          CHECK_EQ(manifold.N1_SL(), 3);
+          CHECK_EQ(manifold.N1_TL(), 6);
+          CHECK(manifold.is_delaunay());
+          // Human-readable output
+          fmt::print("Manifold before (6,2):\n");
+          manifold_before.print_details();
+          manifold_before.print_cells();
+          fmt::print("Manifold after (6,2):\n");
+          manifold.print_details();
+          manifold.print_cells();
+        }
       }
     }
     WHEN("An improperly prepared (6,2) move is performed")
@@ -408,36 +405,40 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
     REQUIRE(manifold.is_delaunay());
     REQUIRE(manifold.is_correct());
 
-    WHEN("A (4,4) move is performed")
+    WHEN("A (4,4) move is proposed")
     {
-      spdlog::debug("When a (4,4) move is performed.\n");
-      // Copy manifold
-      auto manifold_before = manifold;
+      spdlog::debug("When a (4,4) move is proposed.\n");
+      auto const manifold_before = manifold;
       // Human verification
       fmt::print("Manifold before (4,4):\n");
       manifold_before.print_details();
       manifold_before.print_cells();
-      // Do move and check results
-      if (auto result = ergodic_moves::do_44_move(manifold); result)
+      auto result = ergodic_moves::do_44_move(manifold);
+      if (!result) { spdlog::info("The (4,4) move failed.\n"); }
+      REQUIRE(result.has_value());
+
+      THEN("The proposal leaves the source manifold unchanged")
+      {
+        CHECK_EQ(manifold.delaunay_snapshot(),
+                 manifold_before.delaunay_snapshot());
+        CHECK_EQ(manifold.N3(), manifold_before.N3());
+      }
+      AND_WHEN("The proposed value is accepted")
       {
         manifold = std::move(result).value();
-        manifold.update();
-      }
-      else
-      {
-        spdlog::info("The (4,4) move failed.\n");
-      }
-      fmt::print("Manifold after (4,4):\n");
-      manifold.print_details();
-      manifold.print_cells();
-      THEN("The move is correct and the manifold invariants are maintained")
-      {
-        // Check the move
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::FOUR_FOUR));
-        CHECK_EQ(manifold.initial_radius(), manifold_before.initial_radius());
-        CHECK_EQ(manifold.foliation_spacing(),
-                 manifold_before.foliation_spacing());
+        fmt::print("Manifold after (4,4):\n");
+        manifold.print_details();
+        manifold.print_cells();
+
+        THEN("The move is correct and the manifold invariants are maintained")
+        {
+          // Check the move
+          CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                          move_tracker::move_type::FOUR_FOUR));
+          CHECK_EQ(manifold.initial_radius(), manifold_before.initial_radius());
+          CHECK_EQ(manifold.foliation_spacing(),
+                   manifold_before.foliation_spacing());
+        }
       }
     }
   }
@@ -518,6 +519,45 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
         auto all_finite_vertices =
             foliated_triangulations::collect_vertices<3>(triangulation);
         REQUIRE_EQ(all_finite_vertices.size(), 6);
+      }
+    }
+  }
+}
+
+SCENARIO("Rejected topology moves preserve the source value" *
+         doctest::test_suite("ergodic"))
+{
+  GIVEN("An empty manifold and an independent snapshot of its state")
+  {
+    Manifold_3 const source;
+    auto const       before = source;
+
+    WHEN("A (2,6) move is proposed")
+    {
+      auto const result = ergodic_moves::do_26_move(source);
+
+      THEN("The move is rejected without changing the source")
+      {
+        CHECK_FALSE(result.has_value());
+        CHECK_EQ(source.delaunay_snapshot(), before.delaunay_snapshot());
+        CHECK_EQ(source.N3(), before.N3());
+        CHECK_EQ(source.N2(), before.N2());
+        CHECK_EQ(source.N1(), before.N1());
+        CHECK_EQ(source.N0(), before.N0());
+      }
+    }
+    WHEN("A (4,4) move is proposed")
+    {
+      auto const result = ergodic_moves::do_44_move(source);
+
+      THEN("The move is rejected without changing the source")
+      {
+        CHECK_FALSE(result.has_value());
+        CHECK_EQ(source.delaunay_snapshot(), before.delaunay_snapshot());
+        CHECK_EQ(source.N3(), before.N3());
+        CHECK_EQ(source.N2(), before.N2());
+        CHECK_EQ(source.N1(), before.N1());
+        CHECK_EQ(source.N0(), before.N0());
       }
     }
   }

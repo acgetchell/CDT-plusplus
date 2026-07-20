@@ -35,6 +35,17 @@ namespace ergodic_moves
 
   namespace detail
   {
+    /// @brief Rebuild all derived topology and geometry state around a value.
+    [[nodiscard]] inline auto make_manifold(Delaunay        triangulation,
+                                            Manifold const& source) -> Manifold
+    {
+      return Manifold{
+          foliated_triangulations::FoliatedTriangulation<3>{
+                                                            std::move(triangulation), source.initial_radius(),
+                                                            source.foliation_spacing()}
+      };
+    }
+
     /// @brief Check an edge handle without dereferencing its cell handle.
     /// @details A tetrahedral cell has four local vertex indices in [0, 4).
     [[nodiscard]] inline auto is_well_formed_edge(
@@ -54,8 +65,7 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @returns The null-moved manifold
-  [[nodiscard]] inline auto null_move(Manifold const& t_manifold) noexcept
-      -> Expected
+  [[nodiscard]] inline auto null_move(Manifold const& t_manifold) -> Expected
   { return t_manifold; }  // null_move
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
@@ -64,12 +74,11 @@ namespace ergodic_moves
   /// @returns True if move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4
-  [[nodiscard]] inline auto try_23_move(Manifold&          t_manifold,
+  [[nodiscard]] inline auto try_23_move(Delaunay&          triangulation,
                                         Cell_handle const& to_be_moved) -> bool
   {
     if (to_be_moved->info() != 22) { return false; }  // NOLINT
-    auto& triangulation = t_manifold.triangulation();
-    auto  flipped       = false;
+    auto flipped = false;
     // Try every facet of the (2,2) cell
     for (auto i = 0; i < 4; ++i)
     {
@@ -115,20 +124,24 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @returns The Expected (2,3) moved manifold or an Unexpected
-  [[nodiscard]] inline auto do_23_move(Manifold& t_manifold) -> Expected
+  [[nodiscard]] inline auto do_23_move(Manifold const& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
-    auto two_two = t_manifold.get_triangulation().get_two_two();
+    Delaunay triangulation{t_manifold.delaunay_snapshot()};
+    auto     two_two = foliated_triangulations::filter_cells<3>(
+        foliated_triangulations::collect_cells<3>(triangulation),
+        Cell_type::TWO_TWO);
     // Shuffle the container to create a random sequence of (2,2) cells
     std::ranges::shuffle(two_two, utilities::make_random_generator());
     // Try a (2,3) move on successive cells in the sequence
-    if (std::ranges::any_of(
-            two_two, [&](auto& cell) { return try_23_move(t_manifold, cell); }))
+    if (std::ranges::any_of(two_two, [&](auto& cell) {
+          return try_23_move(triangulation, cell);
+        }))
     {
-      return t_manifold;
+      return detail::make_manifold(std::move(triangulation), t_manifold);
     }
     // We've run out of (2,2) cells
     std::string const msg = "No (2,3) move possible.\n";
@@ -142,11 +155,11 @@ namespace ergodic_moves
   /// @returns True if move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
-  [[nodiscard]] inline auto try_32_move(Manifold&          t_manifold,
+  [[nodiscard]] inline auto try_32_move(Delaunay&          triangulation,
                                         Edge_handle const& to_be_moved) -> bool
   {
-    return t_manifold.triangulation().flip(
-        to_be_moved.first, to_be_moved.second, to_be_moved.third);
+    return triangulation.flip(to_be_moved.first, to_be_moved.second,
+                              to_be_moved.third);
   }  // try_32_move
 
   /// @brief Perform a (3,2) move
@@ -157,20 +170,22 @@ namespace ergodic_moves
   /// If successful, the triangulation is no longer Delaunay.
   /// @param t_manifold The simplicial manifold
   /// @returns The Expected (3,2) moved manifold or an Unexpected
-  [[nodiscard]] inline auto do_32_move(Manifold& t_manifold) -> Expected
+  [[nodiscard]] inline auto do_32_move(Manifold const& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto timelike_edges = t_manifold.get_timelike_edges();
+    Delaunay triangulation{t_manifold.delaunay_snapshot()};
+    auto     timelike_edges = foliated_triangulations::filter_edges<3>(
+        foliated_triangulations::collect_edges<3>(triangulation), true);
     // Shuffle the container to create a random sequence of edges
     std::ranges::shuffle(timelike_edges, utilities::make_random_generator());
     // Try a (3,2) move on successive timelike edges in the sequence
     if (std::ranges::any_of(timelike_edges, [&](auto& edge) {
-          return try_32_move(t_manifold, edge);
+          return try_32_move(triangulation, edge);
         }))
     {
-      return t_manifold;
+      return detail::make_manifold(std::move(triangulation), t_manifold);
     }
     // We've run out of edges to try
     std::string const msg = "No (3,2) move possible.\n";
@@ -216,13 +231,16 @@ namespace ergodic_moves
   /// @image latex 26.eps width=7cm
   /// @param t_manifold The simplicial manifold
   /// @returns The Expected (2,6) moved manifold or an Unexpected
-  [[nodiscard]] inline auto do_26_move(Manifold& t_manifold) -> Expected
+  [[nodiscard]] inline auto do_26_move(Manifold const& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     static auto constexpr INCIDENT_CELLS_FOR_6_2_MOVE = 6;
-    auto one_three = t_manifold.get_triangulation().get_one_three();
+    Delaunay triangulation{t_manifold.delaunay_snapshot()};
+    auto     one_three = foliated_triangulations::filter_cells<3>(
+        foliated_triangulations::collect_cells<3>(triangulation),
+        Cell_type::ONE_THREE);
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::ranges::shuffle(one_three, utilities::make_random_generator());
     for (auto const& bottom : one_three)
@@ -273,13 +291,12 @@ namespace ergodic_moves
         // Do the (2,6) move
         // Insert new vertex
         Vertex_handle const v_center =
-            t_manifold.triangulation().delaunay().tds().insert_in_facet(
-                bottom, *neighboring_31_index);
+            triangulation.tds().insert_in_facet(bottom, *neighboring_31_index);
 
         // Checks
         Cell_container incident_cells;
-        t_manifold.triangulation().delaunay().tds().incident_cells(
-            v_center, std::back_inserter(incident_cells));
+        triangulation.tds().incident_cells(v_center,
+                                           std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
         if (incident_cells.size() != INCIDENT_CELLS_FOR_6_2_MOVE)
         {
@@ -294,11 +311,8 @@ namespace ergodic_moves
         // Each incident cell should be combinatorially and geometrically valid
         if (auto check_cells =
                 std::ranges::all_of(incident_cells,
-                                    [&t_manifold](auto const& cell) {
-                                      return t_manifold.get_triangulation()
-                                          .get_delaunay()
-                                          .tds()
-                                          .is_cell(cell);
+                                    [&triangulation](auto const& cell) {
+                                      return triangulation.tds().is_cell(cell);
                                     });
             !check_cells)
         {
@@ -323,14 +337,6 @@ namespace ergodic_moves
         v_center->info() = timevalue;
 
 #ifndef NDEBUG
-        if (t_manifold.is_vertex(v_center))
-        {
-          spdlog::trace("It's a vertex in the TDS.\n");
-        }
-        else
-        {
-          spdlog::trace("It's not a vertex in the TDS.\n");
-        }
         spdlog::trace("Spacelike face timevalue is {}.\n", timevalue);
         spdlog::trace("Inserted vertex ({}) with timevalue {}.\n",
                       utilities::point_to_str(v_center->point()),
@@ -339,7 +345,7 @@ namespace ergodic_moves
 
         // Final checks
         // is_valid() checks for combinatorial and geometric validity
-        if (!t_manifold.get_delaunay().tds().is_valid(v_center, true, 1))
+        if (!triangulation.tds().is_valid(v_center, true, 1))
         {
           std::string const msg = "v_center is invalid.\n";
 #ifndef NDEBUG
@@ -348,7 +354,7 @@ namespace ergodic_moves
           return std::unexpected(msg);
         }
 
-        return t_manifold;
+        return detail::make_manifold(std::move(triangulation), t_manifold);
       }
       // Try next cell
 #ifndef NDEBUG
@@ -366,14 +372,14 @@ namespace ergodic_moves
   /// with a vertex, it checks all incident cells. There must be 6
   /// incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices,
   /// and there should be no (2,2) simplices.
-  /// @param manifold The simplicial manifold
+  /// @param triangulation The triangulation containing the candidate
   /// @param candidate The vertex to check
   /// @returns True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
+  [[nodiscard]] inline auto is_62_movable(Delaunay const&      triangulation,
                                           Vertex_handle const& candidate)
       -> bool
   {
-    if (manifold.dimensionality() != 3)
+    if (triangulation.dimension() != 3)
     {
 #ifndef NDEBUG
       spdlog::trace("Manifold is not 3-dimensional.\n");
@@ -381,7 +387,7 @@ namespace ergodic_moves
       return false;
     }
 
-    if (!manifold.is_vertex(candidate))
+    if (!triangulation.tds().is_vertex(candidate))
     {
 #ifndef NDEBUG
       spdlog::trace("Candidate is not a vertex.\n");
@@ -390,7 +396,7 @@ namespace ergodic_moves
     }
 
     // We must have 5 incident edges to have 6 incident cells
-    if (auto incident_edges = manifold.degree(candidate);
+    if (auto incident_edges = triangulation.degree(candidate);
         incident_edges != 5)  // NOLINT
     {
 #ifndef NDEBUG
@@ -400,7 +406,9 @@ namespace ergodic_moves
     }
 
     // Obtain all incident cells
-    auto const incident_cells = manifold.incident_cells(candidate);
+    Cell_container incident_cells;
+    triangulation.tds().incident_cells(candidate,
+                                       std::back_inserter(incident_cells));
 
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)  // NOLINT
@@ -414,7 +422,7 @@ namespace ergodic_moves
     // Check that none of the incident cells are infinite
     for (auto const& cell : incident_cells)
     {
-      if (manifold.get_triangulation().is_infinite(cell))
+      if (triangulation.is_infinite(cell))
       {
 #ifndef NDEBUG
         spdlog::trace("Cell is infinite.\n");
@@ -423,37 +431,17 @@ namespace ergodic_moves
       }
     }
 
-    // Run until all vertices are fixed
-    while (foliated_triangulations::fix_vertices<3>(
-        manifold.get_delaunay(), manifold.initial_radius(),
-        manifold.foliation_spacing()))
-    {
-      spdlog::warn("Fixing vertices found by is_62_movable().\n");
-    }
-
-    // Run until all cells fixed or 50 passes
-    //    for (auto passes = 1; passes < foliated_triangulations::MAX_FIX_PASSES
-    //    + 1;
-    //         ++passes)
-    //    {
-    //      if (!foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
-    //      {
-    //        break;
-    //      }
-    //      spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n",
-    //      passes);
-    //    }
-
-    auto const incident_31 = foliated_triangulations::filter_cells<3>(
-        incident_cells, Cell_type::THREE_ONE);
-    auto const incident_22 = foliated_triangulations::filter_cells<3>(
-        incident_cells, Cell_type::TWO_TWO);
-    auto const incident_13 = foliated_triangulations::filter_cells<3>(
-        incident_cells, Cell_type::ONE_THREE);
+    auto const cell_type_count = [&](Cell_type const type) {
+      return std::ranges::count_if(incident_cells, [&](auto const& cell) {
+        return foliated_triangulations::expected_cell_type<3>(cell) == type;
+      });
+    };
+    auto const incident_31 = cell_type_count(Cell_type::THREE_ONE);
+    auto const incident_22 = cell_type_count(Cell_type::TWO_TWO);
+    auto const incident_13 = cell_type_count(Cell_type::ONE_THREE);
 
     // All cells should be classified
-    if (incident_13.size() + incident_22.size() + incident_31.size() !=
-        6)  // NOLINT
+    if (incident_13 + incident_22 + incident_31 != 6)  // NOLINT
     {
       spdlog::warn("Some incident cells on this vertex need to be fixed.\n");
     }
@@ -462,12 +450,10 @@ namespace ergodic_moves
     spdlog::trace(
         "Vertex has {} incident cells with {} incident (3,1) simplices and {} "
         "incident (2,2) simplices and {} incident (1,3) simplices.\n",
-        incident_cells.size(), incident_31.size(), incident_22.size(),
-        incident_13.size());
+        incident_cells.size(), incident_31, incident_22, incident_13);
     foliated_triangulations::debug_print_cells<3>(std::span{incident_cells});
 #endif
-    return incident_31.size() == 3 && incident_22.empty() &&
-           incident_13.size() == 3;
+    return incident_31 == 3 && incident_22 == 0 && incident_13 == 3;
 
   }  // find_62_moves()
 
@@ -558,22 +544,22 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @returns The Expected (6,2) moved manifold or Unexpected
-  [[nodiscard]] inline auto do_62_move(Manifold& t_manifold) -> Expected
+  [[nodiscard]] inline auto do_62_move(Manifold const& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto vertices = t_manifold.get_vertices();
+    auto triangulation = t_manifold.delaunay_snapshot();
+    auto vertices = foliated_triangulations::collect_vertices<3>(triangulation);
     // Shuffle the container to create a random sequence of vertices
     std::ranges::shuffle(vertices, utilities::make_random_generator());
     // Try a (6,2) move on successive vertices in the sequence
     for (auto const& vertex : vertices)
     {
-      if (!is_62_movable(t_manifold, vertex)) { continue; }
-      if (auto moved = try_62_move(t_manifold.get_delaunay(), vertex))
+      if (!is_62_movable(triangulation, vertex)) { continue; }
+      if (auto moved = try_62_move(triangulation, vertex))
       {
-        t_manifold.triangulation().delaunay().swap(*moved);
-        return t_manifold;
+        return detail::make_manifold(std::move(*moved), t_manifold);
       }
     }
     // We've run out of vertices to try
@@ -853,14 +839,16 @@ namespace ergodic_moves
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto spacelike_edges = t_manifold.get_spacelike_edges();
+    auto triangulation   = t_manifold.delaunay_snapshot();
+    auto spacelike_edges = foliated_triangulations::filter_edges<3>(
+        foliated_triangulations::collect_edges<3>(triangulation), false);
     // Shuffle the container to pick a random sequence of edges to try
     std::ranges::shuffle(spacelike_edges, utilities::make_random_generator());
     for (auto const& edge : spacelike_edges)
     {
       // Obtain all incident cells
-      if (auto const incident_cells = find_bistellar_flip_location(
-              t_manifold.get_triangulation().get_delaunay(), edge);
+      if (auto const incident_cells =
+              find_bistellar_flip_location(triangulation, edge);
           incident_cells)
       {
 #ifndef NDEBUG
@@ -901,21 +889,11 @@ namespace ergodic_moves
 
         // Try the bistellar flip
         if (auto flipped_triangulation =
-                bistellar_flip(t_manifold.get_triangulation().get_delaunay(),
-                               edge, top, bottom);
+                bistellar_flip(triangulation, edge, top, bottom);
             flipped_triangulation.has_value())
         {
-          // Create a new foliated triangulation with the flipped Delaunay
-          // triangulation
-          auto new_triangulation =
-              foliated_triangulations::FoliatedTriangulation<3>(
-                  flipped_triangulation.value(), t_manifold.initial_radius(),
-                  t_manifold.foliation_spacing());
-
-          // Create a new manifold with the updated triangulation
-          auto new_manifold = Manifold(new_triangulation);
-
-          return new_manifold;
+          return detail::make_manifold(std::move(*flipped_triangulation),
+                                       t_manifold);
         }
 
         // If we get here, the flip failed but we found potential cells

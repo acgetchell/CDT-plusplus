@@ -12,6 +12,7 @@
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
 #include <cstddef>
+#include <type_traits>
 #include <unordered_set>
 
 #include "Geometry.hpp"
@@ -44,6 +45,14 @@ namespace manifolds
     using Triangulation = foliated_triangulations::FoliatedTriangulation_3;
     using Geometry      = Geometry_3;
 
+    static_assert(std::is_nothrow_swappable_v<Triangulation>,
+                  "Manifold swap requires a non-throwing triangulation swap.");
+    static_assert(std::is_nothrow_swappable_v<Geometry>,
+                  "Manifold swap requires a non-throwing geometry swap.");
+    static_assert(
+        std::is_nothrow_move_constructible_v<Triangulation> &&
+            std::is_nothrow_move_constructible_v<Geometry>,
+        "Manifold move construction requires non-throwing member moves.");
     /// @brief The data structure of geometric and combinatorial relationships
     Triangulation m_triangulation;
 
@@ -71,20 +80,21 @@ namespace manifolds
     auto operator=(Manifold const& other) -> Manifold& = default;
 
     /// @brief Default move ctor
-    Manifold(Manifold&& other)                         = default;
+    Manifold(Manifold&& other) noexcept                = default;
 
     /// @brief Default move assignment
-    auto operator=(Manifold&& other) -> Manifold&      = default;
+    auto operator=(Manifold&& other) noexcept -> Manifold&
+    {
+      if (this != &other) { swap(other, *this); }
+      return *this;
+    }
 
     /// @brief Non-member swap function for Manifolds.
-    /// @details Used for no-except updates of manifolds after moves.
+    /// @details Used for noexcept updates of manifolds after moves.
     /// @param swap_from The value to be swapped from. Assumed to be discarded.
     /// @param swap_into The value to be swapped into.
     friend void swap(Manifold& swap_from, Manifold& swap_into) noexcept
     {
-#ifndef NDEBUG
-      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
       using std::swap;
       swap(swap_from.m_triangulation, swap_into.m_triangulation);
       swap(swap_from.m_geometry, swap_into.m_geometry);
@@ -94,7 +104,7 @@ namespace manifolds
     /// @param t_foliated_triangulation Triangulation used to construct manifold
     explicit Manifold(Triangulation t_foliated_triangulation)
         : m_triangulation{std::move(t_foliated_triangulation)}
-        , m_geometry{get_triangulation()}
+        , m_geometry{m_triangulation}
     {}
 
     /// @brief Construct manifold using arguments
@@ -126,33 +136,28 @@ namespace manifolds
     }
     {}
 
-    /// @brief Update the Manifold data structures
-    void update()
-    try
+    /// @brief Return a manifold rebuilt from the current canonical topology.
+    /// @details The source remains unchanged. The returned triangulation caches
+    /// and geometry are constructed together, so failure cannot publish a
+    /// partially updated state.
+    [[nodiscard]] auto updated() const -> Manifold
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      update_triangulation();
-      update_geometry();
-    }
-    catch (std::system_error const& ex)
-    {
-      spdlog::trace("Exception thrown: {}\n", ex.what());
-    }  // update
+      if (m_triangulation.number_of_vertices() == 0) { return Manifold{}; }
+      return Manifold{
+          Triangulation{m_triangulation.delaunay_snapshot(),
+                        m_triangulation.initial_radius(),
+                        m_triangulation.foliation_spacing()}
+      };
+    }  // updated
 
-    /// @returns A read-only reference to the triangulation
-    [[nodiscard]] auto get_triangulation() const noexcept
-        -> Triangulation const&
-    { return m_triangulation; }  // get_triangulation
-
-    /// @returns A read-only reference to the Delaunay triangulation
-    [[nodiscard]] auto get_delaunay() const noexcept -> Delaunay_t<3> const&
-    { return get_triangulation().get_delaunay(); }  // get_delaunay
-
-    /// @returns A mutable reference to the triangulation
-    [[nodiscard]] auto triangulation() -> Triangulation&
-    { return m_triangulation; }  // triangulation
+    /// @returns An owning snapshot of the canonical Delaunay triangulation
+    /// @details Handles obtained from the snapshot cannot mutate this manifold
+    /// or invalidate its derived geometry and topology caches.
+    [[nodiscard]] auto delaunay_snapshot() const -> Delaunay_t<3>
+    { return m_triangulation.delaunay_snapshot(); }
 
     /// @returns A read-only reference to the Geometry
     [[nodiscard]] auto get_geometry() const -> Geometry const&
@@ -176,28 +181,6 @@ namespace manifolds
     /// @returns If base data structures are correct
     [[nodiscard]] auto is_correct() const -> bool
     { return m_triangulation.is_correct(); }  // is_correct
-
-    /// @brief Perfect forwarding to FoliatedTriangulation_3.is_vertex()
-    /// @tparam VertexType The vertex type
-    /// @param t_vertex_candidate The vertex to check
-    /// @returns True if the vertex candidate is a vertex
-    template <typename VertexType>
-    [[nodiscard]] auto is_vertex(VertexType&& t_vertex_candidate) const -> bool
-    {
-      return m_triangulation.get_delaunay().is_vertex(
-          std::forward<VertexType>(t_vertex_candidate));
-    }  // is_vertex
-
-    /// @brief Forwarding to FoliatedTriangulation_3.is_edge()
-    /// @param t_edge_candidate The edge to test
-    /// @returns True if the candidate is an edge
-    [[nodiscard]] auto is_edge(
-        Edge_handle_t<3> const& t_edge_candidate) const noexcept -> bool
-    {
-      return m_triangulation.get_delaunay().tds().is_edge(
-          t_edge_candidate.first, t_edge_candidate.second,
-          t_edge_candidate.third);
-    }  // is_edge
 
     /// @returns Run-time dimensionality of the triangulation data structure
     [[nodiscard]] auto dimensionality() const
@@ -229,16 +212,17 @@ namespace manifolds
     /// @returns Number of 3D simplices in triangulation data structure
     [[nodiscard]] auto simplices() const
     {
-      return static_cast<Int_precision>(m_triangulation.get_cells().size());
+      return static_cast<Int_precision>(
+          m_triangulation.number_of_finite_cells());
     }  // number_of_simplices
 
     /// @returns Number of 2D faces in geometry data structure
     [[nodiscard]] auto N2() const { return m_geometry.N2; }
 
-    /// @returns An associative container of spacelike faces indexed by
-    /// timevalue
-    [[nodiscard]] auto N2_SL() const -> auto const&
-    { return m_triangulation.N2_SL(); }  // N2_SL
+    /// @returns Number of spacelike faces on a timeslice
+    [[nodiscard]] auto spacelike_face_count(
+        Int_precision const timevalue) const noexcept -> std::size_t
+    { return m_triangulation.spacelike_face_count(timevalue); }
 
     /// @returns Number of 2D faces in triangulation data structure
     [[nodiscard]] auto faces() const
@@ -280,37 +264,6 @@ namespace manifolds
     [[nodiscard]] auto max_time() const
     { return m_triangulation.max_time(); }  // max_time
 
-    /// @brief Perfect forwarding to FoliatedTriangulation_3.degree()
-    template <typename VertexHandle>
-    [[nodiscard]] auto degree(VertexHandle&& t_vertex) const -> decltype(auto)
-    {
-      return m_triangulation.degree(std::forward<VertexHandle>(t_vertex));
-    }  // degree
-
-    /// @brief Perfect forwarding to FoliatedTriangulation_3.incident_cells()
-    template <typename... Ts>
-    [[nodiscard]] auto incident_cells(Ts&&... args) const noexcept
-        -> decltype(auto)
-    {
-      return m_triangulation.incident_cells(std::forward<Ts>(args)...);
-    }  // incident_cells
-
-    /// @brief Call to triangulation_.get_timelike_edges()
-    [[nodiscard]] auto get_timelike_edges() const noexcept -> auto const&
-    { return m_triangulation.get_timelike_edges(); }  // get_timelike_edges
-
-    /// @brief Call triangulation.get_spacelike_edges()
-    [[nodiscard]] auto get_spacelike_edges() const -> auto const&
-    { return m_triangulation.get_spacelike_edges(); }  // get_spacelike_edges
-
-    /// @brief Call FoliatedTriangulation_3.get_vertices()
-    [[nodiscard]] auto get_vertices() const noexcept -> auto const&
-    { return m_triangulation.get_vertices(); }  // get_vertices
-
-    /// @brief Call FoliatedTriangulation_3.get_vertices_span()
-    [[nodiscard]] auto get_vertices_span() const noexcept -> auto
-    { return m_triangulation.get_vertices_span(); }  // get_vertices_span
-
     /// @returns True if all cells in triangulation are classified and match
     /// number in geometry
     [[nodiscard]] auto check_simplices() const -> bool
@@ -318,6 +271,10 @@ namespace manifolds
       return this->simplices() == this->N3() &&
              m_triangulation.check_all_cells();
     }  // check_simplices
+
+    /// @returns True if every vertex carries the expected timevalue
+    [[nodiscard]] auto check_vertices() const -> bool
+    { return m_triangulation.check_all_vertices(); }
 
     /// @brief Print the codimension 1 volume of simplices (faces) per timeslice
     void print_volume_per_timeslice() const
@@ -363,62 +320,6 @@ namespace manifolds
       fmt::print(stderr, "print_details() went wrong ...\n");
       throw;
     }  // print_details
-
-    /// @brief Obtains a vertex handle from a point
-    /// @param point The point to search for
-    /// @return The vertex handle to the vertex containing the point
-    auto get_vertex(Point_t<3> const& point) const -> Vertex_handle_t<3>
-    {
-      Vertex_handle_t<3> result;
-      m_triangulation.get_delaunay().is_vertex(point, result);
-      return result;
-    }  // get_vertex
-
-    /// @brief Get a cell handle from 4 vertex handles
-    /// @param vh1 The first vertex handle
-    /// @param vh2 The second vertex handle
-    /// @param vh3 The third vertex handle
-    /// @param vh4 The fourth vertex handle
-    /// @return The cell handle containing the vertex handles
-    auto get_cell(Vertex_handle_t<3> const& vh1, Vertex_handle_t<3> const& vh2,
-                  Vertex_handle_t<3> const& vh3,
-                  Vertex_handle_t<3> const& vh4) const -> Cell_handle_t<3>
-    {
-      Cell_handle_t<3> result;
-      m_triangulation.get_delaunay().is_cell(vh1, vh2, vh3, vh4, result);
-      return result;
-    }  // get_cell_handle
-
-   private:
-    /// @brief Update the triangulation
-    void update_triangulation()
-    try
-    {
-#ifndef NDEBUG
-      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-      // Constructing a new triangulation updates all data structures
-      Triangulation local_triangulation(m_triangulation.get_delaunay(),
-                                        m_triangulation.initial_radius(),
-                                        m_triangulation.foliation_spacing());
-      swap(local_triangulation, m_triangulation);
-    }
-    catch (std::system_error const& ex)
-    {
-      fmt::print("Exception thrown: {}\n", ex.what());
-    }  // update_triangulation
-
-    /// @brief Update geometry data of the manifold when the triangulation has
-    /// been changed
-    void update_geometry() noexcept
-    {
-#ifndef NDEBUG
-      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-      // constructing a new geometry updates all data structures
-      Geometry geom(m_triangulation);
-      swap(geom, m_geometry);
-    }  // update_geometry
   };
 
   using Manifold_3 = Manifold<3>;

@@ -16,6 +16,8 @@
 #include <Metropolis.hpp>
 #include <utility>
 
+#include "Runtime_config.hpp"
+
 using Timer = CGAL::Real_timer;
 
 using namespace std;
@@ -61,17 +63,16 @@ try
 {
   std::string const intro{USAGE};
   // Parsed arguments
-  topology_type           topology;
-  long long               simplices;
-  long long               timeslices;
-  long long               dimensions;
-  double                  initial_radius;
-  double                  foliation_spacing;
-  long double             alpha;
-  long double             k;
-  long double             lambda;
-  long long               passes;
-  long long               checkpoint;
+  long long               simplices{};
+  long long               timeslices{};
+  long long               dimensions{};
+  double                  initial_radius{};
+  double                  foliation_spacing{};
+  long double             alpha{};
+  long double             k{};
+  long double             lambda{};
+  long long               passes{};
+  long long               checkpoint{};
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -114,118 +115,58 @@ try
   }
 
   po::notify(args);
-  auto const write_files = !args.count("no-output");
-
-  if (args.count("spherical")) { topology = topology_type::SPHERICAL; }
-  else if (args.count("toroidal")) { topology = topology_type::TOROIDAL; }
-  else
+  if (!args.count("simplices"))
   {
-    fmt::print("Topology not specified.\n");
-    return EXIT_FAILURE;
+    throw invalid_argument("Number of simplices not specified.");
+  }
+  if (!args.count("timeslices"))
+  {
+    throw invalid_argument("Number of timeslices not specified.");
   }
 
-  if (args.count("simplices"))
-  {
-    simplices = args["simplices"].as<long long>();
-  }
-  else
-  {
-    fmt::print("Number of simplices not specified.\n");
-    return EXIT_FAILURE;
-  }
-
-  if (args.count("timeslices"))
-  {
-    timeslices = args["timeslices"].as<long long>();
-  }
-  else
-  {
-    fmt::print("Number of timeslices not specified.\n");
-    return EXIT_FAILURE;
-  }
+  auto const triangulation_config = runtime_config::make_triangulation(
+      args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
+      timeslices, dimensions, initial_radius, foliation_spacing);
+  auto const config = runtime_config::make_simulation(
+      triangulation_config, alpha, k, lambda, passes, checkpoint,
+      !args.count("no-output"));
 
   // Display job parameters
-  fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
-  fmt::print("Dimensionality: {}+{}\n", dimensions - 1, 1);
-  fmt::print("Initial radius: {}\n", initial_radius);
-  fmt::print("Foliation spacing: {}\n", foliation_spacing);
-  fmt::print("Number of desired simplices: {}\n", simplices);
-  fmt::print("Number of desired timeslices: {}\n", timeslices);
-  fmt::print("Number of passes: {}\n", passes);
-  fmt::print("Checkpoint every {} passes.\n", checkpoint);
+  fmt::print("Topology is {}\n",
+             utilities::topology_to_str(config.triangulation().topology()));
+  fmt::print("Dimensionality: {}+{}\n", config.triangulation().dimensions() - 1,
+             1);
+  fmt::print("Initial radius: {}\n", config.triangulation().initial_radius());
+  fmt::print("Foliation spacing: {}\n",
+             config.triangulation().foliation_spacing());
+  fmt::print("Number of desired simplices: {}\n",
+             config.triangulation().simplices());
+  fmt::print("Number of desired timeslices: {}\n",
+             config.triangulation().timeslices());
+  fmt::print("Number of passes: {}\n", config.passes());
+  fmt::print("Checkpoint every {} passes.\n", config.checkpoint());
   fmt::print("=== Parameters ===\n");
-  fmt::print("Alpha: {}\n", alpha);
-  fmt::print("K: {}\n", k);
-  fmt::print("Lambda: {}\n", lambda);
+  fmt::print("Alpha: {}\n", config.alpha());
+  fmt::print("K: {}\n", config.k());
+  fmt::print("Lambda: {}\n", config.lambda());
 
   // Start running time
   Timer timer;
   timer.start();
   fmt::print("cdt started at {}\n", utilities::current_date_time());
 
-  if (simplices < 2 || timeslices < 2)
-  {
-    timer.stop();
-    throw invalid_argument(
-        "Simplices and timeslices should be greater or equal to 2.");
-  }
-
-  if (passes < 0)
-  {
-    timer.stop();
-    throw invalid_argument("Passes cannot be negative.");
-  }
-  if (checkpoint <= 0)
-  {
-    timer.stop();
-    throw invalid_argument("Checkpoint interval must be positive.");
-  }
-  if (!std::in_range<Int_precision>(simplices) ||
-      !std::in_range<Int_precision>(timeslices) ||
-      !std::in_range<Int_precision>(passes) ||
-      !std::in_range<Int_precision>(checkpoint))
-  {
-    timer.stop();
-    throw out_of_range("Integer argument exceeds the supported range.");
-  }
-
-  // Ensure Triangle inequalities hold
-  // See http://arxiv.org/abs/hep-th/0105267 for details
-  if (dimensions == 3 && abs(alpha) < static_cast<long double>(0.5))  // NOLINT
-  {
-    timer.stop();  // End running time counter
-    throw domain_error("Alpha in 3D should be greater than 1/2.");
-  }
-
   // Initialize the Metropolis algorithm
-  Metropolis_3 run(alpha, k, lambda, static_cast<Int_precision>(passes),
-                   static_cast<Int_precision>(checkpoint), write_files);
+  Metropolis_3 run(config.alpha(), config.k(), config.lambda(), config.passes(),
+                   config.checkpoint(), config.write_files());
 
   // Make a triangulation
   manifolds::Manifold_3 universe;
 
-  switch (topology)
-  {
-    case topology_type::SPHERICAL:
-      if (dimensions == 3)
-      {
-        manifolds::Manifold_3 populated_universe(
-            static_cast<Int_precision>(simplices),
-            static_cast<Int_precision>(timeslices), initial_radius,
-            foliation_spacing);
-        // Manifold no-throw swapperator
-        swap(populated_universe, universe);
-      }
-      else
-      {
-        timer.stop();  // End running time counter
-        throw invalid_argument("Currently, dimensions cannot be >3.");
-      }
-      break;
-    case topology_type::TOROIDAL:
-      timer.stop();  // End running time counter
-      throw invalid_argument("Toroidal triangulations not yet supported.");
-  }
+  manifolds::Manifold_3 populated_universe(
+      config.triangulation().simplices(), config.triangulation().timeslices(),
+      config.triangulation().initial_radius(),
+      config.triangulation().foliation_spacing());
+  swap(populated_universe, universe);
 
   // Look at triangulation
   universe.print();
@@ -236,10 +177,11 @@ try
   auto const result = run(universe);
 
   // Do we have enough timeslices?
-  if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)
+  if (auto max_timevalue = result.max_time();
+      max_timevalue < config.triangulation().timeslices())
   {
-    fmt::print("You wanted {} timeslices, but only got {}.\n", timeslices,
-               max_timevalue);
+    fmt::print("You wanted {} timeslices, but only got {}.\n",
+               config.triangulation().timeslices(), max_timevalue);
   }
 
   if (!result.is_valid()) { throw runtime_error("Result is invalid!\n"); }
@@ -253,7 +195,7 @@ try
   result.print_volume_per_timeslice();
 
   // Write results to file
-  if (write_files) { utilities::write_file(result); }
+  if (config.write_files()) { utilities::write_file(result); }
 
   return EXIT_SUCCESS;
 }

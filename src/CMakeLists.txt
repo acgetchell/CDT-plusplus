@@ -28,6 +28,16 @@ target_compile_features(cdt PRIVATE cxx_std_23)
 # Tests    ##
 #
 
+function(add_cli_failure_test test_name target expected_regex)
+  add_test(
+    NAME ${test_name}
+    COMMAND
+      ${CMAKE_COMMAND} "-DTEST_EXECUTABLE=$<TARGET_FILE:${target}>"
+      "-DTEST_ARGUMENTS=${ARGN}" "-DEXPECTED_REGEX=${expected_regex}"
+      -P ${PROJECT_SOURCE_DIR}/cmake/ExpectCommandFailure.cmake)
+  set_tests_properties(${test_name} PROPERTIES LABELS "cli-boundary")
+endfunction()
+
 add_test(NAME cdt COMMAND $<TARGET_FILE:cdt> -s -n127 -t4 -a0.6 -k1.1 -l0.1 -p10)
 set_tests_properties(cdt PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-[0-9]+-")
 
@@ -38,14 +48,25 @@ add_test(
     -DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-no-output
     -P ${PROJECT_SOURCE_DIR}/cmake/RunCdtNoOutputTest.cmake)
 
-add_test(NAME cdt-triangle-inequalities COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -a0.4 -k1.1 -l0.1)
-set_tests_properties(cdt-triangle-inequalities PROPERTIES PASS_REGULAR_EXPRESSION "Triangle inequalities violated")
-
-add_test(NAME cdt-dimensionality COMMAND $<TARGET_FILE:cdt> -s -n64 -t3 -d4 -a0.4 -k1.1 -l0.1)
-set_tests_properties(cdt-dimensionality PROPERTIES PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be >3.")
-
-add_test(NAME cdt-toroidal COMMAND $<TARGET_FILE:cdt> -e -n64 -t3 -a0.6 -k1.1 -l0.1)
-set_tests_properties(cdt-toroidal PROPERTIES PASS_REGULAR_EXPRESSION "Toroidal triangulations not yet supported.")
+add_cli_failure_test(cdt-triangle-inequalities cdt "Triangle inequalities violated" -s -n64 -t3 -a0.4
+                     -k1.1 -l0.1)
+add_cli_failure_test(cdt-dimensionality cdt "Only three-dimensional triangulations are supported." -s -n64 -t3
+                     -d4 -a0.4 -k1.1 -l0.1)
+add_cli_failure_test(cdt-toroidal cdt "Toroidal triangulations are not yet supported." -e -n64 -t3 -a0.6 -k1.1
+                     -l0.1)
+add_cli_failure_test(cdt-alpha-negative cdt "Alpha in 3D must be greater than 1/2." -s -n64 -t3 -a-0.6 -k1.1
+                     -l0.1)
+add_cli_failure_test(cdt-alpha-boundary cdt "Alpha in 3D must be greater than 1/2." -s -n64 -t3 -a0.5 -k1.1
+                     -l0.1)
+add_cli_failure_test(cdt-alpha-nonfinite cdt "Alpha must be finite." -s -n64 -t3 -anan -k1.1 -l0.1)
+add_cli_failure_test(cdt-passes-zero cdt "Passes must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -p0)
+add_cli_failure_test(cdt-checkpoint-zero cdt "Checkpoint interval must be positive." -s -n64 -t3 -a0.6 -k1.1
+                     -l0.1 -c0)
+add_cli_failure_test(cdt-radius-zero cdt "Initial radius must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -i0)
+add_cli_failure_test(cdt-spacing-zero cdt "Foliation spacing must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -f0)
+add_cli_failure_test(cdt-empty-population cdt "would create an empty triangulation" -s -n3 -t2 -a0.6 -k1.1 -l0.1)
+add_cli_failure_test(cdt-integer-narrowing cdt "exceeds the supported integer range" -s -n2147483648 -t3 -a0.6
+                     -k1.1 -l0.1)
 
 add_test(NAME initialize COMMAND $<TARGET_FILE:initialize> -s -n640 -t4 -o)
 set_tests_properties(initialize PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-4")
@@ -54,14 +75,10 @@ if(WIN32)
   set_tests_properties(initialize PROPERTIES LABELS "reference-smoke-exclude")
 endif()
 
-add_test(NAME initialize-minimum-simplices COMMAND $<TARGET_FILE:initialize> -s -n1 -t1 -o)
-set_tests_properties(initialize-minimum-simplices
-                     PROPERTIES PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
-
-add_test(NAME initialize-dimensionality COMMAND $<TARGET_FILE:initialize> -s -n64 -t3 -d2 -o)
-set_tests_properties(initialize-dimensionality
-                     PROPERTIES PASS_REGULAR_EXPRESSION "Only three-dimensional triangulations are supported.")
-
-add_test(NAME initialize-toroidal COMMAND $<TARGET_FILE:initialize> -e -n64 -t3 -o)
-set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
-                                                    "Toroidal triangulations not yet supported.")
+add_cli_failure_test(initialize-minimum-simplices initialize "Simplices and timeslices must each be at least 2." -s -n1
+                     -t1 -o)
+add_cli_failure_test(initialize-dimensionality initialize "Only three-dimensional triangulations are supported." -s
+                     -n64 -t3 -d2 -o)
+add_cli_failure_test(initialize-toroidal initialize "Toroidal triangulations are not yet supported." -e -n64 -t3 -o)
+add_cli_failure_test(initialize-integer-narrowing initialize "exceeds the supported integer range" -s -n2147483648 -t3)
+add_cli_failure_test(initialize-spacing-zero initialize "Foliation spacing must be positive." -s -n64 -t3 -f0)

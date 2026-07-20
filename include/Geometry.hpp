@@ -14,6 +14,8 @@
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
+#include <type_traits>
+
 #include "Foliated_triangulation.hpp"
 
 /// Geometry class template
@@ -25,6 +27,9 @@ struct Geometry;
 template <>
 struct [[nodiscard("This contains data!")]] Geometry<3>
 {
+  static_assert(std::is_nothrow_swappable_v<Int_precision>,
+                "Geometry swap requires non-throwing scalar swaps.");
+
   /// @brief Number of 3D simplices
   Int_precision N3{0};  // NOLINT
 
@@ -65,10 +70,13 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
       foliated_triangulations::FoliatedTriangulation_3 const& triangulation)
 
       : N3{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
-      , N3_31{static_cast<Int_precision>(triangulation.get_three_one().size())}
-      , N3_13{static_cast<Int_precision>(triangulation.get_one_three().size())}
+      , N3_31{static_cast<Int_precision>(
+            triangulation.number_of_three_one_cells())}
+      , N3_13{static_cast<Int_precision>(
+            triangulation.number_of_one_three_cells())}
       , N3_31_13{N3_31 + N3_13}
-      , N3_22{static_cast<Int_precision>(triangulation.get_two_two().size())}
+      , N3_22{static_cast<Int_precision>(
+            triangulation.number_of_two_two_cells())}
       , N2{static_cast<Int_precision>(triangulation.number_of_finite_facets())}
       , N1{static_cast<Int_precision>(triangulation.number_of_finite_edges())}
       , N1_TL{triangulation.N1_TL()}
@@ -78,15 +86,12 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
   {}
 
   /// @brief Non-member swap function for Geometry
-  /// @details Used for no-except updates of geometry data structures.
+  /// @details Used for noexcept updates of geometry data structures.
   /// Usually called from a Manifold swap.
   /// @param swap_from The value to be swapped from. Assumed to be discarded.
   /// @param swap_into The value to be swapped into.
   friend void swap(Geometry& swap_from, Geometry& swap_into) noexcept
   {
-#ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
     using std::swap;
     swap(swap_from.N3, swap_into.N3);
     swap(swap_from.N3_31, swap_into.N3_31);
