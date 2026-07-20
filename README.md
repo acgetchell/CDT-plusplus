@@ -2,7 +2,9 @@
 
 **Quantize spacetime on your laptop.**
 
+[![License](https://badgen.net/github/license/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md)
 [![CI](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml)
+[![Documentation](https://github.com/acgetchell/CDT-plusplus/actions/workflows/doxygen.yml/badge.svg)](https://www.adamgetchell.org/CDT-plusplus/)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/main/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 
 ![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
