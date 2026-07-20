@@ -14,10 +14,57 @@
 
 #include <doctest/doctest.h>
 
+#include <limits>
+#include <type_traits>
+
 #include "Manifold.hpp"
 
 using namespace std;
 using namespace manifolds;
+
+static_assert(std::is_nothrow_destructible_v<mpfr_values::Value>);
+
+SCENARIO("MPFR calculations use scope-owned values" *
+         doctest::test_suite("s3action"))
+{
+  GIVEN("MPFR operands and the process-wide default precision.")
+  {
+    auto const default_precision = mpfr_get_default_prec();
+    auto const numerator         = mpfr_values::from_decimal("1.5");
+    auto const denominator       = mpfr_values::from_integer(3);
+
+    WHEN("The operands are divided into a new value.")
+    {
+      auto const quotient = mpfr_values::divide(numerator, denominator);
+
+      THEN("The calculation uses the configured precision.")
+      {
+        CHECK_EQ(numerator.get_precision(), mpfr_values::precision);
+        CHECK(mpfr_values::to_long_double(quotient) == doctest::Approx(0.5L));
+      }
+      AND_THEN("The process-wide default precision is unchanged.")
+      { CHECK_EQ(mpfr_get_default_prec(), default_precision); }
+    }
+    WHEN("An invalid decimal is parsed.")
+    {
+      THEN("The invalid input is rejected.")
+      {
+        CHECK_THROWS_AS(
+            static_cast<void>(mpfr_values::from_decimal("not-a-number")),
+            std::invalid_argument);
+      }
+    }
+    WHEN("A null decimal pointer is supplied.")
+    {
+      THEN("The invalid boundary is rejected before calling MPFR.")
+      {
+        CHECK_THROWS_AS(static_cast<void>(mpfr_values::from_decimal(
+                            static_cast<char const*>(nullptr))),
+                        std::invalid_argument);
+      }
+    }
+  }
+}
 
 SCENARIO("Calculate the bulk action on S3 triangulations" *
          doctest::test_suite("s3action"))
@@ -98,6 +145,49 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
                 doctest::Approx(utilities::Gmpzf_to_double(Bulk_action))
                     .epsilon(TOLERANCE));
       }
+    }
+  }
+}
+
+SCENARIO("Bulk action rejects invalid physical parameters" *
+         doctest::test_suite("s3action"))
+{
+  GIVEN("Minimal simplex counts and otherwise valid physical parameters.")
+  {
+    WHEN("Alpha is at the lower domain boundary.")
+    {
+      THEN("The generalized action rejects it with a domain error.")
+      {
+        CHECK_THROWS_AS(
+            static_cast<void>(S3_bulk_action(1, 1, 1, 0.5L, 1.1L, 0.1L)),
+            std::domain_error);
+      }
+    }
+    WHEN("Alpha is not finite.")
+    {
+      THEN("The generalized action rejects it as invalid input.")
+      {
+        CHECK_THROWS_AS(
+            static_cast<void>(S3_bulk_action(
+                1, 1, 1, std::numeric_limits<long double>::quiet_NaN(), 1.1L,
+                0.1L)),
+            std::invalid_argument);
+      }
+    }
+    WHEN("A specialized action receives an infinite coupling.")
+    {
+      THEN("The specialized action rejects it as invalid input.")
+      {
+        CHECK_THROWS_AS(
+            static_cast<void>(S3_bulk_action_alpha_one(
+                1, 1, 1, std::numeric_limits<long double>::infinity(), 0.1L)),
+            std::invalid_argument);
+      }
+    }
+    WHEN("The generalized action's exception specification is examined.")
+    {
+      THEN("It permits parameter validation to throw.")
+      { CHECK_FALSE(noexcept(S3_bulk_action(1, 1, 1, 0.6L, 1.1L, 0.1L))); }
     }
   }
 }

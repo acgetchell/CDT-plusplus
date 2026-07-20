@@ -360,9 +360,10 @@ If you do not have GraphViz installed, set this option to **NO**
 
 ## Testing
 
-Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes the eleven supported smoke
-tests. These include focused doctest runs for the Boost.Compat `function_ref` migration and the causal-foliation
-construction code used as a regression oracle. Run `just ci` for the complete local validation gate.
+Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes the 22 supported smoke tests.
+These include two focused doctest runs for the Boost.Compat `function_ref` migration and causal-foliation construction,
+plus 20 executable integration tests covering normal CLI use and invalid-boundary rejection. Run `just ci` for the
+complete local validation gate.
 
 The doctest executable can also be run directly:
 

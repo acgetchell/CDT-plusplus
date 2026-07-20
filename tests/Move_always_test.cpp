@@ -12,8 +12,12 @@
 
 #include <doctest/doctest.h>
 
+#include <type_traits>
+
 using namespace std;
 using namespace manifolds;
+
+static_assert(std::is_nothrow_swappable_v<MoveAlways_3>);
 
 SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties" *
          doctest::test_suite("move_always"))

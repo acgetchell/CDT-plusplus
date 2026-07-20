@@ -14,9 +14,15 @@
 #include <doctest/doctest.h>
 
 #include <numbers>
+#include <type_traits>
+#include <utility>
 
 using namespace std;
 using namespace foliated_triangulations;
+
+static_assert(std::is_nothrow_swappable_v<FoliatedTriangulation_3>);
+static_assert(std::is_nothrow_move_constructible_v<FoliatedTriangulation_3>);
+static_assert(std::is_nothrow_move_assignable_v<FoliatedTriangulation_3>);
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 static inline std::floating_point auto constexpr SQRT_2 =
@@ -55,26 +61,14 @@ SCENARIO("FoliatedTriangulation special member and swap properties" *
         CHECK_FALSE(
             is_nothrow_default_constructible_v<FoliatedTriangulation_3>);
       }
-      THEN("It is no-throw copy constructible.")
-      {
-        REQUIRE(is_nothrow_copy_constructible_v<FoliatedTriangulation_3>);
-        spdlog::debug("It is no-throw copy constructible.\n");
-      }
-      THEN("It is no-throw copy assignable.")
-      {
-        REQUIRE(is_nothrow_copy_assignable_v<FoliatedTriangulation_3>);
-        spdlog::debug("It is no-throw copy assignable.\n");
-      }
+      THEN("Copy construction may report a cache rebuild failure.")
+      { CHECK_FALSE(is_nothrow_copy_constructible_v<FoliatedTriangulation_3>); }
+      THEN("Copy assignment may report a cache rebuild failure.")
+      { CHECK_FALSE(is_nothrow_copy_assignable_v<FoliatedTriangulation_3>); }
       THEN("It is no-throw move constructible.")
-      {
-        REQUIRE(is_nothrow_move_constructible_v<FoliatedTriangulation_3>);
-        spdlog::debug("It is no-throw move constructible.\n");
-      }
+      { REQUIRE(is_nothrow_move_constructible_v<FoliatedTriangulation_3>); }
       THEN("It is no-throw move assignable.")
-      {
-        REQUIRE(is_nothrow_move_assignable_v<FoliatedTriangulation_3>);
-        spdlog::debug("It is no-throw move assignable.\n");
-      }
+      { REQUIRE(is_nothrow_move_assignable_v<FoliatedTriangulation_3>); }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<FoliatedTriangulation_3>);
@@ -171,30 +165,28 @@ SCENARIO("FoliatedTriangulation free functions" *
     vector<std::size_t> timevalues{1, 1, 1, 2};
     auto vertices = make_causal_vertices<3>(Vertices, timevalues);
     FoliatedTriangulation_3 triangulation(vertices);
-    auto                    print = [&triangulation](auto& vertex) {
+    auto                    snapshot     = triangulation.delaunay_snapshot();
+    auto                    all_vertices = collect_vertices<3>(snapshot);
+    auto                    all_cells    = collect_cells<3>(snapshot);
+    auto                    print        = [&snapshot](auto& vertex) {
       fmt::print(
           "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
           "infinite: {}\n",
           utilities::point_to_str(vertex->point()), vertex->info(),
-          triangulation.get_delaunay().tds().is_vertex(vertex),
-          triangulation.is_infinite(vertex));
+          snapshot.tds().is_vertex(vertex), snapshot.is_infinite(vertex));
     };
 
     REQUIRE(triangulation.is_initialized());
     WHEN("check_vertices() is called.")
     {
       THEN("The vertices are correct.")
-      {
-        CHECK(foliated_triangulations::check_vertices<3>(
-            triangulation.get_delaunay(), 1.0, 1.0));
-      }
+      { CHECK(foliated_triangulations::check_vertices<3>(snapshot, 1.0, 1.0)); }
     }
     WHEN("check_cells() is called.")
     {
       THEN("Cells are correctly classified.")
       {
-        CHECK(foliated_triangulations::check_cells<3>(
-            triangulation.get_delaunay()));
+        CHECK(foliated_triangulations::check_cells<3>(snapshot));
         // Human verification
         triangulation.print_cells();
       }
@@ -203,20 +195,17 @@ SCENARIO("FoliatedTriangulation free functions" *
     WHEN("We print a cell in the triangulation.")
     {
       THEN("A cell is printed correctly.")
-      {
-        foliated_triangulations::print_cell<3>(triangulation.get_cells().at(0));
-      }
+      { foliated_triangulations::print_cell<3>(all_cells.at(0)); }
     }
 
     WHEN("We ask for a container of vertices given a container of cells.")
     {
-      auto&& all_vertices =
-          get_vertices_from_cells<3>(triangulation.get_cells());
+      auto vertices_from_cells = get_vertices_from_cells<3>(all_cells);
       THEN("We get back the correct number of vertices.")
       {
-        REQUIRE_EQ(all_vertices.size(), 4);
+        REQUIRE_EQ(vertices_from_cells.size(), 4);
         // Human verification
-        ranges::for_each(all_vertices, print);
+        ranges::for_each(vertices_from_cells, print);
       }
     }
   }
@@ -245,8 +234,8 @@ SCENARIO("FoliatedTriangulation free functions" *
     }
     THEN("Each vertex has a valid timevalue.")
     {
-      for (std::span const checked_vertices(triangulation.get_vertices());
-           auto const&     vertex : checked_vertices)
+      auto snapshot = triangulation.delaunay_snapshot();
+      for (auto const& vertex : collect_vertices<3>(snapshot))
       {
         CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
         fmt::print(
@@ -272,6 +261,8 @@ SCENARIO("FoliatedTriangulation free functions" *
     vector<size_t> timevalue{1, 2, 2, 2, 2, 3};
     auto causal_vertices = make_causal_vertices<3>(vertices, timevalue);
     FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
+    auto                          snapshot  = triangulation.delaunay_snapshot();
+    auto                          all_cells = collect_cells<3>(snapshot);
     // Verify we have 6 vertices, 13 edges, 12 facets, and 4 cells
     REQUIRE_EQ(triangulation.number_of_vertices(), 6);
     REQUIRE_EQ(triangulation.number_of_finite_edges(), 13);
@@ -283,8 +274,7 @@ SCENARIO("FoliatedTriangulation free functions" *
     REQUIRE(triangulation.is_correct());
     WHEN("We collect edges.")
     {
-      auto edges = foliated_triangulations::collect_edges<3>(
-          triangulation.get_delaunay());
+      auto edges = foliated_triangulations::collect_edges<3>(snapshot);
       THEN("We have 13 edges.") { REQUIRE_EQ(edges.size(), 13); }
     }
     WHEN("We have a point in the triangulation.")
@@ -292,7 +282,7 @@ SCENARIO("FoliatedTriangulation free functions" *
       THEN("We can obtain the vertex")
       {
         auto vertex = foliated_triangulations::find_vertex<3>(
-            triangulation.get_delaunay(), Point_t<3>{0, 0, 0});
+            snapshot, Point_t<3>{0, 0, 0});
         REQUIRE_MESSAGE(vertex, "Vertex not found.");
         if (vertex)
         {
@@ -310,7 +300,7 @@ SCENARIO("FoliatedTriangulation free functions" *
         THEN("No vertex is found.")
         {
           auto vertex = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(), Point_t<3>{3, 3, 3});
+              snapshot, Point_t<3>{3, 3, 3});
           REQUIRE_FALSE(vertex);
           // Human verification
           fmt::print("Point(3,3,3) was not found.\n");
@@ -321,16 +311,13 @@ SCENARIO("FoliatedTriangulation free functions" *
         THEN("The correct vertices yields the correct cell.")
         {
           auto v_1 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(), Point_t<3>{0, 0, 0});
+              snapshot, Point_t<3>{0, 0, 0});
           auto v_2 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(),
-              Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
+              snapshot, Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
           auto v_3 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(),
-              Point_t<3>{0, -INV_SQRT_2, INV_SQRT_2});
+              snapshot, Point_t<3>{0, -INV_SQRT_2, INV_SQRT_2});
           auto v_4 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(),
-              Point_t<3>{-INV_SQRT_2, 0, INV_SQRT_2});
+              snapshot, Point_t<3>{-INV_SQRT_2, 0, INV_SQRT_2});
           REQUIRE_MESSAGE(v_1, "Vertex v_1 not found.");
           REQUIRE_MESSAGE(v_2, "Vertex v_2 not found.");
           REQUIRE_MESSAGE(v_3, "Vertex v_3 not found.");
@@ -338,8 +325,7 @@ SCENARIO("FoliatedTriangulation free functions" *
           if (v_1 && v_2 && v_3 && v_4)
           {
             auto cell = foliated_triangulations::find_cell<3>(
-                triangulation.get_delaunay(), v_1.value(), v_2.value(),
-                v_3.value(), v_4.value());
+                snapshot, v_1.value(), v_2.value(), v_3.value(), v_4.value());
             CHECK(cell);
             // Human verification
             triangulation.print_cells();
@@ -348,15 +334,13 @@ SCENARIO("FoliatedTriangulation free functions" *
         THEN("The incorrect vertices do not return a cell.")
         {
           auto v_1 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(), Point_t<3>{0, 0, 0});
+              snapshot, Point_t<3>{0, 0, 0});
           auto v_2 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(),
-              Point_t<3>{INV_SQRT_2, 0, INV_SQRT_2});
+              snapshot, Point_t<3>{INV_SQRT_2, 0, INV_SQRT_2});
           auto v_3 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(),
-              Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
+              snapshot, Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
           auto v_4 = foliated_triangulations::find_vertex<3>(
-              triangulation.get_delaunay(), Point_t<3>{0, 0, 2});
+              snapshot, Point_t<3>{0, 0, 2});
           REQUIRE_MESSAGE(v_1, "Vertex v_1 not found.");
           REQUIRE_MESSAGE(v_2, "Vertex v_2 not found.");
           REQUIRE_MESSAGE(v_3, "Vertex v_3 not found.");
@@ -364,8 +348,7 @@ SCENARIO("FoliatedTriangulation free functions" *
           if (v_1 && v_2 && v_3 && v_4)
           {
             auto cell = foliated_triangulations::find_cell<3>(
-                triangulation.get_delaunay(), v_1.value(), v_2.value(),
-                v_3.value(), v_4.value());
+                snapshot, v_1.value(), v_2.value(), v_3.value(), v_4.value());
             REQUIRE_FALSE(cell);
           }
         }
@@ -374,11 +357,11 @@ SCENARIO("FoliatedTriangulation free functions" *
     WHEN("A container of cells is printed.")
     {
       THEN("The container is printed correctly.")
-      { foliated_triangulations::print_cells<3>(triangulation.get_cells()); }
+      { foliated_triangulations::print_cells<3>(all_cells); }
     }
     WHEN("We choose a cell in the triangulation.")
     {
-      auto cell = triangulation.get_cells().at(0);
+      auto cell = all_cells.at(0);
       THEN("We can print it's neighbors.")
       {
         foliated_triangulations::print_cell<3>(cell);
@@ -460,10 +443,12 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       }
       THEN("The vertices have correct timevalues.")
       {
+        auto snapshot          = triangulation.delaunay_snapshot();
+        auto snapshot_vertices = collect_vertices<3>(snapshot);
         auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
           CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
         };
-        ranges::for_each(triangulation.get_vertices(), check);
+        ranges::for_each(snapshot_vertices, check);
         // Human verification
         auto print = [&triangulation](Vertex_handle_t<3> const& vertex) {
           fmt::print(
@@ -475,7 +460,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
               std::pow(triangulation.expected_radius(vertex), 2),
               triangulation.expected_timevalue(vertex));
         };
-        ranges::for_each(triangulation.get_vertices(), print);
+        ranges::for_each(snapshot_vertices, print);
       }
     }
     WHEN(
@@ -532,27 +517,31 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       {
         triangulation.print();
         // Every cell is classified as (3,1), (2,2), or (1,3)
-        CHECK_EQ(triangulation.get_cells().size(),
-                 triangulation.get_three_one().size() +
-                     triangulation.get_two_two().size() +
-                     triangulation.get_one_three().size());
+        CHECK_EQ(triangulation.number_of_finite_cells(),
+                 triangulation.number_of_three_one_cells() +
+                     triangulation.number_of_two_two_cells() +
+                     triangulation.number_of_one_three_cells());
         // Every cell is properly labelled
         CHECK(triangulation.check_all_cells());
 
-        CHECK_FALSE(triangulation.N2_SL().empty());
+        CHECK_GT(triangulation.number_of_spacelike_faces(), 0);
 
         CHECK_GT(triangulation.max_time(), 0);
         CHECK_GT(triangulation.min_time(), 0);
         CHECK_GT(triangulation.max_time(), triangulation.min_time());
-        auto check_timelike = [](Edge_handle_t<3> const& edge) {
+        auto snapshot        = triangulation.delaunay_snapshot();
+        auto edges           = collect_edges<3>(snapshot);
+        auto timelike_edges  = filter_edges<3>(edges, true);
+        auto spacelike_edges = filter_edges<3>(edges, false);
+        auto check_timelike  = [](Edge_handle_t<3> const& edge) {
           CHECK(classify_edge<3>(edge));
         };
-        ranges::for_each(triangulation.get_timelike_edges(), check_timelike);
+        ranges::for_each(timelike_edges, check_timelike);
 
         auto check_spacelike = [](Edge_handle_t<3> const& edge) {
           CHECK(!classify_edge<3>(edge));
         };
-        ranges::for_each(triangulation.get_spacelike_edges(), check_spacelike);
+        ranges::for_each(spacelike_edges, check_spacelike);
         // Human verification
         fmt::print("There are {} edges.\n",
                    triangulation.number_of_finite_edges());
@@ -594,13 +583,72 @@ SCENARIO("FoliatedTriangulation_3 copying" *
         CHECK_EQ(triangulation.number_of_finite_cells(),
                  ft2.number_of_finite_cells());
         CHECK_EQ(triangulation.min_time(), ft2.min_time());
-        CHECK_EQ(triangulation.get_cells().size(), ft2.get_cells().size());
-        CHECK_EQ(triangulation.get_three_one().size(),
-                 ft2.get_three_one().size());
-        CHECK_EQ(triangulation.get_two_two().size(), ft2.get_two_two().size());
-        CHECK_EQ(triangulation.get_one_three().size(),
-                 ft2.get_one_three().size());
-        CHECK_EQ(triangulation.N2_SL().size(), ft2.N2_SL().size());
+        CHECK_EQ(triangulation.number_of_three_one_cells(),
+                 ft2.number_of_three_one_cells());
+        CHECK_EQ(triangulation.number_of_two_two_cells(),
+                 ft2.number_of_two_two_cells());
+        CHECK_EQ(triangulation.number_of_one_three_cells(),
+                 ft2.number_of_one_three_cells());
+        CHECK_EQ(triangulation.number_of_spacelike_faces(),
+                 ft2.number_of_spacelike_faces());
+      }
+    }
+  }
+}
+
+SCENARIO("FoliatedTriangulation_3 moving" *
+         doctest::test_suite("foliated_triangulation"))
+{
+  GIVEN("A foliated triangulation with known simplex classifications.")
+  {
+    auto constexpr desired_simplices  = 64;
+    auto constexpr desired_timeslices = 4;
+    FoliatedTriangulation_3 source(desired_simplices, desired_timeslices);
+    auto const              expected_cells    = source.number_of_finite_cells();
+    auto const              expected_vertices = source.number_of_vertices();
+    auto const expected_three_one       = source.number_of_three_one_cells();
+    auto const expected_two_two         = source.number_of_two_two_cells();
+    auto const expected_one_three       = source.number_of_one_three_cells();
+    auto const expected_spacelike_faces = source.number_of_spacelike_faces();
+
+    WHEN("It is move constructed.")
+    {
+      auto moved = FoliatedTriangulation_3{std::move(source)};
+
+      THEN("The destination preserves its triangulation and classifications.")
+      {
+        CHECK(moved.is_initialized());
+        CHECK_EQ(moved.number_of_finite_cells(), expected_cells);
+        CHECK_EQ(moved.number_of_vertices(), expected_vertices);
+        CHECK_EQ(moved.number_of_three_one_cells(), expected_three_one);
+        CHECK_EQ(moved.number_of_two_two_cells(), expected_two_two);
+        CHECK_EQ(moved.number_of_one_three_cells(), expected_one_three);
+        CHECK_EQ(moved.number_of_spacelike_faces(), expected_spacelike_faces);
+      }
+    }
+    WHEN("It is move assigned over another foliated triangulation.")
+    {
+      FoliatedTriangulation_3 assigned(desired_simplices * 2,
+                                       desired_timeslices);
+      auto const replaced_cells = assigned.number_of_finite_cells();
+      assigned                  = std::move(source);
+
+      THEN("The destination preserves the source triangulation and caches.")
+      {
+        CHECK(assigned.is_initialized());
+        CHECK_EQ(assigned.number_of_finite_cells(), expected_cells);
+        CHECK_EQ(assigned.number_of_finite_cells(),
+                 assigned.number_of_three_one_cells() +
+                     assigned.number_of_two_two_cells() +
+                     assigned.number_of_one_three_cells());
+      }
+      AND_THEN("The source owns the replaced value and remains reusable.")
+      {
+        CHECK(source.is_initialized());
+        CHECK_EQ(source.number_of_finite_cells(), replaced_cells);
+
+        source = FoliatedTriangulation_3{desired_simplices, desired_timeslices};
+        CHECK(source.is_initialized());
       }
     }
   }
@@ -631,67 +679,65 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       }
       THEN("No errors in the simplex are detected.")
       {
+        auto snapshot = triangulation.delaunay_snapshot();
         CHECK(triangulation.is_correct());
-        CHECK_FALSE(check_timevalues<3>(triangulation.get_delaunay()));
+        CHECK_FALSE(check_timevalues<3>(snapshot));
         // Human verification
         triangulation.print_cells();
       }
       THEN("No errors in the triangulation foliation are detected")
       {
-        CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(
-            triangulation.delaunay()));
+        auto candidate = triangulation.delaunay_snapshot();
+        CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(candidate));
         // Human verification
-        utilities::print_delaunay(triangulation.get_delaunay());
+        utilities::print_delaunay(candidate);
       }
-      AND_WHEN("The vertices are mis-labelled.")
+      AND_WHEN("Vertices in an owning snapshot are mis-labelled.")
       {
+        auto candidate      = triangulation.delaunay_snapshot();
         auto break_vertices = [](Vertex_handle_t<3> const& vertex) {
           vertex->info() = 0;
         };
-        ranges::for_each(triangulation.get_vertices(), break_vertices);
+        ranges::for_each(collect_vertices<3>(candidate), break_vertices);
 
-        THEN("The incorrect vertex labelling is identified.")
+        THEN("The source remains valid while the snapshot records the change.")
         {
-          CHECK_FALSE(triangulation.check_all_vertices());
-          auto bad_vertices = triangulation.find_incorrect_vertices();
-          CHECK_FALSE(bad_vertices.empty());
-          // Human verification
-          fmt::print("=== Wrong vertex info! ===\n");
-          triangulation.print_vertices();
-        }
-        AND_THEN("The incorrect vertex labelling is fixed.")
-        {
-          CHECK_FALSE(triangulation.check_all_vertices());
-          auto bad_vertices = triangulation.find_incorrect_vertices();
-          CHECK_FALSE(bad_vertices.empty());
-
-          CHECK(triangulation.fix_vertices());
           CHECK(triangulation.check_all_vertices());
-          fmt::print("=== Corrected vertex info ===\n");
-          triangulation.print_vertices();
+          auto bad_vertices = find_incorrect_vertices<3>(candidate, 1.0, 1.0);
+          CHECK_FALSE(bad_vertices.empty());
+        }
+        AND_WHEN("The changed snapshot is published as a replacement value.")
+        {
+          auto replacement = FoliatedTriangulation_3{std::move(candidate)};
+
+          THEN("Construction synchronizes the replacement without mutation.")
+          {
+            CHECK(replacement.is_initialized());
+            CHECK(triangulation.is_initialized());
+          }
         }
       }
-      AND_WHEN("The cells are mis-labelled.")
+      AND_WHEN("Cells in an owning snapshot are mis-labelled.")
       {
+        auto candidate   = triangulation.delaunay_snapshot();
         auto break_cells = [](Cell_handle_t<3> const& cell) {
           cell->info() = 0;
         };
-        ranges::for_each(triangulation.get_cells(), break_cells);
-        THEN("The incorrect cell labelling is identified.")
+        ranges::for_each(collect_cells<3>(candidate), break_cells);
+        THEN("The source remains valid while the snapshot records the change.")
         {
-          CHECK_FALSE(triangulation.check_all_cells());
-          // Human verification
-          fmt::print("=== Wrong cell info! ===\n");
-          triangulation.print_cells();
-        }
-        THEN("The incorrect cell labelling is fixed.")
-        {
-          CHECK_FALSE(triangulation.check_all_cells());
-          CHECK(triangulation.fix_cells());
-          // Human verification
-          fmt::print("=== Corrected cell info ===\n");
-          triangulation.print_cells();
           CHECK(triangulation.check_all_cells());
+          CHECK_FALSE(check_cells<3>(candidate));
+        }
+        AND_WHEN("The changed snapshot is published as a replacement value.")
+        {
+          auto replacement = FoliatedTriangulation_3{std::move(candidate)};
+
+          THEN("Construction synchronizes the replacement without mutation.")
+          {
+            CHECK(replacement.is_initialized());
+            CHECK(triangulation.is_initialized());
+          }
         }
       }
     }
@@ -707,7 +753,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       };
       vector<std::size_t> timevalues{1, 1, 1, std::numeric_limits<int>::max()};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-      FoliatedTriangulation_3 const triangulation(causal_vertices);
+      FoliatedTriangulation_3 triangulation(causal_vertices);
       THEN("The vertex is fixed on construction.")
       {
         CHECK_FALSE(triangulation.fix_vertices());
@@ -725,7 +771,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       };
       vector<std::size_t> timevalues{0, 2, 2, 2};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-      FoliatedTriangulation_3 const triangulation(causal_vertices);
+      FoliatedTriangulation_3 triangulation(causal_vertices);
       THEN("The vertex is fixed on construction.")
       {
         CHECK_FALSE(triangulation.fix_vertices());
@@ -745,7 +791,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       };
       vector<std::size_t> timevalues{0, 0, 2, 2};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-      FoliatedTriangulation_3 const triangulation(causal_vertices);
+      FoliatedTriangulation_3 triangulation(causal_vertices);
       THEN("The vertices are fixed on construction.")
       {
         CHECK_FALSE(triangulation.fix_vertices());
@@ -775,7 +821,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       THEN("The vertex error is detected.")
       {
         CHECK_FALSE(triangulation.is_initialized());
-        auto cell = triangulation.get_delaunay().finite_cells_begin();
+        auto snapshot = triangulation.delaunay_snapshot();
+        auto cell     = snapshot.finite_cells_begin();
         CHECK_EQ(expected_cell_type<3>(cell), Cell_type::ACAUSAL);
         // Human verification
         triangulation.print_cells();
@@ -826,11 +873,13 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         fmt::print("Unfixed triangulation:\n");
         triangulation.print_cells();
-        CHECK(foliated_triangulations::fix_timevalues<3>(
-            triangulation.delaunay()));
+        auto candidate = triangulation.delaunay_snapshot();
+        CHECK(foliated_triangulations::fix_timevalues<3>(candidate));
+        triangulation = FoliatedTriangulation_3{std::move(candidate)};
         CHECK(triangulation.is_initialized());
         fmt::print("Fixed triangulation:\n");
-        print_cells<3>(collect_cells<3>(triangulation.delaunay()));
+        auto snapshot = triangulation.delaunay_snapshot();
+        print_cells<3>(collect_cells<3>(snapshot));
       }
     }
   }
@@ -887,7 +936,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
                    triangulation.dimension());
         // Human verification
 #ifndef NDEBUG
-        utilities::print_delaunay(triangulation.delaunay());
+        utilities::print_delaunay(triangulation.delaunay_snapshot());
 #endif
       }
     }
@@ -897,11 +946,12 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       REQUIRE(triangulation.is_initialized());
       THEN("is_infinite() identifies a single infinite vertex.")
       {
-        auto&& vertices = triangulation.get_delaunay().tds().vertices();
+        auto   snapshot = triangulation.delaunay_snapshot();
+        auto&& vertices = snapshot.tds().vertices();
         auto&& vertex   = vertices.begin();
         CHECK_EQ(vertices.size(), 1);
-        CHECK(triangulation.get_delaunay().tds().is_vertex(vertex));
-        CHECK(triangulation.is_infinite(vertex));
+        CHECK(snapshot.tds().is_vertex(vertex));
+        CHECK(snapshot.is_infinite(vertex));
       }
     }
     WHEN("Constructing a triangulation with 4 causal vertices.")
@@ -918,10 +968,11 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       REQUIRE(triangulation.is_initialized());
       THEN("The degree of each vertex is 4 (including infinite vertex).")
       {
-        auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
-          CHECK_EQ(triangulation.degree(vertex), 4);
+        auto snapshot = triangulation.delaunay_snapshot();
+        auto check    = [&snapshot](Vertex_handle_t<3> const& vertex) {
+          CHECK_EQ(snapshot.degree(vertex), 4);
         };
-        ranges::for_each(triangulation.get_vertices(), check);
+        ranges::for_each(collect_vertices<3>(snapshot), check);
       }
     }
   }

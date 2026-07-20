@@ -12,8 +12,13 @@
 
 #include <doctest/doctest.h>
 
+#include <limits>
+#include <type_traits>
+
 using namespace std;
 using namespace manifolds;
+
+static_assert(std::is_nothrow_swappable_v<Metropolis_3>);
 
 SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
          doctest::test_suite("metropolis"))
@@ -79,15 +84,15 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
   auto constexpr Lambda = static_cast<long double>(0.1);
   GIVEN("A correctly-constructed Manifold_3.")
   {
-    auto constexpr simplices  = 640;
-    auto constexpr timeslices = 4;
+    auto constexpr simplices             = 640;
+    auto constexpr timeslices            = 4;
+    auto constexpr output_every_n_passes = 1;
+    auto constexpr passes                = 10;
     Manifold_3 const universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
-      auto constexpr output_every_n_passes = 1;
-      auto constexpr passes                = 10;
       Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("The Metropolis function object is initialized correctly.")
       {
@@ -111,10 +116,6 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
         CHECK_EQ(no_file_output_run.checkpoint(), output_every_n_passes);
         CHECK_FALSE(no_file_output_run.writes_files());
       }
-      CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, -1, output_every_n_passes),
-                      std::invalid_argument);
-      CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, passes, 0),
-                      std::invalid_argument);
       THEN("The initial moves are made correctly.")
       {
         auto result           = testrun.initialize(universe);
@@ -151,6 +152,33 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
           result->print_successful();
           result->print_errors();
         }
+      }
+    }
+    WHEN("A nonpositive pass or checkpoint count is supplied.")
+    {
+      THEN("Construction rejects the invalid cadence.")
+      {
+        CHECK_THROWS_AS(
+            Metropolis_3(Alpha, K, Lambda, -1, output_every_n_passes),
+            std::invalid_argument);
+        CHECK_THROWS_AS(
+            Metropolis_3(Alpha, K, Lambda, 0, output_every_n_passes),
+            std::invalid_argument);
+        CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, passes, 0),
+                        std::invalid_argument);
+      }
+    }
+    WHEN("Alpha is outside its finite physical domain.")
+    {
+      THEN("Construction reports the corresponding parameter error.")
+      {
+        CHECK_THROWS_AS(
+            Metropolis_3(0.5L, K, Lambda, passes, output_every_n_passes),
+            std::domain_error);
+        CHECK_THROWS_AS(
+            Metropolis_3(std::numeric_limits<long double>::infinity(), K,
+                         Lambda, passes, output_every_n_passes),
+            std::invalid_argument);
       }
     }
   }

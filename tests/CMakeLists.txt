@@ -12,6 +12,7 @@ add_executable(
   Move_always_test.cpp
   Move_command_test.cpp
   Move_tracker_test.cpp
+  Runtime_config_test.cpp
   S3Action_test.cpp
   Settings_test.cpp
   Tetrahedron_test.cpp

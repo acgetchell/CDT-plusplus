@@ -106,16 +106,16 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
                                 Int_precision const passes,
                                 Int_precision const checkpoint,
                                 bool const          write_files = true)
-      : m_Alpha(Alpha)
-      , m_K(K)
-      , m_Lambda(Lambda)
-      , m_passes(passes)
-      , m_checkpoint{checkpoint}
-      , m_write_files{write_files}
+      : m_passes(passes), m_checkpoint{checkpoint}, m_write_files{write_files}
   {
-    if (m_passes < 0)
+    auto const parameters =
+        s3_action::make_physical_parameters(Alpha, K, Lambda);
+    m_Alpha  = parameters.alpha;
+    m_K      = parameters.k;
+    m_Lambda = parameters.lambda;
+    if (m_passes <= 0)
     {
-      throw std::invalid_argument{"Metropolis passes cannot be negative"};
+      throw std::invalid_argument{"Metropolis passes must be positive"};
     }
     if (m_checkpoint <= 0)
     {
@@ -170,30 +170,14 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   ///
   /// @param move The type of move
   /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
-  auto CalculateA1(move_tracker::move_type move) const noexcept
+  [[nodiscard]] auto CalculateA1(move_tracker::move_type move) const
   {
-    auto all_moves = m_proposed_moves.total();
-    auto this_move = m_proposed_moves[move];
-    // Set precision for initialization and assignment functions
-    mpfr_set_default_prec(PRECISION);
-
-    // Initialize for MPFR
-    mpfr_t r_1;
-    mpfr_t r_2;
-    mpfr_t a_1;
-    mpfr_inits2(PRECISION, a_1, nullptr);  // NOLINT
-
-    mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  // r_1 = this_move NOLINT
-    mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  // r_2 = total_moves NOLINT
-
-    // The result
-    mpfr_div(a_1, r_1, r_2, MPFR_RNDD);  // a_1 = r_1/r_2 NOLINT
-
-    // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    auto result = mpfr_get_ld(a_1, MPFR_RNDD);  // NOLINT
-
-    // Free memory
-    mpfr_clears(r_1, r_2, a_1, nullptr);  // NOLINT
+    auto const all_moves      = m_proposed_moves.total();
+    auto const this_move      = m_proposed_moves[move];
+    auto const proposed_move  = mpfr_values::from_integer(this_move);
+    auto const proposed_total = mpfr_values::from_integer(all_moves);
+    auto const probability = mpfr_values::divide(proposed_move, proposed_total);
+    auto const result      = mpfr_values::to_long_double(probability);
 
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -208,7 +192,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// @details Calculate \f$a_2=e^{\Delta S}\f$
   /// @param move The type of move
   /// @returns \f$a_2=e^{-\Delta S}\f$
-  auto CalculateA2(move_tracker::move_type const move) const noexcept
+  [[nodiscard]] auto CalculateA2(move_tracker::move_type const move) const
   {
     auto currentS3Action =
         S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13, m_geometry.N3_22,
@@ -261,26 +245,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     // algorithm return A2=1
     if (exponent >= 0) { return static_cast<long double>(1); }
 
-    // Set precision for initialization and assignment functions
-    mpfr_set_default_prec(PRECISION);
-
-    // Initialize for MPFR
-    mpfr_t r_1;
-    mpfr_t a_2;
-    mpfr_inits2(PRECISION, a_2, nullptr);  // NOLINT
-
-    // Set input parameters and constants to mpfr_t equivalents
-    mpfr_init_set_ld(r_1, exponent_double,  // NOLINT
-                     MPFR_RNDD);            // r1 = exponent
-
-    // e^exponent
-    mpfr_exp(a_2, r_1, MPFR_RNDD);  // NOLINT
-
-    // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    auto result = mpfr_get_ld(a_2, MPFR_RNDD);  // NOLINT
-
-    // Free memory
-    mpfr_clears(r_1, a_2, nullptr);  // NOLINT
+    auto const exponent_value = mpfr_values::from_long_double(exponent_double);
+    auto const probability    = mpfr_values::exponential(exponent_value);
+    auto const result         = mpfr_values::to_long_double(probability);
 
 #ifndef NDEBUG
     spdlog::trace("A2 is {}\n", result);

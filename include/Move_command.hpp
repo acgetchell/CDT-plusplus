@@ -17,7 +17,7 @@
 template <typename ManifoldType,
           typename ExpectedType = std::expected<ManifoldType, std::string>,
           typename FunctionType =
-              boost::compat::function_ref<ExpectedType(ManifoldType&)>>
+              boost::compat::function_ref<ExpectedType(ManifoldType const&)>>
   requires(ManifoldType::dimension == 3)
 class MoveCommand
 {
@@ -135,12 +135,9 @@ class MoveCommand
       ++m_attempted[as_integer(move_type)];
       // Convert move_type to function
       auto move_function = as_move_function(move_type);
-      // Execute each move on a private candidate so rejection is atomic even
-      // when a move discovers an error after beginning a topology mutation.
-      ManifoldType candidate{m_manifold};
-      if (auto result = apply_move(candidate, move_function); result)
+      if (auto result = apply_move(std::as_const(m_manifold), move_function);
+          result)
       {
-        result->update();
         if (result->is_correct())
         {
           swap(result.value(), m_manifold);

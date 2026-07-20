@@ -28,15 +28,11 @@
  * \param t_move The Pachner move
  * \return The expected or unexpected result in a std::expected<T,E>
  */
-template <typename ManifoldType,
-          typename ExpectedType = std::expected<ManifoldType, std::string>,
-          typename FunctionType =
-              boost::compat::function_ref<ExpectedType(ManifoldType&)>>
-auto constexpr apply_move(ManifoldType&& t_manifold, FunctionType t_move)
+template <typename ManifoldType, typename FunctionType>
+auto constexpr apply_move(ManifoldType const& t_manifold, FunctionType t_move)
     -> decltype(auto)
 {
-  if (auto result = std::invoke(t_move, std::forward<ManifoldType>(t_manifold));
-      result.has_value())
+  if (auto result = std::invoke(t_move, t_manifold); result.has_value())
   {
     return result;
   }

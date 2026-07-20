@@ -34,8 +34,6 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       if (auto result = apply_move(manifold, ergodic_moves::null_move); result)
       {
         manifold = result.value();
-        // Update Geometry and Foliated_triangulation with new info
-        manifold.update();
       }
       else
       {
@@ -62,8 +60,6 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       if (auto result = apply_move(manifold, ergodic_moves::do_23_move); result)
       {
         manifold = result.value();
-        // Update Geometry and Foliated_triangulation with new info
-        manifold.update();
       }
       else
       {
@@ -87,8 +83,6 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       if (auto result = apply_move(manifold, ergodic_moves::do_32_move); result)
       {
         manifold = result.value();
-        // Update Geometry and Foliated_triangulation with new info
-        manifold.update();
       }
       else
       {
@@ -113,8 +107,6 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       if (auto result = apply_move(manifold, ergodic_moves::do_26_move); result)
       {
         manifold = result.value();
-        // Update Geometry and Foliated_triangulation with new info
-        manifold.update();
       }
       else
       {
@@ -140,8 +132,6 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       if (result)
       {
         manifold = result.value();
-        // Update Geometry and Foliated_triangulation with new info
-        manifold.update();
         THEN("The resulting manifold has the applied move.")
         {
           CHECK(ergodic_moves::check_move(manifold_before, manifold,
@@ -171,8 +161,6 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       if (result)
       {
         manifold = result.value();
-        // Update Geometry and Foliated_triangulation with new info
-        manifold.update();
         THEN("The resulting manifold has the applied move.")
         {
           CHECK(ergodic_moves::check_move(manifold_before, manifold,

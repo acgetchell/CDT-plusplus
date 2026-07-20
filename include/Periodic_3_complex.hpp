@@ -26,8 +26,7 @@ using GT  = CGAL::Periodic_3_triangulation_traits_3<K>;
 using PDT = CGAL::Periodic_3_Delaunay_triangulation_3<GT>;
 
 /// Make 3D toroidal (periodic in 3D) simplicial complexes
-void make_random_T3_simplicial_complex(PDT* T3,
-                                       int  number_of_simplices) noexcept
+void make_random_T3_simplicial_complex(PDT* T3, int number_of_simplices)
 {
   typedef CGAL::Creator_uniform_3<double, PDT::Point> Creator;
   CGAL::Random                                        random(7);

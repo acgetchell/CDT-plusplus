@@ -23,6 +23,13 @@
 // H. Hinnant date and time library
 #include <date/date.h>
 
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
+
 /// clang-15 does not support std::format
 // #include <format>
 
@@ -63,6 +70,64 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 
 namespace utilities
 {
+  namespace detail
+  {
+    [[nodiscard]] inline auto write_file_mutex() -> std::mutex&
+    {
+      static std::mutex mutex;
+      return mutex;
+    }
+
+    [[nodiscard]] inline auto write_file_active() noexcept -> bool&
+    {
+      static thread_local bool active{false};
+      return active;
+    }
+
+    class WriteFileOperation final
+    {
+     public:
+      WriteFileOperation()
+      {
+        if (write_file_active())
+        {
+          throw std::logic_error("write_file is not reentrant.");
+        }
+        write_file_active() = true;
+      }
+
+      ~WriteFileOperation() noexcept { write_file_active() = false; }
+
+      WriteFileOperation(WriteFileOperation const&)                    = delete;
+      auto operator=(WriteFileOperation const&) -> WriteFileOperation& = delete;
+      WriteFileOperation(WriteFileOperation&&)                         = delete;
+      auto operator=(WriteFileOperation&&) -> WriteFileOperation&      = delete;
+    };
+
+    inline void replace_file(std::filesystem::path const& temporary,
+                             std::filesystem::path const& destination)
+    {
+#ifdef _WIN32
+      if (!::MoveFileExW(temporary.c_str(), destination.c_str(),
+                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not atomically replace file", temporary, destination,
+            std::error_code(static_cast<int>(::GetLastError()),
+                            std::system_category()));
+      }
+#else
+      std::error_code error;
+      std::filesystem::rename(temporary, destination, error);
+      if (error)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not atomically replace file", temporary, destination, error);
+      }
+#endif
+    }
+  }  // namespace detail
+
   /// @brief Return current date and time
   /// @details Return current date and time in ISO 8601 format
   /// Use Howard Hinnant's date library to format UTC without requiring an
@@ -92,7 +157,7 @@ namespace utilities
                                           Int_precision t_number_of_simplices,
                                           Int_precision t_number_of_timeslices,
                                           double        t_initial_radius,
-                                          double t_foliation_spacing) noexcept
+                                          double        t_foliation_spacing)
       -> std::filesystem::path
   {
     std::string filename;
@@ -167,17 +232,51 @@ namespace utilities
   void write_file(std::filesystem::path const& filename,
                   TriangulationType const&     triangulation)
   {
-    static std::mutex mutex;
+    detail::WriteFileOperation const operation;
     fmt::print("Writing to file {}\n", filename.string());
-    std::scoped_lock const lock(mutex);
-    std::ofstream          file(filename, std::ios::out);
-    if (!file.is_open())
+    std::scoped_lock const lock(detail::write_file_mutex());
+    auto                   temporary = filename;
+    temporary += ".tmp";
+
+    std::error_code cleanup_error;
+    std::filesystem::remove(temporary, cleanup_error);
+    try
     {
-      throw std::filesystem::filesystem_error(
-          "Could not open file for writing", filename,
-          std::make_error_code(std::errc::bad_file_descriptor));
+      std::ofstream file(temporary, std::ios::out | std::ios::trunc);
+      if (!file.is_open())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not open temporary file for writing", filename,
+            std::make_error_code(std::errc::bad_file_descriptor));
+      }
+      file << triangulation;
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not serialize triangulation", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+      file.flush();
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not flush serialized triangulation", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+      file.close();
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not close serialized triangulation", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+      detail::replace_file(temporary, filename);
     }
-    file << triangulation;
+    catch (...)
+    {
+      std::filesystem::remove(temporary, cleanup_error);
+      throw;
+    }
   }  // write_file
 
   /// @brief Write the runtime results to a file
@@ -191,7 +290,7 @@ namespace utilities
   {
     std::filesystem::path filename;
     filename.assign(make_filename(t_universe));
-    write_file(filename, t_universe.get_delaunay());
+    write_file(filename, t_universe.delaunay_snapshot());
   }  // write_file
 
   /// @brief Read triangulation from file
@@ -213,6 +312,19 @@ namespace utilities
     }
     TriangulationType triangulation;
     file >> triangulation;
+    if (!file)
+    {
+      throw std::filesystem::filesystem_error(
+          "Could not parse triangulation", filename,
+          std::make_error_code(std::errc::illegal_byte_sequence));
+    }
+    file >> std::ws;
+    if (!file.eof())
+    {
+      throw std::filesystem::filesystem_error(
+          "Unexpected trailing data after triangulation", filename,
+          std::make_error_code(std::errc::illegal_byte_sequence));
+    }
     return triangulation;
   }  // read_file
 
@@ -323,40 +435,74 @@ namespace utilities
                   t_number_of_simplices, t_number_of_timeslices);
 #endif
 
+    if (t_dimension != 3)
+    {
+      throw std::invalid_argument(
+          "Only three-dimensional triangulations are supported.");
+    }
+    if (t_number_of_simplices <= 0 || t_number_of_timeslices <= 0)
+    {
+      throw std::invalid_argument(
+          "Simplices and timeslices must both be positive.");
+    }
+
     auto const simplices_per_timeslice =
         t_number_of_simplices / t_number_of_timeslices;
-    if (t_dimension == 3)
+    // Avoid segfaults for small values
+    if (t_number_of_simplices == t_number_of_timeslices)
     {
-      // Avoid segfaults for small values
-      if (t_number_of_simplices == t_number_of_timeslices)
-      {
-        return 2 * simplices_per_timeslice;
-      }
-      if (t_number_of_simplices < 1000)  // NOLINT
-      {
-        return static_cast<Int_precision>(
-            0.4L *  // NOLINT
-            static_cast<long double>(simplices_per_timeslice));
-      }
-      if (t_number_of_simplices < 10000)  // NOLINT
-      {
-        return static_cast<Int_precision>(
-            0.2L *  // NOLINT
-            static_cast<long double>(simplices_per_timeslice));
-      }
-      if (t_number_of_simplices < 100000)  // NOLINT
-      {
-        return static_cast<Int_precision>(
-            0.15L *  // NOLINT
-            static_cast<long double>(simplices_per_timeslice));
-      }
-
-      return static_cast<Int_precision>(
-          0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
+      return 2 * simplices_per_timeslice;
     }
-    throw std::invalid_argument("Currently, dimensions cannot be >3.");
+    if (t_number_of_simplices < 1000)  // NOLINT
+    {
+      return static_cast<Int_precision>(
+          0.4L *  // NOLINT
+          static_cast<long double>(simplices_per_timeslice));
+    }
+    if (t_number_of_simplices < 10000)  // NOLINT
+    {
+      return static_cast<Int_precision>(
+          0.2L *  // NOLINT
+          static_cast<long double>(simplices_per_timeslice));
+    }
+    if (t_number_of_simplices < 100000)  // NOLINT
+    {
+      return static_cast<Int_precision>(
+          0.15L *  // NOLINT
+          static_cast<long double>(simplices_per_timeslice));
+    }
+
+    return static_cast<Int_precision>(
+        0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
 
   }  // expected_points_per_timeslice
+
+  struct Generated_population_bounds
+  {
+    Int_precision points_per_timeslice;
+    long double   last_layer_points;
+  };
+
+  /// @brief Calculate the generated point count and its upper bound
+  /// @param dimension Number of dimensions
+  /// @param simplices Number of desired simplices
+  /// @param timeslices Number of desired timeslices
+  /// @param initial_radius Radius of the first timeslice
+  /// @param foliation_spacing Distance between successive timeslices
+  /// @return Points per timeslice and the last-layer point count
+  [[nodiscard]] inline auto generated_population_bounds(
+      Int_precision const dimension, Int_precision const simplices,
+      Int_precision const timeslices, double const initial_radius,
+      double const foliation_spacing) -> Generated_population_bounds
+  {
+    auto const points_per_timeslice =
+        expected_points_per_timeslice(dimension, simplices, timeslices);
+    auto const last_radius =
+        static_cast<long double>(initial_radius) +
+        static_cast<long double>(timeslices - 1) * foliation_spacing;
+    return {points_per_timeslice,
+            static_cast<long double>(points_per_timeslice) * last_radius};
+  }
 
   /// @brief Convert Gmpzf into a double
   ///

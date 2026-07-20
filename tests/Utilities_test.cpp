@@ -13,10 +13,45 @@
 #include <fmt/ranges.h>
 
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <Manifold.hpp>
 
 using namespace std;
 using namespace utilities;
+
+namespace
+{
+  struct SerializationFailure
+  {};
+
+  auto operator<<(std::ostream& output, SerializationFailure const& /*unused*/)
+      -> std::ostream&
+  {
+    output.setstate(std::ios::badbit);
+    return output;
+  }
+
+  struct ReentrantSerialization
+  {
+    std::filesystem::path filename;
+  };
+
+  auto operator<<(std::ostream& output, ReentrantSerialization const& value)
+      -> std::ostream&
+  {
+    write_file(value.filename, 42);
+    return output;
+  }
+
+  struct SingleInteger
+  {
+    int value{};
+  };
+
+  auto operator>>(std::istream& input, SingleInteger& parsed) -> std::istream&
+  { return input >> parsed.value; }
+}  // namespace
 
 SCENARIO("Various string/stream/time utilities" *
          doctest::test_suite("utilities"))
@@ -128,7 +163,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       auto const filename = std::filesystem::temp_directory_path() /
                             "cdt-plusplus-utilities-roundtrip.off";
       std::filesystem::remove(filename);
-      write_file(filename, manifold.get_delaunay());
+      write_file(filename, manifold.delaunay_snapshot());
       REQUIRE(std::filesystem::exists(filename));
 
       auto triangulation_from_file =
@@ -148,6 +183,108 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK_EQ(triangulation_from_file, triangulation);
         REQUIRE(std::filesystem::remove(filename));
         CHECK_FALSE(std::filesystem::exists(filename));
+      }
+    }
+  }
+}
+
+SCENARIO("File serialization reports complete failures" *
+         doctest::test_suite("utilities"))
+{
+  auto const directory = std::filesystem::temp_directory_path();
+
+  GIVEN("A serializer that marks its output stream bad.")
+  {
+    auto const filename  = directory / "cdt-plusplus-write-failure.off";
+    auto       temporary = filename;
+    temporary += ".tmp";
+    std::filesystem::remove(filename);
+    std::filesystem::remove(temporary);
+    {
+      std::ofstream existing{filename};
+      existing << "previous-checkpoint";
+    }
+
+    WHEN("Writing the value is attempted.")
+    {
+      THEN("The failure is reported without replacing the existing file.")
+      {
+        CHECK_THROWS_AS(write_file(filename, SerializationFailure{}),
+                        std::filesystem::filesystem_error);
+        std::ifstream     preserved{filename};
+        std::string const contents{std::istreambuf_iterator<char>{preserved},
+                                   std::istreambuf_iterator<char>{}};
+        CHECK_EQ(contents, "previous-checkpoint");
+        CHECK_FALSE(std::filesystem::exists(temporary));
+        REQUIRE(std::filesystem::remove(filename));
+      }
+    }
+  }
+
+  GIVEN("A serializer that recursively starts another file write.")
+  {
+    auto const filename  = directory / "cdt-plusplus-reentrant-write.off";
+    auto       temporary = filename;
+    temporary += ".tmp";
+    std::filesystem::remove(filename);
+    std::filesystem::remove(temporary);
+    {
+      std::ofstream existing{filename};
+      existing << "previous-checkpoint";
+    }
+
+    WHEN("Writing the value is attempted.")
+    {
+      THEN("Reentrancy is rejected without replacing the existing file.")
+      {
+        CHECK_THROWS_AS(write_file(filename, ReentrantSerialization{filename}),
+                        std::logic_error);
+        std::ifstream     preserved{filename};
+        std::string const contents{std::istreambuf_iterator<char>{preserved},
+                                   std::istreambuf_iterator<char>{}};
+        CHECK_EQ(contents, "previous-checkpoint");
+        CHECK_FALSE(std::filesystem::exists(temporary));
+        REQUIRE(std::filesystem::remove(filename));
+      }
+    }
+  }
+
+  GIVEN("A serialized value followed by unexpected trailing input.")
+  {
+    auto const filename = directory / "cdt-plusplus-trailing-input.off";
+    std::filesystem::remove(filename);
+    {
+      std::ofstream output{filename};
+      output << "42 trailing-data";
+    }
+
+    WHEN("The file is parsed.")
+    {
+      THEN("The trailing input is reported and the fixture can be removed.")
+      {
+        CHECK_THROWS_AS(read_file<SingleInteger>(filename),
+                        std::filesystem::filesystem_error);
+        REQUIRE(std::filesystem::remove(filename));
+      }
+    }
+  }
+
+  GIVEN("A file containing malformed input.")
+  {
+    auto const filename = directory / "cdt-plusplus-malformed-input.off";
+    std::filesystem::remove(filename);
+    {
+      std::ofstream output{filename};
+      output << "not-an-integer";
+    }
+
+    WHEN("The file is parsed.")
+    {
+      THEN("The malformed input is reported and the fixture can be removed.")
+      {
+        CHECK_THROWS_AS(read_file<SingleInteger>(filename),
+                        std::filesystem::filesystem_error);
+        REQUIRE(std::filesystem::remove(filename));
       }
     }
   }

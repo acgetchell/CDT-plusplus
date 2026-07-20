@@ -113,10 +113,12 @@ SCENARIO("Perform basic bistellar flip on Delaunay triangulation" *
 
         AND_THEN("We can perform a bistellar flip")
         {
-          auto flipped_triangulation =
+          auto const original = triangulation;
+          auto       flipped_triangulation =
               bistellar_flip(triangulation, pivot_edge.value(), top, bottom);
 
           REQUIRE_MESSAGE(flipped_triangulation, "Bistellar flip failed.");
+          CHECK_EQ(triangulation, original);
 
           // Basic validity check
           CHECK(flipped_triangulation->is_valid());
@@ -268,7 +270,10 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
       auto result = bistellar_flip(triangulation, invalid_edge, top, bottom);
 
       THEN("The bistellar flip should fail")
-      { CHECK_FALSE(result.has_value()); }
+      {
+        CHECK_FALSE(result.has_value());
+        CHECK(triangulation.is_valid());
+      }
     }
 
     WHEN("We provide invalid edge indices")
