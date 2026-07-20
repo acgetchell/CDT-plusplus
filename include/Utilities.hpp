@@ -33,9 +33,6 @@
 /// clang-15 does not support std::format
 // #include <format>
 
-// M. O'Neill Permutation Congruential Generator library
-#include "pcg_random.hpp"
-
 // V. Zverovich {fmt} library
 #include <fmt/ostream.h>
 
@@ -45,6 +42,7 @@
 #include <spdlog/spdlog.h>
 
 // Global project settings
+#include "Random.hpp"
 #include "Settings.hpp"
 
 enum class topology_type
@@ -205,6 +203,29 @@ namespace utilities
                          manifold.foliation_spacing());
   }  // make_filename
 
+  /// @brief Generate a filename that records the effective run seed.
+  template <typename ManifoldType>
+  [[nodiscard]] auto make_filename(ManifoldType const&    manifold,
+                                   cdt::Random_seed const seed)
+  {
+    auto const base = make_filename(manifold);
+    return base.parent_path() /
+           (base.stem().string() + "-seed-" + std::to_string(seed) +
+            base.extension().string());
+  }
+
+  /// @brief Generate a checkpoint filename that records seed and pass.
+  template <typename ManifoldType>
+  [[nodiscard]] auto make_filename(ManifoldType const&    manifold,
+                                   cdt::Random_seed const seed,
+                                   Int_precision const    completed_passes)
+  {
+    auto const base = make_filename(manifold, seed);
+    return base.parent_path() /
+           (base.stem().string() + "-pass-" + std::to_string(completed_passes) +
+            base.extension().string());
+  }
+
   /// @brief Print triangulation statistics
   /// @tparam TriangulationType The triangulation type
   /// @param t_triangulation A triangulation (typically a Delaunay_t<3>
@@ -293,6 +314,22 @@ namespace utilities
     write_file(filename, t_universe.delaunay_snapshot());
   }  // write_file
 
+  /// @brief Write a triangulation with the effective seed in its filename.
+  template <typename ManifoldType>
+  void write_file(ManifoldType const& t_universe, cdt::Random_seed const seed)
+  {
+    write_file(make_filename(t_universe, seed), t_universe.delaunay_snapshot());
+  }
+
+  /// @brief Write a checkpoint with its effective seed and pass in its name.
+  template <typename ManifoldType>
+  void write_file(ManifoldType const& t_universe, cdt::Random_seed const seed,
+                  Int_precision const completed_passes)
+  {
+    write_file(make_filename(t_universe, seed, completed_passes),
+               t_universe.delaunay_snapshot());
+  }
+
   /// @brief Read triangulation from file
   /// @tparam TriangulationType The type of triangulation
   /// @param filename The file to read from
@@ -329,25 +366,21 @@ namespace utilities
   }  // read_file
 
   /// @brief Roll a die with PCG
-  [[nodiscard]] inline auto die_roll()
+  template <std::uniform_random_bit_generator Generator>
+  [[nodiscard]] inline auto die_roll(Generator& generator)
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-
-    // Make a random number generator
-    pcg64 rng(seed_source);
-
     // Choose random number from 1 to 6
     std::uniform_int_distribution uniform_dist(1, 6);  // NOLINT
-    Int_precision const           roll = uniform_dist(rng);
+    Int_precision const           roll = uniform_dist(generator);
     return roll;
   }  // die_roll()
 
   /// @brief Generate random numbers
   ///
   /// Uses Melissa E. O'Neill's Permuted Congruential Generator for high-quality
-  /// RNG which passes the TestU01 statistical tests. See:
-  /// http://www.pcg-random.org/paper.html
-  /// for more details
+  /// RNG which passes the TestU01 statistical tests.
+  /// @see [PCG random-number
+  /// generators](../REFERENCES.md#pcg-random-number-generators)
   ///
   /// @tparam NumberType The type of number in the RNG
   /// @tparam Distribution The distribution type, usually uniform
@@ -355,62 +388,58 @@ namespace utilities
   /// @param t_max_value The maximum value
   /// @returns A random value in the distribution between min_value and
   /// max_value
-  template <typename NumberType, class Distribution>
-  [[nodiscard]] auto generate_random(NumberType t_min_value,
+  template <typename NumberType, class Distribution,
+            std::uniform_random_bit_generator Generator>
+  [[nodiscard]] auto generate_random(Generator& generator,
+                                     NumberType t_min_value,
                                      NumberType t_max_value)
   {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-    // Make a random number generator
-    pcg64        generator(seed_source);
     Distribution distribution(t_min_value, t_max_value);
     return distribution(generator);
   }  // generate_random()
 
-  /// @brief Make a high-quality random number generator usable by std::shuffle
-  /// @returns A RNG
-  inline auto make_random_generator()
-  {
-    pcg_extras::seed_seq_from<std::random_device> seed_source;
-    pcg64                                         generator(seed_source);
-    return generator;
-  }  // make_random_generator()
-
   /// @brief Generate random integers by calling generate_random, preserves
   /// template argument deduction
-  template <typename IntegerType>
-  [[nodiscard]] auto generate_random_int(IntegerType t_min_value,
+  template <std::uniform_random_bit_generator Generator, typename IntegerType>
+  [[nodiscard]] auto generate_random_int(Generator&  generator,
+                                         IntegerType t_min_value,
                                          IntegerType t_max_value)
   {
     using int_dist = std::uniform_int_distribution<IntegerType>;
-    return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
+    return generate_random<IntegerType, int_dist>(generator, t_min_value,
+                                                  t_max_value);
   }  // generate_random_int()
 
   /// @brief Generate a random timeslice
-  template <typename IntegerType>
-  [[nodiscard]] auto generate_random_timeslice(IntegerType&& t_max_timeslice)
+  template <std::uniform_random_bit_generator Generator, typename IntegerType>
+  [[nodiscard]] auto generate_random_timeslice(Generator&    generator,
+                                               IntegerType&& t_max_timeslice)
       -> decltype(auto)
   {
-    return generate_random_int(static_cast<IntegerType>(1),
+    return generate_random_int(generator, static_cast<IntegerType>(1),
                                std::forward<IntegerType>(t_max_timeslice));
   }  // generate_random_timeslice()
 
   /// @brief Generate random real numbers by calling generate_random, preserves
   /// template argument deduction
-  template <typename FloatingPointType>
-  [[nodiscard]] auto generate_random_real(FloatingPointType t_min_value,
+  template <std::uniform_random_bit_generator Generator,
+            typename FloatingPointType>
+  [[nodiscard]] auto generate_random_real(Generator&        generator,
+                                          FloatingPointType t_min_value,
                                           FloatingPointType t_max_value)
   {
     using real_dist = std::uniform_real_distribution<FloatingPointType>;
-    return generate_random<FloatingPointType, real_dist>(t_min_value,
+    return generate_random<FloatingPointType, real_dist>(generator, t_min_value,
                                                          t_max_value);
   }  // generate_random_real()
 
   /// @brief Generate a probability
-  [[nodiscard]] inline auto generate_probability()
+  template <std::uniform_random_bit_generator Generator>
+  [[nodiscard]] inline auto generate_probability(Generator& generator)
   {
     auto constexpr min = 0.0L;
     auto constexpr max = 1.0L;
-    return generate_random_real(min, max);
+    return generate_random_real(generator, min, max);
   }  // generate_probability()
 
   /// @brief Calculate expected # of points per simplex

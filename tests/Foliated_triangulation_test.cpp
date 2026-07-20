@@ -24,6 +24,8 @@ static_assert(std::is_nothrow_swappable_v<FoliatedTriangulation_3>);
 static_assert(std::is_nothrow_move_constructible_v<FoliatedTriangulation_3>);
 static_assert(std::is_nothrow_move_assignable_v<FoliatedTriangulation_3>);
 
+using Causal_vertices_3_t             = Causal_vertices_t<3>;
+
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
@@ -82,19 +84,19 @@ SCENARIO("FoliatedTriangulation special member and swap properties" *
       THEN("It is constructible from parameters.")
       {
         REQUIRE(is_constructible_v<FoliatedTriangulation_3, Int_precision,
-                                   Int_precision, double, double>);
+                                   Int_precision, cdt::Random, double, double>);
         spdlog::debug("It is constructible from parameters.\n");
       }
       THEN("It is constructible from Causal_vertices.")
       {
         REQUIRE(
-            is_constructible_v<FoliatedTriangulation_3, Causal_vertices_t<3>>);
+            is_constructible_v<FoliatedTriangulation_3, Causal_vertices_3_t>);
         spdlog::debug("It is constructible from Causal_vertices.\n");
       }
       THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation_3,
-                                   Causal_vertices_t<3>, double>);
+        REQUIRE(is_constructible_v<FoliatedTriangulation_3, Causal_vertices_3_t,
+                                   double>);
         spdlog::debug(
             "It is constructible from Causal_vertices and INITIAL_RADIUS.\n");
       }
@@ -102,8 +104,8 @@ SCENARIO("FoliatedTriangulation special member and swap properties" *
           "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
           "RADIAL_SEPARATION.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation_3,
-                                   Causal_vertices_t<3>, double, double>);
+        REQUIRE(is_constructible_v<FoliatedTriangulation_3, Causal_vertices_3_t,
+                                   double, double>);
         spdlog::debug(
             "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
             "RADIAL_SEPARATION.\n");
@@ -165,16 +167,8 @@ SCENARIO("FoliatedTriangulation free functions" *
     vector<std::size_t> timevalues{1, 1, 1, 2};
     auto vertices = make_causal_vertices<3>(Vertices, timevalues);
     FoliatedTriangulation_3 triangulation(vertices);
-    auto                    snapshot     = triangulation.delaunay_snapshot();
-    auto                    all_vertices = collect_vertices<3>(snapshot);
-    auto                    all_cells    = collect_cells<3>(snapshot);
-    auto                    print        = [&snapshot](auto& vertex) {
-      fmt::print(
-          "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-          "infinite: {}\n",
-          utilities::point_to_str(vertex->point()), vertex->info(),
-          snapshot.tds().is_vertex(vertex), snapshot.is_infinite(vertex));
-    };
+    auto                    snapshot  = triangulation.delaunay_snapshot();
+    auto                    all_cells = collect_cells<3>(snapshot);
 
     REQUIRE(triangulation.is_initialized());
     WHEN("check_vertices() is called.")
@@ -185,28 +179,14 @@ SCENARIO("FoliatedTriangulation free functions" *
     WHEN("check_cells() is called.")
     {
       THEN("Cells are correctly classified.")
-      {
-        CHECK(foliated_triangulations::check_cells<3>(snapshot));
-        // Human verification
-        triangulation.print_cells();
-      }
-    }
-
-    WHEN("We print a cell in the triangulation.")
-    {
-      THEN("A cell is printed correctly.")
-      { foliated_triangulations::print_cell<3>(all_cells.at(0)); }
+      { CHECK(foliated_triangulations::check_cells<3>(snapshot)); }
     }
 
     WHEN("We ask for a container of vertices given a container of cells.")
     {
       auto vertices_from_cells = get_vertices_from_cells<3>(all_cells);
       THEN("We get back the correct number of vertices.")
-      {
-        REQUIRE_EQ(vertices_from_cells.size(), 4);
-        // Human verification
-        ranges::for_each(vertices_from_cells, print);
-      }
+      { REQUIRE_EQ(vertices_from_cells.size(), 4); }
     }
   }
   GIVEN(
@@ -218,7 +198,7 @@ SCENARIO("FoliatedTriangulation free functions" *
     auto constexpr initial_radius     = 3.0;
     auto constexpr foliation_spacing  = 2.0;
     FoliatedTriangulation_3 const triangulation(
-        desired_simplices, desired_timeslices, initial_radius,
+        desired_simplices, desired_timeslices, cdt::Random{92}, initial_radius,
         foliation_spacing);
     THEN("The triangulation is initialized correctly.")
     { REQUIRE(triangulation.is_initialized()); }
@@ -226,11 +206,6 @@ SCENARIO("FoliatedTriangulation free functions" *
     {
       REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
       REQUIRE_EQ(triangulation.foliation_spacing(), foliation_spacing);
-      // Human verification
-      fmt::print(
-          "The triangulation has an initial radius of {} and a radial "
-          "separation of {}\n",
-          initial_radius, foliation_spacing);
     }
     THEN("Each vertex has a valid timevalue.")
     {
@@ -238,13 +213,6 @@ SCENARIO("FoliatedTriangulation free functions" *
       for (auto const& vertex : collect_vertices<3>(snapshot))
       {
         CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
-        fmt::print(
-            "Vertex ({}) with timevalue of {} has a squared radius of {} and a "
-            "squared expected radius of {} with an expected timevalue of {}.\n",
-            utilities::point_to_str(vertex->point()), vertex->info(),
-            squared_radius<3>(vertex),
-            std::pow(triangulation.expected_radius(vertex), 2),
-            triangulation.expected_timevalue(vertex));
       }
     }
   }
@@ -288,11 +256,6 @@ SCENARIO("FoliatedTriangulation free functions" *
         {
           CHECK_EQ(vertex.value()->point(), Point_t<3>{0, 0, 0});
           CHECK_EQ(vertex.value()->info(), 1);
-          // Human verification
-          fmt::print(
-              "Point(0,0,0) was found as vertex ({}) with a timevalue of {}.\n",
-              utilities::point_to_str(vertex.value()->point()),
-              vertex.value()->info());
         }
       }
       WHEN("We choose a point not in the triangulation.")
@@ -302,8 +265,6 @@ SCENARIO("FoliatedTriangulation free functions" *
           auto vertex = foliated_triangulations::find_vertex<3>(
               snapshot, Point_t<3>{3, 3, 3});
           REQUIRE_FALSE(vertex);
-          // Human verification
-          fmt::print("Point(3,3,3) was not found.\n");
         }
       }
       WHEN("We check vertices in a cell.")
@@ -327,8 +288,6 @@ SCENARIO("FoliatedTriangulation free functions" *
             auto cell = foliated_triangulations::find_cell<3>(
                 snapshot, v_1.value(), v_2.value(), v_3.value(), v_4.value());
             CHECK(cell);
-            // Human verification
-            triangulation.print_cells();
           }
         }
         THEN("The incorrect vertices do not return a cell.")
@@ -415,16 +374,14 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         REQUIRE_EQ(triangulation.initial_radius(), INITIAL_RADIUS);
         REQUIRE_EQ(triangulation.foliation_spacing(), FOLIATION_SPACING);
         REQUIRE(triangulation.is_foliated());
-        // Human verification
-        triangulation.print_cells();
       }
     }
     WHEN("Constructing the minimum triangulation.")
     {
       auto constexpr desired_simplices  = 2;
       auto constexpr desired_timeslices = 2;
-      FoliatedTriangulation_3 triangulation(desired_simplices,
-                                            desired_timeslices);
+      FoliatedTriangulation_3 triangulation(
+          desired_simplices, desired_timeslices, cdt::Random{92});
       THEN("Triangulation is valid and foliated.")
       { REQUIRE(triangulation.is_initialized()); }
       THEN("The triangulation has sensible values.")
@@ -437,9 +394,6 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         auto simplex_count{triangulation.number_of_finite_cells()};
         CHECK_GE(simplex_count, 1);
         CHECK_LE(simplex_count, 12);
-
-        // Human verification
-        triangulation.print();
       }
       THEN("The vertices have correct timevalues.")
       {
@@ -449,18 +403,6 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
           CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
         };
         ranges::for_each(snapshot_vertices, check);
-        // Human verification
-        auto print = [&triangulation](Vertex_handle_t<3> const& vertex) {
-          fmt::print(
-              "Vertex: ({}) Timevalue: {} has a squared radius of {} and "
-              "a squared expected radius of {} with an expected timevalue of "
-              "{}.\n",
-              utilities::point_to_str(vertex->point()), vertex->info(),
-              squared_radius<3>(vertex),
-              std::pow(triangulation.expected_radius(vertex), 2),
-              triangulation.expected_timevalue(vertex));
-        };
-        ranges::for_each(snapshot_vertices, print);
       }
     }
     WHEN(
@@ -472,7 +414,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       auto constexpr initial_radius     = 3.0;
       auto constexpr radial_factor      = 2.0;
       FoliatedTriangulation_3 const triangulation(
-          desired_simplices, desired_timeslices, initial_radius, radial_factor);
+          desired_simplices, desired_timeslices, cdt::Random{92},
+          initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
       { REQUIRE(triangulation.is_initialized()); }
       THEN("The initial radius and radial separation are correct.")
@@ -490,7 +433,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       auto constexpr initial_radius     = 1.5;
       auto constexpr radial_factor      = 1.1;
       FoliatedTriangulation_3 const triangulation(
-          desired_simplices, desired_timeslices, initial_radius, radial_factor);
+          desired_simplices, desired_timeslices, cdt::Random{92},
+          initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
       { REQUIRE(triangulation.is_initialized()); }
       THEN("The initial radius and radial separation are correct.")
@@ -503,19 +447,14 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
     {
       auto constexpr desired_simplices  = 6400;
       auto constexpr desired_timeslices = 7;
-      FoliatedTriangulation_3 const triangulation(desired_simplices,
-                                                  desired_timeslices);
+      FoliatedTriangulation_3 const triangulation(
+          desired_simplices, desired_timeslices, cdt::Random{92});
       THEN("Triangulation is valid and foliated.")
       { REQUIRE(triangulation.is_initialized()); }
       THEN("The triangulation has sensible values.")
-      {
-        REQUIRE_EQ(triangulation.min_time(), 1);
-        // Human verification
-        triangulation.print();
-      }
+      { REQUIRE_EQ(triangulation.min_time(), 1); }
       THEN("Data members are correctly populated.")
       {
-        triangulation.print();
         // Every cell is classified as (3,1), (2,2), or (1,3)
         CHECK_EQ(triangulation.number_of_finite_cells(),
                  triangulation.number_of_three_one_cells() +
@@ -542,17 +481,6 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
           CHECK(!classify_edge<3>(edge));
         };
         ranges::for_each(spacelike_edges, check_spacelike);
-        // Human verification
-        fmt::print("There are {} edges.\n",
-                   triangulation.number_of_finite_edges());
-        fmt::print("There are {} timelike edges and {} spacelike edges.\n",
-                   triangulation.N1_TL(), triangulation.N1_SL());
-        fmt::print(
-            "There are {} vertices with a max timevalue of {} and a min "
-            "timevalue of {}.\n",
-            triangulation.number_of_vertices(), triangulation.max_time(),
-            triangulation.min_time());
-        triangulation.print_volume_per_timeslice();
       }
     }
   }
@@ -566,8 +494,8 @@ SCENARIO("FoliatedTriangulation_3 copying" *
   {
     auto constexpr desired_simplices  = 6400;
     auto constexpr desired_timeslices = 7;
-    FoliatedTriangulation_3 triangulation(desired_simplices,
-                                          desired_timeslices);
+    FoliatedTriangulation_3 triangulation(desired_simplices, desired_timeslices,
+                                          cdt::Random{92});
     WHEN("It is copied")
     {
       auto ft2 = triangulation;
@@ -603,7 +531,8 @@ SCENARIO("FoliatedTriangulation_3 moving" *
   {
     auto constexpr desired_simplices  = 64;
     auto constexpr desired_timeslices = 4;
-    FoliatedTriangulation_3 source(desired_simplices, desired_timeslices);
+    FoliatedTriangulation_3 source(desired_simplices, desired_timeslices,
+                                   cdt::Random{92});
     auto const              expected_cells    = source.number_of_finite_cells();
     auto const              expected_vertices = source.number_of_vertices();
     auto const expected_three_one       = source.number_of_three_one_cells();
@@ -629,7 +558,7 @@ SCENARIO("FoliatedTriangulation_3 moving" *
     WHEN("It is move assigned over another foliated triangulation.")
     {
       FoliatedTriangulation_3 assigned(desired_simplices * 2,
-                                       desired_timeslices);
+                                       desired_timeslices, cdt::Random{93});
       auto const replaced_cells = assigned.number_of_finite_cells();
       assigned                  = std::move(source);
 
@@ -647,7 +576,8 @@ SCENARIO("FoliatedTriangulation_3 moving" *
         CHECK(source.is_initialized());
         CHECK_EQ(source.number_of_finite_cells(), replaced_cells);
 
-        source = FoliatedTriangulation_3{desired_simplices, desired_timeslices};
+        source = FoliatedTriangulation_3{desired_simplices, desired_timeslices,
+                                         cdt::Random{92}};
         CHECK(source.is_initialized());
       }
     }
@@ -672,25 +602,17 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       auto vertices = make_causal_vertices<3>(Vertices, timevalues);
       FoliatedTriangulation_3 triangulation(vertices);
       THEN("No errors in the vertices are detected.")
-      {
-        CHECK(triangulation.check_all_vertices());
-        // Human verification
-        triangulation.print_vertices();
-      }
+      { CHECK(triangulation.check_all_vertices()); }
       THEN("No errors in the simplex are detected.")
       {
         auto snapshot = triangulation.delaunay_snapshot();
         CHECK(triangulation.is_correct());
         CHECK_FALSE(check_timevalues<3>(snapshot));
-        // Human verification
-        triangulation.print_cells();
       }
       THEN("No errors in the triangulation foliation are detected")
       {
         auto candidate = triangulation.delaunay_snapshot();
         CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(candidate));
-        // Human verification
-        utilities::print_delaunay(candidate);
       }
       AND_WHEN("Vertices in an owning snapshot are mis-labelled.")
       {
@@ -758,7 +680,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
-        triangulation.print_cells();
       }
     }
     WHEN("Constructing a triangulation with an incorrect low value vertex.")
@@ -776,7 +697,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
-        triangulation.print_cells();
       }
     }
     WHEN(
@@ -796,14 +716,12 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
-        triangulation.print_cells();
       }
       AND_THEN("The cell type is correct.")
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK_FALSE(triangulation.fix_cells());
         CHECK(triangulation.is_initialized());
-        triangulation.print_cells();
       }
     }
     WHEN(
@@ -824,8 +742,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         auto snapshot = triangulation.delaunay_snapshot();
         auto cell     = snapshot.finite_cells_begin();
         CHECK_EQ(expected_cell_type<3>(cell), Cell_type::ACAUSAL);
-        // Human verification
-        triangulation.print_cells();
       }
     }
     WHEN("Constructing a triangulation with an unfixable vertex.")
@@ -850,11 +766,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         auto bad_cells = check_timevalues<3>(delaunay_triangulation);
         CHECK_MESSAGE(bad_cells.has_value(), "No bad cells found.");
-        if (bad_cells)
-        {
-          fmt::print("Bad cells:\n");
-          print_cells<3>(bad_cells.value());
-        }
       }
       AND_THEN("The incorrect vertex can be identified.")
       {
@@ -863,23 +774,15 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         if (bad_cells)
         {
           auto bad_vertex = find_bad_vertex<3>(bad_cells->front());
-          fmt::print("Bad vertex ({}) has timevalues {}.\n",
-                     utilities::point_to_str(bad_vertex->point()),
-                     bad_vertex->info());
           CHECK_EQ(bad_vertex->info(), 3);
         }
       }
       AND_THEN("The triangulation is fixed.")
       {
-        fmt::print("Unfixed triangulation:\n");
-        triangulation.print_cells();
         auto candidate = triangulation.delaunay_snapshot();
         CHECK(foliated_triangulations::fix_timevalues<3>(candidate));
         triangulation = FoliatedTriangulation_3{std::move(candidate)};
         CHECK(triangulation.is_initialized());
-        fmt::print("Fixed triangulation:\n");
-        auto snapshot = triangulation.delaunay_snapshot();
-        print_cells<3>(collect_cells<3>(snapshot));
       }
     }
   }
@@ -905,39 +808,16 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 triangulation(causal_vertices);
       THEN("The Foliated triangulation is initially wrong.")
-      {
-        CHECK_FALSE(triangulation.is_initialized());
-        // Human verification
-#ifndef NDEBUG
-        fmt::print("Unfixed triangulation:\n");
-        triangulation.print_cells();
-#endif
-      }
+      { CHECK_FALSE(triangulation.is_initialized()); }
       THEN("After being fixed, Delaunay3 functions work as expected.")
       {
         // Fix the triangulation
         CHECK(triangulation.is_fixed());
         CHECK_EQ(triangulation.number_of_finite_cells(), 2);
-        fmt::print("Base Delaunay number of cells: {}\n",
-                   triangulation.number_of_finite_cells());
         CHECK_EQ(triangulation.number_of_finite_facets(), 7);
-        fmt::print("Base Delaunay number of faces: {}\n",
-                   triangulation.number_of_finite_facets());
-        triangulation.print_volume_per_timeslice();
         CHECK_EQ(triangulation.number_of_finite_edges(), 9);
-        fmt::print("Base Delaunay number of edges: {}\n",
-                   triangulation.number_of_finite_edges());
-        triangulation.print_edges();
         CHECK_EQ(triangulation.number_of_vertices(), 5);
-        fmt::print("Base Delaunay number of vertices: {}\n",
-                   triangulation.number_of_vertices());
         CHECK_EQ(triangulation.dimension(), 3);
-        fmt::print("Base Delaunay dimension is: {}\n",
-                   triangulation.dimension());
-        // Human verification
-#ifndef NDEBUG
-        utilities::print_delaunay(triangulation.delaunay_snapshot());
-#endif
       }
     }
     WHEN("Constructing the default triangulation.")

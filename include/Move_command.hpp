@@ -11,13 +11,13 @@
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
 #define CDT_PLUSPLUS_MOVECOMMAND_HPP
 
-#include "Apply_move.hpp"
+#include <spdlog/spdlog.h>
+
 #include "Ergodic_moves_3.hpp"
+#include "Random.hpp"
 
 template <typename ManifoldType,
-          typename ExpectedType = std::expected<ManifoldType, std::string>,
-          typename FunctionType =
-              boost::compat::function_ref<ExpectedType(ManifoldType const&)>>
+          typename ExpectedType = std::expected<ManifoldType, std::string>>
   requires(ManifoldType::dimension == 3)
 class MoveCommand
 {
@@ -120,71 +120,58 @@ class MoveCommand
   /**
    * \brief Execute all moves in the queue on the manifold
    */
-  void execute()
+  template <std::uniform_random_bit_generator Generator>
+  void execute(Generator& generator)
   {
-#ifndef NDEBUG
-    fmt::print("=== Executing: Before moves ===\n");
-    m_manifold.print_details();
-    fmt::print("===============================\n");
-#endif
-
     while (!m_moves.empty())
     {
       auto move_type = m_moves.back();
       // Record attempted move
       ++m_attempted[as_integer(move_type)];
-      // Convert move_type to function
-      auto move_function = as_move_function(move_type);
-      if (auto result = apply_move(std::as_const(m_manifold), move_function);
+      if (auto result = apply_random_move(std::as_const(m_manifold), move_type,
+                                          generator);
           result)
       {
-        if (result->is_correct())
+        if (result->is_correct() &&
+            ergodic_moves::check_move(m_manifold, *result, move_type))
         {
           swap(result.value(), m_manifold);
           ++m_succeeded[as_integer(move_type)];
         }
         else
         {
-          fmt::print("Move produced an invalid manifold.\n");
+          spdlog::warn(
+              "Move violated a manifold invariant or geometry delta.\n");
           ++m_failed[as_integer(move_type)];
         }
       }
       else
       {
-        fmt::print("{}\n", result.error());
-        // Track failed moves
+        // Routine inapplicable sites are represented by the failed counter.
         ++m_failed[as_integer(move_type)];
       }
       // Remove move from queue
       m_moves.pop_back();
     }
-#ifndef NDEBUG
-    fmt::print("=== After moves ===\n");
-    print_attempts();
-    print_successful();
-    print_errors();
-    m_manifold.print_details();
-    fmt::print("===================\n");
-#endif
   }  // execute
 
-  /**
-   * \brief Execute a move function on a manifold
-   * \param move The move to execute
-   * \return The move function to execute
-   */
-  static auto as_move_function(move_tracker::move_type const move)
-      -> FunctionType
+  /// @brief Apply one queued move using the caller-owned random stream.
+  template <std::uniform_random_bit_generator Generator>
+  static auto apply_random_move(ManifoldType const&           manifold,
+                                move_tracker::move_type const move,
+                                Generator& generator) -> ExpectedType
   {
+    using enum move_tracker::move_type;
     switch (move)
     {
-      case move_tracker::move_type::TWO_THREE: return ergodic_moves::do_23_move;
-      case move_tracker::move_type::THREE_TWO: return ergodic_moves::do_32_move;
-      case move_tracker::move_type::TWO_SIX: return ergodic_moves::do_26_move;
-      case move_tracker::move_type::SIX_TWO: return ergodic_moves::do_62_move;
-      default: return ergodic_moves::do_44_move;
+      case TWO_THREE: return ergodic_moves::do_23_move(manifold, generator);
+      case THREE_TWO: return ergodic_moves::do_32_move(manifold, generator);
+      case TWO_SIX: return ergodic_moves::do_26_move(manifold, generator);
+      case SIX_TWO: return ergodic_moves::do_62_move(manifold, generator);
+      case FOUR_FOUR: return ergodic_moves::do_44_move(manifold, generator);
     }
-  }  // move_function
+    return std::unexpected("Unknown Pachner move.");
+  }
 
   /**
    * \brief Print attempted moves

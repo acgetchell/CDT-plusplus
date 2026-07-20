@@ -11,7 +11,8 @@
 
 ## Maintenance status
 
-CDT++ is being prepared for one final C++23 release, v1.0.0, after which this repository will be archived. It is
+CDT++ v1.0.0-rc1 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
+archived. It is
 maintained as an independent scientific reference and regression oracle for
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. New C++
 work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move
@@ -35,6 +36,7 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
     - [Run](#run)
   - [Usage](#usage)
   - [Documentation](#documentation)
+  - [Citing CDT++](#citing-cdt)
   - [Testing](#testing)
     - [Static Analysis](#static-analysis)
     - [Sanitizers](#sanitizers)
@@ -137,17 +139,15 @@ Windows development.
 
 ### Current reference-suite status
 
-With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. `build.sh` runs
-eleven supported smoke tests on Unix: nine lightweight CLI integration tests and two focused doctest suites. The known
-failing `initialize` scenario is excluded from Windows smoke runs, while the other initialization cases remain enabled.
-The complete registered suite additionally runs the full unit-test executable and a focused utilities registration;
-the focused registrations remain available for quick iteration and are labeled as full-suite duplicates for sanitizer
-runs.
+With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. `build.sh` runs all
+21 CTest entries on every supported platform: one unit-test launcher containing 83 doctest scenarios and 20 CLI
+integration tests. The same `reference-smoke` preset is the supported local and CI contract; there are no overlapping
+focused registrations that can pass while omitting another doctest suite.
 
 ## Setup
 
 This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. macOS with
-AppleClang is the primary v1.0.0 restoration target; the remaining compiler and platform matrix will be recorded as
+AppleClang is the primary v1.0.0-rc1 validation target; the remaining compiler and platform matrix will be recorded as
 it is verified.
 
 ### Prerequisites
@@ -190,25 +190,30 @@ just sanitize asan         # Build and exercise one Linux sanitizer preset
 just build                 # Bootstrap, configure, build, and smoke-test
 just run --help            # Build as needed and run cdt with forwarded arguments
 just ci                    # Comprehensive pre-commit/pre-push validation
+just release-check         # Validate release metadata and citation fields
 just update-actions        # Update and repin Actions with pinact, then validate
-just python-sync           # Install the locked Ruff and ty development environment
+just python-sync           # Install the locked Python development environment
 just python-check          # Check Python formatting, lint, and types
 just python-fix            # Apply safe Ruff fixes and formatting
 ```
 
-`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, YAML, GitHub Actions syntax and
-security, whitespace, and CMake preset parsing. `ci` adds the pinact policy check and the supported build/test
-contract. Install the developer tools with
-Homebrew, use equivalent system packages, or let pkgx supply them ephemerally; pkgx remains optional. For example:
+`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, release metadata and citation
+fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
+check and the supported build/test contract. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and
+Windows MSVC jobs all run the same `just ci` command. Windows continues to compile with native MSVC; the locked
+Python environment supplies `clang-format` only as a source formatter. Install the developer tools with Homebrew,
+use equivalent system packages, or let pkgx supply the Unix environment ephemerally; pkgx remains optional. For
+example:
 
 ```bash
-pkgx +just.systems +git-scm.org +cmake.org +ninja-build.org +python.org +llvm.org@22 \
-  +yamllint +actionlint +zizmor just check
+uv sync --locked --group dev
+pkgx +just.systems@1.57.0 +git-scm.org +cmake.org +ninja-build.org +python.org +zizmor just check
 ```
 
 [pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
-SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact or
-a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass.
+SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact,
+Go, or a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass. The locked uv
+development environment provides `clang-format`, `yamllint`, and `actionlint` consistently on every platform.
 
 ### vcpkg maintenance
 
@@ -298,6 +303,7 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [--init INITIAL RADIUS]
             [--foliate FOLIATION SPACING]
             [--no-output]
+            [--seed SEED]
             -k K
             --alpha ALPHA
             --lambda LAMBDA
@@ -308,7 +314,7 @@ Optional arguments are in square brackets.
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
+./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000 --seed 92
 
 Options:
   -h [ --help ]                 Show this message
@@ -322,6 +328,8 @@ Options:
   -f [ --foliate ] arg (=1)     Foliation spacing
   --no-output                   Do not write checkpoint or final triangulation
                                 files
+  --seed arg                    Root random seed (default: operating-system
+                                entropy)
   -a [ --alpha ] arg            Negative squared geodesic length of 1-d
                                 timelike edges
   -k [ --k ] arg                K = 1/(8*pi*G_newton)
@@ -342,6 +350,14 @@ links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).
 
 Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 
+The scientific transition, proposal-ratio, geometry-delta, counter, and
+precision contracts are recorded in
+[`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
+Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream
+policy are recorded in [`docs/reproducibility.md`](docs/reproducibility.md).
+The repository-wide scientific bibliography is maintained in
+[`REFERENCES.md`](REFERENCES.md).
+
 If you have [Doxygen] installed you can generate the same information
 locally using the configuration file in `docs/Doxyfile` by simply typing at the top
 level directory ([Doxygen] will recursively search):
@@ -358,12 +374,25 @@ various graphs to be autogenerated by [Doxygen] using [GraphViz].
 If you do not have GraphViz installed, set this option to **NO**
 (along with `UML_LOOK`).
 
+## Citing CDT++
+
+If CDT++ contributes to published work, cite the software using
+[`CITATION.cff`](CITATION.cff) and cite the scientific methods relevant to the
+work from [`REFERENCES.md`](REFERENCES.md). The software citation records the
+current declared release, `1.0.0-rc1`. Advance its version and release date
+together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for
+subsequent releases.
+
 ## Testing
 
-Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes the 22 supported smoke tests.
-These include two focused doctest runs for the Boost.Compat `function_ref` migration and causal-foliation construction,
-plus 20 executable integration tests covering normal CLI use and invalid-boundary rejection. Run `just ci` for the
-complete local validation gate.
+Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes all 21 CTest entries: one
+unit-test launcher containing 83 doctest scenarios plus 20 executable integration tests covering normal CLI use and
+invalid-boundary rejection. CTest labels the launcher `unit` and every process-level test `integration`; invalid-input
+tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete local validation gate.
+
+`just check` also runs the repository-owned Semgrep policy and its annotated
+fixtures. Use `just semgrep-test` while changing the rules and `just semgrep` to
+scan the real source tree for false positives.
 
 The doctest executable can also be run directly:
 
@@ -371,17 +400,17 @@ The doctest executable can also be run directly:
 ./out/build/reference/tests/CDT_unit_tests
 ```
 
-To rerun the supported smoke suite without rebuilding:
+To rerun the complete suite without rebuilding:
 
 ```bash
 ctest --preset reference-smoke
 ```
 
-To run every currently registered test, including the full unit-test executable and focused duplicate registrations,
-bypass the smoke filter explicitly:
+To run a specific test category, use:
 
 ```bash
-ctest --test-dir out/build/reference --output-on-failure
+ctest --preset reference-smoke -L unit
+ctest --preset reference-smoke -L integration
 ```
 
 In addition to the command line output, you can see detailed results in the
@@ -411,16 +440,19 @@ remains experimental because third-party dependencies are not instrumented.
 
 ## Optimizing Parameters
 
-[CometML] is used to record [Experiments] conducted by `src/optimize-initialize.py`; `src/test.py` is the existing
-TensorFlow MNIST experiment. These optional, heavyweight dependencies are kept out of the normal lint environment.
+[CometML] is used to record [Experiments] conducted by the `cdt-optimize-initialize` command;
+`cdt-mnist-experiment` runs the existing TensorFlow MNIST experiment. Both commands are registered in
+`pyproject.toml`, while their optional, heavyweight dependencies remain outside the normal development environment.
 Synchronize them from the same uv lockfile when working on the experiment scripts:
 
 ```bash
 just python-sync-experiments
-uv run --locked --group experiments python src/optimize-initialize.py
+uv run --locked --group experiments cdt-optimize-initialize
+uv run --locked --group experiments cdt-mnist-experiment
 ```
 
-Set `COMET_API_KEY` before starting an online experiment. The experiment results are then available in Comet.
+Run these commands from the repository root. Set `COMET_API_KEY` before starting the parameter optimization; use
+`--repository-root` when invoking it from another directory. The experiment results are then available in Comet.
 Migration of these legacy scripts to Python 3.14, PyTorch, and the current Comet API is tracked by
 [#104](https://github.com/acgetchell/CDT-plusplus/issues/104).
 
@@ -443,7 +475,7 @@ Your code should pass Continuous Integration:
 
 - `just check` for fast, non-mutating source, YAML, workflow, and CMake validation
 
-- `just ci` for the supported build and smoke-test contract before pushing
+- `just ci` for the supported build and complete validation contract before pushing
 
 The slower sanitizer workflows remain available through [GitHub Actions] and repository commands when relevant to a
 change:
@@ -467,8 +499,8 @@ Optional:
 [#45336]: https://github.com/microsoft/vcpkg/issues/45336
 [#40623]: https://github.com/microsoft/vcpkg/issues/40623
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
-[CDT]: https://arxiv.org/abs/hep-th/0105267
-[CGAL]: https://www.cgal.org
+[CDT]: REFERENCES.md#cdt-framework-2001
+[CGAL]: REFERENCES.md#cgal-triangulations
 [CMake]: https://www.cmake.org
 [doctest]: https://github.com/doctest/doctest
 [guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
@@ -495,7 +527,7 @@ Optional:
 [vcpkg]: https://github.com/Microsoft/vcpkg
 [C++]: https://isocpp.org/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
-[PCG]: http://www.pcg-random.org/paper.html
+[PCG]: REFERENCES.md#pcg-random-number-generators
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md

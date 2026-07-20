@@ -12,6 +12,7 @@ add_executable(
   Move_always_test.cpp
   Move_command_test.cpp
   Move_tracker_test.cpp
+  Random_test.cpp
   Runtime_config_test.cpp
   S3Action_test.cpp
   Settings_test.cpp
@@ -26,25 +27,30 @@ target_link_libraries(
   PRIVATE project_options
           project_warnings
           date::date-tz
+          doctest::doctest
           fmt::fmt-header-only
           TBB::tbb
           CGAL::CGAL)
 
+# Compile Random.hpp through only the repository-owned project boundary so PCG
+# cannot remain available solely through another vcpkg target's include path.
+add_library(CDT_random_header_compile_contract OBJECT Random_header_consumer.cpp)
+target_link_libraries(
+  CDT_random_header_compile_contract
+  PRIVATE project_options project_warnings)
+
+# Keep the issue #105 before/after diagnostic buildable without registering it
+# as a correctness test. Run it through `just benchmark-rng`.
+add_executable(CDT_rng_benchmark Random_benchmark.cpp)
+target_compile_features(CDT_rng_benchmark PRIVATE cxx_std_23)
+target_link_libraries(
+  CDT_rng_benchmark
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          fmt::fmt-header-only
+          spdlog::spdlog_header_only)
+
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_unit_tests>)
-
-# Keep deterministic regression-oracle coverage in the supported smoke suite.
-add_test(
-  NAME cdt-function-ref-tests
-  COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=function_ref)
-add_test(
-  NAME cdt-foliated-triangulation-tests
-  COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=foliated_triangulation)
-add_test(
-  NAME cdt-utilities-tests
-  COMMAND $<TARGET_FILE:CDT_unit_tests> --test-suite=utilities)
-set_tests_properties(
-  cdt-function-ref-tests
-  cdt-foliated-triangulation-tests
-  cdt-utilities-tests
-  PROPERTIES LABELS "full-suite-duplicate" TIMEOUT 60)
+set_tests_properties(cdt-unit-tests PROPERTIES LABELS "unit" TIMEOUT 180)

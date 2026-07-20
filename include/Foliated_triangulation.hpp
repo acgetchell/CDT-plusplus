@@ -21,6 +21,8 @@
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 #define CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 
+#include <CGAL/Random.h>
+
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -29,6 +31,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "Random.hpp"
 #include "Triangulation_traits.hpp"
 #include "Utilities.hpp"
 
@@ -903,11 +906,12 @@ namespace foliated_triangulations
   /// @param initial_radius The radius of the first time slice
   /// @param foliation_spacing The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
-  template <int dimension>
-  [[nodiscard]] auto make_foliated_ball(
-      Int_precision const t_simplices, Int_precision const t_timeslices,
-      double const initial_radius    = INITIAL_RADIUS,
-      double const foliation_spacing = FOLIATION_SPACING)
+  template <int dimension, std::uniform_random_bit_generator Generator>
+  [[nodiscard]] auto make_foliated_ball(Int_precision const t_simplices,
+                                        Int_precision const t_timeslices,
+                                        double const        initial_radius,
+                                        double const        foliation_spacing,
+                                        Generator&          generator)
   {
     if (t_simplices < 2 || t_timeslices < 2)
     {
@@ -943,6 +947,8 @@ namespace foliated_triangulations
 
     Causal_vertices_t<dimension> causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
+    std::uniform_int_distribution<unsigned int> seed_distribution;
+    CGAL::Random cgal_random{seed_distribution(generator)};
 
     for (gsl::index i = 0; i < t_timeslices; ++i)
     {
@@ -961,7 +967,7 @@ namespace foliated_triangulations
         throw std::out_of_range(
             "Foliation parameters generate too many points per timeslice.");
       }
-      Spherical_points_generator_t<dimension> gen{radius};
+      Spherical_points_generator_t<dimension> gen{radius, cgal_random};
       // Generate random points at the radius
       for (gsl::index j = 0; j < static_cast<Int_precision>(generated_points);
            ++j)
@@ -983,11 +989,13 @@ namespace foliated_triangulations
   /// @param initial_radius Radius of first timeslice
   /// @param foliation_spacing Radial separation between timeslices
   /// @return A Delaunay triangulation with a timevalue for each vertex
-  template <int dimension>
-  [[nodiscard]] auto make_triangulation(
-      Int_precision const t_simplices, Int_precision t_timeslices,
-      double const initial_radius    = INITIAL_RADIUS,
-      double const foliation_spacing = FOLIATION_SPACING)
+  /// @see [CGAL triangulations](../REFERENCES.md#cgal-triangulations)
+  template <int dimension, std::uniform_random_bit_generator Generator>
+  [[nodiscard]] auto make_triangulation(Int_precision const t_simplices,
+                                        Int_precision       t_timeslices,
+                                        double const        initial_radius,
+                                        double const        foliation_spacing,
+                                        Generator&          generator)
       -> Delaunay_t<dimension>
   {
 #ifndef NDEBUG
@@ -1010,8 +1018,9 @@ namespace foliated_triangulations
 #endif
 
     // Make initial triangulation
-    auto causal_vertices = make_foliated_ball<dimension>(
-        t_simplices, t_timeslices, initial_radius, foliation_spacing);
+    auto causal_vertices =
+        make_foliated_ball<dimension>(t_simplices, t_timeslices, initial_radius,
+                                      foliation_spacing, generator);
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
 
     // Fix vertices
@@ -1236,19 +1245,26 @@ namespace foliated_triangulations
         , m_min_timevalue{find_min_timevalue<3>(std::span{m_vertices})}
     {}
 
-    /// @brief Constructor with parameters
-    /// @param t_simplices Number of desired simplices
-    /// @param t_timeslices Number of desired timeslices
-    /// @param t_initial_radius Radius of first timeslice
-    /// @param t_foliation_spacing Radial separation between timeslices
+    /// @brief Constructor with a caller-owned initialization stream.
     FoliatedTriangulation(Int_precision const t_simplices,
                           Int_precision const t_timeslices,
+                          cdt::Random&        generator,
                           double const        t_initial_radius = INITIAL_RADIUS,
                           double const t_foliation_spacing = FOLIATION_SPACING)
         : FoliatedTriangulation{
               make_triangulation<3>(t_simplices, t_timeslices, t_initial_radius,
-                                    t_foliation_spacing),
+                                    t_foliation_spacing, generator),
               t_initial_radius, t_foliation_spacing}
+    {}
+
+    /// @brief Construct from an explicit temporary initialization stream.
+    FoliatedTriangulation(Int_precision const t_simplices,
+                          Int_precision const t_timeslices,
+                          cdt::Random&&       generator,
+                          double const        t_initial_radius = INITIAL_RADIUS,
+                          double const t_foliation_spacing = FOLIATION_SPACING)
+        : FoliatedTriangulation{t_simplices, t_timeslices, generator,
+                                t_initial_radius, t_foliation_spacing}
     {}
 
     /// @brief Constructor from Causal_vertices

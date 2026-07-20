@@ -15,6 +15,7 @@
 #include <doctest/doctest.h>
 
 #include <limits>
+#include <numbers>
 #include <type_traits>
 
 #include "Manifold.hpp"
@@ -40,6 +41,7 @@ SCENARIO("MPFR calculations use scope-owned values" *
       THEN("The calculation uses the configured precision.")
       {
         CHECK_EQ(numerator.get_precision(), mpfr_values::precision);
+        CHECK_EQ(mpfr_values::rounding_mode, MPFR_RNDN);
         CHECK(mpfr_values::to_long_double(quotient) == doctest::Approx(0.5L));
       }
       AND_THEN("The process-wide default precision is unchanged.")
@@ -76,15 +78,13 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
     auto constexpr timeslices = 7;
     auto constexpr K          = 1.1L;  // NOLINT
     auto constexpr Lambda     = 0.1L;
-    Manifold_3 const universe(simplices, timeslices);
+    Manifold_3 const universe(simplices, timeslices, cdt::Random{92});
     // Verify triangulation
     CHECK_EQ(universe.N3(), universe.simplices());
     CHECK_EQ(universe.N1(), universe.edges());
     CHECK_EQ(universe.N0(), universe.vertices());
     CHECK_EQ(universe.dimensionality(), 3);
     CHECK(universe.is_correct());
-
-    universe.print_volume_per_timeslice();
 
     CHECK_EQ(universe.max_time(), timeslices);
     CHECK_EQ(universe.min_time(), 1);
@@ -141,10 +141,35 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
         spdlog::debug("S3_bulk_action() = {}\n", Bulk_action.to_double());
         spdlog::debug("S3_bulk_action_alpha_one() = {}\n",
                       Bulk_action_one.to_double());
-        REQUIRE(utilities::Gmpzf_to_double(Bulk_action_one) ==
-                doctest::Approx(utilities::Gmpzf_to_double(Bulk_action))
+        REQUIRE(mpfr_values::to_double(Bulk_action_one) ==
+                doctest::Approx(mpfr_values::to_double(Bulk_action))
                     .epsilon(TOLERANCE));
       }
+    }
+  }
+}
+
+SCENARIO("Bulk action precision survives the acceptance boundary" *
+         doctest::test_suite("s3action"))
+{
+  GIVEN("Two large alpha=1 geometries with a sub-double action delta.")
+  {
+    auto constexpr large_count = Int_precision{1'000'000'000};
+    auto const lambda =
+        (2.0L * std::numbers::pi_v<long double> - 5.355L) / 0.204L;
+    auto const current  = S3_bulk_action_alpha_one(large_count, large_count,
+                                                   large_count, 1.0L, lambda);
+    auto const proposed = S3_bulk_action_alpha_one(
+        large_count + 1, large_count, large_count + 1, 1.0L, lambda);
+    auto const delta = mpfr_values::subtract(current, proposed);
+
+    THEN("The 256-bit values and their difference remain distinguishable.")
+    {
+      CHECK_EQ(current.get_precision(), mpfr_values::precision);
+      CHECK_EQ(proposed.get_precision(), mpfr_values::precision);
+      CHECK(mpfr_zero_p(delta.fr()) == 0);
+      CHECK_EQ(mpfr_values::to_double(current),
+               mpfr_values::to_double(proposed));
     }
   }
 }

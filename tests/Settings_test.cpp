@@ -30,26 +30,14 @@ SCENARIO("Check settings" * doctest::test_suite("settings"))
     WHEN("MPFR precision is queried.")
     {
       auto precision = PRECISION;
-      THEN("The value is 256 bits.")
-      {
-        fmt::print("MPFR precision set to {}.\n", precision);
-        REQUIRE_EQ(precision, 256);
-      }
+      THEN("The value is 256 bits.") { REQUIRE_EQ(precision, 256); }
     }
     WHEN("Memory alignment is queried.")
     {
       auto constexpr align_64 = ALIGNMENT_64_BIT;
-      THEN("The value is 64 bits.")
-      {
-        fmt::print("Memory alignment is set to {}.\n", align_64);
-        REQUIRE_EQ(align_64, 64);
-      }
+      THEN("The value is 64 bits.") { REQUIRE_EQ(align_64, 64); }
       auto constexpr align_32 = ALIGNMENT_32_BIT;
-      THEN("The value is 32 bits.")
-      {
-        fmt::print("Memory alignment is set to {}.\n", align_32);
-        REQUIRE_EQ(align_32, 32);
-      }
+      THEN("The value is 32 bits.") { REQUIRE_EQ(align_32, 32); }
     }
   }
 }

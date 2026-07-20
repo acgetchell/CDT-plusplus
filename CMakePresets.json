@@ -102,17 +102,11 @@
   "testPresets": [
     {
       "name": "reference-smoke",
-      "displayName": "Run the supported reference smoke tests",
-      "description": "Exclude the full and duplicate unit-test registrations",
+      "displayName": "Run the complete unit and integration suite",
+      "description": "Run all registered unit and integration tests",
       "configurePreset": "reference",
       "output": {
         "outputOnFailure": true
-      },
-      "filter": {
-        "exclude": {
-          "name": "^(cdt-unit-tests|cdt-utilities-tests)$",
-          "label": "reference-smoke-exclude"
-        }
       },
       "execution": {
         "noTestsAction": "error",

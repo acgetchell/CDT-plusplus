@@ -16,6 +16,7 @@
 #include <unordered_set>
 
 #include "Geometry.hpp"
+#include "Random.hpp"
 
 namespace manifolds
 {
@@ -107,19 +108,24 @@ namespace manifolds
         , m_geometry{m_triangulation}
     {}
 
-    /// @brief Construct manifold using arguments
-    /// @param t_desired_simplices Number of desired simplices
-    /// @param t_desired_timeslices Number of desired timeslices
-    /// @param t_initial_radius Radius of first timeslice
-    /// @param t_foliation_spacing Radial separation between timeslices
+    /// @brief Construct a manifold with a caller-owned initialization stream.
     Manifold(Int_precision const t_desired_simplices,
-             Int_precision const t_desired_timeslices,
-             double const        t_initial_radius    = INITIAL_RADIUS,
-             double const        t_foliation_spacing = FOLIATION_SPACING)
+             Int_precision const t_desired_timeslices, cdt::Random& generator,
+             double const t_initial_radius    = INITIAL_RADIUS,
+             double const t_foliation_spacing = FOLIATION_SPACING)
         : Manifold{
               Triangulation{t_desired_simplices, t_desired_timeslices,
-                            t_initial_radius, t_foliation_spacing}
+                            generator, t_initial_radius, t_foliation_spacing}
     }
+    {}
+
+    /// @brief Construct from an explicit temporary initialization stream.
+    Manifold(Int_precision const t_desired_simplices,
+             Int_precision const t_desired_timeslices, cdt::Random&& generator,
+             double const t_initial_radius    = INITIAL_RADIUS,
+             double const t_foliation_spacing = FOLIATION_SPACING)
+        : Manifold{t_desired_simplices, t_desired_timeslices, generator,
+                   t_initial_radius, t_foliation_spacing}
     {}
 
     /// @brief Construct manifold from Causal_vertices

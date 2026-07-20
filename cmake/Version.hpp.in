@@ -1,0 +1,17 @@
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2013–2026 Adam Getchell
+ ******************************************************************************/
+
+#ifndef CDT_VERSION_HPP
+#define CDT_VERSION_HPP
+
+#include <string_view>
+
+namespace cdt
+{
+inline constexpr std::string_view VERSION{"@CDT_VERSION@"};
+}  // namespace cdt
+
+#endif  // CDT_VERSION_HPP

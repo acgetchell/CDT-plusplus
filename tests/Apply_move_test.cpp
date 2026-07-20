@@ -13,175 +13,171 @@
 
 #include <doctest/doctest.h>
 
+#include <numbers>
+#include <utility>
+#include <vector>
+
 #include "Ergodic_moves_3.hpp"
 
 using namespace std;
+using namespace manifolds;
 
-SCENARIO("Apply an ergodic move to 2+1 manifolds" *
+namespace
+{
+  static inline auto constexpr RADIUS_2 =
+      2.0 * std::numbers::inv_sqrt3_v<double>;
+  static inline auto constexpr SQRT_2     = std::numbers::sqrt2_v<double>;
+  static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
+
+  [[nodiscard]] auto make_23_move_manifold() -> Manifold_3
+  {
+    vector vertices{
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2},
+        Point_t<3>{  SQRT_2,   SQRT_2,        0}
+    };
+    vector<size_t> const timevalues{1, 1, 1, 2, 2};
+    return Manifold_3{make_causal_vertices<3>(vertices, timevalues)};
+  }
+
+  [[nodiscard]] auto make_26_move_manifold() -> Manifold_3
+  {
+    vector vertices{
+        Point_t<3>{       0,        0,        0},
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
+    };
+    vector<size_t> const timevalues{0, 1, 1, 1, 2};
+    return Manifold_3{make_causal_vertices<3>(vertices, timevalues)};
+  }
+
+  [[nodiscard]] auto make_44_move_manifold() -> Manifold_3
+  {
+    vector vertices{
+        Point_t<3>{          0,           0,          0},
+        Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{-INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{          0,           0,          2}
+    };
+    vector<size_t> const timevalues{0, 1, 1, 1, 1, 2};
+    return Manifold_3{make_causal_vertices<3>(vertices, timevalues), 0, 1};
+  }
+
+  void check_applied_move(Manifold_3 const& before, Manifold_3 const& after,
+                          move_tracker::move_type const move)
+  {
+    CHECK(before.is_correct());
+    CHECK(after.is_correct());
+    CHECK(ergodic_moves::check_move(before, after, move));
+  }
+}  // namespace
+
+SCENARIO("apply_move forwards deterministic ergodic moves" *
          doctest::test_suite("apply"))
 {
-  GIVEN("A 2+1 dimensional spherical manifold.")
+  GIVEN("A minimal manifold and the null move")
   {
-    auto constexpr desired_simplices  = 9600;
-    auto constexpr desired_timeslices = 7;
-    manifolds::Manifold_3 manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_correct());
-    // Copy of manifold
-    auto manifold_before = manifold;
-    WHEN("A null move is applied to the manifold.")
+    auto const before = make_23_move_manifold();
+    WHEN("apply_move invokes the null move")
     {
-      spdlog::debug("Applying null move to manifold.\n");
-      if (auto result = apply_move(manifold, ergodic_moves::null_move); result)
+      auto result = apply_move(before, ergodic_moves::null_move);
+      REQUIRE(result.has_value());
+      auto const after = std::move(result).value();
+      THEN("the result equals the source manifold")
       {
-        manifold = result.value();
-      }
-      else
-      {
-        spdlog::debug("{}", result.error());
-        REQUIRE(result.has_value());
-      }
-      THEN("The resulting manifold is valid and unchanged.")
-      {
-        CHECK(manifold.is_valid());
-        CHECK_EQ(manifold_before.simplices(), manifold.simplices());
-        CHECK_EQ(manifold_before.faces(), manifold.faces());
-        CHECK_EQ(manifold_before.edges(), manifold.edges());
-        CHECK_EQ(manifold_before.vertices(), manifold.vertices());
-        // Human verification
-        fmt::print("Old manifold.\n");
-        manifold_before.print_details();
-        fmt::print("New manifold after null move:\n");
-        manifold.print_details();
+        CHECK(after.is_correct());
+        CHECK_EQ(after.delaunay_snapshot(), before.delaunay_snapshot());
       }
     }
-    WHEN("A (2,3) move is applied to the manifold.")
+  }
+
+  GIVEN("A minimal manifold supporting a (2,3) move")
+  {
+    auto const  before = make_23_move_manifold();
+    cdt::Random random{92};
+    CAPTURE(random.seed());
+    WHEN("apply_move invokes the (2,3) move")
     {
-      spdlog::debug("Applying (2,3) move to manifold.\n");
-      if (auto result = apply_move(manifold, ergodic_moves::do_23_move); result)
-      {
-        manifold = result.value();
-      }
-      else
-      {
-        spdlog::debug("{}", result.error());
-        REQUIRE(result.has_value());
-      }
-      THEN("The resulting manifold has the applied move.")
-      {
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Old manifold.\n");
-        manifold_before.print_details();
-        fmt::print("New manifold after (2,3) move:\n");
-        manifold.print_details();
-      }
+      auto result =
+          apply_move(before, &ergodic_moves::do_23_move<cdt::Random>, random);
+      REQUIRE(result.has_value());
+      auto const after = std::move(result).value();
+      THEN("the exact (2,3) transition is returned")
+      { check_applied_move(before, after, move_tracker::move_type::TWO_THREE); }
     }
-    WHEN("A (3,2) move is applied to the manifold.")
+  }
+
+  GIVEN("A minimal manifold supporting a (3,2) move")
+  {
+    cdt::Random random{92};
+    CAPTURE(random.seed());
+    auto setup = ergodic_moves::do_23_move(make_23_move_manifold(), random);
+    REQUIRE(setup.has_value());
+    auto const before = std::move(setup).value();
+    WHEN("apply_move invokes the inverse (3,2) move")
     {
-      spdlog::debug("Applying (3,2) move to manifold.\n");
-      if (auto result = apply_move(manifold, ergodic_moves::do_32_move); result)
-      {
-        manifold = result.value();
-      }
-      else
-      {
-        spdlog::debug("{}", result.error());
-        // Stop further tests
-        REQUIRE(result.has_value());
-      }
-      THEN("The resulting manifold has the applied move.")
-      {
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::THREE_TWO));
-        // Human verification
-        fmt::print("Old manifold.\n");
-        manifold_before.print_details();
-        fmt::print("New manifold after (3,2) move:\n");
-        manifold.print_details();
-      }
+      auto result =
+          apply_move(before, &ergodic_moves::do_32_move<cdt::Random>, random);
+      REQUIRE(result.has_value());
+      auto const after = std::move(result).value();
+      THEN("the exact (3,2) transition is returned")
+      { check_applied_move(before, after, move_tracker::move_type::THREE_TWO); }
     }
-    WHEN("A (2,6) move is applied to the manifold.")
+  }
+
+  GIVEN("A minimal manifold supporting a (2,6) move")
+  {
+    auto const  before = make_26_move_manifold();
+    cdt::Random random{92};
+    CAPTURE(random.seed());
+    WHEN("apply_move invokes the (2,6) move")
     {
-      spdlog::debug("Applying (2,6) move to manifold.\n");
-      if (auto result = apply_move(manifold, ergodic_moves::do_26_move); result)
-      {
-        manifold = result.value();
-      }
-      else
-      {
-        spdlog::debug("{}", result.error());
-        // Stop further tests
-        REQUIRE(result.has_value());
-      }
-      THEN("The resulting manifold has the applied move.")
-      {
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_SIX));
-        // Human verification
-        fmt::print("Old manifold.\n");
-        manifold_before.print_details();
-        fmt::print("New manifold after (2,6) move:\n");
-        manifold.print_details();
-      }
+      auto result =
+          apply_move(before, &ergodic_moves::do_26_move<cdt::Random>, random);
+      REQUIRE(result.has_value());
+      auto const after = std::move(result).value();
+      THEN("the exact (2,6) transition is returned")
+      { check_applied_move(before, after, move_tracker::move_type::TWO_SIX); }
     }
-    WHEN("A (6,2) move is applied to the manifold.")
+  }
+
+  GIVEN("A minimal manifold supporting a (6,2) move")
+  {
+    cdt::Random random{92};
+    CAPTURE(random.seed());
+    auto setup = ergodic_moves::do_26_move(make_26_move_manifold(), random);
+    REQUIRE(setup.has_value());
+    auto const before = std::move(setup).value();
+    WHEN("apply_move invokes the inverse (6,2) move")
     {
-      spdlog::debug("Applying (6,2) move to manifold.\n");
-      auto result = apply_move(manifold, ergodic_moves::do_62_move);
-      if (result)
-      {
-        manifold = result.value();
-        THEN("The resulting manifold has the applied move.")
-        {
-          CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                          move_tracker::move_type::SIX_TWO));
-          // Human verification
-          fmt::print("Old manifold.\n");
-          manifold_before.print_details();
-          fmt::print("New manifold after (6,2) move:\n");
-          manifold.print_details();
-        }
-      }
-      else
-      {
-        spdlog::warn("Cannot apply (6,2) move: {}", result.error());
-        THEN("Move unavailability is reported without mutating the manifold.")
-        {
-          CHECK_FALSE(result.error().empty());
-          CHECK(manifold.is_correct());
-          CHECK_EQ(manifold.simplices(), manifold_before.simplices());
-        }
-      }
+      auto result =
+          apply_move(before, &ergodic_moves::do_62_move<cdt::Random>, random);
+      REQUIRE(result.has_value());
+      auto const after = std::move(result).value();
+      THEN("the exact (6,2) transition is returned")
+      { check_applied_move(before, after, move_tracker::move_type::SIX_TWO); }
     }
-    WHEN("A (4,4) move is applied to the manifold.")
+  }
+
+  GIVEN("A minimal manifold supporting a (4,4) move")
+  {
+    auto const  before = make_44_move_manifold();
+    cdt::Random random{92};
+    CAPTURE(random.seed());
+    WHEN("apply_move invokes the (4,4) move")
     {
-      spdlog::debug("Applying (4,4) move to manifold.\n");
-      auto result = apply_move(manifold, ergodic_moves::do_44_move);
-      if (result)
-      {
-        manifold = result.value();
-        THEN("The resulting manifold has the applied move.")
-        {
-          CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                          move_tracker::move_type::FOUR_FOUR));
-          // Human verification
-          fmt::print("Old manifold.\n");
-          manifold_before.print_details();
-          fmt::print("New manifold after (4,4) move:\n");
-          manifold.print_details();
-        }
-      }
-      else
-      {
-        spdlog::debug("{}", result.error());
-        THEN("Move unavailability is reported without mutating the manifold.")
-        {
-          CHECK_FALSE(result.error().empty());
-          CHECK(manifold.is_correct());
-          CHECK_EQ(manifold.simplices(), manifold_before.simplices());
-        }
-      }
+      auto result =
+          apply_move(before, &ergodic_moves::do_44_move<cdt::Random>, random);
+      REQUIRE(result.has_value());
+      auto const after = std::move(result).value();
+      THEN("the exact (4,4) transition is returned")
+      { check_applied_move(before, after, move_tracker::move_type::FOUR_FOUR); }
     }
   }
 }

@@ -1,30 +1,37 @@
 # Justfile for the CDT++ maintenance workflow.
 # Usage: just <recipe> or just --list
 
-set minimum-version := "1.56.0"
+set minimum-version := "1.57.0"
+set shell := ["bash", "-euo", "pipefail", "-c"]
 
-just_version := "1.56.0"
+just_version := "1.57.0"
 uv_version := "0.11.29"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 llvm_version := "22"
 zizmor_version := "1.26.1"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
+rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 
 # Build the supported configuration through the repository build script.
 [group('workflows')]
 build:
-    {{ if os_family() == "windows" { "scripts\\build.bat" } else { "just _build-unix" } }}
+    {{ if os_family() == "windows" { "cmd.exe //d //c scripts/build.bat" } else { "just _build-unix" } }}
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check python-check
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check semgrep semgrep-test
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
 [group('workflows')]
 ci: check _pinact-check build
     @echo "CI validation complete."
+
+# Measure run-owned PCG sampling against the removed entropy-per-draw design.
+[group('workflows')]
+benchmark-rng draws='10000': build
+    {{ rng_benchmark_binary }} {{ draws }}
 
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]
@@ -37,6 +44,46 @@ fix: _format-fix python-fix
 clang-tidy:
     ./scripts/clang-tidy.sh
 
+# Validate release metadata, citation fields, and version synchronization.
+[group('workflows')]
+release-check: _ensure-uv
+    uv run --locked python scripts/release_check.py
+
+# Scan production and correctness-test sources for repository-owned policies.
+[group('workflows')]
+semgrep: _ensure-uv
+    #!/usr/bin/env bash
+    set -euo pipefail
+    state_dir="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-state.XXXXXX")"
+    trap 'rm -rf "$state_dir"' EXIT
+    SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
+        SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
+        uv run --locked semgrep scan --error --strict --timeout 120 --no-git-ignore \
+            --config semgrep.yaml --exclude tests/semgrep include src tests
+
+# Test repository-owned Semgrep rules against annotated positive and negative fixtures.
+[group('workflows')]
+semgrep-test: _ensure-uv
+    #!/usr/bin/env bash
+    set -euo pipefail
+    config_dir="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-config.XXXXXX")"
+    state_root="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-state.XXXXXX")"
+    cleanup() {
+        rm -rf "$config_dir" "$state_root"
+    }
+    trap cleanup EXIT
+
+    while IFS= read -r -d '' fixture; do
+        rel="${fixture#tests/semgrep/}"
+        config_path="$config_dir/${rel%.*}.yaml"
+        state_dir="$state_root/${rel%.*}"
+        mkdir -p "$(dirname "$config_path")" "$state_dir"
+        uv run --locked python scripts/semgrep_fixture_config.py "$fixture" "$PWD/semgrep.yaml" "$config_path"
+        SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
+            SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
+            uv run --locked semgrep scan --test --strict --config "$config_path" "$fixture"
+    done < <(find tests/semgrep -type f ! -name '*.fixed' -print0)
+
 # Build and exercise one supported Linux sanitizer configuration.
 [group('workflows')]
 sanitize kind:
@@ -44,24 +91,35 @@ sanitize kind:
 
 # Run every non-mutating Python source check.
 [group('workflows')]
-python-check: python-format-check python-lint python-typecheck
+python-check: python-format-check python-lint python-typecheck python-support-test python-entrypoint-test
     @echo "Python source checks complete."
 
 # Apply Ruff lint fixes and formatting to Python source.
 [group('workflows')]
 python-fix: _ensure-uv
-    uv run --locked ruff check src/ --fix
-    uv run --locked ruff format src/
+    uv run --locked ruff check scripts/ --fix
+    uv run --locked ruff format scripts/
 
 # Check Python formatting with Ruff.
 [group('workflows')]
 python-format-check: _ensure-uv
-    uv run --locked ruff format --check src/
+    uv run --locked ruff format --check scripts/
 
 # Lint Python source with Ruff.
 [group('workflows')]
 python-lint: _ensure-uv
-    uv run --locked ruff check src/
+    uv run --locked ruff check scripts/
+
+# Test repository-owned Python support scripts.
+[group('workflows')]
+python-support-test: _ensure-uv
+    uv run --locked python -m unittest discover -s scripts/tests -p 'test_*.py'
+
+# Smoke-test installed entry points without loading optional experiment dependencies.
+[group('workflows')]
+python-entrypoint-test: _ensure-uv
+    uv run --locked cdt-optimize-initialize --help >/dev/null
+    uv run --locked cdt-mnist-experiment --help >/dev/null
 
 # Synchronize the lightweight Python development environment from the lockfile.
 [group('workflows')]
@@ -76,7 +134,7 @@ python-sync-experiments: _ensure-uv
 # Type-check Python support code with ty.
 [group('workflows')]
 python-typecheck: _ensure-uv
-    uv run --locked ty check src/ --error all
+    uv run --locked ty check scripts/*.py scripts/tests/*.py --error all
 
 # Build as needed and run the primary CDT++ executable.
 [group('workflows')]
@@ -97,21 +155,14 @@ default:
     @just --list
 
 [private]
-_action-lint:
+_action-lint: _ensure-uv
     #!/usr/bin/env bash
     set -euo pipefail
     files=()
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '.github/workflows/*.yml' '.github/workflows/*.yaml')
-    if command -v actionlint >/dev/null; then
-      actionlint "${files[@]}"
-    elif command -v pkgx >/dev/null; then
-      pkgx actionlint "${files[@]}"
-    else
-      echo "actionlint is required; install it or install pkgx." >&2
-      exit 1
-    fi
+    uv run --locked actionlint "${files[@]}"
 
 [private]
 _build-unix:
@@ -147,43 +198,29 @@ _ensure-uv:
     fi
 
 [private]
-_resolve-clang-format:
+_format-check: _ensure-uv
     #!/usr/bin/env bash
     set -euo pipefail
-    clang_format="$(command -v clang-format-{{ llvm_version }} || command -v clang-format || true)"
-    if [[ -n "$clang_format" ]] && ! "$clang_format" --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'; then
-      clang_format=""
-    fi
-    if [[ -z "$clang_format" ]] && command -v pkgx >/dev/null; then
-      exec pkgx +llvm.org@{{ llvm_version }} -- just _resolve-clang-format
-    fi
-    [[ -n "$clang_format" ]] || { echo "clang-format {{ llvm_version }} is required; install it or install pkgx." >&2; exit 1; }
-    printf '%s\n' "$clang_format"
-
-[private]
-_format-check:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    clang_format="$(just _resolve-clang-format)"
+    uv run --locked clang-format --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'
     files=()
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
     if [[ "${#files[@]}" -gt 0 ]]; then
-      "$clang_format" --dry-run --Werror "${files[@]}"
+      uv run --locked clang-format --dry-run --Werror "${files[@]}"
     fi
 
 [private]
-_format-fix:
+_format-fix: _ensure-uv
     #!/usr/bin/env bash
     set -euo pipefail
-    clang_format="$(just _resolve-clang-format)"
+    uv run --locked clang-format --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'
     files=()
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
     if [[ "${#files[@]}" -gt 0 ]]; then
-      "$clang_format" -i "${files[@]}"
+      uv run --locked clang-format -i "${files[@]}"
     fi
 
 [private]
@@ -203,7 +240,10 @@ _pinact *args:
     if command -v pkgx >/dev/null; then
       exec pkgx go run "{{ pinact_module }}" {{ args }}
     fi
-    echo "pinact {{ pinact_version }} is required; install it with Homebrew or install pkgx." >&2
+    if command -v go >/dev/null; then
+      exec go run "{{ pinact_module }}" {{ args }}
+    fi
+    echo "pinact {{ pinact_version }} is required; install it, Go, or pkgx." >&2
     exit 1
 
 [private]
@@ -225,21 +265,14 @@ _whitespace-check:
     [[ "$status" -eq 1 ]] || exit "$status"
 
 [private]
-_yaml-check:
+_yaml-check: _ensure-uv
     #!/usr/bin/env bash
     set -euo pipefail
     files=(.clang-format)
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.yml' '*.yaml')
-    if command -v yamllint >/dev/null; then
-      yamllint "${files[@]}"
-    elif command -v pkgx >/dev/null; then
-      pkgx yamllint "${files[@]}"
-    else
-      echo "yamllint is required; install it or install pkgx." >&2
-      exit 1
-    fi
+    uv run --locked yamllint "${files[@]}"
 
 [private]
 _zizmor:

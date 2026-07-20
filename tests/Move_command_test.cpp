@@ -11,7 +11,6 @@
 #include "Move_command.hpp"
 
 #include <doctest/doctest.h>
-#include <fmt/ranges.h>
 
 #include <algorithm>
 #include <array>
@@ -20,6 +19,8 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+
+#include "Apply_move.hpp"
 
 using namespace std;
 using namespace manifolds;
@@ -183,21 +184,18 @@ SCENARIO("Invoking a move with a function pointer" *
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move.")
     {
-      auto* const move23{ergodic_moves::do_23_move};
+      auto* const move23{ergodic_moves::do_23_move<cdt::Random>};
       THEN("Running the function makes the move.")
       {
-        auto result = move23(manifold);
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        auto result = move23(manifold, random);
         CHECK(ergodic_moves::check_move(manifold, result.value(),
                                         move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        fmt::print("Moved manifold properties:\n");
-        result->print_details();
       }
     }
   }
@@ -210,23 +208,21 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold_3 const& manifold_3) {
-        return ergodic_moves::do_23_move(manifold_3).value();
+      auto const move23 = [](Manifold_3 const& manifold_3,
+                             cdt::Random&      random) {
+        return ergodic_moves::do_23_move(manifold_3, random).value();
       };
       THEN("Running the lambda makes the move.")
       {
-        auto result = move23(manifold);
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        auto result = move23(manifold, random);
         CHECK(ergodic_moves::check_move(manifold, result,
                                         move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        fmt::print("Moved manifold properties:\n");
-        result.print_details();
       }
     }
   }
@@ -240,21 +236,18 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("Apply_move is used for a move.")
     {
-      auto* move = ergodic_moves::do_23_move;
+      auto* move = ergodic_moves::do_23_move<cdt::Random>;
       THEN("Invoking apply_move() makes the move.")
       {
-        auto result = apply_move(manifold, move);
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        auto result = apply_move(manifold, move, random);
         CHECK(ergodic_moves::check_move(manifold, result.value(),
                                         move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        fmt::print("Moved manifold properties:\n");
-        result->print_details();
       }
     }
   }
@@ -267,17 +260,12 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
     {
       MoveCommand const command(manifold);
-      THEN("The original is still valid.")
-      {
-        REQUIRE(manifold.is_correct());
-        // Human verification
-        manifold.print_details();
-      }
+      THEN("The original is still valid.") { REQUIRE(manifold.is_correct()); }
       THEN("It contains the manifold.")
       {
         CHECK_EQ(manifold.N3(), command.get_const_results().N3());
@@ -292,13 +280,6 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
         CHECK_EQ(manifold.N0(), command.get_const_results().N0());
         CHECK_EQ(manifold.max_time(), command.get_const_results().max_time());
         CHECK_EQ(manifold.min_time(), command.get_const_results().min_time());
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        manifold.print_volume_per_timeslice();
-        fmt::print("Command.get_const_results() properties:\n");
-        command.get_const_results().print_details();
-        command.get_const_results().print_volume_per_timeslice();
       }
       THEN("The two manifolds are distinct.")
       {
@@ -311,13 +292,6 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
         CHECK_EQ(command.get_attempted().total(), 0);
         CHECK_EQ(command.get_succeeded().total(), 0);
         CHECK_EQ(command.get_failed().total(), 0);
-
-        // Human verification
-        fmt::print("Attempted moves are {}\n",
-                   command.get_attempted().moves_view());
-        fmt::print("Successful moves are {}\n",
-                   command.get_succeeded().moves_view());
-        fmt::print("Failed moves are {}\n", command.get_failed().moves_view());
       }
     }
   }
@@ -330,7 +304,7 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
   {
     auto constexpr desired_simplices  = 9600;
     auto constexpr desired_timeslices = 7;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("Move_command copies the manifold and applies the move.")
     {
@@ -343,7 +317,9 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         command.enqueue(move_tracker::move_type::THREE_TWO);
 
         // Execute the move
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
         check_single_move_outcome(command, manifold,
                                   move_tracker::move_type::THREE_TWO, -1);
 
@@ -354,12 +330,8 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
-        fmt::print(
-            "The manifold and the result in the MoveCommand are distinct "
-            "pointers.\n");
 
         CHECK(manifold.is_correct());
-        fmt::print("The original manifold is unchanged by MoveCommand.\n");
       }
     }
     WHEN("A (4,4) move is queued.")
@@ -369,7 +341,9 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
       THEN("It is executed correctly.")
       {
         // Execute the move
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
         check_single_move_outcome(command, manifold,
                                   move_tracker::move_type::FOUR_FOUR, 0);
       }
@@ -381,7 +355,9 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
       THEN("It is executed correctly.")
       {
         // Execute the move
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
         check_single_move_outcome(command, manifold,
                                   move_tracker::move_type::TWO_THREE, 1);
       }
@@ -393,7 +369,9 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
       THEN("It is executed correctly.")
       {
         // Execute the move
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
         check_single_move_outcome(command, manifold,
                                   move_tracker::move_type::THREE_TWO, -1);
       }
@@ -405,7 +383,9 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
       THEN("It is executed correctly.")
       {
         // Execute the move
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
         check_single_move_outcome(command, manifold,
                                   move_tracker::move_type::TWO_SIX, 4);
       }
@@ -417,7 +397,9 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
       THEN("It is executed correctly.")
       {
         // Execute the move
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
         check_single_move_outcome(command, manifold,
                                   move_tracker::move_type::SIX_TWO, -4);
       }
@@ -444,7 +426,9 @@ SCENARIO("Rejected moves preserve manifold state" *
 
     WHEN("The move is executed.")
     {
-      command.execute();
+      cdt::Random random{92};
+      CAPTURE(random.seed());
+      command.execute(random);
       THEN("The rejection leaves the complete manifold unchanged.")
       {
         REQUIRE_EQ(command.get_failed().two_three_moves(), 1);
@@ -463,7 +447,8 @@ SCENARIO("Executing multiple moves on the queue" *
   {
     auto constexpr desired_simplices  = 9600;
     auto constexpr desired_timeslices = 7;
-    Manifold_3 const manifold(desired_simplices, desired_timeslices);
+    Manifold_3 const manifold(desired_simplices, desired_timeslices,
+                              cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("(2,3) and (3,2) moves are queued.")
     {
@@ -474,23 +459,18 @@ SCENARIO("Executing multiple moves on the queue" *
       THEN("The moves are executed correctly.")
       {
         // Execute the moves
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
 
         // There should be 2 attempted moves
         CHECK_EQ(command.get_attempted().total(), 2);
-        command.print_attempts();
 
         auto successful_23_moves = command.get_succeeded().two_three_moves();
-        fmt::print("There was {} successful (2,3) move.\n",
-                   successful_23_moves);
-
         auto successful_32_moves = command.get_succeeded().three_two_moves();
-        fmt::print("There was {} successful (3,2) move.\n",
-                   successful_32_moves);
 
         CHECK_EQ(command.get_succeeded().total() + command.get_failed().total(),
                  2);
-        command.print_errors();
 
         // Get the results
         auto const& result = command.get_const_results();
@@ -514,35 +494,20 @@ SCENARIO("Executing multiple moves on the queue" *
       THEN("The moves are executed correctly.")
       {
         // Execute the moves
-        command.execute();
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        command.execute(random);
 
         // There should be 5 attempted moves
         CHECK_EQ(command.get_attempted().total(), 5);
-        command.print_attempts();
 
         auto successful_23_moves = command.get_succeeded().two_three_moves();
-        fmt::print("There was {} successful (2,3) move.\n",
-                   successful_23_moves);
-
         auto successful_26_moves = command.get_succeeded().two_six_moves();
-        fmt::print("There was {} successful (2,6) move.\n",
-                   successful_26_moves);
-
-        auto successful_44_moves = command.get_succeeded().four_four_moves();
-        fmt::print("There was {} successful (4,4) move.\n",
-                   successful_44_moves);
-
         auto successful_62_moves = command.get_succeeded().six_two_moves();
-        fmt::print("There was {} successful (6,2) move.\n",
-                   successful_62_moves);
-
         auto successful_32_moves = command.get_succeeded().three_two_moves();
-        fmt::print("There was {} successful (3,2) move.\n",
-                   successful_32_moves);
 
         CHECK_EQ(command.get_succeeded().total() + command.get_failed().total(),
                  5);
-        command.print_errors();
 
         // Get the results
         auto const& result = command.get_const_results();

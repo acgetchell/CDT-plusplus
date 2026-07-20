@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "CDT-plusplus: Causal Dynamical Triangulations in C++"
+abstract: >-
+  A C++23 scientific reference implementation of 2+1-dimensional causal
+  dynamical triangulations, including foliated triangulation construction,
+  Pachner moves, the Regge action, and Metropolis-Hastings evolution.
+authors:
+  - family-names: "Getchell"
+    given-names: "Adam"
+    email: "adam@adamgetchell.org"
+    orcid: "https://orcid.org/0000-0002-0797-0021"
+version: "1.0.0-rc1"
+date-released: "2026-07-20"
+repository-code: "https://github.com/acgetchell/CDT-plusplus"
+url: "https://github.com/acgetchell/CDT-plusplus"
+license: BSD-3-Clause
+keywords:
+  - "causal-dynamical-triangulations"
+  - "computational-geometry"
+  - "metropolis-hastings"
+  - "quantum-gravity"
+  - "regge-calculus"
