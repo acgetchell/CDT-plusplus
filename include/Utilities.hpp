@@ -477,6 +477,33 @@ namespace utilities
 
   }  // expected_points_per_timeslice
 
+  struct Generated_population_bounds
+  {
+    Int_precision points_per_timeslice;
+    long double   last_layer_points;
+  };
+
+  /// @brief Calculate the generated point count and its upper bound
+  /// @param dimension Number of dimensions
+  /// @param simplices Number of desired simplices
+  /// @param timeslices Number of desired timeslices
+  /// @param initial_radius Radius of the first timeslice
+  /// @param foliation_spacing Distance between successive timeslices
+  /// @return Points per timeslice and the last-layer point count
+  [[nodiscard]] inline auto generated_population_bounds(
+      Int_precision const dimension, Int_precision const simplices,
+      Int_precision const timeslices, double const initial_radius,
+      double const foliation_spacing) -> Generated_population_bounds
+  {
+    auto const points_per_timeslice =
+        expected_points_per_timeslice(dimension, simplices, timeslices);
+    auto const last_radius =
+        static_cast<long double>(initial_radius) +
+        static_cast<long double>(timeslices - 1) * foliation_spacing;
+    return {points_per_timeslice,
+            static_cast<long double>(points_per_timeslice) * last_radius};
+  }
+
   /// @brief Convert Gmpzf into a double
   ///
   /// This function is mainly for testing, since to_double()

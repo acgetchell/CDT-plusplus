@@ -180,21 +180,17 @@ namespace runtime_config
       return topology_type::SPHERICAL;
     }
 
-    struct GeneratedPopulation
-    {
-      Int_precision points_per_timeslice;
-      long double   last_layer_points;
-    };
+    using GeneratedPopulation = utilities::Generated_population_bounds;
 
     [[nodiscard]] inline auto make_generated_population(
         Int_precision const simplices, Int_precision const timeslices,
         double const initial_radius, double const foliation_spacing)
         -> GeneratedPopulation
     {
-      auto const points_per_timeslice =
-          utilities::expected_points_per_timeslice(Int_precision{3}, simplices,
-                                                   timeslices);
-      if (points_per_timeslice < 2)
+      auto const bounds = utilities::generated_population_bounds(
+          Int_precision{3}, simplices, timeslices, initial_radius,
+          foliation_spacing);
+      if (bounds.points_per_timeslice < 2)
       {
         throw std::invalid_argument(
             "Simplices and timeslices would create an empty triangulation; "
@@ -202,26 +198,23 @@ namespace runtime_config
       }
 
       auto const first_layer_points =
-          static_cast<long double>(points_per_timeslice) * initial_radius;
+          static_cast<long double>(bounds.points_per_timeslice) *
+          initial_radius;
       if (first_layer_points < 2.0L)
       {
         throw std::invalid_argument(
             "Initial radius is too small to populate the first timeslice.");
       }
 
-      auto const last_radius =
-          static_cast<long double>(initial_radius) +
-          static_cast<long double>(timeslices - 1) * foliation_spacing;
-      auto const last_layer_points =
-          static_cast<long double>(points_per_timeslice) * last_radius;
-      if (!std::isfinite(last_radius) ||
-          last_layer_points > static_cast<long double>(
-                                  std::numeric_limits<Int_precision>::max()))
+      if (!std::isfinite(bounds.last_layer_points) ||
+          bounds.last_layer_points >
+              static_cast<long double>(
+                  std::numeric_limits<Int_precision>::max()))
       {
         throw std::out_of_range(
             "Foliation parameters generate too many points per timeslice.");
       }
-      return {points_per_timeslice, last_layer_points};
+      return bounds;
     }
   }  // namespace detail
 

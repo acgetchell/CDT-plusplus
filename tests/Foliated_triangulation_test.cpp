@@ -606,9 +606,10 @@ SCENARIO("FoliatedTriangulation_3 moving" *
     FoliatedTriangulation_3 source(desired_simplices, desired_timeslices);
     auto const              expected_cells    = source.number_of_finite_cells();
     auto const              expected_vertices = source.number_of_vertices();
-    auto const expected_three_one = source.number_of_three_one_cells();
-    auto const expected_two_two   = source.number_of_two_two_cells();
-    auto const expected_one_three = source.number_of_one_three_cells();
+    auto const expected_three_one       = source.number_of_three_one_cells();
+    auto const expected_two_two         = source.number_of_two_two_cells();
+    auto const expected_one_three       = source.number_of_one_three_cells();
+    auto const expected_spacelike_faces = source.number_of_spacelike_faces();
 
     WHEN("It is move constructed.")
     {
@@ -622,6 +623,7 @@ SCENARIO("FoliatedTriangulation_3 moving" *
         CHECK_EQ(moved.number_of_three_one_cells(), expected_three_one);
         CHECK_EQ(moved.number_of_two_two_cells(), expected_two_two);
         CHECK_EQ(moved.number_of_one_three_cells(), expected_one_three);
+        CHECK_EQ(moved.number_of_spacelike_faces(), expected_spacelike_faces);
       }
     }
     WHEN("It is move assigned over another foliated triangulation.")

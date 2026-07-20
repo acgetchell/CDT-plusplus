@@ -21,7 +21,10 @@
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 #define CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 
+#include <algorithm>
 #include <cmath>
+#include <functional>
+#include <iterator>
 #include <limits>
 #include <type_traits>
 #include <utility>
@@ -714,22 +717,27 @@ namespace foliated_triangulations
         t_edge.first->vertex(t_edge.third)->info());
   }  // print_edge
 
-  /// @brief Collect spacelike facets into a container indexed by time value
+  /// @brief Collect spacelike facets into a contiguous container ordered by
+  /// time value
   /// @details *Warning!* Turning on debugging info will generate gigabytes
   /// of logs.
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
-  /// @return Container with spacelike facets per timeslice
+  /// @return Contiguous container with spacelike facets per timeslice
   template <int dimension, ContainerType Container>
-  [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
-      -> std::multimap<Int_precision, Facet_t<3>>
+  [[nodiscard]] auto collect_spacelike_facets(Container&& t_facets)
+      -> std::vector<std::pair<Int_precision, Facet_t<3>>>
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    std::multimap<Int_precision, Facet_t<3>> space_faces;
-    for (auto        facets = std::forward<Container>(t_facets);
-         auto const& face : facets)
+    using Volume_entry = std::pair<Int_precision, Facet_t<3>>;
+    std::vector<Volume_entry> space_faces;
+    if constexpr (std::ranges::sized_range<Container>)
+    {
+      space_faces.reserve(std::ranges::size(t_facets));
+    }
+    for (auto const& face : t_facets)
     {
       Cell_handle_t<dimension> const cell           = face.first;
       auto                           index_of_facet = face.second;
@@ -757,7 +765,7 @@ namespace foliated_triangulations
         spdlog::trace("Facet is spacelike on timevalue {}.\n",
                       *facet_timevalues.begin());
 #endif
-        space_faces.insert({*facet_timevalues.begin(), face});
+        space_faces.emplace_back(*facet_timevalues.begin(), face);
       }
       else
       {
@@ -766,7 +774,24 @@ namespace foliated_triangulations
 #endif
       }
     }
+    std::ranges::stable_sort(
+        space_faces, std::ranges::less{},
+        [](Volume_entry const& entry) noexcept { return entry.first; });
     return space_faces;
+  }  // collect_spacelike_facets
+
+  /// @brief Collect spacelike facets into a container indexed by time value
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param t_facets A container of facets
+  /// @return Container with spacelike facets per timeslice
+  template <int dimension, ContainerType Container>
+  [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
+      -> std::multimap<Int_precision, Facet_t<3>>
+  {
+    auto space_faces =
+        collect_spacelike_facets<dimension>(std::forward<Container>(t_facets));
+    return {std::make_move_iterator(space_faces.begin()),
+            std::make_move_iterator(space_faces.end())};
   }  // volume_per_timeslice
 
   /// @brief Check cells for correct foliation
@@ -900,22 +925,31 @@ namespace foliated_triangulations
           "Foliation spacing must be finite and positive.");
     }
 
-    Causal_vertices_t<dimension> causal_vertices;
-    causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
-    auto const points_per_timeslice = utilities::expected_points_per_timeslice(
-        dimension, t_simplices, t_timeslices);
-    if (points_per_timeslice < 2)
+    auto const population = utilities::generated_population_bounds(
+        dimension, t_simplices, t_timeslices, initial_radius,
+        foliation_spacing);
+    if (population.points_per_timeslice < 2)
     {
       throw std::invalid_argument(
           "Simplices and timeslices would create an empty triangulation.");
     }
+    if (!std::isfinite(population.last_layer_points) ||
+        population.last_layer_points >
+            static_cast<long double>(std::numeric_limits<Int_precision>::max()))
+    {
+      throw std::out_of_range(
+          "Foliation parameters generate too many points per timeslice.");
+    }
+
+    Causal_vertices_t<dimension> causal_vertices;
+    causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
 
     for (gsl::index i = 0; i < t_timeslices; ++i)
     {
       auto const radius =
           initial_radius + static_cast<double>(i) * foliation_spacing;
       auto const generated_points =
-          static_cast<long double>(points_per_timeslice) * radius;
+          static_cast<long double>(population.points_per_timeslice) * radius;
       if (!std::isfinite(radius) || generated_points < 2.0L)
       {
         throw std::invalid_argument(
@@ -1038,7 +1072,8 @@ namespace foliated_triangulations
     using Edge_container      = std::vector<Edge_handle_t<3>>;
     using Vertex_handle       = Vertex_handle_t<3>;
     using Vertex_container    = std::vector<Vertex_handle>;
-    using Volume_by_timeslice = std::multimap<Int_precision, Facet_t<3>>;
+    using Volume_entry        = std::pair<Int_precision, Facet_t<3>>;
+    using Volume_by_timeslice = std::vector<Volume_entry>;
 
     static_assert(
         noexcept(std::declval<Delaunay&>().swap(std::declval<Delaunay&>())),
@@ -1063,6 +1098,11 @@ namespace foliated_triangulations
             std::is_nothrow_move_constructible_v<Volume_by_timeslice>,
         "FoliatedTriangulation move construction requires non-throwing member "
         "moves.");
+
+    [[nodiscard]] static auto cache_spacelike_facets(
+        Face_container const& faces) -> Volume_by_timeslice
+    { return collect_spacelike_facets<3>(std::span{faces}); }
+
     [[nodiscard]] static auto require_nonempty(Delaunay triangulation)
         -> Delaunay
     {
@@ -1103,7 +1143,12 @@ namespace foliated_triangulations
     FoliatedTriangulation(FoliatedTriangulation const& other)
         : FoliatedTriangulation{}
     {
-      if (other.m_triangulation.number_of_vertices() == 0) { return; }
+      if (other.m_triangulation.number_of_vertices() == 0)
+      {
+        m_initial_radius    = other.m_initial_radius;
+        m_foliation_spacing = other.m_foliation_spacing;
+        return;
+      }
       FoliatedTriangulation copy{Delaunay{other.m_triangulation},
                                  other.m_initial_radius,
                                  other.m_foliation_spacing};
@@ -1183,7 +1228,7 @@ namespace foliated_triangulations
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
         , m_faces{collect_faces()}
-        , m_spacelike_facets{volume_per_timeslice<3>(std::span{m_faces})}
+        , m_spacelike_facets{cache_spacelike_facets(m_faces)}
         , m_edges{collect_edges()}
         , m_timelike_edges{filter_edges<3>(m_edges, true)}
         , m_spacelike_edges{filter_edges<3>(m_edges, false)}
@@ -1304,7 +1349,12 @@ namespace foliated_triangulations
     /// @return Number of spacelike facets on a timeslice
     [[nodiscard]] auto spacelike_face_count(
         Int_precision const timevalue) const noexcept -> std::size_t
-    { return m_spacelike_facets.count(timevalue); }
+    {
+      auto const matching_facets = std::ranges::equal_range(
+          m_spacelike_facets, timevalue, std::ranges::less{},
+          [](Volume_entry const& entry) noexcept { return entry.first; });
+      return static_cast<std::size_t>(matching_facets.size());
+    }
 
     /// @return Total number of spacelike facets
     [[nodiscard]] auto number_of_spacelike_faces() const noexcept -> std::size_t
@@ -1424,7 +1474,7 @@ namespace foliated_triangulations
       for (auto j = min_time(); j <= max_time(); ++j)
       {
         fmt::print("Timeslice {} has {} spacelike faces.\n", j,
-                   m_spacelike_facets.count(j));
+                   spacelike_face_count(j));
       }
     }  // print_volume_per_timeslice
 
