@@ -415,12 +415,12 @@ namespace utilities
 
   /// @brief Generate a random timeslice
   template <std::uniform_random_bit_generator Generator, typename IntegerType>
-  [[nodiscard]] auto generate_random_timeslice(Generator&    generator,
-                                               IntegerType&& t_max_timeslice)
+  [[nodiscard]] auto generate_random_timeslice(Generator&  generator,
+                                               IntegerType t_max_timeslice)
       -> decltype(auto)
   {
     return generate_random_int(generator, static_cast<IntegerType>(1),
-                               std::forward<IntegerType>(t_max_timeslice));
+                               t_max_timeslice);
   }  // generate_random_timeslice()
 
   /// @brief Generate random real numbers by calling generate_random, preserves

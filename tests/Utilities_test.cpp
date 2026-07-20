@@ -405,7 +405,8 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     {
       cdt::Random generator{92};
       CAPTURE(generator.seed());
-      auto constexpr max   = 256;
+      // Keep this mutable to cover ordinary named lvalue bounds.
+      auto       max       = 256;
       auto const value1    = generate_random_timeslice(generator, max);
       auto const value2    = generate_random_timeslice(generator, max);
       auto const value3    = generate_random_timeslice(generator, max);

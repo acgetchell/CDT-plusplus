@@ -89,7 +89,7 @@ jobs:
         if: runner.os != 'Windows'
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
-          +: |
+          +: >-
             doxygen.nl@${{ steps.tool-versions.outputs.doxygen }}
             graphviz.org@${{ steps.tool-versions.outputs.graphviz }}
             llvm.org@${{ steps.tool-versions.outputs.llvm }}
@@ -141,8 +141,8 @@ jobs:
             throw 'The downloaded documentation archives did not contain doxygen.exe and dot.exe.'
           }
 
-          $doxygen.Directory.FullName | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          $dot.Directory.FullName | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          $doxygen.Directory.FullName >> $env:GITHUB_PATH
+          $dot.Directory.FullName >> $env:GITHUB_PATH
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
@@ -171,7 +171,7 @@ jobs:
           $env:GOBIN = $installDirectory
           $pinactModule = just --evaluate pinact_module
           go install $pinactModule
-          $installDirectory | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          $installDirectory >> $env:GITHUB_PATH
 
       - name: Select the Windows vcpkg triplet
         if: runner.os == 'Windows'
