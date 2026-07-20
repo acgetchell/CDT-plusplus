@@ -168,6 +168,10 @@ SCENARIO("Bulk action precision survives the acceptance boundary" *
       CHECK_EQ(current.get_precision(), mpfr_values::precision);
       CHECK_EQ(proposed.get_precision(), mpfr_values::precision);
       CHECK(mpfr_zero_p(delta.fr()) == 0);
+    }
+    AND_THEN(
+        "Downcasting to double collapses the distinction that MPFR preserves.")
+    {
       CHECK_EQ(mpfr_values::to_double(current),
                mpfr_values::to_double(proposed));
     }

@@ -20,9 +20,36 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: DenverCoder1/doxygen-github-pages-action@a30f9538f8ef1305aeceb563018f452c7a62d200  # v2.0.0
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+
+      - name: Set up Just
+        uses: ./.github/actions/setup-just
+
+      - name: Resolve documentation tool versions
+        id: tool-versions
+        shell: bash
+        run: |
+          {
+            echo "doxygen=$(just --evaluate doxygen_version)"
+            echo "graphviz=$(just --evaluate graphviz_version)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up documentation tools with pkgx
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
+        with:
+          +: |
+            doxygen.nl@${{ steps.tool-versions.outputs.doxygen }}
+            graphviz.org@${{ steps.tool-versions.outputs.graphviz }}
+
+      - name: Build documentation
+        run: just docs
+
+      - name: Publish documentation
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f  # v4.8.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: docs/html
-          config_file: docs/Doxyfile

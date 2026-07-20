@@ -33,6 +33,18 @@ Timeslice 2 has 24 spacelike faces.
 Final number of simplices: 92"""
         self.assertEqual(_parse_initializer_output(output), (92, [(1, 12), (2, 24)]))
 
+    def test_initializer_output_requires_final_simplex_count(self) -> None:
+        """The sweep rejects output without the final triangulation size."""
+        output = "Timeslice 1 has 12 spacelike faces."
+        with self.assertRaisesRegex(RuntimeError, "did not report the final number of simplices"):
+            _parse_initializer_output(output)
+
+    def test_initializer_output_requires_volume_profile(self) -> None:
+        """The sweep rejects output without any timeslice volumes."""
+        output = "Final number of simplices: 92"
+        with self.assertRaisesRegex(RuntimeError, "did not contain a timeslice volume profile"):
+            _parse_initializer_output(output)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -55,18 +55,17 @@ def _initializer_binary(repository_root: Path, platform: str = sys.platform) -> 
 
 def _run_experiments(initialize_binary: Path, api_key: str) -> None:
     """Run the historical Comet parameter sweep."""
-    import comet_ml as cm  # noqa: PLC0415
     import matplotlib.pyplot as plt  # noqa: PLC0415
     import numpy as np  # noqa: PLC0415
     from comet_ml import Experiment  # noqa: PLC0415
 
     parameters = [(initial_radius, spacing) for initial_radius in range(1, 4) for spacing in np.arange(1, 2.5, 0.5)]
 
-    try:
-        for parameter_pair in parameters:
-            experiment = Experiment(api_key=api_key, project_name="cdt-plusplus")
+    for parameter_pair in parameters:
+        experiment = Experiment(api_key=api_key, project_name="cdt-plusplus")
+        try:
             hyper_params = {"simplices": 12000, "foliations": 12}
-            experiment.log_multiple_params(hyper_params)
+            experiment.log_parameters(hyper_params)
             init_radius = parameter_pair[0]
             radial_factor = parameter_pair[1]
 
@@ -115,9 +114,8 @@ def _run_experiments(initialize_binary: Path, api_key: str) -> None:
             plt.grid(visible=True)
             experiment.log_figure(figure_name="Volume per Timeslice", figure=plt)
             plt.clf()
+        finally:
             experiment.end()
-    except cm.exceptions.NoMoreSuggestionsAvailable:
-        print("No more suggestions.")
 
 
 def main(argv: Sequence[str] | None = None) -> int:

@@ -64,9 +64,14 @@ try
     return move_tracker::generate_random_move_3(per_draw_random);
   });
 
-  auto const owned_ns = static_cast<long double>(owned_time.count());
-  auto const speedup =
-      static_cast<long double>(entropy_time.count()) / owned_ns;
+  auto const owned_ns                         = owned_time.count();
+  if (owned_ns == 0)
+  {
+    throw std::runtime_error{
+        "owned-stream duration is below clock resolution; increase draw count"};
+  }
+  auto const speedup = static_cast<long double>(entropy_time.count()) /
+                       static_cast<long double>(owned_ns);
   std::cout << "draws=" << draws << '\n'
             << "before_entropy_per_draw_ns=" << entropy_time.count() << '\n'
             << "after_run_owned_pcg_ns=" << owned_time.count() << '\n'

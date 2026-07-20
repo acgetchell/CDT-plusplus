@@ -384,6 +384,9 @@ namespace utilities
   ///
   /// @tparam NumberType The type of number in the RNG
   /// @tparam Distribution The distribution type, usually uniform
+  /// @tparam Generator A uniform random bit generator type
+  /// @param generator Caller-owned generator whose state advances during
+  /// sampling
   /// @param t_min_value The minimum value
   /// @param t_max_value The maximum value
   /// @returns A random value in the distribution between min_value and

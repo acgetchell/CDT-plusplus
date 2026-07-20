@@ -578,6 +578,7 @@ SCENARIO("Rejected topology moves preserve the source value" *
 
     WHEN("A (2,6) move is proposed")
     {
+      CAPTURE(random.seed());
       auto const result = ergodic_moves::do_26_move(source, random);
 
       THEN("The move is rejected without changing the source")

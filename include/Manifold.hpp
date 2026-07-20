@@ -109,6 +109,12 @@ namespace manifolds
     {}
 
     /// @brief Construct a manifold with a caller-owned initialization stream.
+    /// @param t_desired_simplices Desired number of simplices
+    /// @param t_desired_timeslices Desired number of timeslices
+    /// @param generator Caller-owned initialization stream whose state is
+    /// advanced during construction
+    /// @param t_initial_radius Radius of the first timeslice
+    /// @param t_foliation_spacing Radial separation between timeslices
     Manifold(Int_precision const t_desired_simplices,
              Int_precision const t_desired_timeslices, cdt::Random& generator,
              double const t_initial_radius    = INITIAL_RADIUS,
@@ -120,6 +126,12 @@ namespace manifolds
     {}
 
     /// @brief Construct from an explicit temporary initialization stream.
+    /// @param t_desired_simplices Desired number of simplices
+    /// @param t_desired_timeslices Desired number of timeslices
+    /// @param generator Temporary initialization stream whose state is consumed
+    /// during construction
+    /// @param t_initial_radius Radius of the first timeslice
+    /// @param t_foliation_spacing Radial separation between timeslices
     Manifold(Int_precision const t_desired_simplices,
              Int_precision const t_desired_timeslices, cdt::Random&& generator,
              double const t_initial_radius    = INITIAL_RADIUS,

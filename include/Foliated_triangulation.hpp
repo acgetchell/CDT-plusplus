@@ -65,7 +65,7 @@ using Spherical_points_generator_t =
     typename TriangulationTraits<dimension>::Spherical_points_generator;
 
 /// @concept ContainerType
-/// @brief This is std::movable from <concepts>
+/// @brief Requires `std::movable`, defined in the standard `<concepts>` header.
 /// @details Right now the real restriction on Containers is that elements must
 /// be swappable in order for std::shuffle to work.
 template <typename C>
@@ -900,11 +900,14 @@ namespace foliated_triangulations
   /// @details Makes a solid ball of successive layers of spheres at
   /// a given radius.
   /// @tparam dimension The dimensionality of the simplices
+  /// @tparam Generator Uniform random bit generator type owned by the caller
   /// @param t_simplices The desired number of simplices in the triangulation
   /// @param t_timeslices The desired number of timeslices in the
   /// triangulation
   /// @param initial_radius The radius of the first time slice
   /// @param foliation_spacing The distance between successive time slices
+  /// @param generator Caller-owned random stream whose state is maintained by
+  /// the caller and advanced during this call
   /// @return A container of (vertex, timevalue) pairs
   template <int dimension, std::uniform_random_bit_generator Generator>
   [[nodiscard]] auto make_foliated_ball(Int_precision const t_simplices,
@@ -984,10 +987,13 @@ namespace foliated_triangulations
 
   /// @brief Make a Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
+  /// @tparam Generator Uniform random bit generator type owned by the caller
   /// @param t_simplices Number of desired simplices
   /// @param t_timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
   /// @param foliation_spacing Radial separation between timeslices
+  /// @param generator Caller-owned random stream whose state is maintained by
+  /// the caller and advanced during this call
   /// @return A Delaunay triangulation with a timevalue for each vertex
   /// @see [CGAL triangulations](../REFERENCES.md#cgal-triangulations)
   template <int dimension, std::uniform_random_bit_generator Generator>
@@ -1246,6 +1252,12 @@ namespace foliated_triangulations
     {}
 
     /// @brief Constructor with a caller-owned initialization stream.
+    /// @param t_simplices Desired number of simplices
+    /// @param t_timeslices Desired number of timeslices
+    /// @param generator Caller-owned initialization stream whose state is
+    /// advanced during construction
+    /// @param t_initial_radius Radius of the first timeslice
+    /// @param t_foliation_spacing Radial separation between timeslices
     FoliatedTriangulation(Int_precision const t_simplices,
                           Int_precision const t_timeslices,
                           cdt::Random&        generator,
@@ -1258,6 +1270,12 @@ namespace foliated_triangulations
     {}
 
     /// @brief Construct from an explicit temporary initialization stream.
+    /// @param t_simplices Desired number of simplices
+    /// @param t_timeslices Desired number of timeslices
+    /// @param generator Temporary initialization stream whose state is consumed
+    /// during construction
+    /// @param t_initial_radius Radius of the first timeslice
+    /// @param t_foliation_spacing Radial separation between timeslices
     FoliatedTriangulation(Int_precision const t_simplices,
                           Int_precision const t_timeslices,
                           cdt::Random&&       generator,

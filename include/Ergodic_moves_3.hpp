@@ -86,7 +86,7 @@ namespace ergodic_moves
   { return t_manifold; }  // null_move
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
-  /// @param t_manifold The manifold containing the cell to flip
+  /// @param triangulation The triangulation containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @returns True if move succeeded
   /// @see
@@ -133,7 +133,10 @@ namespace ergodic_moves
   ///
   /// If successful, the triangulation is no longer Delaunay.
   ///
+  /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
+  /// @param generator Caller-owned generator whose state advances during the
+  /// move
   /// @returns The Expected (2,3) moved manifold or an Unexpected
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_23_move(Manifold const& t_manifold,
@@ -178,7 +181,7 @@ namespace ergodic_moves
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
-  /// @param t_manifold The manifold containing the edge to flip
+  /// @param triangulation The triangulation containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @returns True if move succeeded
   /// @see
@@ -196,7 +199,10 @@ namespace ergodic_moves
   /// This function calls try_32_move on timelike edges drawn from a
   /// randomly shuffled container until it succeeds or runs out of edges.
   /// If successful, the triangulation is no longer Delaunay.
+  /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
+  /// @param generator Caller-owned generator whose state advances during the
+  /// move
   /// @returns The Expected (3,2) moved manifold or an Unexpected
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_32_move(Manifold const& t_manifold,
@@ -269,7 +275,11 @@ namespace ergodic_moves
   /// If successful, the triangulation is no longer Delaunay.
   /// @image html 26.png
   /// @image latex 26.eps width=7cm
+  /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
+  /// @param generator Caller-owned generator whose state advances during the
+  /// move
+  /// @param only_first_site Whether to examine only one uniformly selected site
   /// @returns The Expected (2,6) moved manifold or an Unexpected
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_26_move_impl(Manifold const& t_manifold,
@@ -548,7 +558,10 @@ namespace ergodic_moves
   /// If successful, the triangulation remains Delaunay. (Other moves may
   /// change this, however.)
   ///
+  /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
+  /// @param generator Caller-owned generator whose state advances during the
+  /// move
   /// @returns The Expected (6,2) moved manifold or Unexpected
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_62_move(Manifold const& t_manifold,
@@ -848,7 +861,10 @@ namespace ergodic_moves
   /// move is not required to preserve the Euclidean Delaunay property of the
   /// coordinates used to represent the abstract triangulation.
   ///
+  /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
+  /// @param generator Caller-owned generator whose state advances during the
+  /// move
   /// @return The Expected (4,4) moved manifold or Unexpected
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_44_move(Manifold const& t_manifold,

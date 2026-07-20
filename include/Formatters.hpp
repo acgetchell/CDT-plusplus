@@ -19,23 +19,26 @@
 
 #include "Triangulation_traits.hpp"
 
-// Formatter specialization for CGAL::Point_3
-template <typename Kernel>
-struct fmt::formatter<CGAL::Point_3<Kernel>>
+namespace fmt
 {
-  // Format specification handling - keeping it simple for now
-  auto constexpr parse(format_parse_context& ctx) -> decltype(ctx.begin())
-  { return ctx.begin(); }
-
-  // Format the point as a string with coordinates
-  template <typename FormatContext>
-  auto format(CGAL::Point_3<Kernel> const& point, FormatContext& ctx) const
-      -> decltype(ctx.out())
+  /// @brief Formatter specialization for `CGAL::Point_3`.
+  template <typename Kernel>
+  struct formatter<CGAL::Point_3<Kernel>>
   {
-    std::stringstream ss;
-    ss << point;
-    return fmt::format_to(ctx.out(), "{}", ss.str());
-  }
-};
+    // Format specification handling - keeping it simple for now
+    auto constexpr parse(format_parse_context& ctx) -> decltype(ctx.begin())
+    { return ctx.begin(); }
+
+    // Format the point as a string with coordinates
+    template <typename FormatContext>
+    auto format(CGAL::Point_3<Kernel> const& point, FormatContext& ctx) const
+        -> decltype(ctx.out())
+    {
+      std::stringstream ss;
+      ss << point;
+      return fmt::format_to(ctx.out(), "{}", ss.str());
+    }
+  };
+}  // namespace fmt
 
 #endif  // CDT_PLUSPLUS_FORMATTERS_HPP

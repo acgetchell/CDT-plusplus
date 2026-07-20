@@ -53,4 +53,10 @@ target_link_libraries(
 
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_unit_tests>)
-set_tests_properties(cdt-unit-tests PROPERTIES LABELS "unit" TIMEOUT 180)
+set(cdt_unit_test_timeout 180)
+if(ENABLE_SANITIZER_ADDRESS)
+  # CGAL-heavy unit tests routinely need 12-19 minutes under ASan on hosted runners.
+  set(cdt_unit_test_timeout 1800)
+endif()
+set_tests_properties(
+  cdt-unit-tests PROPERTIES LABELS "unit" TIMEOUT "${cdt_unit_test_timeout}")
