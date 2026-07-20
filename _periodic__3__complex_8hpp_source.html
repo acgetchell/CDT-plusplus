@@ -104,36 +104,35 @@ $(function() {
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">using </span>GT  = CGAL::Periodic_3_triangulation_traits_3&lt;K&gt;;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">using </span>PDT = CGAL::Periodic_3_Delaunay_triangulation_3&lt;GT&gt;;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="_periodic__3__complex_8hpp.html#a77af2727b5f5883202b20e8ce9326d60">   29</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_periodic__3__complex_8hpp.html#a77af2727b5f5883202b20e8ce9326d60">make_random_T3_simplicial_complex</a>(PDT* T3,</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                       <span class="keywordtype">int</span>  number_of_simplices) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keyword">typedef</span> CGAL::Creator_uniform_3&lt;double, PDT::Point&gt; Creator;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  CGAL::Random                                        random(7);</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  CGAL::Random_points_in_cube_3&lt;PDT::Point, Creator&gt;  in_cube(.5, random);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <span class="keywordtype">int</span>                     n = number_of_simplices / 6;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  std::vector&lt;PDT::Point&gt; pts;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="comment">// Generate random points</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    PDT::Point p = *in_cube;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    in_cube++;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    pts.emplace_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  }</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="comment">// Iterator range insertion using spatial sorting and dummy point heuristic</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  T3-&gt;insert(pts.begin(), pts.end(), <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  assert(T3-&gt;dimension() == 3);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  assert(T3-&gt;is_valid());</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_PERIODIC_3_COMPLEX_HPP_</span></div>
-<div class="ttc" id="a_periodic__3__complex_8hpp_html_a77af2727b5f5883202b20e8ce9326d60"><div class="ttname"><a href="_periodic__3__complex_8hpp.html#a77af2727b5f5883202b20e8ce9326d60">make_random_T3_simplicial_complex</a></div><div class="ttdeci">void make_random_T3_simplicial_complex(PDT *T3, int number_of_simplices) noexcept</div><div class="ttdoc">Make 3D toroidal (periodic in 3D) simplicial complexes.</div><div class="ttdef"><b>Definition:</b> <a href="_periodic__3__complex_8hpp_source.html#l00029">Periodic_3_complex.hpp:29</a></div></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="_periodic__3__complex_8hpp.html#a707d60050f086f98d9db0ff320a0f6e7">   29</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_periodic__3__complex_8hpp.html#a707d60050f086f98d9db0ff320a0f6e7">make_random_T3_simplicial_complex</a>(PDT* T3, <span class="keywordtype">int</span> number_of_simplices)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keyword">typedef</span> CGAL::Creator_uniform_3&lt;double, PDT::Point&gt; Creator;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  CGAL::Random                                        random(7);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  CGAL::Random_points_in_cube_3&lt;PDT::Point, Creator&gt;  in_cube(.5, random);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">int</span>                     n = number_of_simplices / 6;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  std::vector&lt;PDT::Point&gt; pts;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="comment">// Generate random points</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++)</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    PDT::Point p = *in_cube;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    in_cube++;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    pts.emplace_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="comment">// Iterator range insertion using spatial sorting and dummy point heuristic</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  T3-&gt;insert(pts.begin(), pts.end(), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  assert(T3-&gt;dimension() == 3);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  assert(T3-&gt;is_valid());</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_PERIODIC_3_COMPLEX_HPP_</span></div>
+<div class="ttc" id="a_periodic__3__complex_8hpp_html_a707d60050f086f98d9db0ff320a0f6e7"><div class="ttname"><a href="_periodic__3__complex_8hpp.html#a707d60050f086f98d9db0ff320a0f6e7">make_random_T3_simplicial_complex</a></div><div class="ttdeci">void make_random_T3_simplicial_complex(PDT *T3, int number_of_simplices)</div><div class="ttdoc">Make 3D toroidal (periodic in 3D) simplicial complexes.</div><div class="ttdef"><b>Definition:</b> <a href="_periodic__3__complex_8hpp_source.html#l00029">Periodic_3_complex.hpp:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:07 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

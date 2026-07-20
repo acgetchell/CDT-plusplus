@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['strcmp_0',['strcmp',['../class_string.html#ae3c243f0bc797b9e4b15d2ef5e5aaa7c',1,'String']]],
-  ['swap_1',['swap',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#abf7acc093980c2031c2a9cea3bd9500c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a2947583313ce6002731610f71ed3488c',1,'Geometry&lt; 3 &gt;::swap()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a61062e1226c169c0efe8db68d3384b09',1,'manifolds::Manifold&lt; 3 &gt;::swap()']]]
+  ['make_5fsimulation_0',['make_simulation',['../classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff',1,'runtime_config::Simulation']]],
+  ['make_5ftriangulation_1',['make_triangulation',['../classruntime__config_1_1_triangulation.html#aa6753beb0c8e5fed484b6d2368dff69f',1,'runtime_config::Triangulation']]]
 ];

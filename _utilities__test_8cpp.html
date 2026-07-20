@@ -92,6 +92,8 @@ $(function() {
 <div class="textblock"><code>#include &lt;doctest/doctest.h&gt;</code><br />
 <code>#include &lt;fmt/ranges.h&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
 <code>#include &lt;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Utilities_test.cpp:</div>
@@ -124,6 +126,8 @@ Functions</h2></td></tr>
 <tr class="separator:a24770ce04cbfe948cabc489b35b0e104"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10b04a137aba7cd89152d499a694597c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities__test_8cpp.html#a10b04a137aba7cd89152d499a694597c">SCENARIO</a> (&quot;Exact number (Gmpzf) conversion&quot; *doctest::test_suite(&quot;utilities&quot;))</td></tr>
 <tr class="separator:a10b04a137aba7cd89152d499a694597c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca0be8f4c2df16dfe241e4855ad32230"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities__test_8cpp.html#aca0be8f4c2df16dfe241e4855ad32230">SCENARIO</a> (&quot;File serialization reports complete failures&quot; *doctest::test_suite(&quot;utilities&quot;))</td></tr>
+<tr class="separator:aca0be8f4c2df16dfe241e4855ad32230"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad971aefa311cf012f6bf7a2b3ef4c016"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities__test_8cpp.html#ad971aefa311cf012f6bf7a2b3ef4c016">SCENARIO</a> (&quot;Reading and writing Delaunay triangulations to files&quot; *doctest::test_suite(&quot;utilities&quot;))</td></tr>
 <tr class="separator:ad971aefa311cf012f6bf7a2b3ef4c016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a623ba2bc72af4f7b1f8613668f6c4593"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities__test_8cpp.html#a623ba2bc72af4f7b1f8613668f6c4593">SCENARIO</a> (&quot;Various string/stream/time utilities&quot; *doctest::test_suite(&quot;utilities&quot;))</td></tr>
@@ -152,7 +156,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00174">174</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00311">311</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -172,7 +176,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00097">97</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00132">132</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -192,7 +196,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00159">159</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00296">296</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -212,7 +216,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00254">254</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00391">391</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -232,7 +236,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00194">194</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00331">331</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -252,7 +256,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00217">217</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00354">354</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +276,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00278">278</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00415">415</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -302,12 +306,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00240">240</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00377">377</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a10b04a137aba7cd89152d499a694597c" name="a10b04a137aba7cd89152d499a694597c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10b04a137aba7cd89152d499a694597c">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a10b04a137aba7cd89152d499a694597c">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -322,12 +326,32 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00316">316</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00453">453</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aca0be8f4c2df16dfe241e4855ad32230" name="aca0be8f4c2df16dfe241e4855ad32230"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca0be8f4c2df16dfe241e4855ad32230">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SCENARIO </td>
+          <td>(</td>
+          <td class="paramtype">&quot;File serialization reports complete failures&quot; *&#160;</td>
+          <td class="paramname"><em>doctest::test_suite</em>&quot;utilities&quot;</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00191">191</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="ad971aefa311cf012f6bf7a2b3ef4c016" name="ad971aefa311cf012f6bf7a2b3ef4c016"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad971aefa311cf012f6bf7a2b3ef4c016">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad971aefa311cf012f6bf7a2b3ef4c016">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -342,12 +366,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00112">112</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00147">147</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a623ba2bc72af4f7b1f8613668f6c4593" name="a623ba2bc72af4f7b1f8613668f6c4593"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a623ba2bc72af4f7b1f8613668f6c4593">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a623ba2bc72af4f7b1f8613668f6c4593">&#9670;&#160;</a></span>SCENARIO() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,14 +386,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00021">21</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities__test_8cpp_source.html#l00056">56</a> of file <a class="el" href="_utilities__test_8cpp_source.html">Utilities_test.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:08 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

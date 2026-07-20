@@ -94,6 +94,8 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&quot;</code><br />
 <code>#include &lt;doctest/doctest.h&gt;</code><br />
 <code>#include &lt;numbers&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Manifold_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -114,8 +116,6 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:af5a66d9a7b978022b90c9bcf489f8052"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a> (&quot;4 points.&quot;)</td></tr>
 <tr class="separator:af5a66d9a7b978022b90c9bcf489f8052"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a130441f7a03d90205647c4d35407d28d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#a130441f7a03d90205647c4d35407d28d">GIVEN</a> (&quot;A (1,3) and (3,1) stacked on each other.&quot;)</td></tr>
-<tr class="separator:a130441f7a03d90205647c4d35407d28d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70e630827bfe570aaf71505726b7bcf0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#a70e630827bfe570aaf71505726b7bcf0">GIVEN</a> (&quot;A 3-manifold with four vertices.&quot;)</td></tr>
 <tr class="separator:a70e630827bfe570aaf71505726b7bcf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe1ef0888d7eed986929c877024ad9cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#abe1ef0888d7eed986929c877024ad9cb">GIVEN</a> (&quot;A 3-manifold&quot;)</td></tr>
@@ -124,12 +124,8 @@ Functions</h2></td></tr>
 <tr class="separator:a90477a9522b96659802773d8904b9dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af11aa3499572870779b2dd6d25f838cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#af11aa3499572870779b2dd6d25f838cc">GIVEN</a> (&quot;A default constructed Manifold_3&quot;)</td></tr>
 <tr class="separator:af11aa3499572870779b2dd6d25f838cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e8a8ecb0ad609c615e52ac3df5a64e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#a4e8a8ecb0ad609c615e52ac3df5a64e3">GIVEN</a> (&quot;A medium sized manifold.&quot;)</td></tr>
-<tr class="separator:a4e8a8ecb0ad609c615e52ac3df5a64e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3716f22fafef13dc8d120d9f0fbae503"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#a3716f22fafef13dc8d120d9f0fbae503">GIVEN</a> (&quot;A mismatched set of points and timevalues.&quot;)</td></tr>
 <tr class="separator:a3716f22fafef13dc8d120d9f0fbae503"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaa32a7075dfba81e1cc8cdb65643df7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#acaa32a7075dfba81e1cc8cdb65643df7">GIVEN</a> (&quot;A pair of 3-manifolds.&quot;)</td></tr>
-<tr class="separator:acaa32a7075dfba81e1cc8cdb65643df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed9e1402d559fa2812c80aebb03783cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#aed9e1402d559fa2812c80aebb03783cd">GIVEN</a> (&quot;A vector of points and timevalues.&quot;)</td></tr>
 <tr class="separator:aed9e1402d559fa2812c80aebb03783cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca87ca27e47d2acd96011be9403d91a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_manifold__test_8cpp.html#aca87ca27e47d2acd96011be9403d91a7">GIVEN</a> (&quot;The default manifold from the default triangulation&quot;)</td></tr>
@@ -162,13 +158,13 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">  spdlog::debug(<span class="stringliteral">&quot;Manifold initialization.\n&quot;</span>)</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00264">264</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00266">266</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="af5a66d9a7b978022b90c9bcf489f8052" name="af5a66d9a7b978022b90c9bcf489f8052"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5a66d9a7b978022b90c9bcf489f8052">&#9670;&#160;</a></span>GIVEN() <span class="overload">[1/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af5a66d9a7b978022b90c9bcf489f8052">&#9670;&#160;</a></span>GIVEN() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,37 +178,13 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Why is this false? </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Why is this false? </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00155">155</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_manifold_8hpp_source.html#l00383">manifolds::Manifold&lt; 3 &gt;::get_cell()</a>, <a class="el" href="_manifold_8hpp_source.html#l00150">manifolds::Manifold&lt; 3 &gt;::get_delaunay()</a>, <a class="el" href="_manifold_8hpp_source.html#l00370">manifolds::Manifold&lt; 3 &gt;::get_vertex()</a>, <a class="el" href="_manifold_8hpp_source.html#l00177">manifolds::Manifold&lt; 3 &gt;::is_correct()</a>, <a class="el" href="_manifold_8hpp_source.html#l00336">manifolds::Manifold&lt; 3 &gt;::print()</a>, <a class="el" href="_manifold_8hpp_source.html#l00351">manifolds::Manifold&lt; 3 &gt;::print_details()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00329">manifolds::Manifold&lt; 3 &gt;::print_vertices()</a>.</p>
-
-</div>
-</div>
-<a id="a130441f7a03d90205647c4d35407d28d" name="a130441f7a03d90205647c4d35407d28d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a130441f7a03d90205647c4d35407d28d">&#9670;&#160;</a></span>GIVEN() <span class="overload">[2/11]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GIVEN </td>
-          <td>(</td>
-          <td class="paramtype">&quot;A (1,3) and (3,1) stacked on each other.&quot;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00651">651</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00149">149</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a70e630827bfe570aaf71505726b7bcf0" name="a70e630827bfe570aaf71505726b7bcf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70e630827bfe570aaf71505726b7bcf0">&#9670;&#160;</a></span>GIVEN() <span class="overload">[3/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a70e630827bfe570aaf71505726b7bcf0">&#9670;&#160;</a></span>GIVEN() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,12 +199,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00224">224</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00225">225</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="abe1ef0888d7eed986929c877024ad9cb" name="abe1ef0888d7eed986929c877024ad9cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe1ef0888d7eed986929c877024ad9cb">&#9670;&#160;</a></span>GIVEN() <span class="overload">[4/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abe1ef0888d7eed986929c877024ad9cb">&#9670;&#160;</a></span>GIVEN() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -247,12 +219,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00475">475</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00460">460</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a90477a9522b96659802773d8904b9dcb" name="a90477a9522b96659802773d8904b9dcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90477a9522b96659802773d8904b9dcb">&#9670;&#160;</a></span>GIVEN() <span class="overload">[5/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a90477a9522b96659802773d8904b9dcb">&#9670;&#160;</a></span>GIVEN() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,12 +241,12 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">  spdlog::debug(<span class="stringliteral">&quot;3-Manifold copying.\n&quot;</span>)</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00265">265</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00267">267</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="af11aa3499572870779b2dd6d25f838cc" name="af11aa3499572870779b2dd6d25f838cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af11aa3499572870779b2dd6d25f838cc">&#9670;&#160;</a></span>GIVEN() <span class="overload">[6/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af11aa3499572870779b2dd6d25f838cc">&#9670;&#160;</a></span>GIVEN() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,32 +261,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00210">210</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a4e8a8ecb0ad609c615e52ac3df5a64e3" name="a4e8a8ecb0ad609c615e52ac3df5a64e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e8a8ecb0ad609c615e52ac3df5a64e3">&#9670;&#160;</a></span>GIVEN() <span class="overload">[7/11]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GIVEN </td>
-          <td>(</td>
-          <td class="paramtype">&quot;A medium sized manifold.&quot;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00711">711</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00211">211</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a3716f22fafef13dc8d120d9f0fbae503" name="a3716f22fafef13dc8d120d9f0fbae503"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3716f22fafef13dc8d120d9f0fbae503">&#9670;&#160;</a></span>GIVEN() <span class="overload">[8/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3716f22fafef13dc8d120d9f0fbae503">&#9670;&#160;</a></span>GIVEN() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -329,32 +281,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00140">140</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
-
-</div>
-</div>
-<a id="acaa32a7075dfba81e1cc8cdb65643df7" name="acaa32a7075dfba81e1cc8cdb65643df7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaa32a7075dfba81e1cc8cdb65643df7">&#9670;&#160;</a></span>GIVEN() <span class="overload">[9/11]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GIVEN </td>
-          <td>(</td>
-          <td class="paramtype">&quot;A pair of 3-manifolds.&quot;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00590">590</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00134">134</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="aed9e1402d559fa2812c80aebb03783cd" name="aed9e1402d559fa2812c80aebb03783cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed9e1402d559fa2812c80aebb03783cd">&#9670;&#160;</a></span>GIVEN() <span class="overload">[10/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aed9e1402d559fa2812c80aebb03783cd">&#9670;&#160;</a></span>GIVEN() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,12 +301,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00115">115</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00109">109</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 <a id="aca87ca27e47d2acd96011be9403d91a7" name="aca87ca27e47d2acd96011be9403d91a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca87ca27e47d2acd96011be9403d91a7">&#9670;&#160;</a></span>GIVEN() <span class="overload">[11/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca87ca27e47d2acd96011be9403d91a7">&#9670;&#160;</a></span>GIVEN() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -389,7 +321,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00460">460</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00445">445</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -409,7 +341,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00022">22</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00028">28</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
@@ -434,14 +366,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00020">20</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold__test_8cpp_source.html#l00026">26</a> of file <a class="el" href="_manifold__test_8cpp_source.html">Manifold_test.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:08 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

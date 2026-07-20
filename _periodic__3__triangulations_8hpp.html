@@ -125,8 +125,8 @@ Typedefs</h2></td></tr>
 <tr class="separator:a47758eef4587eeb8e5419c87a5cd9943"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a961d96099de7419a3319a046834713ee"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#a961d96099de7419a3319a046834713ee">PDT</a> = CGAL::Periodic_3_Delaunay_triangulation_3&lt; GT, TDS &gt;</td></tr>
 <tr class="separator:a961d96099de7419a3319a046834713ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a136272be8c672a006e12b6e20b19c278"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#a136272be8c672a006e12b6e20b19c278">Point</a> = Kd::Point_d</td></tr>
-<tr class="separator:a136272be8c672a006e12b6e20b19c278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f1d7e1257c0e42ff375fbee814f8972"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#a0f1d7e1257c0e42ff375fbee814f8972">Point</a> = Kd::Point_d</td></tr>
+<tr class="separator:a0f1d7e1257c0e42ff375fbee814f8972"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31d8c33128479848779001267ff7ca31"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#a31d8c33128479848779001267ff7ca31">T3Point</a> = PDT::Point</td></tr>
 <tr class="separator:a31d8c33128479848779001267ff7ca31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f04d99b3f9acfb26e5de31879e11e21"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#a7f04d99b3f9acfb26e5de31879e11e21">T3Vb</a> = CGAL::Triangulation_vertex_base_3&lt; GT, VbDS &gt;</td></tr>
@@ -141,10 +141,10 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a80761c04c540a5fdc40101d4c10f41b9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a80761c04c540a5fdc40101d4c10f41b9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#a80761c04c540a5fdc40101d4c10f41b9">make_random_T3_triangulation</a> (T *T3, int simplices, int timeslices) noexcept</td></tr>
-<tr class="memdesc:a80761c04c540a5fdc40101d4c10f41b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make 3<a class="el" href="class_d.html">D</a> toroidal (periodic) triangulations.  <br /></td></tr>
-<tr class="separator:a80761c04c540a5fdc40101d4c10f41b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af50019b8257a2d6cc866b9381e69c693"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af50019b8257a2d6cc866b9381e69c693"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_periodic__3__triangulations_8hpp.html#af50019b8257a2d6cc866b9381e69c693">make_random_T3_triangulation</a> (T *T3, int simplices, int timeslices)</td></tr>
+<tr class="memdesc:af50019b8257a2d6cc866b9381e69c693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make 3<a class="el" href="class_d.html">D</a> toroidal (periodic) triangulations.  <br /></td></tr>
+<tr class="separator:af50019b8257a2d6cc866b9381e69c693"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Toroidal 3<a class="el" href="class_d.html">D</a> triangulations. </p>
@@ -253,20 +253,18 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a136272be8c672a006e12b6e20b19c278" name="a136272be8c672a006e12b6e20b19c278"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a136272be8c672a006e12b6e20b19c278">&#9670;&#160;</a></span>Point</h2>
+<a id="a0f1d7e1257c0e42ff375fbee814f8972" name="a0f1d7e1257c0e42ff375fbee814f8972"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f1d7e1257c0e42ff375fbee814f8972">&#9670;&#160;</a></span>Point</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef Point_t&lt; 3 &gt; Point</td>
+          <td class="memname">using Point =  Kd::Point_d</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">  spdlog::debug(<span class="stringliteral">&quot;3-Manifold validation and fixing.\n&quot;</span>)</div>
-</div><!-- fragment -->
+
 <p class="definition">Definition at line <a class="el" href="_periodic__3__triangulations_8hpp_source.html#l00042">42</a> of file <a class="el" href="_periodic__3__triangulations_8hpp_source.html">Periodic_3_triangulations.hpp</a>.</p>
 
 </div>
@@ -354,16 +352,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a80761c04c540a5fdc40101d4c10f41b9" name="a80761c04c540a5fdc40101d4c10f41b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80761c04c540a5fdc40101d4c10f41b9">&#9670;&#160;</a></span>make_random_T3_triangulation()</h2>
+<a id="af50019b8257a2d6cc866b9381e69c693" name="af50019b8257a2d6cc866b9381e69c693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af50019b8257a2d6cc866b9381e69c693">&#9670;&#160;</a></span>make_random_T3_triangulation()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void make_random_T3_triangulation </td>
@@ -389,11 +384,6 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Make 3<a class="el" href="class_d.html">D</a> toroidal (periodic) triangulations. </p>
@@ -410,7 +400,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:08 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

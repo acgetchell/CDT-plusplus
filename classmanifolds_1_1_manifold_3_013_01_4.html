@@ -85,7 +85,6 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classmanifolds_1_1_manifold_3_013_01_4-members.html">List of all members</a>  </div>
@@ -118,10 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a627877136a7fc016422fbc3ba798de83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a627877136a7fc016422fbc3ba798de83">Manifold</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const t_desired_simplices, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const t_desired_timeslices, double const t_initial_radius=<a class="el" href="_settings_8hpp.html#abb58efc843064f674896fc0c68175555">INITIAL_RADIUS</a>, double const t_foliation_spacing=FOLIATION_SPACING)</td></tr>
 <tr class="memdesc:a627877136a7fc016422fbc3ba798de83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct manifold using arguments.  <br /></td></tr>
 <tr class="separator:a627877136a7fc016422fbc3ba798de83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6814bd512e0b1cc261816c2ebae8fd97"><td class="memItemLeft" align="right" valign="top"><a id="a6814bd512e0b1cc261816c2ebae8fd97" name="a6814bd512e0b1cc261816c2ebae8fd97"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Manifold</b> (<a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;&amp;other)=default</td></tr>
-<tr class="memdesc:a6814bd512e0b1cc261816c2ebae8fd97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move ctor. <br /></td></tr>
-<tr class="separator:a6814bd512e0b1cc261816c2ebae8fd97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a443bb88705b02b8a0bb9653ece3174c0"><td class="memItemLeft" align="right" valign="top"><a id="a443bb88705b02b8a0bb9653ece3174c0" name="a443bb88705b02b8a0bb9653ece3174c0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Manifold</b> (<a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:a443bb88705b02b8a0bb9653ece3174c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move ctor. <br /></td></tr>
+<tr class="separator:a443bb88705b02b8a0bb9653ece3174c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56c0cda1f45db9ae63bac543e511020b"><td class="memItemLeft" align="right" valign="top"><a id="a56c0cda1f45db9ae63bac543e511020b" name="a56c0cda1f45db9ae63bac543e511020b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Manifold</b> (<a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> const &amp;other)=default</td></tr>
 <tr class="memdesc:a56c0cda1f45db9ae63bac543e511020b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy ctor. <br /></td></tr>
@@ -135,10 +134,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab9293064f825333e847da9ef02024ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a255e6f00f739d4f5b5739e6b119cd0d4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a> () const -&gt; bool</td></tr>
 <tr class="separator:a255e6f00f739d4f5b5739e6b119cd0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21ca973f04ba61406b6cddfcfb1a5991"><td class="memTemplParams" colspan="2">template&lt;typename VertexHandle &gt; </td></tr>
-<tr class="memitem:a21ca973f04ba61406b6cddfcfb1a5991"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a21ca973f04ba61406b6cddfcfb1a5991">degree</a> (VertexHandle &amp;&amp;t_vertex) const -&gt; decltype(auto)</td></tr>
-<tr class="memdesc:a21ca973f04ba61406b6cddfcfb1a5991"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perfect forwarding to FoliatedTriangulation_3.degree()  <br /></td></tr>
-<tr class="separator:a21ca973f04ba61406b6cddfcfb1a5991"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2a644d22cd4e123fdb4f81b4a4d9aad"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ab2a644d22cd4e123fdb4f81b4a4d9aad">check_vertices</a> () const -&gt; bool</td></tr>
+<tr class="separator:ab2a644d22cd4e123fdb4f81b4a4d9aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6eb907b87d584239c6f4ce5a5a43deb8"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a6eb907b87d584239c6f4ce5a5a43deb8">delaunay_snapshot</a> () const -&gt; Delaunay_t&lt; 3 &gt;</td></tr>
+<tr class="separator:a6eb907b87d584239c6f4ce5a5a43deb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1aa590a12c3926855b5fa5701febe50"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ab1aa590a12c3926855b5fa5701febe50">dimensionality</a> () const</td></tr>
 <tr class="separator:ab1aa590a12c3926855b5fa5701febe50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a9c96a4e872487aa3549e389c8b53cb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a3a9c96a4e872487aa3549e389c8b53cb">edges</a> () const</td></tr>
@@ -148,34 +147,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a55906d5ca20be93a6767d8191b77c2ce"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a55906d5ca20be93a6767d8191b77c2ce">foliation_spacing</a> () const</td></tr>
 <tr class="memdesc:a55906d5ca20be93a6767d8191b77c2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Radial separation between timeslices.  <br /></td></tr>
 <tr class="separator:a55906d5ca20be93a6767d8191b77c2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6adc404f5a305973fb1f946aed7ba67"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#aa6adc404f5a305973fb1f946aed7ba67">get_cell</a> (Vertex_handle_t&lt; 3 &gt; const &amp;vh1, Vertex_handle_t&lt; 3 &gt; const &amp;vh2, Vertex_handle_t&lt; 3 &gt; const &amp;vh3, Vertex_handle_t&lt; 3 &gt; const &amp;vh4) const -&gt; Cell_handle_t&lt; 3 &gt;</td></tr>
-<tr class="memdesc:aa6adc404f5a305973fb1f946aed7ba67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a cell handle from 4 vertex handles.  <br /></td></tr>
-<tr class="separator:aa6adc404f5a305973fb1f946aed7ba67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3abddce86d9cbb94b3f4d1e37553171c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a3abddce86d9cbb94b3f4d1e37553171c">get_delaunay</a> () const noexcept -&gt; Delaunay_t&lt; 3 &gt; const &amp;</td></tr>
-<tr class="separator:a3abddce86d9cbb94b3f4d1e37553171c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2169b6004bf256c20b9a410611b94ade"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a> () const -&gt; <a class="el" href="struct_geometry_3_013_01_4.html">Geometry</a> const &amp;</td></tr>
 <tr class="separator:a2169b6004bf256c20b9a410611b94ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8e49e5105854dab35a941ab766f8500"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ad8e49e5105854dab35a941ab766f8500">get_spacelike_edges</a> () const -&gt; auto const &amp;</td></tr>
-<tr class="memdesc:ad8e49e5105854dab35a941ab766f8500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call triangulation.get_spacelike_edges()  <br /></td></tr>
-<tr class="separator:ad8e49e5105854dab35a941ab766f8500"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab82201099375f42c176672da52713a3d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ab82201099375f42c176672da52713a3d">get_timelike_edges</a> () const noexcept -&gt; auto const &amp;</td></tr>
-<tr class="memdesc:ab82201099375f42c176672da52713a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call to triangulation_.get_timelike_edges()  <br /></td></tr>
-<tr class="separator:ab82201099375f42c176672da52713a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f539d827e8443e74fc913e249f7cb48"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a> () const noexcept -&gt; <a class="el" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">Triangulation</a> const &amp;</td></tr>
-<tr class="separator:a5f539d827e8443e74fc913e249f7cb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a756253db9082f419b67f7be89b21e188"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a756253db9082f419b67f7be89b21e188">get_vertex</a> (Point_t&lt; 3 &gt; const &amp;point) const -&gt; Vertex_handle_t&lt; 3 &gt;</td></tr>
-<tr class="memdesc:a756253db9082f419b67f7be89b21e188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains a vertex handle from a point.  <br /></td></tr>
-<tr class="separator:a756253db9082f419b67f7be89b21e188"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac74fab84f678eeffd929f0f07fa8948a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ac74fab84f678eeffd929f0f07fa8948a">get_vertices</a> () const noexcept -&gt; auto const &amp;</td></tr>
-<tr class="memdesc:ac74fab84f678eeffd929f0f07fa8948a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call FoliatedTriangulation_3.get_vertices()  <br /></td></tr>
-<tr class="separator:ac74fab84f678eeffd929f0f07fa8948a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5934a56cefb8d619d32db5904c227a0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#aa5934a56cefb8d619d32db5904c227a0">get_vertices_span</a> () const noexcept -&gt; auto</td></tr>
-<tr class="memdesc:aa5934a56cefb8d619d32db5904c227a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call FoliatedTriangulation_3.get_vertices_span()  <br /></td></tr>
-<tr class="separator:aa5934a56cefb8d619d32db5904c227a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87ad8635c6c91ffa8eef2d2feecb2ddc"><td class="memTemplParams" colspan="2">template&lt;typename... Ts&gt; </td></tr>
-<tr class="memitem:a87ad8635c6c91ffa8eef2d2feecb2ddc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a87ad8635c6c91ffa8eef2d2feecb2ddc">incident_cells</a> (Ts &amp;&amp;... args) const noexcept -&gt; decltype(auto)</td></tr>
-<tr class="memdesc:a87ad8635c6c91ffa8eef2d2feecb2ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perfect forwarding to FoliatedTriangulation_3.incident_cells()  <br /></td></tr>
-<tr class="separator:a87ad8635c6c91ffa8eef2d2feecb2ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8af77e9e6ae5c99d821882b7736aa1cd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a8af77e9e6ae5c99d821882b7736aa1cd">initial_radius</a> () const</td></tr>
 <tr class="memdesc:a8af77e9e6ae5c99d821882b7736aa1cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial radius of the first timeslice.  <br /></td></tr>
 <tr class="separator:a8af77e9e6ae5c99d821882b7736aa1cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,19 +157,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af62700728b9856b3daf7d634dec090db"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#af62700728b9856b3daf7d634dec090db">is_delaunay</a> () const -&gt; bool</td></tr>
 <tr class="memdesc:af62700728b9856b3daf7d634dec090db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forwarding to FoliatedTriangulation.is_delaunay()  <br /></td></tr>
 <tr class="separator:af62700728b9856b3daf7d634dec090db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dcb2ce31fb7a8f156465fb7c33bce38"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a1dcb2ce31fb7a8f156465fb7c33bce38">is_edge</a> (Edge_handle_t&lt; 3 &gt; const &amp;t_edge_candidate) const noexcept -&gt; bool</td></tr>
-<tr class="memdesc:a1dcb2ce31fb7a8f156465fb7c33bce38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forwarding to FoliatedTriangulation_3.is_edge()  <br /></td></tr>
-<tr class="separator:a1dcb2ce31fb7a8f156465fb7c33bce38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3d9fc92692cb272e3eccfd957f07e13"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ad3d9fc92692cb272e3eccfd957f07e13">is_foliated</a> () const -&gt; bool</td></tr>
 <tr class="memdesc:ad3d9fc92692cb272e3eccfd957f07e13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forwarding to FoliatedTriangulation_3.is_foliated()  <br /></td></tr>
 <tr class="separator:ad3d9fc92692cb272e3eccfd957f07e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad32097f96dc5e033bca522fc8bb4ca98"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ad32097f96dc5e033bca522fc8bb4ca98">is_valid</a> () const -&gt; bool</td></tr>
 <tr class="memdesc:ad32097f96dc5e033bca522fc8bb4ca98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forwarding to FoliatedTriangulation.is_tds_valid()  <br /></td></tr>
 <tr class="separator:ad32097f96dc5e033bca522fc8bb4ca98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af76c818684a27ed854e5abbb6629f7c5"><td class="memTemplParams" colspan="2">template&lt;typename VertexType &gt; </td></tr>
-<tr class="memitem:af76c818684a27ed854e5abbb6629f7c5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5">is_vertex</a> (VertexType &amp;&amp;t_vertex_candidate) const -&gt; bool</td></tr>
-<tr class="memdesc:af76c818684a27ed854e5abbb6629f7c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perfect forwarding to FoliatedTriangulation_3.is_vertex()  <br /></td></tr>
-<tr class="separator:af76c818684a27ed854e5abbb6629f7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a118b4eafbbb89c5619f64181c5af7e98"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">max_time</a> () const</td></tr>
 <tr class="separator:a118b4eafbbb89c5619f64181c5af7e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a672464a052ac88014270ff406ca48a85"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">min_time</a> () const</td></tr>
@@ -211,8 +177,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a979fcd945414cf85416f5f31c004555b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f31d3266bba86f6456e2ca56e0ba40e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a0f31d3266bba86f6456e2ca56e0ba40e">N2</a> () const</td></tr>
 <tr class="separator:a0f31d3266bba86f6456e2ca56e0ba40e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48e8dbaec311270b99bac492c44b33ae"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a48e8dbaec311270b99bac492c44b33ae">N2_SL</a> () const -&gt; auto const &amp;</td></tr>
-<tr class="separator:a48e8dbaec311270b99bac492c44b33ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3670e170b9e355de1ff1955fc7f4bf9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a> () const</td></tr>
 <tr class="separator:af3670e170b9e355de1ff1955fc7f4bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8968bf2264409fff6258568e23fed54b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a8968bf2264409fff6258568e23fed54b">N3_13</a> () const</td></tr>
@@ -223,10 +187,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a48984a05b1459ce1c002e7f81b8a50e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44ddee46dbba06427300b377e197cc8d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a44ddee46dbba06427300b377e197cc8d">N3_31_13</a> () const</td></tr>
 <tr class="separator:a44ddee46dbba06427300b377e197cc8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9195308e5e6f2e97e02bfdc6f5c6bdb0"><td class="memItemLeft" align="right" valign="top"><a id="a9195308e5e6f2e97e02bfdc6f5c6bdb0" name="a9195308e5e6f2e97e02bfdc6f5c6bdb0"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;&amp;other) -&gt; <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;=default</td></tr>
-<tr class="memdesc:a9195308e5e6f2e97e02bfdc6f5c6bdb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move assignment. <br /></td></tr>
-<tr class="separator:a9195308e5e6f2e97e02bfdc6f5c6bdb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96e67cf8258a91edafac62f5ee48b024"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a96e67cf8258a91edafac62f5ee48b024">operator=</a> (<a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;</td></tr>
+<tr class="memdesc:a96e67cf8258a91edafac62f5ee48b024"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default move assignment.  <br /></td></tr>
+<tr class="separator:a96e67cf8258a91edafac62f5ee48b024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab62b814168b910175c7e3690f2dc52cc"><td class="memItemLeft" align="right" valign="top"><a id="ab62b814168b910175c7e3690f2dc52cc" name="ab62b814168b910175c7e3690f2dc52cc"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> const &amp;other) -&gt; <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> &amp;=default</td></tr>
 <tr class="memdesc:ab62b814168b910175c7e3690f2dc52cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy assignment. <br /></td></tr>
@@ -248,11 +211,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a cla
 <tr class="separator:abb050d77f3f4d5dfb00b2cbd96d5b55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bf10956652e1c8340718ba682100220"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220">simplices</a> () const</td></tr>
 <tr class="separator:a8bf10956652e1c8340718ba682100220"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab02bb3223442972b43d6d73066390349"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ab02bb3223442972b43d6d73066390349">triangulation</a> () -&gt; <a class="el" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">Triangulation</a> &amp;</td></tr>
-<tr class="separator:ab02bb3223442972b43d6d73066390349"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a850a08ca14a7e209fcebe3b323c186ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff">update</a> ()</td></tr>
-<tr class="memdesc:a850a08ca14a7e209fcebe3b323c186ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> data structures.  <br /></td></tr>
-<tr class="separator:a850a08ca14a7e209fcebe3b323c186ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a751a88dba904348ed7f5530792e0a11c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a751a88dba904348ed7f5530792e0a11c">spacelike_face_count</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const timevalue) const noexcept -&gt; std::size_t</td></tr>
+<tr class="separator:a751a88dba904348ed7f5530792e0a11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a162b76deb8bdc92056167969b80a186c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a162b76deb8bdc92056167969b80a186c">updated</a> () const -&gt; <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a></td></tr>
+<tr class="memdesc:a162b76deb8bdc92056167969b80a186c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a manifold rebuilt from the current canonical topology.  <br /></td></tr>
+<tr class="separator:a162b76deb8bdc92056167969b80a186c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a78402de00eb80aa16a796d6d9d7fce"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce">vertices</a> () const</td></tr>
 <tr class="separator:a6a78402de00eb80aa16a796d6d9d7fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -272,15 +235,6 @@ Private Types</h2></td></tr>
 <tr class="memitem:a7c1523f9b36e87ab3b1749f09a142f05"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a7c1523f9b36e87ab3b1749f09a142f05">Triangulation</a> = <a class="el" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation_3</a></td></tr>
 <tr class="separator:a7c1523f9b36e87ab3b1749f09a142f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:ac4baf9e0ae5c13bf18f32fcdaed3d355"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355">update_geometry</a> () noexcept</td></tr>
-<tr class="memdesc:ac4baf9e0ae5c13bf18f32fcdaed3d355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update geometry data of the manifold when the triangulation has been changed.  <br /></td></tr>
-<tr class="separator:ac4baf9e0ae5c13bf18f32fcdaed3d355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08fd194e67827ef25bf55960cfa42c85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85">update_triangulation</a> ()</td></tr>
-<tr class="memdesc:a08fd194e67827ef25bf55960cfa42c85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the triangulation.  <br /></td></tr>
-<tr class="separator:a08fd194e67827ef25bf55960cfa42c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:aa7d7b166db5a9a6bfa1ecc11606c6f0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_geometry_3_013_01_4.html">Geometry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#aa7d7b166db5a9a6bfa1ecc11606c6f0b">m_geometry</a></td></tr>
@@ -299,7 +253,7 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>3<a class="el" href="class_d.html">D</a> <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00042">42</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00043">43</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a3ba38b099192749345623f7785ff3b7b" name="a3ba38b099192749345623f7785ff3b7b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3ba38b099192749345623f7785ff3b7b">&#9670;&#160;</a></span>Geometry</h2>
@@ -321,7 +275,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00045">45</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00046">46</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -345,7 +299,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00044">44</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00045">45</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -382,7 +336,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00095">95</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00105">105</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -443,7 +397,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00105">105</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00115">115</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -497,7 +451,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00120">120</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00130">130</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -527,29 +481,26 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>True if all cells in triangulation are classified and match number in geometry </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00316">316</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00269">269</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01436">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::check_all_cells()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01498">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::check_all_cells()</a>.</p>
 
 </div>
 </div>
-<a id="a21ca973f04ba61406b6cddfcfb1a5991" name="a21ca973f04ba61406b6cddfcfb1a5991"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21ca973f04ba61406b6cddfcfb1a5991">&#9670;&#160;</a></span>degree()</h2>
+<a id="ab2a644d22cd4e123fdb4f81b4a4d9aad" name="ab2a644d22cd4e123fdb4f81b4a4d9aad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2a644d22cd4e123fdb4f81b4a4d9aad">&#9670;&#160;</a></span>check_vertices()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename VertexHandle &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::degree </td>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::check_vertices </td>
           <td>(</td>
-          <td class="paramtype">VertexHandle &amp;&amp;&#160;</td>
-          <td class="paramname"><em>t_vertex</em></td><td>)</td>
-          <td> const -&gt; decltype(auto)
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; bool
     </td>
         </tr>
       </table>
@@ -559,12 +510,43 @@ template&lt;typename VertexHandle &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>True if every vertex carries the expected timevalue </dd></dl>
 
-<p>Perfect forwarding to FoliatedTriangulation_3.degree() </p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00276">276</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00285">285</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01425">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::check_all_vertices()</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01277">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::degree()</a>.</p>
+</div>
+</div>
+<a id="a6eb907b87d584239c6f4ce5a5a43deb8" name="a6eb907b87d584239c6f4ce5a5a43deb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6eb907b87d584239c6f4ce5a5a43deb8">&#9670;&#160;</a></span>delaunay_snapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::delaunay_snapshot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; Delaunay_t&lt;3&gt;
+    </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>An owning snapshot of the canonical Delaunay triangulation</dd></dl>
+<p>Handles obtained from the snapshot cannot mutate this manifold or invalidate its derived geometry and topology caches. </p>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00159">159</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01321">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::delaunay_snapshot()</a>.</p>
 
 </div>
 </div>
@@ -592,9 +574,9 @@ template&lt;typename VertexHandle &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Run-time dimensionality of the triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00203">203</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00186">186</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01227">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::dimension()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01347">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::dimension()</a>.</p>
 
 </div>
 </div>
@@ -622,9 +604,9 @@ template&lt;typename VertexHandle &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of 1<a class="el" href="class_d.html">D</a> edges in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00260">260</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00244">244</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01193">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_edges()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01337">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_edges()</a>.</p>
 
 </div>
 </div>
@@ -652,9 +634,9 @@ template&lt;typename VertexHandle &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of 2<a class="el" href="class_d.html">D</a> faces in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00244">244</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00228">228</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01187">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_facets()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01331">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_facets()</a>.</p>
 
 </div>
 </div>
@@ -683,107 +665,9 @@ template&lt;typename VertexHandle &gt; </div>
 
 <p>Radial separation between timeslices. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00211">211</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00194">194</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01270">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::foliation_spacing()</a>.</p>
-
-</div>
-</div>
-<a id="aa6adc404f5a305973fb1f946aed7ba67" name="aa6adc404f5a305973fb1f946aed7ba67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6adc404f5a305973fb1f946aed7ba67">&#9670;&#160;</a></span>get_cell()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_cell </td>
-          <td>(</td>
-          <td class="paramtype">Vertex_handle_t&lt; 3 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>vh1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Vertex_handle_t&lt; 3 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>vh2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Vertex_handle_t&lt; 3 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>vh3</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Vertex_handle_t&lt; 3 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>vh4</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const -&gt; Cell_handle_t&lt;3&gt;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get a cell handle from 4 vertex handles. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">vh1</td><td>The first vertex handle </td></tr>
-    <tr><td class="paramname">vh2</td><td>The second vertex handle </td></tr>
-    <tr><td class="paramname">vh3</td><td>The third vertex handle </td></tr>
-    <tr><td class="paramname">vh4</td><td>The fourth vertex handle </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The cell handle containing the vertex handles </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00383">383</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01177">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>.</p>
-
-</div>
-</div>
-<a id="a3abddce86d9cbb94b3f4d1e37553171c" name="a3abddce86d9cbb94b3f4d1e37553171c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3abddce86d9cbb94b3f4d1e37553171c">&#9670;&#160;</a></span>get_delaunay()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_delaunay </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; Delaunay_t&lt;3&gt; const&amp;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> read-only reference to the Delaunay triangulation </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00150">150</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01381">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::foliation_spacing()</a>.</p>
 
 </div>
 </div>
@@ -812,241 +696,7 @@ template&lt;typename VertexHandle &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> read-only reference to the <a class="el" href="struct_geometry.html">Geometry</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00158">158</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ad8e49e5105854dab35a941ab766f8500" name="ad8e49e5105854dab35a941ab766f8500"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8e49e5105854dab35a941ab766f8500">&#9670;&#160;</a></span>get_spacelike_edges()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_spacelike_edges </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; auto const&amp;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Call triangulation.get_spacelike_edges() </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00303">303</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01248">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_spacelike_edges()</a>.</p>
-
-</div>
-</div>
-<a id="ab82201099375f42c176672da52713a3d" name="ab82201099375f42c176672da52713a3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab82201099375f42c176672da52713a3d">&#9670;&#160;</a></span>get_timelike_edges()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_timelike_edges </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; auto const&amp;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Call to triangulation_.get_timelike_edges() </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00299">299</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01243">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_timelike_edges()</a>.</p>
-
-</div>
-</div>
-<a id="a5f539d827e8443e74fc913e249f7cb48" name="a5f539d827e8443e74fc913e249f7cb48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f539d827e8443e74fc913e249f7cb48">&#9670;&#160;</a></span>get_triangulation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_triangulation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; <a class="el" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">Triangulation</a> const&amp;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> read-only reference to the triangulation </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00145">145</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a756253db9082f419b67f7be89b21e188" name="a756253db9082f419b67f7be89b21e188"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a756253db9082f419b67f7be89b21e188">&#9670;&#160;</a></span>get_vertex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_vertex </td>
-          <td>(</td>
-          <td class="paramtype">Point_t&lt; 3 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>point</em></td><td>)</td>
-          <td> const -&gt; Vertex_handle_t&lt;3&gt;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Obtains a vertex handle from a point. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">point</td><td>The point to search for </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The vertex handle to the vertex containing the point </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00370">370</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01177">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>.</p>
-
-</div>
-</div>
-<a id="ac74fab84f678eeffd929f0f07fa8948a" name="ac74fab84f678eeffd929f0f07fa8948a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac74fab84f678eeffd929f0f07fa8948a">&#9670;&#160;</a></span>get_vertices()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_vertices </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; auto const&amp;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Call FoliatedTriangulation_3.get_vertices() </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00307">307</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01252">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_vertices()</a>.</p>
-
-</div>
-</div>
-<a id="aa5934a56cefb8d619d32db5904c227a0" name="aa5934a56cefb8d619d32db5904c227a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5934a56cefb8d619d32db5904c227a0">&#9670;&#160;</a></span>get_vertices_span()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_vertices_span </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; auto
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Call FoliatedTriangulation_3.get_vertices_span() </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00311">311</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01256">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_vertices_span()</a>.</p>
-
-</div>
-</div>
-<a id="a87ad8635c6c91ffa8eef2d2feecb2ddc" name="a87ad8635c6c91ffa8eef2d2feecb2ddc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87ad8635c6c91ffa8eef2d2feecb2ddc">&#9670;&#160;</a></span>incident_cells()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... Ts&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::incident_cells </td>
-          <td>(</td>
-          <td class="paramtype">Ts &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
-          <td> const -&gt; decltype(auto)
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Perfect forwarding to FoliatedTriangulation_3.incident_cells() </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00292">292</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01291">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::incident_cells()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00163">163</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -1075,9 +725,9 @@ template&lt;typename... Ts&gt; </div>
 
 <p>Initial radius of the first timeslice. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00207">207</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00190">190</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01267">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::initial_radius()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01378">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::initial_radius()</a>.</p>
 
 </div>
 </div>
@@ -1106,11 +756,9 @@ template&lt;typename... Ts&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>If base data structures are correct </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00177">177</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00182">182</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01151">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_correct()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01289">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_correct()</a>.</p>
 
 </div>
 </div>
@@ -1141,49 +789,9 @@ template&lt;typename... Ts&gt; </div>
 <p>Forwarding to FoliatedTriangulation.is_delaunay() </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> triangulation is Delaunay </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00168">168</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00173">173</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01143">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_delaunay()</a>.</p>
-
-</div>
-</div>
-<a id="a1dcb2ce31fb7a8f156465fb7c33bce38" name="a1dcb2ce31fb7a8f156465fb7c33bce38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dcb2ce31fb7a8f156465fb7c33bce38">&#9670;&#160;</a></span>is_edge()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::is_edge </td>
-          <td>(</td>
-          <td class="paramtype">Edge_handle_t&lt; 3 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>t_edge_candidate</em></td><td>)</td>
-          <td> const -&gt; bool
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Forwarding to FoliatedTriangulation_3.is_edge() </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">t_edge_candidate</td><td>The edge to test </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the candidate is an edge </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00194">194</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01177">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01281">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_delaunay()</a>.</p>
 
 </div>
 </div>
@@ -1214,9 +822,9 @@ template&lt;typename... Ts&gt; </div>
 <p>Forwarding to FoliatedTriangulation_3.is_foliated() </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> triangulation is foliated </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00163">163</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00168">168</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01137">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_foliated()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01275">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_foliated()</a>.</p>
 
 </div>
 </div>
@@ -1247,57 +855,9 @@ template&lt;typename... Ts&gt; </div>
 <p>Forwarding to FoliatedTriangulation.is_tds_valid() </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the TriangulationDataStructure is valid </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00173">173</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00178">178</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01147">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_tds_valid()</a>.</p>
-
-</div>
-</div>
-<a id="af76c818684a27ed854e5abbb6629f7c5" name="af76c818684a27ed854e5abbb6629f7c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af76c818684a27ed854e5abbb6629f7c5">&#9670;&#160;</a></span>is_vertex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename VertexType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::is_vertex </td>
-          <td>(</td>
-          <td class="paramtype">VertexType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>t_vertex_candidate</em></td><td>)</td>
-          <td> const -&gt; bool
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Perfect forwarding to FoliatedTriangulation_3.is_vertex() </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">VertexType</td><td>The vertex type </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">t_vertex_candidate</td><td>The vertex to check </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the vertex candidate is a vertex </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00185">185</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01177">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01285">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_tds_valid()</a>.</p>
 
 </div>
 </div>
@@ -1325,9 +885,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Maximum timeslice value in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00280">280</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00264">264</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01261">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::max_time()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01372">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::max_time()</a>.</p>
 
 </div>
 </div>
@@ -1355,9 +915,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Minimum timeslice value in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00276">276</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00260">260</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01264">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::min_time()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01375">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::min_time()</a>.</p>
 
 </div>
 </div>
@@ -1385,9 +945,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of vertices in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00267">267</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00251">251</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00056">Geometry&lt; 3 &gt;::N0</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00061">Geometry&lt; 3 &gt;::N0</a>.</p>
 
 </div>
 </div>
@@ -1415,9 +975,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of 1<a class="el" href="class_d.html">D</a> edges in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00251">251</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00235">235</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00047">Geometry&lt; 3 &gt;::N1</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00052">Geometry&lt; 3 &gt;::N1</a>.</p>
 
 </div>
 </div>
@@ -1445,9 +1005,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of spacelike edges in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00254">254</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00238">238</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01239">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::N1_SL()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01368">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::N1_SL()</a>.</p>
 
 </div>
 </div>
@@ -1475,9 +1035,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of timelike edges in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00257">257</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00241">241</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01235">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::N1_TL()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01364">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::N1_TL()</a>.</p>
 
 </div>
 </div>
@@ -1505,40 +1065,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of 2<a class="el" href="class_d.html">D</a> faces in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00236">236</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00220">220</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00044">Geometry&lt; 3 &gt;::N2</a>.</p>
-
-</div>
-</div>
-<a id="a48e8dbaec311270b99bac492c44b33ae" name="a48e8dbaec311270b99bac492c44b33ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48e8dbaec311270b99bac492c44b33ae">&#9670;&#160;</a></span>N2_SL()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::N2_SL </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; auto const&amp;
-    </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>An associative container of spacelike faces indexed by timevalue </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00240">240</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01230">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::N2_SL()</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00049">Geometry&lt; 3 &gt;::N2</a>.</p>
 
 </div>
 </div>
@@ -1566,9 +1095,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of 3<a class="el" href="class_d.html">D</a> simplices in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00215">215</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00198">198</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00029">Geometry&lt; 3 &gt;::N3</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00034">Geometry&lt; 3 &gt;::N3</a>.</p>
 
 </div>
 </div>
@@ -1596,9 +1125,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of (1,3) simplices in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00224">224</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00207">207</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00035">Geometry&lt; 3 &gt;::N3_13</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00040">Geometry&lt; 3 &gt;::N3_13</a>.</p>
 
 </div>
 </div>
@@ -1626,9 +1155,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of (2,2) simplices in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00221">221</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00204">204</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00041">Geometry&lt; 3 &gt;::N3_22</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00046">Geometry&lt; 3 &gt;::N3_22</a>.</p>
 
 </div>
 </div>
@@ -1656,9 +1185,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of (3,1) simplices in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00218">218</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00201">201</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00032">Geometry&lt; 3 &gt;::N3_31</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00037">Geometry&lt; 3 &gt;::N3_31</a>.</p>
 
 </div>
 </div>
@@ -1686,9 +1215,40 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of (3,1) and (1,3) simplices in geometry data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00227">227</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00210">210</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00038">Geometry&lt; 3 &gt;::N3_31_13</a>.</p>
+<p class="reference">References <a class="el" href="_geometry_8hpp_source.html#l00043">Geometry&lt; 3 &gt;::N3_31_13</a>.</p>
+
+</div>
+</div>
+<a id="a96e67cf8258a91edafac62f5ee48b024" name="a96e67cf8258a91edafac62f5ee48b024"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96e67cf8258a91edafac62f5ee48b024">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a>&lt; 3 &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a>&amp;
+    </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default move assignment. </p>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00086">86</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -1717,9 +1277,9 @@ template&lt;typename VertexType &gt; </div>
 
 <p>Print manifold. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00336">336</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00293">293</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>, and <a class="el" href="cdt_8cpp_source.html#l00059">main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cdt_8cpp_source.html#l00061">main()</a>.</p>
 
 </div>
 </div>
@@ -1748,9 +1308,9 @@ template&lt;typename VertexType &gt; </div>
 
 <p>Print timevalues of each vertex in the cell and the resulting cell-&gt;info() </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00333">333</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00290">290</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01449">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01519">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells()</a>.</p>
 
 </div>
 </div>
@@ -1779,9 +1339,9 @@ template&lt;typename VertexType &gt; </div>
 
 <p>Print details of the manifold. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00351">351</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00308">308</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>, and <a class="el" href="cdt_8cpp_source.html#l00059">main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cdt_8cpp_source.html#l00061">main()</a>.</p>
 
 </div>
 </div>
@@ -1810,11 +1370,9 @@ template&lt;typename VertexType &gt; </div>
 
 <p>Print values of a vertex-&gt;info() </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00329">329</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00286">286</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01377">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_vertices()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_manifold__test_8cpp_source.html#l00155">GIVEN()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01447">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_vertices()</a>.</p>
 
 </div>
 </div>
@@ -1843,11 +1401,11 @@ template&lt;typename VertexType &gt; </div>
 
 <p>Print the codimension 1 volume of simplices (faces) per timeslice. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00323">323</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00280">280</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01402">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_volume_per_timeslice()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01472">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_volume_per_timeslice()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cdt_8cpp_source.html#l00059">main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cdt_8cpp_source.html#l00061">main()</a>.</p>
 
 </div>
 </div>
@@ -1875,14 +1433,14 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of 3<a class="el" href="class_d.html">D</a> simplices in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00230">230</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00213">213</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01412">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_cells()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01325">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_cells()</a>.</p>
 
 </div>
 </div>
-<a id="ab02bb3223442972b43d6d73066390349" name="ab02bb3223442972b43d6d73066390349"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab02bb3223442972b43d6d73066390349">&#9670;&#160;</a></span>triangulation()</h2>
+<a id="a751a88dba904348ed7f5530792e0a11c" name="a751a88dba904348ed7f5530792e0a11c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a751a88dba904348ed7f5530792e0a11c">&#9670;&#160;</a></span>spacelike_face_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1891,10 +1449,42 @@ template&lt;typename VertexType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::triangulation </td>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::spacelike_face_count </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const&#160;</td>
+          <td class="paramname"><em>timevalue</em></td><td>)</td>
+          <td> const -&gt; std::size_t
+    </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Number of spacelike faces on a timeslice </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00223">223</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01350">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::spacelike_face_count()</a>.</p>
+
+</div>
+</div>
+<a id="a162b76deb8bdc92056167969b80a186c" name="a162b76deb8bdc92056167969b80a186c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a162b76deb8bdc92056167969b80a186c">&#9670;&#160;</a></span>updated()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::updated </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> -&gt; <a class="el" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">Triangulation</a>&amp;
+          <td> const -&gt; <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a>
     </td>
         </tr>
       </table>
@@ -1904,98 +1494,13 @@ template&lt;typename VertexType &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_a.html">A</a> mutable reference to the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00154">154</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p>Return a manifold rebuilt from the current canonical topology. </p>
+<p>The source remains unchanged. The returned triangulation caches and geometry are constructed together, so failure cannot publish a partially updated state. </p>
 
-</div>
-</div>
-<a id="a850a08ca14a7e209fcebe3b323c186ff" name="a850a08ca14a7e209fcebe3b323c186ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a850a08ca14a7e209fcebe3b323c186ff">&#9670;&#160;</a></span>update()</h2>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00143">143</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::update </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Update the <a class="el" href="classmanifolds_1_1_manifold.html">Manifold</a> data structures. </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00130">130</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ac4baf9e0ae5c13bf18f32fcdaed3d355" name="ac4baf9e0ae5c13bf18f32fcdaed3d355"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4baf9e0ae5c13bf18f32fcdaed3d355">&#9670;&#160;</a></span>update_geometry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::update_geometry </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Update geometry data of the manifold when the triangulation has been changed. </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00413">413</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a08fd194e67827ef25bf55960cfa42c85" name="a08fd194e67827ef25bf55960cfa42c85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08fd194e67827ef25bf55960cfa42c85">&#9670;&#160;</a></span>update_triangulation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::update_triangulation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Update the triangulation. </p>
-
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00394">394</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01270">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::foliation_spacing()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01177">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>, and <a class="el" href="_foliated__triangulation_8hpp_source.html#l01267">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::initial_radius()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01321">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::delaunay_snapshot()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01381">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::foliation_spacing()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01378">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::initial_radius()</a>, and <a class="el" href="_foliated__triangulation_8hpp_source.html#l01343">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_vertices()</a>.</p>
 
 </div>
 </div>
@@ -2023,9 +1528,9 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of vertices in triangulation data structure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00270">270</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00254">254</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01199">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_vertices()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01343">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_vertices()</a>.</p>
 
 </div>
 </div>
@@ -2065,7 +1570,7 @@ template&lt;typename VertexType &gt; </div>
 </div><div class="memdoc">
 
 <p>Non-member swap function for Manifolds. </p>
-<p>Used for no-except updates of manifolds after moves. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Used for noexcept updates of manifolds after moves. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">swap_from</td><td>The value to be swapped from. Assumed to be discarded. </td></tr>
     <tr><td class="paramname">swap_into</td><td>The value to be swapped into. </td></tr>
@@ -2073,7 +1578,7 @@ template&lt;typename VertexType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00083">83</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00096">96</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -2101,7 +1606,7 @@ template&lt;typename VertexType &gt; </div>
 <p>Dimensionality of the manifold. </p>
 <p>Used to determine the manifold dimension at compile-time </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00056">56</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00065">65</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -2127,7 +1632,7 @@ template&lt;typename VertexType &gt; </div>
 
 <p>The data structure of scalar values for computations. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00051">51</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00060">60</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -2153,7 +1658,7 @@ template&lt;typename VertexType &gt; </div>
 
 <p>The data structure of geometric and combinatorial relationships. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00048">48</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00057">57</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -2179,7 +1684,7 @@ template&lt;typename VertexType &gt; </div>
 
 <p>Topology of the manifold. </p>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00059">59</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00068">68</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -2189,7 +1694,7 @@ template&lt;typename VertexType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:08 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

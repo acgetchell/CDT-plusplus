@@ -14,5 +14,6 @@ var searchData=
   ['move_5fstrategy_2ehpp_11',['Move_strategy.hpp',['../_move__strategy_8hpp.html',1,'']]],
   ['move_5ftracker_2ehpp_12',['Move_tracker.hpp',['../_move__tracker_8hpp.html',1,'']]],
   ['move_5ftracker_5ftest_2ecpp_13',['Move_tracker_test.cpp',['../_move__tracker__test_8cpp.html',1,'']]],
-  ['mux_2evhdl_14',['mux.vhdl',['../mux_8vhdl.html',1,'']]]
+  ['mpfr_5fvalue_2ehpp_14',['Mpfr_value.hpp',['../_mpfr__value_8hpp.html',1,'']]],
+  ['mux_2evhdl_15',['mux.vhdl',['../mux_8vhdl.html',1,'']]]
 ];

@@ -116,10 +116,10 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a178cbdb602b1b9d3c3d314205256de92"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename ExpectedType  = std::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = boost::compat::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </td></tr>
-<tr class="memitem:a178cbdb602b1b9d3c3d314205256de92"><td class="memTemplItemLeft" align="right" valign="top">auto constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#a178cbdb602b1b9d3c3d314205256de92">apply_move</a> (ManifoldType &amp;&amp;t_manifold, FunctionType t_move) -&gt; decltype(auto)</td></tr>
-<tr class="memdesc:a178cbdb602b1b9d3c3d314205256de92"><td class="mdescLeft">&#160;</td><td class="mdescRight">An applicative function similar to std::apply on a manifold.  <br /></td></tr>
-<tr class="separator:a178cbdb602b1b9d3c3d314205256de92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c59424b0f81191d6252d426a66aef5"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename FunctionType &gt; </td></tr>
+<tr class="memitem:a86c59424b0f81191d6252d426a66aef5"><td class="memTemplItemLeft" align="right" valign="top">auto constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#a86c59424b0f81191d6252d426a66aef5">apply_move</a> (ManifoldType const &amp;t_manifold, FunctionType t_move) -&gt; decltype(auto)</td></tr>
+<tr class="memdesc:a86c59424b0f81191d6252d426a66aef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">An applicative function similar to std::apply on a manifold.  <br /></td></tr>
+<tr class="separator:a86c59424b0f81191d6252d426a66aef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Apply Pachner moves to foliated Delaunay triangulations. </p>
@@ -127,13 +127,13 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a178cbdb602b1b9d3c3d314205256de92" name="a178cbdb602b1b9d3c3d314205256de92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a178cbdb602b1b9d3c3d314205256de92">&#9670;&#160;</a></span>apply_move()</h2>
+<a id="a86c59424b0f81191d6252d426a66aef5" name="a86c59424b0f81191d6252d426a66aef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c59424b0f81191d6252d426a66aef5">&#9670;&#160;</a></span>apply_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = std::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = boost::compat::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
+template&lt;typename ManifoldType , typename FunctionType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -141,7 +141,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = std::expected&lt;Ma
         <tr>
           <td class="memname">auto constexpr apply_move </td>
           <td>(</td>
-          <td class="paramtype">ManifoldType &amp;&amp;&#160;</td>
+          <td class="paramtype">ManifoldType const &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em>, </td>
         </tr>
         <tr>
@@ -182,7 +182,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = std::expected&lt;Ma
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The expected or unexpected result in a std::expected&lt;T,E&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00035">35</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00032">32</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_move__command_8hpp_source.html#l00123">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::execute()</a>.</p>
 
@@ -191,7 +191,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = std::expected&lt;Ma
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:08 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>

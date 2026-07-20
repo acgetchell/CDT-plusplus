@@ -1,7 +1,12 @@
 <map id="include/S3Action.hpp" name="include/S3Action.hpp">
-<area shape="rect" id="node1" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="41,5,199,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="35,79,99,104"/>
-<area shape="rect" id="node3" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="123,79,226,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,152,192,177"/>
-<area shape="rect" id="node5" title=" " alt="" coords="216,152,283,177"/>
+<area shape="rect" id="node1" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="60,5,219,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,79,68,104"/>
+<area shape="rect" id="node3" title=" " alt="" coords="63,152,149,177"/>
+<area shape="rect" id="node4" title=" " alt="" coords="144,79,204,104"/>
+<area shape="rect" id="node5" href="$_mpfr__value_8hpp.html" title="Scope&#45;owned, value&#45;returning MPFR operations." alt="" coords="229,79,351,104"/>
+<area shape="rect" id="node6" title=" " alt="" coords="173,152,287,177"/>
+<area shape="rect" id="node7" title=" " alt="" coords="311,152,403,177"/>
+<area shape="rect" id="node8" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="427,152,529,177"/>
+<area shape="rect" id="node9" title=" " alt="" coords="309,225,495,251"/>
+<area shape="rect" id="node10" title=" " alt="" coords="519,225,586,251"/>
 </map>

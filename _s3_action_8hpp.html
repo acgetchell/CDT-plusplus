@@ -82,6 +82,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">S3Action.hpp File Reference</div></div>
 </div><!--header-->
@@ -89,14 +90,16 @@ $(function() {
 
 <p>Calculate S3 bulk actions on 3<a class="el" href="class_d.html">D</a> Delaunay Triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;mpfr.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="_mpfr__value_8hpp_source.html">Mpfr_value.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for S3Action.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_s3_action_8hpp__incl.svg" width="288" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_s3_action_8hpp__incl.svg" width="592" height="256"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -110,17 +113,26 @@ $(function() {
 </div>
 <p><a href="_s3_action_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structs3__action_1_1_physical_parameters.html">s3_action::PhysicalParameters</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a265e99e580ad131a8bf01ca95a5d0b54"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a265e99e580ad131a8bf01ca95a5d0b54">S3_bulk_action</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const Alpha, long double const K, long double const Lambda) noexcept -&gt; Gmpzf</td></tr>
-<tr class="memdesc:a265e99e580ad131a8bf01ca95a5d0b54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the generalized S3 bulk action in terms of \(\alpha\), \(k\), \(\lambda\), \(N_1^{TL}\), \(N_3^{(3,1)}\), and \(N_3^{(2,2)}\).  <br /></td></tr>
-<tr class="separator:a265e99e580ad131a8bf01ca95a5d0b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a243b10a79104d1d6331bca23c9ef3d70"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a243b10a79104d1d6331bca23c9ef3d70">S3_bulk_action_alpha_minus_one</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const K, long double const Lambda) noexcept -&gt; Gmpzf</td></tr>
-<tr class="memdesc:a243b10a79104d1d6331bca23c9ef3d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=-1.  <br /></td></tr>
-<tr class="separator:a243b10a79104d1d6331bca23c9ef3d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1945ad8f7ff5750e17dc8c0685e8185f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a1945ad8f7ff5750e17dc8c0685e8185f">S3_bulk_action_alpha_one</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const K, long double const Lambda) noexcept -&gt; Gmpzf</td></tr>
-<tr class="memdesc:a1945ad8f7ff5750e17dc8c0685e8185f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=1.  <br /></td></tr>
-<tr class="separator:a1945ad8f7ff5750e17dc8c0685e8185f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28d87ee401ebaf5adb84768404e17dd6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a28d87ee401ebaf5adb84768404e17dd6">s3_action::make_finite_couplings</a> (long double const k, long double const lambda) -&gt; std::pair&lt; long double, long double &gt;</td></tr>
+<tr class="separator:a28d87ee401ebaf5adb84768404e17dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26cf9603e7b3a6a34fc51addbac478c5"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a26cf9603e7b3a6a34fc51addbac478c5">s3_action::make_physical_parameters</a> (long double const alpha, long double const k, long double const lambda) -&gt; PhysicalParameters</td></tr>
+<tr class="separator:a26cf9603e7b3a6a34fc51addbac478c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54fed1ae26a53878e817a7b84f1b6f1b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a54fed1ae26a53878e817a7b84f1b6f1b">S3_bulk_action</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const Alpha, long double const K, long double const Lambda) -&gt; Gmpzf</td></tr>
+<tr class="memdesc:a54fed1ae26a53878e817a7b84f1b6f1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the generalized S3 bulk action in terms of \(\alpha\), \(k\), \(\lambda\), \(N_1^{TL}\), \(N_3^{(3,1)}\), and \(N_3^{(2,2)}\).  <br /></td></tr>
+<tr class="separator:a54fed1ae26a53878e817a7b84f1b6f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fd319259ebe33db979decb3c7e3afb6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a8fd319259ebe33db979decb3c7e3afb6">S3_bulk_action_alpha_minus_one</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const K, long double const Lambda) -&gt; Gmpzf</td></tr>
+<tr class="memdesc:a8fd319259ebe33db979decb3c7e3afb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=-1.  <br /></td></tr>
+<tr class="separator:a8fd319259ebe33db979decb3c7e3afb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64c882127a8ba7b4111d099865042cb5"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a64c882127a8ba7b4111d099865042cb5">S3_bulk_action_alpha_one</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const K, long double const Lambda) -&gt; Gmpzf</td></tr>
+<tr class="memdesc:a64c882127a8ba7b4111d099865042cb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=1.  <br /></td></tr>
+<tr class="separator:a64c882127a8ba7b4111d099865042cb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Calculate S3 bulk actions on 3<a class="el" href="class_d.html">D</a> Delaunay Triangulations. </p>
@@ -129,8 +141,92 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a265e99e580ad131a8bf01ca95a5d0b54" name="a265e99e580ad131a8bf01ca95a5d0b54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a265e99e580ad131a8bf01ca95a5d0b54">&#9670;&#160;</a></span>S3_bulk_action()</h2>
+<a id="a28d87ee401ebaf5adb84768404e17dd6" name="a28d87ee401ebaf5adb84768404e17dd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28d87ee401ebaf5adb84768404e17dd6">&#9670;&#160;</a></span>make_finite_couplings()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto s3_action::make_finite_couplings </td>
+          <td>(</td>
+          <td class="paramtype">long double const&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long double const&#160;</td>
+          <td class="paramname"><em>lambda</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::pair&lt;long double, long double&gt;
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00054">54</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a26cf9603e7b3a6a34fc51addbac478c5" name="a26cf9603e7b3a6a34fc51addbac478c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26cf9603e7b3a6a34fc51addbac478c5">&#9670;&#160;</a></span>make_physical_parameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto s3_action::make_physical_parameters </td>
+          <td>(</td>
+          <td class="paramtype">long double const&#160;</td>
+          <td class="paramname"><em>alpha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long double const&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long double const&#160;</td>
+          <td class="paramname"><em>lambda</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; <a class="el" href="structs3__action_1_1_physical_parameters.html">PhysicalParameters</a>
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00038">38</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a54fed1ae26a53878e817a7b84f1b6f1b" name="a54fed1ae26a53878e817a7b84f1b6f1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54fed1ae26a53878e817a7b84f1b6f1b">&#9670;&#160;</a></span>S3_bulk_action()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,7 +279,7 @@ Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -213,16 +309,14 @@ S^{(3)} &amp;=&amp; 2\pi k\sqrt{\alpha}N_1^{TL} \\
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha)\) as a <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a> value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00252">252</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00226">226</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_settings_8hpp_source.html#l00040">PRECISION</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00211">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::CalculateA2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00195">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::CalculateA2()</a>.</p>
 
 </div>
 </div>
-<a id="a243b10a79104d1d6331bca23c9ef3d70" name="a243b10a79104d1d6331bca23c9ef3d70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a243b10a79104d1d6331bca23c9ef3d70">&#9670;&#160;</a></span>S3_bulk_action_alpha_minus_one()</h2>
+<a id="a8fd319259ebe33db979decb3c7e3afb6" name="a8fd319259ebe33db979decb3c7e3afb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fd319259ebe33db979decb3c7e3afb6">&#9670;&#160;</a></span>S3_bulk_action_alpha_minus_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +363,7 @@ S^{(3)} &amp;=&amp; 2\pi k\sqrt{\alpha}N_1^{TL} \\
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -293,14 +387,12 @@ S^{(3)} &amp;=&amp; 2\pi k\sqrt{\alpha}N_1^{TL} \\
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha=-1)\) as a <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a> value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00047">47</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_settings_8hpp_source.html#l00040">PRECISION</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00086">86</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a1945ad8f7ff5750e17dc8c0685e8185f" name="a1945ad8f7ff5750e17dc8c0685e8185f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1945ad8f7ff5750e17dc8c0685e8185f">&#9670;&#160;</a></span>S3_bulk_action_alpha_one()</h2>
+<a id="a64c882127a8ba7b4111d099865042cb5" name="a64c882127a8ba7b4111d099865042cb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64c882127a8ba7b4111d099865042cb5">&#9670;&#160;</a></span>S3_bulk_action_alpha_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -347,7 +439,7 @@ S^{(3)} &amp;=&amp; 2\pi k\sqrt{\alpha}N_1^{TL} \\
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -370,16 +462,14 @@ S^{(3)} &amp;=&amp; 2\pi k\sqrt{\alpha}N_1^{TL} \\
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha=1)\) as a <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a> value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00144">144</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_settings_8hpp_source.html#l00040">PRECISION</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00149">149</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 20 2026 01:44:08 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+Generated on Mon Jul 20 2026 07:45:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
 </small></address>
 </body>
 </html>
