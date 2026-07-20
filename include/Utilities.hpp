@@ -375,10 +375,10 @@ namespace utilities
     return roll;
   }  // die_roll()
 
-  /// @brief Generate random numbers
+  /// @brief Generate random numbers with a caller-supplied generator
   ///
-  /// Uses Melissa E. O'Neill's Permuted Congruential Generator for high-quality
-  /// RNG which passes the TestU01 statistical tests.
+  /// Accepts any uniform random bit generator. When callers provide
+  /// `cdt::Random`, sampling uses its run-owned PCG engine.
   /// @see [PCG random-number
   /// generators](../REFERENCES.md#pcg-random-number-generators)
   ///

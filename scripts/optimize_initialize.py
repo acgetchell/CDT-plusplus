@@ -11,7 +11,22 @@ from subprocess import check_output as qx
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Mapping, Sequence
+
+MAX_RANDOM_SEED = (1 << 64) - 1
+
+
+def _parse_seed(value: str) -> int:
+    """Parse one unsigned 64-bit seed before creating online experiments."""
+    try:
+        seed = int(value, 10)
+    except ValueError as error:
+        message = "seed must be an unsigned 64-bit integer"
+        raise argparse.ArgumentTypeError(message) from error
+    if seed < 0 or seed > MAX_RANDOM_SEED:
+        message = "seed must be between 0 and 18446744073709551615"
+        raise argparse.ArgumentTypeError(message)
+    return seed
 
 
 def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
@@ -22,6 +37,12 @@ def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
         type=Path,
         default=Path.cwd(),
         help="CDT++ checkout containing out/build/reference (default: current directory)",
+    )
+    parser.add_argument(
+        "--seed",
+        type=_parse_seed,
+        default=92,
+        help="root initializer seed used for every parameter pair (default: 92)",
     )
     return parser.parse_args(argv)
 
@@ -35,8 +56,10 @@ def _parse_initializer_output(output: str) -> tuple[int, list[tuple[int, int]]]:
             final_simplices = int(match.group("count"))
         elif line.startswith("Timeslice"):
             match = re.fullmatch(r"Timeslice (?P<timeslice>\d+) has (?P<volume>\d+) spacelike faces[.]", line)
-            if match:
-                graph.append((int(match.group("timeslice")), int(match.group("volume"))))
+            if match is None:
+                message = f"Initializer output contained a malformed timeslice volume: {line!r}"
+                raise RuntimeError(message)
+            graph.append((int(match.group("timeslice")), int(match.group("volume"))))
 
     if final_simplices is None:
         message = "Initializer output did not report the final number of simplices."
@@ -53,7 +76,30 @@ def _initializer_binary(repository_root: Path, platform: str = sys.platform) -> 
     return repository_root / "out" / "build" / "reference" / "src" / executable
 
 
-def _run_experiments(initialize_binary: Path, api_key: str) -> None:
+def _initializer_command(
+    initialize_binary: Path,
+    hyper_params: Mapping[str, int],
+    initial_radius: int,
+    radial_factor: float,
+) -> list[str]:
+    """Build one replayable initializer invocation."""
+    return [
+        str(initialize_binary),
+        "-s",
+        "-n",
+        str(hyper_params["simplices"]),
+        "-t",
+        str(hyper_params["foliations"]),
+        "-i",
+        str(initial_radius),
+        "-f",
+        str(radial_factor),
+        "--seed",
+        str(hyper_params["seed"]),
+    ]
+
+
+def _run_experiments(initialize_binary: Path, api_key: str, seed: int) -> None:
     """Run the historical Comet parameter sweep."""
     import matplotlib.pyplot as plt  # noqa: PLC0415
     import numpy as np  # noqa: PLC0415
@@ -64,23 +110,17 @@ def _run_experiments(initialize_binary: Path, api_key: str) -> None:
     for parameter_pair in parameters:
         experiment = Experiment(api_key=api_key, project_name="cdt-plusplus")
         try:
-            hyper_params = {"simplices": 12000, "foliations": 12}
+            hyper_params = {"simplices": 12000, "foliations": 12, "seed": seed}
             experiment.log_parameters(hyper_params)
             init_radius = parameter_pair[0]
             radial_factor = parameter_pair[1]
 
-            command = [
-                str(initialize_binary),
-                "-s",
-                "-n",
-                str(hyper_params["simplices"]),
-                "-t",
-                str(hyper_params["foliations"]),
-                "-i",
-                str(init_radius),
-                "-f",
-                str(radial_factor),
-            ]
+            command = _initializer_command(
+                initialize_binary,
+                hyper_params,
+                initial_radius=init_radius,
+                radial_factor=radial_factor,
+            )
             print(command)
 
             # The executable and numeric parameters are repository-controlled.
@@ -133,7 +173,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
 
     try:
-        _run_experiments(initialize_binary, api_key)
+        _run_experiments(initialize_binary, api_key, args.seed)
     except ModuleNotFoundError as error:
         print(
             f"Missing experiment dependency {error.name!r}; run with `uv run --group experiments cdt-optimize-initialize`.",

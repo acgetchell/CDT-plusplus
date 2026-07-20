@@ -139,10 +139,11 @@ Windows development.
 
 ### Current reference-suite status
 
-With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. `build.sh` runs all
-21 CTest entries on every supported platform: one unit-test launcher containing 83 doctest scenarios and 20 CLI
-integration tests. The same `reference-smoke` preset is the supported local and CI contract; there are no overlapping
-focused registrations that can pass while omitting another doctest suite.
+With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform
+`just build` command runs all 21 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
+one unit-test launcher containing 83 doctest scenarios and 20 CLI integration tests. The same `reference-smoke` preset
+is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting
+another doctest suite.
 
 ## Setup
 
@@ -185,6 +186,8 @@ The repository-root [Justfile](Justfile) provides the same small command vocabul
 
 ```bash
 just check                 # Fast, non-mutating local checks
+just codeql-prepare        # Configure dependencies before CodeQL tracing
+just codeql-build          # Build production targets for CodeQL extraction
 just fix                   # Format C++/Python source and the Justfile
 just clang-tidy            # Analyze C++ with LLVM 22
 just sanitize asan         # Build and exercise one Linux sanitizer preset
@@ -238,13 +241,19 @@ export VCPKG_ROOT="$PWD/.cache/vcpkg"
 CI uses `lukka/run-vcpkg`, which derives the vcpkg checkout commit from the same manifest baseline and supplies a
 binary cache. No separately maintained repository variable is required.
 
+CodeQL keeps third-party implementation findings out of CDT++ results through a two-phase manual build.
+`just codeql-prepare` configures the project, installs manifest dependencies before CodeQL starts tracing, and uses a
+build directory under the host temporary directory so installed headers are outside the checkout. After CodeQL
+initialization, `just codeql-build` compiles only the `cdt` and `initialize` production targets with tests disabled.
+The regular `just build` and `just ci` contracts continue to build and run the complete test suite.
+
 ## Build
 
-Run `just build` from the repository root. It delegates to `./scripts/build.sh`, which can itself be run from any
-working directory for troubleshooting. If `VCPKG_ROOT` already names the clean official checkout at the manifest
-baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. The script
-invokes the `reference` configure and build presets followed by the `reference-smoke` test preset; products and tests
-are isolated under `out/build/reference`. Windows uses the same presets through `scripts\build.bat`, while
+Run `just build` from the repository root. It delegates to `./scripts/build.sh` on Unix and `scripts\build.bat` on
+Windows; either platform-specific script can itself be run from any working directory for troubleshooting. If
+`VCPKG_ROOT` already names the clean official checkout at the manifest baseline, the script respects it; otherwise it
+uses the pinned disposable checkout described above. Both scripts invoke the `reference` configure and build presets
+followed by the `reference-smoke` test preset; products and tests are isolated under `out/build/reference`, while
 `scripts\fast-build.bat` configures the same reference tree and builds only the primary `cdt` target. All entry points
 preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes.
 
@@ -385,10 +394,11 @@ subsequent releases.
 
 ## Testing
 
-Run `just build`; it delegates to `./scripts/build.sh`, builds the test target, and executes all 21 CTest entries: one
-unit-test launcher containing 83 doctest scenarios plus 20 executable integration tests covering normal CLI use and
-invalid-boundary rejection. CTest labels the launcher `unit` and every process-level test `integration`; invalid-input
-tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete local validation gate.
+Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
+executes all 21 CTest entries: one unit-test launcher containing 83 doctest scenarios plus 20 executable integration
+tests covering normal CLI use and invalid-boundary rejection. CTest labels the launcher `unit` and every process-level
+test `integration`; invalid-input tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete local
+validation gate.
 
 `just check` also runs the repository-owned Semgrep policy and its annotated
 fixtures. Use `just semgrep-test` while changing the rules and `just semgrep` to
@@ -452,7 +462,9 @@ uv run --locked --group experiments cdt-mnist-experiment
 ```
 
 Run these commands from the repository root. Set `COMET_API_KEY` before starting the parameter optimization; use
-`--repository-root` when invoking it from another directory. The experiment results are then available in Comet.
+`--repository-root` when invoking it from another directory. The optimizer uses seed `92` by default for every
+parameter pair so results can be compared and replayed; pass `--seed SEED` to select and record another root seed. The
+experiment results are then available in Comet.
 Migration of these legacy scripts to Python 3.14, PyTorch, and the current Comet API is tracked by
 [#104](https://github.com/acgetchell/CDT-plusplus/issues/104).
 

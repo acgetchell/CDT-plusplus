@@ -25,4 +25,15 @@ if [[ -n "${CDT_PKGX_COMPILER_PACKAGE:-}" ]]; then
 fi
 
 cd -- "${repo_root}"
+
+if [[ "${1:-}" == "--codeql" ]]; then
+  shift
+  exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/codeql-build.sh" "$@"
+fi
+
+if [[ "$#" -ne 0 ]]; then
+  printf 'Usage: %s [--codeql prepare|build]\n' "$0" >&2
+  exit 2
+fi
+
 exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/build.sh"

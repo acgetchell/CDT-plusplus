@@ -32,6 +32,16 @@ check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespac
 ci: check _pinact-check build
     @echo "CI validation complete."
 
+# Configure dependencies before CodeQL begins tracing the C++ build.
+[group('workflows')]
+codeql-prepare:
+    just _codeql-phase prepare
+
+# Compile only project-owned production targets for CodeQL extraction.
+[group('workflows')]
+codeql-build:
+    just _codeql-phase build
+
 # Validate the generated API documentation without modifying the worktree.
 [group('workflows')]
 docs-check:
@@ -186,6 +196,15 @@ _build-unix:
       exec ./scripts/pkgx-build.sh
     fi
     exec ./scripts/build.sh
+
+[private]
+_codeql-phase phase:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec ./scripts/pkgx-build.sh --codeql {{ phase }}
+    fi
+    exec ./scripts/codeql-build.sh {{ phase }}
 
 [private]
 _cmake-check:
