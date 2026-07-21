@@ -53,7 +53,7 @@ IF EXIST "%VCPKG_DIR%\.git\." (
     EXIT /B 1
   )
 
-  git -C "%VCPKG_DIR%" status --short 2>NUL ^| FINDSTR . >NUL
+  git -C "%VCPKG_DIR%" status --short --untracked-files=no 2>NUL ^| FINDSTR . >NUL
   IF NOT ERRORLEVEL 1 (
     echo Refusing to reuse a modified vcpkg checkout at %VCPKG_DIR%. 1>&2
     EXIT /B 1
