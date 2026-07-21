@@ -28,27 +28,31 @@ namespace runtime_config
     friend auto make_triangulation(bool spherical, bool toroidal,
                                    long long simplices, long long timeslices,
                                    long long dimensions, double initial_radius,
-                                   double foliation_spacing) -> Triangulation;
+                                   double           foliation_spacing,
+                                   cdt::Random_seed seed) -> Triangulation;
 
-    topology_type m_topology;
-    Int_precision m_simplices;
-    Int_precision m_timeslices;
-    Int_precision m_dimensions;
-    double        m_initial_radius;
-    double        m_foliation_spacing;
+    topology_type    m_topology;
+    Int_precision    m_simplices;
+    Int_precision    m_timeslices;
+    Int_precision    m_dimensions;
+    double           m_initial_radius;
+    double           m_foliation_spacing;
+    cdt::Random_seed m_seed;
 
-    explicit Triangulation(topology_type const topology,
-                           Int_precision const simplices,
-                           Int_precision const timeslices,
-                           Int_precision const dimensions,
-                           double const        initial_radius,
-                           double const        foliation_spacing) noexcept
+    explicit Triangulation(topology_type const    topology,
+                           Int_precision const    simplices,
+                           Int_precision const    timeslices,
+                           Int_precision const    dimensions,
+                           double const           initial_radius,
+                           double const           foliation_spacing,
+                           cdt::Random_seed const seed) noexcept
         : m_topology{topology}
         , m_simplices{simplices}
         , m_timeslices{timeslices}
         , m_dimensions{dimensions}
         , m_initial_radius{initial_radius}
         , m_foliation_spacing{foliation_spacing}
+        , m_seed{seed}
     {}
 
    public:
@@ -75,6 +79,9 @@ namespace runtime_config
 
     [[nodiscard]] auto foliation_spacing() const noexcept -> double
     { return m_foliation_spacing; }
+
+    [[nodiscard]] auto seed() const noexcept -> cdt::Random_seed
+    { return m_seed; }
   };
 
   /// Complete validated configuration for the Metropolis simulation.
@@ -222,8 +229,8 @@ namespace runtime_config
   [[nodiscard]] inline auto make_triangulation(
       bool const spherical, bool const toroidal, long long const simplices,
       long long const timeslices, long long const dimensions,
-      double const initial_radius, double const foliation_spacing)
-      -> Triangulation
+      double const initial_radius, double const foliation_spacing,
+      cdt::Random_seed const seed = 0) -> Triangulation
   {
     auto const topology = detail::select_topology(spherical, toroidal);
     auto const checked_simplices =
@@ -260,9 +267,13 @@ namespace runtime_config
     [[maybe_unused]] auto const population = detail::make_generated_population(
         checked_simplices, checked_timeslices, checked_initial_radius,
         checked_foliation_spacing);
-    return Triangulation{
-        topology,           checked_simplices,      checked_timeslices,
-        checked_dimensions, checked_initial_radius, checked_foliation_spacing};
+    return Triangulation{topology,
+                         checked_simplices,
+                         checked_timeslices,
+                         checked_dimensions,
+                         checked_initial_radius,
+                         checked_foliation_spacing,
+                         seed};
   }
 
   /// Validate the complete simulation configuration.

@@ -30,10 +30,10 @@ project(
 # the product version used by executables and release metadata.
 set(CDT_VERSION_SUFFIX "-rc1")
 set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
-configure_file(cmake/Version.hpp.in "${PROJECT_BINARY_DIR}/Version.hpp" @ONLY)
 
 # Project settings
 include(cmake/StandardProjectSettings.cmake)
+configure_file(cmake/Version.hpp.in "${PROJECT_BINARY_DIR}/Version.hpp" @ONLY)
 
 # Prevent in source builds
 include(cmake/PreventInSourceBuilds.cmake)
@@ -41,6 +41,8 @@ include(cmake/PreventInSourceBuilds.cmake)
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_23)
+target_compile_definitions(
+  project_options INTERFACE CDT_BUILD_CONFIGURATION="$<CONFIG>")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)

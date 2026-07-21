@@ -11,15 +11,32 @@
 #ifndef INCLUDE_UTILITIES_HPP_
 #define INCLUDE_UTILITIES_HPP_
 
+#include <CGAL/version.h>
+
 #include <algorithm>
+#include <array>
+#include <charconv>
+#include <cmath>
+#include <concepts>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <gsl/gsl>
+#include <iomanip>
+#include <limits>
+#include <locale>
+#include <map>
 #include <mutex>
+#include <optional>
 #include <random>
 #include <span>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
+#include <type_traits>
+#include <vector>
+#include <version>
 // H. Hinnant date and time library
 #include <date/date.h>
 
@@ -44,6 +61,7 @@
 // Global project settings
 #include "Random.hpp"
 #include "Settings.hpp"
+#include "Version.hpp"
 
 enum class topology_type
 {
@@ -68,8 +86,875 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 
 namespace utilities
 {
+  enum class Artifact_kind
+  {
+    INITIAL_TRIANGULATION,
+    CHECKPOINT,
+    FINAL_TRIANGULATION
+  };
+
+  /// @brief Provenance recorded next to every stochastic triangulation.
+  /// @details Checkpoints are deliberately snapshots rather than resumable
+  /// simulation states: the payload does not serialize mutable RNG state.
+  /// Payload-derived counts, time bounds, and fingerprints are reconciled with
+  /// the serialized triangulation before publication. Callers remain
+  /// responsible for supplying truthful run configuration and RNG provenance.
+  struct Reproducibility_metadata
+  {
+    Artifact_kind      artifact{Artifact_kind::FINAL_TRIANGULATION};
+    cdt::Random_seed   seed{};
+    cdt::Random_stream initialization_stream{
+        cdt::random_streams::initialization};
+    cdt::Random_stream transition_stream{cdt::random_streams::transitions};
+    topology_type      topology{topology_type::SPHERICAL};
+    Int_precision      dimension{};
+    Int_precision      desired_simplices{};
+    Int_precision      desired_timeslices{};
+    Int_precision      actual_vertices{};
+    Int_precision      actual_edges{};
+    Int_precision      actual_faces{};
+    Int_precision      actual_simplices{};
+    Int_precision      minimum_timeslice{};
+    Int_precision      maximum_timeslice{};
+    double             initial_radius{};
+    double             foliation_spacing{};
+    std::optional<long double>   alpha;
+    std::optional<long double>   k;
+    std::optional<long double>   lambda;
+    std::optional<Int_precision> configured_passes;
+    std::optional<Int_precision> checkpoint_interval;
+    std::optional<Int_precision> completed_passes;
+    std::optional<std::uint64_t> transition_trace;
+    std::optional<std::uint64_t> transition_count;
+    std::optional<std::uint64_t> placement_fingerprint;
+    std::optional<std::uint64_t> topology_fingerprint;
+  };
+
+  [[nodiscard]] inline auto metadata_filename(
+      std::filesystem::path const& payload) -> std::filesystem::path
+  {
+    auto metadata = payload;
+    metadata += ".meta";
+    return metadata;
+  }
+
   namespace detail
   {
+    inline std::string_view constexpr CAUSAL_INFO_HEADER{
+        "cdt-plusplus-causal-info-v1"};
+
+    struct Payload_integrity
+    {
+      std::uint64_t size{};
+      std::uint64_t digest{};
+    };
+
+    [[nodiscard]] inline auto artifact_name(Artifact_kind const artifact)
+        -> std::string_view
+    {
+      switch (artifact)
+      {
+        case Artifact_kind::INITIAL_TRIANGULATION:
+          return "initial-triangulation";
+        case Artifact_kind::CHECKPOINT: return "checkpoint";
+        case Artifact_kind::FINAL_TRIANGULATION: return "final-triangulation";
+      }
+      return "unknown";
+    }
+
+    [[nodiscard]] inline auto standard_library_name() -> std::string
+    {
+#if defined(_LIBCPP_VERSION)
+      return fmt::format("libc++-{}", _LIBCPP_VERSION);
+#elif defined(__GLIBCXX__)
+      return fmt::format("libstdc++-{}", __GLIBCXX__);
+#elif defined(_MSVC_STL_VERSION)
+      return fmt::format("msvc-stl-{}", _MSVC_STL_VERSION);
+#else
+      return "unknown";
+#endif
+    }
+
+    [[nodiscard]] inline auto payload_integrity(
+        std::filesystem::path const& filename) -> Payload_integrity
+    {
+      std::ifstream input(filename, std::ios::in | std::ios::binary);
+      if (!input.is_open())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not open payload for integrity validation", filename,
+            std::make_error_code(std::errc::bad_file_descriptor));
+      }
+
+      std::uint64_t          digest{14695981039346656037ULL};
+      std::uint64_t          size{};
+      std::array<char, 8192> buffer{};
+      while (input)
+      {
+        input.read(buffer.data(), static_cast<std::streamsize>(buffer.size()));
+        auto const count = input.gcount();
+        for (std::streamsize index = 0; index < count; ++index)
+        {
+          digest ^= static_cast<unsigned char>(
+              buffer[static_cast<std::size_t>(index)]);
+          digest *= 1099511628211ULL;
+        }
+        size += static_cast<std::uint64_t>(count);
+      }
+      if (!input.eof())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not read payload for integrity validation", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+      return {size, digest};
+    }
+
+    [[nodiscard]] inline auto point_key(auto const& point) -> std::string
+    {
+      return fmt::format("{:.17g},{:.17g},{:.17g}", CGAL::to_double(point.x()),
+                         CGAL::to_double(point.y()),
+                         CGAL::to_double(point.z()));
+    }
+
+    [[nodiscard]] inline auto cell_key(auto const& cell) -> std::string
+    {
+      std::array points{point_key(cell->vertex(0)->point()),
+                        point_key(cell->vertex(1)->point()),
+                        point_key(cell->vertex(2)->point()),
+                        point_key(cell->vertex(3)->point())};
+      std::ranges::sort(points);
+      return fmt::format("{};{};{};{}", points[0], points[1], points[2],
+                         points[3]);
+    }
+
+    template <typename TriangulationType>
+    inline bool constexpr HAS_CAUSAL_INFO =
+        requires(TriangulationType const& triangulation) {
+          triangulation.finite_vertices_begin();
+          triangulation.finite_vertices_end();
+          triangulation.finite_cells_begin();
+          triangulation.finite_cells_end();
+          triangulation.number_of_vertices();
+          triangulation.number_of_finite_cells();
+        };
+
+    template <typename TriangulationType>
+    [[nodiscard]] auto vertex_records(TriangulationType const& triangulation)
+        -> std::vector<std::string>
+    {
+      std::vector<std::string> records;
+      records.reserve(
+          static_cast<std::size_t>(triangulation.number_of_vertices()));
+      for (auto vertex = triangulation.finite_vertices_begin();
+           vertex != triangulation.finite_vertices_end(); ++vertex)
+      {
+        records.emplace_back(
+            fmt::format("v:{}:{}", point_key(vertex->point()), vertex->info()));
+      }
+      std::ranges::sort(records);
+      return records;
+    }
+
+    [[nodiscard]] inline auto fingerprint_records(
+        std::vector<std::string> const& records) -> std::uint64_t
+    {
+      std::uint64_t digest{14695981039346656037ULL};
+      for (auto const& record : records)
+      {
+        for (auto const byte : record)
+        {
+          digest ^= static_cast<unsigned char>(byte);
+          digest *= 1099511628211ULL;
+        }
+        digest ^= 0xFFU;
+        digest *= 1099511628211ULL;
+      }
+      return digest;
+    }
+
+    template <typename TriangulationType>
+    [[nodiscard]] auto canonical_placement_fingerprint(
+        TriangulationType const& triangulation) -> std::uint64_t
+    { return fingerprint_records(vertex_records(triangulation)); }
+
+    template <typename TriangulationType>
+    [[nodiscard]] auto canonical_topology_fingerprint(
+        TriangulationType const& triangulation) -> std::uint64_t
+    {
+      auto records = vertex_records(triangulation);
+      records.reserve(
+          static_cast<std::size_t>(triangulation.number_of_vertices() +
+                                   triangulation.number_of_finite_cells()));
+      for (auto cell = triangulation.finite_cells_begin();
+           cell != triangulation.finite_cells_end(); ++cell)
+      {
+        records.emplace_back(
+            fmt::format("c:{}:{}", cell_key(cell), cell->info()));
+      }
+      std::ranges::sort(records);
+      return fingerprint_records(records);
+    }
+
+    template <typename TriangulationType>
+    void write_causal_info(std::ostream&            output,
+                           TriangulationType const& triangulation)
+    {
+      if constexpr (HAS_CAUSAL_INFO<TriangulationType>)
+      {
+        std::vector<std::string> vertices;
+        vertices.reserve(
+            static_cast<std::size_t>(triangulation.number_of_vertices()));
+        for (auto vertex = triangulation.finite_vertices_begin();
+             vertex != triangulation.finite_vertices_end(); ++vertex)
+        {
+          vertices.emplace_back(
+              fmt::format("{}|{}", point_key(vertex->point()), vertex->info()));
+        }
+        std::ranges::sort(vertices);
+
+        std::vector<std::string> cells;
+        cells.reserve(
+            static_cast<std::size_t>(triangulation.number_of_finite_cells()));
+        for (auto cell = triangulation.finite_cells_begin();
+             cell != triangulation.finite_cells_end(); ++cell)
+        {
+          cells.emplace_back(
+              fmt::format("{}|{}", cell_key(cell), cell->info()));
+        }
+        std::ranges::sort(cells);
+
+        output << '\n' << CAUSAL_INFO_HEADER << '\n';
+        output << "vertices=" << vertices.size() << '\n';
+        for (auto const& record : vertices)
+        {
+          output << "v=" << record << '\n';
+        }
+        output << "cells=" << cells.size() << '\n';
+        for (auto const& record : cells) { output << "c=" << record << '\n'; }
+      }
+    }
+
+    [[nodiscard]] inline auto metadata_text(
+        Reproducibility_metadata const& metadata,
+        Payload_integrity const         payload) -> std::string
+    {
+      auto text = fmt::format(
+          "cdt-plusplus-metadata-v1\n"
+          "payload.size={}\n"
+          "payload.fnv1a64={:016x}\n"
+          "artifact={}\n"
+          "resume_supported=false\n"
+          "fresh_topology_replay_supported=false\n"
+          "transition_replay_requires_identical_start=true\n"
+          "cdt.version={}\n"
+          "build.compiler_id={}\n"
+          "build.compiler_version={}\n"
+          "build.configuration={}\n"
+          "build.system={}\n"
+          "build.processor={}\n"
+          "build.cxx_standard=23\n"
+          "build.standard_library={}\n"
+          "dependency.cgal_version={}\n"
+          "random.engine=pcg64\n"
+          "random.seed={}\n"
+          "random.initialization_stream={}\n"
+          "random.transition_stream={}\n"
+          "topology={}\n"
+          "dimension={}\n"
+          "desired.simplices={}\n"
+          "desired.timeslices={}\n"
+          "actual.vertices={}\n"
+          "actual.edges={}\n"
+          "actual.faces={}\n"
+          "actual.simplices={}\n"
+          "actual.minimum_timeslice={}\n"
+          "actual.maximum_timeslice={}\n"
+          "initial_radius={}\n"
+          "foliation_spacing={}\n",
+          payload.size, payload.digest, artifact_name(metadata.artifact),
+          cdt::VERSION, cdt::BUILD_COMPILER_ID, cdt::BUILD_COMPILER_VERSION,
+          cdt::BUILD_CONFIGURATION, cdt::BUILD_SYSTEM_NAME,
+          cdt::BUILD_SYSTEM_PROCESSOR, standard_library_name(),
+          CGAL_VERSION_STR, metadata.seed, metadata.initialization_stream,
+          metadata.transition_stream,
+          metadata.topology == topology_type::SPHERICAL ? "spherical"
+                                                        : "toroidal",
+          metadata.dimension, metadata.desired_simplices,
+          metadata.desired_timeslices, metadata.actual_vertices,
+          metadata.actual_edges, metadata.actual_faces,
+          metadata.actual_simplices, metadata.minimum_timeslice,
+          metadata.maximum_timeslice, metadata.initial_radius,
+          metadata.foliation_spacing);
+
+      auto append_optional = [&text](std::string_view const name,
+                                     auto const&            value) {
+        if (value) { text += fmt::format("{}={}\n", name, *value); }
+      };
+      append_optional("alpha", metadata.alpha);
+      append_optional("k", metadata.k);
+      append_optional("lambda", metadata.lambda);
+      append_optional("configured_passes", metadata.configured_passes);
+      append_optional("checkpoint_interval", metadata.checkpoint_interval);
+      append_optional("completed_passes", metadata.completed_passes);
+      if (metadata.transition_trace)
+      {
+        text += fmt::format("transition_trace.fnv1a64={:016x}\n",
+                            *metadata.transition_trace);
+      }
+      append_optional("transition_trace.count", metadata.transition_count);
+      if (metadata.placement_fingerprint)
+      {
+        text += fmt::format("placement.fnv1a64={:016x}\n",
+                            *metadata.placement_fingerprint);
+      }
+      if (metadata.topology_fingerprint)
+      {
+        text += fmt::format("topology.fnv1a64={:016x}\n",
+                            *metadata.topology_fingerprint);
+      }
+      return text;
+    }
+
+    [[nodiscard]] inline auto parse_unsigned(std::string_view const       text,
+                                             int const                    base,
+                                             std::filesystem::path const& path)
+        -> std::uint64_t
+    {
+      std::uint64_t value{};
+      auto const [end, error] =
+          std::from_chars(text.data(), text.data() + text.size(), value, base);
+      if (error != std::errc{} || end != text.data() + text.size())
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed persistence metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return value;
+    }
+
+    [[nodiscard]] inline auto parse_info(std::string_view const       text,
+                                         std::filesystem::path const& path)
+        -> Int_precision
+    {
+      Int_precision value{};
+      auto const [end, error] =
+          std::from_chars(text.data(), text.data() + text.size(), value);
+      if (error != std::errc{} || end != text.data() + text.size())
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed causal triangulation metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return value;
+    }
+
+    [[nodiscard]] inline auto parse_metadata_integer(
+        std::string_view const text, std::filesystem::path const& path)
+        -> Int_precision
+    {
+      Int_precision value{};
+      auto const [end, error] =
+          std::from_chars(text.data(), text.data() + text.size(), value);
+      if (error != std::errc{} || end != text.data() + text.size())
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed persistence metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return value;
+    }
+
+    template <std::floating_point Float>
+    [[nodiscard]] auto parse_metadata_floating(
+        std::string_view const text, std::filesystem::path const& path) -> Float
+    {
+      Float              value{};
+      std::istringstream input{std::string{text}};
+      input.imbue(std::locale::classic());
+      input >> value;
+      if (input.fail())
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed persistence metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      input >> std::ws;
+      if (!input.eof() || !std::isfinite(value))
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed persistence metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return value;
+    }
+
+    [[nodiscard]] inline auto parse_record(std::string const&           line,
+                                           std::string_view const       prefix,
+                                           std::filesystem::path const& path)
+        -> std::pair<std::string, Int_precision>
+    {
+      if (!line.starts_with(prefix))
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed causal triangulation metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      auto const record    = std::string_view{line}.substr(prefix.size());
+      auto const separator = record.rfind('|');
+      if (separator == std::string_view::npos || separator == 0 ||
+          separator + 1 == record.size())
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed causal triangulation metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return {std::string{record.substr(0, separator)},
+              parse_info(record.substr(separator + 1), path)};
+    }
+
+    [[nodiscard]] inline auto parse_count_line(
+        std::string const& line, std::string_view const prefix,
+        std::filesystem::path const& path) -> std::uint64_t
+    {
+      if (!line.starts_with(prefix))
+      {
+        throw std::filesystem::filesystem_error(
+            "Malformed causal triangulation metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return parse_unsigned(std::string_view{line}.substr(prefix.size()), 10,
+                            path);
+    }
+
+    template <typename TriangulationType>
+    void read_causal_info(std::istream& input, TriangulationType& triangulation,
+                          std::filesystem::path const& path)
+    {
+      std::string line;
+      if (!std::getline(input, line) || line != CAUSAL_INFO_HEADER)
+      {
+        throw std::filesystem::filesystem_error(
+            "Unexpected trailing data after triangulation", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      if (!std::getline(input, line))
+      {
+        throw std::filesystem::filesystem_error(
+            "Truncated causal triangulation metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      auto const vertex_count = parse_count_line(line, "vertices=", path);
+      if (vertex_count !=
+          static_cast<std::uint64_t>(triangulation.number_of_vertices()))
+      {
+        throw std::filesystem::filesystem_error(
+            "Causal vertex metadata count does not match triangulation", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      std::map<std::string, Int_precision> vertex_info;
+      for (std::uint64_t index = 0; index < vertex_count; ++index)
+      {
+        if (!std::getline(input, line))
+        {
+          throw std::filesystem::filesystem_error(
+              "Truncated causal vertex metadata", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        auto [key, value] = parse_record(line, "v=", path);
+        if (!vertex_info.emplace(std::move(key), value).second)
+        {
+          throw std::filesystem::filesystem_error(
+              "Duplicate causal vertex metadata", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+
+      if (!std::getline(input, line))
+      {
+        throw std::filesystem::filesystem_error(
+            "Truncated causal triangulation metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      auto const cell_count = parse_count_line(line, "cells=", path);
+      if (cell_count !=
+          static_cast<std::uint64_t>(triangulation.number_of_finite_cells()))
+      {
+        throw std::filesystem::filesystem_error(
+            "Causal cell metadata count does not match triangulation", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      std::map<std::string, Int_precision> cell_info;
+      for (std::uint64_t index = 0; index < cell_count; ++index)
+      {
+        if (!std::getline(input, line))
+        {
+          throw std::filesystem::filesystem_error(
+              "Truncated causal cell metadata", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        auto [key, value] = parse_record(line, "c=", path);
+        if (!cell_info.emplace(std::move(key), value).second)
+        {
+          throw std::filesystem::filesystem_error(
+              "Duplicate causal cell metadata", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+
+      for (auto vertex = triangulation.finite_vertices_begin();
+           vertex != triangulation.finite_vertices_end(); ++vertex)
+      {
+        auto const found = vertex_info.find(point_key(vertex->point()));
+        if (found == vertex_info.end())
+        {
+          throw std::filesystem::filesystem_error(
+              "Causal vertex metadata does not match triangulation", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        vertex->info() = found->second;
+        vertex_info.erase(found);
+      }
+      for (auto cell = triangulation.finite_cells_begin();
+           cell != triangulation.finite_cells_end(); ++cell)
+      {
+        auto const found = cell_info.find(cell_key(cell));
+        if (found == cell_info.end())
+        {
+          throw std::filesystem::filesystem_error(
+              "Causal cell metadata does not match triangulation", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        cell->info() = found->second;
+        cell_info.erase(found);
+      }
+      if (!vertex_info.empty() || !cell_info.empty())
+      {
+        throw std::filesystem::filesystem_error(
+            "Causal metadata contains records outside the triangulation", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+    }
+
+    struct Parsed_persistence_metadata
+    {
+      Payload_integrity  payload;
+      Artifact_kind      artifact;
+      cdt::Random_seed   seed;
+      cdt::Random_stream initialization_stream;
+      cdt::Random_stream transition_stream;
+      topology_type      topology;
+      Int_precision      dimension;
+      Int_precision      actual_vertices;
+      Int_precision      actual_edges;
+      Int_precision      actual_faces;
+      Int_precision      actual_simplices;
+      Int_precision      minimum_timeslice;
+      Int_precision      maximum_timeslice;
+      std::uint64_t      placement_fingerprint;
+      std::uint64_t      topology_fingerprint;
+    };
+
+    [[nodiscard]] inline auto read_persistence_metadata(
+        std::filesystem::path const& path) -> Parsed_persistence_metadata
+    {
+      std::ifstream input(path);
+      if (!input.is_open())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not open persistence metadata", path,
+            std::make_error_code(std::errc::bad_file_descriptor));
+      }
+
+      std::string line;
+      if (!std::getline(input, line) || line != "cdt-plusplus-metadata-v1")
+      {
+        throw std::filesystem::filesystem_error(
+            "Unsupported or malformed persistence metadata", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      std::map<std::string, std::string> values;
+      while (std::getline(input, line))
+      {
+        auto const separator = line.find('=');
+        if (separator == std::string::npos || separator == 0 ||
+            separator + 1 == line.size())
+        {
+          throw std::filesystem::filesystem_error(
+              "Malformed persistence metadata", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        auto [unused, inserted] = values.emplace(line.substr(0, separator),
+                                                 line.substr(separator + 1));
+        if (!inserted)
+        {
+          throw std::filesystem::filesystem_error(
+              "Duplicate persistence metadata field", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+      if (!input.eof())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not read persistence metadata", path,
+            std::make_error_code(std::errc::io_error));
+      }
+
+      for (auto const required : {"payload.size",
+                                  "payload.fnv1a64",
+                                  "artifact",
+                                  "resume_supported",
+                                  "fresh_topology_replay_supported",
+                                  "transition_replay_requires_identical_start",
+                                  "cdt.version",
+                                  "build.compiler_id",
+                                  "build.compiler_version",
+                                  "build.configuration",
+                                  "build.system",
+                                  "build.processor",
+                                  "build.cxx_standard",
+                                  "build.standard_library",
+                                  "dependency.cgal_version",
+                                  "random.engine",
+                                  "random.seed",
+                                  "random.initialization_stream",
+                                  "random.transition_stream",
+                                  "topology",
+                                  "dimension",
+                                  "desired.simplices",
+                                  "desired.timeslices",
+                                  "actual.vertices",
+                                  "actual.edges",
+                                  "actual.faces",
+                                  "actual.simplices",
+                                  "actual.minimum_timeslice",
+                                  "actual.maximum_timeslice",
+                                  "initial_radius",
+                                  "foliation_spacing",
+                                  "placement.fnv1a64",
+                                  "topology.fnv1a64"})
+      {
+        if (!values.contains(required))
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata is missing a required field", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+      if (values.at("resume_supported") != "false")
+      {
+        throw std::filesystem::filesystem_error(
+            "This build cannot read resumable checkpoints", path,
+            std::make_error_code(std::errc::not_supported));
+      }
+      if (values.at("fresh_topology_replay_supported") != "false" ||
+          values.at("transition_replay_requires_identical_start") != "true")
+      {
+        throw std::filesystem::filesystem_error(
+            "Unsupported persistence replay contract", path,
+            std::make_error_code(std::errc::not_supported));
+      }
+      if (values.at("random.engine") != "pcg64" ||
+          values.at("build.cxx_standard") != "23")
+      {
+        throw std::filesystem::filesystem_error(
+            "Unsupported persistence metadata", path,
+            std::make_error_code(std::errc::not_supported));
+      }
+
+      Artifact_kind artifact{};
+      if (values.at("artifact") == "initial-triangulation")
+      {
+        artifact = Artifact_kind::INITIAL_TRIANGULATION;
+      }
+      else if (values.at("artifact") == "checkpoint")
+      {
+        artifact = Artifact_kind::CHECKPOINT;
+      }
+      else if (values.at("artifact") == "final-triangulation")
+      {
+        artifact = Artifact_kind::FINAL_TRIANGULATION;
+      }
+      else
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has an unknown artifact kind", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      topology_type topology{};
+      if (values.at("topology") == "spherical")
+      {
+        topology = topology_type::SPHERICAL;
+      }
+      else if (values.at("topology") == "toroidal")
+      {
+        topology = topology_type::TOROIDAL;
+      }
+      else
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has an unknown topology", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      auto const parse_integer_field = [&](std::string const& name) {
+        return parse_metadata_integer(values.at(name), path);
+      };
+      auto const dimension          = parse_integer_field("dimension");
+      auto const desired_simplices  = parse_integer_field("desired.simplices");
+      auto const desired_timeslices = parse_integer_field("desired.timeslices");
+      auto const actual_vertices    = parse_integer_field("actual.vertices");
+      auto const actual_edges       = parse_integer_field("actual.edges");
+      auto const actual_faces       = parse_integer_field("actual.faces");
+      auto const actual_simplices   = parse_integer_field("actual.simplices");
+      auto const minimum_timeslice =
+          parse_integer_field("actual.minimum_timeslice");
+      auto const maximum_timeslice =
+          parse_integer_field("actual.maximum_timeslice");
+      if (dimension <= 0 || desired_simplices < 0 || desired_timeslices < 0 ||
+          actual_vertices < 0 || actual_edges < 0 || actual_faces < 0 ||
+          actual_simplices < 0 || minimum_timeslice > maximum_timeslice)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata contains invalid state dimensions", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      auto const initial_radius =
+          parse_metadata_floating<double>(values.at("initial_radius"), path);
+      auto const foliation_spacing =
+          parse_metadata_floating<double>(values.at("foliation_spacing"), path);
+      if (initial_radius < 0.0 || foliation_spacing <= 0.0)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata contains invalid foliation parameters", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      auto const action_field_count =
+          static_cast<int>(values.contains("alpha")) +
+          static_cast<int>(values.contains("k")) +
+          static_cast<int>(values.contains("lambda"));
+      if (action_field_count != 0 && action_field_count != 3)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has an incomplete action parameter set", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if (action_field_count == 3)
+      {
+        auto const alpha =
+            parse_metadata_floating<long double>(values.at("alpha"), path);
+        static_cast<void>(
+            parse_metadata_floating<long double>(values.at("k"), path));
+        static_cast<void>(
+            parse_metadata_floating<long double>(values.at("lambda"), path));
+        if (alpha <= 0.5L)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata contains an invalid alpha", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+
+      auto const run_field_count =
+          static_cast<int>(values.contains("configured_passes")) +
+          static_cast<int>(values.contains("checkpoint_interval"));
+      if (run_field_count != 0 && run_field_count != 2)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has an incomplete run configuration", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if (run_field_count == 2 &&
+          (parse_integer_field("configured_passes") <= 0 ||
+           parse_integer_field("checkpoint_interval") <= 0))
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata contains an invalid run configuration", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      if (artifact == Artifact_kind::CHECKPOINT &&
+          !values.contains("completed_passes"))
+      {
+        throw std::filesystem::filesystem_error(
+            "Checkpoint metadata is missing completed passes", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if (values.contains("completed_passes") &&
+          parse_integer_field("completed_passes") < 0)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata contains invalid completed passes", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      auto const transition_field_count =
+          static_cast<int>(values.contains("transition_trace.fnv1a64")) +
+          static_cast<int>(values.contains("transition_trace.count"));
+      if (transition_field_count != 0 && transition_field_count != 2)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has an incomplete transition trace", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if (transition_field_count == 2)
+      {
+        static_cast<void>(
+            parse_unsigned(values.at("transition_trace.fnv1a64"), 16, path));
+        static_cast<void>(
+            parse_unsigned(values.at("transition_trace.count"), 10, path));
+      }
+
+      return {
+          .payload  = {parse_unsigned(values.at("payload.size"), 10, path),
+                       parse_unsigned(values.at("payload.fnv1a64"), 16, path)},
+          .artifact = artifact,
+          .seed     = parse_unsigned(values.at("random.seed"), 10, path),
+          .initialization_stream = parse_unsigned(
+              values.at("random.initialization_stream"), 10, path),
+          .transition_stream =
+              parse_unsigned(values.at("random.transition_stream"), 10, path),
+          .topology          = topology,
+          .dimension         = dimension,
+          .actual_vertices   = actual_vertices,
+          .actual_edges      = actual_edges,
+          .actual_faces      = actual_faces,
+          .actual_simplices  = actual_simplices,
+          .minimum_timeslice = minimum_timeslice,
+          .maximum_timeslice = maximum_timeslice,
+          .placement_fingerprint =
+              parse_unsigned(values.at("placement.fnv1a64"), 16, path),
+          .topology_fingerprint =
+              parse_unsigned(values.at("topology.fnv1a64"), 16, path)
+      };
+    }
+
+    [[nodiscard]] inline auto validate_payload_integrity(
+        std::filesystem::path const& payload)
+        -> std::optional<Parsed_persistence_metadata>
+    {
+      auto const metadata = metadata_filename(payload);
+      if (!std::filesystem::exists(metadata)) { return std::nullopt; }
+      auto const expected = read_persistence_metadata(metadata);
+      auto const actual   = payload_integrity(payload);
+      if (expected.payload.size != actual.size ||
+          expected.payload.digest != actual.digest)
+      {
+        throw std::filesystem::filesystem_error(
+            "Triangulation payload does not match its persistence metadata",
+            payload, metadata,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      return expected;
+    }
+
     [[nodiscard]] inline auto write_file_mutex() -> std::mutex&
     {
       static std::mutex mutex;
@@ -123,6 +1008,338 @@ namespace utilities
             "Could not atomically replace file", temporary, destination, error);
       }
 #endif
+    }
+
+    template <typename TriangulationType>
+    [[nodiscard]] auto parse_payload(std::filesystem::path const& filename)
+        -> TriangulationType
+    {
+      std::ifstream file(filename, std::ios::in);
+      if (!file.is_open())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not open file for reading", filename,
+            std::make_error_code(std::errc::bad_file_descriptor));
+      }
+      TriangulationType triangulation;
+      file >> triangulation;
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not parse triangulation", filename,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      file >> std::ws;
+      if (!file.eof())
+      {
+        if constexpr (HAS_CAUSAL_INFO<TriangulationType>)
+        {
+          read_causal_info(file, triangulation, filename);
+          file >> std::ws;
+        }
+      }
+      if (!file.eof())
+      {
+        throw std::filesystem::filesystem_error(
+            "Unexpected trailing data after triangulation", filename,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if constexpr (requires(TriangulationType const& value) {
+                      { value.tds().is_valid() } -> std::convertible_to<bool>;
+                    })
+      {
+        if (!triangulation.tds().is_valid())
+        {
+          throw std::filesystem::filesystem_error(
+              "Parsed triangulation data structure failed its integrity check",
+              filename, std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+      // Evolved CDT states are valid abstract causal triangulations but need
+      // not satisfy the Euclidean Delaunay empty-sphere property. For CGAL
+      // triangulations the TDS check above is therefore the authoritative
+      // integrity check. Use a type's broader validator only when it does not
+      // expose a distinct triangulation data structure.
+      if constexpr (
+          !requires(TriangulationType const& value) {
+            { value.tds().is_valid() } -> std::convertible_to<bool>;
+          } &&
+          requires(TriangulationType const& value) {
+            { value.is_valid() } -> std::convertible_to<bool>;
+          })
+      {
+        if (!triangulation.is_valid())
+        {
+          throw std::filesystem::filesystem_error(
+              "Parsed triangulation failed its integrity check", filename,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+      return triangulation;
+    }
+
+    template <typename TriangulationType>
+    void reconcile_payload_metadata(Reproducibility_metadata& metadata,
+                                    TriangulationType const&  triangulation)
+    {
+      if constexpr (requires(TriangulationType const& value) {
+                      value.dimension();
+                      value.number_of_vertices();
+                      value.number_of_finite_edges();
+                      value.number_of_finite_facets();
+                      value.number_of_finite_cells();
+                    })
+      {
+        metadata.dimension =
+            gsl::narrow<Int_precision>(triangulation.dimension());
+        metadata.actual_vertices =
+            gsl::narrow<Int_precision>(triangulation.number_of_vertices());
+        metadata.actual_edges =
+            gsl::narrow<Int_precision>(triangulation.number_of_finite_edges());
+        metadata.actual_faces =
+            gsl::narrow<Int_precision>(triangulation.number_of_finite_facets());
+        metadata.actual_simplices =
+            gsl::narrow<Int_precision>(triangulation.number_of_finite_cells());
+      }
+      if constexpr (HAS_CAUSAL_INFO<TriangulationType>)
+      {
+        if (triangulation.number_of_vertices() == 0)
+        {
+          metadata.minimum_timeslice = 0;
+          metadata.maximum_timeslice = 0;
+        }
+        else
+        {
+          auto vertex            = triangulation.finite_vertices_begin();
+          auto minimum_timeslice = static_cast<Int_precision>(vertex->info());
+          auto maximum_timeslice = minimum_timeslice;
+          for (++vertex; vertex != triangulation.finite_vertices_end();
+               ++vertex)
+          {
+            auto const time   = static_cast<Int_precision>(vertex->info());
+            minimum_timeslice = std::min(minimum_timeslice, time);
+            maximum_timeslice = std::max(maximum_timeslice, time);
+          }
+          metadata.minimum_timeslice = minimum_timeslice;
+          metadata.maximum_timeslice = maximum_timeslice;
+        }
+        metadata.placement_fingerprint =
+            canonical_placement_fingerprint(triangulation);
+        metadata.topology_fingerprint =
+            canonical_topology_fingerprint(triangulation);
+      }
+    }
+
+    template <typename TriangulationType>
+    void validate_persistence_metadata(
+        Parsed_persistence_metadata const& metadata,
+        TriangulationType const&           triangulation,
+        std::filesystem::path const&       payload_path,
+        std::filesystem::path const&       metadata_path)
+    {
+      Reproducibility_metadata derived;
+      reconcile_payload_metadata(derived, triangulation);
+      auto const state_matches =
+          metadata.dimension == derived.dimension &&
+          metadata.actual_vertices == derived.actual_vertices &&
+          metadata.actual_edges == derived.actual_edges &&
+          metadata.actual_faces == derived.actual_faces &&
+          metadata.actual_simplices == derived.actual_simplices &&
+          metadata.minimum_timeslice == derived.minimum_timeslice &&
+          metadata.maximum_timeslice == derived.maximum_timeslice &&
+          derived.placement_fingerprint && derived.topology_fingerprint &&
+          metadata.placement_fingerprint == *derived.placement_fingerprint &&
+          metadata.topology_fingerprint == *derived.topology_fingerprint;
+      if (!state_matches)
+      {
+        throw std::filesystem::filesystem_error(
+            "Triangulation state does not match its persistence metadata",
+            payload_path, metadata_path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+    }
+
+    template <typename TriangulationType>
+    void validate_serialized_payload(std::filesystem::path const& filename,
+                                     TriangulationType const&     original)
+    {
+      if constexpr (requires(std::istream& input, TriangulationType& value) {
+                      input >> value;
+                    } && std::default_initializable<TriangulationType>)
+      {
+        auto const parsed = parse_payload<TriangulationType>(filename);
+        if constexpr (requires(TriangulationType const& value) {
+                        value.dimension();
+                        value.number_of_vertices();
+                        value.number_of_finite_edges();
+                        value.number_of_finite_facets();
+                        value.number_of_finite_cells();
+                      })
+        {
+          if (parsed.dimension() != original.dimension() ||
+              parsed.number_of_vertices() != original.number_of_vertices() ||
+              parsed.number_of_finite_edges() !=
+                  original.number_of_finite_edges() ||
+              parsed.number_of_finite_facets() !=
+                  original.number_of_finite_facets() ||
+              parsed.number_of_finite_cells() !=
+                  original.number_of_finite_cells())
+          {
+            throw std::filesystem::filesystem_error(
+                "Serialized triangulation changed its incidence counts",
+                filename,
+                std::make_error_code(std::errc::illegal_byte_sequence));
+          }
+          if constexpr (HAS_CAUSAL_INFO<TriangulationType>)
+          {
+            if (canonical_topology_fingerprint(parsed) !=
+                canonical_topology_fingerprint(original))
+            {
+              throw std::filesystem::filesystem_error(
+                  "Serialized triangulation changed its causal topology",
+                  filename,
+                  std::make_error_code(std::errc::illegal_byte_sequence));
+            }
+          }
+        }
+        else if constexpr (requires(TriangulationType const& left,
+                                    TriangulationType const& right) {
+                             { left == right } -> std::convertible_to<bool>;
+                           })
+        {
+          if (!(parsed == original))
+          {
+            throw std::filesystem::filesystem_error(
+                "Serialized triangulation did not round-trip exactly", filename,
+                std::make_error_code(std::errc::illegal_byte_sequence));
+          }
+        }
+      }
+    }
+
+    inline void write_text(std::filesystem::path const& filename,
+                           std::string_view const       contents)
+    {
+      std::ofstream file(filename, std::ios::out | std::ios::trunc);
+      if (!file.is_open())
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not open temporary metadata file for writing", filename,
+            std::make_error_code(std::errc::bad_file_descriptor));
+      }
+      file << contents;
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not serialize persistence metadata", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+      file.flush();
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not flush persistence metadata", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+      file.close();
+      if (!file)
+      {
+        throw std::filesystem::filesystem_error(
+            "Could not close persistence metadata", filename,
+            std::make_error_code(std::errc::io_error));
+      }
+    }
+
+    template <typename TriangulationType>
+    void write_payload(std::filesystem::path const& filename,
+                       TriangulationType const&     triangulation,
+                       std::optional<Reproducibility_metadata> const& metadata)
+    {
+      WriteFileOperation const operation;
+      fmt::print("Writing to file {}\n", filename.string());
+      std::scoped_lock const lock(write_file_mutex());
+      auto                   temporary = filename;
+      temporary += ".tmp";
+      auto const metadata_destination = metadata_filename(filename);
+      auto       metadata_temporary   = metadata_destination;
+      metadata_temporary += ".tmp";
+      auto resolved_metadata = metadata;
+      if (resolved_metadata)
+      {
+        reconcile_payload_metadata(*resolved_metadata, triangulation);
+      }
+
+      std::error_code cleanup_error;
+      std::filesystem::remove(temporary, cleanup_error);
+      std::filesystem::remove(metadata_temporary, cleanup_error);
+      try
+      {
+        std::ofstream file(temporary, std::ios::out | std::ios::trunc);
+        if (!file.is_open())
+        {
+          throw std::filesystem::filesystem_error(
+              "Could not open temporary file for writing", filename,
+              std::make_error_code(std::errc::bad_file_descriptor));
+        }
+        file << std::setprecision(std::numeric_limits<double>::max_digits10)
+             << triangulation;
+        write_causal_info(file, triangulation);
+        if (!file)
+        {
+          throw std::filesystem::filesystem_error(
+              "Could not serialize triangulation", filename,
+              std::make_error_code(std::errc::io_error));
+        }
+        file.flush();
+        if (!file)
+        {
+          throw std::filesystem::filesystem_error(
+              "Could not flush serialized triangulation", filename,
+              std::make_error_code(std::errc::io_error));
+        }
+        file.close();
+        if (!file)
+        {
+          throw std::filesystem::filesystem_error(
+              "Could not close serialized triangulation", filename,
+              std::make_error_code(std::errc::io_error));
+        }
+
+        validate_serialized_payload(temporary, triangulation);
+        if (resolved_metadata)
+        {
+          auto const integrity = payload_integrity(temporary);
+          write_text(metadata_temporary,
+                     metadata_text(*resolved_metadata, integrity));
+          auto const recorded = read_persistence_metadata(metadata_temporary);
+          if (recorded.payload.size != integrity.size ||
+              recorded.payload.digest != integrity.digest)
+          {
+            throw std::filesystem::filesystem_error(
+                "Persistence metadata did not round-trip exactly",
+                metadata_temporary,
+                std::make_error_code(std::errc::illegal_byte_sequence));
+          }
+          validate_persistence_metadata(recorded, triangulation, temporary,
+                                        metadata_temporary);
+
+          // Publish the manifest first. A process interrupted between these
+          // replacements observes a detectable checksum mismatch, never a
+          // payload silently paired with stale provenance.
+          replace_file(metadata_temporary, metadata_destination);
+        }
+        replace_file(temporary, filename);
+        if (!resolved_metadata)
+        {
+          std::filesystem::remove(metadata_destination, cleanup_error);
+        }
+      }
+      catch (...)
+      {
+        std::filesystem::remove(temporary, cleanup_error);
+        std::filesystem::remove(metadata_temporary, cleanup_error);
+        throw;
+      }
     }
   }  // namespace detail
 
@@ -253,52 +1470,79 @@ namespace utilities
   void write_file(std::filesystem::path const& filename,
                   TriangulationType const&     triangulation)
   {
-    detail::WriteFileOperation const operation;
-    fmt::print("Writing to file {}\n", filename.string());
-    std::scoped_lock const lock(detail::write_file_mutex());
-    auto                   temporary = filename;
-    temporary += ".tmp";
-
-    std::error_code cleanup_error;
-    std::filesystem::remove(temporary, cleanup_error);
-    try
-    {
-      std::ofstream file(temporary, std::ios::out | std::ios::trunc);
-      if (!file.is_open())
-      {
-        throw std::filesystem::filesystem_error(
-            "Could not open temporary file for writing", filename,
-            std::make_error_code(std::errc::bad_file_descriptor));
-      }
-      file << triangulation;
-      if (!file)
-      {
-        throw std::filesystem::filesystem_error(
-            "Could not serialize triangulation", filename,
-            std::make_error_code(std::errc::io_error));
-      }
-      file.flush();
-      if (!file)
-      {
-        throw std::filesystem::filesystem_error(
-            "Could not flush serialized triangulation", filename,
-            std::make_error_code(std::errc::io_error));
-      }
-      file.close();
-      if (!file)
-      {
-        throw std::filesystem::filesystem_error(
-            "Could not close serialized triangulation", filename,
-            std::make_error_code(std::errc::io_error));
-      }
-      detail::replace_file(temporary, filename);
-    }
-    catch (...)
-    {
-      std::filesystem::remove(temporary, cleanup_error);
-      throw;
-    }
+    detail::write_payload(filename, triangulation, std::nullopt);
   }  // write_file
+
+  /// @brief Atomically replace a triangulation and its verifiable provenance.
+  /// @details Derives payload-dependent metadata from the triangulation and
+  /// validates the complete typed manifest before either file is published.
+  template <typename TriangulationType>
+  void write_file(std::filesystem::path const&    filename,
+                  TriangulationType const&        triangulation,
+                  Reproducibility_metadata const& metadata)
+  { detail::write_payload(filename, triangulation, metadata); }
+
+  /// @brief Fingerprint vertices, causal metadata, and abstract finite cells.
+  template <typename ManifoldType>
+  [[nodiscard]] auto canonical_topology_fingerprint(
+      ManifoldType const& manifold) -> std::uint64_t
+  {
+    auto const triangulation = manifold.delaunay_snapshot();
+    return detail::canonical_topology_fingerprint(triangulation);
+  }
+
+  /// @brief Fingerprint finite vertex coordinates and timeslice metadata.
+  template <typename ManifoldType>
+  [[nodiscard]] auto canonical_placement_fingerprint(
+      ManifoldType const& manifold) -> std::uint64_t
+  {
+    auto const triangulation = manifold.delaunay_snapshot();
+    return detail::canonical_placement_fingerprint(triangulation);
+  }
+
+  /// @brief Build provenance from a canonical manifold state.
+  template <typename ManifoldType>
+  [[nodiscard]] auto make_reproducibility_metadata(ManifoldType const& manifold,
+                                                   cdt::Random_seed const seed,
+                                                   Artifact_kind const artifact)
+      -> Reproducibility_metadata
+  {
+    return {.artifact              = artifact,
+            .seed                  = seed,
+            .topology              = ManifoldType::topology,
+            .dimension             = ManifoldType::dimension,
+            .desired_simplices     = manifold.N3(),
+            .desired_timeslices    = manifold.max_time(),
+            .actual_vertices       = manifold.N0(),
+            .actual_edges          = manifold.N1(),
+            .actual_faces          = manifold.N2(),
+            .actual_simplices      = manifold.N3(),
+            .minimum_timeslice     = manifold.min_time(),
+            .maximum_timeslice     = manifold.max_time(),
+            .initial_radius        = manifold.initial_radius(),
+            .foliation_spacing     = manifold.foliation_spacing(),
+            .placement_fingerprint = canonical_placement_fingerprint(manifold),
+            .topology_fingerprint  = canonical_topology_fingerprint(manifold)};
+  }
+
+  /// @brief Refresh state-dependent provenance after a transition sequence.
+  template <typename ManifoldType>
+  void update_reproducibility_state(Reproducibility_metadata& metadata,
+                                    ManifoldType const&       manifold)
+  {
+    metadata.topology              = ManifoldType::topology;
+    metadata.dimension             = ManifoldType::dimension;
+    metadata.actual_vertices       = manifold.N0();
+    metadata.actual_edges          = manifold.N1();
+    metadata.actual_faces          = manifold.N2();
+    metadata.actual_simplices      = manifold.N3();
+    metadata.minimum_timeslice     = manifold.min_time();
+    metadata.maximum_timeslice     = manifold.max_time();
+    metadata.initial_radius        = manifold.initial_radius();
+    metadata.foliation_spacing     = manifold.foliation_spacing();
+    metadata.placement_fingerprint = canonical_placement_fingerprint(manifold);
+    metadata.topology_fingerprint  = canonical_topology_fingerprint(manifold);
+  }
 
   /// @brief Write the runtime results to a file
   /// @details The filename is generated by the **make_filename()** and
@@ -318,7 +1562,10 @@ namespace utilities
   template <typename ManifoldType>
   void write_file(ManifoldType const& t_universe, cdt::Random_seed const seed)
   {
-    write_file(make_filename(t_universe, seed), t_universe.delaunay_snapshot());
+    auto const metadata = make_reproducibility_metadata(
+        t_universe, seed, Artifact_kind::FINAL_TRIANGULATION);
+    write_file(make_filename(t_universe, seed), t_universe.delaunay_snapshot(),
+               metadata);
   }
 
   /// @brief Write a checkpoint with its effective seed and pass in its name.
@@ -326,8 +1573,30 @@ namespace utilities
   void write_file(ManifoldType const& t_universe, cdt::Random_seed const seed,
                   Int_precision const completed_passes)
   {
+    auto metadata = make_reproducibility_metadata(t_universe, seed,
+                                                  Artifact_kind::CHECKPOINT);
+    metadata.completed_passes = completed_passes;
     write_file(make_filename(t_universe, seed, completed_passes),
-               t_universe.delaunay_snapshot());
+               t_universe.delaunay_snapshot(), metadata);
+  }
+
+  /// @brief Write a named stochastic artifact and its complete provenance.
+  template <typename ManifoldType>
+  void write_file(ManifoldType const&             universe,
+                  Reproducibility_metadata const& metadata)
+  {
+    auto filename = make_filename(universe, metadata.seed);
+    if (metadata.artifact == Artifact_kind::CHECKPOINT)
+    {
+      if (!metadata.completed_passes)
+      {
+        throw std::invalid_argument(
+            "Checkpoint metadata must record completed passes.");
+      }
+      filename =
+          make_filename(universe, metadata.seed, *metadata.completed_passes);
+    }
+    write_file(filename, universe.delaunay_snapshot(), metadata);
   }
 
   /// @brief Read triangulation from file
@@ -340,27 +1609,12 @@ namespace utilities
     static std::mutex mutex;
     fmt::print("Reading from file {}\n", filename.string());
     std::scoped_lock const lock(mutex);
-    std::ifstream          file(filename, std::ios::in);
-    if (!file.is_open())
+    auto const metadata = detail::validate_payload_integrity(filename);
+    auto triangulation  = detail::parse_payload<TriangulationType>(filename);
+    if (metadata)
     {
-      throw std::filesystem::filesystem_error(
-          "Could not open file for reading", filename,
-          std::make_error_code(std::errc::bad_file_descriptor));
-    }
-    TriangulationType triangulation;
-    file >> triangulation;
-    if (!file)
-    {
-      throw std::filesystem::filesystem_error(
-          "Could not parse triangulation", filename,
-          std::make_error_code(std::errc::illegal_byte_sequence));
-    }
-    file >> std::ws;
-    if (!file.eof())
-    {
-      throw std::filesystem::filesystem_error(
-          "Unexpected trailing data after triangulation", filename,
-          std::make_error_code(std::errc::illegal_byte_sequence));
+      detail::validate_persistence_metadata(*metadata, triangulation, filename,
+                                            metadata_filename(filename));
     }
     return triangulation;
   }  // read_file

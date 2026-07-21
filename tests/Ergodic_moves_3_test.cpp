@@ -74,6 +74,33 @@ namespace
   }
 }  // namespace
 
+SCENARIO("Canonical proposal selection preserves sorted-rank semantics" *
+         doctest::test_suite("ergodic"))
+{
+  GIVEN("An unordered proposal domain and two identical generators")
+  {
+    vector<int> candidates{9, 1, 7, 3, 5, 2, 8, 4, 6, 0};
+    auto        sorted = candidates;
+    ranges::sort(sorted);
+    mt19937_64                       selection_generator{92};
+    mt19937_64                       rank_generator{92};
+    uniform_int_distribution<size_t> rank_distribution{0, sorted.size() - 1};
+    auto const expected = sorted[rank_distribution(rank_generator)];
+
+    WHEN("The canonical rank is selected with partial ordering")
+    {
+      auto const selected = ergodic_moves::detail::canonical_random_element(
+          candidates, selection_generator, ranges::less{});
+
+      THEN("It matches full canonical sorting for the same random draw.")
+      {
+        REQUIRE(selected);
+        CHECK_EQ(*selected, expected);
+      }
+    }
+  }
+}
+
 SCENARIO("Use check_move to validate successful move" *
          doctest::test_suite("ergodic"))
 {

@@ -38,16 +38,23 @@ function(add_cli_failure_test test_name target expected_regex)
   set_tests_properties(${test_name} PROPERTIES LABELS "integration;cli-boundary")
 endfunction()
 
-add_test(NAME cdt COMMAND $<TARGET_FILE:cdt> -s -n127 -t4 -a0.6 -k1.1 -l0.1 -p1 --seed 92)
-set_tests_properties(
-  cdt
-  PROPERTIES LABELS "integration"
-             PASS_REGULAR_EXPRESSION "Writing to file S3-[0-9]+-")
+add_test(
+  NAME cdt
+  COMMAND
+    ${CMAKE_COMMAND} "-DTEST_EXECUTABLE=$<TARGET_FILE:cdt>"
+    "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}"
+    "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-output"
+    "-DEXPECTED_ARTIFACT=final-triangulation"
+    "-DEXPECTED_SEED=92"
+    "-DTEST_ARGUMENTS=-s;-n127;-t4;-a0.6;-k1.1;-l0.1;-p1;--seed;92"
+    -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
+set_tests_properties(cdt PROPERTIES LABELS "integration;persistence")
 
 add_test(
   NAME cdt-no-output
   COMMAND
     ${CMAKE_COMMAND} -DCDT_EXECUTABLE=$<TARGET_FILE:cdt>
+    -DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}
     -DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-no-output
     -P ${PROJECT_SOURCE_DIR}/cmake/RunCdtNoOutputTest.cmake)
 set_tests_properties(cdt-no-output PROPERTIES LABELS "integration")
@@ -72,11 +79,27 @@ add_cli_failure_test(cdt-empty-population cdt "would create an empty triangulati
 add_cli_failure_test(cdt-integer-narrowing cdt "exceeds the supported integer range" -s -n2147483648 -t3 -a0.6
                      -k1.1 -l0.1 --seed 92)
 
-add_test(NAME initialize COMMAND $<TARGET_FILE:initialize> -s -n640 -t4 -o --seed 92)
-set_tests_properties(
-  initialize
-  PROPERTIES LABELS "integration"
-             PASS_REGULAR_EXPRESSION "Writing to file S3-4")
+add_test(
+  NAME initialize
+  COMMAND
+    ${CMAKE_COMMAND} "-DTEST_EXECUTABLE=$<TARGET_FILE:initialize>"
+    "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}"
+    "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/initialize-output"
+    "-DEXPECTED_ARTIFACT=initial-triangulation"
+    "-DEXPECTED_SEED=92"
+    "-DTEST_ARGUMENTS=-s;-n640;-t4;-o;--seed;92"
+    -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
+set_tests_properties(initialize PROPERTIES LABELS "integration;persistence")
+
+add_test(
+  NAME initialize-generated-seed
+  COMMAND
+    ${CMAKE_COMMAND} "-DTEST_EXECUTABLE=$<TARGET_FILE:initialize>"
+    "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}"
+    "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/initialize-generated-seed-output"
+    "-DEXPECTED_ARTIFACT=initial-triangulation"
+    "-DTEST_ARGUMENTS=-s;-n64;-t3;-o" -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
+set_tests_properties(initialize-generated-seed PROPERTIES LABELS "integration;persistence")
 
 add_cli_failure_test(initialize-minimum-simplices initialize "Simplices and timeslices must each be at least 2." -s -n1
                      -t1 -o --seed 92)

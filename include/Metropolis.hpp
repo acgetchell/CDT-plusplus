@@ -19,6 +19,7 @@
 
 #include <cstdint>
 #include <expected>
+#include <optional>
 #include <random>
 #include <stdexcept>
 #include <string>
@@ -28,6 +29,7 @@
 #include "Move_strategy.hpp"
 #include "Random.hpp"
 #include "S3Action.hpp"
+#include "Utilities.hpp"
 
 /// @brief Metropolis-Hastings algorithm strategy
 /// @details The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo
@@ -75,7 +77,17 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   Geometry<ManifoldType::dimension> m_geometry;
 
   /// @brief Run-owned random engine used for move, site, and acceptance draws
-  cdt::Random m_generator;
+  cdt::Random m_generator{
+      cdt::Random{}.split(cdt::random_streams::transitions)};
+
+  /// @brief Immutable run provenance, refreshed with state at each output.
+  utilities::Reproducibility_metadata m_reproducibility;
+
+  /// @brief Compact deterministic fingerprint of ordered transition outcomes.
+  std::uint64_t m_transition_trace{14695981039346656037ULL};
+
+  /// @brief Number of transition records incorporated into the fingerprint.
+  std::uint64_t m_transition_count{};
 
   /// @brief The number of move types and raw sites proposed
   /// @details This equals accepted moves + rejected moves.
@@ -100,9 +112,32 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// @brief The number of inapplicable or invalid candidate constructions
   Counter m_failed_moves;
 
+  enum class Transition_outcome : std::uint8_t
+  {
+    CANDIDATE_FAILED,
+    ACCEPTED,
+    REJECTED
+  };
+
+  void record_transition(move_tracker::move_type const move,
+                         Transition_outcome const      outcome) noexcept
+  {
+    auto const append = [this](std::uint8_t const value) {
+      m_transition_trace ^= value;
+      m_transition_trace *= 1099511628211ULL;
+    };
+    append(static_cast<std::uint8_t>(move));
+    append(static_cast<std::uint8_t>(outcome));
+    ++m_transition_count;
+  }
+
  public:
-  /// @brief Default ctor
-  MoveStrategy() = default;
+  /// @brief Construct a default strategy on the named transition stream.
+  MoveStrategy()
+  {
+    m_reproducibility.seed              = m_generator.seed();
+    m_reproducibility.transition_stream = m_generator.stream();
+  }
 
   /// @brief Metropolis function object constructor
   /// @details Setup of runtime job parameters.
@@ -118,26 +153,50 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
                                 Int_precision const passes,
                                 Int_precision const checkpoint,
                                 bool const          write_files = true)
-      : MoveStrategy{Alpha,      K,           Lambda,       passes,
-                     checkpoint, write_files, cdt::Random{}}
+      : MoveStrategy{Alpha,
+                     K,
+                     Lambda,
+                     passes,
+                     checkpoint,
+                     write_files,
+                     cdt::Random{}.split(cdt::random_streams::transitions)}
   {}
 
   /// @brief Construct a run from an already selected PCG stream.
-  [[maybe_unused]] MoveStrategy(long double const Alpha, long double const K,
-                                long double const   Lambda,
-                                Int_precision const passes,
-                                Int_precision const checkpoint,
-                                bool const write_files, cdt::Random random)
+  /// @details Seed, transition-stream, action, and cadence provenance are
+  /// derived from the actual constructor arguments. Caller metadata supplies
+  /// initialization and requested-state context only.
+  [[maybe_unused]] MoveStrategy(
+      long double const Alpha, long double const K, long double const Lambda,
+      Int_precision const passes, Int_precision const checkpoint,
+      bool const write_files, cdt::Random random,
+      std::optional<utilities::Reproducibility_metadata> reproducibility =
+          std::nullopt)
       : m_passes(passes)
       , m_checkpoint{checkpoint}
       , m_write_files{write_files}
       , m_generator{std::move(random)}
+      , m_reproducibility{
+            reproducibility.value_or(utilities::Reproducibility_metadata{
+                .seed                = m_generator.seed(),
+                .alpha               = Alpha,
+                .k                   = K,
+                .lambda              = Lambda,
+                .configured_passes   = passes,
+                .checkpoint_interval = checkpoint})}
   {
     auto const parameters =
         s3_action::make_physical_parameters(Alpha, K, Lambda);
-    m_Alpha  = parameters.alpha;
-    m_K      = parameters.k;
-    m_Lambda = parameters.lambda;
+    m_Alpha                               = parameters.alpha;
+    m_K                                   = parameters.k;
+    m_Lambda                              = parameters.lambda;
+    m_reproducibility.seed                = m_generator.seed();
+    m_reproducibility.transition_stream   = m_generator.stream();
+    m_reproducibility.alpha               = m_Alpha;
+    m_reproducibility.k                   = m_K;
+    m_reproducibility.lambda              = m_Lambda;
+    m_reproducibility.configured_passes   = m_passes;
+    m_reproducibility.checkpoint_interval = m_checkpoint;
     if (m_passes <= 0)
     {
       throw std::invalid_argument{"Metropolis passes must be positive"};
@@ -157,8 +216,15 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
                long double const Lambda, Int_precision const passes,
                Int_precision const checkpoint, bool const write_files,
                std::uint64_t const seed)
-      : MoveStrategy{Alpha,      K,           Lambda,           passes,
-                     checkpoint, write_files, cdt::Random{seed}}
+      : MoveStrategy{
+            Alpha,
+            K,
+            Lambda,
+            passes,
+            checkpoint,
+            write_files,
+            cdt::Random{seed, cdt::random_streams::transitions}
+  }
   {}
 
   /// @returns The length of the timelike edge
@@ -184,6 +250,37 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
 
   /// @returns The PCG stream selector used for transitions.
   [[nodiscard]] auto stream() const noexcept { return m_generator.stream(); }
+
+  /// @returns FNV-1a fingerprint of the ordered move/outcome transition trace.
+  [[nodiscard]] auto transition_trace() const noexcept
+  { return m_transition_trace; }
+
+  /// @returns Number of transitions represented by transition_trace().
+  [[nodiscard]] auto transition_count() const noexcept
+  { return m_transition_count; }
+
+  /// @brief Materialize output provenance for the supplied canonical state.
+  [[nodiscard]] auto reproducibility_metadata(
+      ManifoldType const& manifold, utilities::Artifact_kind const artifact,
+      Int_precision const completed_passes) const
+      -> utilities::Reproducibility_metadata
+  {
+    auto metadata             = m_reproducibility;
+    metadata.artifact         = artifact;
+    metadata.completed_passes = completed_passes;
+    metadata.transition_trace = m_transition_trace;
+    metadata.transition_count = m_transition_count;
+    utilities::update_reproducibility_state(metadata, manifold);
+    if (metadata.desired_simplices == 0)
+    {
+      metadata.desired_simplices = manifold.N3();
+    }
+    if (metadata.desired_timeslices == 0)
+    {
+      metadata.desired_timeslices = manifold.max_time();
+    }
+    return metadata;
+  }
 
   /// @returns The container of trial moves
   auto get_proposed() const { return m_proposed_moves; }
@@ -348,6 +445,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     {
       ++m_failed_moves[move];
       ++m_rejected_moves[move];
+      record_transition(move, Transition_outcome::CANDIDATE_FAILED);
       return false;
     }
 
@@ -359,10 +457,12 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       swap(*candidate, current);
       m_geometry = current.get_geometry();
       ++m_accepted_moves[move];
+      record_transition(move, Transition_outcome::ACCEPTED);
       return true;
     }
 
     ++m_rejected_moves[move];
+    record_transition(move, Transition_outcome::REJECTED);
     return false;
   }
 
@@ -389,8 +489,10 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     m_attempted_moves.reset();
     m_succeeded_moves.reset();
     m_failed_moves.reset();
+    m_transition_trace = 14695981039346656037ULL;
+    m_transition_count = 0;
 
-    auto current = t_manifold;
+    auto current       = t_manifold;
     initialize(current);
     std::uniform_real_distribution<long double> acceptance_draw{0.0L, 1.0L};
 
@@ -413,7 +515,10 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
         if (m_write_files)
         {
           fmt::print("Writing to file.\n");
-          utilities::write_file(current, m_generator.seed(), pass_number);
+          utilities::write_file(
+              current,
+              reproducibility_metadata(
+                  current, utilities::Artifact_kind::CHECKPOINT, pass_number));
         }
       }
     }

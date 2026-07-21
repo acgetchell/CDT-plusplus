@@ -9,9 +9,21 @@
 
 #include <string_view>
 
+#ifndef CDT_BUILD_CONFIGURATION
+#define CDT_BUILD_CONFIGURATION "unknown"
+#endif
+
 namespace cdt
 {
 inline constexpr std::string_view VERSION{"@CDT_VERSION@"};
+inline constexpr std::string_view BUILD_COMPILER_ID{"@CMAKE_CXX_COMPILER_ID@"};
+inline constexpr std::string_view BUILD_COMPILER_VERSION{
+    "@CMAKE_CXX_COMPILER_VERSION@"};
+inline constexpr std::string_view BUILD_CONFIGURATION{
+    CDT_BUILD_CONFIGURATION};
+inline constexpr std::string_view BUILD_SYSTEM_NAME{"@CMAKE_SYSTEM_NAME@"};
+inline constexpr std::string_view BUILD_SYSTEM_PROCESSOR{
+    "@CMAKE_SYSTEM_PROCESSOR@"};
 }  // namespace cdt
 
 #endif  // CDT_VERSION_HPP
