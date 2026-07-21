@@ -18,7 +18,7 @@ rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests
 # Build the supported configuration through the repository build script.
 [group('workflows')]
 build:
-    {{ if os_family() == "windows" { "cmd.exe //d //c scripts/build.bat" } else { "just _build-unix" } }}
+    {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat'" } else { "just _build-unix" } }}
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
