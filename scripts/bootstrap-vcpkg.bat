@@ -47,7 +47,7 @@ IF DEFINED CDT_VCPKG_CACHE_DIR (
 )
 
 IF EXIST "%VCPKG_DIR%\.git\." (
-  git -C "%VCPKG_DIR%" remote get-url origin 2>NUL ^| FINDSTR /X /C:"https://github.com/microsoft/vcpkg.git" >NUL
+  CALL :VALIDATE_VCPKG_ORIGIN "%VCPKG_DIR%"
   IF ERRORLEVEL 1 (
     echo Refusing to reuse %VCPKG_DIR% because its origin is not microsoft/vcpkg. 1>&2
     EXIT /B 1
@@ -103,6 +103,21 @@ IF ERRORLEVEL 1 (
 
 echo Bootstrapped vcpkg at %VCPKG_DIR% ^(%BASELINE%^)
 EXIT /B 0
+
+:VALIDATE_VCPKG_ORIGIN
+SETLOCAL
+SET "ORIGIN_URL="
+FOR /F "usebackq delims=" %%I IN (`git -C "%~1" remote get-url origin 2^>NUL`) DO SET "ORIGIN_URL=%%I"
+IF /I "%ORIGIN_URL%"=="https://github.com/microsoft/vcpkg.git" (
+  ENDLOCAL
+  EXIT /B 0
+)
+IF /I "%ORIGIN_URL%"=="https://github.com/microsoft/vcpkg" (
+  ENDLOCAL
+  EXIT /B 0
+)
+ENDLOCAL
+EXIT /B 1
 
 :VALIDATE_CACHED_VCPKG
 SETLOCAL
