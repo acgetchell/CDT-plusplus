@@ -27,6 +27,7 @@ if [[ "$(uname -s)" != "Linux" ]]; then
 fi
 
 source "${script_dir}/prepare-vcpkg.sh"
+prepare_reference_environment
 prepare_vcpkg "${repo_root}"
 
 rm -rf -- "${build_dir}"

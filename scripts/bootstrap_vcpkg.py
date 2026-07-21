@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping, Sequence
 
-TRUSTED_TOOL_TAG = "2026-07-13"
+VCPKG_TOOL_RELEASE = "2026-07-13"
 OFFICIAL_ORIGINS = frozenset(
     {
         "https://github.com/microsoft/vcpkg",
@@ -225,8 +225,8 @@ def validate_checkout(
 
     metadata_path = checkout / "scripts" / "vcpkg-tool-metadata.txt"
     metadata = _read_metadata(metadata_path)
-    if metadata.get("VCPKG_TOOL_RELEASE_TAG") != TRUSTED_TOOL_TAG:
-        message = f"vcpkg tool metadata at {metadata_path} is not release {TRUSTED_TOOL_TAG}."
+    if metadata.get("VCPKG_TOOL_RELEASE_TAG") != VCPKG_TOOL_RELEASE:
+        message = f"vcpkg tool metadata at {metadata_path} is not release {VCPKG_TOOL_RELEASE}."
         raise BootstrapError(message)
     selected_tool = tool_spec or select_tool_spec(metadata)
     expected_length = hashlib.new(selected_tool.hash_algorithm).digest_size * 2
@@ -246,7 +246,7 @@ def validate_checkout(
         message = f"vcpkg executable digest does not match the trusted {selected_tool.hash_algorithm} value: {executable}."
         raise BootstrapError(message)
 
-    expected_version_prefix = f"vcpkg package management program version {TRUSTED_TOOL_TAG}-"
+    expected_version_prefix = f"vcpkg package management program version {VCPKG_TOOL_RELEASE}-"
     version = version_reader(executable)
     if not version.casefold().startswith(expected_version_prefix.casefold()):
         message = f"Unexpected vcpkg tool version from {executable}: {version or '<empty output>'}."

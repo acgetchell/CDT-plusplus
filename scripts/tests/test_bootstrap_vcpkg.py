@@ -44,7 +44,7 @@ class BootstrapVcpkgTests(unittest.TestCase):
         self._git(root, "config", "user.name", "CDT++ tests")
         metadata = root / "scripts" / "vcpkg-tool-metadata.txt"
         metadata.parent.mkdir(parents=True)
-        metadata.write_text(f"VCPKG_TOOL_RELEASE_TAG={bootstrap_vcpkg.TRUSTED_TOOL_TAG}\n", encoding="utf-8")
+        metadata.write_text(f"VCPKG_TOOL_RELEASE_TAG={bootstrap_vcpkg.VCPKG_TOOL_RELEASE}\n", encoding="utf-8")
         tracked = root / "tracked.txt"
         tracked.write_text("tracked\n", encoding="utf-8")
         self._git(root, "add", "scripts/vcpkg-tool-metadata.txt", "tracked.txt")
@@ -61,7 +61,7 @@ class BootstrapVcpkgTests(unittest.TestCase):
     @staticmethod
     def _valid_version(_executable: Path) -> str:
         """Return version output accepted by the validator."""
-        return f"vcpkg package management program version {bootstrap_vcpkg.TRUSTED_TOOL_TAG}-fixture"
+        return f"vcpkg package management program version {bootstrap_vcpkg.VCPKG_TOOL_RELEASE}-fixture"
 
     def test_accepts_official_clean_checkout_with_untracked_metadata(self) -> None:
         """Action-owned untracked metadata does not invalidate tracked sources."""
@@ -180,7 +180,8 @@ class BootstrapVcpkgTests(unittest.TestCase):
 
             with self.assertRaises(bootstrap_vcpkg.BootstrapError) as raised:
                 bootstrap_vcpkg.bootstrap_vcpkg(repository_root, check_only=True)
-            self.assertIn(str(repository_root / ".cache" / "vcpkg"), str(raised.exception))
+            expected_cache = (repository_root / ".cache" / "vcpkg").resolve()
+            self.assertIn(str(expected_cache), str(raised.exception))
 
 
 if __name__ == "__main__":
