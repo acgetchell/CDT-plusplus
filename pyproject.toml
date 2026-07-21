@@ -7,6 +7,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = []
 
 [project.scripts]
+cdt-bootstrap-vcpkg = "scripts.bootstrap_vcpkg:main"
 cdt-mnist-experiment = "scripts.mnist_experiment:main"
 cdt-optimize-initialize = "scripts.optimize_initialize:main"
 

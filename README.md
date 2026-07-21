@@ -158,7 +158,7 @@ The smallest pkgx-assisted host setup is:
 - Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
 - pkgx
 - Just when invoking the recipes directly; `scripts/pkgx-build.sh` does not require it
-- Python 3.12 and uv when checking or running the Python support scripts
+- Python 3.12 for native dependency bootstrap, and uv when checking or running the Python support scripts
 - Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
 
 The pkgx build and documentation launchers supply their required tools ephemerally, including Git, Bash, CMake,
@@ -226,16 +226,21 @@ development environment provides `clang-format`, `yamllint`, and `actionlint` co
 `vcpkg.json` is the dependency source of truth. Its `builtin-baseline` pins the official
 [`microsoft/vcpkg`](https://github.com/microsoft/vcpkg) registry commit used locally and in CI. The repository-local
 `.cache/vcpkg` checkout is disposable tool/cache infrastructure and must not be edited or committed.
+The native build entry points delegate checkout provenance, baseline, and executable-integrity validation directly
+to `scripts/bootstrap_vcpkg.py`, whose cross-platform fixtures run under `just check`.
 
 To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, review the
 manifest diff, and then rerun the complete build:
 
 ```bash
-./scripts/bootstrap-vcpkg.sh
+python3 scripts/bootstrap_vcpkg.py
 export VCPKG_ROOT="$PWD/.cache/vcpkg"
 "$VCPKG_ROOT/vcpkg" x-update-baseline
 ./scripts/build.sh
 ```
+
+On Windows, invoke the same implementation with `python.exe scripts\bootstrap_vcpkg.py`; `scripts\build.bat` and
+`scripts\fast-build.bat` already do this directly.
 
 CI uses `lukka/run-vcpkg`, which derives the vcpkg checkout commit from the same manifest baseline and supplies a
 binary cache. No separately maintained repository variable is required.

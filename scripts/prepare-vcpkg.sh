@@ -35,10 +35,20 @@ prepare_vcpkg()
 {
   local repository_root="${1:?repository root is required}"
   local pinned_vcpkg_root="${CDT_VCPKG_CACHE_DIR:-${repository_root}/.cache/vcpkg}"
-  local bootstrap_script="${repository_root}/scripts/bootstrap-vcpkg.sh"
+  local bootstrap_script="${repository_root}/scripts/bootstrap_vcpkg.py"
+  local python_executable
+
+  if command -v python3 >/dev/null; then
+    python_executable="$(command -v python3)"
+  elif command -v python >/dev/null; then
+    python_executable="$(command -v python)"
+  else
+    printf 'Python is required to bootstrap vcpkg.\n' >&2
+    return 1
+  fi
 
   if [[ -n "${VCPKG_ROOT:-}" ]] &&
-     CDT_VCPKG_CACHE_DIR="${VCPKG_ROOT}" "${bootstrap_script}" --check 2>/dev/null; then
+     CDT_VCPKG_CACHE_DIR="${VCPKG_ROOT}" "${python_executable}" "${bootstrap_script}" --check 2>/dev/null; then
     VCPKG_ROOT="$(cd -- "${VCPKG_ROOT}" && pwd -P)"
     export VCPKG_ROOT
     return
@@ -50,7 +60,7 @@ prepare_vcpkg()
   fi
 
   export VCPKG_ROOT="${pinned_vcpkg_root}"
-  "${bootstrap_script}"
+  "${python_executable}" "${bootstrap_script}"
   VCPKG_ROOT="$(cd -- "${VCPKG_ROOT}" && pwd -P)"
   export VCPKG_ROOT
 }

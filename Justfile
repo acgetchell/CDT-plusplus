@@ -140,6 +140,7 @@ python-support-test: _ensure-uv
 # Smoke-test installed entry points without loading optional experiment dependencies.
 [group('workflows')]
 python-entrypoint-test: _ensure-uv
+    uv run --locked cdt-bootstrap-vcpkg --help >/dev/null
     uv run --locked cdt-optimize-initialize --help >/dev/null
     uv run --locked cdt-mnist-experiment --help >/dev/null
 
