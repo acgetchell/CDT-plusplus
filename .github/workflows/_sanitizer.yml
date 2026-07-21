@@ -84,7 +84,7 @@ jobs:
       - name: Set up sanitizer toolchain with pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
-          +: |
+          +: >-
             llvm.org@${{ steps.tool-versions.outputs.llvm }}
             cmake.org@${{ steps.tool-versions.outputs.cmake }}
             ninja-build.org@${{ steps.tool-versions.outputs.ninja }}
