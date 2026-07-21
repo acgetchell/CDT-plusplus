@@ -19,6 +19,9 @@
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
+#include <array>
+#include <bit>
+#include <cstddef>
 #include <expected>
 #include <random>
 
@@ -39,6 +42,17 @@ namespace ergodic_moves
 
   namespace detail
   {
+    /// @brief Compare preserved floating-point configuration state exactly.
+    /// @details Move construction copies these values; arithmetic tolerance is
+    /// inappropriate because any representation change indicates state drift.
+    [[nodiscard]] inline auto same_configuration_value(
+        double const first, double const second) noexcept -> bool
+    {
+      using Representation = std::array<std::byte, sizeof(double)>;
+      return std::bit_cast<Representation>(first) ==
+             std::bit_cast<Representation>(second);
+    }
+
     /// @brief Rebuild all derived topology and geometry state around a value.
     [[nodiscard]] inline auto make_manifold(Delaunay        triangulation,
                                             Manifold const& source) -> Manifold
@@ -1088,8 +1102,10 @@ namespace ergodic_moves
       -> bool
   {
     if (!t_after.is_correct() ||
-        t_after.initial_radius() != t_before.initial_radius() ||
-        t_after.foliation_spacing() != t_before.foliation_spacing())
+        !detail::same_configuration_value(t_after.initial_radius(),
+                                          t_before.initial_radius()) ||
+        !detail::same_configuration_value(t_after.foliation_spacing(),
+                                          t_before.foliation_spacing()))
     {
       return false;
     }

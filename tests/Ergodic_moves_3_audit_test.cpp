@@ -11,6 +11,8 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
+#include <cstddef>
 #include <cstdint>
 #include <iterator>
 #include <map>
@@ -32,6 +34,11 @@ namespace
   using Vertex_handle = ergodic_moves::Vertex_handle;
 
   using Vertex_key    = std::tuple<double, double, double, Int_precision>;
+  using Double_representation = std::array<std::byte, sizeof(double)>;
+
+  [[nodiscard]] auto double_representation(double const value) noexcept
+      -> Double_representation
+  { return std::bit_cast<Double_representation>(value); }
 
   template <std::size_t Size>
   using Simplex_key = std::array<Vertex_key, Size>;
@@ -74,8 +81,8 @@ namespace
     std::vector<std::pair<Int_precision, std::size_t>> spacelike_facets;
     Int_precision                                      min_time{};
     Int_precision                                      max_time{};
-    double                                             initial_radius{};
-    double                                             foliation_spacing{};
+    Double_representation                              initial_radius{};
+    Double_representation                              foliation_spacing{};
 
     auto operator==(Canonical_state const&) const -> bool = default;
   };
@@ -165,11 +172,12 @@ namespace
   {
     auto            triangulation = manifold.delaunay_snapshot();
     Canonical_state result{};
-    result.counts            = direct_counts(triangulation);
-    result.min_time          = manifold.min_time();
-    result.max_time          = manifold.max_time();
-    result.initial_radius    = manifold.initial_radius();
-    result.foliation_spacing = manifold.foliation_spacing();
+    result.counts         = direct_counts(triangulation);
+    result.min_time       = manifold.min_time();
+    result.max_time       = manifold.max_time();
+    result.initial_radius = double_representation(manifold.initial_radius());
+    result.foliation_spacing =
+        double_representation(manifold.foliation_spacing());
 
     for (auto vertex = triangulation.finite_vertices_begin();
          vertex != triangulation.finite_vertices_end(); ++vertex)
@@ -837,4 +845,17 @@ TEST_CASE("Seeded CDT move replay preserves invariants and inverse structure" *
     check_26_62_round_trip(seed);
     check_44_round_trip(seed);
   }
+}
+
+TEST_CASE("Move validation rejects exact configuration-state drift" *
+          doctest::test_suite("ergodic-audit"))
+{
+  auto const before = make_44_fixture();
+  auto const after  = Manifold{
+      foliated_triangulations::FoliatedTriangulation_3{
+                                                       before.delaunay_snapshot(), -0.0, before.foliation_spacing()}
+  };
+  REQUIRE(after.is_correct());
+  CHECK_FALSE(ergodic_moves::check_move(before, after,
+                                        move_tracker::move_type::FOUR_FOUR));
 }
