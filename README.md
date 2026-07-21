@@ -370,6 +370,9 @@ Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 The scientific transition, proposal-ratio, geometry-delta, counter, and
 precision contracts are recorded in
 [`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
+The literature-backed contracts, exact deltas, inverse relationships, and
+failure-atomicity rules for the complete 2+1D move set are recorded in
+[`docs/ergodic-moves.md`](docs/ergodic-moves.md).
 Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream
 policy are recorded in [`docs/reproducibility.md`](docs/reproducibility.md).
 The repository-wide scientific bibliography is maintained in

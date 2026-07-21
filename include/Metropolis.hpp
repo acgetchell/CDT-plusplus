@@ -344,8 +344,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     ++m_attempted_moves[move];
 
     auto candidate = propose_candidate(current, move);
-    if (!candidate || !candidate->is_correct() ||
-        !ergodic_moves::check_move(current, *candidate, move))
+    if (!candidate || !ergodic_moves::check_move(current, *candidate, move))
     {
       ++m_failed_moves[move];
       ++m_rejected_moves[move];
