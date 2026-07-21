@@ -300,14 +300,39 @@ namespace
 
   void check_independent_invariants(Manifold const& manifold)
   {
-    auto const triangulation = manifold.delaunay_snapshot();
-    auto const counts        = direct_counts(triangulation);
+    auto const triangulation               = manifold.delaunay_snapshot();
+    auto const counts                      = direct_counts(triangulation);
 
+    auto const production_is_foliated      = manifold.is_foliated();
+    auto const production_checks_vertices  = manifold.check_vertices();
+    auto const production_checks_simplices = manifold.check_simplices();
+    auto const production_is_correct       = manifold.is_correct();
+    CAPTURE(production_is_foliated);
+    CAPTURE(production_checks_vertices);
+    CAPTURE(production_checks_simplices);
+    CAPTURE(production_is_correct);
+
+    CHECK_EQ(triangulation.dimension(), 3);
     CHECK(triangulation.tds().is_valid());
-    CHECK(manifold.is_foliated());
-    CHECK(manifold.check_vertices());
-    CHECK(manifold.check_simplices());
-    CHECK(manifold.is_correct());
+
+    std::optional<Int_precision> raw_min_time;
+    std::optional<Int_precision> raw_max_time;
+    std::size_t                  raw_vertex_count{};
+    for (auto vertex = triangulation.finite_vertices_begin();
+         vertex != triangulation.finite_vertices_end(); ++vertex)
+    {
+      CHECK(triangulation.tds().is_vertex(vertex));
+      raw_min_time = raw_min_time ? std::min(*raw_min_time, vertex->info())
+                                  : vertex->info();
+      raw_max_time = raw_max_time ? std::max(*raw_max_time, vertex->info())
+                                  : vertex->info();
+      ++raw_vertex_count;
+    }
+    REQUIRE(raw_min_time.has_value());
+    REQUIRE(raw_max_time.has_value());
+    CHECK_EQ(raw_vertex_count, static_cast<std::size_t>(counts.n0));
+    CHECK_EQ(*raw_min_time, manifold.min_time());
+    CHECK_EQ(*raw_max_time, manifold.max_time());
 
     CHECK_EQ(counts.n0, manifold.N0());
     CHECK_EQ(counts.n0, manifold.vertices());
@@ -346,22 +371,27 @@ namespace
       CHECK_EQ(manifold.spacelike_face_count(time), spacelike_facets[time]);
     }
 
+    std::size_t classified_cell_count{};
     for (auto cell = triangulation.finite_cells_begin();
          cell != triangulation.finite_cells_end(); ++cell)
     {
       Cell_handle const cell_handle = cell;
       auto const        type        = independent_cell_type(cell);
+      CHECK(triangulation.tds().is_cell(cell_handle));
       CHECK((type == Cell_type::THREE_ONE || type == Cell_type::TWO_TWO ||
              type == Cell_type::ONE_THREE));
       CHECK_EQ(cell->info(), static_cast<Int_precision>(type));
+      ++classified_cell_count;
       for (int index = 0; index < 4; ++index)
       {
         auto const neighbor = cell->neighbor(index);
         REQUIRE(neighbor != nullptr);
+        CHECK(triangulation.tds().is_cell(neighbor));
         REQUIRE(neighbor->has_neighbor(cell_handle));
         CHECK(neighbor->neighbor(neighbor->index(cell_handle)) == cell_handle);
       }
     }
+    CHECK_EQ(classified_cell_count, static_cast<std::size_t>(counts.n3));
   }
 
   void check_delta(Manifold const& before, Manifold const& after,
@@ -798,6 +828,122 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     }
   }
 
+  GIVEN("a (2,6) move rejected by validation after vertex insertion")
+  {
+    auto const  source        = make_26_fixture();
+    auto const  before        = canonical_state(source);
+    auto const  source_counts = direct_counts(source.delaunay_snapshot());
+    cdt::Random random{106'260};
+    bool        observed_mutation = false;
+
+    WHEN("the injected count validator rejects the private copy")
+    {
+      auto const rejected = ergodic_moves::detail::do_26_move_impl(
+          source, random, false, [&](Delaunay const& mutated) {
+            auto const mutated_counts = direct_counts(mutated);
+            observed_mutation         = true;
+            CHECK_EQ(mutated_counts.n0, source_counts.n0 + 1);
+            CHECK_EQ(mutated_counts.n3, source_counts.n3 + 4);
+            return mutated_counts.n0 == source_counts.n0;
+          });
+
+      THEN("the post-mutation rejection leaves the source unchanged")
+      {
+        REQUIRE(observed_mutation);
+        CHECK_FALSE(rejected.has_value());
+        CHECK_EQ(canonical_state(source), before);
+      }
+    }
+  }
+
+  GIVEN("a (6,2) move rejected by validation after vertex removal")
+  {
+    auto const  seed = make_26_fixture();
+    cdt::Random setup_random{106'620};
+    auto const  expanded = ergodic_moves::do_26_move(seed, setup_random);
+    REQUIRE(expanded.has_value());
+
+    auto       source   = expanded->delaunay_snapshot();
+    auto       vertices = foliated_triangulations::collect_vertices<3>(source);
+    auto const candidate =
+        std::ranges::find_if(vertices, [&](auto const& vertex) {
+          return ergodic_moves::is_62_movable(source, vertex);
+        });
+    REQUIRE(candidate != vertices.end());
+    auto const  source_counts = direct_counts(source);
+    auto const  before        = canonical_triangulation(source);
+    cdt::Random random{106'621};
+    bool        observed_mutation = false;
+
+    WHEN("the injected count validator rejects the private copy")
+    {
+      auto const rejected = ergodic_moves::detail::try_62_move_impl(
+          source, *candidate, random, [&](Delaunay const& mutated) {
+            auto const mutated_counts = direct_counts(mutated);
+            observed_mutation         = true;
+            CHECK_EQ(mutated_counts.n0, source_counts.n0 - 1);
+            CHECK_EQ(mutated_counts.n3, source_counts.n3 - 4);
+            return mutated_counts.n0 == source_counts.n0;
+          });
+
+      THEN("the post-mutation rejection leaves the source unchanged")
+      {
+        REQUIRE(observed_mutation);
+        CHECK_FALSE(rejected.has_value());
+        CHECK_EQ(canonical_triangulation(source), before);
+      }
+    }
+  }
+
+  GIVEN("a bistellar flip rejected by validation after both TDS flips")
+  {
+    auto       source = make_44_fixture().delaunay_snapshot();
+    auto const pivot  = find_44_pivot(source);
+    REQUIRE(pivot.has_value());
+    auto const incident = finite_incident_cells(source, *pivot);
+    REQUIRE(incident.has_value());
+
+    auto const    pivot_first  = pivot->first->vertex(pivot->second);
+    auto const    pivot_second = pivot->first->vertex(pivot->third);
+    Vertex_handle top          = nullptr;
+    Vertex_handle bottom       = nullptr;
+    for (auto const cell : *incident)
+    {
+      for (int index = 0; index < 4; ++index)
+      {
+        auto const vertex = cell->vertex(index);
+        if (vertex == pivot_first || vertex == pivot_second) { continue; }
+        if (top == nullptr || vertex->info() > top->info()) { top = vertex; }
+        if (bottom == nullptr || vertex->info() < bottom->info())
+        {
+          bottom = vertex;
+        }
+      }
+    }
+    REQUIRE(top != nullptr);
+    REQUIRE(bottom != nullptr);
+    auto const before            = canonical_triangulation(source);
+    bool       observed_mutation = false;
+
+    WHEN("the injected TDS validator rejects the private copy")
+    {
+      auto const rejected = ergodic_moves::detail::bistellar_flip_impl(
+          source, *pivot, top, bottom, [&](Delaunay const& mutated) {
+            observed_mutation = true;
+            CHECK(mutated.tds().is_valid());
+            CHECK_NE(canonical_triangulation(mutated), before);
+            return !mutated.tds().is_valid();
+          });
+
+      THEN("the post-mutation rejection leaves the source unchanged")
+      {
+        REQUIRE(observed_mutation);
+        CHECK_FALSE(rejected.has_value());
+        CHECK_EQ(canonical_triangulation(source), before);
+      }
+    }
+  }
+
   GIVEN("causal manifolds without the required move incidences")
   {
     auto const  source_23 = make_23_fixture();
@@ -822,12 +968,32 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
 
   GIVEN("malformed and nonflippable edge representations")
   {
-    auto              triangulation = make_44_fixture().delaunay_snapshot();
+    auto       triangulation = make_44_fixture().delaunay_snapshot();
+    auto       foreign       = make_44_fixture().delaunay_snapshot();
+    auto const foreign_pivot = find_44_pivot(foreign);
+    REQUIRE(foreign_pivot.has_value());
+
+    std::optional<Edge_handle> boundary_edge;
+    for (auto edge = triangulation.finite_edges_begin();
+         edge != triangulation.finite_edges_end(); ++edge)
+    {
+      if (!finite_incident_cells(triangulation, *edge))
+      {
+        boundary_edge = *edge;
+        break;
+      }
+    }
+    REQUIRE(boundary_edge.has_value());
+
     Edge_handle const malformed{nullptr, 0, 1};
     auto const        before = canonical_triangulation(triangulation);
     WHEN("the checked edge helpers receive them")
     {
       CHECK_FALSE(ergodic_moves::get_incident_cells(triangulation, malformed));
+      CHECK_FALSE(
+          ergodic_moves::get_incident_cells(triangulation, *boundary_edge));
+      CHECK_FALSE(ergodic_moves::find_bistellar_flip_location(triangulation,
+                                                              *foreign_pivot));
       CHECK_FALSE(ergodic_moves::try_32_move(triangulation, malformed));
       THEN("the triangulation remains unchanged")
       { CHECK_EQ(canonical_triangulation(triangulation), before); }
