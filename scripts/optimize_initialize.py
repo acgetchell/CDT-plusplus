@@ -8,12 +8,65 @@ import re
 import sys
 from pathlib import Path
 from subprocess import check_output as qx
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping, Sequence
+    from collections.abc import Callable, Mapping, Sequence
 
 MAX_RANDOM_SEED = (1 << 64) - 1
+PARAMETER_PAIRS = tuple((initial_radius, spacing) for initial_radius in range(1, 4) for spacing in (1.0, 1.5, 2.0))
+
+
+class _Experiment(Protocol):
+    """Comet operations used by the historical parameter sweep."""
+
+    def log_parameters(self, parameters: Mapping[str, int | float]) -> object:
+        """Record the inputs used by one initializer run."""
+        ...
+
+    def log_metric(self, name: str, value: float) -> object:
+        """Record a numeric result."""
+        ...
+
+    def log_other(self, name: str, value: int) -> object:
+        """Record non-metric result metadata."""
+        ...
+
+    def log_figure(self, *, figure_name: str, figure: object) -> object:
+        """Record the volume profile plot."""
+        ...
+
+    def end(self) -> object:
+        """Close the online experiment."""
+        ...
+
+
+class _Plotter(Protocol):
+    """Matplotlib operations used by the historical parameter sweep."""
+
+    def plot(self, x_values: list[int], y_values: list[int]) -> object:
+        """Plot the volume profile."""
+        ...
+
+    def xlabel(self, label: str) -> object:
+        """Label the horizontal axis."""
+        ...
+
+    def ylabel(self, label: str) -> object:
+        """Label the vertical axis."""
+        ...
+
+    def title(self, label: str) -> object:
+        """Set the plot title."""
+        ...
+
+    def grid(self, *, visible: bool) -> object:
+        """Configure the plot grid."""
+        ...
+
+    def clf(self) -> object:
+        """Clear the current figure."""
+        ...
 
 
 def _parse_seed(value: str) -> int:
@@ -80,7 +133,7 @@ def _initializer_command(
     initialize_binary: Path,
     hyper_params: Mapping[str, int],
     initial_radius: int,
-    radial_factor: float,
+    foliation_spacing: float,
 ) -> list[str]:
     """Build one replayable initializer invocation."""
     return [
@@ -93,39 +146,41 @@ def _initializer_command(
         "-i",
         str(initial_radius),
         "-f",
-        str(radial_factor),
+        str(foliation_spacing),
         "--seed",
         str(hyper_params["seed"]),
     ]
 
 
-def _run_experiments(initialize_binary: Path, api_key: str, seed: int) -> None:
-    """Run the historical Comet parameter sweep."""
-    import matplotlib.pyplot as plt  # noqa: PLC0415
-    import numpy as np  # noqa: PLC0415
-    from comet_ml import Experiment  # noqa: PLC0415
-
-    parameters = [(initial_radius, spacing) for initial_radius in range(1, 4) for spacing in np.arange(1, 2.5, 0.5)]
-
-    for parameter_pair in parameters:
-        experiment = Experiment(api_key=api_key, project_name="cdt-plusplus")
+def _run_parameter_sweep(
+    initialize_binary: Path,
+    seed: int,
+    experiment_factory: Callable[[], _Experiment],
+    initializer_runner: Callable[[list[str]], str],
+    plotter: _Plotter,
+) -> None:
+    """Run the parameter sweep through injected initializer and Comet boundaries."""
+    for initial_radius, foliation_spacing in PARAMETER_PAIRS:
+        experiment = experiment_factory()
         try:
             hyper_params = {"simplices": 12000, "foliations": 12, "seed": seed}
-            experiment.log_parameters(hyper_params)
-            init_radius = parameter_pair[0]
-            radial_factor = parameter_pair[1]
+            experiment.log_parameters(
+                {
+                    **hyper_params,
+                    "initial_radius": initial_radius,
+                    "foliation_spacing": foliation_spacing,
+                }
+            )
 
             command = _initializer_command(
                 initialize_binary,
                 hyper_params,
-                initial_radius=init_radius,
-                radial_factor=radial_factor,
+                initial_radius=initial_radius,
+                foliation_spacing=foliation_spacing,
             )
             print(command)
 
-            # The executable and numeric parameters are repository-controlled.
-            output = qx(command, text=True)  # noqa: S603
-
+            output = initializer_runner(command)
             final_simplices, graph = _parse_initializer_output(output)
 
             min_timeslice = min(timeslice for timeslice, _ in graph)
@@ -133,8 +188,8 @@ def _run_experiments(initialize_binary: Path, api_key: str, seed: int) -> None:
             result = (final_simplices, min_timeslice, max_timeslice)
 
             print(result)
-            print(f"Initial radius is: {init_radius}")
-            print(f"Radial factor is: {radial_factor}")
+            print(f"Initial radius is: {initial_radius}")
+            print(f"Foliation spacing is: {foliation_spacing}")
             for timeslice, volume in graph:
                 print(f"Timeslice {timeslice} has {volume} spacelike faces.")
             print()
@@ -147,15 +202,30 @@ def _run_experiments(initialize_binary: Path, api_key: str, seed: int) -> None:
 
             timeslices = [timeslice for timeslice, _ in graph]
             volumes = [volume for _, volume in graph]
-            plt.plot(timeslices, volumes)
-            plt.xlabel("Timeslice")
-            plt.ylabel("Volume (spacelike faces)")
-            plt.title("Volume Profile")
-            plt.grid(visible=True)
-            experiment.log_figure(figure_name="Volume per Timeslice", figure=plt)
-            plt.clf()
+            plotter.plot(timeslices, volumes)
+            plotter.xlabel("Timeslice")
+            plotter.ylabel("Volume (spacelike faces)")
+            plotter.title("Volume Profile")
+            plotter.grid(visible=True)
+            experiment.log_figure(figure_name="Volume per Timeslice", figure=plotter)
+            plotter.clf()
         finally:
             experiment.end()
+
+
+def _run_experiments(initialize_binary: Path, api_key: str, seed: int) -> None:
+    """Run the historical Comet parameter sweep."""
+    import matplotlib.pyplot as plt  # noqa: PLC0415
+    from comet_ml import Experiment  # noqa: PLC0415
+
+    def experiment_factory() -> _Experiment:
+        return Experiment(api_key=api_key, project_name="cdt-plusplus")
+
+    def initializer_runner(command: list[str]) -> str:
+        # The executable and numeric parameters are repository-controlled.
+        return qx(command, text=True)  # noqa: S603
+
+    _run_parameter_sweep(initialize_binary, seed, experiment_factory, initializer_runner, plt)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
