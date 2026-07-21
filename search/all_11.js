@@ -1,25 +1,4 @@
 var searchData=
 [
-  ['random_0',['Random',['../classcdt_1_1_random.html',1,'cdt::Random'],['../classcdt_1_1_random.html#a42b629b8f79ccafab3bf50e058939532',1,'cdt::Random::Random()'],['../classcdt_1_1_random.html#aedb2ffa91f84e7e29acf119dce82fcfa',1,'cdt::Random::Random(Random_seed const seed, Random_stream const stream=0)']]],
-  ['random_20number_20generation_1',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
-  ['random_20number_20generators_2',['PCG random-number generators',['../md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators',1,'']]],
-  ['random_20runs_3',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['random_2ehpp_4',['Random.hpp',['../_random_8hpp.html',1,'']]],
-  ['random_5felement_5',['random_element',['../_ergodic__moves__3_8hpp.html#ab79a464a2381fcc577913fb7a0e62442',1,'ergodic_moves::detail']]],
-  ['read_5ffile_6',['read_file',['../_utilities_8hpp.html#a3645c87787d52458aa1a582002cdf538',1,'utilities']]],
-  ['reference_20suite_20status_7',['Current reference-suite status',['../index.html#current-reference-suite-status',1,'']]],
-  ['references_8',['References',['../md_docs_2metropolis-hastings.html#references',1,'']]],
-  ['references_20and_20citations_9',['References and Citations',['../md__r_e_f_e_r_e_n_c_e_s.html',1,'']]],
-  ['regge_20calculus_10',['Regge calculus',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus',1,'']]],
-  ['regge_20calculus_20and_20discrete_20action_11',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
-  ['regression_20oracle_20scope_12',['Regression-oracle scope',['../index.html#regression-oracle-scope',1,'']]],
-  ['reproducible_20random_20runs_13',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['reset_14',['reset',['../classmove__tracker_1_1_move_tracker.html#ad6868bdbeaa886c88268bb8de513d283',1,'move_tracker::MoveTracker']]],
-  ['reset_5fcounters_15',['reset_counters',['../class_move_command.html#a61705b0ebc08b351905003cbbc5273de',1,'MoveCommand']]],
-  ['reverse_5fmove_16',['reverse_move',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a407923731a5795d93cb4c7203f8cffa3',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
-  ['roadmap_17',['Roadmap',['../index.html#roadmap',1,'']]],
-  ['rounding_5fmode_18',['rounding_mode',['../_mpfr__value_8hpp.html#ac549be5fbfbb0af4417d79569dbd221d',1,'mpfr_values']]],
-  ['run_19',['Run',['../index.html#run',1,'']]],
-  ['runs_20',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['runtime_5fconfig_2ehpp_21',['Runtime_config.hpp',['../_runtime__config_8hpp.html',1,'']]]
+  ['quickstart_0',['Quickstart',['../index.html#quickstart',1,'']]]
 ];

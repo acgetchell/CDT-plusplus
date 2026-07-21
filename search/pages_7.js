@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['hastings_20algorithm_0',['Metropolis-Hastings algorithm',['../md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm',1,'']]],
-  ['hastings_20transition_20contract_1',['Metropolis-Hastings transition contract',['../md_docs_2metropolis-hastings.html',1,'']]],
-  ['how_20to_20cite_20this_20software_2',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]]
+  ['foundational_20causal_20dynamical_20triangulations_20theory_0',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]],
+  ['framework_1',['Original CDT framework',['../md__r_e_f_e_r_e_n_c_e_s.html#original-cdt-framework',1,'']]],
+  ['framework_202001_2',['CDT framework (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'']]]
 ];
