@@ -14,12 +14,15 @@
 /// @see [Pachner moves](../REFERENCES.md#pachner-moves)
 /// @see [Three-dimensional CDT move
 /// set](../REFERENCES.md#three-dimensional-cdt-2001)
+/// @see [2+1D CDT ergodic move audit](../docs/ergodic-moves.md)
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
-#include <spdlog/spdlog.h>
-
+#include <array>
+#include <bit>
+#include <concepts>
+#include <cstddef>
 #include <expected>
 #include <random>
 
@@ -40,6 +43,22 @@ namespace ergodic_moves
 
   namespace detail
   {
+    /// @brief Compare preserved floating-point configuration state exactly.
+    /// @details Move construction copies these values; arithmetic tolerance is
+    /// inappropriate because any representation change indicates state drift.
+    [[nodiscard]] inline auto same_configuration_value(
+        double const first, double const second) noexcept -> bool
+    {
+      using Representation = std::array<std::byte, sizeof(double)>;
+      return std::bit_cast<Representation>(first) ==
+             std::bit_cast<Representation>(second);
+    }
+
+    /// @brief Default validator for internal post-mutation test seams.
+    [[nodiscard]] inline auto accept_post_mutation(
+        [[maybe_unused]] Delaunay const& triangulation) noexcept -> bool
+    { return true; }
+
     /// @brief Rebuild all derived topology and geometry state around a value.
     [[nodiscard]] inline auto make_manifold(Delaunay        triangulation,
                                             Manifold const& source) -> Manifold
@@ -65,6 +84,30 @@ namespace ergodic_moves
              valid_index(edge.third) && edge.second != edge.third;
     }
 
+    /// @brief Collect the finite cells incident to a checked edge.
+    /// @details The returned handles borrow from @p triangulation and remain
+    /// valid only until an affected-cell mutation is performed.
+    [[nodiscard]] inline auto finite_incident_cells(
+        Delaunay const& triangulation, Edge_handle const& edge)
+        -> std::optional<Cell_container>
+    {
+      if (!is_well_formed_edge(edge) || triangulation.dimension() != 3 ||
+          !triangulation.tds().is_edge(edge.first, edge.second, edge.third))
+      {
+        return std::nullopt;
+      }
+
+      auto circulator = triangulation.incident_cells(edge, edge.first);
+      Cell_container incident_cells;
+      do
+      {  // NOLINT(cppcoreguidelines-avoid-do-while)
+        if (triangulation.is_infinite(circulator)) { return std::nullopt; }
+        incident_cells.emplace_back(circulator);
+      }
+      while (++circulator != edge.first);
+      return incident_cells;
+    }
+
     /// Select exactly one raw proposal site uniformly.
     template <typename Container, std::uniform_random_bit_generator Generator>
     [[nodiscard]] inline auto random_element(Container const& candidates,
@@ -85,7 +128,9 @@ namespace ergodic_moves
   [[nodiscard]] inline auto null_move(Manifold const& t_manifold) -> Expected
   { return t_manifold; }  // null_move
 
-  /// @brief Perform a TriangulationDataStructure_3::flip on a facet
+  /// @brief Perform a checked Triangulation_3 flip on a causal CDT facet
+  /// @details On success, affected cell handles are invalidated; vertex handles
+  /// remain valid. Rejection occurs before mutation.
   /// @param triangulation The triangulation containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @returns True if move succeeded
@@ -94,13 +139,29 @@ namespace ergodic_moves
   [[nodiscard]] inline auto try_23_move(Delaunay&          triangulation,
                                         Cell_handle const& to_be_moved) -> bool
   {
-    if (to_be_moved->info() != 22) { return false; }  // NOLINT
+    if (to_be_moved == nullptr || triangulation.dimension() != 3 ||
+        !triangulation.tds().is_cell(to_be_moved) ||
+        !foliated_triangulations::is_cell_type_correct<3>(to_be_moved) ||
+        foliated_triangulations::expected_cell_type<3>(to_be_moved) !=
+            Cell_type::TWO_TWO)
+    {
+      return false;
+    }
     auto flipped = false;
     // Try every facet of the (2,2) cell
     for (auto i = 0; i < 4; ++i)
     {
       auto const neighbor = to_be_moved->neighbor(i);
       if (triangulation.is_infinite(neighbor)) { continue; }
+
+      auto const neighbor_type =
+          foliated_triangulations::expected_cell_type<3>(neighbor);
+      if (!foliated_triangulations::is_cell_type_correct<3>(neighbor) ||
+          (neighbor_type != Cell_type::THREE_ONE &&
+           neighbor_type != Cell_type::ONE_THREE))
+      {
+        continue;
+      }
 
       // A causal (2,3) move must replace the facet with a timelike edge.
       // CGAL also permits topological flips that create a spacelike edge.
@@ -131,13 +192,15 @@ namespace ergodic_moves
   /// This function calls try_23_move on (2,2) simplices drawn from a
   /// randomly shuffled container until it succeeds or runs out of simplices.
   ///
-  /// If successful, the triangulation is no longer Delaunay.
+  /// The move guarantees a valid causal combinatorial triangulation. It does
+  /// not preserve or require the empty-sphere property of the coordinates.
   ///
   /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
   /// @param generator Caller-owned generator whose state advances during the
   /// move
   /// @returns The Expected (2,3) moved manifold or an Unexpected
+  /// @note The source manifold is unchanged on success and failure.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_23_move(Manifold const& t_manifold,
                                        Generator&      generator) -> Expected
@@ -180,15 +243,58 @@ namespace ergodic_moves
     return std::unexpected("Selected (2,3) proposal site is not movable.\n");
   }
 
-  /// @brief Perform a TriangulationDataStructure_3::flip on an edge
+  namespace detail
+  {
+    /// @brief Check for the causal cavity inverse to a (2,3) move.
+    [[nodiscard]] inline auto is_32_movable(Delaunay const&    triangulation,
+                                            Edge_handle const& candidate)
+        -> bool
+    {
+      auto const incident_cells =
+          finite_incident_cells(triangulation, candidate);
+      if (!incident_cells || incident_cells->size() != 3) { return false; }
+
+      auto const first_time = static_cast<long long>(
+          candidate.first->vertex(candidate.second)->info());
+      auto const second_time = static_cast<long long>(
+          candidate.first->vertex(candidate.third)->info());
+      auto const time_difference = first_time > second_time
+                                     ? first_time - second_time
+                                     : second_time - first_time;
+      if (time_difference != 1) { return false; }
+
+      if (!std::ranges::all_of(*incident_cells, [](auto const& cell) {
+            return foliated_triangulations::is_cell_type_correct<3>(cell);
+          }))
+      {
+        return false;
+      }
+
+      auto const cell_type_count = [&](Cell_type const type) {
+        return std::ranges::count_if(*incident_cells, [&](auto const& cell) {
+          return foliated_triangulations::expected_cell_type<3>(cell) == type;
+        });
+      };
+      auto const incident_31 = cell_type_count(Cell_type::THREE_ONE);
+      auto const incident_22 = cell_type_count(Cell_type::TWO_TWO);
+      auto const incident_13 = cell_type_count(Cell_type::ONE_THREE);
+      return incident_22 == 2 && ((incident_31 == 1 && incident_13 == 0) ||
+                                  (incident_31 == 0 && incident_13 == 1));
+    }
+  }  // namespace detail
+
+  /// @brief Perform a checked (3,2) flip on a causal CDT edge cavity.
+  /// @details On success, affected cell handles are invalidated; vertex handles
+  /// remain valid. Rejection occurs before mutation.
   /// @param triangulation The triangulation containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
-  /// @returns True if move succeeded
+  /// @returns True if the CDT cavity is admissible and CGAL performs the flip
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
   [[nodiscard]] inline auto try_32_move(Delaunay&          triangulation,
                                         Edge_handle const& to_be_moved) -> bool
   {
+    if (!detail::is_32_movable(triangulation, to_be_moved)) { return false; }
     return triangulation.flip(to_be_moved.first, to_be_moved.second,
                               to_be_moved.third);
   }  // try_32_move
@@ -198,12 +304,14 @@ namespace ergodic_moves
   /// This removes a (2,2) simplex and the timelike edge.
   /// This function calls try_32_move on timelike edges drawn from a
   /// randomly shuffled container until it succeeds or runs out of edges.
-  /// If successful, the triangulation is no longer Delaunay.
+  /// The move guarantees a valid causal combinatorial triangulation. It does
+  /// not preserve or require the empty-sphere property of the coordinates.
   /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
   /// @param generator Caller-owned generator whose state advances during the
   /// move
   /// @returns The Expected (3,2) moved manifold or an Unexpected
+  /// @note The source manifold is unchanged on success and failure.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_32_move(Manifold const& t_manifold,
                                        Generator&      generator) -> Expected
@@ -251,11 +359,19 @@ namespace ergodic_moves
   [[nodiscard]] inline auto find_adjacent_31_cell(Cell_handle const& t_cell)
       -> std::optional<int>
   {
-    if (t_cell->info() != 13) { return std::nullopt; }  // NOLINT
+    if (t_cell == nullptr ||
+        !foliated_triangulations::is_cell_type_correct<3>(t_cell) ||
+        foliated_triangulations::expected_cell_type<3>(t_cell) !=
+            Cell_type::ONE_THREE)
+    {
+      return std::nullopt;
+    }
     for (auto i = 0; i < 4; ++i)
     {
-      if (foliated_triangulations::expected_cell_type<3>(t_cell->neighbor(i)) ==
-          Cell_type::THREE_ONE)
+      auto const neighbor = t_cell->neighbor(i);
+      if (foliated_triangulations::is_cell_type_correct<3>(neighbor) &&
+          foliated_triangulations::expected_cell_type<3>(neighbor) ==
+              Cell_type::THREE_ONE)
       {
         return std::make_optional(i);
       }
@@ -263,29 +379,25 @@ namespace ergodic_moves
     return std::nullopt;
   }  // find_26_move()
 
-  /// @brief Perform a (2,6) move
-  /// @details A (2,6) move inserts a vertex into the spacelike face between a
-  /// (1,3) simplex on the bottom connected to a (3,1) simplex on top.
-  /// This adds 2 (1,3) simplices and 2 (3,1) simplices.
-  /// It adds 2 spacelike faces and 6 timelike faces.
-  /// It also adds 2 timelike edges and 3 spacelike edges, as well as the
-  /// vertex.
-  /// This function calls find_adjacent_31_cell on (1,3) simplices drawn from a
-  /// randomly shuffled container until it succeeds or runs out of simplices.
-  /// If successful, the triangulation is no longer Delaunay.
-  /// @image html 26.png
-  /// @image latex 26.eps width=7cm
-  /// @tparam Generator A uniform random bit generator type
-  /// @param t_manifold The simplicial manifold
-  /// @param generator Caller-owned generator whose state advances during the
-  /// move
-  /// @param only_first_site Whether to examine only one uniformly selected site
-  /// @returns The Expected (2,6) moved manifold or an Unexpected
-  template <std::uniform_random_bit_generator Generator>
-  [[nodiscard]] inline auto do_26_move_impl(Manifold const& t_manifold,
-                                            Generator&      generator,
-                                            bool const      only_first_site)
-      -> Expected
+  namespace detail
+  {
+    template <std::uniform_random_bit_generator Generator,
+              typename Post_mutation_validator>
+      requires std::predicate<Post_mutation_validator&, Delaunay const&>
+    [[nodiscard]] inline auto do_26_move_impl(
+        Manifold const& t_manifold, Generator& generator,
+        bool const              only_first_site,
+        Post_mutation_validator post_mutation_validator) -> Expected;
+  }  // namespace detail
+
+  // Internal validation seam used to test rejection after mutation.
+  template <std::uniform_random_bit_generator Generator,
+            typename Post_mutation_validator>
+    requires std::predicate<Post_mutation_validator&, Delaunay const&>
+  [[nodiscard]] inline auto detail::do_26_move_impl(
+      Manifold const& t_manifold, Generator& generator,
+      bool const              only_first_site,
+      Post_mutation_validator post_mutation_validator) -> Expected
   {
     static auto constexpr INCIDENT_CELLS_FOR_6_2_MOVE = 6;
     Delaunay triangulation{t_manifold.delaunay_snapshot()};
@@ -303,7 +415,8 @@ namespace ergodic_moves
     }
     else
     {
-      // Shuffle the container to pick a random sequence of (1,3) cells to try.
+      // Shuffle the container to pick a random sequence of (1,3) cells to
+      // try.
       std::ranges::shuffle(one_three, generator);
     }
     for (auto const& bottom : one_three)
@@ -359,7 +472,8 @@ namespace ergodic_moves
           return std::unexpected(msg);
         }
 
-        // Each incident cell should be combinatorially and geometrically valid
+        // Each incident cell should be combinatorially and geometrically
+        // valid
         if (auto check_cells =
                 std::ranges::all_of(incident_cells,
                                     [&triangulation](auto const& cell) {
@@ -382,19 +496,52 @@ namespace ergodic_moves
 
         // Final checks
         // is_valid() checks for combinatorial and geometric validity
-        if (!triangulation.tds().is_valid(v_center, true, 1))
+        if (!post_mutation_validator(
+                static_cast<Delaunay const&>(triangulation)) ||
+            !triangulation.tds().is_valid(v_center, true, 1))
         {
           std::string const msg = "v_center is invalid.\n";
           return std::unexpected(msg);
         }
 
-        return detail::make_manifold(std::move(triangulation), t_manifold);
+        return make_manifold(std::move(triangulation), t_manifold);
       }
     }
     // We've run out of (1,3) simplices to try
     std::string const msg = "No (2,6) move possible.\n";
     return std::unexpected(msg);
-  }  // do_26_move()
+  }  // do_26_move_impl()
+
+  /// @brief Perform a (2,6) move
+  /// @details A (2,6) move inserts a vertex into the spacelike face between a
+  /// (1,3) simplex on the bottom connected to a (3,1) simplex on top.
+  /// This adds 2 (1,3) simplices and 2 (3,1) simplices.
+  /// It adds 2 spacelike faces and 6 timelike faces.
+  /// It also adds 2 timelike edges and 3 spacelike edges, as well as the
+  /// vertex.
+  /// This function calls find_adjacent_31_cell on (1,3) simplices drawn from a
+  /// randomly shuffled container until it succeeds or runs out of simplices.
+  /// The move guarantees a valid causal combinatorial triangulation. It does
+  /// not preserve or require the empty-sphere property of the coordinates.
+  /// @image html 26.png
+  /// @image latex 26.eps width=7cm
+  /// @tparam Generator A uniform random bit generator type
+  /// @param t_manifold The simplicial manifold
+  /// @param generator Caller-owned generator whose state advances during the
+  /// move
+  /// @param only_first_site Whether to examine only one uniformly selected site
+  /// @returns The Expected (2,6) moved manifold or an Unexpected
+  /// @note The source manifold is unchanged on success and failure.
+
+  template <std::uniform_random_bit_generator Generator>
+  [[nodiscard]] inline auto do_26_move_impl(Manifold const& t_manifold,
+                                            Generator&      generator,
+                                            bool const      only_first_site)
+      -> Expected
+  {
+    return detail::do_26_move_impl(t_manifold, generator, only_first_site,
+                                   detail::accept_post_mutation);
+  }
 
   /// @brief Perform a (2,6) move using a caller-owned random stream.
   template <std::uniform_random_bit_generator Generator>
@@ -460,30 +607,39 @@ namespace ergodic_moves
     auto const incident_22 = cell_type_count(Cell_type::TWO_TWO);
     auto const incident_13 = cell_type_count(Cell_type::ONE_THREE);
 
-    // All cells should be classified
-    if (incident_13 + incident_22 + incident_31 != 6)  // NOLINT
+    // All cells should be causally classified and carry matching metadata.
+    if (incident_13 + incident_22 + incident_31 != 6 ||  // NOLINT
+        !std::ranges::all_of(incident_cells, [](auto const& cell) {
+          return foliated_triangulations::is_cell_type_correct<3>(cell);
+        }))
     {
-      spdlog::warn("Some incident cells on this vertex need to be fixed.\n");
+      return false;
     }
 
     return incident_31 == 3 && incident_22 == 0 && incident_13 == 3;
 
   }  // find_62_moves()
 
-  /// @brief Apply the combinatorial (6,2) retriangulation on a private copy.
-  /// @details A (3,2) flip of either timelike edge incident to the removable
-  /// vertex leaves that vertex with degree four. Removing it from its maximal
-  /// simplex then replaces the original six cells with the required two cells.
-  /// Keeping both operations in a private copy makes rejection failure-atomic.
-  /// @param source_triangulation The triangulation containing the candidate
-  /// @param source_candidate The degree-five vertex to remove
-  /// @param generator The caller-owned random engine used to order flip paths
-  /// @returns The moved triangulation, or nullopt when the topology is not
-  /// flippable or the result violates a triangulation or causal-cell invariant
-  template <std::uniform_random_bit_generator Generator>
-  [[nodiscard]] inline auto try_62_move(Delaunay const& source_triangulation,
-                                        Vertex_handle const source_candidate,
-                                        Generator&          generator)
+  namespace detail
+  {
+    template <std::uniform_random_bit_generator Generator,
+              typename Post_mutation_validator>
+      requires std::predicate<Post_mutation_validator&, Delaunay const&>
+    [[nodiscard]] inline auto try_62_move_impl(
+        Delaunay const&     source_triangulation,
+        Vertex_handle const source_candidate, Generator& generator,
+        Post_mutation_validator post_mutation_validator)
+        -> std::optional<Delaunay>;
+  }  // namespace detail
+
+  // Internal validation seam used to test rejection after mutation.
+  template <std::uniform_random_bit_generator Generator,
+            typename Post_mutation_validator>
+    requires std::predicate<Post_mutation_validator&, Delaunay const&>
+  [[nodiscard]] inline auto detail::try_62_move_impl(
+      Delaunay const&     source_triangulation,
+      Vertex_handle const source_candidate, Generator& generator,
+      Post_mutation_validator post_mutation_validator)
       -> std::optional<Delaunay>
   {
     if (!source_triangulation.tds().is_vertex(source_candidate) ||
@@ -522,7 +678,8 @@ namespace ergodic_moves
     }
 
     tds.remove_from_maximal_dimension_simplex(candidate);
-    if (!tds.is_valid() ||
+    if (!post_mutation_validator(static_cast<Delaunay const&>(triangulation)) ||
+        !tds.is_valid() ||
         triangulation.number_of_finite_cells() + 4 != old_cells ||
         triangulation.number_of_vertices() + 1 != old_vertices)
     {
@@ -540,6 +697,26 @@ namespace ergodic_moves
     }
 
     return triangulation;
+  }  // try_62_move_impl()
+
+  /// @brief Apply the combinatorial (6,2) retriangulation on a private copy.
+  /// @details A (3,2) flip of either timelike edge incident to the removable
+  /// vertex leaves that vertex with degree four. Removing it from its maximal
+  /// simplex then replaces the original six cells with the required two cells.
+  /// Keeping both operations in a private copy makes rejection failure-atomic.
+  /// @param source_triangulation The triangulation containing the candidate
+  /// @param source_candidate The degree-five vertex to remove
+  /// @param generator The caller-owned random engine used to order flip paths
+  /// @returns The moved triangulation, or nullopt when the topology is not
+  /// flippable or the result violates a triangulation or causal-cell invariant
+  template <std::uniform_random_bit_generator Generator>
+  [[nodiscard]] inline auto try_62_move(Delaunay const& source_triangulation,
+                                        Vertex_handle const source_candidate,
+                                        Generator&          generator)
+      -> std::optional<Delaunay>
+  {
+    return detail::try_62_move_impl(source_triangulation, source_candidate,
+                                    generator, detail::accept_post_mutation);
   }  // try_62_move()
 
   /// @brief Perform a (6,2) move
@@ -555,14 +732,15 @@ namespace ergodic_moves
   /// This function calls is_62_movable() on a randomly shuffled container
   /// of vertices until it succeeds or runs out of vertices.
   ///
-  /// If successful, the triangulation remains Delaunay. (Other moves may
-  /// change this, however.)
+  /// The move guarantees a valid causal combinatorial triangulation. It does
+  /// not preserve or require the empty-sphere property of the coordinates.
   ///
   /// @tparam Generator A uniform random bit generator type
   /// @param t_manifold The simplicial manifold
   /// @param generator Caller-owned generator whose state advances during the
   /// move
   /// @returns The Expected (6,2) moved manifold or Unexpected
+  /// @note The source manifold is unchanged on success and failure.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_62_move(Manifold const& t_manifold,
                                        Generator&      generator) -> Expected
@@ -613,25 +791,7 @@ namespace ergodic_moves
       Delaunay_t<3> const& triangulation, Edge_handle const& edge)
       -> std::optional<Cell_container>
   {
-    if (!detail::is_well_formed_edge(edge) ||
-        !triangulation.tds().is_edge(edge.first, edge.second, edge.third))
-    {
-      return std::nullopt;
-    }
-    // Create the circulator of cells around the edge, starting with the cell
-    // containing the edge
-    auto           circulator = triangulation.incident_cells(edge, edge.first);
-    Cell_container incident_cells;
-    // Add cells to the container until we get back to the first one in the
-    // circulator
-    do
-    {  // NOLINT(cppcoreguidelines-avoid-do-while)
-      // Ignore cells containing the infinite vertex
-      if (triangulation.is_infinite(circulator)) { continue; }
-      incident_cells.emplace_back(circulator);
-    }
-    while (++circulator != edge.first);
-    return incident_cells;
+    return detail::finite_incident_cells(triangulation, edge);
   }  // incident_cells_from_edge()
 
   /// @brief Find a bistellar flip location
@@ -646,20 +806,27 @@ namespace ergodic_moves
       Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
       -> std::optional<Cell_container>
   {
-    if (auto incident_cells =
-            incident_cells_from_edge(triangulation, t_edge_candidate);
-        incident_cells.has_value() && incident_cells->size() == 4)
+    if (!detail::is_well_formed_edge(t_edge_candidate)) { return std::nullopt; }
+    auto incident_cells =
+        incident_cells_from_edge(triangulation, t_edge_candidate);
+    if (!incident_cells || incident_cells->size() != 4) { return std::nullopt; }
+
+    auto const first_time =
+        t_edge_candidate.first->vertex(t_edge_candidate.second)->info();
+    auto const second_time =
+        t_edge_candidate.first->vertex(t_edge_candidate.third)->info();
+    if (first_time != second_time) { return std::nullopt; }
+
+    auto const cell_type_count = [&](Cell_type const type) {
+      return std::ranges::count_if(*incident_cells, [&](auto const cell) {
+        return foliated_triangulations::is_cell_type_correct<3>(cell) &&
+               foliated_triangulations::expected_cell_type<3>(cell) == type;
+      });
+    };
+    if (cell_type_count(Cell_type::THREE_ONE) == 2 &&
+        cell_type_count(Cell_type::ONE_THREE) == 2)
     {
-      auto const cell_type_count = [&](Cell_type const type) {
-        return std::ranges::count_if(*incident_cells, [&](auto const cell) {
-          return cell->info() == static_cast<Int_precision>(type);
-        });
-      };
-      if (cell_type_count(Cell_type::THREE_ONE) == 2 &&
-          cell_type_count(Cell_type::ONE_THREE) == 2)
-      {
-        return incident_cells.value();
-      }
+      return incident_cells;
     }
     return std::nullopt;
   }  // find_bistellar_flip_location()
@@ -675,22 +842,27 @@ namespace ergodic_moves
     return incident_cells_from_edge(triangulation, edge);
   }  // get_incident_cells()
 
-  /// @brief Perform a bistellar flip on triangulation via the given edge
-  /// @details Pass by value to avoid modifying the original triangulation
-  /// in the event that the flip is unsuccessful.
-  /// @param source_triangulation The triangulation to flip
-  /// @param source_edge The edge to pivot on
-  /// @param source_top Top vertex of the cells being flipped
-  /// @param source_bottom Bottom vertex of the cells being flipped
-  /// @returns A flipped triangulation or nullopt
-  /// @see [Pachner moves](../REFERENCES.md#pachner-moves)
-  [[nodiscard]] inline auto bistellar_flip(Delaunay const& source_triangulation,
-                                           Edge_handle const   source_edge,
-                                           Vertex_handle const source_top,
-                                           Vertex_handle const source_bottom)
+  namespace detail
+  {
+    template <typename Post_mutation_validator>
+      requires std::predicate<Post_mutation_validator&, Delaunay const&>
+    [[nodiscard]] inline auto bistellar_flip_impl(
+        Delaunay const& source_triangulation, Edge_handle const source_edge,
+        Vertex_handle const source_top, Vertex_handle const source_bottom,
+        Post_mutation_validator post_mutation_validator)
+        -> std::optional<Delaunay>;
+  }  // namespace detail
+
+  // Internal validation seam used to test rejection after mutation.
+  template <typename Post_mutation_validator>
+    requires std::predicate<Post_mutation_validator&, Delaunay const&>
+  [[nodiscard]] inline auto detail::bistellar_flip_impl(
+      Delaunay const& source_triangulation, Edge_handle const source_edge,
+      Vertex_handle const source_top, Vertex_handle const source_bottom,
+      Post_mutation_validator post_mutation_validator)
       -> std::optional<Delaunay>
   {
-    if (!detail::is_well_formed_edge(source_edge) || source_top == nullptr ||
+    if (!is_well_formed_edge(source_edge) || source_top == nullptr ||
         source_bottom == nullptr ||
         !source_triangulation.tds().is_edge(
             source_edge.first, source_edge.second, source_edge.third) ||
@@ -803,7 +975,11 @@ namespace ergodic_moves
       return std::nullopt;
     }
 
-    if (!triangulation.tds().is_valid()) { return std::nullopt; }
+    if (!post_mutation_validator(static_cast<Delaunay const&>(triangulation)) ||
+        !triangulation.tds().is_valid())
+    {
+      return std::nullopt;
+    }
 
     for (auto const cell : triangulation.finite_cell_handles())
     {
@@ -812,6 +988,26 @@ namespace ergodic_moves
     }
 
     return triangulation;
+  }  // bistellar_flip_impl()
+
+  /// @brief Perform a bistellar flip on triangulation via the given edge
+  /// @details Pass by value to avoid modifying the original triangulation
+  /// in the event that the flip is unsuccessful.
+  /// @param source_triangulation The triangulation to flip
+  /// @param source_edge The edge to pivot on
+  /// @param source_top Top vertex of the cells being flipped
+  /// @param source_bottom Bottom vertex of the cells being flipped
+  /// @returns A flipped triangulation or nullopt
+  /// @see [Pachner moves](../REFERENCES.md#pachner-moves)
+  [[nodiscard]] inline auto bistellar_flip(Delaunay const& source_triangulation,
+                                           Edge_handle const   source_edge,
+                                           Vertex_handle const source_top,
+                                           Vertex_handle const source_bottom)
+      -> std::optional<Delaunay>
+  {
+    return detail::bistellar_flip_impl(source_triangulation, source_edge,
+                                       source_top, source_bottom,
+                                       detail::accept_post_mutation);
   }  // bistellar_flip()
 
   /// @return The center edge of a 4-cell complex
@@ -866,6 +1062,7 @@ namespace ergodic_moves
   /// @param generator Caller-owned generator whose state advances during the
   /// move
   /// @return The Expected (4,4) moved manifold or Unexpected
+  /// @note The source manifold is unchanged on success and failure.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_44_move(Manifold const& t_manifold,
                                        Generator&      generator) -> Expected
@@ -979,7 +1176,10 @@ namespace ergodic_moves
         "Selected (4,4) proposal site could not be flipped.\n");
   }
 
-  /// @brief Check move correctness
+  /// @brief Check tracked move deltas and the complete CDT manifold invariant
+  /// @details This verifies causal foliation, cell metadata, TDS validity,
+  /// geometry counts, time bounds, and preserved foliation parameters. It does
+  /// not require Euclidean Delaunayhood.
   /// @param t_before The manifold before the move
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
@@ -989,10 +1189,19 @@ namespace ergodic_moves
                                        move_tracker::move_type const& t_move)
       -> bool
   {
+    if (!t_after.is_correct() ||
+        !detail::same_configuration_value(t_after.initial_radius(),
+                                          t_before.initial_radius()) ||
+        !detail::same_configuration_value(t_after.foliation_spacing(),
+                                          t_before.foliation_spacing()))
+    {
+      return false;
+    }
+
     switch (t_move)
     {
       case move_tracker::move_type::FOUR_FOUR:
-        return t_after.is_valid() && t_after.N3() == t_before.N3() &&
+        return t_after.N3() == t_before.N3() &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() &&
                t_after.N3_13() == t_before.N3_13() &&
@@ -1003,7 +1212,7 @@ namespace ergodic_moves
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::TWO_THREE:
-        return t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
+        return t_after.N3() == t_before.N3() + 1 &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() + 1 &&
                t_after.N3_13() == t_before.N3_13() &&
@@ -1015,7 +1224,7 @@ namespace ergodic_moves
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::THREE_TWO:
-        return t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
+        return t_after.N3() == t_before.N3() - 1 &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() - 1 &&
                t_after.N3_13() == t_before.N3_13() &&
@@ -1027,7 +1236,7 @@ namespace ergodic_moves
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::TWO_SIX:
-        return t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
+        return t_after.N3() == t_before.N3() + 4 &&
                t_after.N3_31() == t_before.N3_31() + 2 &&
                t_after.N3_22() == t_before.N3_22() &&
                t_after.N3_13() == t_before.N3_13() + 2 &&
@@ -1039,7 +1248,7 @@ namespace ergodic_moves
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
       case move_tracker::move_type::SIX_TWO:
-        return t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
+        return t_after.N3() == t_before.N3() - 4 &&
                t_after.N3_31() == t_before.N3_31() - 2 &&
                t_after.N3_22() == t_before.N3_22() &&
                t_after.N3_13() == t_before.N3_13() - 2 &&

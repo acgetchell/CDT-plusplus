@@ -132,8 +132,7 @@ class MoveCommand
                                           generator);
           result)
       {
-        if (result->is_correct() &&
-            ergodic_moves::check_move(m_manifold, *result, move_type))
+        if (ergodic_moves::check_move(m_manifold, *result, move_type))
         {
           swap(result.value(), m_manifold);
           ++m_succeeded[as_integer(move_type)];

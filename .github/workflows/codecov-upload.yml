@@ -56,7 +56,9 @@ jobs:
 
       - name: Test
         working-directory: build
-        run: ctest --no-tests=error --output-on-failure -j 2
+        # Coverage instrumentation makes the monolithic unit-test binary
+        # substantially slower than it is in normal CI.
+        run: ctest --no-tests=error --output-on-failure --timeout 600 -j 2
 
       - name: Submit to codecov.io
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
