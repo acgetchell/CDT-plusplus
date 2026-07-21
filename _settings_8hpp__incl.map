@@ -1,5 +1,7 @@
 <map id="include/Settings.hpp" name="include/Settings.hpp">
-<area shape="rect" id="node1" title="Global integer and precision settings." alt="" coords="96,5,251,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,192,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="216,79,283,104"/>
+<area shape="rect" id="Node000001" title="Global integer and precision settings." alt="" coords="96,5,249,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,81,191,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,33,124,72,121,68,157,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="215,81,280,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,31,226,70,221,70,185,36"/>
 </map>

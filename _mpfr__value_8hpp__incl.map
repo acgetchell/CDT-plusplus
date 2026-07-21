@@ -1,9 +1,15 @@
 <map id="include/Mpfr_value.hpp" name="include/Mpfr_value.hpp">
-<area shape="rect" id="node1" title="Scope&#45;owned, value&#45;returning MPFR operations." alt="" coords="155,5,329,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,119,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="143,79,229,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="253,79,345,104"/>
-<area shape="rect" id="node5" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="369,79,472,104"/>
-<area shape="rect" id="node6" title=" " alt="" coords="251,152,438,177"/>
-<area shape="rect" id="node7" title=" " alt="" coords="462,152,529,177"/>
+<area shape="rect" id="Node000001" title="Scope&#45;owned, value&#45;returning MPFR operations." alt="" coords="154,5,327,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,81,118,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,36,109,77,106,72,210,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="142,81,227,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,32,205,71,201,67,228,35"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="250,81,342,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="251,31,280,69,275,68,249,36"/>
+<area shape="rect" id="Node000005" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="366,81,469,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="272,31,375,74,369,75,272,36"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="250,157,436,184"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="407,108,368,148,366,143,402,110"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="460,157,525,184"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="432,107,471,146,465,145,430,112"/>
 </map>

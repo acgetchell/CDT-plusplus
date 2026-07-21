@@ -1,9 +1,7 @@
 <map id="include/Apply_move.hpp" name="include/Apply_move.hpp">
-<area shape="rect" id="node1" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="351,5,533,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,86,129,111"/>
-<area shape="rect" id="node3" title=" " alt="" coords="154,79,322,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="346,86,429,111"/>
-<area shape="rect" id="node5" title=" " alt="" coords="453,86,540,111"/>
-<area shape="rect" id="node6" title=" " alt="" coords="565,86,623,111"/>
-<area shape="rect" id="node7" title=" " alt="" coords="648,86,708,111"/>
+<area shape="rect" id="Node000001" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="6,5,187,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,81,92,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,32,67,70,63,66,86,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="116,81,176,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,31,131,68,126,68,104,36"/>
 </map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['int_5fprecision_0',['Int_precision',['../_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385',1,'Settings.hpp']]]
+  ['kd_0',['Kd',['../_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943',1,'Periodic_3_triangulations.hpp']]]
 ];

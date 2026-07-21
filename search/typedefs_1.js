@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gmpzf_0',['Gmpzf',['../_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5',1,'Settings.hpp']]]
+  ['int_5fprecision_0',['Int_precision',['../_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385',1,'Settings.hpp']]]
 ];

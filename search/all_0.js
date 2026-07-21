@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_5f_5finit_5f_5f_0',['__init__',['../classdocstring_1_1_py_class.html#a00dd800dc15e2b727e2a37c6f6c40e8b',1,'docstring.PyClass.__init__()'],['../classpyexample_1_1_py_class.html#a87e20fe7e81cb5a1c04e620c076ab8ac',1,'pyexample.PyClass.__init__(self)']]],
-  ['_5fmemvar_1',['_memVar',['../classpyexample_1_1_py_class.html#a9165738cd516769e4fcd274219e9d255',1,'pyexample::PyClass']]]
+  ['2001_0',['2001',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'CDT framework (2001)'],['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'Three-dimensional CDT (2001)']]]
 ];

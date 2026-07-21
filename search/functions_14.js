@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ungroupedfunction_0',['ungroupedFunction',['../class_memgrp___test.html#a8a3a4ac34b2e25696159ac420bd4bdc6',1,'Memgrp_Test']]],
-  ['updated_1',['updated',['../classmanifolds_1_1_manifold_3_013_01_4.html#a162b76deb8bdc92056167969b80a186c',1,'manifolds::Manifold&lt; 3 &gt;']]]
+  ['_7efoliatedtriangulation_0',['~FoliatedTriangulation',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a53d5e41a2339f3781add46841eb0d356',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
+  ['_7emanifold_1',['~Manifold',['../classmanifolds_1_1_manifold_3_013_01_4.html#ab9293064f825333e847da9ef02024ef2',1,'manifolds::Manifold&lt; 3 &gt;']]]
 ];

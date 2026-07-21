@@ -1,8 +1,13 @@
 <map id="include/Torus_d.hpp" name="include/Torus_d.hpp">
-<area shape="rect" id="node1" title="Functions on d&#45;dimensional torus." alt="" coords="403,5,553,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,156,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="180,79,355,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="379,79,577,104"/>
-<area shape="rect" id="node5" title=" " alt="" coords="601,79,707,104"/>
-<area shape="rect" id="node6" title=" " alt="" coords="731,79,793,104"/>
+<area shape="rect" id="Node000001" title="Functions on d&#45;dimensional torus." alt="" coords="400,5,549,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,81,155,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="404,36,166,80,165,75,403,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="178,81,352,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="440,33,318,78,316,73,435,34"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="376,81,573,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="477,32,477,67,473,64,473,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="597,81,702,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="506,31,607,75,602,75,505,36"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="726,81,788,109"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="529,31,714,80,708,81,528,36"/>
 </map>

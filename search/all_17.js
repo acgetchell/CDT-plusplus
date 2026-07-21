@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['write_0',['write',['../structcmd_8h.html#af2a3ea719b83f672637febdd87c36c36',1,'structcmd.h']]],
-  ['write_5ffile_1',['write_file',['../_utilities_8hpp.html#a1c8794a8c6a512fa264d9aa0e9203b14',1,'utilities::write_file(std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation)'],['../_utilities_8hpp.html#a0c39183b7cfafd2dce8e474d12da33a1',1,'utilities::write_file(ManifoldType const &amp;t_universe)']]],
-  ['writefileoperation_2',['WriteFileOperation',['../classutilities_1_1detail_1_1_write_file_operation.html',1,'utilities::detail']]],
-  ['writes_5ffiles_3',['writes_files',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a29c08cd76add730598bd37204e951958',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]]
+  ['_7efoliatedtriangulation_0',['~FoliatedTriangulation',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a53d5e41a2339f3781add46841eb0d356',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
+  ['_7emanifold_1',['~Manifold',['../classmanifolds_1_1_manifold_3_013_01_4.html#ab9293064f825333e847da9ef02024ef2',1,'manifolds::Manifold&lt; 3 &gt;']]]
 ];

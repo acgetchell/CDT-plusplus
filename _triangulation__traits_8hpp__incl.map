@@ -1,11 +1,19 @@
 <map id="include/Triangulation_traits.hpp" name="include/Triangulation_traits.hpp">
-<area shape="rect" id="node1" title="Traits class for particular uses of CGAL." alt="" coords="595,5,752,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,108,245,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="270,93,442,148"/>
-<area shape="rect" id="node4" title=" " alt="" coords="466,108,665,133"/>
-<area shape="rect" id="node5" title=" " alt="" coords="689,101,873,141"/>
-<area shape="rect" id="node6" title=" " alt="" coords="897,101,1100,141"/>
-<area shape="rect" id="node7" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1125,108,1227,133"/>
-<area shape="rect" id="node8" title=" " alt="" coords="1007,196,1193,221"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1217,196,1284,221"/>
+<area shape="rect" id="Node000001" title="Traits class for particular uses of CGAL." alt="" coords="591,5,747,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,245,143"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="588,42,436,68,258,101,196,114,195,108,256,95,435,63,593,40"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="269,98,440,160"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="602,50,456,99,454,93,597,51"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="464,115,661,143"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="648,49,589,107,586,102,643,52"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="685,106,869,151"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="693,48,745,96,740,95,692,53"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="893,106,1096,151"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="741,48,911,101,906,102,740,53"/>
+<area shape="rect" id="Node000007" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1119,115,1222,143"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="748,32,916,53,1013,71,1108,95,1135,108,1130,107,1107,101,1012,76,915,58,748,37"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="1003,208,1188,235"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1162,142,1117,198,1115,193,1157,144"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="1212,208,1278,235"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="1182,141,1227,196,1222,195,1180,145"/>
 </map>

@@ -1,11 +1,19 @@
 <map id="include/Periodic_3_complex.hpp" name="include/Periodic_3_complex.hpp">
-<area shape="rect" id="node1" title="Toroidal simplicial complexes." alt="" coords="789,5,929,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,177,148"/>
-<area shape="rect" id="node3" title=" " alt="" coords="202,101,399,141"/>
-<area shape="rect" id="node4" title=" " alt="" coords="423,101,642,141"/>
-<area shape="rect" id="node5" title=" " alt="" coords="667,108,865,133"/>
-<area shape="rect" id="node6" title=" " alt="" coords="889,108,1016,133"/>
-<area shape="rect" id="node7" title=" " alt="" coords="1040,108,1151,133"/>
-<area shape="rect" id="node8" title=" " alt="" coords="1175,108,1245,133"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1269,108,1332,133"/>
+<area shape="rect" id="Node000001" title="Toroidal simplicial complexes." alt="" coords="784,5,923,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,98,177,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="781,32,526,53,361,72,192,100,191,95,361,67,526,48,786,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="201,106,397,151"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="781,38,613,64,409,101,390,105,389,100,408,95,612,59,786,37"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="421,106,638,151"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="786,50,615,104,614,99,781,51"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="663,115,860,143"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="836,49,785,106,782,102,831,51"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="884,115,1010,143"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="875,48,927,105,922,103,873,53"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="1034,115,1143,143"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="908,48,1023,96,1048,109,1043,108,1021,100,907,53"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="1168,115,1236,143"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="924,36,1035,57,1096,74,1156,96,1174,107,1169,106,1154,100,1095,79,1034,63,924,41"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="1260,115,1322,143"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="924,30,994,36,1077,48,1164,67,1249,96,1266,106,1261,105,1247,100,1163,72,1076,53,993,41,924,35"/>
 </map>

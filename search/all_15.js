@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['uint32_0',['UINT32',['../structcmd_8h.html#ae1e6edbbc26d6fbc71a90190d0266018',1,'structcmd.h']]],
-  ['ungroupedfunction_1',['ungroupedFunction',['../class_memgrp___test.html#a8a3a4ac34b2e25696159ac420bd4bdc6',1,'Memgrp_Test']]],
-  ['updated_2',['updated',['../classmanifolds_1_1_manifold_3_013_01_4.html#a162b76deb8bdc92056167969b80a186c',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['usage_3',['USAGE',['../cdt_8cpp.html#ad3eee35d94eb8f93508e7a55efad889f',1,'cdt.cpp']]],
-  ['utilities_2ehpp_4',['Utilities.hpp',['../_utilities_8hpp.html',1,'']]],
-  ['utilities_5ftest_2ecpp_5',['Utilities_test.cpp',['../_utilities__test_8cpp.html',1,'']]]
+  ['vbinfo_0',['VbInfo',['../_periodic__3__triangulations_8hpp.html#a2bec3309c3094ede5986a80db48dd19d',1,'Periodic_3_triangulations.hpp']]],
+  ['vcpkg_20maintenance_1',['vcpkg maintenance',['../index.html#vcpkg-maintenance',1,'']]],
+  ['vertices_2',['vertices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['visualization_3',['Visualization',['../index.html#visualization',1,'']]],
+  ['volume_5fper_5ftimeslice_4',['volume_per_timeslice',['../_foliated__triangulation_8hpp.html#aa70eb553c2f238a7768f42c69d87b5aa',1,'foliated_triangulations']]]
 ];

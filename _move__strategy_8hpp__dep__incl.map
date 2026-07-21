@@ -1,8 +1,9 @@
 <map id="include/Move_strategy.hpp" name="include/Move_strategy.hpp">
-<area shape="rect" id="node1" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="220,5,416,31"/>
-<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="130,79,301,104"/>
-<area shape="rect" id="node5" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="333,79,524,104"/>
-<area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,152,97,177"/>
-<area shape="rect" id="node4" href="$_metropolis__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="122,152,309,177"/>
-<area shape="rect" id="node6" href="$_move__always__test_8cpp.html" title="Tests for the Move Always algorithm." alt="" coords="333,152,540,177"/>
+<area shape="rect" id="Node000001" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="94,5,289,33"/>
+<area shape="rect" id="Node000002" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="5,81,175,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,44,110,83,106,78,163,41"/>
+<area shape="rect" id="Node000004" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="199,81,389,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="223,40,278,80,273,81,222,45"/>
+<area shape="rect" id="Node000003" href="$cdt_8cpp.html" title="The main executable." alt="" coords="44,157,136,184"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="92,123,92,157,88,155,88,126"/>
 </map>

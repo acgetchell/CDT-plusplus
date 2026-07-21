@@ -1,3 +1,7 @@
 <map id="MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;" name="MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;">
-<area shape="rect" id="node1" title="The Move Always algorithm." alt="" coords="5,5,243,273"/>
+<area shape="rect" id="Node000001" title="The Move Always algorithm." alt="" coords="44,396,270,821"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_random.html" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="5,5,130,301"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,298,115,380,110,380,97,304"/>
+<area shape="rect" id="Node000003" href="$class_move_strategy.html" title="Select a move algorithm." alt="" coords="155,108,341,198"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,209,202,397,197,396,235,214"/>
 </map>

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['k_0',['K',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad5cfa55c2c5d547911bdb5199b9a324f',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
-  ['kd_1',['Kd',['../_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943',1,'Periodic_3_triangulations.hpp']]]
+  ['lambda_0',['Lambda',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aa9fc14c0866b70bfb48d0e8706d4457a',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
+  ['layout_1',['Project Layout',['../index.html#project-layout',1,'']]],
+  ['list_2',['Todo List',['../todo.html',1,'']]],
+  ['local_20moves_3',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['object_0',['Object',['../manual_8c.html#ab1287b6141419421dc5c14b9f7756b0a',1,'manual.c']]]
+  ['vbinfo_0',['VbInfo',['../_periodic__3__triangulations_8hpp.html#a2bec3309c3094ede5986a80db48dd19d',1,'Periodic_3_triangulations.hpp']]]
 ];

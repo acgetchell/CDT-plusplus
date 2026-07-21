@@ -1,5 +1,0 @@
-<map id="Car" name="Car">
-<area shape="rect" id="node1" title=" " alt="" coords="34,285,102,363"/>
-<area shape="rect" id="node2" href="$struct_vehicle.html" title=" " alt="" coords="5,145,131,237"/>
-<area shape="rect" id="node3" href="$struct_object.html" title=" " alt="" coords="17,5,119,97"/>
-</map>

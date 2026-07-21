@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_5fmemvar_0',['_memVar',['../classpyexample_1_1_py_class.html#a9165738cd516769e4fcd274219e9d255',1,'pyexample::PyClass']]]
+  ['alignment_5f32_5fbit_0',['ALIGNMENT_32_BIT',['../_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314',1,'Settings.hpp']]],
+  ['alignment_5f64_5fbit_1',['ALIGNMENT_64_BIT',['../_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346',1,'Settings.hpp']]]
 ];

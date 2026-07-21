@@ -1,5 +1,5 @@
 <map id="include/Metropolis.hpp" name="include/Metropolis.hpp">
-<area shape="rect" id="node1" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="47,5,218,31"/>
-<area shape="rect" id="node2" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,79,97,104"/>
-<area shape="rect" id="node3" href="$_metropolis__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="122,79,309,104"/>
+<area shape="rect" id="Node000001" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="5,5,175,33"/>
+<area shape="rect" id="Node000002" href="$cdt_8cpp.html" title="The main executable." alt="" coords="44,81,136,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,47,92,82,88,80,88,51"/>
 </map>

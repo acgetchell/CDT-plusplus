@@ -1,9 +1,5 @@
 <map id="include/Move_command.hpp" name="include/Move_command.hpp">
-<area shape="rect" id="node1" title="Do ergodic moves using the Command pattern." alt="" coords="324,5,533,31"/>
-<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="130,86,301,111"/>
-<area shape="rect" id="node5" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="333,86,524,111"/>
-<area shape="rect" id="node7" href="$_move__command__test_8cpp.html" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="548,79,715,119"/>
-<area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,167,97,192"/>
-<area shape="rect" id="node4" href="$_metropolis__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="122,167,309,192"/>
-<area shape="rect" id="node6" href="$_move__always__test_8cpp.html" title="Tests for the Move Always algorithm." alt="" coords="333,167,540,192"/>
+<area shape="rect" id="Node000001" title="Do ergodic moves using the Command pattern." alt="" coords="5,5,214,33"/>
+<area shape="rect" id="Node000002" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="15,81,204,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,47,112,82,107,79,108,51"/>
 </map>
