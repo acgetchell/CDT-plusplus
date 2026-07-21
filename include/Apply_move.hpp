@@ -11,12 +11,7 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
-#include <spdlog/spdlog.h>
-
-#include <boost/compat/function_ref.hpp>
-#include <expected>
 #include <functional>
-#include <string>
 #include <utility>
 
 /**
@@ -26,23 +21,14 @@
  * \tparam FunctionType The type of move applied to the manifold
  * \param t_manifold The manifold on which to make the Pachner move
  * \param t_move The Pachner move
+ * \param arguments Explicit dependencies forwarded to the move
  * \return The expected or unexpected result in a std::expected<T,E>
  */
-template <typename ManifoldType, typename FunctionType>
-auto constexpr apply_move(ManifoldType const& t_manifold, FunctionType t_move)
-    -> decltype(auto)
+template <typename ManifoldType, typename FunctionType, typename... Arguments>
+auto constexpr apply_move(ManifoldType const& t_manifold, FunctionType t_move,
+                          Arguments&&... arguments) -> decltype(auto)
 {
-  if (auto result = std::invoke(t_move, t_manifold); result.has_value())
-  {
-    return result;
-  }
-  else  // NOLINT
-  {
-    // Log errors
-    spdlog::debug("apply_move called.\n");
-    spdlog::debug("{}", result.error());
-    return result;
-  }
+  return std::invoke(t_move, t_manifold, std::forward<Arguments>(arguments)...);
 }
 
 #endif  // CDT_PLUSPLUS_APPLY_MOVE_HPP

@@ -1,0 +1,203 @@
+---
+# Repository-owned Semgrep rules for narrow CDT++ maintenance invariants.
+rules:
+  - id: cdt.cpp.no-routine-output-in-move-hot-paths
+    languages:
+      - cpp
+    severity: WARNING
+    message: >-
+      Keep proposal, application, and move-tracking hot paths silent. Report
+      pass-level summaries outside these paths, and reserve warn/error logs for
+      genuine invariant failures.
+    metadata:
+      category: maintainability
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/92"
+      rationale: >-
+        Per-proposal diagnostics obscure useful simulation progress and impose
+        avoidable formatting and logging overhead in the hottest move paths.
+    paths:
+      include:
+        - "/include/Apply_move.hpp"
+        - "/include/Ergodic_moves_3.hpp"
+        - "/include/Move_tracker.hpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-either:
+      - pattern: spdlog::trace(...)
+      - pattern: spdlog::debug(...)
+      - pattern: spdlog::info(...)
+      - pattern: fmt::print(...)
+  - id: cdt.cpp.random-entropy-is-centralized
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Acquire operating-system entropy only in Random.hpp. Construct one
+      cdt::Random per run and pass it by reference through stochastic code.
+    metadata:
+      category: correctness
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/105"
+      rationale: >-
+        Per-draw entropy prevents replay, hides stochastic state, and is much
+        slower than sampling a run-owned PCG stream.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/include/Random.hpp"
+    pattern-either:
+      - pattern: std::random_device $ENTROPY;
+      - pattern: std::random_device $ENTROPY(...);
+      - pattern-regex: >-
+          \bstd::random_device[ \t]+[A-Za-z_][A-Za-z0-9_]*[ \t]*\{[ \t]*\}[ \t]*;
+  - id: cdt.cpp.use-repository-random-abstraction
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Use cdt::Random instead of constructing a PCG engine directly so seeds
+      and stream identifiers remain observable and replayable.
+    metadata:
+      category: correctness
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/105"
+      rationale: >-
+        Centralizing PCG ownership separates engines from distributions and
+        gives simulation, test, and future worker streams one explicit policy.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/include/Random.hpp"
+    pattern-either:
+      - pattern: pcg32 $ENGINE;
+      - pattern: pcg32 $ENGINE(...);
+      - pattern: pcg64 $ENGINE;
+      - pattern: pcg64 $ENGINE(...);
+      - pattern-regex: >-
+          \bpcg(?:32|64)[ \t]+[A-Za-z_][A-Za-z0-9_]*[ \t]*\{[^{};]*\}[ \t]*;
+  - id: cdt.cpp.no-hidden-random-construction
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Stochastic helpers must receive cdt::Random from their caller. Default
+      construction belongs only at an observable run boundary.
+    metadata:
+      category: correctness
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/105"
+      rationale: >-
+        Wrapping per-call entropy in cdt::Random would still hide ownership and
+        defeat replay even though direct std::random_device use is centralized.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/include/Random.hpp"
+        - "/include/Metropolis.hpp"
+        - "/include/Move_always.hpp"
+        - "/src/cdt.cpp"
+        - "/src/initialize.cpp"
+    pattern-either:
+      - pattern: cdt::Random $RANDOM;
+      - pattern: cdt::Random $RANDOM();
+      - pattern: cdt::Random()
+      - pattern-regex: >-
+          \bcdt::Random(?:[ \t]+[A-Za-z_][A-Za-z0-9_]*)?[ \t]*\{[ \t]*\}[ \t]*;?
+  - id: cdt.cpp.no-skipped-doctests
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Do not commit skipped doctest scenarios. Implement the missing fixture or
+      remove the scenario so the reported suite is entirely executable.
+    metadata:
+      category: correctness
+      rationale: >-
+        A skipped scenario inflates the apparent test inventory without
+        supplying executable regression evidence.
+    paths:
+      include:
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern: doctest::skip(...)
+  - id: cdt.cpp.doctest-framework-is-test-only
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Keep doctest headers, configuration, and scenario definitions under
+      tests/. Production targets must not own or execute the test harness.
+    metadata:
+      category: architecture
+      rationale: >-
+        Test-framework ownership in production code couples shipped binaries
+        to the test harness and can silently fragment test registration.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-either:
+      - pattern-regex: |-
+          (?m)^[ \t]*#[ \t]*include[ \t]*[<"]doctest(?:/[^>"]*)?[>"]
+      - pattern-regex: |-
+          (?m)^[ \t]*#[ \t]*define[ \t]+DOCTEST_CONFIG_[A-Za-z0-9_]+
+      - pattern-regex: |-
+          (?m)^[ \t]*(?:SCENARIO|TEST_CASE)(?:_TEMPLATE(?:_DEFINE|_INVOKE)?)?[ \t]*\(
+  - id: cdt.cpp.no-diagnostic-output-in-doctests
+    languages:
+      - cpp
+    severity: WARNING
+    message: >-
+      Replace diagnostic-only test output with assertions on observable state.
+      Test an intentional printing contract through an isolated captured stream.
+    metadata:
+      category: test-quality
+      rationale: >-
+        Unasserted output adds noise while allowing the test to pass regardless
+        of what was printed.
+    paths:
+      include:
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-either:
+      - pattern: fmt::print(...)
+      - pattern: std::cout << $VALUE;
+      - patterns:
+          - pattern: $OBJECT.$METHOD(...)
+          - metavariable-regex:
+              metavariable: $METHOD
+              regex: ^print(?:_|$)
+  - id: cdt.cpp.test-temp-paths-are-unique
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Do not place a fixed filename directly under the shared temporary
+      directory. Use a unique RAII-owned directory and clean it up with the
+      fixture.
+    metadata:
+      category: correctness
+      rationale: >-
+        Fixed process-global temporary paths collide across parallel runs and
+        can preserve state between otherwise independent tests.
+    paths:
+      include:
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-regex: |-
+      (?:std::filesystem|filesystem|fs)::temp_directory_path\(\)[ \t]*/[ \t]*(?:u8|u|U|L)?"[^"\r\n]*"

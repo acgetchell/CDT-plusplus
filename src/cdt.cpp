@@ -13,10 +13,12 @@
 #include <CGAL/Real_timer.h>
 
 #include <boost/program_options.hpp>
+#include <cstdint>
 #include <Metropolis.hpp>
 #include <utility>
 
 #include "Runtime_config.hpp"
+#include "Version.hpp"
 
 using Timer = CGAL::Real_timer;
 
@@ -40,6 +42,7 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [--init INITIAL RADIUS]
             [--foliate FOLIATION SPACING]
             [--no-output]
+            [--seed SEED]
             -k K
             --alpha ALPHA
             --lambda LAMBDA
@@ -50,7 +53,7 @@ Optional arguments are in square brackets.
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
+./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000 --seed 92
 
 Options)"};
 
@@ -73,6 +76,7 @@ try
   long double             lambda{};
   long long               passes{};
   long long               checkpoint{};
+  std::uint64_t           seed{};
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -89,6 +93,8 @@ try
       "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
       "Foliation spacing")(
       "no-output", "Do not write checkpoint or final triangulation files")(
+      "seed", po::value<std::uint64_t>(&seed),
+      "Root random seed (default: operating-system entropy)")(
       "alpha,a", po::value<long double>(&alpha)->required(),
       "Negative squared geodesic length of 1-d timelike edges")(
       "k,k", po::value<long double>(&k)->required(), "K = 1/(8*pi*G_newton)")(
@@ -110,7 +116,7 @@ try
 
   if (args.count("version"))
   {
-    fmt::print("CDT++ version 0.1.8\n");
+    fmt::print("CDT++ version {}\n", cdt::VERSION);
     return EXIT_SUCCESS;
   }
 
@@ -130,6 +136,11 @@ try
   auto const config = runtime_config::make_simulation(
       triangulation_config, alpha, k, lambda, passes, checkpoint,
       !args.count("no-output"));
+  auto root_random =
+      args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
+  auto initialization_random =
+      root_random.split(cdt::random_streams::initialization);
+  auto transition_random = root_random.split(cdt::random_streams::transitions);
 
   // Display job parameters
   fmt::print("Topology is {}\n",
@@ -145,6 +156,7 @@ try
              config.triangulation().timeslices());
   fmt::print("Number of passes: {}\n", config.passes());
   fmt::print("Checkpoint every {} passes.\n", config.checkpoint());
+  fmt::print("Effective random seed: {}\n", root_random.seed());
   fmt::print("=== Parameters ===\n");
   fmt::print("Alpha: {}\n", config.alpha());
   fmt::print("K: {}\n", config.k());
@@ -157,14 +169,15 @@ try
 
   // Initialize the Metropolis algorithm
   Metropolis_3 run(config.alpha(), config.k(), config.lambda(), config.passes(),
-                   config.checkpoint(), config.write_files());
+                   config.checkpoint(), config.write_files(),
+                   std::move(transition_random));
 
   // Make a triangulation
   manifolds::Manifold_3 universe;
 
   manifolds::Manifold_3 populated_universe(
       config.triangulation().simplices(), config.triangulation().timeslices(),
-      config.triangulation().initial_radius(),
+      initialization_random, config.triangulation().initial_radius(),
       config.triangulation().foliation_spacing());
   swap(populated_universe, universe);
 
@@ -195,7 +208,10 @@ try
   result.print_volume_per_timeslice();
 
   // Write results to file
-  if (config.write_files()) { utilities::write_file(result); }
+  if (config.write_files())
+  {
+    utilities::write_file(result, root_random.seed(), config.passes());
+  }
 
   return EXIT_SUCCESS;
 }

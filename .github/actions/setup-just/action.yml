@@ -36,6 +36,6 @@ runs:
         echo "version=$version" >> "$GITHUB_OUTPUT"
 
     - name: Install Just
-      uses: taiki-e/cache-cargo-install-action@417450f3c33ee20393705369577571770643d4c7  # v3.0.7
+      uses: taiki-e/install-action@43aecc8d72668fbcfe75c31400bc4f890f1c5853  # v2.83.2
       with:
         tool: just@${{ steps.resolve.outputs.version }}

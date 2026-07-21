@@ -1,0 +1,6 @@
+# CDT++ intentionally scans tests/; Semgrep's built-in defaults do not.
+.git/
+.cache/
+.venv/
+out/
+vcpkg_installed/

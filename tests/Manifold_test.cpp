@@ -23,6 +23,8 @@ static_assert(std::is_nothrow_swappable_v<Manifold_3>);
 static_assert(std::is_nothrow_move_constructible_v<Manifold_3>);
 static_assert(std::is_nothrow_move_assignable_v<Manifold_3>);
 
+using Causal_vertices_3_t             = Causal_vertices_t<3>;
+
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Manifold special member and swap properties" *
@@ -66,25 +68,26 @@ SCENARIO("Manifold special member and swap properties" *
                 Manifold_3, foliated_triangulations::FoliatedTriangulation_3>);
         spdlog::debug("It is constructible from a FoliatedTriangulation.\n");
       }
-      THEN("It is constructible from 2 parameters.")
-      {
-        REQUIRE(is_constructible_v<Manifold_3, Int_precision, Int_precision>);
-        spdlog::debug("It is constructible from 2 parameters.\n");
-      }
-      THEN("It is constructible from 4 parameters.")
+      THEN("Random initialization requires an explicit owned stream.")
       {
         REQUIRE(is_constructible_v<Manifold_3, Int_precision, Int_precision,
-                                   double, double>);
-        spdlog::debug("It is constructible from 4 parameters.\n");
+                                   cdt::Random>);
+        REQUIRE_FALSE(
+            is_constructible_v<Manifold_3, Int_precision, Int_precision>);
+      }
+      THEN("It is constructible from explicit RNG and geometry parameters.")
+      {
+        REQUIRE(is_constructible_v<Manifold_3, Int_precision, Int_precision,
+                                   cdt::Random, double, double>);
       }
       THEN("It is constructible from Causal_vertices.")
       {
-        REQUIRE(is_constructible_v<Manifold_3, Causal_vertices_t<3>>);
+        REQUIRE(is_constructible_v<Manifold_3, Causal_vertices_3_t>);
         spdlog::debug("It is constructible from Causal_vertices.\n");
       }
       THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
       {
-        REQUIRE(is_constructible_v<Manifold_3, Causal_vertices_t<3>, double>);
+        REQUIRE(is_constructible_v<Manifold_3, Causal_vertices_3_t, double>);
         spdlog::debug(
             "It is constructible from Causal_vertices and INITIAL_RADIUS.\n");
       }
@@ -92,7 +95,7 @@ SCENARIO("Manifold special member and swap properties" *
           "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
           "RADIAL_SEPARATION.")
       {
-        REQUIRE(is_constructible_v<Manifold_3, Causal_vertices_t<3>, double,
+        REQUIRE(is_constructible_v<Manifold_3, Causal_vertices_3_t, double,
                                    double>);
         spdlog::debug(
             "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
@@ -161,13 +164,7 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
     WHEN("The manifold is constructed.")
     {
       Manifold_3 const manifold(causal_vertices, 1, 1.0);
-      THEN("It is correct.")
-      {
-        REQUIRE(manifold.is_correct());
-        manifold.print();
-        manifold.print_details();
-        manifold.print_vertices();
-      }
+      THEN("It is correct.") { REQUIRE(manifold.is_correct()); }
       THEN("We can obtain the vertices from the points.")
       {
         auto snapshot = manifold.delaunay_snapshot();
@@ -175,7 +172,6 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
         REQUIRE(v_1);
         CHECK(v_1.value()->is_valid());
         CHECK(snapshot.tds().is_vertex(v_1.value()));
-        cout << "v_1 contains point " << v_1.value()->point() << '\n';
       }
       THEN("We can obtain the cell from the vertices.")
       {
@@ -196,10 +192,6 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
         // We have to have a valid Cell handle to obtain a tetrahedron
         auto tetrahedron = snapshot.tetrahedron(cell.value());
         CHECK_FALSE(tetrahedron.is_degenerate());
-        cout << "Vertex 0 of tetrahedron is " << tetrahedron.vertex(0) << '\n';
-        cout << "Vertex 1 of tetrahedron is " << tetrahedron.vertex(1) << '\n';
-        cout << "Vertex 2 of tetrahedron is " << tetrahedron.vertex(2) << '\n';
-        cout << "Vertex 3 of tetrahedron is " << tetrahedron.vertex(3) << '\n';
       }
     }
   }
@@ -238,8 +230,6 @@ SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
       {
         REQUIRE_EQ(manifold.N0(), 4);
         CHECK(manifold.is_correct());
-        // Human verification
-        manifold.print_vertices();
       }
     }
     AND_WHEN("Vertices in an owning snapshot are mis-labelled.")
@@ -279,8 +269,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
         CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
-        fmt::print("The Geometry data structure is of type {}\n",
-                   geometry_string);
       }
     }
     WHEN("It is constructed from causal vertices.")
@@ -302,8 +290,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
         CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
-        fmt::print("The Geometry data structure is of type {}\n",
-                   geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -320,9 +306,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         REQUIRE_EQ(manifold.min_time(), 1);
         REQUIRE_EQ(manifold.max_time(), 3);
         REQUIRE(manifold.check_simplices());
-        // Human verification
-        manifold.print();
-        manifold.print_volume_per_timeslice();
       }
     }
     WHEN("It is constructed from a Foliated triangulation.")
@@ -348,8 +331,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
         CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
-        fmt::print("The Geometry data structure is of type {}\n",
-                   geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -366,16 +347,14 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         CHECK_EQ(manifold.min_time(), 1);
         CHECK_EQ(manifold.max_time(), 3);
         REQUIRE(manifold.check_simplices());
-        // Human verification
-        manifold.print();
-        manifold.print_volume_per_timeslice();
       }
     }
     WHEN("Constructing the minimum size triangulation.")
     {
       auto constexpr desired_simplices  = 2;
       auto constexpr desired_timeslices = 2;
-      Manifold_3 const manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices,
+                                cdt::Random{92});
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
@@ -395,16 +374,14 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         // We have all the time values
         CHECK_EQ(manifold.min_time(), 1);
         CHECK_EQ(manifold.max_time(), desired_timeslices);
-        // Human verification
-        manifold.print();
-        manifold.print_volume_per_timeslice();
       }
     }
     WHEN("Constructing a small triangulation.")
     {
       auto constexpr desired_simplices  = 640;
       auto constexpr desired_timeslices = 4;
-      Manifold_3 const manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices,
+                                cdt::Random{92});
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
@@ -413,16 +390,14 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         REQUIRE_EQ(manifold.edges(), manifold.N1());
         REQUIRE_EQ(manifold.faces(), manifold.N2());
         REQUIRE(manifold.check_simplices());
-        // Human verification
-        manifold.print();
-        manifold.print_volume_per_timeslice();
       }
     }
     WHEN("Constructing a medium triangulation.")
     {
       auto constexpr desired_simplices  = 6400;
       auto constexpr desired_timeslices = 7;
-      Manifold_3 const manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices,
+                                cdt::Random{92});
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
@@ -431,9 +406,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         REQUIRE_EQ(manifold.edges(), manifold.N1());
         REQUIRE_EQ(manifold.faces(), manifold.N2());
         REQUIRE(manifold.check_simplices());
-        // Human verification
-        manifold.print();
-        manifold.print_volume_per_timeslice();
       }
     }
   }
@@ -463,7 +435,8 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
     {
       auto constexpr desired_timeslices = 4;
       auto constexpr desired_simplices  = 640;
-      Manifold_3 const manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices,
+                                cdt::Random{92});
       THEN("Functions referencing geometry data are accurate")
       {
         CHECK_EQ(manifold.N3(), manifold.get_geometry().N3);
@@ -487,7 +460,7 @@ SCENARIO("3-Manifold copying" * doctest::test_suite("manifold"))
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     WHEN("It is copied.")
     {
       auto manifold2 = manifold;
@@ -512,19 +485,6 @@ SCENARIO("3-Manifold copying" * doctest::test_suite("manifold"))
         CHECK_EQ(manifold2.N0(), manifold.N0());
         CHECK_EQ(manifold2.max_time(), manifold.max_time());
         CHECK_EQ(manifold2.min_time(), manifold.min_time());
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print();
-        manifold.print_volume_per_timeslice();
-        auto snapshot = manifold.delaunay_snapshot();
-        auto cells    = snapshot.tds().cells();
-        fmt::print("Cell compact container size == {}\n", cells.size());
-        fmt::print("Now compact container size == {}\n", cells.size());
-        fmt::print("Vertex compact container size == {}\n",
-                   snapshot.tds().vertices().size());
-        fmt::print("Copied manifold properties:\n");
-        manifold2.print();
-        manifold2.print_volume_per_timeslice();
       }
     }
   }
@@ -536,7 +496,7 @@ SCENARIO("3-Manifold moving" * doctest::test_suite("manifold"))
   {
     auto constexpr desired_simplices  = 64;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 source(desired_simplices, desired_timeslices);
+    Manifold_3 source(desired_simplices, desired_timeslices, cdt::Random{92});
     auto const expected_simplices = source.simplices();
     auto const expected_faces     = source.faces();
     auto const expected_edges     = source.edges();
@@ -561,7 +521,8 @@ SCENARIO("3-Manifold moving" * doctest::test_suite("manifold"))
     }
     WHEN("It is move assigned over another manifold.")
     {
-      Manifold_3 assigned(desired_simplices * 2, desired_timeslices);
+      Manifold_3 assigned(desired_simplices * 2, desired_timeslices,
+                          cdt::Random{93});
       auto const replaced_simplices = assigned.simplices();
       assigned                      = std::move(source);
 
@@ -579,7 +540,8 @@ SCENARIO("3-Manifold moving" * doctest::test_suite("manifold"))
         CHECK(source.is_correct());
         CHECK_EQ(source.simplices(), replaced_simplices);
 
-        source = Manifold_3{desired_simplices, desired_timeslices};
+        source =
+            Manifold_3{desired_simplices, desired_timeslices, cdt::Random{92}};
         CHECK(source.is_correct());
       }
     }
@@ -593,19 +555,15 @@ SCENARIO("3-Manifold value rebuild" * doctest::test_suite("manifold"))
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     WHEN("We rebuild it as a new value.")
     {
       // Get values for manifold1
-      auto manifold_N3 = manifold.N3();
-      auto manifold_N2 = manifold.N2();
-      auto manifold_N1 = manifold.N1();
-      auto manifold_N0 = manifold.N0();
-      fmt::print("Manifold N3 = {}\n", manifold_N3);
-      fmt::print("Manifold N2 = {}\n", manifold_N2);
-      fmt::print("Manifold N1 = {}\n", manifold_N1);
-      fmt::print("Manifold N0 = {}\n", manifold_N0);
-      auto const rebuilt = manifold.updated();
+      auto       manifold_N3 = manifold.N3();
+      auto       manifold_N2 = manifold.N2();
+      auto       manifold_N1 = manifold.N1();
+      auto       manifold_N0 = manifold.N0();
+      auto const rebuilt     = manifold.updated();
       THEN("The rebuilt value and source have the same geometry.")
       {
         CHECK_EQ(rebuilt.N3(), manifold_N3);
@@ -628,29 +586,23 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3       manifold1(desired_simplices, desired_timeslices);
-    Manifold_3 const manifold2(desired_simplices, desired_timeslices);
+    Manifold_3       manifold1(desired_simplices, desired_timeslices,
+                               cdt::Random{92});
+    Manifold_3 const manifold2(desired_simplices, desired_timeslices,
+                               cdt::Random{93});
     WHEN("We construct a replacement value from the second triangulation.")
     {
       // Get values for manifold1
-      auto manifold1_N3 = manifold1.N3();
-      auto manifold1_N2 = manifold1.N2();
-      auto manifold1_N1 = manifold1.N1();
-      auto manifold1_N0 = manifold1.N0();
-      fmt::print("Manifold 1 N3 = {}\n", manifold1_N3);
-      fmt::print("Manifold 1 N2 = {}\n", manifold1_N2);
-      fmt::print("Manifold 1 N1 = {}\n", manifold1_N1);
-      fmt::print("Manifold 1 N0 = {}\n", manifold1_N0);
+      auto manifold1_N3       = manifold1.N3();
+      auto manifold1_N2       = manifold1.N2();
+      auto manifold1_N1       = manifold1.N1();
+      auto manifold1_N0       = manifold1.N0();
       // Get values for manifold2
-      auto manifold2_N3 = manifold2.N3();
-      auto manifold2_N2 = manifold2.N2();
-      auto manifold2_N1 = manifold2.N1();
-      auto manifold2_N0 = manifold2.N0();
-      fmt::print("Manifold 2 N3 = {}\n", manifold2_N3);
-      fmt::print("Manifold 2 N2 = {}\n", manifold2_N2);
-      fmt::print("Manifold 2 N1 = {}\n", manifold2_N1);
-      fmt::print("Manifold 2 N0 = {}\n", manifold2_N0);
-      auto const replacement = Manifold_3{
+      auto       manifold2_N3 = manifold2.N3();
+      auto       manifold2_N2 = manifold2.N2();
+      auto       manifold2_N1 = manifold2.N1();
+      auto       manifold2_N0 = manifold2.N0();
+      auto const replacement  = Manifold_3{
           foliated_triangulations::FoliatedTriangulation_3{
                                                            manifold2.delaunay_snapshot(), manifold2.initial_radius(),
                                                            manifold2.foliation_spacing()}
@@ -695,15 +647,9 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
         REQUIRE_EQ(manifold.max_time(), 3);
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
-      {
-        manifold.print_vertices();
-        REQUIRE(manifold.check_vertices());
-      }
+      { REQUIRE(manifold.check_vertices()); }
       THEN("Every cell in the manifold is correctly classified.")
-      {
-        manifold.print_cells();
-        REQUIRE(manifold.check_simplices());
-      }
+      { REQUIRE(manifold.check_simplices()); }
     }
     WHEN("We insert an invalid timevalue into an owning snapshot.")
     {
@@ -711,9 +657,7 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
       auto cells         = foliated_triangulations::collect_cells<3>(candidate);
       auto broken_cell   = cells[0];
       auto broken_vertex = broken_cell->vertex(0);
-      fmt::print("Info on vertex was {}\n", broken_vertex->info());
       broken_vertex->info() = std::numeric_limits<int>::max();
-      fmt::print("Info on vertex is now {}\n", broken_vertex->info());
       THEN("The snapshot is invalid while the source remains correct.")
       {
         CHECK(manifold.is_correct());
@@ -742,7 +686,8 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
     {
       auto constexpr desired_timeslices = 7;
       auto constexpr desired_simplices  = 6400;
-      Manifold_3 const manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices,
+                                cdt::Random{92});
       THEN("The triangulation is valid and Delaunay.")
       { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")

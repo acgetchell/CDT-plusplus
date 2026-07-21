@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <gsl/util>
 #include <numeric>
+#include <random>
 #include <span>
 
 #include "Settings.hpp"
@@ -62,16 +63,14 @@ namespace move_tracker
     return move_type::FOUR_FOUR;
   }  // as_move
 
-  /**
-   * \brief Generate random 3D ergodic move
-   * \return The move_type to be performed
-   */
-  [[nodiscard]] inline auto generate_random_move_3() -> move_type
+  /// Generate a uniformly distributed 3D ergodic move from caller-owned RNG.
+  template <std::uniform_random_bit_generator Generator>
+  [[nodiscard]] inline auto generate_random_move_3(Generator& generator)
+      -> move_type
   {
-    auto move_choice = utilities::generate_random_int(0, 4);
-#ifndef NDEBUG
-    fmt::print("Move choice = {}\n", move_choice);
-#endif
+    std::uniform_int_distribution<int> distribution{
+        0, static_cast<int>(NUMBER_OF_3D_MOVES - 1)};
+    auto const move_choice = distribution(generator);
     return as_move(move_choice);
   }  // generate_random_move_3
 

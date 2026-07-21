@@ -2,7 +2,8 @@
 
 Thank you for helping improve CDT++.
 
-CDT++ is being prepared for one final C++23 release, v1.0.0, after which this repository will be archived. The project
+CDT++ v1.0.0-rc1 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
+archived. The project
 is maintained as a scientific reference implementation and regression oracle for
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations), its supported Rust successor. The
 maintenance and archival scope is tracked by
@@ -46,9 +47,12 @@ substantial implementation so its maintenance value and scope can be agreed upon
    just ci
    ```
 
-   `just check` is the fast, non-mutating source and tooling gate. `just ci` adds the supported build and 22-test smoke
-   suite. When changing C++ behavior, also run `just clang-tidy` with the pinned LLVM 22 toolchain and review its
-   advisory diagnostics.
+   `just check` is the fast, non-mutating source and tooling gate, including the repository-owned Semgrep policy and
+   its fixtures. `just ci` adds the supported build and complete 21-entry CTest suite: all 83 doctest unit scenarios
+   and 20 CLI integration tests. When changing C++ behavior, also run
+   `just clang-tidy` with the pinned LLVM 22 toolchain and review its advisory diagnostics.
+   GitHub Actions runs the same `just ci` contract in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows
+   MSVC jobs. The Windows job continues to compile with native MSVC; LLVM tooling is used only for source formatting.
 
 6. Run the relevant Linux sanitizer configuration for changes involving memory, lifetime, undefined behavior, or
    concurrency:

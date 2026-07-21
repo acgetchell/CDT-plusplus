@@ -17,6 +17,7 @@
 
 #include "Move_command.hpp"
 #include "Move_strategy.hpp"
+#include "Random.hpp"
 
 /// @brief The Move Always algorithm
 template <typename ManifoldType>
@@ -34,6 +35,9 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @details Each checkpoint writes a file containing the current
   /// triangulation.
   Int_precision m_checkpoint{1};
+
+  /// @brief Run-owned random stream used for move selection and site ordering
+  cdt::Random m_random;
 
   /// @brief The number of moves that were attempted by a MoveCommand
   Counter m_attempted_moves;
@@ -54,7 +58,23 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @param t_checkpoint Number of passes per checkpoint
   [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
                                 Int_precision const t_checkpoint)
-      : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
+      : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{}}
+  {}
+
+  /// @brief Construct a replayable MoveAlways run from an explicit seed.
+  [[maybe_unused]] MoveStrategy(Int_precision const    t_number_of_passes,
+                                Int_precision const    t_checkpoint,
+                                cdt::Random_seed const seed)
+      : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{seed}}
+  {}
+
+  /// @brief Construct a MoveAlways run from an owned PCG stream.
+  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
+                                Int_precision const t_checkpoint,
+                                cdt::Random         random)
+      : m_passes{t_number_of_passes}
+      , m_checkpoint{t_checkpoint}
+      , m_random{std::move(random)}
   {
     if (m_passes < 0)
     {
@@ -73,6 +93,9 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @returns The number of passes per checkpoint
   [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
 
+  /// @returns The effective root seed used for this run.
+  [[nodiscard]] auto seed() const noexcept { return m_random.seed(); }
+
   /// @returns The MoveTracker of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
@@ -90,6 +113,8 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 #endif
     fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
                ManifoldType::dimension - 1);
+    fmt::print("Effective random seed: {} (stream {}).\n", m_random.seed(),
+               m_random.stream());
 
     m_attempted_moves.reset();
     m_successful_moves.reset();
@@ -110,14 +135,9 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
            ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = utilities::generate_random_int(
-            0, move_tracker::NUMBER_OF_3D_MOVES - 1);
-#ifndef NDEBUG
-        fmt::print("Move choice = {}\n", move_choice);
-#endif
-        command.enqueue(move_tracker::as_move(move_choice));
+        command.enqueue(move_tracker::generate_random_move_3(m_random));
       }
-      command.execute();
+      command.execute(m_random);
       // Update attempted, successful, and failed moves
       m_attempted_moves += command.get_attempted();
       m_successful_moves += command.get_succeeded();
@@ -128,7 +148,8 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
       {
         fmt::print("Writing checkpoint for pass {}.\n", pass_number);
         print_results();
-        utilities::write_file(command.get_results());
+        utilities::write_file(command.get_results(), m_random.seed(),
+                              pass_number);
       }
     }
     print_results();

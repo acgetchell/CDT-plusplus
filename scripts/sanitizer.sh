@@ -27,6 +27,10 @@ if [[ "$(uname -s)" != "Linux" ]]; then
 fi
 
 source "${script_dir}/prepare-vcpkg.sh"
+prepare_reference_environment
+clang --version
+cmake --version
+ninja --version
 prepare_vcpkg "${repo_root}"
 
 rm -rf -- "${build_dir}"
@@ -36,5 +40,5 @@ ctest --test-dir "${build_dir}" --label-exclude full-suite-duplicate --no-tests=
 
 mkdir -p -- "${run_dir}"
 cd -- "${run_dir}"
-"${build_dir}/src/initialize" -s -n32000 -t11 -o
-"${build_dir}/src/cdt" -s -n64 -t3 -a.6 -k1.1 -l.1 -p10 --no-output
+"${build_dir}/src/initialize" -s -n32000 -t11 --seed 92
+"${build_dir}/src/cdt" -s -n64 -t3 -a.6 -k1.1 -l.1 -p10 --no-output --seed 92

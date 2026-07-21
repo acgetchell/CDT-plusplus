@@ -94,60 +94,29 @@ SCENARIO("Find distances between points of the tetrahedron" *
       { REQUIRE(triangulation.is_initialized()); }
       THEN("The squared distances of vertices from origin are correct.")
       {
-        fmt::print("v_1 is {}\n", utilities::point_to_str(v_1));
-        fmt::print("v_2 is {}\n", utilities::point_to_str(v_2));
-        fmt::print("v_3 is {}\n", utilities::point_to_str(v_3));
-        fmt::print("v_4 is {}\n", utilities::point_to_str(v_4));
-
         auto d_1 = r_2(origin, v_1);
-        fmt::print("The squared distance between v_1 and the origin is {}\n",
-                   d_1);
         CHECK_EQ(d_1, doctest::Approx(1.0));
 
         auto d_2 = r_2(origin, v_2);
-        fmt::print("The squared distance between v_2 and the origin is {}\n",
-                   d_2);
         CHECK_EQ(d_2, doctest::Approx(1.0));
 
         auto d_3 = r_2(origin, v_3);
-        fmt::print("The squared distance between v_3 and the origin is {}\n",
-                   d_3);
         CHECK_EQ(d_3, doctest::Approx(1.0));
 
         auto d_4 = r_2(origin, v_4);
-        fmt::print("The squared distance between v_4 and the origin is {}\n",
-                   d_4);
         CHECK_EQ(d_4, doctest::Approx(4.0));
       }
       THEN("The squared distance between radius=1 vertices are 2.")
       {
         auto d_1 = r_2(v_1, v_2);
         CHECK_EQ(d_1, doctest::Approx(2.0));
-        fmt::print("The squared distance between v_1 and v_2 is {}\n", d_1);
         auto d_2 = r_2(v_1, v_3);
         CHECK_EQ(d_2, doctest::Approx(2.0));
-        fmt::print("The squared distance between v_1 and v_3 is {}\n", d_2);
         auto d_3 = r_2(v_2, v_3);
         CHECK_EQ(d_3, doctest::Approx(2.0));
-        fmt::print("The squared distance between v_2 and v_3 is {}\n", d_3);
       }
       THEN("All vertices have correct timevalues.")
-      {
-        CHECK(triangulation.check_all_vertices());
-        // Human verification
-        auto print = [&triangulation](Vertex_handle_t<3> const& vertex) {
-          fmt::print(
-              "Vertex ({}) with timevalue of {} has a squared radius of {} and "
-              "a squared expected radius of {} with an expected timevalue of "
-              "{}.\n",
-              utilities::point_to_str(vertex->point()), vertex->info(),
-              squared_radius<3>(vertex),
-              std::pow(triangulation.expected_radius(vertex), 2),
-              triangulation.expected_timevalue(vertex));
-        };
-        auto snapshot = triangulation.delaunay_snapshot();
-        ranges::for_each(collect_vertices<3>(snapshot), print);
-      }
+      { CHECK(triangulation.check_all_vertices()); }
     }
   }
 }
@@ -198,8 +167,6 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
         auto snapshot = triangulation.delaunay_snapshot();
         auto cell     = snapshot.finite_cells_begin();
         CHECK_EQ(expected_cell_type<3>(cell), Cell_type::THREE_ONE);
-        // Human verification
-        triangulation.print_cells();
       }
 
       THEN("There is one (3,1) simplex.")

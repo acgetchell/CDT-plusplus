@@ -13,6 +13,8 @@
 /// Note: for performance reasons, variables should not hold successively
 /// increasing values. We avoid this by setting each variable only once.
 /// See https://gmplib.org/manual/Efficiency.html#Efficiency for details.
+/// @see [Regge calculus](../REFERENCES.md#regge-calculus)
+/// @see [Three-dimensional CDT](../REFERENCES.md#three-dimensional-cdt-2001)
 
 #ifndef INCLUDE_S3ACTION_HPP_
 #define INCLUDE_S3ACTION_HPP_
@@ -80,13 +82,11 @@ namespace s3_action
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @returns \f$S^{(3)}(\alpha=-1)\f$ as a
-/// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
-///                   value
+/// @returns \f$S^{(3)}(\alpha=-1)\f$ as a 256-bit MPFR value
 [[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
     Int_precision const N1_TL, Int_precision const N3_31_13,
     Int_precision const N3_22, long double const K, long double const Lambda)
-    -> Gmpzf
+    -> mpfr_values::Value
 {
   auto const [checked_k, checked_lambda] =
       s3_action::make_finite_couplings(K, Lambda);
@@ -124,9 +124,7 @@ namespace s3_action
   auto const r12   = mpfr_values::subtract(r7, r3);  // r12 = r7-r3
   auto const total = mpfr_values::add(r11, r12);     // total = r11+r12
 
-  // Convert MPFR total to Gmpzf result by using Gmpzf(double d)
-  // Perhaps fixable later by switching to MP_Float
-  return Gmpzf{mpfr_values::to_double(total)};
+  return total;
 }  // S3_bulk_action_alpha_minus_one()
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=1.
@@ -143,15 +141,13 @@ namespace s3_action
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @returns \f$S^{(3)}(\alpha=1)\f$ as a
-/// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
-///                   value
+/// @returns \f$S^{(3)}(\alpha=1)\f$ as a 256-bit MPFR value
 [[nodiscard]] inline auto S3_bulk_action_alpha_one(Int_precision const N1_TL,
                                                    Int_precision const N3_31_13,
                                                    Int_precision const N3_22,
                                                    long double const   K,
                                                    long double const   Lambda)
-    -> Gmpzf
+    -> mpfr_values::Value
 {
   auto const [checked_k, checked_lambda] =
       s3_action::make_finite_couplings(K, Lambda);
@@ -192,10 +188,8 @@ namespace s3_action
   auto const r12   = mpfr_values::add(r3, r7);    // r12 = r3+r7
   auto const total = mpfr_values::add(r11, r12);  // total = r11+r12
 
-  // Convert MPFR total to Gmpzf result by using Gmpzf(double d)
-  // Perhaps fixable later by switching to MP_Float
-  return Gmpzf{mpfr_values::to_double(total)};
-}  // Gmpzf S3_bulk_action_alpha_one()
+  return total;
+}  // S3_bulk_action_alpha_one()
 
 /// @brief Calculates the generalized S3 bulk action in terms of \f$\alpha\f$,
 /// \f$k\f$, \f$\lambda\f$, \f$N_1^{TL}\f$, \f$N_3^{(3,1)}\f$, and
@@ -220,15 +214,14 @@ namespace s3_action
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @returns \f$S^{(3)}(\alpha)\f$ as a
-/// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
-///                   value
-[[nodiscard]] inline auto S3_bulk_action(Int_precision const N1_TL,
-                                         Int_precision const N3_31_13,
-                                         Int_precision const N3_22,
-                                         long double const   Alpha,
-                                         long double const   K,
-                                         long double const   Lambda) -> Gmpzf
+/// @returns \f$S^{(3)}(\alpha)\f$ as a 256-bit MPFR value
+/// @see [Regge calculus](../REFERENCES.md#regge-calculus)
+/// @see [Three-dimensional CDT
+/// action](../REFERENCES.md#three-dimensional-cdt-2001)
+[[nodiscard]] inline auto S3_bulk_action(
+    Int_precision const N1_TL, Int_precision const N3_31_13,
+    Int_precision const N3_22, long double const Alpha, long double const K,
+    long double const Lambda) -> mpfr_values::Value
 {
   auto const parameters = s3_action::make_physical_parameters(Alpha, K, Lambda);
 
@@ -330,10 +323,8 @@ namespace s3_action
   auto const r52   = mpfr_values::add(r5, r30);   // r52 = r5+r30
   auto const total = mpfr_values::add(r51, r52);  // total = r51+r52
 
-  // Convert MPFR total to Gmpzf result by using Gmpzf(double d)
-  // Perhaps fixable later by switching to MP_Float
-  return Gmpzf{mpfr_values::to_double(total)};
-}  // Gmpzf S3_bulk_action()
+  return total;
+}  // S3_bulk_action()
 
 #pragma GCC diagnostic pop
 

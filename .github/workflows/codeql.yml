@@ -64,6 +64,10 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Set up Just
+        if: matrix.language == 'c-cpp'
+        uses: ./.github/actions/setup-just
+
       - name: Set up C++ environment with pkgx
         if: matrix.language == 'c-cpp'
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
@@ -71,6 +75,14 @@ jobs:
       - name: Restore artifacts or set up vcpkg
         if: matrix.language == 'c-cpp'
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+
+      - name: Prepare C++ dependencies outside CodeQL tracing
+        if: matrix.language == 'c-cpp'
+        env:
+          CC: gcc
+          CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@16
+          CXX: g++
+        run: just codeql-prepare
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9  # v4.37.0
@@ -84,7 +96,7 @@ jobs:
           CC: gcc
           CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@16
           CXX: g++
-        run: ./scripts/pkgx-build.sh
+        run: just codeql-build
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9  # v4.37.0

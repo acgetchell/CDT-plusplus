@@ -75,16 +75,11 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
     {
       auto constexpr desired_simplices  = 72;
       auto constexpr desired_timeslices = 3;
-      FoliatedTriangulation_3 const triangulation(desired_simplices,
-                                                  desired_timeslices);
-      Geometry_3                    geometry(triangulation);
+      FoliatedTriangulation_3 const triangulation(
+          desired_simplices, desired_timeslices, cdt::Random{92});
+      Geometry_3 geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
-        fmt::print("There are {} simplices ...\n", geometry.N3);
-        fmt::print(
-            "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
-            "simplices.\n",
-            geometry.N3_31, geometry.N3_22, geometry.N3_13);
         CHECK_GT(geometry.N3, 2);
         CHECK_EQ(geometry.N3, static_cast<Int_precision>(
                                   triangulation.number_of_finite_cells()));
@@ -106,20 +101,6 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
         CHECK_EQ(geometry.N1, geometry.N1_TL + geometry.N1_SL);
         CHECK_EQ(geometry.N0, static_cast<Int_precision>(
                                   triangulation.number_of_vertices()));
-
-        // Human verification
-        fmt::print("There are {} edges.\n", geometry.N1);
-        fmt::print("There are {} timelike edges and {} spacelike edges.\n",
-                   geometry.N1_TL, geometry.N1_SL);
-#ifndef NDEBUG
-        triangulation.print_cells();
-        triangulation.print_edges();
-#endif
-        fmt::print(
-            "There are {} vertices with a max timevalue of {} and a min "
-            "timevalue of {}.\n",
-            geometry.N0, triangulation.max_time(), triangulation.min_time());
-        triangulation.print_volume_per_timeslice();
       }
     }
   }
@@ -150,9 +131,9 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
     {
       auto constexpr desired_simplices  = 640;
       auto constexpr desired_timeslices = 4;
-      FoliatedTriangulation_3 const triangulation(desired_simplices,
-                                                  desired_timeslices);
-      Geometry_3 const              geometry(triangulation);
+      FoliatedTriangulation_3 const triangulation(
+          desired_simplices, desired_timeslices, cdt::Random{92});
+      Geometry_3 const geometry(triangulation);
       THEN(
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
@@ -177,8 +158,6 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
         CHECK_EQ(geometry.N1_TL + geometry.N1_SL, geometry.N1);
         CHECK_EQ(geometry.N0, static_cast<Int_precision>(
                                   triangulation.number_of_vertices()));
-        triangulation.print();
-        triangulation.print_volume_per_timeslice();
       }
     }
   }

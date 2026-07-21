@@ -22,9 +22,15 @@ unset(_vcpkg_install_options)
 
 project(
   CDT-plusplus
-  VERSION 0.1.8
+  VERSION 1.0.0
   DESCRIPTION "Fast Causal Dynamical Triangulations in C++"
   LANGUAGES CXX)
+
+# CMake project versions are numeric, so keep the release-candidate suffix in
+# the product version used by executables and release metadata.
+set(CDT_VERSION_SUFFIX "-rc1")
+set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
+configure_file(cmake/Version.hpp.in "${PROJECT_BINARY_DIR}/Version.hpp" @ONLY)
 
 # Project settings
 include(cmake/StandardProjectSettings.cmake)
@@ -114,7 +120,8 @@ find_package(fmt CONFIG REQUIRED)
 find_package(Microsoft.GSL CONFIG REQUIRED)
 
 # https://www.pcg-random.org
-find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
+find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp" REQUIRED)
+target_include_directories(project_options SYSTEM INTERFACE "${PCG_INCLUDE_DIRS}")
 
 find_package(Boost CONFIG REQUIRED COMPONENTS compat program_options)
 target_link_libraries(project_options INTERFACE Boost::compat)
@@ -126,14 +133,12 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(TBB CONFIG REQUIRED)
 
 # Header files
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
+include_directories(BEFORE ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/include)
 
 # doctest
 if(ENABLE_TESTING)
   enable_testing()
-  message(STATUS "Building tests. Look at /tests for unit tests.")
-  message(STATUS "Look at /tests/logs for spdlog results from unit tests.")
-  message(NOTICE "These logs can get quite big in DEBUG mode if you run all tests.")
+  message(STATUS "Building tests.")
   add_subdirectory(tests)
 endif()
 

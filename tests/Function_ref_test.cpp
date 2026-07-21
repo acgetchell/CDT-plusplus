@@ -70,20 +70,17 @@ SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold_3 const& m) {
-        return ergodic_moves::do_23_move(m).value();
+      auto const move23 = [](Manifold_3 const& m, cdt::Random& random) {
+        return ergodic_moves::do_23_move(m, random).value();
       };
       THEN("Running the lambda makes the move.")
       {
-        auto const manifold_before = manifold;
-        auto       result          = move23(manifold);
+        auto const  manifold_before = manifold;
+        cdt::Random random{92};
+        CAPTURE(random.seed());
+        auto result = move23(manifold, random);
         CHECK(ergodic_moves::check_move(manifold_before, result,
                                         move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        fmt::print("Moved manifold properties:\n");
-        result.print_details();
       }
     }
   }
@@ -105,22 +102,19 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     auto manifold = make_23_move_manifold();
     REQUIRE(manifold.is_correct());
     boost::compat::function_ref<ergodic_moves::Expected(
-        ergodic_moves::Manifold const&)> const
-        complex_ref(ergodic_moves::do_23_move);
+        ergodic_moves::Manifold const&, cdt::Random&)> const
+        complex_ref(ergodic_moves::do_23_move<cdt::Random>);
     WHEN("The function_ref is invoked.")
     {
-      auto const manifold_before = manifold;
-      auto       result          = complex_ref(manifold);
+      auto const  manifold_before = manifold;
+      cdt::Random random{92};
+      CAPTURE(random.seed());
+      auto result = complex_ref(manifold, random);
       REQUIRE(result.has_value());
       THEN("The move from the function_ref is correct.")
       {
         CHECK(ergodic_moves::check_move(manifold_before, result.value(),
                                         move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        fmt::print("Moved manifold properties:\n");
-        result->print_details();
       }
     }
   }
@@ -128,26 +122,23 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
   {
     auto manifold = make_23_move_manifold();
     REQUIRE(manifold.is_correct());
-    auto const move23 = [](Manifold_3 const& t_manifold) {
-      return ergodic_moves::do_23_move(t_manifold).value();
+    auto const move23 = [](Manifold_3 const& t_manifold, cdt::Random& random) {
+      return ergodic_moves::do_23_move(t_manifold, random).value();
     };
-    boost::compat::function_ref<Manifold_3(Manifold_3 const&)> const
-        complex_ref(move23);
+    boost::compat::function_ref<Manifold_3(
+        Manifold_3 const&, cdt::Random&)> const complex_ref(move23);
     WHEN("The function_ref is invoked.")
     {
-      auto const manifold_before = manifold;
-      auto       result          = complex_ref(manifold);
+      auto const  manifold_before = manifold;
+      cdt::Random random{92};
+      CAPTURE(random.seed());
+      auto result = complex_ref(manifold, random);
       THEN(
           "The move stored in the lambda invoked by the function_ref is "
           "correct.")
       {
         CHECK(ergodic_moves::check_move(manifold_before, result,
                                         move_tracker::move_type::TWO_THREE));
-        // Human verification
-        fmt::print("Manifold properties:\n");
-        manifold.print_details();
-        fmt::print("Moved manifold properties:\n");
-        result.print_details();
       }
     }
   }

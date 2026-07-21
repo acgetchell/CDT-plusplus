@@ -24,6 +24,56 @@ static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
 static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 
+namespace
+{
+  struct ExpectedGeometryDelta
+  {
+    Int_precision n3;
+    Int_precision n3_31;
+    Int_precision n3_13;
+    Int_precision n3_31_13;
+    Int_precision n3_22;
+    Int_precision n2;
+    Int_precision n1;
+    Int_precision n1_tl;
+    Int_precision n1_sl;
+    Int_precision n0;
+  };
+
+  [[nodiscard]] auto constexpr expected_geometry_delta(
+      move_tracker::move_type const move) -> ExpectedGeometryDelta
+  {
+    using enum move_tracker::move_type;
+    switch (move)
+    {
+      case TWO_THREE: return {1, 0, 0, 0, 1, 2, 1, 1, 0, 0};
+      case THREE_TWO: return {-1, 0, 0, 0, -1, -2, -1, -1, 0, 0};
+      case TWO_SIX: return {4, 2, 2, 4, 0, 8, 5, 2, 3, 1};
+      case SIX_TWO: return {-4, -2, -2, -4, 0, -8, -5, -2, -3, -1};
+      case FOUR_FOUR: return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    }
+    return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  }
+
+  void check_geometry_delta(Manifold_3 const& before, Manifold_3 const& after,
+                            move_tracker::move_type const move)
+  {
+    auto const expected = expected_geometry_delta(move);
+    CHECK_EQ(after.N3() - before.N3(), expected.n3);
+    CHECK_EQ(after.N3_31() - before.N3_31(), expected.n3_31);
+    CHECK_EQ(after.N3_13() - before.N3_13(), expected.n3_13);
+    CHECK_EQ(after.N3_31_13() - before.N3_31_13(), expected.n3_31_13);
+    CHECK_EQ(after.N3_22() - before.N3_22(), expected.n3_22);
+    CHECK_EQ(after.N2() - before.N2(), expected.n2);
+    CHECK_EQ(after.N1() - before.N1(), expected.n1);
+    CHECK_EQ(after.N1_TL() - before.N1_TL(), expected.n1_tl);
+    CHECK_EQ(after.N1_SL() - before.N1_SL(), expected.n1_sl);
+    CHECK_EQ(after.N0() - before.N0(), expected.n0);
+    CHECK_EQ(after.max_time(), before.max_time());
+    CHECK_EQ(after.min_time(), before.min_time());
+  }
+}  // namespace
+
 SCENARIO("Use check_move to validate successful move" *
          doctest::test_suite("ergodic"))
 {
@@ -38,14 +88,16 @@ SCENARIO("Use check_move to validate successful move" *
         Point_t<3>{  SQRT_2,   SQRT_2,        0}
     };
     vector<size_t> timevalues{1, 1, 1, 2, 2};
-    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-    Manifold_3 manifold(causal_vertices);
+    auto        causal_vertices = make_causal_vertices<3>(vertices, timevalues);
+    Manifold_3  manifold(causal_vertices);
+    cdt::Random random{92};
+    CAPTURE(random.seed());
     WHEN("A correct (2,3) move is performed.")
     {
       spdlog::debug("When a correct (2,3) move is performed.\n");
       // Copy manifold
       auto manifold_before = manifold;
-      if (auto result = ergodic_moves::do_23_move(manifold); result)
+      if (auto result = ergodic_moves::do_23_move(manifold, random); result)
       {
         manifold = result.value();
       }
@@ -67,6 +119,8 @@ SCENARIO("Use check_move to validate successful move" *
       // CHECK(manifold.is_delaunay());
       THEN("check_move returns true")
       {
+        check_geometry_delta(manifold_before, manifold,
+                             move_tracker::move_type::TWO_THREE);
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_THREE));
       }
@@ -90,8 +144,10 @@ SCENARIO(
         Point_t<3>{  SQRT_2,   SQRT_2,        0}
     };
     vector<size_t> timevalues{1, 1, 1, 2, 2};
-    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-    Manifold_3 manifold(causal_vertices);
+    auto        causal_vertices = make_causal_vertices<3>(vertices, timevalues);
+    Manifold_3  manifold(causal_vertices);
+    cdt::Random random{92};
+    CAPTURE(random.seed());
 
     REQUIRE(manifold.is_correct());
     REQUIRE_EQ(manifold.vertices(), 5);
@@ -108,7 +164,7 @@ SCENARIO(
       spdlog::debug("When a (2,3) move is performed.\n");
       // Copy manifold
       auto manifold_before = manifold;
-      if (auto result = ergodic_moves::do_23_move(manifold); result)
+      if (auto result = ergodic_moves::do_23_move(manifold, random); result)
       {
         manifold = result.value();
       }
@@ -120,6 +176,8 @@ SCENARIO(
       }
       THEN("The move is correct and the manifold invariants are maintained")
       {
+        check_geometry_delta(manifold_before, manifold,
+                             move_tracker::move_type::TWO_THREE);
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_THREE));
         // Manual check
@@ -133,16 +191,13 @@ SCENARIO(
         CHECK_EQ(manifold.N1_SL(), 4);
         CHECK_EQ(manifold.N1_TL(), 6);
         // CHECK(manifold.is_delaunay());
-        // Human-readable output
-        manifold.print_details();
-        manifold.print_cells();
       }
     }
     WHEN("A (3,2) move is performed")
     {
       spdlog::debug("When a (3,2) move is performed.\n");
       // First, do a (2,3) move to set up the manifold
-      if (auto start = ergodic_moves::do_23_move(manifold); start)
+      if (auto start = ergodic_moves::do_23_move(manifold, random); start)
       {
         manifold = start.value();
       }
@@ -167,7 +222,7 @@ SCENARIO(
       // Copy manifold
       auto manifold_before = manifold;
       // Do move
-      if (auto result = ergodic_moves::do_32_move(manifold); result)
+      if (auto result = ergodic_moves::do_32_move(manifold, random); result)
       {
         manifold = result.value();
       }
@@ -179,6 +234,8 @@ SCENARIO(
       }
       THEN("The move is correct and the manifold invariants are maintained")
       {
+        check_geometry_delta(manifold_before, manifold,
+                             move_tracker::move_type::THREE_TWO);
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::THREE_TWO));
         // Manual check
@@ -192,14 +249,11 @@ SCENARIO(
         CHECK_EQ(manifold.N1_SL(), 4);
         CHECK_EQ(manifold.N1_TL(), 5);
         CHECK(manifold.is_delaunay());
-        // Human-readable output
-        manifold.print_details();
-        manifold.print_cells();
       }
     }
     WHEN("An improperly prepared (3,2) move is performed")
     {
-      auto result = ergodic_moves::do_32_move(manifold);
+      auto result = ergodic_moves::do_32_move(manifold, random);
       THEN("The move is not performed")
       {
         CHECK_FALSE(result);
@@ -224,8 +278,10 @@ SCENARIO(
         Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
     };
     vector<size_t> timevalues{0, 1, 1, 1, 2};
-    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-    Manifold_3 manifold(causal_vertices);
+    auto        causal_vertices = make_causal_vertices<3>(vertices, timevalues);
+    Manifold_3  manifold(causal_vertices);
+    cdt::Random random{92};
+    CAPTURE(random.seed());
 
     REQUIRE(manifold.is_correct());
     REQUIRE_EQ(manifold.vertices(), 5);
@@ -243,7 +299,7 @@ SCENARIO(
     {
       spdlog::debug("When a (2,6) move is proposed.\n");
       auto const manifold_before = manifold;
-      auto       result          = ergodic_moves::do_26_move(manifold);
+      auto       result          = ergodic_moves::do_26_move(manifold, random);
       if (!result) { spdlog::debug("The (2,6) move failed.\n"); }
       REQUIRE(result.has_value());
 
@@ -258,6 +314,8 @@ SCENARIO(
         manifold = std::move(result).value();
         THEN("The move is correct and the manifold invariants are maintained")
         {
+          check_geometry_delta(manifold_before, manifold,
+                               move_tracker::move_type::TWO_SIX);
           CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                           move_tracker::move_type::TWO_SIX));
           // Manual check
@@ -275,13 +333,6 @@ SCENARIO(
           CHECK_EQ(manifold.N1_SL(), 6);  // +3 spacelike edges
           CHECK_EQ(manifold.N1_TL(), 8);  // +2 timelike edges
           CHECK(manifold.is_delaunay());
-          // Human-readable output
-          fmt::print("Manifold before (2,6):\n");
-          manifold_before.print_details();
-          manifold_before.print_cells();
-          fmt::print("Manifold after (2,6):\n");
-          manifold.print_details();
-          manifold.print_cells();
         }
       }
     }
@@ -289,7 +340,7 @@ SCENARIO(
     {
       spdlog::debug("When a (6,2) move is proposed.\n");
       // First, do a (2,6) move to set up the manifold
-      if (auto start = ergodic_moves::do_26_move(manifold); start)
+      if (auto start = ergodic_moves::do_26_move(manifold, random); start)
       {
         manifold = start.value();
       }
@@ -316,8 +367,8 @@ SCENARIO(
 
       // Copy manifold
       auto const manifold_before = manifold;
-      auto       result          = ergodic_moves::do_62_move(manifold);
-      if (!result) { spdlog::info("The (6,2) move failed.\n"); }
+      auto       result          = ergodic_moves::do_62_move(manifold, random);
+      if (!result) { spdlog::debug("The (6,2) move failed.\n"); }
       REQUIRE(result.has_value());
 
       THEN("The proposal leaves the source manifold unchanged")
@@ -331,6 +382,8 @@ SCENARIO(
         manifold = std::move(result).value();
         THEN("The move is correct and the manifold invariants are maintained")
         {
+          check_geometry_delta(manifold_before, manifold,
+                               move_tracker::move_type::SIX_TWO);
           // Check the move
           CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                           move_tracker::move_type::SIX_TWO));
@@ -350,19 +403,12 @@ SCENARIO(
           CHECK_EQ(manifold.N1_SL(), 3);
           CHECK_EQ(manifold.N1_TL(), 6);
           CHECK(manifold.is_delaunay());
-          // Human-readable output
-          fmt::print("Manifold before (6,2):\n");
-          manifold_before.print_details();
-          manifold_before.print_cells();
-          fmt::print("Manifold after (6,2):\n");
-          manifold.print_details();
-          manifold.print_cells();
         }
       }
     }
     WHEN("An improperly prepared (6,2) move is performed")
     {
-      auto result = ergodic_moves::do_62_move(manifold);
+      auto result = ergodic_moves::do_62_move(manifold, random);
       THEN("The move is not performed")
       {
         CHECK_FALSE(result);
@@ -387,8 +433,10 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
         Point_t<3>{          0,           0,          2}
     };
     vector<size_t> timevalues{0, 1, 1, 1, 1, 2};
-    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-    Manifold_3 manifold(causal_vertices, 0, 1);
+    auto        causal_vertices = make_causal_vertices<3>(vertices, timevalues);
+    Manifold_3  manifold(causal_vertices, 0, 1);
+    cdt::Random random{92};
+    CAPTURE(random.seed());
     // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
     REQUIRE_EQ(manifold.vertices(), 6);
     REQUIRE_EQ(manifold.edges(), 13);
@@ -409,12 +457,8 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
     {
       spdlog::debug("When a (4,4) move is proposed.\n");
       auto const manifold_before = manifold;
-      // Human verification
-      fmt::print("Manifold before (4,4):\n");
-      manifold_before.print_details();
-      manifold_before.print_cells();
-      auto result = ergodic_moves::do_44_move(manifold);
-      if (!result) { spdlog::info("The (4,4) move failed.\n"); }
+      auto       result          = ergodic_moves::do_44_move(manifold, random);
+      if (!result) { spdlog::debug("The (4,4) move failed.\n"); }
       REQUIRE(result.has_value());
 
       THEN("The proposal leaves the source manifold unchanged")
@@ -426,12 +470,11 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
       AND_WHEN("The proposed value is accepted")
       {
         manifold = std::move(result).value();
-        fmt::print("Manifold after (4,4):\n");
-        manifold.print_details();
-        manifold.print_cells();
 
         THEN("The move is correct and the manifold invariants are maintained")
         {
+          check_geometry_delta(manifold_before, manifold,
+                               move_tracker::move_type::FOUR_FOUR);
           // Check the move
           CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                           move_tracker::move_type::FOUR_FOUR));
@@ -531,10 +574,12 @@ SCENARIO("Rejected topology moves preserve the source value" *
   {
     Manifold_3 const source;
     auto const       before = source;
+    cdt::Random      random{92};
 
     WHEN("A (2,6) move is proposed")
     {
-      auto const result = ergodic_moves::do_26_move(source);
+      CAPTURE(random.seed());
+      auto const result = ergodic_moves::do_26_move(source, random);
 
       THEN("The move is rejected without changing the source")
       {
@@ -548,7 +593,7 @@ SCENARIO("Rejected topology moves preserve the source value" *
     }
     WHEN("A (4,4) move is proposed")
     {
-      auto const result = ergodic_moves::do_44_move(source);
+      auto const result = ergodic_moves::do_44_move(source, random);
 
       THEN("The move is rejected without changing the source")
       {

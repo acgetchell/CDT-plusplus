@@ -10,18 +10,72 @@
 /// @details Tests for random, conversion, and datetime functions.
 
 #include <doctest/doctest.h>
-#include <fmt/ranges.h>
+#include <fmt/format.h>
 
+#include <atomic>
+#include <chrono>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iterator>
 #include <Manifold.hpp>
+#include <stdexcept>
+#include <string_view>
 
 using namespace std;
 using namespace utilities;
 
 namespace
 {
+  class TemporaryDirectory
+  {
+    std::filesystem::path m_path;
+
+   public:
+    TemporaryDirectory()
+    {
+      static std::atomic<std::uint64_t> sequence{};
+      auto const base = std::filesystem::temp_directory_path();
+
+      for (std::uint64_t attempt = 0; attempt < 100; ++attempt)
+      {
+        auto const timestamp =
+            std::chrono::steady_clock::now().time_since_epoch().count();
+        auto const candidate =
+            base / fmt::format("cdt-plusplus-tests-{}-{}-{}", timestamp,
+                               sequence.fetch_add(1), attempt);
+        std::error_code error;
+        if (std::filesystem::create_directory(candidate, error))
+        {
+          m_path = candidate;
+          return;
+        }
+        if (error)
+        {
+          throw std::filesystem::filesystem_error{
+              "Unable to create test directory", candidate, error};
+        }
+      }
+
+      throw std::runtime_error{"Unable to create a unique test directory"};
+    }
+
+    TemporaryDirectory(TemporaryDirectory const&)                    = delete;
+    TemporaryDirectory(TemporaryDirectory&&)                         = delete;
+    auto operator=(TemporaryDirectory const&) -> TemporaryDirectory& = delete;
+    auto operator=(TemporaryDirectory&&) -> TemporaryDirectory&      = delete;
+
+    ~TemporaryDirectory()
+    {
+      std::error_code error;
+      std::filesystem::remove_all(m_path, error);
+    }
+
+    [[nodiscard]] auto file(std::string_view const name) const
+        -> std::filesystem::path
+    { return m_path / name; }
+  };
+
   struct SerializationFailure
   {};
 
@@ -62,16 +116,14 @@ SCENARIO("Various string/stream/time utilities" *
     auto constexpr this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
     {
-      stringstream const buffer;
-      std::streambuf*    backup = cout.rdbuf(buffer.rdbuf());
-      cout << this_topology;
-      cout.rdbuf(backup);
+      stringstream buffer;
+      buffer << this_topology;
       THEN("The output is correct.")
       {
         CHECK_EQ(buffer.str(), "spherical");
         spdlog::debug("buffer.str() contents: {}.\n", buffer.str());
       }
-      WHEN("fmt::print is invoked.")
+      WHEN("fmt::format is invoked.")
       {
         THEN("The output is correct.")
         {
@@ -93,8 +145,6 @@ SCENARIO("Various string/stream/time utilities" *
         auto const expected_year = date::format(
             "%Y", std::chrono::floor<std::chrono::seconds>(timestamp));
         CHECK(result.starts_with(expected_year));
-        // Human verification
-        fmt::print("Current date and time is: {}\n", result);
       }
     }
     WHEN("A filename is generated.")
@@ -119,8 +169,6 @@ SCENARIO("Various string/stream/time utilities" *
         auto const file_suffix = filename.string().find("off");
         CHECK_NE(file_suffix, std::string::npos);
         CHECK_EQ(filename.string().find(':'), std::string::npos);
-        // Human verification
-        fmt::print("Filename is: {}\n", filename.string());
       }
     }
   }
@@ -158,17 +206,25 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     // Construct a manifold from a Delaunay triangulation
     manifolds::Manifold_3 const manifold(
         foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
+    WHEN("A replayable checkpoint filename is generated")
+    {
+      auto const filename = make_filename(manifold, cdt::Random_seed{92}, 7);
+      THEN("The seed and completed pass are recorded before the OFF suffix")
+      {
+        CHECK_NE(filename.string().find("-seed-92-pass-7.off"),
+                 std::string::npos);
+      }
+    }
     WHEN("The triangulation is round-tripped through a file")
     {
-      auto const filename = std::filesystem::temp_directory_path() /
-                            "cdt-plusplus-utilities-roundtrip.off";
-      std::filesystem::remove(filename);
+      TemporaryDirectory const directory;
+      auto const               filename = directory.file("roundtrip.off");
       write_file(filename, manifold.delaunay_snapshot());
       REQUIRE(std::filesystem::exists(filename));
 
       auto triangulation_from_file =
           utilities::read_file<Delaunay_t<3>>(filename);
-      THEN("The file contains the triangulation and can be removed")
+      THEN("The file contains the original triangulation")
       {
         REQUIRE(triangulation_from_file.is_valid(true));
         REQUIRE_EQ(triangulation_from_file.dimension(),
@@ -181,8 +237,6 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
                    manifold.N1());
         REQUIRE_EQ(triangulation_from_file.number_of_vertices(), manifold.N0());
         CHECK_EQ(triangulation_from_file, triangulation);
-        REQUIRE(std::filesystem::remove(filename));
-        CHECK_FALSE(std::filesystem::exists(filename));
       }
     }
   }
@@ -191,15 +245,13 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
 SCENARIO("File serialization reports complete failures" *
          doctest::test_suite("utilities"))
 {
-  auto const directory = std::filesystem::temp_directory_path();
+  TemporaryDirectory const directory;
 
   GIVEN("A serializer that marks its output stream bad.")
   {
-    auto const filename  = directory / "cdt-plusplus-write-failure.off";
+    auto const filename  = directory.file("write-failure.off");
     auto       temporary = filename;
     temporary += ".tmp";
-    std::filesystem::remove(filename);
-    std::filesystem::remove(temporary);
     {
       std::ofstream existing{filename};
       existing << "previous-checkpoint";
@@ -216,18 +268,15 @@ SCENARIO("File serialization reports complete failures" *
                                    std::istreambuf_iterator<char>{}};
         CHECK_EQ(contents, "previous-checkpoint");
         CHECK_FALSE(std::filesystem::exists(temporary));
-        REQUIRE(std::filesystem::remove(filename));
       }
     }
   }
 
   GIVEN("A serializer that recursively starts another file write.")
   {
-    auto const filename  = directory / "cdt-plusplus-reentrant-write.off";
+    auto const filename  = directory.file("reentrant-write.off");
     auto       temporary = filename;
     temporary += ".tmp";
-    std::filesystem::remove(filename);
-    std::filesystem::remove(temporary);
     {
       std::ofstream existing{filename};
       existing << "previous-checkpoint";
@@ -244,15 +293,13 @@ SCENARIO("File serialization reports complete failures" *
                                    std::istreambuf_iterator<char>{}};
         CHECK_EQ(contents, "previous-checkpoint");
         CHECK_FALSE(std::filesystem::exists(temporary));
-        REQUIRE(std::filesystem::remove(filename));
       }
     }
   }
 
   GIVEN("A serialized value followed by unexpected trailing input.")
   {
-    auto const filename = directory / "cdt-plusplus-trailing-input.off";
-    std::filesystem::remove(filename);
+    auto const filename = directory.file("trailing-input.off");
     {
       std::ofstream output{filename};
       output << "42 trailing-data";
@@ -260,19 +307,17 @@ SCENARIO("File serialization reports complete failures" *
 
     WHEN("The file is parsed.")
     {
-      THEN("The trailing input is reported and the fixture can be removed.")
+      THEN("The trailing input is reported.")
       {
         CHECK_THROWS_AS(read_file<SingleInteger>(filename),
                         std::filesystem::filesystem_error);
-        REQUIRE(std::filesystem::remove(filename));
       }
     }
   }
 
   GIVEN("A file containing malformed input.")
   {
-    auto const filename = directory / "cdt-plusplus-malformed-input.off";
-    std::filesystem::remove(filename);
+    auto const filename = directory.file("malformed-input.off");
     {
       std::ofstream output{filename};
       output << "not-an-integer";
@@ -280,11 +325,10 @@ SCENARIO("File serialization reports complete failures" *
 
     WHEN("The file is parsed.")
     {
-      THEN("The malformed input is reported and the fixture can be removed.")
+      THEN("The malformed input is reported.")
       {
         CHECK_THROWS_AS(read_file<SingleInteger>(filename),
                         std::filesystem::filesystem_error);
-        REQUIRE(std::filesystem::remove(filename));
       }
     }
   }
@@ -297,8 +341,10 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   {
     WHEN("We roll a die twice.")
     {
-      auto const roll1 = die_roll();
-      auto const roll2 = die_roll();
+      cdt::Random generator{92};
+      CAPTURE(generator.seed());
+      auto const roll1 = die_roll(generator);
+      auto const roll2 = die_roll(generator);
       THEN("Both results are valid die values.")
       {
         CHECK_GE(roll1, 1);
@@ -315,7 +361,9 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     iota(container.begin(), container.end(), 0);
     WHEN("The container is shuffled.")
     {
-      ranges::shuffle(container, make_random_generator());
+      cdt::Random generator{92};
+      CAPTURE(generator.seed());
+      ranges::shuffle(container, generator);
       THEN("The shuffled result remains a permutation of the input.")
       {
         ranges::sort(container);
@@ -323,8 +371,6 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
         {
           CHECK_EQ(container[static_cast<std::size_t>(i)], i);
         }
-        fmt::print("\nShuffled container verification:\n");
-        fmt::print("{}\n", fmt::join(container, " "));
       }
     }
   }
@@ -332,14 +378,16 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   {
     WHEN("We generate six random integers within the range.")
     {
+      cdt::Random generator{92};
+      CAPTURE(generator.seed());
       auto constexpr min   = 64;
       auto constexpr max   = 6400;
-      auto const value1    = generate_random_int(min, max);
-      auto const value2    = generate_random_int(min, max);
-      auto const value3    = generate_random_int(min, max);
-      auto const value4    = generate_random_int(min, max);
-      auto const value5    = generate_random_int(min, max);
-      auto const value6    = generate_random_int(min, max);
+      auto const value1    = generate_random_int(generator, min, max);
+      auto const value2    = generate_random_int(generator, min, max);
+      auto const value3    = generate_random_int(generator, min, max);
+      auto const value4    = generate_random_int(generator, min, max);
+      auto const value5    = generate_random_int(generator, min, max);
+      auto const value6    = generate_random_int(generator, min, max);
       array      container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range.")
       {
@@ -355,13 +403,16 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   {
     WHEN("We generate six timeslices within the range.")
     {
-      auto constexpr max   = 256;
-      auto const value1    = generate_random_timeslice(max);
-      auto const value2    = generate_random_timeslice(max);
-      auto const value3    = generate_random_timeslice(max);
-      auto const value4    = generate_random_timeslice(max);
-      auto const value5    = generate_random_timeslice(max);
-      auto const value6    = generate_random_timeslice(max);
+      cdt::Random generator{92};
+      CAPTURE(generator.seed());
+      // Keep this mutable to cover ordinary named lvalue bounds.
+      auto       max       = 256;
+      auto const value1    = generate_random_timeslice(generator, max);
+      auto const value2    = generate_random_timeslice(generator, max);
+      auto const value3    = generate_random_timeslice(generator, max);
+      auto const value4    = generate_random_timeslice(generator, max);
+      auto const value5    = generate_random_timeslice(generator, max);
+      auto const value6    = generate_random_timeslice(generator, max);
       array      container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range.")
       {
@@ -378,9 +429,11 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   {
     WHEN("We generate a random real number.")
     {
+      cdt::Random generator{92};
+      CAPTURE(generator.seed());
       auto constexpr min = 0.0L;
       auto constexpr max = 1.0L;
-      auto const value   = generate_random_real(min, max);
+      auto const value   = generate_random_real(generator, min, max);
       THEN("The real number should lie within that range.")
       {
         REQUIRE_LE(min, value);
@@ -392,12 +445,14 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   {
     WHEN("We generate six probabilities.")
     {
-      auto const value1    = generate_probability();
-      auto const value2    = generate_probability();
-      auto const value3    = generate_probability();
-      auto const value4    = generate_probability();
-      auto const value5    = generate_probability();
-      auto const value6    = generate_probability();
+      cdt::Random generator{92};
+      CAPTURE(generator.seed());
+      auto const value1    = generate_probability(generator);
+      auto const value2    = generate_probability(generator);
+      auto const value3    = generate_probability(generator);
+      auto const value4    = generate_probability(generator);
+      auto const value5    = generate_probability(generator);
+      auto const value6    = generate_probability(generator);
       array      container = {value1, value2, value3, value4, value5, value6};
 
       THEN("They should all be valid probabilities.")

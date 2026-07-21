@@ -9,9 +9,11 @@
 /// @author Adam Getchell
 
 #include <boost/program_options.hpp>
+#include <cstdint>
 
 #include "Manifold.hpp"
 #include "Runtime_config.hpp"
+#include "Version.hpp"
 
 using namespace std;
 namespace po = boost::program_options;
@@ -30,13 +32,14 @@ Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
                    [-d DIM]
                    [--init INITIAL RADIUS]
                    [--foliate FOLIATION SPACING]
+                   [--seed SEED]
                    [--output]
 
 Optional arguments are in square brackets.
 
 Examples:
 ./initialize --spherical --simplices 32000 --timeslices 11 --init 1.0 --foliate 1.0 --output
-./initialize -s -n32000 -t11 -i1.0 -f1.0 -o
+./initialize -s -n32000 -t11 -i1.0 -f1.0 -o --seed 92
 
 Options)"};
 
@@ -50,6 +53,7 @@ try
   long long               dimensions{};
   double                  initial_radius{};
   double                  foliation_spacing{};
+  std::uint64_t           seed{};
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -64,7 +68,10 @@ try
                         po::value<double>(&initial_radius)->default_value(1.0),
                         "Initial radius")(
       "foliate,f", po::value<double>(&foliation_spacing)->default_value(1.0),
-      "Foliation spacing")("output,o", "Save triangulation into OFF file");
+      "Foliation spacing")(
+      "seed", po::value<std::uint64_t>(&seed),
+      "Root random seed (default: operating-system entropy)")(
+      "output,o", "Save triangulation into OFF file");
 
   po::variables_map args;
   po::store(po::parse_command_line(argc, argv, description), args);
@@ -77,7 +84,7 @@ try
 
   if (args.count("version"))
   {
-    fmt::print("CDT initializer version 1.0\n");
+    fmt::print("CDT initializer version {}\n", cdt::VERSION);
     return EXIT_SUCCESS;
   }
 
@@ -96,6 +103,10 @@ try
       args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
       timeslices, dimensions, initial_radius, foliation_spacing);
   auto const save_file = args.count("output") != 0;
+  auto       root_random =
+      args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
+  auto initialization_random =
+      root_random.split(cdt::random_streams::initialization);
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(config.topology()));
@@ -104,16 +115,17 @@ try
   fmt::print("Number of desired timeslices = {}\n", config.timeslices());
   fmt::print("Initial radius = {}\n", config.initial_radius());
   fmt::print("Foliation spacing = {}\n", config.foliation_spacing());
+  fmt::print("Effective random seed: {}\n", root_random.seed());
 
   if (save_file) { fmt::print("Output will be saved.\n"); }
 
   manifolds::Manifold_3 universe(config.simplices(), config.timeslices(),
-                                 config.initial_radius(),
+                                 initialization_random, config.initial_radius(),
                                  config.foliation_spacing());
   universe.print();
   universe.print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
-  if (save_file) { utilities::write_file(universe); }
+  if (save_file) { utilities::write_file(universe, root_random.seed()); }
   return EXIT_SUCCESS;
 }
 catch (invalid_argument const& InvalidArgument)

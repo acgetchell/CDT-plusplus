@@ -1,16 +1,45 @@
 [project]
 name = "cdt-plusplus-scripts"
-version = "0.0.0"
+# PEP 440 spelling of the CDT++ v1.0.0-rc1 release.
+version = "1.0.0rc1"
 description = "Python support and experiment scripts for CDT++"
 requires-python = ">=3.12,<3.13"
 dependencies = []
 
+[project.scripts]
+cdt-bootstrap-vcpkg = "scripts.bootstrap_vcpkg:main"
+cdt-mnist-experiment = "scripts.mnist_experiment:main"
+cdt-optimize-initialize = "scripts.optimize_initialize:main"
+
+[build-system]
+requires = ["uv_build>=0.11.29,<0.12"]
+build-backend = "uv_build"
+
 [tool.uv]
 default-groups = ["dev"]
-package = false
+package = true
+
+[tool.uv.build-backend]
+module-name = "scripts"
+module-root = ""
+source-exclude = [
+  "scripts/*.bat",
+  "scripts/*.sh",
+  "scripts/release_check.py",
+  "scripts/semgrep_fixture_config.py",
+  "scripts/tests/**",
+]
 
 [dependency-groups]
-dev = ["ruff==0.15.21", "ty==0.0.59"]
+dev = [
+  "actionlint-py==1.7.12.24",
+  "clang-format==22.1.8",
+  "pyyaml==6.0.3",
+  "ruff==0.15.21",
+  "semgrep==1.169.0",
+  "ty==0.0.59",
+  "yamllint==1.38.0",
+]
 experiments = [
   "comet-ml>=3.58.3,<4",
   "matplotlib>=3.10,<4",
@@ -20,7 +49,7 @@ experiments = [
 
 [tool.ruff]
 line-length = 160
-src = ["src"]
+src = ["scripts"]
 target-version = "py312"
 
 [tool.ruff.lint]
@@ -103,8 +132,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"src/*.py" = ["INP001"]
-
+"scripts/tests/test_*.py" = [
+  "PT009", # The dependency-free support-script suite intentionally uses unittest.
+  "PT027", # The dependency-free support-script suite intentionally uses unittest.
+]
 [tool.ruff.lint.mccabe]
 max-complexity = 10
 

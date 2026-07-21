@@ -71,18 +71,8 @@ jobs:
       - name: Set up Just
         uses: ./.github/actions/setup-just
 
-      - name: Resolve LLVM version
-        id: llvm-version
-        shell: bash
-        run: echo "version=$(just --evaluate llvm_version)" >> "$GITHUB_OUTPUT"
-
-      - name: Set up Clang
+      - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
-        with:
-          +: llvm.org@${{ steps.llvm-version.outputs.version }}
-
-      - name: Report compiler version
-        run: clang --version
 
       - name: Restore artifacts or set up vcpkg
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6

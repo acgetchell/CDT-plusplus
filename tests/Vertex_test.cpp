@@ -87,12 +87,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         CHECK_EQ(rebuilt.dimensionality(), 0);
       }
 
-      THEN("The vertex is valid.")
-      {
-        fmt::print("When a causal vertex is inserted, the vertices are:\n");
-        manifold.print_vertices();
-        CHECK(manifold.check_vertices());
-      }
+      THEN("The vertex is valid.") { CHECK(manifold.check_vertices()); }
     }
 
     AND_WHEN("Two vertices are inserted.")
@@ -116,12 +111,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("A 2 vertex manifold has dimension 1.")
       { REQUIRE_EQ(manifold.dimensionality(), 1); }
 
-      THEN("The vertices are valid.")
-      {
-        fmt::print("When 2 causal vertices are inserted, the vertices are:\n");
-        manifold.print_vertices();
-        CHECK(manifold.check_vertices());
-      }
+      THEN("The vertices are valid.") { CHECK(manifold.check_vertices()); }
     }
 
     AND_WHEN("Three vertices are inserted.")
@@ -148,12 +138,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("A 3 vertex manifold has dimension 2.")
       { REQUIRE_EQ(manifold.dimensionality(), 2); }
 
-      THEN("The vertices are valid.")
-      {
-        fmt::print("When 3 causal vertices are inserted, the vertices are:\n");
-        manifold.print_vertices();
-        CHECK(manifold.check_vertices());
-      }
+      THEN("The vertices are valid.") { CHECK(manifold.check_vertices()); }
     }
 
     AND_WHEN("Four vertices are inserted.")
@@ -181,13 +166,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("A 4 vertex manifold has dimension 3.")
       { REQUIRE_EQ(manifold.dimensionality(), 3); }
 
-      THEN("The vertices are valid.")
-      {
-        fmt::print(
-            "When 4 causal vertices are inserted, there is a simplex:\n");
-        manifold.print_cells();
-        CHECK(manifold.check_vertices());
-      }
+      THEN("The vertices are valid.") { CHECK(manifold.check_vertices()); }
     }
 
     AND_WHEN("Five vertices are inserted.")
@@ -216,13 +195,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       THEN("A 5 vertex manifold still has dimension 3.")
       { REQUIRE_EQ(manifold.dimensionality(), 3); }
 
-      THEN("The vertices are valid.")
-      {
-        fmt::print(
-            "When 5 causal vertices are inserted, there are 2 simplices:\n");
-        manifold.print_cells();
-        CHECK(manifold.check_vertices());
-      }
+      THEN("The vertices are valid.") { CHECK(manifold.check_vertices()); }
     }
   }
 }
