@@ -26,7 +26,7 @@ SET "VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
 CD /D "%REPO_ROOT%" || EXIT /B 1
 CALL :PREPARE_CMAKE_CACHE || EXIT /B 1
 cmake --preset reference -S . || EXIT /B 1
-cmake --build --preset reference || EXIT /B 1
+cmake --build --preset reference --parallel 2 || EXIT /B 1
 ctest --preset reference-smoke || EXIT /B 1
 EXIT /B 0
 

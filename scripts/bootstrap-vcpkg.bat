@@ -28,6 +28,11 @@ IF ERRORLEVEL 1 (
   EXIT /B 1
 )
 
+IF NOT EXIST "%SystemRoot%\System32\certutil.exe" (
+  echo certutil.exe is required to verify the vcpkg executable. 1>&2
+  EXIT /B 1
+)
+
 SET "BASELINE="
 FOR /F "usebackq delims=" %%I IN (`powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$json = Get-Content -Raw -LiteralPath $env:CDT_VCPKG_MANIFEST; $baseline = (ConvertFrom-Json -InputObject $json).'builtin-baseline'; if ($baseline -notmatch '^[0-9a-f]{40}$') { exit 1 }; $baseline"`) DO SET "BASELINE=%%I"
 IF NOT DEFINED BASELINE (
@@ -126,7 +131,7 @@ IF ERRORLEVEL 1 (
 SET "EXPECTED_TOOL_SHA256=%TRUSTED_VCPKG_TOOL_SHA256_X64%"
 IF /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" SET "EXPECTED_TOOL_SHA256=%TRUSTED_VCPKG_TOOL_SHA256_ARM64%"
 IF /I "%PROCESSOR_ARCHITEW6432%"=="ARM64" SET "EXPECTED_TOOL_SHA256=%TRUSTED_VCPKG_TOOL_SHA256_ARM64%"
-powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$actual = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $env:VALIDATE_DIR 'vcpkg.exe')).Hash.ToLowerInvariant(); if ($actual -ne $env:EXPECTED_TOOL_SHA256) { exit 1 }"
+"%SystemRoot%\System32\certutil.exe" -hashfile "%VALIDATE_DIR%\vcpkg.exe" SHA256 2>NUL | FINDSTR /I /X /C:"%EXPECTED_TOOL_SHA256%" >NUL
 IF ERRORLEVEL 1 (
   ENDLOCAL
   EXIT /B 1
