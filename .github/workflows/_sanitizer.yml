@@ -71,29 +71,8 @@ jobs:
       - name: Set up Just
         uses: ./.github/actions/setup-just
 
-      - name: Resolve sanitizer tool versions
-        id: tool-versions
-        shell: bash
-        run: |
-          {
-            echo "llvm=$(just --evaluate llvm_version)"
-            echo "cmake=$(just --evaluate cmake_version)"
-            echo "ninja=$(just --evaluate ninja_version)"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Set up sanitizer toolchain with pkgx
+      - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
-        with:
-          +: >-
-            llvm.org@${{ steps.tool-versions.outputs.llvm }}
-            cmake.org@${{ steps.tool-versions.outputs.cmake }}
-            ninja-build.org@${{ steps.tool-versions.outputs.ninja }}
-
-      - name: Report sanitizer toolchain versions
-        run: |
-          clang --version
-          cmake --version
-          ninja --version
 
       - name: Restore artifacts or set up vcpkg
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6

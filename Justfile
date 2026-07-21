@@ -111,7 +111,16 @@ semgrep-test: _ensure-uv
 # Build and exercise one supported Linux sanitizer configuration.
 [group('workflows')]
 sanitize kind:
-    ./scripts/sanitizer.sh {{ kind }}
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec pkgx \
+        "+llvm.org@{{ llvm_version }}" \
+        "+cmake.org@{{ cmake_version }}" \
+        "+ninja-build.org@{{ ninja_version }}" \
+        -- ./scripts/sanitizer.sh "{{ kind }}"
+    fi
+    exec ./scripts/sanitizer.sh "{{ kind }}"
 
 # Run every non-mutating Python source check.
 [group('workflows')]
