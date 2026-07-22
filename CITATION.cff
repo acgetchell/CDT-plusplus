@@ -11,8 +11,8 @@ authors:
     given-names: "Adam"
     email: "adam@adamgetchell.org"
     orcid: "https://orcid.org/0000-0002-0797-0021"
-version: "1.0.0-rc1"
-date-released: "2026-07-21"
+version: "1.0.0-rc2"
+date-released: "2026-07-22"
 repository-code: "https://github.com/acgetchell/CDT-plusplus"
 url: "https://github.com/acgetchell/CDT-plusplus"
 license: BSD-3-Clause

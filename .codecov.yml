@@ -16,14 +16,6 @@ coverage:
     patch: false
     changes: false
 
-parsers:
-  gcov:
-    branch_detection:
-      conditional: true
-      loop: true
-      method: false
-      macro: false
-
 comment:
   layout: "reach, diff, flags, files, footer"
   behavior: default

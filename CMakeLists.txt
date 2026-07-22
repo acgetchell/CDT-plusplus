@@ -28,7 +28,7 @@ project(
 
 # CMake project versions are numeric, so keep the release-candidate suffix in
 # the product version used by executables and release metadata.
-set(CDT_VERSION_SUFFIX "-rc1")
+set(CDT_VERSION_SUFFIX "-rc2")
 set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
 
 # Project settings

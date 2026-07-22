@@ -33,7 +33,10 @@ jobs:
           sudo apt update
           sudo apt-get install --yes \
             automake autoconf autoconf-archive build-essential ccache \
-            libtool-bin ninja-build texinfo yasm
+            lcov libtool-bin ninja-build texinfo yasm
+
+      - name: Set up Just
+        uses: ./.github/actions/setup-just
 
       - name: Setup GCC
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
@@ -45,27 +48,30 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
 
-      - name: Configure
-        run: >-
-          cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo
-          -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE
-          -S . -B build
+      - name: Generate coverage reports
+        env:
+          COVERAGE_JOBS: 2
+          CXX: g++
+          GCOV: gcov
+        run: just coverage
 
-      - name: Build
-        run: cmake --build build -j 2
-
-      - name: Test
-        working-directory: build
-        # Coverage instrumentation makes the monolithic unit-test binary
-        # substantially slower than it is in normal CI.
-        run: ctest --no-tests=error --output-on-failure --timeout 600 -j 2
+      - name: Preserve coverage reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          if-no-files-found: warn
+          name: coverage-report-${{ github.sha }}
+          path: |
+            build/coverage.info
+            build/coverage-html
+          retention-days: 14
 
       - name: Submit to codecov.io
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
+          disable_search: true
           fail_ci_if_error: true
-          gcov_executable: gcov
-          gcov_ignore: vcpkg_installed
-          plugins: gcov
+          files: build/coverage.info
+          plugins: noop
           use_oidc: true
           verbose: true

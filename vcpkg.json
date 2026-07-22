@@ -1,6 +1,6 @@
 {
   "name": "cdt-plusplus",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "builtin-baseline": "4e82e29f14eac2b3422f18f72c7524d04f19924e",
   "dependencies": [
     "boost-compat",

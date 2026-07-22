@@ -54,6 +54,16 @@ def find_previous_stable_tag(root: Path) -> str:
     raise ChangelogError(message)
 
 
+def head_tag_ignore_pattern(root: Path, requested_tag: str) -> str | None:
+    """Return a pattern for older tags on ``HEAD`` that override ``requested_tag``."""
+    result = run_git_command(["tag", "--points-at", "HEAD", "--sort=refname", "--list"], cwd=root)
+    conflicting_tags = sorted(tag for tag in result.stdout.splitlines() if tag and tag != requested_tag)
+    if not conflicting_tags:
+        return None
+    alternatives = "|".join(re.escape(tag) for tag in conflicting_tags)
+    return rf"^(?:{alternatives})$"
+
+
 def _write_atomic(path: Path, text: str) -> None:
     """Replace ``path`` only after the complete generated text is available."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -95,9 +105,13 @@ def generate_changelog(tag: str, *, root: Path | None = None, output: Path | Non
     environment = dict(os.environ)
     environment["GIT_CLIFF_OFFLINE"] = "true"
     previous_tag = find_previous_stable_tag(repository)
+    arguments = ["--config", str(configuration), "--tag", tag]
+    if ignore_pattern := head_tag_ignore_pattern(repository, tag):
+        arguments.extend(["--ignore-tags", ignore_pattern])
+    arguments.append(f"{previous_tag}..HEAD")
     result = run_support_command(
         "git-cliff",
-        ["--config", str(configuration), "--tag", tag, f"{previous_tag}..HEAD"],
+        arguments,
         cwd=repository,
         environment=environment,
     )
