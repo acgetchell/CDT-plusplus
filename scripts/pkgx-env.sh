@@ -5,6 +5,8 @@
 if [[ -n "${BASH_VERSION:-}" ]]; then
   script_file="${BASH_SOURCE[0]}"
 elif [[ -n "${ZSH_VERSION:-}" ]]; then
+  # Intentional Zsh expansion that resolves the sourced script's path.
+  # shellcheck disable=SC2296
   script_file="${(%):-%x}"
 else
   printf 'pkgx-env.sh requires Bash or Zsh.\n' >&2
