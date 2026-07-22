@@ -83,9 +83,11 @@ build paths.
 
 ## Release and archival
 
-The final v1.0.0 release will be tagged from `main` and archived through [Zenodo]. Release metadata and the archival
-handoff are tracked by [issue #96](https://github.com/acgetchell/CDT-plusplus/issues/96). After archival, the repository
-will be read-only and will no longer accept issues or pull requests. Further development should occur in
+Release candidates, the final tag, and the archival handoff follow the
+[`docs/RELEASING.md`](../docs/RELEASING.md) runbook. The final v1.0.0 release will be tagged from `main` and archived
+through [Zenodo]. Release metadata and the archival handoff are tracked by
+[issue #96](https://github.com/acgetchell/CDT-plusplus/issues/96). After archival, the repository will be read-only and
+will no longer accept issues or pull requests. Further development should occur in
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations) or in an independent fork.
 
 Contributors retain credit through the repository history and resulting project citation metadata.

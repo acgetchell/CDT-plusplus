@@ -197,6 +197,8 @@ just ci                    # Comprehensive pre-commit/pre-push validation
 just docs-check            # Validate Doxygen output without changing the worktree
 just docs                  # Generate publishable documentation in docs/html
 just release-check         # Validate release metadata and citation fields
+just changelog-unreleased vX.Y.Z # Generate a pending release changelog
+just tag-check vX.Y.Z      # Preview and validate an annotated release tag
 just update-actions        # Update and repin Actions with pinact, then validate
 just python-sync           # Install the locked Python development environment
 just python-check          # Check Python formatting, lint, and types

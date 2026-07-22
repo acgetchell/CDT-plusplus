@@ -58,6 +58,10 @@ set(cdt_unit_test_timeout 180)
 if(ENABLE_SANITIZER_ADDRESS)
   # CGAL-heavy unit tests routinely need 12-19 minutes under ASan on hosted runners.
   set(cdt_unit_test_timeout 1800)
+elseif(ENABLE_COVERAGE)
+  # A per-test timeout overrides `ctest --timeout`; keep coverage aligned with
+  # the Codecov workflow's instrumentation-aware allowance.
+  set(cdt_unit_test_timeout 600)
 endif()
 set_tests_properties(
   cdt-unit-tests PROPERTIES LABELS "unit" TIMEOUT "${cdt_unit_test_timeout}")
