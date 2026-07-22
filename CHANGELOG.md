@@ -33,4 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Align repository status reporting with main [#109](https://github.com/acgetchell/CDT-plusplus/pull/109) [`c37fa09`](https://github.com/acgetchell/CDT-plusplus/commit/c37fa0914f5cae3049c25b449ad1c9850121c397)
 
+- Add release tooling and repair coverage [`1416708`](https://github.com/acgetchell/CDT-plusplus/commit/14167080aa06a0fbe6e8c81664ba516b8dcfe96e)
+
 [1.0.0-rc1]: https://github.com/acgetchell/CDT-plusplus/compare/0.1.8...v1.0.0-rc1
