@@ -207,7 +207,9 @@ printing its token-bearing callback URL:
 ```bash
 ZENODO_HOOK_COUNT="$(
   gh api repos/acgetchell/CDT-plusplus/hooks \
-    --jq '[.[] | select(
+    --paginate \
+    --slurp |
+    jq '[.[][] | select(
       .active and
       (.events | index("release")) and
       (.config.url | startswith("https://zenodo.org/"))
@@ -237,7 +239,9 @@ integrations before publishing and create a new version if a release must be
 repeated.
 
 Always use the exact tag, including the leading `v`, as the release title.
-Verify the published release:
+Verify the published release. The tag-specific delivery lookup requires
+repository-webhook read access; if `gh` reports a missing `admin:repo_hook`
+scope, add it once with `gh auth refresh -h github.com -s admin:repo_hook`:
 
 ```bash
 gh release view "$TAG" \
@@ -246,16 +250,30 @@ gh release view "$TAG" \
 
 ZENODO_HOOK_ID="$(
   gh api repos/acgetchell/CDT-plusplus/hooks \
+    --paginate \
     --jq '.[] | select(
       .active and
       (.events | index("release")) and
       (.config.url | startswith("https://zenodo.org/"))
     ) | .id'
 )"
-gh api \
-  "repos/acgetchell/CDT-plusplus/hooks/$ZENODO_HOOK_ID/deliveries" \
-  --jq '[.[] | select(.event == "release")][0] |
-    {event, action, status, status_code, delivered_at, redelivery}'
+ZENODO_DELIVERY="$(
+  gh api --paginate \
+    "repos/acgetchell/CDT-plusplus/hooks/$ZENODO_HOOK_ID/deliveries" \
+    --jq '.[] | select(.event == "release") | .id' |
+    while IFS= read -r delivery_id; do
+      gh api \
+        "repos/acgetchell/CDT-plusplus/hooks/$ZENODO_HOOK_ID/deliveries/$delivery_id" |
+        jq --arg tag "$TAG" 'select(
+          .request.payload.release.tag_name == $tag
+        ) | {event, action, status, status_code, delivered_at, redelivery}'
+    done |
+    jq -s 'sort_by(.delivered_at) | last'
+)"
+jq -e 'select(
+  .status == "OK" and
+  (.status_code >= 200 and .status_code < 400)
+)' <<<"$ZENODO_DELIVERY"
 ```
 
 For an intentionally archived release candidate, verify the Zenodo record and

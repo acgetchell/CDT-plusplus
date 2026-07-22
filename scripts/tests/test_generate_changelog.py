@@ -110,7 +110,7 @@ class GenerateChangelogTests(unittest.TestCase):
         metadata.return_value = ("1.0.0-rc2", date(2026, 7, 22))
         git.side_effect = [
             subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v1.0.0-rc1\n0.1.8\n", stderr=""),
-            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v1.0.0-rc1\n", stderr=""),
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v1.0.0-rc1\nv1.0.0-rc2\n", stderr=""),
         ]
         command.return_value = subprocess.CompletedProcess(
             args=["git-cliff"],
