@@ -2,7 +2,7 @@
 
 **Quantize spacetime on your laptop.**
 
-[![DOI](https://zenodo.org/badge/11688464.svg)](https://doi.org/10.5281/zenodo.21487044)
+[![DOI](https://badgen.net/badge/DOI/10.5281%2Fzenodo.21487043/blue)](https://doi.org/10.5281/zenodo.21487043)
 [![GitHub stars](https://badgen.net/github/stars/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/stargazers)
 [![License](https://badgen.net/github/license/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md)
 [![CI](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml)
@@ -136,6 +136,19 @@ and invokes the same build contract directly, without requiring Just:
 ```bash
 ./scripts/pkgx-build.sh
 ```
+
+To expose the same dependency-build tools to an interactive shell, source the
+reusable environment script:
+
+```bash
+source scripts/pkgx-env.sh
+```
+
+In CLion, open **Settings | Build, Execution, Deployment | Toolchains**, select
+the local toolchain, choose **Add environment | From file**, and select
+`scripts/pkgx-env.sh`. The script supplies the pkgx tool environment and points
+`VCPKG_ROOT` at the repository-owned `.cache/vcpkg` checkout while keeping CGAL
+and the other project libraries under vcpkg control.
 
 pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest. The
 underlying `./scripts/build.sh` and `scripts\build.bat` entry points remain available for troubleshooting and native

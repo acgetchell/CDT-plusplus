@@ -49,6 +49,18 @@ static_assert(requires(Manifold const& manifold, cdt::Random& random) {
   {
     cdt::ergodic_moves::propose_23_move(manifold, random)
   } -> std::same_as<Move_result>;
+  {
+    cdt::ergodic_moves::propose_32_move(manifold, random)
+  } -> std::same_as<Move_result>;
+  {
+    cdt::ergodic_moves::propose_26_move(manifold, random)
+  } -> std::same_as<Move_result>;
+  {
+    cdt::ergodic_moves::propose_62_move(manifold, random)
+  } -> std::same_as<Move_result>;
+  {
+    cdt::ergodic_moves::propose_44_move(manifold, random)
+  } -> std::same_as<Move_result>;
 });
 
 static_assert(requires {
