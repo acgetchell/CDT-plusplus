@@ -425,8 +425,8 @@ SCENARIO("The (6,2) proposal uses the caller-owned generator throughout" *
     REQUIRE(expanded.has_value());
     auto const state         = std::move(expanded).value();
     auto const triangulation = state.delaunay_snapshot();
-    auto const vertices =
-        foliated_triangulations::collect_vertices<3>(triangulation);
+    auto vertices = foliated_triangulations::collect_vertices<3>(triangulation);
+    ergodic_moves::detail::canonicalize(vertices);
 
     WHEN("Several seeds select that vertex and construct its inverse move.")
     {
@@ -573,7 +573,7 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
   }
 }
 
-SCENARIO("Metropolis runs replay every transition from one seed" *
+SCENARIO("Metropolis runs replay every transition from an identical start" *
          doctest::test_suite("metropolis"))
 {
   auto const initial    = minimal_23_manifold();
@@ -612,4 +612,59 @@ SCENARIO("Metropolis runs replay every transition from one seed" *
   CHECK(same_counts(first.get_attempted(), replay.get_attempted()));
   CHECK(same_counts(first.get_succeeded(), replay.get_succeeded()));
   CHECK(same_counts(first.get_failed(), replay.get_failed()));
+  CHECK_EQ(first.transition_count(), first.get_proposed().total());
+  CHECK_EQ(replay.transition_count(), replay.get_proposed().total());
+  CHECK_EQ(first.transition_trace(), replay.transition_trace());
+}
+
+SCENARIO("Metropolis provenance is derived from the actual run" *
+         doctest::test_suite("metropolis"))
+{
+  GIVEN("A default-constructed strategy")
+  {
+    Metropolis_3 strategy;
+
+    THEN("Its run-owned generator uses the named transition stream.")
+    { CHECK_EQ(strategy.stream(), cdt::random_streams::transitions); }
+  }
+
+  GIVEN("An injected generator and stale caller-supplied run metadata")
+  {
+    auto const                          manifold = minimal_23_manifold();
+    utilities::Reproducibility_metadata supplied{.seed                = 7,
+                                                 .transition_stream   = 99,
+                                                 .alpha               = 0.7L,
+                                                 .k                   = 2.0L,
+                                                 .lambda              = 3.0L,
+                                                 .configured_passes   = 100,
+                                                 .checkpoint_interval = 50};
+    auto constexpr seed              = cdt::Random_seed{92};
+    auto constexpr transition_stream = cdt::Random_stream{17};
+    Metropolis_3 strategy{
+        0.6L,    1.1L, 0.1L, 2, 1, false, cdt::Random{seed, transition_stream},
+        supplied
+    };
+
+    WHEN("Output provenance is materialized")
+    {
+      auto const metadata = strategy.reproducibility_metadata(
+          manifold, utilities::Artifact_kind::FINAL_TRIANGULATION, 0);
+
+      THEN("Run-owned seed, stream, action, and cadence replace stale claims.")
+      {
+        CHECK_EQ(metadata.seed, seed);
+        CHECK_EQ(metadata.transition_stream, transition_stream);
+        REQUIRE(metadata.alpha);
+        REQUIRE(metadata.k);
+        REQUIRE(metadata.lambda);
+        REQUIRE(metadata.configured_passes);
+        REQUIRE(metadata.checkpoint_interval);
+        CHECK_EQ(*metadata.alpha, 0.6L);
+        CHECK_EQ(*metadata.k, 1.1L);
+        CHECK_EQ(*metadata.lambda, 0.1L);
+        CHECK_EQ(*metadata.configured_passes, 2);
+        CHECK_EQ(*metadata.checkpoint_interval, 1);
+      }
+    }
+  }
 }

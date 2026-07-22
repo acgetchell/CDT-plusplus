@@ -130,14 +130,15 @@ try
     throw invalid_argument("Number of timeslices not specified.");
   }
 
+  auto root_random =
+      args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
   auto const triangulation_config = runtime_config::make_triangulation(
       args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
-      timeslices, dimensions, initial_radius, foliation_spacing);
+      timeslices, dimensions, initial_radius, foliation_spacing,
+      root_random.seed());
   auto const config = runtime_config::make_simulation(
       triangulation_config, alpha, k, lambda, passes, checkpoint,
       !args.count("no-output"));
-  auto root_random =
-      args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
   auto initialization_random =
       root_random.split(cdt::random_streams::initialization);
   auto transition_random = root_random.split(cdt::random_streams::transitions);
@@ -156,7 +157,7 @@ try
              config.triangulation().timeslices());
   fmt::print("Number of passes: {}\n", config.passes());
   fmt::print("Checkpoint every {} passes.\n", config.checkpoint());
-  fmt::print("Effective random seed: {}\n", root_random.seed());
+  fmt::print("Effective random seed: {}\n", config.triangulation().seed());
   fmt::print("=== Parameters ===\n");
   fmt::print("Alpha: {}\n", config.alpha());
   fmt::print("K: {}\n", config.k());
@@ -167,11 +168,6 @@ try
   timer.start();
   fmt::print("cdt started at {}\n", utilities::current_date_time());
 
-  // Initialize the Metropolis algorithm
-  Metropolis_3 run(config.alpha(), config.k(), config.lambda(), config.passes(),
-                   config.checkpoint(), config.write_files(),
-                   std::move(transition_random));
-
   // Make a triangulation
   manifolds::Manifold_3 universe;
 
@@ -180,6 +176,22 @@ try
       initialization_random, config.triangulation().initial_radius(),
       config.triangulation().foliation_spacing());
   swap(populated_universe, universe);
+
+  auto reproducibility = utilities::make_reproducibility_metadata(
+      universe, config.triangulation().seed(),
+      utilities::Artifact_kind::FINAL_TRIANGULATION);
+  reproducibility.desired_simplices   = config.triangulation().simplices();
+  reproducibility.desired_timeslices  = config.triangulation().timeslices();
+  reproducibility.alpha               = config.alpha();
+  reproducibility.k                   = config.k();
+  reproducibility.lambda              = config.lambda();
+  reproducibility.configured_passes   = config.passes();
+  reproducibility.checkpoint_interval = config.checkpoint();
+
+  // Initialize the Metropolis algorithm with complete run provenance.
+  Metropolis_3 run(config.alpha(), config.k(), config.lambda(), config.passes(),
+                   config.checkpoint(), config.write_files(),
+                   std::move(transition_random), reproducibility);
 
   // Look at triangulation
   universe.print();
@@ -210,7 +222,10 @@ try
   // Write results to file
   if (config.write_files())
   {
-    utilities::write_file(result, root_random.seed(), config.passes());
+    utilities::write_file(
+        result, run.reproducibility_metadata(
+                    result, utilities::Artifact_kind::FINAL_TRIANGULATION,
+                    config.passes()));
   }
 
   return EXIT_SUCCESS;

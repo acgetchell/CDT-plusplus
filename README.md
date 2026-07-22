@@ -293,6 +293,16 @@ triangulation files:
 just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --no-output
 ```
 
+With output enabled, every generated `.off` triangulation is accompanied by a
+`.off.meta` provenance manifest containing the effective seed, configuration,
+version/toolchain identity, transition-trace fingerprint, and payload checksum.
+Checkpoint files are validated snapshots, not resumable simulation states; see
+[`docs/reproducibility.md`](docs/reproducibility.md) for the replay and
+persistence contract. Same-seed generation replays the random inputs, while
+exact transition replay requires an identical starting manifold; CDT++ does
+not alter its spherical construction to force CGAL to reproduce one of several
+valid cospherical tetrahedralizations.
+
 - `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0 target by
   [#98](https://github.com/acgetchell/CDT-plusplus/issues/98)
 - `initialize` is used by [CometML] to run [parameter optimization](#optimizing-parameters)
@@ -471,8 +481,9 @@ uv run --locked --group experiments cdt-mnist-experiment
 
 Run these commands from the repository root. Set `COMET_API_KEY` before starting the parameter optimization; use
 `--repository-root` when invoking it from another directory. The optimizer uses seed `92` by default for every
-parameter pair so results can be compared and replayed; pass `--seed SEED` to select and record another root seed. The
-experiment results are then available in Comet.
+parameter pair so stochastic inputs and provenance can be compared; pass `--seed SEED` to select and record another
+root seed. Fresh CGAL triangulations are subject to the limits in the
+[reproducibility contract](docs/reproducibility.md). The experiment results are then available in Comet.
 Migration of these legacy scripts to Python 3.14, PyTorch, and the current Comet API is tracked by
 [#104](https://github.com/acgetchell/CDT-plusplus/issues/104).
 

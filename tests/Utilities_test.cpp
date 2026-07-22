@@ -20,6 +20,7 @@
 #include <iterator>
 #include <Manifold.hpp>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 
 using namespace std;
@@ -105,6 +106,65 @@ namespace
 
   auto operator>>(std::istream& input, SingleInteger& parsed) -> std::istream&
   { return input >> parsed.value; }
+
+  struct AbstractTriangulationProbe
+  {
+    struct DataStructure
+    {
+      [[nodiscard]] auto is_valid() const noexcept -> bool { return true; }
+    };
+
+    int                value{};
+
+    [[nodiscard]] auto tds() const noexcept -> DataStructure { return {}; }
+    [[nodiscard]] auto is_valid() const noexcept -> bool { return false; }
+  };
+
+  auto operator>>(std::istream& input, AbstractTriangulationProbe& parsed)
+      -> std::istream&
+  { return input >> parsed.value; }
+
+  void replace_metadata_field(std::filesystem::path const& filename,
+                              std::string_view const       field,
+                              std::string_view const       replacement)
+  {
+    std::ifstream input{filename};
+    std::string   contents{std::istreambuf_iterator<char>{input},
+                           std::istreambuf_iterator<char>{}};
+    auto const    prefix = std::string{field} + '=';
+    auto const    start  = contents.find(prefix);
+    if (start == std::string::npos)
+    {
+      throw std::runtime_error{"Metadata field not found"};
+    }
+    auto const value_start = start + prefix.size();
+    auto const value_end   = contents.find('\n', value_start);
+    contents.replace(value_start, value_end - value_start, replacement);
+    std::ofstream output{filename, std::ios::trunc};
+    output << contents;
+  }
+
+  void corrupt_metadata_hex_field(std::filesystem::path const& filename,
+                                  std::string_view const       field)
+  {
+    std::ifstream input{filename};
+    std::string   contents{std::istreambuf_iterator<char>{input},
+                           std::istreambuf_iterator<char>{}};
+    auto const    prefix = std::string{field} + '=';
+    auto const    start  = contents.find(prefix);
+    if (start == std::string::npos)
+    {
+      throw std::runtime_error{"Metadata field not found"};
+    }
+    auto const value_start = start + prefix.size();
+    if (value_start == contents.size() || contents[value_start] == '\n')
+    {
+      throw std::runtime_error{"Metadata field is empty"};
+    }
+    contents[value_start] = contents[value_start] == '0' ? '1' : '0';
+    std::ofstream output{filename, std::ios::trunc};
+    output << contents;
+  }
 }  // namespace
 
 SCENARIO("Various string/stream/time utilities" *
@@ -136,6 +196,7 @@ SCENARIO("Various string/stream/time utilities" *
   }
   GIVEN("A running environment.")
   {
+    CHECK_FALSE(cdt::BUILD_CONFIGURATION.empty());
     WHEN("The current time is requested.")
     {
       THEN("The output is correct.")
@@ -239,6 +300,89 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK_EQ(triangulation_from_file, triangulation);
       }
     }
+    WHEN("Causal vertex and cell metadata are round-tripped")
+    {
+      TemporaryDirectory const directory;
+      auto const               filename  = directory.file("causal-info.off");
+      auto                     annotated = manifold.delaunay_snapshot();
+      Int_precision            vertex_info{10};
+      for (auto vertex = annotated.finite_vertices_begin();
+           vertex != annotated.finite_vertices_end(); ++vertex)
+      {
+        vertex->info() = vertex_info++;
+      }
+      for (auto cell = annotated.finite_cells_begin();
+           cell != annotated.finite_cells_end(); ++cell)
+      {
+        cell->info() = 31;
+      }
+
+      write_file(filename, annotated);
+      auto const restored = read_file<Delaunay_t<3>>(filename);
+
+      THEN("The versioned payload trailer restores the complete causal state")
+      {
+        CHECK_EQ(detail::canonical_topology_fingerprint(restored),
+                 detail::canonical_topology_fingerprint(annotated));
+      }
+    }
+    WHEN("A stochastic artifact is written with reproducibility metadata")
+    {
+      TemporaryDirectory const directory;
+      auto const               filename = directory.file("checkpoint.off");
+      auto                     metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      metadata.desired_simplices   = 64;
+      metadata.desired_timeslices  = 3;
+      metadata.alpha               = 0.6L;
+      metadata.k                   = 1.1L;
+      metadata.lambda              = 0.1L;
+      metadata.configured_passes   = 10;
+      metadata.checkpoint_interval = 2;
+      metadata.completed_passes    = 4;
+      metadata.transition_trace    = 0x1234;
+      metadata.transition_count    = 17;
+
+      write_file(filename, manifold.delaunay_snapshot(), metadata);
+      auto const sidecar = metadata_filename(filename);
+
+      THEN("The payload and portable provenance sidecar round-trip together")
+      {
+        REQUIRE(std::filesystem::exists(filename));
+        REQUIRE(std::filesystem::exists(sidecar));
+        std::ifstream     metadata_input{sidecar};
+        std::string const contents{
+            std::istreambuf_iterator<char>{metadata_input},
+            std::istreambuf_iterator<char>{}};
+        CHECK_NE(contents.find("cdt-plusplus-metadata-v1"), std::string::npos);
+        CHECK_NE(contents.find("artifact=checkpoint"), std::string::npos);
+        CHECK_NE(contents.find("resume_supported=false"), std::string::npos);
+        CHECK_NE(contents.find("fresh_topology_replay_supported=false"),
+                 std::string::npos);
+        CHECK_NE(
+            contents.find("transition_replay_requires_identical_start=true"),
+            std::string::npos);
+        CHECK_NE(contents.find("random.seed=92"), std::string::npos);
+        CHECK_NE(contents.find("random.initialization_stream=0"),
+                 std::string::npos);
+        CHECK_NE(contents.find("random.transition_stream=1"),
+                 std::string::npos);
+        CHECK_NE(contents.find("desired.simplices=64"), std::string::npos);
+        CHECK_NE(contents.find("alpha=0.6"), std::string::npos);
+        CHECK_NE(contents.find("completed_passes=4"), std::string::npos);
+        CHECK_NE(contents.find("transition_trace.fnv1a64=0000000000001234"),
+                 std::string::npos);
+        CHECK_NE(contents.find("placement.fnv1a64="), std::string::npos);
+        CHECK_NE(contents.find("topology.fnv1a64="), std::string::npos);
+        CHECK_NOTHROW(read_file<Delaunay_t<3>>(filename));
+        auto payload_temporary = filename;
+        payload_temporary += ".tmp";
+        auto metadata_temporary = sidecar;
+        metadata_temporary += ".tmp";
+        CHECK_FALSE(std::filesystem::exists(payload_temporary));
+        CHECK_FALSE(std::filesystem::exists(metadata_temporary));
+      }
+    }
   }
 }
 
@@ -330,6 +474,144 @@ SCENARIO("File serialization reports complete failures" *
         CHECK_THROWS_AS(read_file<SingleInteger>(filename),
                         std::filesystem::filesystem_error);
       }
+    }
+  }
+
+  GIVEN("A valid triangulation payload with a reproducibility sidecar.")
+  {
+    Delaunay_t<3> triangulation;
+    triangulation.insert(Point_t<3>(0, 0, 0));
+    triangulation.insert(Point_t<3>(1, 0, 0));
+    triangulation.insert(Point_t<3>(0, 1, 0));
+    triangulation.insert(Point_t<3>(0, 0, 1));
+    manifolds::Manifold_3 const manifold(
+        foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
+
+    WHEN("The payload is truncated after it was committed.")
+    {
+      auto const filename = directory.file("truncated.off");
+      auto const metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      auto checkpoint_metadata             = metadata;
+      checkpoint_metadata.completed_passes = 2;
+      write_file(filename, triangulation, checkpoint_metadata);
+      auto const original_size = std::filesystem::file_size(filename);
+      REQUIRE_GT(original_size, 2);
+      std::filesystem::resize_file(filename, original_size / 2);
+
+      THEN("The checksum mismatch is diagnosed before topology is accepted.")
+      {
+        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+                        std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("The provenance sidecar is malformed.")
+    {
+      auto const filename = directory.file("malformed-metadata.off");
+      auto const metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      auto checkpoint_metadata             = metadata;
+      checkpoint_metadata.completed_passes = 2;
+      write_file(filename, triangulation, checkpoint_metadata);
+      {
+        std::ofstream output{metadata_filename(filename), std::ios::trunc};
+        output << "not-valid-metadata\n";
+      }
+
+      THEN("The artifact is rejected rather than treated as legacy data.")
+      {
+        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+                        std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("A payload-derived topology fingerprint is changed in the sidecar.")
+    {
+      auto const filename = directory.file("changed-topology-fingerprint.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      metadata.completed_passes = 2;
+      write_file(filename, triangulation, metadata);
+      corrupt_metadata_hex_field(metadata_filename(filename),
+                                 "topology.fnv1a64");
+
+      THEN("The semantic manifest/payload mismatch is rejected.")
+      {
+        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+                        std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("A payload-derived incidence count is changed in the sidecar.")
+    {
+      auto const filename = directory.file("changed-incidence-count.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      metadata.completed_passes = 2;
+      write_file(filename, triangulation, metadata);
+      replace_metadata_field(metadata_filename(filename), "actual.simplices",
+                             "999");
+
+      THEN("The semantic manifest/payload mismatch is rejected.")
+      {
+        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+                        std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("A typed checkpoint field contains non-numeric data.")
+    {
+      auto const filename = directory.file("invalid-completed-passes.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      metadata.completed_passes = 2;
+      write_file(filename, triangulation, metadata);
+      replace_metadata_field(metadata_filename(filename), "completed_passes",
+                             "not-a-number");
+
+      THEN("The malformed typed field is rejected.")
+      {
+        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+                        std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("Caller-supplied payload-derived provenance is stale.")
+    {
+      auto const filename = directory.file("reconciled-provenance.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+      metadata.completed_passes      = 2;
+      metadata.actual_simplices      = 999;
+      metadata.topology_fingerprint  = 0;
+      metadata.placement_fingerprint = 0;
+
+      THEN("The writer derives those fields from the serialized state.")
+      {
+        CHECK_NOTHROW(write_file(filename, triangulation, metadata));
+        CHECK_NOTHROW(read_file<Delaunay_t<3>>(filename));
+        std::ifstream     input{metadata_filename(filename)};
+        std::string const contents{std::istreambuf_iterator<char>{input},
+                                   std::istreambuf_iterator<char>{}};
+        CHECK_EQ(contents.find("actual.simplices=999"), std::string::npos);
+      }
+    }
+  }
+
+  GIVEN(
+      "A TDS-valid abstract triangulation that is not geometrically Delaunay.")
+  {
+    auto const filename = directory.file("abstract-triangulation.off");
+    {
+      std::ofstream output{filename};
+      output << 42;
+    }
+
+    WHEN("The abstract triangulation is parsed.")
+    {
+      THEN("TDS integrity does not impose the Delaunay empty-sphere property.")
+      { CHECK_NOTHROW(read_file<AbstractTriangulationProbe>(filename)); }
     }
   }
 }

@@ -70,6 +70,7 @@ SCENARIO("Runtime triangulation options parse into a validated value" *
         CHECK_EQ(config.dimensions(), 3);
         CHECK_EQ(config.initial_radius(), 1.0);
         CHECK_EQ(config.foliation_spacing(), 1.0);
+        CHECK_EQ(config.seed(), 0);
       }
     }
   }
@@ -189,6 +190,14 @@ SCENARIO("Simulation options parse into a validated value" *
         CHECK_EQ(config.checkpoint(), 2);
         CHECK_FALSE(config.write_files());
       }
+    }
+    WHEN("An explicit root seed is parsed with the triangulation options.")
+    {
+      auto const seeded_triangulation = runtime_config::make_triangulation(
+          true, false, 64, 3, 3, 1.0, 1.0, cdt::Random_seed{92});
+
+      THEN("The effective seed is retained by validated configuration.")
+      { CHECK_EQ(seeded_triangulation.seed(), 92); }
     }
     WHEN("Alpha is outside its physical domain.")
     {

@@ -99,13 +99,14 @@ try
     throw invalid_argument("Number of timeslices not specified.");
   }
 
+  auto root_random =
+      args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
   auto const config = runtime_config::make_triangulation(
       args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
-      timeslices, dimensions, initial_radius, foliation_spacing);
+      timeslices, dimensions, initial_radius, foliation_spacing,
+      root_random.seed());
   auto const save_file = args.count("output") != 0;
-  auto       root_random =
-      args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
-  auto initialization_random =
+  auto       initialization_random =
       root_random.split(cdt::random_streams::initialization);
 
   // Display job parameters
@@ -125,7 +126,15 @@ try
   universe.print();
   universe.print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
-  if (save_file) { utilities::write_file(universe, root_random.seed()); }
+  if (save_file)
+  {
+    auto metadata = utilities::make_reproducibility_metadata(
+        universe, config.seed(),
+        utilities::Artifact_kind::INITIAL_TRIANGULATION);
+    metadata.desired_simplices  = config.simplices();
+    metadata.desired_timeslices = config.timeslices();
+    utilities::write_file(universe, metadata);
+  }
   return EXIT_SUCCESS;
 }
 catch (invalid_argument const& InvalidArgument)

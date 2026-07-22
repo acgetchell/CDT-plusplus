@@ -19,12 +19,14 @@
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <concepts>
 #include <cstddef>
 #include <expected>
 #include <random>
+#include <ranges>
 
 #include "Manifold.hpp"
 #include "Move_tracker.hpp"
@@ -108,7 +110,73 @@ namespace ergodic_moves
       return incident_cells;
     }
 
-    /// Select exactly one raw proposal site uniformly.
+    [[nodiscard]] inline auto point_less(Point_t<3> const& left,
+                                         Point_t<3> const& right) -> bool
+    { return CGAL::lexicographically_xyz_smaller(left, right); }
+
+    [[nodiscard]] inline auto canonical_cell_points(Cell_handle const& cell)
+        -> std::array<Point_t<3>, 4>
+    {
+      std::array points{cell->vertex(0)->point(), cell->vertex(1)->point(),
+                        cell->vertex(2)->point(), cell->vertex(3)->point()};
+      std::ranges::sort(points, point_less);
+      return points;
+    }
+
+    [[nodiscard]] inline auto canonical_edge_points(Edge_handle const& edge)
+        -> std::array<Point_t<3>, 2>
+    {
+      std::array points{edge.first->vertex(edge.second)->point(),
+                        edge.first->vertex(edge.third)->point()};
+      std::ranges::sort(points, point_less);
+      return points;
+    }
+
+    [[nodiscard]] inline auto cell_precedes(Cell_handle const& left,
+                                            Cell_handle const& right) -> bool
+    {
+      auto const left_points  = canonical_cell_points(left);
+      auto const right_points = canonical_cell_points(right);
+      return std::lexicographical_compare(
+          left_points.begin(), left_points.end(), right_points.begin(),
+          right_points.end(), point_less);
+    }
+
+    [[nodiscard]] inline auto edge_precedes(Edge_handle const& left,
+                                            Edge_handle const& right) -> bool
+    {
+      auto const left_points  = canonical_edge_points(left);
+      auto const right_points = canonical_edge_points(right);
+      return std::lexicographical_compare(
+          left_points.begin(), left_points.end(), right_points.begin(),
+          right_points.end(), point_less);
+    }
+
+    inline void canonicalize(Cell_container& cells)
+    { std::ranges::sort(cells, cell_precedes); }
+
+    inline void canonicalize(Edge_container& edges)
+    { std::ranges::sort(edges, edge_precedes); }
+
+    inline void canonicalize(Vertex_container& vertices)
+    {
+      std::ranges::sort(vertices, [](auto const& left, auto const& right) {
+        return point_less(left->point(), right->point());
+      });
+    }
+
+    [[nodiscard]] inline auto vertex_precedes(Vertex_handle const& left,
+                                              Vertex_handle const& right)
+        -> bool
+    {
+      if (left->info() != right->info())
+      {
+        return left->info() < right->info();
+      }
+      return point_less(left->point(), right->point());
+    }
+
+    /// Select exactly one raw proposal site uniformly in container order.
     template <typename Container, std::uniform_random_bit_generator Generator>
     [[nodiscard]] inline auto random_element(Container const& candidates,
                                              Generator&       generator)
@@ -118,6 +186,48 @@ namespace ergodic_moves
       std::uniform_int_distribution<std::size_t> distribution{
           0, candidates.size() - 1};
       return candidates[distribution(generator)];
+    }
+
+    /// Select the same canonical rank as sorting followed by indexed selection,
+    /// without sorting the complete proposal domain.
+    template <typename Container, std::uniform_random_bit_generator Generator,
+              typename Comparator>
+    [[nodiscard]] inline auto canonical_random_element(Container& candidates,
+                                                       Generator& generator,
+                                                       Comparator comparator)
+        -> std::optional<typename Container::value_type>
+    {
+      if (candidates.empty()) { return std::nullopt; }
+      std::uniform_int_distribution<std::size_t> distribution{
+          0, candidates.size() - 1};
+      auto const index = distribution(generator);
+      auto const nth = candidates.begin() +
+                       static_cast<typename Container::difference_type>(index);
+      std::ranges::nth_element(candidates, nth, comparator);
+      return candidates[index];
+    }
+
+    template <std::uniform_random_bit_generator Generator>
+    [[nodiscard]] inline auto canonical_random_element(Cell_container& cells,
+                                                       Generator& generator)
+        -> std::optional<Cell_handle>
+    { return canonical_random_element(cells, generator, cell_precedes); }
+
+    template <std::uniform_random_bit_generator Generator>
+    [[nodiscard]] inline auto canonical_random_element(Edge_container& edges,
+                                                       Generator& generator)
+        -> std::optional<Edge_handle>
+    { return canonical_random_element(edges, generator, edge_precedes); }
+
+    template <std::uniform_random_bit_generator Generator>
+    [[nodiscard]] inline auto canonical_random_element(
+        Vertex_container& vertices, Generator& generator)
+        -> std::optional<Vertex_handle>
+    {
+      return canonical_random_element(
+          vertices, generator, [](auto const& left, auto const& right) {
+            return point_less(left->point(), right->point());
+          });
     }
   }  // namespace detail
 
@@ -147,9 +257,14 @@ namespace ergodic_moves
     {
       return false;
     }
+    std::array facet_indices{0, 1, 2, 3};
+    std::ranges::sort(facet_indices, [&](auto const left, auto const right) {
+      return detail::point_less(to_be_moved->vertex(left)->point(),
+                                to_be_moved->vertex(right)->point());
+    });
     auto flipped = false;
     // Try every facet of the (2,2) cell
-    for (auto i = 0; i < 4; ++i)
+    for (auto const i : facet_indices)
     {
       auto const neighbor = to_be_moved->neighbor(i);
       if (triangulation.is_infinite(neighbor)) { continue; }
@@ -209,6 +324,7 @@ namespace ergodic_moves
     auto     two_two = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
         Cell_type::TWO_TWO);
+    detail::canonicalize(two_two);
     // Shuffle the container to create a random sequence of (2,2) cells
     std::ranges::shuffle(two_two, generator);
     // Try a (2,3) move on successive cells in the sequence
@@ -235,7 +351,7 @@ namespace ergodic_moves
     auto two_two       = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
         Cell_type::TWO_TWO);
-    auto const candidate = detail::random_element(two_two, generator);
+    auto const candidate = detail::canonical_random_element(two_two, generator);
     if (candidate && try_23_move(triangulation, *candidate))
     {
       return detail::make_manifold(std::move(triangulation), t_manifold);
@@ -319,6 +435,7 @@ namespace ergodic_moves
     Delaunay triangulation{t_manifold.delaunay_snapshot()};
     auto     timelike_edges = foliated_triangulations::filter_edges<3>(
         foliated_triangulations::collect_edges<3>(triangulation), true);
+    detail::canonicalize(timelike_edges);
     // Shuffle the container to create a random sequence of edges
     std::ranges::shuffle(timelike_edges, generator);
     // Try a (3,2) move on successive timelike edges in the sequence
@@ -343,7 +460,8 @@ namespace ergodic_moves
     auto triangulation  = t_manifold.delaunay_snapshot();
     auto timelike_edges = foliated_triangulations::filter_edges<3>(
         foliated_triangulations::collect_edges<3>(triangulation), true);
-    auto const candidate = detail::random_element(timelike_edges, generator);
+    auto const candidate =
+        detail::canonical_random_element(timelike_edges, generator);
     if (candidate && try_32_move(triangulation, *candidate))
     {
       return detail::make_manifold(std::move(triangulation), t_manifold);
@@ -366,6 +484,7 @@ namespace ergodic_moves
     {
       return std::nullopt;
     }
+    std::vector<int> candidates;
     for (auto i = 0; i < 4; ++i)
     {
       auto const neighbor = t_cell->neighbor(i);
@@ -373,10 +492,20 @@ namespace ergodic_moves
           foliated_triangulations::expected_cell_type<3>(neighbor) ==
               Cell_type::THREE_ONE)
       {
-        return std::make_optional(i);
+        candidates.emplace_back(i);
       }
     }
-    return std::nullopt;
+    if (candidates.empty()) { return std::nullopt; }
+    std::ranges::sort(candidates, [&](auto const left, auto const right) {
+      auto const left_points =
+          detail::canonical_cell_points(t_cell->neighbor(left));
+      auto const right_points =
+          detail::canonical_cell_points(t_cell->neighbor(right));
+      return std::lexicographical_compare(
+          left_points.begin(), left_points.end(), right_points.begin(),
+          right_points.end(), detail::point_less);
+    });
+    return candidates.front();
   }  // find_26_move()
 
   namespace detail
@@ -406,7 +535,8 @@ namespace ergodic_moves
         Cell_type::ONE_THREE);
     if (only_first_site)
     {
-      auto const candidate = detail::random_element(one_three, generator);
+      auto const candidate =
+          detail::canonical_random_element(one_three, generator);
       if (!candidate)
       {
         return std::unexpected("No (2,6) proposal site is available.\n");
@@ -415,6 +545,7 @@ namespace ergodic_moves
     }
     else
     {
+      detail::canonicalize(one_three);
       // Shuffle the container to pick a random sequence of (1,3) cells to
       // try.
       std::ranges::shuffle(one_three, generator);
@@ -486,8 +617,10 @@ namespace ergodic_moves
         }
 
         // Now assign a geometric point to the center vertex
+        std::array face_points{v_1->point(), v_2->point(), v_3->point()};
+        std::ranges::sort(face_points, detail::point_less);
         auto const center_point =
-            CGAL::centroid(v_1->point(), v_2->point(), v_3->point());
+            CGAL::centroid(face_points[0], face_points[1], face_points[2]);
         v_center->set_point(center_point);
 
         // Assign a timevalue to the new vertex
@@ -662,6 +795,7 @@ namespace ergodic_moves
     Edge_container incident_edges;
     triangulation.finite_incident_edges(candidate,
                                         std::back_inserter(incident_edges));
+    detail::canonicalize(incident_edges);
     std::ranges::shuffle(incident_edges, generator);
 
     auto const is_timelike = [](Edge_handle const& edge) {
@@ -747,6 +881,7 @@ namespace ergodic_moves
   {
     auto triangulation = t_manifold.delaunay_snapshot();
     auto vertices = foliated_triangulations::collect_vertices<3>(triangulation);
+    detail::canonicalize(vertices);
     // Shuffle the container to create a random sequence of vertices
     std::ranges::shuffle(vertices, generator);
     // Try a (6,2) move on successive vertices in the sequence
@@ -770,7 +905,8 @@ namespace ergodic_moves
   {
     auto triangulation = t_manifold.delaunay_snapshot();
     auto vertices = foliated_triangulations::collect_vertices<3>(triangulation);
-    auto const candidate = detail::random_element(vertices, generator);
+    auto const candidate =
+        detail::canonical_random_element(vertices, generator);
     if (candidate && is_62_movable(triangulation, *candidate))
     {
       if (auto moved = try_62_move(triangulation, *candidate, generator))
@@ -1070,6 +1206,7 @@ namespace ergodic_moves
     auto triangulation   = t_manifold.delaunay_snapshot();
     auto spacelike_edges = foliated_triangulations::filter_edges<3>(
         foliated_triangulations::collect_edges<3>(triangulation), false);
+    detail::canonicalize(spacelike_edges);
     // Shuffle the container to pick a random sequence of edges to try
     std::ranges::shuffle(spacelike_edges, generator);
     for (auto const& edge : spacelike_edges)
@@ -1096,11 +1233,11 @@ namespace ergodic_moves
             if (vertex != v1 && vertex != v2)
             {
               // Use timevalue to determine if it's a top or bottom vertex
-              if (top == nullptr || vertex->info() > top->info())
+              if (top == nullptr || detail::vertex_precedes(top, vertex))
               {
                 top = vertex;
               }
-              if (bottom == nullptr || vertex->info() < bottom->info())
+              if (bottom == nullptr || detail::vertex_precedes(vertex, bottom))
               {
                 bottom = vertex;
               }
@@ -1136,7 +1273,8 @@ namespace ergodic_moves
     auto triangulation   = t_manifold.delaunay_snapshot();
     auto spacelike_edges = foliated_triangulations::filter_edges<3>(
         foliated_triangulations::collect_edges<3>(triangulation), false);
-    auto const candidate = detail::random_element(spacelike_edges, generator);
+    auto const candidate =
+        detail::canonical_random_element(spacelike_edges, generator);
     if (!candidate)
     {
       return std::unexpected(
@@ -1160,8 +1298,11 @@ namespace ergodic_moves
       {
         auto const vertex = cell->vertex(index);
         if (vertex == v1 || vertex == v2) { continue; }
-        if (top == nullptr || vertex->info() > top->info()) { top = vertex; }
-        if (bottom == nullptr || vertex->info() < bottom->info())
+        if (top == nullptr || detail::vertex_precedes(top, vertex))
+        {
+          top = vertex;
+        }
+        if (bottom == nullptr || detail::vertex_precedes(vertex, bottom))
         {
           bottom = vertex;
         }
