@@ -10,6 +10,7 @@ dependencies = []
 cdt-bootstrap-vcpkg = "scripts.bootstrap_vcpkg:main"
 cdt-mnist-experiment = "scripts.mnist_experiment:main"
 cdt-optimize-initialize = "scripts.optimize_initialize:main"
+cdt-tag-release = "scripts.tag_release:main"
 
 [build-system]
 requires = ["uv_build>=0.11.29,<0.12"]
@@ -25,6 +26,7 @@ module-root = ""
 source-exclude = [
   "scripts/*.bat",
   "scripts/*.sh",
+  "scripts/generate_changelog.py",
   "scripts/release_check.py",
   "scripts/semgrep_fixture_config.py",
   "scripts/tests/**",

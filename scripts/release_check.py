@@ -189,8 +189,27 @@ def _check_active_release_docs(root: Path, expected: str) -> None:
             raise ReleaseCheckError(message)
 
 
-def check_release_metadata(root: Path) -> tuple[str, date]:
-    """Validate release metadata rooted at *root*."""
+def _check_changelog_release(root: Path, expected: str, release_date: date) -> None:
+    """Require one changelog heading matching release metadata."""
+    path = root / "CHANGELOG.md"
+    heading_re = re.compile(rf"^## \[{re.escape(expected)}\] - (?P<date>\d{{4}}-\d{{2}}-\d{{2}})$", re.MULTILINE)
+    matches = list(heading_re.finditer(path.read_text(encoding="utf-8")))
+    if len(matches) != 1:
+        message = f"{path} must contain exactly one release heading for {expected}; found {len(matches)}"
+        raise ReleaseCheckError(message)
+    raw_date = matches[0].group("date")
+    try:
+        changelog_date = date.fromisoformat(raw_date)
+    except ValueError as error:
+        message = f"{path} release date must be an ISO calendar date: {raw_date!r}"
+        raise ReleaseCheckError(message) from error
+    if changelog_date != release_date:
+        message = f"{path} release date {changelog_date.isoformat()} does not match CITATION.cff {release_date.isoformat()}"
+        raise ReleaseCheckError(message)
+
+
+def _check_release_metadata(root: Path, *, include_changelog: bool) -> tuple[str, date]:
+    """Validate structured metadata and optionally its generated changelog."""
     versions, release_date = _release_versions(root)
     expected = versions["CMakeLists.txt product version"]
     mismatches = {source: version for source, version in versions.items() if version != expected}
@@ -199,7 +218,19 @@ def check_release_metadata(root: Path) -> tuple[str, date]:
         message = f"release metadata must match {expected} from CMakeLists.txt: {details}"
         raise ReleaseCheckError(message)
     _check_active_release_docs(root, expected)
+    if include_changelog:
+        _check_changelog_release(root, expected, release_date)
     return expected, release_date
+
+
+def check_release_inputs(root: Path) -> tuple[str, date]:
+    """Validate release inputs before regenerating ``CHANGELOG.md``."""
+    return _check_release_metadata(root, include_changelog=False)
+
+
+def check_release_metadata(root: Path) -> tuple[str, date]:
+    """Validate release metadata and its generated changelog."""
+    return _check_release_metadata(root, include_changelog=True)
 
 
 def _parse_args(argv: Sequence[str]) -> argparse.Namespace:

@@ -6,6 +6,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 just_version := "1.57.0"
 uv_version := "0.11.30"
+git_cliff_version := "2.13.1"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 llvm_version := "22"
@@ -72,6 +73,21 @@ clang-tidy:
 [group('workflows')]
 release-check: _ensure-uv
     uv run --locked python scripts/release_check.py
+
+# Generate the changelog as though the requested release tag already exists.
+[group('release')]
+changelog-unreleased version: _ensure-git-cliff _ensure-uv
+    uv run --locked python scripts/generate_changelog.py {{ quote(version) }}
+
+# Validate and preview an annotated release tag without creating it.
+[group('release')]
+tag-check version: _ensure-uv
+    uv run --locked cdt-tag-release {{ quote(version) }} --dry-run
+
+# Create an annotated release tag from the matching CHANGELOG.md section.
+[group('release')]
+tag version: _ensure-uv
+    uv run --locked cdt-tag-release {{ quote(version) }}
 
 # Scan production and correctness-test sources for repository-owned policies.
 [group('workflows')]
@@ -154,6 +170,7 @@ python-entrypoint-test: _ensure-uv
     uv run --locked cdt-bootstrap-vcpkg --help >/dev/null
     uv run --locked cdt-optimize-initialize --help >/dev/null
     uv run --locked cdt-mnist-experiment --help >/dev/null
+    uv run --locked cdt-tag-release --help >/dev/null
 
 # Synchronize the lightweight Python development environment from the lockfile.
 [group('workflows')]
@@ -228,6 +245,21 @@ _cmake-check:
     fi
     echo "CMake is required; install it or install pkgx." >&2
     exit 1
+
+[private]
+_ensure-git-cliff:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v git-cliff >/dev/null || {
+      echo "git-cliff {{ git_cliff_version }} is required." >&2
+      echo "Install it with: cargo install git-cliff --version {{ git_cliff_version }} --locked" >&2
+      exit 1
+    }
+    actual_version="$(git-cliff --version)"
+    if [[ "$actual_version" != "git-cliff {{ git_cliff_version }}" ]]; then
+      echo "git-cliff {{ git_cliff_version }} is required; found $actual_version." >&2
+      exit 1
+    fi
 
 [private]
 _ensure-uv:
