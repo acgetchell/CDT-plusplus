@@ -124,60 +124,62 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;cassert&gt;</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">using </span>K       = CGAL::Exact_predicates_inexact_constructions_kernel;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">using </span>GT      = CGAL::Periodic_3_triangulation_filtered_traits_3&lt;K&gt;;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">using </span>VbDS    = CGAL::Periodic_3_triangulation_ds_vertex_base_3&lt;&gt;;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">using </span>T3Vb    = CGAL::Triangulation_vertex_base_3&lt;GT, VbDS&gt;;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">using </span>CbDS    = CGAL::Periodic_3_triangulation_ds_cell_base_3&lt;&gt;;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">using </span>Cb      = CGAL::Triangulation_cell_base_3&lt;GT, CbDS&gt;;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="_periodic__3__triangulations_8hpp.html#a2bec3309c3094ede5986a80db48dd19d">   35</a></span><span class="keyword">using </span><a class="code hl_typedef" href="_periodic__3__triangulations_8hpp.html#a2bec3309c3094ede5986a80db48dd19d">VbInfo</a>  = CGAL::Triangulation_vertex_base_with_info_3&lt;int, GT, T3Vb&gt;;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">using </span>TDS     = CGAL::Triangulation_data_structure_3&lt;VbInfo, Cb&gt;;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">using </span>PDT     = CGAL::Periodic_3_Delaunay_triangulation_3&lt;GT, TDS&gt;;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">using </span>T3Point = PDT::Point;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">   41</a></span><span class="keyword">using </span><a class="code hl_typedef" href="_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">Kd</a>      = CGAL::Cartesian_d&lt;double&gt;;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">using </span>Point   = Kd::Point_d;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="_periodic__3__triangulations_8hpp.html#af50019b8257a2d6cc866b9381e69c693">   46</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_periodic__3__triangulations_8hpp.html#af50019b8257a2d6cc866b9381e69c693">make_random_T3_triangulation</a>(T* T3, <span class="keywordtype">int</span> simplices, <span class="keywordtype">int</span> timeslices)</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  std::cout &lt;&lt; <span class="stringliteral">&quot;make_random_T3_triangulation() called&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordtype">int</span> simplices_per_timeslice = simplices / timeslices;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <span class="keywordtype">int</span> points                  = simplices / 6;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keywordtype">int</span> points_per_timeslice    = simplices_per_timeslice / 6;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keywordtype">int</span> <span class="keyword">const</span>          dim      = 2;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  std::vector&lt;Point&gt; v;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  v.reserve(points);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordtype">double</span>                               size = sqrt(points_per_timeslice);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  CGAL::Random_points_in_cube_d&lt;Point&gt; gen(dim, size);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> timeslice_index = 0; timeslice_index &lt; timeslices; ++timeslice_index)</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;Timeslice &quot;</span> &lt;&lt; timeslice_index &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> point_index = 0; point_index &lt; points_per_timeslice; ++point_index)</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    {</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      v.push_back(*gen++);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> point_index = 0; point_index &lt; points_per_timeslice; ++point_index)</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      <span class="keyword">auto</span> <span class="keyword">const</span> offset = timeslice_index * points_per_timeslice + point_index;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      std::cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; v[<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(offset)] &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  }</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}</div>
-</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_PERIODIC_3_TRIANGULATIONS_HPP_</span></div>
-<div class="ttc" id="a_periodic__3__triangulations_8hpp_html_a2bec3309c3094ede5986a80db48dd19d"><div class="ttname"><a href="_periodic__3__triangulations_8hpp.html#a2bec3309c3094ede5986a80db48dd19d">VbInfo</a></div><div class="ttdeci">CGAL::Triangulation_vertex_base_with_info_3&lt; int, GT, T3Vb &gt; VbInfo</div><div class="ttdoc">Allows each vertex to contain an integer denoting its timeslice.</div><div class="ttdef"><b>Definition</b> <a href="#l00035">Periodic_3_triangulations.hpp:35</a></div></div>
-<div class="ttc" id="a_periodic__3__triangulations_8hpp_html_a47758eef4587eeb8e5419c87a5cd9943"><div class="ttname"><a href="_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">Kd</a></div><div class="ttdeci">CGAL::Cartesian_d&lt; double &gt; Kd</div><div class="ttdoc">Random point generators for d-dimensional points in a d-cube per timeslice.</div><div class="ttdef"><b>Definition</b> <a href="#l00041">Periodic_3_triangulations.hpp:41</a></div></div>
-<div class="ttc" id="a_periodic__3__triangulations_8hpp_html_af50019b8257a2d6cc866b9381e69c693"><div class="ttname"><a href="_periodic__3__triangulations_8hpp.html#af50019b8257a2d6cc866b9381e69c693">make_random_T3_triangulation</a></div><div class="ttdeci">void make_random_T3_triangulation(T *T3, int simplices, int timeslices)</div><div class="ttdoc">Make 3D toroidal (periodic) triangulations.</div><div class="ttdef"><b>Definition</b> <a href="#l00046">Periodic_3_triangulations.hpp:46</a></div></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span>cdt::experimental::periodic_triangulations</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>{</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keyword">using </span>K       = CGAL::Exact_predicates_inexact_constructions_kernel;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <span class="keyword">using </span>GT      = CGAL::Periodic_3_triangulation_filtered_traits_3&lt;K&gt;;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keyword">using </span>VbDS    = CGAL::Periodic_3_triangulation_ds_vertex_base_3&lt;&gt;;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keyword">using </span>T3Vb    = CGAL::Triangulation_vertex_base_3&lt;GT, VbDS&gt;;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keyword">using </span>CbDS    = CGAL::Periodic_3_triangulation_ds_cell_base_3&lt;&gt;;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">using </span>Cb      = CGAL::Triangulation_cell_base_3&lt;GT, CbDS&gt;;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keyword">using </span>VbInfo  = CGAL::Triangulation_vertex_base_with_info_3&lt;int, GT, T3Vb&gt;;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <span class="keyword">using </span>TDS     = CGAL::Triangulation_data_structure_3&lt;VbInfo, Cb&gt;;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keyword">using </span>PDT     = CGAL::Periodic_3_Delaunay_triangulation_3&lt;GT, TDS&gt;;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keyword">using </span>T3Point = PDT::Point;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keyword">using </span>Kd      = CGAL::Cartesian_d&lt;double&gt;;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keyword">using </span>Point   = Kd::Point_d;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="keywordtype">void</span> make_random_T3_triangulation(T* T3, <span class="keywordtype">int</span> simplices, <span class="keywordtype">int</span> timeslices)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;make_random_T3_triangulation() called&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">int</span> simplices_per_timeslice = simplices / timeslices;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">int</span> points                  = simplices / 6;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">int</span> points_per_timeslice    = simplices_per_timeslice / 6;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">int</span> <span class="keyword">const</span>          dim      = 2;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    std::vector&lt;Point&gt; v;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    v.reserve(points);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">double</span>                               size = sqrt(points_per_timeslice);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    CGAL::Random_points_in_cube_d&lt;Point&gt; gen(dim, size);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> timeslice_index = 0; timeslice_index &lt; timeslices;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>         ++timeslice_index)</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      std::cout &lt;&lt; <span class="stringliteral">&quot;Timeslice &quot;</span> &lt;&lt; timeslice_index &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> point_index = 0; point_index &lt; points_per_timeslice;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>           ++point_index)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        v.push_back(*gen++);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> point_index = 0; point_index &lt; points_per_timeslice;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>           ++point_index)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keyword">auto</span> <span class="keyword">const</span> offset =</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            timeslice_index * points_per_timeslice + point_index;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        std::cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; v[<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(offset)] &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}  <span class="comment">// namespace cdt::experimental::periodic_triangulations</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_PERIODIC_3_TRIANGULATIONS_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

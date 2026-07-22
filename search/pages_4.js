@@ -10,5 +10,6 @@ var searchData=
   ['and_20local_20moves_7',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]],
   ['and_20random_20number_20generation_8',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
   ['and_20verify_20the_20release_9',['Step 3: Publish and verify the release',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-3-publish-and-verify-the-release',1,'']]],
-  ['audit_10',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
+  ['api_20boundary_10',['C++ API boundary',['../md_docs_2api-boundary.html',1,'']]],
+  ['audit_11',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
 ];

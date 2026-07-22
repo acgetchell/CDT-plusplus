@@ -7,7 +7,7 @@ var searchData=
   ['performance_20check_4',['Move-selection performance check',['../md_docs_2reproducibility.html#move-selection-performance-check',1,'']]],
   ['persistence_20contract_5',['Persistence contract',['../md_docs_2reproducibility.html#persistence-contract',1,'']]],
   ['plusplus_6',['CDT-plusplus',['../index.html',1,'']]],
-  ['policy_7',['policy',['../md_docs_2metropolis-hastings.html#numerical-policy',1,'Numerical policy'],['../md_docs_2reproducibility.html#parallel-stream-policy',1,'Parallel stream policy']]],
+  ['policy_7',['policy',['../md_docs_2api-boundary.html#compatibility-policy',1,'Compatibility policy'],['../md_docs_2metropolis-hastings.html#numerical-policy',1,'Numerical policy'],['../md_docs_2reproducibility.html#parallel-stream-policy',1,'Parallel stream policy']]],
   ['prepare_20the_20release_20pull_20request_8',['Step 1: Prepare the release pull request',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-1-prepare-the-release-pull-request',1,'']]],
   ['prerequisites_9',['Prerequisites',['../index.html#prerequisites',1,'']]],
   ['project_20layout_10',['Project Layout',['../index.html#project-layout',1,'']]],

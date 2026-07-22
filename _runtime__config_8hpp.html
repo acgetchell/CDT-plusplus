@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Runtime_config.hpp File Reference</div></div>
@@ -145,38 +146,43 @@ document.addEventListener('DOMContentLoaded', () => {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:runtime_5Fconfig_3A_3ASimulation" id="r_runtime_5Fconfig_3A_3ASimulation"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classruntime__config_1_1_simulation.html">runtime_config::Simulation</a></td></tr>
-<tr class="memitem:runtime_5Fconfig_3A_3ATriangulation" id="r_runtime_5Fconfig_3A_3ATriangulation"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classruntime__config_1_1_triangulation.html">runtime_config::Triangulation</a></td></tr>
+<tr class="memitem:cdt_3A_3Aruntime_5Fconfig_3A_3ASimulation" id="r_cdt_3A_3Aruntime_5Fconfig_3A_3ASimulation"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1runtime__config_1_1_simulation.html">cdt::runtime_config::Simulation</a></td></tr>
+<tr class="memitem:cdt_3A_3Aruntime_5Fconfig_3A_3ATriangulation" id="r_cdt_3A_3Aruntime_5Fconfig_3A_3ATriangulation"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1runtime__config_1_1_triangulation.html">cdt::runtime_config::Triangulation</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:cdt" id="r_cdt"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html">cdt</a></td></tr>
+<tr class="memdesc:namespacecdt"><td class="mdescLeft">&#160;</td><td class="mdescRight">clang-15 does not support std::format <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ab79283d4676e07a91d421942a2f822ec" id="r_ab79283d4676e07a91d421942a2f822ec"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ab79283d4676e07a91d421942a2f822ec">runtime_config::detail::GeneratedPopulation</a> = <a class="el" href="structutilities_1_1_generated__population__bounds.html">utilities::Generated_population_bounds</a></td></tr>
+<tr class="memitem:a2ea7c64522a6ed80a125ba420202f087" id="r_a2ea7c64522a6ed80a125ba420202f087"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a2ea7c64522a6ed80a125ba420202f087">cdt::runtime_config::detail::GeneratedPopulation</a> = <a class="el" href="structcdt_1_1utilities_1_1_generated__population__bounds.html">utilities::Generated_population_bounds</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad9a47d9354a815f827f3353f26ba1d58" id="r_ad9a47d9354a815f827f3353f26ba1d58"><td class="memTemplParams" colspan="2">template&lt;typename FloatingPoint&gt; </td></tr>
-<tr class="memitem:ad9a47d9354a815f827f3353f26ba1d58 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ad9a47d9354a815f827f3353f26ba1d58">runtime_config::detail::checked_finite</a> (char const *name, FloatingPoint const value) -&gt; FloatingPoint</td></tr>
-<tr class="memitem:afe8711099753c523377fb2a503b6ccf1" id="r_afe8711099753c523377fb2a503b6ccf1"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#afe8711099753c523377fb2a503b6ccf1">runtime_config::detail::checked_int</a> (char const *name, long long const value) -&gt; <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></td></tr>
-<tr class="memitem:a1c00590bbfe4cdaec88577e7ace3bd64" id="r_a1c00590bbfe4cdaec88577e7ace3bd64"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a1c00590bbfe4cdaec88577e7ace3bd64">runtime_config::detail::make_generated_population</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const simplices, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const timeslices, double const initial_radius, double const foliation_spacing) -&gt; GeneratedPopulation</td></tr>
-<tr class="memitem:a8996fefd05e4ad922b0d260bf857ee7b" id="r_a8996fefd05e4ad922b0d260bf857ee7b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8996fefd05e4ad922b0d260bf857ee7b">runtime_config::make_simulation</a> (<a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a> const &amp;triangulation, long double const alpha, long double const k, long double const lambda, long long const passes, long long const checkpoint, bool const write_files) -&gt; <a class="el" href="classruntime__config_1_1_simulation.html">Simulation</a></td></tr>
-<tr class="memdesc:a8996fefd05e4ad922b0d260bf857ee7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the complete simulation configuration.  <br /></td></tr>
-<tr class="memitem:ade8b649a396b9259afba2767d8e04b36" id="r_ade8b649a396b9259afba2767d8e04b36"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ade8b649a396b9259afba2767d8e04b36">runtime_config::make_triangulation</a> (bool const spherical, bool const toroidal, long long const simplices, long long const timeslices, long long const dimensions, double const initial_radius, double const foliation_spacing, cdt::Random_seed const seed=0) -&gt; <a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a></td></tr>
-<tr class="memdesc:ade8b649a396b9259afba2767d8e04b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate raw triangulation options and narrow them into project types.  <br /></td></tr>
-<tr class="memitem:a78c3a815db6940c42f92db62bafe841a" id="r_a78c3a815db6940c42f92db62bafe841a"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a78c3a815db6940c42f92db62bafe841a">runtime_config::detail::select_topology</a> (bool const spherical, bool const toroidal) -&gt; <a class="el" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></td></tr>
+<tr class="memitem:ae13a378d0357d1d8e76dda613fe2862c" id="r_ae13a378d0357d1d8e76dda613fe2862c"><td class="memTemplParams" colspan="2">template&lt;typename FloatingPoint&gt; </td></tr>
+<tr class="memitem:ae13a378d0357d1d8e76dda613fe2862c template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ae13a378d0357d1d8e76dda613fe2862c">cdt::runtime_config::detail::checked_finite</a> (char const *name, FloatingPoint const value) -&gt; FloatingPoint</td></tr>
+<tr class="memitem:a5eb9db027bab1e78daf458764339b316" id="r_a5eb9db027bab1e78daf458764339b316"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a5eb9db027bab1e78daf458764339b316">cdt::runtime_config::detail::checked_int</a> (char const *name, long long const value) -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td></tr>
+<tr class="memitem:a19b335be943df1cad8d662bea1f2687b" id="r_a19b335be943df1cad8d662bea1f2687b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a19b335be943df1cad8d662bea1f2687b">cdt::runtime_config::detail::make_generated_population</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const simplices, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const timeslices, double const initial_radius, double const foliation_spacing) -&gt; GeneratedPopulation</td></tr>
+<tr class="memitem:a049142ba84733b2042e2f97d27bd8f33" id="r_a049142ba84733b2042e2f97d27bd8f33"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a049142ba84733b2042e2f97d27bd8f33">cdt::runtime_config::make_simulation</a> (<a class="el" href="classcdt_1_1runtime__config_1_1_triangulation.html">Triangulation</a> const &amp;triangulation, long double const alpha, long double const k, long double const lambda, long long const passes, long long const checkpoint, bool const write_files) -&gt; <a class="el" href="classcdt_1_1runtime__config_1_1_simulation.html">Simulation</a></td></tr>
+<tr class="memdesc:a049142ba84733b2042e2f97d27bd8f33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the complete simulation configuration.  <br /></td></tr>
+<tr class="memitem:afefcf2a35d1752398f4029c2bc043c6d" id="r_afefcf2a35d1752398f4029c2bc043c6d"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#afefcf2a35d1752398f4029c2bc043c6d">cdt::runtime_config::make_triangulation</a> (bool const spherical, bool const toroidal, long long const simplices, long long const timeslices, long long const dimensions, double const initial_radius, double const foliation_spacing, cdt::Random_seed const seed=0) -&gt; <a class="el" href="classcdt_1_1runtime__config_1_1_triangulation.html">Triangulation</a></td></tr>
+<tr class="memdesc:afefcf2a35d1752398f4029c2bc043c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate raw triangulation options and narrow them into project types.  <br /></td></tr>
+<tr class="memitem:a0efbb2e8e420ddb209e8846d15c048f6" id="r_a0efbb2e8e420ddb209e8846d15c048f6"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a0efbb2e8e420ddb209e8846d15c048f6">cdt::runtime_config::detail::select_topology</a> (bool const spherical, bool const toroidal) -&gt; topology_type</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Validated runtime configuration for CDT++ command-line programs. </p>
 
 <p class="definition">Definition in file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
-<a id="ab79283d4676e07a91d421942a2f822ec" name="ab79283d4676e07a91d421942a2f822ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab79283d4676e07a91d421942a2f822ec">&#9670;&#160;</a></span>GeneratedPopulation</h2>
+<a id="a2ea7c64522a6ed80a125ba420202f087" name="a2ea7c64522a6ed80a125ba420202f087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ea7c64522a6ed80a125ba420202f087">&#9670;&#160;</a></span>GeneratedPopulation</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using runtime_config::detail::GeneratedPopulation = <a class="el" href="structutilities_1_1_generated__population__bounds.html">utilities::Generated_population_bounds</a></td>
+          <td class="memname">using cdt::runtime_config::detail::GeneratedPopulation = utilities::Generated_population_bounds</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -186,8 +192,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="ad9a47d9354a815f827f3353f26ba1d58" name="ad9a47d9354a815f827f3353f26ba1d58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9a47d9354a815f827f3353f26ba1d58">&#9670;&#160;</a></span>checked_finite()</h2>
+<a id="ae13a378d0357d1d8e76dda613fe2862c" name="ae13a378d0357d1d8e76dda613fe2862c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae13a378d0357d1d8e76dda613fe2862c">&#9670;&#160;</a></span>checked_finite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +204,7 @@ template&lt;typename FloatingPoint&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto runtime_config::detail::checked_finite </td>
+          <td class="memname">auto cdt::runtime_config::detail::checked_finite </td>
           <td>(</td>
           <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
         </tr>
@@ -219,8 +225,8 @@ template&lt;typename FloatingPoint&gt; </div>
 
 </div>
 </div>
-<a id="afe8711099753c523377fb2a503b6ccf1" name="afe8711099753c523377fb2a503b6ccf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe8711099753c523377fb2a503b6ccf1">&#9670;&#160;</a></span>checked_int()</h2>
+<a id="a5eb9db027bab1e78daf458764339b316" name="a5eb9db027bab1e78daf458764339b316"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5eb9db027bab1e78daf458764339b316">&#9670;&#160;</a></span>checked_int()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -229,14 +235,14 @@ template&lt;typename FloatingPoint&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto runtime_config::detail::checked_int </td>
+          <td class="memname">auto cdt::runtime_config::detail::checked_int </td>
           <td>(</td>
           <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long long const</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) -&gt; <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></td>
+          <td class="paramtype">long long const</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td>
         </tr>
       </table>
   </td>
@@ -250,8 +256,8 @@ template&lt;typename FloatingPoint&gt; </div>
 
 </div>
 </div>
-<a id="a1c00590bbfe4cdaec88577e7ace3bd64" name="a1c00590bbfe4cdaec88577e7ace3bd64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c00590bbfe4cdaec88577e7ace3bd64">&#9670;&#160;</a></span>make_generated_population()</h2>
+<a id="a19b335be943df1cad8d662bea1f2687b" name="a19b335be943df1cad8d662bea1f2687b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19b335be943df1cad8d662bea1f2687b">&#9670;&#160;</a></span>make_generated_population()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,14 +266,14 @@ template&lt;typename FloatingPoint&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto runtime_config::detail::make_generated_population </td>
+          <td class="memname">auto cdt::runtime_config::detail::make_generated_population </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>simplices</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>simplices</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>timeslices</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>timeslices</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -291,8 +297,8 @@ template&lt;typename FloatingPoint&gt; </div>
 
 </div>
 </div>
-<a id="a8996fefd05e4ad922b0d260bf857ee7b" name="a8996fefd05e4ad922b0d260bf857ee7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8996fefd05e4ad922b0d260bf857ee7b">&#9670;&#160;</a></span>make_simulation()</h2>
+<a id="a049142ba84733b2042e2f97d27bd8f33" name="a049142ba84733b2042e2f97d27bd8f33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a049142ba84733b2042e2f97d27bd8f33">&#9670;&#160;</a></span>make_simulation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,9 +307,9 @@ template&lt;typename FloatingPoint&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto runtime_config::make_simulation </td>
+          <td class="memname">auto cdt::runtime_config::make_simulation </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1runtime__config_1_1_triangulation.html">Triangulation</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -333,7 +339,7 @@ template&lt;typename FloatingPoint&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>write_files</em></span>&#160;) -&gt; <a class="el" href="classruntime__config_1_1_simulation.html">Simulation</a></td>
+          <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>write_files</em></span>&#160;) -&gt; <a class="el" href="classcdt_1_1runtime__config_1_1_simulation.html">Simulation</a></td>
         </tr>
       </table>
   </td>
@@ -349,8 +355,8 @@ template&lt;typename FloatingPoint&gt; </div>
 
 </div>
 </div>
-<a id="ade8b649a396b9259afba2767d8e04b36" name="ade8b649a396b9259afba2767d8e04b36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade8b649a396b9259afba2767d8e04b36">&#9670;&#160;</a></span>make_triangulation()</h2>
+<a id="afefcf2a35d1752398f4029c2bc043c6d" name="afefcf2a35d1752398f4029c2bc043c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afefcf2a35d1752398f4029c2bc043c6d">&#9670;&#160;</a></span>make_triangulation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -359,7 +365,7 @@ template&lt;typename FloatingPoint&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto runtime_config::make_triangulation </td>
+          <td class="memname">auto cdt::runtime_config::make_triangulation </td>
           <td>(</td>
           <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>spherical</em></span>, </td>
         </tr>
@@ -396,7 +402,7 @@ template&lt;typename FloatingPoint&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">cdt::Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;) -&gt; <a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a></td>
+          <td class="paramtype">cdt::Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;) -&gt; <a class="el" href="classcdt_1_1runtime__config_1_1_triangulation.html">Triangulation</a></td>
         </tr>
       </table>
   </td>
@@ -412,8 +418,8 @@ template&lt;typename FloatingPoint&gt; </div>
 
 </div>
 </div>
-<a id="a78c3a815db6940c42f92db62bafe841a" name="a78c3a815db6940c42f92db62bafe841a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78c3a815db6940c42f92db62bafe841a">&#9670;&#160;</a></span>select_topology()</h2>
+<a id="a0efbb2e8e420ddb209e8846d15c048f6" name="a0efbb2e8e420ddb209e8846d15c048f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0efbb2e8e420ddb209e8846d15c048f6">&#9670;&#160;</a></span>select_topology()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -422,14 +428,14 @@ template&lt;typename FloatingPoint&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto runtime_config::detail::select_topology </td>
+          <td class="memname">auto cdt::runtime_config::detail::select_topology </td>
           <td>(</td>
           <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>spherical</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>toroidal</em></span>&#160;) -&gt; <a class="el" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></td>
+          <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>toroidal</em></span>&#160;) -&gt; topology_type</td>
         </tr>
       </table>
   </td>

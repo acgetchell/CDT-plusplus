@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Apply_move.hpp File Reference</div></div>
 </div><!--header-->
@@ -130,76 +131,23 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 <p><a href="_apply__move_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:cdt" id="r_cdt"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html">cdt</a></td></tr>
+<tr class="memdesc:namespacecdt"><td class="mdescLeft">&#160;</td><td class="mdescRight">clang-15 does not support std::format <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a77e6361ec789deb5fdb458ca21547876" id="r_a77e6361ec789deb5fdb458ca21547876"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&gt; </td></tr>
-<tr class="memitem:a77e6361ec789deb5fdb458ca21547876 template"><td class="memItemLeft">auto constexpr&#160;</td><td class="memItemRight"><a class="el" href="#a77e6361ec789deb5fdb458ca21547876">apply_move</a> (ManifoldType const &amp;t_manifold, FunctionType t_move, Arguments &amp;&amp;... arguments) -&gt; decltype(auto)</td></tr>
-<tr class="memdesc:a77e6361ec789deb5fdb458ca21547876"><td class="mdescLeft">&#160;</td><td class="mdescRight">An applicative function similar to std::apply on a manifold.  <br /></td></tr>
+<tr class="memitem:ac93d0f225351909ff758f48a520289d5" id="r_ac93d0f225351909ff758f48a520289d5"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&gt; </td></tr>
+<tr class="memitem:ac93d0f225351909ff758f48a520289d5 template"><td class="memItemLeft">auto constexpr&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#ac93d0f225351909ff758f48a520289d5">cdt::apply_move</a> (ManifoldType const &amp;t_manifold, FunctionType t_move, Arguments &amp;&amp;... arguments) -&gt; decltype(auto)</td></tr>
+<tr class="memdesc:ac93d0f225351909ff758f48a520289d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">An applicative function similar to std::apply on a manifold.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Apply Pachner moves to foliated Delaunay triangulations. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a77e6361ec789deb5fdb458ca21547876" name="a77e6361ec789deb5fdb458ca21547876"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77e6361ec789deb5fdb458ca21547876">&#9670;&#160;</a></span>apply_move()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto constexpr apply_move </td>
-          <td>(</td>
-          <td class="paramtype">ManifoldType const &amp;</td>          <td class="paramname"><span class="paramname"><em>t_manifold</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FunctionType</td>          <td class="paramname"><span class="paramname"><em>t_move</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Arguments &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>arguments</em></span>&#160;) -&gt; decltype(auto)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>An applicative function similar to std::apply on a manifold. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">ManifoldType</td><td>The type (topology, dimensionality) of manifold </td></tr>
-    <tr><td class="paramname">ExpectedType</td><td>The result type of the move on the manifold </td></tr>
-    <tr><td class="paramname">FunctionType</td><td>The type of move applied to the manifold </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">t_manifold</td><td>The manifold on which to make the Pachner move </td></tr>
-    <tr><td class="paramname">t_move</td><td>The Pachner move </td></tr>
-    <tr><td class="paramname">arguments</td><td>Explicit dependencies forwarded to the move </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The expected or unexpected result in a std::expected&lt;T,E&gt; </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00028">28</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0

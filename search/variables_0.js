@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['alignment_5f32_5fbit_0',['ALIGNMENT_32_BIT',['../_settings_8hpp.html#a570ee849bb08947cecb0d42dcc0ee314',1,'Settings.hpp']]],
-  ['alignment_5f64_5fbit_1',['ALIGNMENT_64_BIT',['../_settings_8hpp.html#ac1c914e061a5afa9833a563411daf346',1,'Settings.hpp']]]
+  ['alignment_5f32_5fbit_0',['ALIGNMENT_32_BIT',['../namespacecdt.html#ab015fe570c1db4c238442cdfbc4b8b43',1,'cdt']]],
+  ['alignment_5f64_5fbit_1',['ALIGNMENT_64_BIT',['../namespacecdt.html#a0e7cc9767a6aabc4ce1024947a1abd75',1,'cdt']]]
 ];

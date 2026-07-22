@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">S3Action.hpp File Reference</div></div>
 </div><!--header-->
@@ -141,18 +142,23 @@ document.addEventListener('DOMContentLoaded', () => {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:s3_5Faction_3A_3APhysicalParameters" id="r_s3_5Faction_3A_3APhysicalParameters"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structs3__action_1_1_physical_parameters.html">s3_action::PhysicalParameters</a></td></tr>
+<tr class="memitem:cdt_3A_3As3_5Faction_3A_3APhysicalParameters" id="r_cdt_3A_3As3_5Faction_3A_3APhysicalParameters"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcdt_1_1s3__action_1_1_physical_parameters.html">cdt::s3_action::PhysicalParameters</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:cdt" id="r_cdt"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html">cdt</a></td></tr>
+<tr class="memdesc:namespacecdt"><td class="mdescLeft">&#160;</td><td class="mdescRight">clang-15 does not support std::format <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a28d87ee401ebaf5adb84768404e17dd6" id="r_a28d87ee401ebaf5adb84768404e17dd6"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a28d87ee401ebaf5adb84768404e17dd6">s3_action::make_finite_couplings</a> (long double const k, long double const lambda) -&gt; std::pair&lt; long double, long double &gt;</td></tr>
-<tr class="memitem:a26cf9603e7b3a6a34fc51addbac478c5" id="r_a26cf9603e7b3a6a34fc51addbac478c5"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a26cf9603e7b3a6a34fc51addbac478c5">s3_action::make_physical_parameters</a> (long double const alpha, long double const k, long double const lambda) -&gt; <a class="el" href="structs3__action_1_1_physical_parameters.html">PhysicalParameters</a></td></tr>
-<tr class="memitem:a5b3a7bdba73f9e372a861f0219f53ebf" id="r_a5b3a7bdba73f9e372a861f0219f53ebf"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a5b3a7bdba73f9e372a861f0219f53ebf">S3_bulk_action</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const Alpha, long double const K, long double const Lambda) -&gt; mpfr_values::Value</td></tr>
-<tr class="memdesc:a5b3a7bdba73f9e372a861f0219f53ebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the generalized S3 bulk action in terms of \(\alpha\), \(k\), \(\lambda\), \(N_1^{TL}\), \(N_3^{(3,1)}\), and \(N_3^{(2,2)}\).  <br /></td></tr>
-<tr class="memitem:a69c2e0cc22fdadd22830f070d4b745b4" id="r_a69c2e0cc22fdadd22830f070d4b745b4"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a69c2e0cc22fdadd22830f070d4b745b4">S3_bulk_action_alpha_minus_one</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const K, long double const Lambda) -&gt; mpfr_values::Value</td></tr>
-<tr class="memdesc:a69c2e0cc22fdadd22830f070d4b745b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=-1.  <br /></td></tr>
-<tr class="memitem:ac9900d9631adaa3456f909b79edb3089" id="r_ac9900d9631adaa3456f909b79edb3089"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac9900d9631adaa3456f909b79edb3089">S3_bulk_action_alpha_one</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N1_TL, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_31_13, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const N3_22, long double const K, long double const Lambda) -&gt; mpfr_values::Value</td></tr>
-<tr class="memdesc:ac9900d9631adaa3456f909b79edb3089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=1.  <br /></td></tr>
+<tr class="memitem:ae81c21a649951ba5a5eedb3e32ea2ed6" id="r_ae81c21a649951ba5a5eedb3e32ea2ed6"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ae81c21a649951ba5a5eedb3e32ea2ed6">cdt::s3_action::make_finite_couplings</a> (long double const k, long double const lambda) -&gt; std::pair&lt; long double, long double &gt;</td></tr>
+<tr class="memitem:ac93f894c112d0d1ab090dbfd2debf700" id="r_ac93f894c112d0d1ab090dbfd2debf700"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac93f894c112d0d1ab090dbfd2debf700">cdt::s3_action::make_physical_parameters</a> (long double const alpha, long double const k, long double const lambda) -&gt; <a class="el" href="structcdt_1_1s3__action_1_1_physical_parameters.html">PhysicalParameters</a></td></tr>
+<tr class="memitem:a2fc856162414c087c64d4b42eb839a1e" id="r_a2fc856162414c087c64d4b42eb839a1e"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a2fc856162414c087c64d4b42eb839a1e">cdt::s3_action::S3_bulk_action</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N1_TL, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N3_31_13, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N3_22, long double const Alpha, long double const K, long double const Lambda) -&gt; mpfr_values::Value</td></tr>
+<tr class="memdesc:a2fc856162414c087c64d4b42eb839a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the generalized S3 bulk action in terms of \(\alpha\), \(k\), \(\lambda\), \(N_1^{TL}\), \(N_3^{(3,1)}\), and \(N_3^{(2,2)}\).  <br /></td></tr>
+<tr class="memitem:a4b2c6589c2b97323d137aa90d1a89334" id="r_a4b2c6589c2b97323d137aa90d1a89334"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a4b2c6589c2b97323d137aa90d1a89334">cdt::s3_action::S3_bulk_action_alpha_minus_one</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N1_TL, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N3_31_13, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N3_22, long double const K, long double const Lambda) -&gt; mpfr_values::Value</td></tr>
+<tr class="memdesc:a4b2c6589c2b97323d137aa90d1a89334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=-1.  <br /></td></tr>
+<tr class="memitem:a51b9b1b446ce9d4b091472e798f11182" id="r_a51b9b1b446ce9d4b091472e798f11182"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a51b9b1b446ce9d4b091472e798f11182">cdt::s3_action::S3_bulk_action_alpha_one</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N1_TL, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N3_31_13, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const N3_22, long double const K, long double const Lambda) -&gt; mpfr_values::Value</td></tr>
+<tr class="memdesc:a51b9b1b446ce9d4b091472e798f11182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=1.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Calculate S3 bulk actions on 3D Delaunay Triangulations. </p>
@@ -163,8 +169,8 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a28d87ee401ebaf5adb84768404e17dd6" name="a28d87ee401ebaf5adb84768404e17dd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28d87ee401ebaf5adb84768404e17dd6">&#9670;&#160;</a></span>make_finite_couplings()</h2>
+<a id="ae81c21a649951ba5a5eedb3e32ea2ed6" name="ae81c21a649951ba5a5eedb3e32ea2ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae81c21a649951ba5a5eedb3e32ea2ed6">&#9670;&#160;</a></span>make_finite_couplings()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -173,7 +179,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto s3_action::make_finite_couplings </td>
+          <td class="memname">auto cdt::s3_action::make_finite_couplings </td>
           <td>(</td>
           <td class="paramtype">long double const</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
         </tr>
@@ -194,8 +200,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a26cf9603e7b3a6a34fc51addbac478c5" name="a26cf9603e7b3a6a34fc51addbac478c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26cf9603e7b3a6a34fc51addbac478c5">&#9670;&#160;</a></span>make_physical_parameters()</h2>
+<a id="ac93f894c112d0d1ab090dbfd2debf700" name="ac93f894c112d0d1ab090dbfd2debf700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac93f894c112d0d1ab090dbfd2debf700">&#9670;&#160;</a></span>make_physical_parameters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +210,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto s3_action::make_physical_parameters </td>
+          <td class="memname">auto cdt::s3_action::make_physical_parameters </td>
           <td>(</td>
           <td class="paramtype">long double const</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
         </tr>
@@ -216,7 +222,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long double const</td>          <td class="paramname"><span class="paramname"><em>lambda</em></span>&#160;) -&gt; <a class="el" href="structs3__action_1_1_physical_parameters.html">PhysicalParameters</a></td>
+          <td class="paramtype">long double const</td>          <td class="paramname"><span class="paramname"><em>lambda</em></span>&#160;) -&gt; <a class="el" href="structcdt_1_1s3__action_1_1_physical_parameters.html">PhysicalParameters</a></td>
         </tr>
       </table>
   </td>
@@ -230,8 +236,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5b3a7bdba73f9e372a861f0219f53ebf" name="a5b3a7bdba73f9e372a861f0219f53ebf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b3a7bdba73f9e372a861f0219f53ebf">&#9670;&#160;</a></span>S3_bulk_action()</h2>
+<a id="a2fc856162414c087c64d4b42eb839a1e" name="a2fc856162414c087c64d4b42eb839a1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fc856162414c087c64d4b42eb839a1e">&#9670;&#160;</a></span>S3_bulk_action()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,19 +246,19 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto S3_bulk_action </td>
+          <td class="memname">auto cdt::s3_action::S3_bulk_action </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N1_TL</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N1_TL</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_31_13</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_31_13</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_22</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_22</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -282,9 +288,11 @@ Functions</h2></td></tr>
 <p class="formulaDsp">
 \begin{eqnarray*}S^{(3)} &amp;=&amp; 2\pi k\sqrt{\alpha}N_1^{TL} \\
 &amp;+&amp; N_3^{(3,1)}\left[-3k\text{arcsinh}\left(\frac{1}{\sqrt{3}
-\sqrt{4\alpha +1}}\right)-3k\sqrt{\alpha}\text{arccos}\left(\frac{2\alpha+1}
+\sqrt{4\alpha
++1}}\right)-3k\sqrt{\alpha}\text{arccos}\left(\frac{2\alpha+1}
 {4\alpha+1}\right)-\frac{\lambda}{12}\sqrt{3\alpha+1}\right] \\
-&amp;+&amp; N_3^{(2,2)}\left[2k\text{arcsinh}\left(\frac{2\sqrt{2}\sqrt{2\alpha+1}}
+&amp;+&amp;
+N_3^{(2,2)}\left[2k\text{arcsinh}\left(\frac{2\sqrt{2}\sqrt{2\alpha+1}}
 {4\alpha +1}\right)-4k\sqrt{\alpha}\text{arccos}\left(\frac{-1}{4\alpha+1}
 \right)-\frac{\lambda}{12}\sqrt{4\alpha +2}\right]\end{eqnarray*}
 </p>
@@ -306,12 +314,10 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00221">221</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00378">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::CalculateA2()</a>.</p>
-
 </div>
 </div>
-<a id="a69c2e0cc22fdadd22830f070d4b745b4" name="a69c2e0cc22fdadd22830f070d4b745b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69c2e0cc22fdadd22830f070d4b745b4">&#9670;&#160;</a></span>S3_bulk_action_alpha_minus_one()</h2>
+<a id="a4b2c6589c2b97323d137aa90d1a89334" name="a4b2c6589c2b97323d137aa90d1a89334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b2c6589c2b97323d137aa90d1a89334">&#9670;&#160;</a></span>S3_bulk_action_alpha_minus_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,19 +326,19 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto S3_bulk_action_alpha_minus_one </td>
+          <td class="memname">auto cdt::s3_action::S3_bulk_action_alpha_minus_one </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N1_TL</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N1_TL</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_31_13</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_31_13</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_22</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_22</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -371,12 +377,12 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha=-1)\) as a 256-bit MPFR value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00086">86</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00084">84</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ac9900d9631adaa3456f909b79edb3089" name="ac9900d9631adaa3456f909b79edb3089"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9900d9631adaa3456f909b79edb3089">&#9670;&#160;</a></span>S3_bulk_action_alpha_one()</h2>
+<a id="a51b9b1b446ce9d4b091472e798f11182" name="a51b9b1b446ce9d4b091472e798f11182"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b9b1b446ce9d4b091472e798f11182">&#9670;&#160;</a></span>S3_bulk_action_alpha_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,19 +391,19 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto S3_bulk_action_alpha_one </td>
+          <td class="memname">auto cdt::s3_action::S3_bulk_action_alpha_one </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N1_TL</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N1_TL</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_31_13</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_31_13</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_22</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>N3_22</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

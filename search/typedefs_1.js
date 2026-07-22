@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['int_5fprecision_0',['Int_precision',['../_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385',1,'Settings.hpp']]]
+  ['int_5fprecision_0',['Int_precision',['../namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd',1,'cdt']]]
 ];

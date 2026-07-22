@@ -1,0 +1,31 @@
+<map id="cdt::manifolds::Manifold&lt; 3 &gt;" name="cdt::manifolds::Manifold&lt; 3 &gt;">
+<area shape="rect" id="Node000001" title="3D Manifold" alt="" coords="941,1151,1148,1469"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1foliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html" title="3D Foliated triangulation" alt="" coords="549,542,742,1078"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="743,929,933,1167,928,1167,741,934"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,304,142,394"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="108,391,164,453,229,516,306,579,387,639,538,741,533,743,384,644,303,584,226,520,161,457,109,396"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="388,151,506,223"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="371,193,326,200,273,211,220,227,169,249,135,275,106,306,102,304,131,271,167,245,218,222,272,205,325,195,375,190"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="166,313,352,385"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="373,218,329,249,301,281,279,314,274,312,297,277,326,245,376,214"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="376,304,550,394"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="447,236,451,272,456,305,451,304,446,272,446,241"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="574,304,718,394"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="520,196,573,213,597,227,618,245,636,273,645,305,639,304,631,275,614,249,594,232,571,218,522,201"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="742,304,920,394"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="520,193,660,212,723,227,767,245,795,272,816,305,810,305,791,275,764,249,722,232,659,217,522,197"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="438,5,456,78"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="447,75,450,134,444,133,447,80"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="285,382,392,517,541,689,535,690,388,520,285,388"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="481,391,546,551,540,552,480,396"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="647,391,648,526,643,525,645,396"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="825,391,814,454,795,519,752,621,747,618,790,517,809,453,823,396"/>
+<area shape="rect" id="Node000010" href="$classcdt_1_1foliated__triangulations_1_1_foliated_triangulation.html" title=" " alt="" coords="944,296,1129,402"/>
+<area shape="poly" id="edge13_Node000002_Node000010" title=" " alt="" coords="1016,414,995,469,965,520,914,583,857,643,798,696,743,741,740,737,795,692,853,639,910,580,961,517,990,467,1013,419"/>
+<area shape="rect" id="Node000011" href="$structcdt_1_1_geometry_3_013_01_4.html" title="3D Geometry" alt="" coords="974,662,1115,958"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="1046,956,1047,1136,1042,1133,1043,960"/>
+<area shape="rect" id="Node000012" href="$structcdt_1_1_geometry.html" title=" " alt="" coords="1153,313,1354,385"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="1219,395,1173,465,1129,544,1105,603,1084,664,1079,661,1100,601,1125,541,1169,463,1216,399"/>
+<area shape="rect" id="Node000013" href="$classcdt_1_1manifolds_1_1_manifold.html" title=" " alt="" coords="1139,766,1307,855"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="1215,868,1191,991,1172,1060,1148,1128,1137,1154,1134,1150,1143,1126,1167,1059,1186,989,1212,872"/>
+</map>
