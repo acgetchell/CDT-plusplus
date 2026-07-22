@@ -16,6 +16,7 @@
 #include <string>
 #include <utility>
 
+#include "Random.hpp"
 #include "Utilities.hpp"
 
 namespace runtime_config
