@@ -35,7 +35,7 @@ mermaid.initialize({ startOnLoad: true, theme: theme });
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc1</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc2</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 7 timeslices 27528 simplices</div></div>
     <h1 class="doxsection"><a class="anchor" id="maintenance-status"></a>
 Maintenance status</h1>
-<p>CDT++ v1.0.0-rc1 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be archived. It is maintained as an independent scientific reference and regression oracle for <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>, the supported Rust successor. New C++ work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move set, and the final release contract tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/90">issue #90</a>.</p>
+<p>CDT++ v1.0.0-rc2 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be archived. It is maintained as an independent scientific reference and regression oracle for <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>, the supported Rust successor. New C++ work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move set, and the final release contract tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/90">issue #90</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="table-of-contents"></a>
 Table of contents</h1>
 <ul>
@@ -293,10 +293,10 @@ Quickstart</h1>
 </div><!-- fragment --><p>pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest. The underlying <span class="tt">./scripts/build.sh</span> and <span class="tt">scripts\build.bat</span> entry points remain available for troubleshooting and native Windows development.</p>
 <h2 class="doxsection"><a class="anchor" id="current-reference-suite-status"></a>
 Current reference-suite status</h2>
-<p>With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform <span class="tt">just build</span> command runs all 21 CTest entries through <span class="tt">scripts/build.sh</span> on Unix and <span class="tt">scripts/build.bat</span> on Windows: one unit-test launcher containing 83 doctest scenarios and 20 CLI integration tests. The same <span class="tt">reference-smoke</span> preset is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting another doctest suite.</p>
+<p>With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform <span class="tt">just build</span> command runs all 22 CTest entries through <span class="tt">scripts/build.sh</span> on Unix and <span class="tt">scripts/build.bat</span> on Windows: one unit-test launcher containing 90 doctest scenarios and 21 CLI integration tests. The same <span class="tt">reference-smoke</span> preset is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting another doctest suite.</p>
 <h1 class="doxsection"><a class="anchor" id="setup"></a>
 Setup</h1>
-<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build C++23 sources and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> manifest mode to manage C++ libraries. macOS with AppleClang is the primary v1.0.0-rc1 validation target; the remaining compiler and platform matrix will be recorded as it is verified.</p>
+<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build C++23 sources and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> manifest mode to manage C++ libraries. macOS with AppleClang is the primary v1.0.0-rc2 validation target; the remaining compiler and platform matrix will be recorded as it is verified.</p>
 <h2 class="doxsection"><a class="anchor" id="prerequisites"></a>
 Prerequisites</h2>
 <p>The smallest pkgx-assisted host setup is:</p>
@@ -336,6 +336,7 @@ Developer workflow</h2>
 <div class="line">just ci                    # Comprehensive pre-commit/pre-push validation</div>
 <div class="line">just docs-check            # Validate Doxygen output without changing the worktree</div>
 <div class="line">just docs                  # Generate publishable documentation in docs/html</div>
+<div class="line">just coverage              # Generate Linux GCC LCOV and HTML coverage reports</div>
 <div class="line">just release-check         # Validate release metadata and citation fields</div>
 <div class="line">just changelog-unreleased vX.Y.Z # Generate a pending release changelog</div>
 <div class="line">just tag-check vX.Y.Z      # Preview and validate an annotated release tag</div>
@@ -449,10 +450,10 @@ Documentation</h1>
 </div><!-- fragment --><p>To generate the same publishable output used by the documentation workflow, run <span class="tt">just docs</span>; it writes <span class="tt">docs/html/</span> only after strict generation succeeds. Both recipes require the pinned Doxygen and Graphviz versions and use pkgx ephemerally when matching local tools are unavailable. <span class="tt">USE_MATHJAX</span> allows <a href="https://www.mathjax.org">MathJax</a> to render LaTeX formulae, and <span class="tt">HAVE_DOT</span> enables <a href="https://www.graphviz.org">GraphViz</a> diagrams. Documentation validation is intentionally separate from the cross-platform <span class="tt">just ci</span> contract. The documentation workflow runs <span class="tt">just docs</span> on Ubuntu and publishes its output to the <span class="tt">gh-pages</span> branch.</p>
 <h1 class="doxsection"><a class="anchor" id="citing-cdt"></a>
 Citing CDT++</h1>
-<p>If CDT++ contributes to published work, cite the software using <a href="CITATION.cff"><span class="tt">CITATION.cff</span></a> and cite the scientific methods relevant to the work from <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>. The software citation records the current declared release, <span class="tt">1.0.0-rc1</span>. Advance its version and release date together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for subsequent releases.</p>
+<p>If CDT++ contributes to published work, cite the software using <a href="CITATION.cff"><span class="tt">CITATION.cff</span></a> and cite the scientific methods relevant to the work from <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>. The software citation records the current declared release, <span class="tt">1.0.0-rc2</span>. Advance its version and release date together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for subsequent releases.</p>
 <h1 class="doxsection"><a class="anchor" id="testing"></a>
 Testing</h1>
-<p>Run <span class="tt">just build</span>; it selects <span class="tt">scripts/build.sh</span> on Unix or <span class="tt">scripts\build.bat</span> on Windows, builds the test target, and executes all 21 CTest entries: one unit-test launcher containing 83 doctest scenarios plus 20 executable integration tests covering normal CLI use and invalid-boundary rejection. CTest labels the launcher <span class="tt">unit</span> and every process-level test <span class="tt">integration</span>; invalid-input tests also carry the <span class="tt">cli-boundary</span> subcategory. Run <span class="tt">just ci</span> for the complete local validation gate.</p>
+<p>Run <span class="tt">just build</span>; it selects <span class="tt">scripts/build.sh</span> on Unix or <span class="tt">scripts\build.bat</span> on Windows, builds the test target, and executes all 22 CTest entries: one unit-test launcher containing 90 doctest scenarios plus 21 executable integration tests covering normal CLI use and invalid-boundary rejection. CTest labels the launcher <span class="tt">unit</span> and every process-level test <span class="tt">integration</span>; invalid-input tests also carry the <span class="tt">cli-boundary</span> subcategory. Run <span class="tt">just ci</span> for the complete local validation gate.</p>
 <p><span class="tt">just check</span> also runs the repository-owned Semgrep policy and its annotated fixtures. Use <span class="tt">just semgrep-test</span> while changing the rules and <span class="tt">just semgrep</span> to scan the real source tree for false positives.</p>
 <p>The doctest executable can also be run directly:</p>
 <div class="fragment"><div class="line">./out/build/reference/tests/CDT_unit_tests</div>
@@ -462,6 +463,12 @@ Testing</h1>
 <div class="fragment"><div class="line">ctest --preset reference-smoke -L unit</div>
 <div class="line">ctest --preset reference-smoke -L integration</div>
 </div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <span class="tt">out/build/reference/Testing</span> directory generated by CTest.</p>
+<h2 class="doxsection"><a class="anchor" id="coverage"></a>
+Coverage</h2>
+<p>Coverage reporting is supported on Linux with GNU GCC and its matching gcov, CMake, Ninja, LCOV, and <span class="tt">genhtml</span>. On Debian or Ubuntu, install the additional reporting tool with <span class="tt">sudo apt-get install lcov</span>; the normal build prerequisites provide the remaining tools. Generate the same reports used by Codecov with:</p>
+<div class="fragment"><div class="line">CXX=g++ GCOV=gcov just coverage</div>
+</div><!-- fragment --><p>The command uses an isolated <span class="tt">build/coverage</span> CMake tree and writes the filtered LCOV tracefile to <span class="tt">build/coverage.info</span> and the browsable report to <span class="tt">build/coverage-html/index.html</span>. Only project-owned <span class="tt">include/</span> and <span class="tt">src/</span> paths are retained, consistently excluding tests, generated files, system headers, and vcpkg dependencies. If coverage collection fails, verify that <span class="tt">g++ -dumpfullversion -dumpversion</span> and <span class="tt">gcov --version</span> report the same major version.</p>
+<p>The Codecov workflow runs this recipe, uploads only <span class="tt">build/coverage.info</span> with OIDC, and preserves both reports as a 14-day GitHub Actions artifact for local diagnosis. It does not rely on Codecov's automatic gcov discovery.</p>
 <h2 class="doxsection"><a class="anchor" id="static-analysis"></a>
 Static Analysis</h2>
 <p>Python 3.12 is selected by <a href=".python-version"><span class="tt">.python-version</span></a>, uv locks the environment in <span class="tt">uv.lock</span>, Ruff owns Python formatting and linting, and ty owns static type checking. Run <span class="tt">just python-sync</span> once and then use <span class="tt">just python-check</span> or <span class="tt">just python-fix</span>; both commands are also part of the repository-wide validation recipes.</p>

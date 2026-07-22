@@ -49,8 +49,9 @@ var searchData=
   ['conventions_46',['Conventions',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#conventions',1,'']]],
   ['conventions_20and_20common_20contract_47',['Conventions and common contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'']]],
   ['counters_48',['Counters',['../md_docs_2metropolis-hastings.html#counters',1,'']]],
-  ['create_5flogger_49',['create_logger',['../_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b',1,'utilities']]],
-  ['critical_20fixes_50',['Release-critical fixes',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#release-critical-fixes',1,'']]],
-  ['current_20reference_20suite_20status_51',['Current reference-suite status',['../index.html#current-reference-suite-status',1,'']]],
-  ['current_5fdate_5ftime_52',['current_date_time',['../_utilities_8hpp.html#ab18dbd1c03f81a690084965edeb576d7',1,'utilities']]]
+  ['coverage_49',['Coverage',['../index.html#coverage',1,'']]],
+  ['create_5flogger_50',['create_logger',['../_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b',1,'utilities']]],
+  ['critical_20fixes_51',['Release-critical fixes',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#release-critical-fixes',1,'']]],
+  ['current_20reference_20suite_20status_52',['Current reference-suite status',['../index.html#current-reference-suite-status',1,'']]],
+  ['current_5fdate_5ftime_53',['current_date_time',['../_utilities_8hpp.html#ab18dbd1c03f81a690084965edeb576d7',1,'utilities']]]
 ];
