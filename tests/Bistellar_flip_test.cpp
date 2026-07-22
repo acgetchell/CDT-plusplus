@@ -19,9 +19,11 @@
 
 #include "Ergodic_moves_3.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 using namespace ergodic_moves;
+using namespace ergodic_moves::detail;
 
 namespace
 {
@@ -289,12 +291,12 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
 
       THEN("Incident-cell lookup should reject them")
       {
-        CHECK_FALSE(
-            get_incident_cells(triangulation, negative_index_edge).has_value());
-        CHECK_FALSE(
-            get_incident_cells(triangulation, out_of_range_edge).has_value());
-        CHECK_FALSE(
-            get_incident_cells(triangulation, repeated_index_edge).has_value());
+        CHECK_FALSE(incident_cells_from_edge(triangulation, negative_index_edge)
+                        .has_value());
+        CHECK_FALSE(incident_cells_from_edge(triangulation, out_of_range_edge)
+                        .has_value());
+        CHECK_FALSE(incident_cells_from_edge(triangulation, repeated_index_edge)
+                        .has_value());
       }
     }
 

@@ -15,6 +15,7 @@
 #include "Runtime_config.hpp"
 #include "Version.hpp"
 
+using namespace cdt;
 using namespace std;
 namespace po = boost::program_options;
 

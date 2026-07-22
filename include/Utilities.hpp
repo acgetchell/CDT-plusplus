@@ -63,28 +63,31 @@
 #include "Settings.hpp"
 #include "Version.hpp"
 
-enum class topology_type
+namespace cdt
 {
-  TOROIDAL,
-  SPHERICAL
-};
-
-/// @brief Convert topology_type to string output
-/// @param t_os The output stream
-/// @param t_topology The topology
-/// @returns An output string of the topology
-inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
-    -> std::ostream&
-{
-  switch (t_topology)
+  enum class topology_type
   {
-    case topology_type::SPHERICAL: return t_os << "spherical";
-    case topology_type::TOROIDAL: return t_os << "toroidal";
-    default: return t_os << "none";
-  }
-}  // operator<<
+    TOROIDAL,
+    SPHERICAL
+  };
 
-namespace utilities
+  /// @brief Convert topology_type to string output
+  /// @param t_os The output stream
+  /// @param t_topology The topology
+  /// @returns An output string of the topology
+  inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
+      -> std::ostream&
+  {
+    switch (t_topology)
+    {
+      case topology_type::SPHERICAL: return t_os << "spherical";
+      case topology_type::TOROIDAL: return t_os << "toroidal";
+      default: return t_os << "none";
+    }
+  }  // operator<<
+}  // namespace cdt
+
+namespace cdt::utilities
 {
   enum class Artifact_kind
   {
@@ -96,8 +99,8 @@ namespace utilities
   /// @brief Provenance recorded next to every stochastic triangulation.
   /// @details Checkpoints are deliberately snapshots rather than resumable
   /// simulation states: the payload does not serialize mutable RNG state.
-  /// Payload-derived counts, time bounds, and fingerprints are reconciled with
-  /// the serialized triangulation before publication. Callers remain
+  /// Payload-derived counts, time bounds, and fingerprints are reconciled
+  /// with the serialized triangulation before publication. Callers remain
   /// responsible for supplying truthful run configuration and RNG provenance.
   struct Reproducibility_metadata
   {
@@ -1362,7 +1365,8 @@ namespace utilities
   /// @brief  Generate useful filenames
   /// @param t_topology The topology type from the scoped enum topology_type
   /// @param t_dimension The dimensionality of the triangulation
-  /// @param t_number_of_simplices The number of simplices in the triangulation
+  /// @param t_number_of_simplices The number of simplices in the
+  /// triangulation
   /// @param t_number_of_timeslices The number of time foliations
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
@@ -1678,8 +1682,8 @@ namespace utilities
                                t_max_timeslice);
   }  // generate_random_timeslice()
 
-  /// @brief Generate random real numbers by calling generate_random, preserves
-  /// template argument deduction
+  /// @brief Generate random real numbers by calling generate_random,
+  /// preserves template argument deduction
   template <std::uniform_random_bit_generator Generator,
             typename FloatingPointType>
   [[nodiscard]] auto generate_random_real(Generator&        generator,
@@ -1825,7 +1829,8 @@ namespace utilities
   /// -# Debug, which logs *Debug* and below to logs/debug-log.txt
   /// -# Trace, which logs everything to logs/trace-log.txt
   ///
-  /// If an exception is thrown, then the default global console logger is used.
+  /// If an exception is thrown, then the default global console logger is
+  /// used.
   inline void create_logger()
   try
   {
@@ -1887,5 +1892,5 @@ namespace utilities
     stream << t_topology;
     return stream.str();
   }  // topology_to_str
-}  // namespace utilities
+}  // namespace cdt::utilities
 #endif  // INCLUDE_UTILITIES_HPP_

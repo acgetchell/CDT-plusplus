@@ -17,6 +17,8 @@
 
 #include "Move_tracker.hpp"
 
+using namespace cdt;
+
 namespace
 {
   using Clock = std::chrono::steady_clock;

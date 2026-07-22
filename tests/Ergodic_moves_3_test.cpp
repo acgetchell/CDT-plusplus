@@ -15,6 +15,7 @@
 
 #include <numbers>
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
@@ -148,8 +149,8 @@ SCENARIO("Use check_move to validate successful move" *
       {
         check_geometry_delta(manifold_before, manifold,
                              move_tracker::move_type::TWO_THREE);
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold_before, manifold, move_tracker::move_type::TWO_THREE));
       }
     }
   }
@@ -205,8 +206,8 @@ SCENARIO(
       {
         check_geometry_delta(manifold_before, manifold,
                              move_tracker::move_type::TWO_THREE);
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold_before, manifold, move_tracker::move_type::TWO_THREE));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 5);
@@ -263,8 +264,8 @@ SCENARIO(
       {
         check_geometry_delta(manifold_before, manifold,
                              move_tracker::move_type::THREE_TWO);
-        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        move_tracker::move_type::THREE_TWO));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold_before, manifold, move_tracker::move_type::THREE_TWO));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 5);
@@ -343,8 +344,8 @@ SCENARIO(
         {
           check_geometry_delta(manifold_before, manifold,
                                move_tracker::move_type::TWO_SIX);
-          CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                          move_tracker::move_type::TWO_SIX));
+          CHECK(ergodic_moves::detail::check_move(
+              manifold_before, manifold, move_tracker::move_type::TWO_SIX));
           // Manual check
           REQUIRE(manifold.is_correct());
           CHECK_EQ(manifold.vertices(), 6);  // +1 vertex
@@ -412,8 +413,8 @@ SCENARIO(
           check_geometry_delta(manifold_before, manifold,
                                move_tracker::move_type::SIX_TWO);
           // Check the move
-          CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                          move_tracker::move_type::SIX_TWO));
+          CHECK(ergodic_moves::detail::check_move(
+              manifold_before, manifold, move_tracker::move_type::SIX_TWO));
           // Manual check
           REQUIRE(manifold.is_correct());
           CHECK(manifold.is_foliated());
@@ -503,8 +504,8 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
           check_geometry_delta(manifold_before, manifold,
                                move_tracker::move_type::FOUR_FOUR);
           // Check the move
-          CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                          move_tracker::move_type::FOUR_FOUR));
+          CHECK(ergodic_moves::detail::check_move(
+              manifold_before, manifold, move_tracker::move_type::FOUR_FOUR));
           CHECK_EQ(manifold.initial_radius(), manifold_before.initial_radius());
           CHECK_EQ(manifold.foliation_spacing(),
                    manifold_before.foliation_spacing());
@@ -541,7 +542,8 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
     }
     WHEN("We find the pivot edge in the triangulation")
     {
-      auto pivot_edge = ergodic_moves::find_pivot_edge(triangulation, edges);
+      auto pivot_edge =
+          ergodic_moves::detail::find_pivot_edge(triangulation, edges);
       REQUIRE_MESSAGE(pivot_edge, "No pivot edge found.");
 
       auto Contains = [&vertices](Point_t<3> point) {
@@ -552,7 +554,7 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
 
       if (pivot_edge)
       {
-        auto incident_cells = ergodic_moves::get_incident_cells(
+        auto incident_cells = ergodic_moves::detail::incident_cells_from_edge(
             triangulation, pivot_edge.value());
         REQUIRE_MESSAGE(incident_cells, "No incident cells found.");
         THEN("We have a pivot edge")
@@ -576,7 +578,7 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
           AND_THEN("We can obtain the vertices from the incident cells")
           {
             auto incident_vertices =
-                ergodic_moves::get_vertices(incident_cells.value());
+                ergodic_moves::detail::get_vertices(incident_cells.value());
             REQUIRE_EQ(incident_vertices.size(), 6);
           }
         }
@@ -672,7 +674,8 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
         auto top    = triangulation.insert(Point_t<3>{0, 0, 2});
         auto bottom = triangulation.insert(Point_t<3>{0, 0, 0});
         auto edges  = foliated_triangulations::collect_edges<3>(triangulation);
-        auto pivot_edge = ergodic_moves::find_pivot_edge(triangulation, edges);
+        auto pivot_edge =
+            ergodic_moves::detail::find_pivot_edge(triangulation, edges);
         REQUIRE_MESSAGE(pivot_edge, "No pivot edge found.");
 
         // Check this didn't actually change vertices in the triangulation
@@ -680,7 +683,7 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
 
         if (pivot_edge)
         {
-          auto flipped_triangulation = ergodic_moves::bistellar_flip(
+          auto flipped_triangulation = ergodic_moves::detail::bistellar_flip(
               triangulation, pivot_edge.value(), top, bottom);
 
           REQUIRE_MESSAGE(flipped_triangulation, "Bistellar flip failed.");

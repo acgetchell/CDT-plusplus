@@ -21,6 +21,7 @@
 #include <type_traits>
 #include <vector>
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
@@ -438,7 +439,7 @@ SCENARIO("The (6,2) proposal uses the caller-owned generator throughout" *
         auto const        selected =
             ergodic_moves::detail::random_element(vertices, selector);
         if (!selected ||
-            !ergodic_moves::is_62_movable(triangulation, *selected))
+            !ergodic_moves::detail::is_62_movable(triangulation, *selected))
         {
           continue;
         }

@@ -16,6 +16,7 @@
 #include <type_traits>
 #include <utility>
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 

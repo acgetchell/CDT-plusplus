@@ -22,6 +22,7 @@
 
 #include "Apply_move.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
@@ -116,7 +117,7 @@ namespace
     if (succeeded == 1)
     {
       CHECK_EQ(result.simplices(), before.simplices() + cell_delta);
-      CHECK(ergodic_moves::check_move(before, result, move));
+      CHECK(ergodic_moves::detail::check_move(before, result, move));
     }
     else
     {
@@ -194,8 +195,8 @@ SCENARIO("Invoking a move with a function pointer" *
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold, result.value(), move_tracker::move_type::TWO_THREE));
       }
     }
   }
@@ -221,8 +222,8 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
-        CHECK(ergodic_moves::check_move(manifold, result,
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold, result, move_tracker::move_type::TWO_THREE));
       }
     }
   }
@@ -246,8 +247,8 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = apply_move(manifold, move, random);
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold, result.value(), move_tracker::move_type::TWO_THREE));
       }
     }
   }

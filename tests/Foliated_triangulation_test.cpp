@@ -17,6 +17,7 @@
 #include <type_traits>
 #include <utility>
 
+using namespace cdt;
 using namespace std;
 using namespace foliated_triangulations;
 

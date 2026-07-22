@@ -60,6 +60,8 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [doctest] provides [BDD]/[TDD].
 [vcpkg] provides library management and building.
 [Doxygen] provides automated document generation.
+The supported C++ namespace and per-header contract are recorded in the
+[C++ API boundary](docs/api-boundary.md).
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
 [CometML] provides experiment tracking for the optional Python workflows.
@@ -465,9 +467,11 @@ The command uses an isolated `build/coverage` CMake tree and writes the filtered
 LCOV tracefile to `build/coverage.info` and the browsable report to
 `build/coverage-html/index.html`. Only project-owned `include/` and `src/`
 paths are retained, consistently excluding tests, generated files, system
-headers, and vcpkg dependencies. If coverage collection fails, verify that
-`g++ -dumpfullversion -dumpversion` and `gcov --version` report the same major
-version.
+headers, and vcpkg dependencies. Reports include line and branch coverage;
+function coverage is disabled because GCC can emit inconsistent function and
+line records for generated lambda bodies. If coverage collection fails, verify
+that `g++ -dumpfullversion -dumpversion` and `gcov --version` report the same
+major version.
 
 The Codecov workflow runs this recipe, uploads only `build/coverage.info` with
 OIDC, and preserves both reports as a 14-day GitHub Actions artifact for local

@@ -13,22 +13,25 @@
 #ifndef INCLUDE_MOVE_STRATEGY_HPP_
 #define INCLUDE_MOVE_STRATEGY_HPP_
 
-/**
- * \brief The algorithms available to make ergodic moves on triangulations
- */
-enum class Strategies
+namespace cdt
 {
-  MOVE_ALWAYS,
-  METROPOLIS
-};
+  /**
+   * \brief The algorithms available to make ergodic moves on triangulations
+   */
+  enum class Strategies
+  {
+    MOVE_ALWAYS,
+    METROPOLIS
+  };
 
-/**
- * \brief Select a move algorithm
- * \tparam strategies The move algorithm to use
- * \tparam ManifoldType The manifold to perform moves on
- */
-template <Strategies strategies, typename ManifoldType>
-class MoveStrategy
-{};
+  /**
+   * \brief Select a move algorithm
+   * \tparam strategies The move algorithm to use
+   * \tparam ManifoldType The manifold to perform moves on
+   */
+  template <Strategies strategies, typename ManifoldType>
+  class MoveStrategy
+  {};
+}  // namespace cdt
 
 #endif  // INCLUDE_MOVE_STRATEGY_HPP_

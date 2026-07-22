@@ -20,6 +20,8 @@
 
 #include "Manifold.hpp"
 
+using namespace cdt;
+using namespace cdt::s3_action;
 using namespace std;
 using namespace manifolds;
 

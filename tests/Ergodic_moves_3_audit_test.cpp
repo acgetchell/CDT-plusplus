@@ -25,6 +25,8 @@
 
 #include "Ergodic_moves_3.hpp"
 
+using namespace cdt;
+
 namespace
 {
   using Manifold      = manifolds::Manifold_3;
@@ -683,7 +685,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
         foliated_triangulations::collect_cells<3>(triangulation),
         Cell_type::TWO_TWO);
     REQUIRE_EQ(two_two.size(), 1);
-    REQUIRE(ergodic_moves::try_23_move(triangulation, two_two.front()));
+    REQUIRE(ergodic_moves::detail::try_23_move(triangulation, two_two.front()));
     assign_independent_cell_metadata(triangulation);
     auto const inverse_edge = find_inverse_32_edge(triangulation);
     REQUIRE(inverse_edge.has_value());
@@ -721,7 +723,8 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
 
     WHEN("the CDT (3,2) helper checks the site")
     {
-      CHECK_FALSE(ergodic_moves::try_32_move(triangulation, *inverse_edge));
+      CHECK_FALSE(
+          ergodic_moves::detail::try_32_move(triangulation, *inverse_edge));
       THEN("it rejects before CGAL can create an acausal tetrahedron")
       { CHECK_EQ(canonical_triangulation(triangulation), before); }
     }
@@ -748,7 +751,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto       move_32_cells = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(move_32), Cell_type::TWO_TWO);
     REQUIRE_EQ(move_32_cells.size(), 1);
-    REQUIRE(ergodic_moves::try_23_move(move_32, move_32_cells.front()));
+    REQUIRE(ergodic_moves::detail::try_23_move(move_32, move_32_cells.front()));
     assign_independent_cell_metadata(move_32);
     auto const inverse_edge = find_inverse_32_edge(move_32);
     REQUIRE(inverse_edge.has_value());
@@ -773,7 +776,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto vertices_62 = foliated_triangulations::collect_vertices<3>(move_62);
     auto const candidate_62 =
         std::ranges::find_if(vertices_62, [&](auto const& vertex) {
-          return ergodic_moves::is_62_movable(move_62, vertex);
+          return ergodic_moves::detail::is_62_movable(move_62, vertex);
         });
     REQUIRE(candidate_62 != vertices_62.end());
     ergodic_moves::Cell_container incident_62;
@@ -793,11 +796,13 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
 
     WHEN("the corresponding cavity selectors inspect the sites")
     {
-      CHECK_FALSE(ergodic_moves::try_23_move(move_23, two_two.front()));
-      CHECK_FALSE(ergodic_moves::try_32_move(move_32, *inverse_edge));
-      CHECK_FALSE(ergodic_moves::find_adjacent_31_cell(one_three.front()));
-      CHECK_FALSE(ergodic_moves::is_62_movable(move_62, *candidate_62));
-      CHECK_FALSE(ergodic_moves::find_bistellar_flip_location(move_44, *pivot));
+      CHECK_FALSE(ergodic_moves::detail::try_23_move(move_23, two_two.front()));
+      CHECK_FALSE(ergodic_moves::detail::try_32_move(move_32, *inverse_edge));
+      CHECK_FALSE(
+          ergodic_moves::detail::find_adjacent_31_cell(one_three.front()));
+      CHECK_FALSE(ergodic_moves::detail::is_62_movable(move_62, *candidate_62));
+      CHECK_FALSE(
+          ergodic_moves::detail::find_bistellar_flip_location(move_44, *pivot));
       THEN("no topology is mutated")
       {
         CHECK_EQ(canonical_triangulation(move_23), before_23);
@@ -822,7 +827,8 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
 
     WHEN("the (2,3) selector checks the now-acausal tetrahedron")
     {
-      CHECK_FALSE(ergodic_moves::try_23_move(triangulation, two_two.front()));
+      CHECK_FALSE(
+          ergodic_moves::detail::try_23_move(triangulation, two_two.front()));
       THEN("the invalid site is rejected without mutation")
       { CHECK_EQ(canonical_triangulation(triangulation), before); }
     }
@@ -867,7 +873,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto       vertices = foliated_triangulations::collect_vertices<3>(source);
     auto const candidate =
         std::ranges::find_if(vertices, [&](auto const& vertex) {
-          return ergodic_moves::is_62_movable(source, vertex);
+          return ergodic_moves::detail::is_62_movable(source, vertex);
         });
     REQUIRE(candidate != vertices.end());
     auto const  source_counts = direct_counts(source);
@@ -989,12 +995,13 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto const        before = canonical_triangulation(triangulation);
     WHEN("the checked edge helpers receive them")
     {
-      CHECK_FALSE(ergodic_moves::get_incident_cells(triangulation, malformed));
-      CHECK_FALSE(
-          ergodic_moves::get_incident_cells(triangulation, *boundary_edge));
-      CHECK_FALSE(ergodic_moves::find_bistellar_flip_location(triangulation,
-                                                              *foreign_pivot));
-      CHECK_FALSE(ergodic_moves::try_32_move(triangulation, malformed));
+      CHECK_FALSE(ergodic_moves::detail::incident_cells_from_edge(triangulation,
+                                                                  malformed));
+      CHECK_FALSE(ergodic_moves::detail::incident_cells_from_edge(
+          triangulation, *boundary_edge));
+      CHECK_FALSE(ergodic_moves::detail::find_bistellar_flip_location(
+          triangulation, *foreign_pivot));
+      CHECK_FALSE(ergodic_moves::detail::try_32_move(triangulation, malformed));
       THEN("the triangulation remains unchanged")
       { CHECK_EQ(canonical_triangulation(triangulation), before); }
     }
@@ -1022,6 +1029,6 @@ TEST_CASE("Move validation rejects exact configuration-state drift" *
                                                        before.delaunay_snapshot(), -0.0, before.foliation_spacing()}
   };
   REQUIRE(after.is_correct());
-  CHECK_FALSE(ergodic_moves::check_move(before, after,
-                                        move_tracker::move_type::FOUR_FOUR));
+  CHECK_FALSE(ergodic_moves::detail::check_move(
+      before, after, move_tracker::move_type::FOUR_FOUR));
 }

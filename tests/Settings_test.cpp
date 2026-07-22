@@ -16,6 +16,7 @@
 
 #include <concepts>
 
+using namespace cdt;
 using namespace std;
 
 SCENARIO("Check settings" * doctest::test_suite("settings"))

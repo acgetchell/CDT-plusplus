@@ -35,57 +35,68 @@
 #include "Triangulation_traits.hpp"
 #include "Utilities.hpp"
 
-template <int dimension>
-using Delaunay_t = typename TriangulationTraits<dimension>::Delaunay;
-
-template <int dimension>
-using Point_t = typename TriangulationTraits<dimension>::Point;
-
-template <int dimension>
-using Causal_vertices_t =
-    std::vector<std::pair<Point_t<dimension>, Int_precision>>;
-
-template <int dimension>
-using Cell_handle_t = typename TriangulationTraits<dimension>::Cell_handle;
-
-template <int dimension>
-using Face_handle_t = typename TriangulationTraits<dimension>::Face_handle;
-
-template <int dimension>
-using Facet_t = typename TriangulationTraits<dimension>::Facet;
-
-template <int dimension>
-using Edge_handle_t = typename TriangulationTraits<dimension>::Edge_handle;
-
-template <int dimension>
-using Vertex_handle_t = typename TriangulationTraits<dimension>::Vertex_handle;
-
-template <int dimension>
-using Spherical_points_generator_t =
-    typename TriangulationTraits<dimension>::Spherical_points_generator;
-
-/// @concept ContainerType
-/// @brief Requires `std::movable`, defined in the standard `<concepts>` header.
-/// @details Right now the real restriction on Containers is that elements must
-/// be swappable in order for std::shuffle to work.
-template <typename C>
-concept ContainerType = std::movable<C>;
-
-/// (n,m) is number of vertices on (lower, higher) timeslice
-enum class Cell_type
+namespace cdt
 {
-  // 3D simplices
-  THREE_ONE    = 31,  // (3,1)
-  TWO_TWO      = 22,  // (2,2)
-  ONE_THREE    = 13,  // (1,3)
-  ACAUSAL      = 99,  // The vertex timevalues differ by > 1 or are all equal
-  UNCLASSIFIED = 0    // An error happened classifying cell
-};
+  template <int dimension>
+  using Delaunay_t = typename detail::TriangulationTraits<dimension>::Delaunay;
 
-namespace foliated_triangulations
+  template <int dimension>
+  using Point_t = typename detail::TriangulationTraits<dimension>::Point;
+
+  template <int dimension>
+  using Causal_vertices_t =
+      std::vector<std::pair<Point_t<dimension>, Int_precision>>;
+
+  template <int dimension>
+  using Cell_handle_t =
+      typename detail::TriangulationTraits<dimension>::Cell_handle;
+
+  template <int dimension>
+  using Face_handle_t =
+      typename detail::TriangulationTraits<dimension>::Face_handle;
+
+  template <int dimension>
+  using Facet_t = typename detail::TriangulationTraits<dimension>::Facet;
+
+  template <int dimension>
+  using Edge_handle_t =
+      typename detail::TriangulationTraits<dimension>::Edge_handle;
+
+  template <int dimension>
+  using Vertex_handle_t =
+      typename detail::TriangulationTraits<dimension>::Vertex_handle;
+
+  template <int dimension>
+  using Spherical_points_generator_t = typename detail::TriangulationTraits<
+      dimension>::Spherical_points_generator;
+
+  /// @concept ContainerType
+  /// @brief Requires `std::movable`, defined in the standard `<concepts>`
+  /// header.
+  /// @details Right now the real restriction on Containers is that elements
+  /// must be swappable in order for std::shuffle to work.
+  namespace detail
+  {
+    template <typename C>
+    concept ContainerType               = std::movable<C>;
+
+    inline int constexpr MAX_FIX_PASSES = 50;
+  }  // namespace detail
+
+  /// (n,m) is number of vertices on (lower, higher) timeslice
+  enum class Cell_type
+  {
+    // 3D simplices
+    THREE_ONE    = 31,  // (3,1)
+    TWO_TWO      = 22,  // (2,2)
+    ONE_THREE    = 13,  // (1,3)
+    ACAUSAL      = 99,  // The vertex timevalues differ by > 1 or are all equal
+    UNCLASSIFIED = 0    // An error happened classifying cell
+  };
+}  // namespace cdt
+
+namespace cdt::foliated_triangulations
 {
-  static int constexpr MAX_FIX_PASSES = 50;
-
   /// @brief Create causal vertices from vertices and timevalues
   /// @tparam dimension Dimensionality of the manifold
   /// @param vertices The vertices of the manifold
@@ -111,8 +122,8 @@ namespace foliated_triangulations
   }
 
   /// @brief Returns a container of all the finite edges in the triangulation
-  /// @details Regardless of the dimensionality of the triangulation, the edges
-  /// are 1-d simplices connecting 0-d vertices.
+  /// @details Regardless of the dimensionality of the triangulation, the
+  /// edges are 1-d simplices connecting 0-d vertices.
   /// @tparam dimension The dimensionality of the triangulation
   /// @param delaunay The triangulation
   /// @returns Container of all the finite edges in the triangulation
@@ -194,7 +205,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @returns The maximum timevalue in the container
-  template <int dimension, ContainerType Container>
+  template <int dimension, detail::ContainerType Container>
   [[nodiscard]] auto find_max_timevalue(Container&& t_vertices) -> Int_precision
   {
     auto vertices = std::forward<Container>(t_vertices);
@@ -215,7 +226,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @returns The minimum timevalue in the container
-  template <int dimension, ContainerType Container>
+  template <int dimension, detail::ContainerType Container>
   [[nodiscard]] auto find_min_timevalue(Container&& t_vertices) -> Int_precision
   {
     auto vertices = std::forward<Container>(t_vertices);
@@ -240,7 +251,7 @@ namespace foliated_triangulations
       -> bool
   {
 #ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
     auto const& cell  = t_edge.first;
     auto        time1 = cell->vertex(t_edge.second)->info();
@@ -301,8 +312,9 @@ namespace foliated_triangulations
   [[nodiscard]] auto squared_radius(Vertex_handle_t<dimension> const& t_vertex)
       -> double
   {
-    typename TriangulationTraits<dimension>::squared_distance const r_2;
-    return r_2(t_vertex->point(), TriangulationTraits<dimension>::ORIGIN_POINT);
+    typename detail::TriangulationTraits<dimension>::squared_distance const r_2;
+    return r_2(t_vertex->point(),
+               detail::TriangulationTraits<dimension>::ORIGIN_POINT);
   }  // squared_radius
 
   /// @brief Find the expected timevalue for a vertex
@@ -333,7 +345,8 @@ namespace foliated_triangulations
   /// @param t_vertex The vertex
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @returns True if the timevalue of the vertex matches its effective radius
+  /// @returns True if the timevalue of the vertex matches its effective
+  /// radius
   template <int dimension>
   [[nodiscard]] auto is_vertex_timevalue_correct(
       Vertex_handle_t<dimension> const& t_vertex, double const t_initial_radius,
@@ -515,7 +528,7 @@ namespace foliated_triangulations
   [[nodiscard]] auto expected_cell_type(Cell_handle_t<dimension> const& t_cell)
   {
 #ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
     std::array<int, static_cast<std::size_t>(dimension) + 1>
         vertex_timevalues{};
@@ -669,7 +682,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @tparam Container The type of container
   /// @param t_cells The cells to write to debug log
-  template <int dimension, ContainerType Container>
+  template <int dimension, detail::ContainerType Container>
   void debug_print_cells(Container&& t_cells)
   {
     for (auto        cells = std::forward<Container>(t_cells);
@@ -727,12 +740,12 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
   /// @return Contiguous container with spacelike facets per timeslice
-  template <int dimension, ContainerType Container>
+  template <int dimension, detail::ContainerType Container>
   [[nodiscard]] auto collect_spacelike_facets(Container&& t_facets)
       -> std::vector<std::pair<Int_precision, Facet_t<3>>>
   {
 #ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
     using Volume_entry = std::pair<Int_precision, Facet_t<3>>;
     std::vector<Volume_entry> space_faces;
@@ -787,7 +800,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
   /// @return Container with spacelike facets per timeslice
-  template <int dimension, ContainerType Container>
+  template <int dimension, detail::ContainerType Container>
   [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
   {
@@ -838,7 +851,7 @@ namespace foliated_triangulations
       -> Vertex_handle_t<dimension>
   {
 #ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
     spdlog::debug("===Invalid Cell===\n");
     std::vector<Cell_handle_t<dimension>> bad_cell{cell};
     debug_print_cells<dimension>(std::span{bad_cell});
@@ -1005,7 +1018,7 @@ namespace foliated_triangulations
       -> Delaunay_t<dimension>
   {
 #ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
     fmt::print("\nGenerating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
@@ -1017,8 +1030,8 @@ namespace foliated_triangulations
                      bounding_box_size, bounding_box_size, bounding_box_size},
         50
     };
-    Delaunay_t<dimension> triangulation =
-        Delaunay_t<dimension>{TriangulationTraits<3>::Kernel{}, &locking_ds};
+    Delaunay_t<dimension> triangulation = Delaunay_t<dimension>{
+        detail::TriangulationTraits<3>::Kernel{}, &locking_ds};
 #else
     Delaunay_t<dimension> triangulation = Delaunay_t<dimension>{};
 #endif
@@ -1030,7 +1043,7 @@ namespace foliated_triangulations
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
 
     // Fix vertices
-    for (auto passes = 1; passes < MAX_FIX_PASSES + 1; ++passes)
+    for (auto passes = 1; passes < detail::MAX_FIX_PASSES + 1; ++passes)
     {
       if (!fix_vertices<dimension>(triangulation, initial_radius,
                                    foliation_spacing))
@@ -1043,7 +1056,7 @@ namespace foliated_triangulations
     }
 
     // Fix timeslices
-    for (auto passes = 1; passes < MAX_FIX_PASSES + 1; ++passes)
+    for (auto passes = 1; passes < detail::MAX_FIX_PASSES + 1; ++passes)
     {
       if (!fix_timevalues<dimension>(triangulation)) { break; }
 #ifndef NDEBUG
@@ -1052,7 +1065,7 @@ namespace foliated_triangulations
     }
 
     // Fix cells
-    for (auto i = 1; i < MAX_FIX_PASSES + 1; ++i)
+    for (auto i = 1; i < detail::MAX_FIX_PASSES + 1; ++i)
     {
       if (!fix_cells<dimension>(triangulation)) { break; }
 #ifndef NDEBUG
@@ -1076,7 +1089,8 @@ namespace foliated_triangulations
   /// vertex and a simplex type for each cell.
   /// The FoliatedTriangulation class invariant is that the Delaunay
   /// triangulation has validly foliated vertices and cells, and has further
-  /// containers for the various sub-simplicial complexes of the triangulation.
+  /// containers for the various sub-simplicial complexes of the
+  /// triangulation.
   template <>
   class [[nodiscard("This contains data!")]] FoliatedTriangulation<3>  // NOLINT
   {
@@ -1181,8 +1195,9 @@ namespace foliated_triangulations
     }
 
     /// @brief Move constructor
-    /// @details Moves the triangulation and all handle caches directly, without
-    /// first performing the potentially throwing default construction.
+    /// @details Moves the triangulation and all handle caches directly,
+    /// without first performing the potentially throwing default
+    /// construction.
     FoliatedTriangulation(FoliatedTriangulation&& other) noexcept = default;
 
     /// @brief Move assignment operator
@@ -1197,7 +1212,8 @@ namespace foliated_triangulations
     /// @details Note that this function calls swap() from CGAL's
     /// Triangulation_3 base class, which assumes that the first triangulation
     /// is discarded after it is swapped into the second one.
-    /// @param swap_from The value to be swapped from. Assumed to be discarded.
+    /// @param swap_from The value to be swapped from. Assumed to be
+    /// discarded.
     /// @param swap_into The value to be swapped into.
     friend void swap(FoliatedTriangulation& swap_from,
                      FoliatedTriangulation& swap_into) noexcept
@@ -1272,8 +1288,8 @@ namespace foliated_triangulations
     /// @brief Construct from an explicit temporary initialization stream.
     /// @param t_simplices Desired number of simplices
     /// @param t_timeslices Desired number of timeslices
-    /// @param generator Temporary initialization stream whose state is consumed
-    /// during construction
+    /// @param generator Temporary initialization stream whose state is
+    /// consumed during construction
     /// @param t_initial_radius Radius of the first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
     FoliatedTriangulation(Int_precision const t_simplices,
@@ -1416,8 +1432,8 @@ namespace foliated_triangulations
 
     /// @brief Check the radius of a vertex from the origin with its timevalue
     /// @param t_vertex The vertex to check
-    /// @return True if the effective radial distance squared matches timevalue
-    /// squared
+    /// @return True if the effective radial distance squared matches
+    /// timevalue squared
     [[nodiscard]] auto does_vertex_radius_match_timevalue(
         Vertex_handle_t<3> const t_vertex) const -> bool
     {
@@ -1577,7 +1593,8 @@ namespace foliated_triangulations
 
     /// @brief Classify cells
     /// @param cells The container of simplices to classify
-    /// @return A container of simplices with Cell_type written to cell->info()
+    /// @return A container of simplices with Cell_type written to
+    /// cell->info()
     [[nodiscard]] auto classify_cells(Cell_container const& cells) const
         -> Cell_container
     {
@@ -1634,6 +1651,6 @@ namespace foliated_triangulations
 
   using FoliatedTriangulation_3 = FoliatedTriangulation<3>;
 
-}  // namespace foliated_triangulations
+}  // namespace cdt::foliated_triangulations
 
 #endif  // CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP

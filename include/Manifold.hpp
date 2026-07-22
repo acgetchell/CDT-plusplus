@@ -18,7 +18,7 @@
 #include "Geometry.hpp"
 #include "Random.hpp"
 
-namespace manifolds
+namespace cdt::manifolds
 {
   /// @brief Create Causal vertices
   /// @tparam dimension Dimensionality of vertices
@@ -161,7 +161,7 @@ namespace manifolds
     [[nodiscard]] auto updated() const -> Manifold
     {
 #ifndef NDEBUG
-      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
       if (m_triangulation.number_of_vertices() == 0) { return Manifold{}; }
       return Manifold{
@@ -342,6 +342,6 @@ namespace manifolds
 
   using Manifold_3 = Manifold<3>;
 
-}  // namespace manifolds
+}  // namespace cdt::manifolds
 
 #endif  // CDT_PLUSPLUS_MANIFOLD_HPP

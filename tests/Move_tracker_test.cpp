@@ -16,6 +16,7 @@
 
 #include "Manifold.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 using namespace move_tracker;

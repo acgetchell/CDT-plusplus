@@ -40,6 +40,66 @@ target_link_libraries(
   CDT_random_header_compile_contract
   PRIVATE project_options project_warnings)
 
+# Compile a minimal downstream translation unit without namespace imports or
+# test-only access to implementation helpers.
+add_library(CDT_public_api_compile_contract OBJECT Public_api_consumer.cpp)
+target_link_libraries(
+  CDT_public_api_compile_contract
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          fmt::fmt-header-only
+          spdlog::spdlog_header_only
+          TBB::tbb
+          CGAL::CGAL)
+
+# Compile every supported header as the first include in an independent
+# translation unit. Experimental archival headers are not part of this target.
+# This catches include-order dependencies and header-local ODR/linkage mistakes
+# at the downstream boundary.
+set(
+  cdt_supported_headers
+  Apply_move.hpp
+  Ergodic_moves_3.hpp
+  Foliated_triangulation.hpp
+  Formatters.hpp
+  Geometry.hpp
+  Manifold.hpp
+  Metropolis.hpp
+  Move_always.hpp
+  Move_command.hpp
+  Move_strategy.hpp
+  Move_tracker.hpp
+  Mpfr_value.hpp
+  Random.hpp
+  Runtime_config.hpp
+  S3Action.hpp
+  Settings.hpp
+  Triangulation_traits.hpp
+  Utilities.hpp)
+set(cdt_header_contract_sources)
+foreach(header IN LISTS cdt_supported_headers)
+  string(MAKE_C_IDENTIFIER "${header}" header_id)
+  set(source "${CMAKE_CURRENT_BINARY_DIR}/header_${header_id}.cpp")
+  file(GENERATE OUTPUT "${source}" CONTENT "#include \"${header}\"\n")
+  list(APPEND cdt_header_contract_sources "${source}")
+endforeach()
+set(cdt_header_contract_main
+    "${CMAKE_CURRENT_BINARY_DIR}/header_contract_main.cpp")
+file(GENERATE OUTPUT "${cdt_header_contract_main}"
+     CONTENT "int main() { return 0; }\n")
+add_executable(CDT_header_compile_contracts ${cdt_header_contract_sources}
+                                            "${cdt_header_contract_main}")
+target_link_libraries(
+  CDT_header_compile_contracts
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          fmt::fmt-header-only
+          spdlog::spdlog_header_only
+          TBB::tbb
+          CGAL::CGAL)
+
 # Keep the issue #105 before/after diagnostic buildable without registering it
 # as a correctness test. Run it through `just benchmark-rng`.
 add_executable(CDT_rng_benchmark Random_benchmark.cpp)

@@ -18,6 +18,8 @@
 #include "Foliated_triangulation.hpp"
 #include "Utilities.hpp"
 
+using namespace cdt;
+
 SCENARIO("PCG runs are reproducible and independently split" *
          doctest::test_suite("random"))
 {
