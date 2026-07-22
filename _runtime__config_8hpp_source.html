@@ -123,295 +123,308 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="_utilities_8hpp.html">Utilities.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">namespace </span>runtime_config</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
-<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_triangulation.html">   26</a></span>  <span class="keyword">class </span>Triangulation</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">friend</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_triangulation.html#aa6753beb0c8e5fed484b6d2368dff69f">make_triangulation</a>(<span class="keywordtype">bool</span> spherical, <span class="keywordtype">bool</span> toroidal,</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                   <span class="keywordtype">long</span> <span class="keywordtype">long</span> simplices, <span class="keywordtype">long</span> <span class="keywordtype">long</span> timeslices,</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                   <span class="keywordtype">long</span> <span class="keywordtype">long</span> dimensions, <span class="keywordtype">double</span> initial_radius,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                                   <span class="keywordtype">double</span> foliation_spacing) -&gt; Triangulation;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a> m_topology;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_simplices;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_timeslices;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_dimensions;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">double</span>        m_initial_radius;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">double</span>        m_foliation_spacing;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">explicit</span> Triangulation(<a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a> <span class="keyword">const</span> topology,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                           <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> simplices,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                           <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> timeslices,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                           <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> dimensions,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                           <span class="keywordtype">double</span> <span class="keyword">const</span>        initial_radius,</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                           <span class="keywordtype">double</span> <span class="keyword">const</span>        foliation_spacing) noexcept</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        : m_topology{topology}</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        , m_simplices{simplices}</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        , m_timeslices{timeslices}</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        , m_dimensions{dimensions}</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        , m_initial_radius{initial_radius}</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        , m_foliation_spacing{foliation_spacing}</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    {}</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>   <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    Triangulation(Triangulation <span class="keyword">const</span>&amp;)                        = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    Triangulation(Triangulation&amp;&amp;) <span class="keyword">noexcept</span>                    = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">auto</span> operator=(Triangulation <span class="keyword">const</span>&amp;) -&gt; Triangulation&amp;     = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">auto</span> operator=(Triangulation&amp;&amp;) <span class="keyword">noexcept</span> -&gt; Triangulation&amp; = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    ~Triangulation()                                           = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    [[nodiscard]] <span class="keyword">auto</span> topology() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    { <span class="keywordflow">return</span> m_topology; }</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    [[nodiscard]] <span class="keyword">auto</span> simplices() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    { <span class="keywordflow">return</span> m_simplices; }</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    [[nodiscard]] <span class="keyword">auto</span> timeslices() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    { <span class="keywordflow">return</span> m_timeslices; }</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    [[nodiscard]] <span class="keyword">auto</span> dimensions() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    { <span class="keywordflow">return</span> m_dimensions; }</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    [[nodiscard]] <span class="keyword">auto</span> initial_radius() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">double</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    { <span class="keywordflow">return</span> m_initial_radius; }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    [[nodiscard]] <span class="keyword">auto</span> foliation_spacing() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">double</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    { <span class="keywordflow">return</span> m_foliation_spacing; }</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  };</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="_random_8hpp.html">Random.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="_utilities_8hpp.html">Utilities.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span>runtime_config</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_triangulation.html">   27</a></span>  <span class="keyword">class </span>Triangulation</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">friend</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_triangulation.html#a05a63435f4f3113fc9122250af6fe4c0">make_triangulation</a>(<span class="keywordtype">bool</span> spherical, <span class="keywordtype">bool</span> toroidal,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                   <span class="keywordtype">long</span> <span class="keywordtype">long</span> simplices, <span class="keywordtype">long</span> <span class="keywordtype">long</span> timeslices,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                                   <span class="keywordtype">long</span> <span class="keywordtype">long</span> dimensions, <span class="keywordtype">double</span> initial_radius,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                                   <span class="keywordtype">double</span>           foliation_spacing,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                                   cdt::Random_seed seed) -&gt; Triangulation;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a>    m_topology;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a>    m_simplices;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a>    m_timeslices;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a>    m_dimensions;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">double</span>           m_initial_radius;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">double</span>           m_foliation_spacing;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    cdt::Random_seed m_seed;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">explicit</span> Triangulation(<a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a> <span class="keyword">const</span>    topology,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                           <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span>    simplices,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                           <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span>    timeslices,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                           <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span>    dimensions,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                           <span class="keywordtype">double</span> <span class="keyword">const</span>           initial_radius,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                           <span class="keywordtype">double</span> <span class="keyword">const</span>           foliation_spacing,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                           cdt::Random_seed <span class="keyword">const</span> seed) noexcept</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        : m_topology{topology}</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        , m_simplices{simplices}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        , m_timeslices{timeslices}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        , m_dimensions{dimensions}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        , m_initial_radius{initial_radius}</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        , m_foliation_spacing{foliation_spacing}</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        , m_seed{seed}</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    {}</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>   <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    Triangulation(Triangulation <span class="keyword">const</span>&amp;)                        = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    Triangulation(Triangulation&amp;&amp;) <span class="keyword">noexcept</span>                    = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">auto</span> operator=(Triangulation <span class="keyword">const</span>&amp;) -&gt; Triangulation&amp;     = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keyword">auto</span> operator=(Triangulation&amp;&amp;) <span class="keyword">noexcept</span> -&gt; Triangulation&amp; = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    ~Triangulation()                                           = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    [[nodiscard]] <span class="keyword">auto</span> topology() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    { <span class="keywordflow">return</span> m_topology; }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    [[nodiscard]] <span class="keyword">auto</span> simplices() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    { <span class="keywordflow">return</span> m_simplices; }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    [[nodiscard]] <span class="keyword">auto</span> timeslices() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    { <span class="keywordflow">return</span> m_timeslices; }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    [[nodiscard]] <span class="keyword">auto</span> dimensions() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    { <span class="keywordflow">return</span> m_dimensions; }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    [[nodiscard]] <span class="keyword">auto</span> initial_radius() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">double</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    { <span class="keywordflow">return</span> m_initial_radius; }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    [[nodiscard]] <span class="keyword">auto</span> foliation_spacing() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">double</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    { <span class="keywordflow">return</span> m_foliation_spacing; }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    [[nodiscard]] <span class="keyword">auto</span> seed() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; cdt::Random_seed</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    { <span class="keywordflow">return</span> m_seed; }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  };</div>
 </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span></div>
-<div class="foldopen" id="foldopen00083" data-start="{" data-end="};">
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_simulation.html">   83</a></span>  <span class="keyword">class </span>Simulation</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keyword">friend</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">make_simulation</a>(<a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp; triangulation,</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                                <span class="keywordtype">long</span> <span class="keywordtype">double</span> alpha, <span class="keywordtype">long</span> <span class="keywordtype">double</span> k,</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                                <span class="keywordtype">long</span> <span class="keywordtype">double</span> lambda, <span class="keywordtype">long</span> <span class="keywordtype">long</span> passes,</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                                <span class="keywordtype">long</span> <span class="keywordtype">long</span> checkpoint, <span class="keywordtype">bool</span> write_files)</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        -&gt; Simulation;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> m_triangulation;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   m_alpha;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   m_k;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   m_lambda;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_passes;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_checkpoint;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordtype">bool</span>          m_write_files;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="};">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_simulation.html">   91</a></span>  <span class="keyword">class </span>Simulation</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keyword">friend</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">make_simulation</a>(<a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp; triangulation,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                                <span class="keywordtype">long</span> <span class="keywordtype">double</span> alpha, <span class="keywordtype">long</span> <span class="keywordtype">double</span> k,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                                <span class="keywordtype">long</span> <span class="keywordtype">double</span> lambda, <span class="keywordtype">long</span> <span class="keywordtype">long</span> passes,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                                <span class="keywordtype">long</span> <span class="keywordtype">long</span> checkpoint, <span class="keywordtype">bool</span> write_files)</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        -&gt; Simulation;</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keyword">explicit</span> Simulation(<a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp; triangulation,</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                        <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> alpha, <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> k,</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                        <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> lambda, <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> passes,</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                        <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> checkpoint,</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                        <span class="keywordtype">bool</span> <span class="keyword">const</span>          write_files) noexcept</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        : m_triangulation{triangulation}</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        , m_alpha{alpha}</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        , m_k{k}</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        , m_lambda{lambda}</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        , m_passes{passes}</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        , m_checkpoint{checkpoint}</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        , m_write_files{write_files}</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    {}</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>   <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    Simulation(Simulation <span class="keyword">const</span>&amp;)                        = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    Simulation(Simulation&amp;&amp;) <span class="keyword">noexcept</span>                    = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keyword">auto</span> operator=(Simulation <span class="keyword">const</span>&amp;) -&gt; Simulation&amp;     = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keyword">auto</span> operator=(Simulation&amp;&amp;) <span class="keyword">noexcept</span> -&gt; Simulation&amp; = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    ~Simulation()                                        = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    [[nodiscard]] <span class="keyword">auto</span> triangulation() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp;</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    { <span class="keywordflow">return</span> m_triangulation; }</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    [[nodiscard]] <span class="keyword">auto</span> alpha() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">long</span> <span class="keywordtype">double</span> { <span class="keywordflow">return</span> m_alpha; }</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    [[nodiscard]] <span class="keyword">auto</span> k() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">long</span> <span class="keywordtype">double</span> { <span class="keywordflow">return</span> m_k; }</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    [[nodiscard]] <span class="keyword">auto</span> lambda() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">long</span> <span class="keywordtype">double</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    { <span class="keywordflow">return</span> m_lambda; }</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    [[nodiscard]] <span class="keyword">auto</span> passes() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    { <span class="keywordflow">return</span> m_passes; }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> m_triangulation;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   m_alpha;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   m_k;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   m_lambda;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_passes;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> m_checkpoint;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordtype">bool</span>          m_write_files;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keyword">explicit</span> Simulation(<a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp; triangulation,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                        <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> alpha, <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> k,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                        <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> lambda, <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> passes,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                        <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> checkpoint,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                        <span class="keywordtype">bool</span> <span class="keyword">const</span>          write_files) noexcept</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        : m_triangulation{triangulation}</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        , m_alpha{alpha}</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        , m_k{k}</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        , m_lambda{lambda}</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        , m_passes{passes}</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        , m_checkpoint{checkpoint}</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        , m_write_files{write_files}</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    {}</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>   <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    Simulation(Simulation <span class="keyword">const</span>&amp;)                        = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    Simulation(Simulation&amp;&amp;) <span class="keyword">noexcept</span>                    = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keyword">auto</span> operator=(Simulation <span class="keyword">const</span>&amp;) -&gt; Simulation&amp;     = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keyword">auto</span> operator=(Simulation&amp;&amp;) <span class="keyword">noexcept</span> -&gt; Simulation&amp; = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    ~Simulation()                                        = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    [[nodiscard]] <span class="keyword">auto</span> triangulation() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    { <span class="keywordflow">return</span> m_triangulation; }</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    [[nodiscard]] <span class="keyword">auto</span> alpha() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">long</span> <span class="keywordtype">double</span> { <span class="keywordflow">return</span> m_alpha; }</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    [[nodiscard]] <span class="keyword">auto</span> checkpoint() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    { <span class="keywordflow">return</span> m_checkpoint; }</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    [[nodiscard]] <span class="keyword">auto</span> write_files() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">bool</span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    { <span class="keywordflow">return</span> m_write_files; }</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  };</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    [[nodiscard]] <span class="keyword">auto</span> k() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">long</span> <span class="keywordtype">double</span> { <span class="keywordflow">return</span> m_k; }</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    [[nodiscard]] <span class="keyword">auto</span> lambda() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">long</span> <span class="keywordtype">double</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    { <span class="keywordflow">return</span> m_lambda; }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    [[nodiscard]] <span class="keyword">auto</span> passes() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    { <span class="keywordflow">return</span> m_passes; }</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    [[nodiscard]] <span class="keyword">auto</span> checkpoint() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    { <span class="keywordflow">return</span> m_checkpoint; }</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    [[nodiscard]] <span class="keyword">auto</span> write_files() <span class="keyword">const</span> <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">bool</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    { <span class="keywordflow">return</span> m_write_files; }</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>  };</div>
 </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  <span class="keyword">namespace </span>detail</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  {</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FloatingPo<span class="keywordtype">int</span>&gt;</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    [[nodiscard]] <span class="keyword">auto</span> checked_finite(<span class="keywordtype">char</span> <span class="keyword">const</span>*         name,</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                                      FloatingPoint <span class="keyword">const</span> value)</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        -&gt; FloatingPoint</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    {</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>      <span class="keywordflow">if</span> (!std::isfinite(value))</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      {</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordflow">throw</span> std::invalid_argument(std::string{name} + <span class="stringliteral">&quot; must be finite.&quot;</span>);</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>      }</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>      <span class="keywordflow">return</span> value;</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> checked_int(<span class="keywordtype">char</span> <span class="keyword">const</span>*     name,</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                                          <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> value)</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    {</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>      <span class="keywordflow">if</span> (!std::in_range&lt;Int_precision&gt;(value))</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">throw</span> std::out_of_range(std::string{name} +</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                                <span class="stringliteral">&quot; exceeds the supported integer range.&quot;</span>);</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>      }</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(value);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    }</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> select_topology(<span class="keywordtype">bool</span> <span class="keyword">const</span> spherical,</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                                              <span class="keywordtype">bool</span> <span class="keyword">const</span> toroidal)</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        -&gt; <a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    {</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>      <span class="keywordflow">if</span> (spherical == toroidal)</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>      {</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <span class="stringliteral">&quot;Specify exactly one topology: --spherical or --toroidal.&quot;</span>);</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>      }</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      <span class="keywordflow">if</span> (toroidal)</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      {</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <span class="stringliteral">&quot;Toroidal triangulations are not yet supported.&quot;</span>);</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      }</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>      <span class="keywordflow">return</span> topology_type::SPHERICAL;</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    }</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keyword">using </span>GeneratedPopulation = utilities::Generated_population_bounds;</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> make_generated_population(</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> simplices, <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> timeslices,</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius, <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing)</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        -&gt; GeneratedPopulation</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    {</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>      <span class="keyword">auto</span> <span class="keyword">const</span> bounds = <a class="code hl_function" href="_utilities_8hpp.html#a1226f4a1cb593cfabd30b8a4b301d36e">utilities::generated_population_bounds</a>(</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>          <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a>{3}, simplices, timeslices, initial_radius,</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>          foliation_spacing);</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>      <span class="keywordflow">if</span> (bounds.points_per_timeslice &lt; 2)</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>      {</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            <span class="stringliteral">&quot;Simplices and timeslices would create an empty triangulation; &quot;</span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <span class="stringliteral">&quot;increase the simplices per timeslice.&quot;</span>);</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      }</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>      <span class="keyword">auto</span> <span class="keyword">const</span> first_layer_points =</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>          <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(bounds.points_per_timeslice) *</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>          initial_radius;</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>      <span class="keywordflow">if</span> (first_layer_points &lt; 2.0L)</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>      {</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            <span class="stringliteral">&quot;Initial radius is too small to populate the first timeslice.&quot;</span>);</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      }</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      <span class="keywordflow">if</span> (!std::isfinite(bounds.last_layer_points) ||</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>          bounds.last_layer_points &gt;</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>              <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                  std::numeric_limits&lt;Int_precision&gt;::max()))</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      {</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keywordflow">throw</span> std::out_of_range(</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <span class="stringliteral">&quot;Foliation parameters generate too many points per timeslice.&quot;</span>);</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      }</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      <span class="keywordflow">return</span> bounds;</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    }</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>  }  <span class="comment">// namespace detail</span></div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span></div>
-<div class="foldopen" id="foldopen00222" data-start="{" data-end="}">
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_triangulation.html#aa6753beb0c8e5fed484b6d2368dff69f">  222</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_triangulation.html#aa6753beb0c8e5fed484b6d2368dff69f">make_triangulation</a>(</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      <span class="keywordtype">bool</span> <span class="keyword">const</span> spherical, <span class="keywordtype">bool</span> <span class="keyword">const</span> toroidal, <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> simplices,</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>      <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> timeslices, <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> dimensions,</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius, <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing)</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      -&gt; Triangulation</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  {</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keyword">auto</span> <span class="keyword">const</span> topology = detail::select_topology(spherical, toroidal);</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_simplices =</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        detail::checked_int(<span class="stringliteral">&quot;Number of simplices&quot;</span>, simplices);</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_timeslices =</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        detail::checked_int(<span class="stringliteral">&quot;Number of timeslices&quot;</span>, timeslices);</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_dimensions =</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        detail::checked_int(<span class="stringliteral">&quot;Dimensionality&quot;</span>, dimensions);</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordflow">if</span> (checked_dimensions != 3)</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    {</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>          <span class="stringliteral">&quot;Only three-dimensional triangulations are supported.&quot;</span>);</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    }</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <span class="keywordflow">if</span> (checked_simplices &lt; 2 || checked_timeslices &lt; 2)</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    {</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>          <span class="stringliteral">&quot;Simplices and timeslices must each be at least 2.&quot;</span>);</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    }</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_initial_radius =</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        detail::checked_finite(<span class="stringliteral">&quot;Initial radius&quot;</span>, initial_radius);</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_foliation_spacing =</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        detail::checked_finite(<span class="stringliteral">&quot;Foliation spacing&quot;</span>, foliation_spacing);</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordflow">if</span> (checked_initial_radius &lt;= 0.0)</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    {</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Initial radius must be positive.&quot;</span>);</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    }</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">if</span> (checked_foliation_spacing &lt;= 0.0)</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    {</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Foliation spacing must be positive.&quot;</span>);</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    }</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    [[maybe_unused]] <span class="keyword">auto</span> <span class="keyword">const</span> population = detail::make_generated_population(</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        checked_simplices, checked_timeslices, checked_initial_radius,</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        checked_foliation_spacing);</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="keywordflow">return</span> Triangulation{</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        topology,           checked_simplices,      checked_timeslices,</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        checked_dimensions, checked_initial_radius, checked_foliation_spacing};</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>  }</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>  <span class="keyword">namespace </span>detail</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>  {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FloatingPo<span class="keywordtype">int</span>&gt;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    [[nodiscard]] <span class="keyword">auto</span> checked_finite(<span class="keywordtype">char</span> <span class="keyword">const</span>*         name,</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                                      FloatingPoint <span class="keyword">const</span> value)</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        -&gt; FloatingPoint</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      <span class="keywordflow">if</span> (!std::isfinite(value))</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keywordflow">throw</span> std::invalid_argument(std::string{name} + <span class="stringliteral">&quot; must be finite.&quot;</span>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>      }</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      <span class="keywordflow">return</span> value;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> checked_int(<span class="keywordtype">char</span> <span class="keyword">const</span>*     name,</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>                                          <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> value)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        -&gt; <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>      <span class="keywordflow">if</span> (!std::in_range&lt;Int_precision&gt;(value))</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>      {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">throw</span> std::out_of_range(std::string{name} +</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                                <span class="stringliteral">&quot; exceeds the supported integer range.&quot;</span>);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>      }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a><span class="keyword">&gt;</span>(value);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> select_topology(<span class="keywordtype">bool</span> <span class="keyword">const</span> spherical,</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                                              <span class="keywordtype">bool</span> <span class="keyword">const</span> toroidal)</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        -&gt; <a class="code hl_enumeration" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    {</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>      <span class="keywordflow">if</span> (spherical == toroidal)</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      {</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            <span class="stringliteral">&quot;Specify exactly one topology: --spherical or --toroidal.&quot;</span>);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>      }</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      <span class="keywordflow">if</span> (toroidal)</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>      {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            <span class="stringliteral">&quot;Toroidal triangulations are not yet supported.&quot;</span>);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>      }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>      <span class="keywordflow">return</span> topology_type::SPHERICAL;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keyword">using </span>GeneratedPopulation = utilities::Generated_population_bounds;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> make_generated_population(</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> simplices, <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> <span class="keyword">const</span> timeslices,</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius, <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing)</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        -&gt; GeneratedPopulation</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    {</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      <span class="keyword">auto</span> <span class="keyword">const</span> bounds = <a class="code hl_function" href="_utilities_8hpp.html#a1226f4a1cb593cfabd30b8a4b301d36e">utilities::generated_population_bounds</a>(</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>          <a class="code hl_typedef" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a>{3}, simplices, timeslices, initial_radius,</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>          foliation_spacing);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>      <span class="keywordflow">if</span> (bounds.points_per_timeslice &lt; 2)</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>      {</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            <span class="stringliteral">&quot;Simplices and timeslices would create an empty triangulation; &quot;</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            <span class="stringliteral">&quot;increase the simplices per timeslice.&quot;</span>);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      }</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      <span class="keyword">auto</span> <span class="keyword">const</span> first_layer_points =</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>          <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(bounds.points_per_timeslice) *</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>          initial_radius;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      <span class="keywordflow">if</span> (first_layer_points &lt; 2.0L)</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      {</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            <span class="stringliteral">&quot;Initial radius is too small to populate the first timeslice.&quot;</span>);</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      }</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      <span class="keywordflow">if</span> (!std::isfinite(bounds.last_layer_points) ||</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>          bounds.last_layer_points &gt;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>              <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                  std::numeric_limits&lt;Int_precision&gt;::max()))</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">throw</span> std::out_of_range(</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="stringliteral">&quot;Foliation parameters generate too many points per timeslice.&quot;</span>);</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>      }</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      <span class="keywordflow">return</span> bounds;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    }</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  }  <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span></div>
+<div class="foldopen" id="foldopen00230" data-start="{" data-end="}">
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_triangulation.html#a05a63435f4f3113fc9122250af6fe4c0">  230</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_triangulation.html#a05a63435f4f3113fc9122250af6fe4c0">make_triangulation</a>(</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>      <span class="keywordtype">bool</span> <span class="keyword">const</span> spherical, <span class="keywordtype">bool</span> <span class="keyword">const</span> toroidal, <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> simplices,</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>      <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> timeslices, <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> dimensions,</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>      <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius, <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing,</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>      cdt::Random_seed <span class="keyword">const</span> seed = 0) -&gt; Triangulation</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  {</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keyword">auto</span> <span class="keyword">const</span> topology = detail::select_topology(spherical, toroidal);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_simplices =</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        detail::checked_int(<span class="stringliteral">&quot;Number of simplices&quot;</span>, simplices);</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_timeslices =</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        detail::checked_int(<span class="stringliteral">&quot;Number of timeslices&quot;</span>, timeslices);</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_dimensions =</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        detail::checked_int(<span class="stringliteral">&quot;Dimensionality&quot;</span>, dimensions);</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">if</span> (checked_dimensions != 3)</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    {</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>          <span class="stringliteral">&quot;Only three-dimensional triangulations are supported.&quot;</span>);</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    }</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <span class="keywordflow">if</span> (checked_simplices &lt; 2 || checked_timeslices &lt; 2)</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    {</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>          <span class="stringliteral">&quot;Simplices and timeslices must each be at least 2.&quot;</span>);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    }</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_initial_radius =</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        detail::checked_finite(<span class="stringliteral">&quot;Initial radius&quot;</span>, initial_radius);</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_foliation_spacing =</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        detail::checked_finite(<span class="stringliteral">&quot;Foliation spacing&quot;</span>, foliation_spacing);</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="keywordflow">if</span> (checked_initial_radius &lt;= 0.0)</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Initial radius must be positive.&quot;</span>);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    }</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="keywordflow">if</span> (checked_foliation_spacing &lt;= 0.0)</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    {</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Foliation spacing must be positive.&quot;</span>);</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    }</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    [[maybe_unused]] <span class="keyword">auto</span> <span class="keyword">const</span> population = detail::make_generated_population(</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        checked_simplices, checked_timeslices, checked_initial_radius,</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        checked_foliation_spacing);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keywordflow">return</span> Triangulation{topology,</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>                         checked_simplices,</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>                         checked_timeslices,</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>                         checked_dimensions,</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>                         checked_initial_radius,</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>                         checked_foliation_spacing,</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>                         seed};</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  }</div>
 </div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span></div>
-<div class="foldopen" id="foldopen00269" data-start="{" data-end="}">
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">  269</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">make_simulation</a>(</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>      <a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp; triangulation, <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> alpha,</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>      <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> k, <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> lambda, <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> passes,</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>      <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> checkpoint, <span class="keywordtype">bool</span> <span class="keyword">const</span> write_files) -&gt; Simulation</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  {</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_alpha  = detail::checked_finite(<span class="stringliteral">&quot;Alpha&quot;</span>, alpha);</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_k      = detail::checked_finite(<span class="stringliteral">&quot;K&quot;</span>, k);</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_lambda = detail::checked_finite(<span class="stringliteral">&quot;Lambda&quot;</span>, lambda);</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keywordflow">if</span> (checked_alpha &lt;= 0.5L)</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    {</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>      <span class="keywordflow">throw</span> std::domain_error(<span class="stringliteral">&quot;Alpha in 3D must be greater than 1/2.&quot;</span>);</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    }</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_passes = detail::checked_int(<span class="stringliteral">&quot;Passes&quot;</span>, passes);</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_checkpoint =</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        detail::checked_int(<span class="stringliteral">&quot;Checkpoint interval&quot;</span>, checkpoint);</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="keywordflow">if</span> (checked_passes &lt;= 0)</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    {</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Passes must be positive.&quot;</span>);</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    }</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordflow">if</span> (checked_checkpoint &lt;= 0)</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span></div>
+<div class="foldopen" id="foldopen00281" data-start="{" data-end="}">
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno"><a class="line" href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">  281</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_friend" href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">make_simulation</a>(</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      <a class="code hl_class" href="classruntime__config_1_1_triangulation.html">Triangulation</a> <span class="keyword">const</span>&amp; triangulation, <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> alpha,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>      <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> k, <span class="keywordtype">long</span> <span class="keywordtype">double</span> <span class="keyword">const</span> lambda, <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> passes,</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      <span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keyword">const</span> checkpoint, <span class="keywordtype">bool</span> <span class="keyword">const</span> write_files) -&gt; Simulation</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>  {</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_alpha  = detail::checked_finite(<span class="stringliteral">&quot;Alpha&quot;</span>, alpha);</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_k      = detail::checked_finite(<span class="stringliteral">&quot;K&quot;</span>, k);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_lambda = detail::checked_finite(<span class="stringliteral">&quot;Lambda&quot;</span>, lambda);</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordflow">if</span> (checked_alpha &lt;= 0.5L)</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    {</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Checkpoint interval must be positive.&quot;</span>);</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>      <span class="keywordflow">throw</span> std::domain_error(<span class="stringliteral">&quot;Alpha in 3D must be greater than 1/2.&quot;</span>);</div>
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    }</div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keywordflow">return</span> Simulation{triangulation,  checked_alpha,  checked_k,</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>                      checked_lambda, checked_passes, checked_checkpoint,</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>                      write_files};</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>  }</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_passes = detail::checked_int(<span class="stringliteral">&quot;Passes&quot;</span>, passes);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    <span class="keyword">auto</span> <span class="keyword">const</span> checked_checkpoint =</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        detail::checked_int(<span class="stringliteral">&quot;Checkpoint interval&quot;</span>, checkpoint);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    <span class="keywordflow">if</span> (checked_passes &lt;= 0)</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    {</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Passes must be positive.&quot;</span>);</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    }</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    <span class="keywordflow">if</span> (checked_checkpoint &lt;= 0)</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    {</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>      <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Checkpoint interval must be positive.&quot;</span>);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    }</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    <span class="keywordflow">return</span> Simulation{triangulation,  checked_alpha,  checked_k,</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                      checked_lambda, checked_passes, checked_checkpoint,</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                      write_files};</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>  }</div>
 </div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>}  <span class="comment">// namespace runtime_config</span></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span><span class="preprocessor">#endif  </span><span class="comment">// CDT_PLUSPLUS_RUNTIME_CONFIG_HPP</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>}  <span class="comment">// namespace runtime_config</span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span><span class="preprocessor">#endif  </span><span class="comment">// CDT_PLUSPLUS_RUNTIME_CONFIG_HPP</span></div>
+<div class="ttc" id="a_random_8hpp_html"><div class="ttname"><a href="_random_8hpp.html">Random.hpp</a></div><div class="ttdoc">Run-owned random-number generation and reproducible stream splitting.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a9b4d7cf81076dcbf230bb7afddc82385"><div class="ttname"><a href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></div><div class="ttdeci">std::int32_t Int_precision</div><div class="ttdef"><b>Definition</b> <a href="_settings_8hpp_source.html#l00028">Settings.hpp:28</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html"><div class="ttname"><a href="_utilities_8hpp.html">Utilities.hpp</a></div><div class="ttdoc">Utility functions.</div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a1226f4a1cb593cfabd30b8a4b301d36e"><div class="ttname"><a href="_utilities_8hpp.html#a1226f4a1cb593cfabd30b8a4b301d36e">utilities::generated_population_bounds</a></div><div class="ttdeci">auto generated_population_bounds(Int_precision const dimension, Int_precision const simplices, Int_precision const timeslices, double const initial_radius, double const foliation_spacing) -&gt; Generated_population_bounds</div><div class="ttdoc">Calculate the generated point count and its upper bound.</div><div class="ttdef"><b>Definition</b> <a href="_utilities_8hpp_source.html#l00526">Utilities.hpp:526</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_ad9c9232841af64b400d39d994e5564c5"><div class="ttname"><a href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></div><div class="ttdeci">topology_type</div><div class="ttdoc">clang-15 does not support std::format</div><div class="ttdef"><b>Definition</b> <a href="_utilities_8hpp_source.html#l00048">Utilities.hpp:49</a></div></div>
-<div class="ttc" id="aclassruntime__config_1_1_simulation_html_a32c2545324bf1c3dea342e41f0cb53ff"><div class="ttname"><a href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">runtime_config::Simulation::make_simulation</a></div><div class="ttdeci">friend auto make_simulation(Triangulation const &amp;triangulation, long double alpha, long double k, long double lambda, long long passes, long long checkpoint, bool write_files) -&gt; Simulation</div><div class="ttdoc">Validate the complete simulation configuration.</div><div class="ttdef"><b>Definition</b> <a href="#l00269">Runtime_config.hpp:269</a></div></div>
-<div class="ttc" id="aclassruntime__config_1_1_triangulation_html"><div class="ttname"><a href="classruntime__config_1_1_triangulation.html">runtime_config::Triangulation</a></div><div class="ttdef"><b>Definition</b> <a href="#l00026">Runtime_config.hpp:27</a></div></div>
-<div class="ttc" id="aclassruntime__config_1_1_triangulation_html_aa6753beb0c8e5fed484b6d2368dff69f"><div class="ttname"><a href="classruntime__config_1_1_triangulation.html#aa6753beb0c8e5fed484b6d2368dff69f">runtime_config::Triangulation::make_triangulation</a></div><div class="ttdeci">friend auto make_triangulation(bool spherical, bool toroidal, long long simplices, long long timeslices, long long dimensions, double initial_radius, double foliation_spacing) -&gt; Triangulation</div><div class="ttdoc">Validate raw triangulation options and narrow them into project types.</div><div class="ttdef"><b>Definition</b> <a href="#l00222">Runtime_config.hpp:222</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a1226f4a1cb593cfabd30b8a4b301d36e"><div class="ttname"><a href="_utilities_8hpp.html#a1226f4a1cb593cfabd30b8a4b301d36e">utilities::generated_population_bounds</a></div><div class="ttdeci">auto generated_population_bounds(Int_precision const dimension, Int_precision const simplices, Int_precision const timeslices, double const initial_radius, double const foliation_spacing) -&gt; Generated_population_bounds</div><div class="ttdoc">Calculate the generated point count and its upper bound.</div><div class="ttdef"><b>Definition</b> <a href="_utilities_8hpp_source.html#l01780">Utilities.hpp:1780</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_ad9c9232841af64b400d39d994e5564c5"><div class="ttname"><a href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></div><div class="ttdeci">topology_type</div><div class="ttdoc">clang-15 does not support std::format</div><div class="ttdef"><b>Definition</b> <a href="_utilities_8hpp_source.html#l00066">Utilities.hpp:67</a></div></div>
+<div class="ttc" id="aclassruntime__config_1_1_simulation_html_a32c2545324bf1c3dea342e41f0cb53ff"><div class="ttname"><a href="classruntime__config_1_1_simulation.html#a32c2545324bf1c3dea342e41f0cb53ff">runtime_config::Simulation::make_simulation</a></div><div class="ttdeci">friend auto make_simulation(Triangulation const &amp;triangulation, long double alpha, long double k, long double lambda, long long passes, long long checkpoint, bool write_files) -&gt; Simulation</div><div class="ttdoc">Validate the complete simulation configuration.</div><div class="ttdef"><b>Definition</b> <a href="#l00281">Runtime_config.hpp:281</a></div></div>
+<div class="ttc" id="aclassruntime__config_1_1_triangulation_html"><div class="ttname"><a href="classruntime__config_1_1_triangulation.html">runtime_config::Triangulation</a></div><div class="ttdef"><b>Definition</b> <a href="#l00027">Runtime_config.hpp:28</a></div></div>
+<div class="ttc" id="aclassruntime__config_1_1_triangulation_html_a05a63435f4f3113fc9122250af6fe4c0"><div class="ttname"><a href="classruntime__config_1_1_triangulation.html#a05a63435f4f3113fc9122250af6fe4c0">runtime_config::Triangulation::make_triangulation</a></div><div class="ttdeci">friend auto make_triangulation(bool spherical, bool toroidal, long long simplices, long long timeslices, long long dimensions, double initial_radius, double foliation_spacing, cdt::Random_seed seed) -&gt; Triangulation</div><div class="ttdoc">Validate raw triangulation options and narrow them into project types.</div><div class="ttdef"><b>Definition</b> <a href="#l00230">Runtime_config.hpp:230</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

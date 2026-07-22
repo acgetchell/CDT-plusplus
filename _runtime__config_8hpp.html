@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="_random_8hpp_source.html">Random.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>Include dependency graph for Runtime_config.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -159,8 +160,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a1c00590bbfe4cdaec88577e7ace3bd64" id="r_a1c00590bbfe4cdaec88577e7ace3bd64"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a1c00590bbfe4cdaec88577e7ace3bd64">runtime_config::detail::make_generated_population</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const simplices, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const timeslices, double const initial_radius, double const foliation_spacing) -&gt; GeneratedPopulation</td></tr>
 <tr class="memitem:a8996fefd05e4ad922b0d260bf857ee7b" id="r_a8996fefd05e4ad922b0d260bf857ee7b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8996fefd05e4ad922b0d260bf857ee7b">runtime_config::make_simulation</a> (<a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a> const &amp;triangulation, long double const alpha, long double const k, long double const lambda, long long const passes, long long const checkpoint, bool const write_files) -&gt; <a class="el" href="classruntime__config_1_1_simulation.html">Simulation</a></td></tr>
 <tr class="memdesc:a8996fefd05e4ad922b0d260bf857ee7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the complete simulation configuration.  <br /></td></tr>
-<tr class="memitem:a8179a34dc228f868c03deb743fe94ab3" id="r_a8179a34dc228f868c03deb743fe94ab3"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8179a34dc228f868c03deb743fe94ab3">runtime_config::make_triangulation</a> (bool const spherical, bool const toroidal, long long const simplices, long long const timeslices, long long const dimensions, double const initial_radius, double const foliation_spacing) -&gt; <a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a></td></tr>
-<tr class="memdesc:a8179a34dc228f868c03deb743fe94ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate raw triangulation options and narrow them into project types.  <br /></td></tr>
+<tr class="memitem:ade8b649a396b9259afba2767d8e04b36" id="r_ade8b649a396b9259afba2767d8e04b36"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ade8b649a396b9259afba2767d8e04b36">runtime_config::make_triangulation</a> (bool const spherical, bool const toroidal, long long const simplices, long long const timeslices, long long const dimensions, double const initial_radius, double const foliation_spacing, cdt::Random_seed const seed=0) -&gt; <a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a></td></tr>
+<tr class="memdesc:ade8b649a396b9259afba2767d8e04b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate raw triangulation options and narrow them into project types.  <br /></td></tr>
 <tr class="memitem:a78c3a815db6940c42f92db62bafe841a" id="r_a78c3a815db6940c42f92db62bafe841a"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a78c3a815db6940c42f92db62bafe841a">runtime_config::detail::select_topology</a> (bool const spherical, bool const toroidal) -&gt; <a class="el" href="_utilities_8hpp.html#ad9c9232841af64b400d39d994e5564c5">topology_type</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -180,7 +181,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00183">183</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00191">191</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -214,7 +215,7 @@ template&lt;typename FloatingPoint&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00143">143</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00151">151</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +246,7 @@ template&lt;typename FloatingPoint&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00154">154</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00162">162</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -286,7 +287,7 @@ template&lt;typename FloatingPoint&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00185">185</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00193">193</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -344,12 +345,12 @@ template&lt;typename FloatingPoint&gt; </div>
 
 <p>Validate the complete simulation configuration. </p>
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00269">269</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00281">281</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a8179a34dc228f868c03deb743fe94ab3" name="a8179a34dc228f868c03deb743fe94ab3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8179a34dc228f868c03deb743fe94ab3">&#9670;&#160;</a></span>make_triangulation()</h2>
+<a id="ade8b649a396b9259afba2767d8e04b36" name="ade8b649a396b9259afba2767d8e04b36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade8b649a396b9259afba2767d8e04b36">&#9670;&#160;</a></span>make_triangulation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -390,7 +391,12 @@ template&lt;typename FloatingPoint&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double const</td>          <td class="paramname"><span class="paramname"><em>foliation_spacing</em></span>&#160;) -&gt; <a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a></td>
+          <td class="paramtype">double const</td>          <td class="paramname"><span class="paramname"><em>foliation_spacing</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cdt::Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;) -&gt; <a class="el" href="classruntime__config_1_1_triangulation.html">Triangulation</a></td>
         </tr>
       </table>
   </td>
@@ -402,7 +408,7 @@ template&lt;typename FloatingPoint&gt; </div>
 
 <p>Validate raw triangulation options and narrow them into project types. </p>
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00222">222</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00230">230</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -433,7 +439,7 @@ template&lt;typename FloatingPoint&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00166">166</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_runtime__config_8hpp_source.html#l00174">174</a> of file <a class="el" href="_runtime__config_8hpp_source.html">Runtime_config.hpp</a>.</p>
 
 </div>
 </div>

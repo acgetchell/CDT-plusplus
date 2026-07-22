@@ -18,7 +18,7 @@ var searchData=
   ['common_20contract_15',['Conventions and common contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'']]],
   ['computational_20geometry_20and_20random_20number_20generation_16',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
   ['contents_17',['Table of contents',['../index.html#table-of-contents',1,'']]],
-  ['contract_18',['contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'Conventions and common contract'],['../md_docs_2metropolis-hastings.html',1,'Metropolis-Hastings transition contract']]],
+  ['contract_18',['contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'Conventions and common contract'],['../md_docs_2metropolis-hastings.html',1,'Metropolis-Hastings transition contract'],['../md_docs_2reproducibility.html#persistence-contract',1,'Persistence contract']]],
   ['contributing_19',['Contributing',['../index.html#contributing',1,'']]],
   ['conventions_20and_20common_20contract_20',['Conventions and common contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'']]],
   ['counters_21',['Counters',['../md_docs_2metropolis-hastings.html#counters',1,'']]],

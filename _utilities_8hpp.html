@@ -114,22 +114,39 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">Utilities.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Utility functions.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<div class="textblock"><code>#include &lt;CGAL/version.h&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;charconv&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;concepts&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;gsl/gsl&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;locale&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;random&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;version&gt;</code><br />
 <code>#include &lt;date/date.h&gt;</code><br />
 <code>#include &lt;fmt/ostream.h&gt;</code><br />
 <code>#include &lt;spdlog/sinks/basic_file_sink.h&gt;</code><br />
@@ -137,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <code>#include &lt;spdlog/spdlog.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_random_8hpp_source.html">Random.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>&quot;</code><br />
+<code>#include &quot;Version.hpp&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>Include dependency graph for Utilities.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
@@ -147,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="_utilities_8hpp__dep__incl.svg" width="630" height="510"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="_utilities_8hpp__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="_utilities_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -155,10 +173,18 @@ document.addEventListener('DOMContentLoaded', () => {
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:utilities_3A_3AGenerated_5Fpopulation_5Fbounds" id="r_utilities_3A_3AGenerated_5Fpopulation_5Fbounds"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structutilities_1_1_generated__population__bounds.html">utilities::Generated_population_bounds</a></td></tr>
+<tr class="memitem:utilities_3A_3Adetail_3A_3AParsed_5Fpersistence_5Fmetadata" id="r_utilities_3A_3Adetail_3A_3AParsed_5Fpersistence_5Fmetadata"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">utilities::detail::Parsed_persistence_metadata</a></td></tr>
+<tr class="memitem:utilities_3A_3Adetail_3A_3APayload_5Fintegrity" id="r_utilities_3A_3Adetail_3A_3APayload_5Fintegrity"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structutilities_1_1detail_1_1_payload__integrity.html">utilities::detail::Payload_integrity</a></td></tr>
+<tr class="memitem:utilities_3A_3AReproducibility_5Fmetadata" id="r_utilities_3A_3AReproducibility_5Fmetadata"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structutilities_1_1_reproducibility__metadata.html">utilities::Reproducibility_metadata</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provenance recorded next to every stochastic triangulation.  <a href="structutilities_1_1_reproducibility__metadata.html#details">More...</a><br /></td></tr>
 <tr class="memitem:utilities_3A_3Adetail_3A_3AWriteFileOperation" id="r_utilities_3A_3Adetail_3A_3AWriteFileOperation"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classutilities_1_1detail_1_1_write_file_operation.html">utilities::detail::WriteFileOperation</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:aadf465e12bc7ce5ef473208eff5e3a8d" id="r_aadf465e12bc7ce5ef473208eff5e3a8d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><b>Artifact_kind</b> { <b>INITIAL_TRIANGULATION</b>
+, <b>CHECKPOINT</b>
+, <b>FINAL_TRIANGULATION</b>
+ }</td></tr>
 <tr class="memitem:ad9c9232841af64b400d39d994e5564c5" id="r_ad9c9232841af64b400d39d994e5564c5"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ad9c9232841af64b400d39d994e5564c5">topology_type</a> { <b>TOROIDAL</b>
 , <b>SPHERICAL</b>
  }</td></tr>
@@ -166,6 +192,18 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a430abc34f8bdadfe90f01c3a3088471e" id="r_a430abc34f8bdadfe90f01c3a3088471e"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a430abc34f8bdadfe90f01c3a3088471e">utilities::detail::artifact_name</a> (Artifact_kind const artifact) -&gt; std::string_view</td></tr>
+<tr class="memitem:a75a9935aa203af985991fddab3704eef" id="r_a75a9935aa203af985991fddab3704eef"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
+<tr class="memitem:a75a9935aa203af985991fddab3704eef template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a75a9935aa203af985991fddab3704eef">utilities::canonical_placement_fingerprint</a> (ManifoldType const &amp;manifold) -&gt; std::uint64_t</td></tr>
+<tr class="memdesc:a75a9935aa203af985991fddab3704eef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fingerprint finite vertex coordinates and timeslice metadata.  <br /></td></tr>
+<tr class="memitem:a62757ff724295300ea9fb5635f427559" id="r_a62757ff724295300ea9fb5635f427559"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a62757ff724295300ea9fb5635f427559 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a62757ff724295300ea9fb5635f427559">utilities::detail::canonical_placement_fingerprint</a> (TriangulationType const &amp;triangulation) -&gt; std::uint64_t</td></tr>
+<tr class="memitem:ae560585f560b387f104199cdc1c7c6b7" id="r_ae560585f560b387f104199cdc1c7c6b7"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
+<tr class="memitem:ae560585f560b387f104199cdc1c7c6b7 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ae560585f560b387f104199cdc1c7c6b7">utilities::canonical_topology_fingerprint</a> (ManifoldType const &amp;manifold) -&gt; std::uint64_t</td></tr>
+<tr class="memdesc:ae560585f560b387f104199cdc1c7c6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fingerprint vertices, causal metadata, and abstract finite cells.  <br /></td></tr>
+<tr class="memitem:ab68a16a017518e82d2233982b0e982e4" id="r_ab68a16a017518e82d2233982b0e982e4"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:ab68a16a017518e82d2233982b0e982e4 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab68a16a017518e82d2233982b0e982e4">utilities::detail::canonical_topology_fingerprint</a> (TriangulationType const &amp;triangulation) -&gt; std::uint64_t</td></tr>
+<tr class="memitem:a8c06e2ca4711a3467cd35565dcd00b45" id="r_a8c06e2ca4711a3467cd35565dcd00b45"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8c06e2ca4711a3467cd35565dcd00b45">utilities::detail::cell_key</a> (auto const &amp;cell) -&gt; std::string</td></tr>
 <tr class="memitem:aa715f4183fc64cef39399db9906f229b" id="r_aa715f4183fc64cef39399db9906f229b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa715f4183fc64cef39399db9906f229b">utilities::create_logger</a> ()</td></tr>
 <tr class="memdesc:aa715f4183fc64cef39399db9906f229b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create console and file loggers.  <br /></td></tr>
 <tr class="memitem:ab18dbd1c03f81a690084965edeb576d7" id="r_ab18dbd1c03f81a690084965edeb576d7"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab18dbd1c03f81a690084965edeb576d7">utilities::current_date_time</a> (std::chrono::system_clock::time_point const timestamp=std::chrono::system_clock::now())</td></tr>
@@ -175,6 +213,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a84a9bc270e6df8120a012787824d9c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Roll a die using a caller-supplied <span class="tt">std::uniform_random_bit_generator</span>.  <br /></td></tr>
 <tr class="memitem:ae5be28087de7f7981c306cc6cd3f42a1" id="r_ae5be28087de7f7981c306cc6cd3f42a1"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ae5be28087de7f7981c306cc6cd3f42a1">utilities::expected_points_per_timeslice</a> (<a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const t_dimension, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> t_number_of_timeslices)</td></tr>
 <tr class="memdesc:ae5be28087de7f7981c306cc6cd3f42a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate expected # of points per simplex.  <br /></td></tr>
+<tr class="memitem:a137112966360a6f39632a061511d6fc2" id="r_a137112966360a6f39632a061511d6fc2"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a137112966360a6f39632a061511d6fc2">utilities::detail::fingerprint_records</a> (std::vector&lt; std::string &gt; const &amp;records) -&gt; std::uint64_t</td></tr>
 <tr class="memitem:a3edc51b0a5ed0fe5ea239ad1a8d5b6e9" id="r_a3edc51b0a5ed0fe5ea239ad1a8d5b6e9"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:a3edc51b0a5ed0fe5ea239ad1a8d5b6e9 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a3edc51b0a5ed0fe5ea239ad1a8d5b6e9">utilities::generate_probability</a> (Generator &amp;generator)</td></tr>
 <tr class="memdesc:a3edc51b0a5ed0fe5ea239ad1a8d5b6e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a probability.  <br /></td></tr>
@@ -204,20 +243,54 @@ Functions</h2></td></tr>
 <tr class="memdesc:a642ed03dc55fd59e5d3e5fb0d3cb56a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a checkpoint filename that records seed and pass.  <br /></td></tr>
 <tr class="memitem:a57e2fce64065c58c3f410ff8d5c066e3" id="r_a57e2fce64065c58c3f410ff8d5c066e3"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a57e2fce64065c58c3f410ff8d5c066e3">utilities::make_filename</a> (<a class="el" href="#ad9c9232841af64b400d39d994e5564c5">topology_type</a> const &amp;t_topology, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> t_dimension, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing) -&gt; std::filesystem::path</td></tr>
 <tr class="memdesc:a57e2fce64065c58c3f410ff8d5c066e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate useful filenames.  <br /></td></tr>
+<tr class="memitem:a97a307e9d362b8d2b854294907e1cf4a" id="r_a97a307e9d362b8d2b854294907e1cf4a"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
+<tr class="memitem:a97a307e9d362b8d2b854294907e1cf4a template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a97a307e9d362b8d2b854294907e1cf4a">utilities::make_reproducibility_metadata</a> (ManifoldType const &amp;manifold, cdt::Random_seed const seed, Artifact_kind const artifact) -&gt; <a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a></td></tr>
+<tr class="memdesc:a97a307e9d362b8d2b854294907e1cf4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build provenance from a canonical manifold state.  <br /></td></tr>
+<tr class="memitem:a900d04c48cdfcb2a835587922a85d582" id="r_a900d04c48cdfcb2a835587922a85d582"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a900d04c48cdfcb2a835587922a85d582">utilities::metadata_filename</a> (std::filesystem::path const &amp;payload) -&gt; std::filesystem::path</td></tr>
+<tr class="memitem:a6a70b88164db4665fc7fe0ecd36a7451" id="r_a6a70b88164db4665fc7fe0ecd36a7451"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a6a70b88164db4665fc7fe0ecd36a7451">utilities::detail::metadata_text</a> (<a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> const &amp;metadata, <a class="el" href="structutilities_1_1detail_1_1_payload__integrity.html">Payload_integrity</a> const payload) -&gt; std::string</td></tr>
 <tr class="memitem:a009d76fda8b31ee925f5b4c5eb1d12f1" id="r_a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a> (std::ostream &amp;t_os, <a class="el" href="#ad9c9232841af64b400d39d994e5564c5">topology_type</a> const &amp;t_topology) -&gt; std::ostream &amp;</td></tr>
 <tr class="memdesc:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert <a class="el" href="#ad9c9232841af64b400d39d994e5564c5" title="clang-15 does not support std::format">topology_type</a> to string output.  <br /></td></tr>
+<tr class="memitem:aa5e9c8dcaab103f3604ab867a4d26d1f" id="r_aa5e9c8dcaab103f3604ab867a4d26d1f"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa5e9c8dcaab103f3604ab867a4d26d1f">utilities::detail::parse_count_line</a> (std::string const &amp;line, std::string_view const prefix, std::filesystem::path const &amp;path) -&gt; std::uint64_t</td></tr>
+<tr class="memitem:a5c9c414a3b1a5f07d1a51bb2d6eb27cf" id="r_a5c9c414a3b1a5f07d1a51bb2d6eb27cf"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a5c9c414a3b1a5f07d1a51bb2d6eb27cf">utilities::detail::parse_info</a> (std::string_view const text, std::filesystem::path const &amp;path) -&gt; <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></td></tr>
+<tr class="memitem:aca764d97e0669ef825fe0dff606ce65b" id="r_aca764d97e0669ef825fe0dff606ce65b"><td class="memTemplParams" colspan="2">template&lt;std::floating_point Float&gt; </td></tr>
+<tr class="memitem:aca764d97e0669ef825fe0dff606ce65b template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aca764d97e0669ef825fe0dff606ce65b">utilities::detail::parse_metadata_floating</a> (std::string_view const text, std::filesystem::path const &amp;path) -&gt; Float</td></tr>
+<tr class="memitem:a2d22bda7cb6aba779ef0969638211a0d" id="r_a2d22bda7cb6aba779ef0969638211a0d"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a2d22bda7cb6aba779ef0969638211a0d">utilities::detail::parse_metadata_integer</a> (std::string_view const text, std::filesystem::path const &amp;path) -&gt; <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></td></tr>
+<tr class="memitem:a153be8236f8b9874547d2611dc246af4" id="r_a153be8236f8b9874547d2611dc246af4"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a153be8236f8b9874547d2611dc246af4 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a153be8236f8b9874547d2611dc246af4">utilities::detail::parse_payload</a> (std::filesystem::path const &amp;filename) -&gt; TriangulationType</td></tr>
+<tr class="memitem:ab74b10c78ac6ab42ac84ce29c6d19017" id="r_ab74b10c78ac6ab42ac84ce29c6d19017"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab74b10c78ac6ab42ac84ce29c6d19017">utilities::detail::parse_record</a> (std::string const &amp;line, std::string_view const prefix, std::filesystem::path const &amp;path) -&gt; std::pair&lt; std::string, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> &gt;</td></tr>
+<tr class="memitem:ac8d19d5b04227e8c2f50fa195c8e6ec2" id="r_ac8d19d5b04227e8c2f50fa195c8e6ec2"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac8d19d5b04227e8c2f50fa195c8e6ec2">utilities::detail::parse_unsigned</a> (std::string_view const text, int const base, std::filesystem::path const &amp;path) -&gt; std::uint64_t</td></tr>
+<tr class="memitem:aaf2084cf985eb941c69f36e29269ef73" id="r_aaf2084cf985eb941c69f36e29269ef73"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aaf2084cf985eb941c69f36e29269ef73">utilities::detail::payload_integrity</a> (std::filesystem::path const &amp;filename) -&gt; <a class="el" href="structutilities_1_1detail_1_1_payload__integrity.html">Payload_integrity</a></td></tr>
+<tr class="memitem:ab8b1a5499c4466638de74f8ccb5de1d5" id="r_ab8b1a5499c4466638de74f8ccb5de1d5"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab8b1a5499c4466638de74f8ccb5de1d5">utilities::detail::point_key</a> (auto const &amp;point) -&gt; std::string</td></tr>
 <tr class="memitem:a46daf1402ad4f3d1bb84cc409e433914" id="r_a46daf1402ad4f3d1bb84cc409e433914"><td class="memTemplParams" colspan="2">template&lt;typename Point&gt; </td></tr>
 <tr class="memitem:a46daf1402ad4f3d1bb84cc409e433914 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a46daf1402ad4f3d1bb84cc409e433914">utilities::point_to_str</a> (Point const &amp;t_point) -&gt; std::string</td></tr>
 <tr class="memdesc:a46daf1402ad4f3d1bb84cc409e433914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Covert a CGAL point to a string.  <br /></td></tr>
 <tr class="memitem:a343d224c91b607f37980bf84760347c4" id="r_a343d224c91b607f37980bf84760347c4"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
 <tr class="memitem:a343d224c91b607f37980bf84760347c4 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a> (TriangulationType const &amp;t_triangulation)</td></tr>
 <tr class="memdesc:a343d224c91b607f37980bf84760347c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print triangulation statistics.  <br /></td></tr>
+<tr class="memitem:af9463d53d6981c4a8c523370070188bb" id="r_af9463d53d6981c4a8c523370070188bb"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:af9463d53d6981c4a8c523370070188bb template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af9463d53d6981c4a8c523370070188bb">utilities::detail::read_causal_info</a> (std::istream &amp;input, TriangulationType &amp;triangulation, std::filesystem::path const &amp;path)</td></tr>
 <tr class="memitem:a3645c87787d52458aa1a582002cdf538" id="r_a3645c87787d52458aa1a582002cdf538"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
 <tr class="memitem:a3645c87787d52458aa1a582002cdf538 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a3645c87787d52458aa1a582002cdf538">utilities::read_file</a> (std::filesystem::path const &amp;filename) -&gt; TriangulationType</td></tr>
 <tr class="memdesc:a3645c87787d52458aa1a582002cdf538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read triangulation from file.  <br /></td></tr>
+<tr class="memitem:a0ff02cc735e8149911bf288a55c9acc4" id="r_a0ff02cc735e8149911bf288a55c9acc4"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a0ff02cc735e8149911bf288a55c9acc4">utilities::detail::read_persistence_metadata</a> (std::filesystem::path const &amp;path) -&gt; <a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">Parsed_persistence_metadata</a></td></tr>
+<tr class="memitem:a6d97b7623fe7b71e1dca61ae977464a7" id="r_a6d97b7623fe7b71e1dca61ae977464a7"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a6d97b7623fe7b71e1dca61ae977464a7 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6d97b7623fe7b71e1dca61ae977464a7">utilities::detail::reconcile_payload_metadata</a> (<a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> &amp;metadata, TriangulationType const &amp;triangulation)</td></tr>
 <tr class="memitem:a63eb9fe4f8f4121acfd36b0c6fe0db95" id="r_a63eb9fe4f8f4121acfd36b0c6fe0db95"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a63eb9fe4f8f4121acfd36b0c6fe0db95">utilities::detail::replace_file</a> (std::filesystem::path const &amp;temporary, std::filesystem::path const &amp;destination)</td></tr>
+<tr class="memitem:a253480c9156e2b4cf8794f625d5f48c4" id="r_a253480c9156e2b4cf8794f625d5f48c4"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a253480c9156e2b4cf8794f625d5f48c4">utilities::detail::standard_library_name</a> () -&gt; std::string</td></tr>
 <tr class="memitem:a215459cb5448fb06b02611a2a3d76b97" id="r_a215459cb5448fb06b02611a2a3d76b97"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a215459cb5448fb06b02611a2a3d76b97">utilities::topology_to_str</a> (<a class="el" href="#ad9c9232841af64b400d39d994e5564c5">topology_type</a> const &amp;t_topology) -&gt; std::string</td></tr>
 <tr class="memdesc:a215459cb5448fb06b02611a2a3d76b97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a topology to a string using it's &lt;&lt; operator.  <br /></td></tr>
+<tr class="memitem:a03b717a24d06b625ca46f6c3dee95f1e" id="r_a03b717a24d06b625ca46f6c3dee95f1e"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
+<tr class="memitem:a03b717a24d06b625ca46f6c3dee95f1e template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a03b717a24d06b625ca46f6c3dee95f1e">utilities::update_reproducibility_state</a> (<a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> &amp;metadata, ManifoldType const &amp;manifold)</td></tr>
+<tr class="memdesc:a03b717a24d06b625ca46f6c3dee95f1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refresh state-dependent provenance after a transition sequence.  <br /></td></tr>
+<tr class="memitem:ad9c5d5785e07ecf03c8ab7b2a0a92d92" id="r_ad9c5d5785e07ecf03c8ab7b2a0a92d92"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ad9c5d5785e07ecf03c8ab7b2a0a92d92">utilities::detail::validate_payload_integrity</a> (std::filesystem::path const &amp;payload) -&gt; std::optional&lt; <a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">Parsed_persistence_metadata</a> &gt;</td></tr>
+<tr class="memitem:ad912a76a6919a4d1307ee648de6d1bb7" id="r_ad912a76a6919a4d1307ee648de6d1bb7"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:ad912a76a6919a4d1307ee648de6d1bb7 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad912a76a6919a4d1307ee648de6d1bb7">utilities::detail::validate_persistence_metadata</a> (<a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">Parsed_persistence_metadata</a> const &amp;metadata, TriangulationType const &amp;triangulation, std::filesystem::path const &amp;payload_path, std::filesystem::path const &amp;metadata_path)</td></tr>
+<tr class="memitem:a3dbde6ece9b2ce1669ff21f4cbe357f0" id="r_a3dbde6ece9b2ce1669ff21f4cbe357f0"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a3dbde6ece9b2ce1669ff21f4cbe357f0 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3dbde6ece9b2ce1669ff21f4cbe357f0">utilities::detail::validate_serialized_payload</a> (std::filesystem::path const &amp;filename, TriangulationType const &amp;original)</td></tr>
+<tr class="memitem:a8a33073944ec1f64a1b5a22d6382048b" id="r_a8a33073944ec1f64a1b5a22d6382048b"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a8a33073944ec1f64a1b5a22d6382048b template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8a33073944ec1f64a1b5a22d6382048b">utilities::detail::vertex_records</a> (TriangulationType const &amp;triangulation) -&gt; std::vector&lt; std::string &gt;</td></tr>
+<tr class="memitem:a240d93f6093495266a7c666cd789ba1d" id="r_a240d93f6093495266a7c666cd789ba1d"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a240d93f6093495266a7c666cd789ba1d template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a240d93f6093495266a7c666cd789ba1d">utilities::detail::write_causal_info</a> (std::ostream &amp;output, TriangulationType const &amp;triangulation)</td></tr>
 <tr class="memitem:a0c39183b7cfafd2dce8e474d12da33a1" id="r_a0c39183b7cfafd2dce8e474d12da33a1"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
 <tr class="memitem:a0c39183b7cfafd2dce8e474d12da33a1 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c39183b7cfafd2dce8e474d12da33a1">utilities::write_file</a> (ManifoldType const &amp;t_universe)</td></tr>
 <tr class="memdesc:a0c39183b7cfafd2dce8e474d12da33a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the runtime results to a file.  <br /></td></tr>
@@ -227,11 +300,26 @@ Functions</h2></td></tr>
 <tr class="memitem:af6ea9a2bd02652a416dee3107b413897" id="r_af6ea9a2bd02652a416dee3107b413897"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
 <tr class="memitem:af6ea9a2bd02652a416dee3107b413897 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af6ea9a2bd02652a416dee3107b413897">utilities::write_file</a> (ManifoldType const &amp;t_universe, cdt::Random_seed const seed, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> const completed_passes)</td></tr>
 <tr class="memdesc:af6ea9a2bd02652a416dee3107b413897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a checkpoint with its effective seed and pass in its name.  <br /></td></tr>
+<tr class="memitem:a87ecb005502d42150a58ea67853cf265" id="r_a87ecb005502d42150a58ea67853cf265"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType&gt; </td></tr>
+<tr class="memitem:a87ecb005502d42150a58ea67853cf265 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a87ecb005502d42150a58ea67853cf265">utilities::write_file</a> (ManifoldType const &amp;universe, <a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> const &amp;metadata)</td></tr>
+<tr class="memdesc:a87ecb005502d42150a58ea67853cf265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a named stochastic artifact and its complete provenance.  <br /></td></tr>
 <tr class="memitem:a1c8794a8c6a512fa264d9aa0e9203b14" id="r_a1c8794a8c6a512fa264d9aa0e9203b14"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
 <tr class="memitem:a1c8794a8c6a512fa264d9aa0e9203b14 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1c8794a8c6a512fa264d9aa0e9203b14">utilities::write_file</a> (std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation)</td></tr>
 <tr class="memdesc:a1c8794a8c6a512fa264d9aa0e9203b14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write triangulation to file.  <br /></td></tr>
+<tr class="memitem:aa12970a5381914b00c346937054e8b49" id="r_aa12970a5381914b00c346937054e8b49"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:aa12970a5381914b00c346937054e8b49 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa12970a5381914b00c346937054e8b49">utilities::write_file</a> (std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation, <a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> const &amp;metadata)</td></tr>
+<tr class="memdesc:aa12970a5381914b00c346937054e8b49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomically replace a triangulation and its verifiable provenance.  <br /></td></tr>
 <tr class="memitem:a8c5aecc5c08963f658736319b13b1ad4" id="r_a8c5aecc5c08963f658736319b13b1ad4"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8c5aecc5c08963f658736319b13b1ad4">utilities::detail::write_file_active</a> () noexcept -&gt; bool &amp;</td></tr>
 <tr class="memitem:a6aeaf471d88cc2cfcd0f7a4644674955" id="r_a6aeaf471d88cc2cfcd0f7a4644674955"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a6aeaf471d88cc2cfcd0f7a4644674955">utilities::detail::write_file_mutex</a> () -&gt; std::mutex &amp;</td></tr>
+<tr class="memitem:a930b69e71382b7daaa905997252a7f53" id="r_a930b69e71382b7daaa905997252a7f53"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a930b69e71382b7daaa905997252a7f53 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a930b69e71382b7daaa905997252a7f53">utilities::detail::write_payload</a> (std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation, std::optional&lt; <a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> &gt; const &amp;metadata)</td></tr>
+<tr class="memitem:a5a0f9461c5f3c19be6f38e022ce475c3" id="r_a5a0f9461c5f3c19be6f38e022ce475c3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5a0f9461c5f3c19be6f38e022ce475c3">utilities::detail::write_text</a> (std::filesystem::path const &amp;filename, std::string_view const contents)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a177cebd84e06ec2f09685d59e3e88d77" id="r_a177cebd84e06ec2f09685d59e3e88d77"><td class="memItemLeft">std::string_view constexpr&#160;</td><td class="memItemRight"><a class="el" href="#a177cebd84e06ec2f09685d59e3e88d77">utilities::detail::CAUSAL_INFO_HEADER</a></td></tr>
+<tr class="memitem:a17f8c9e9d0884095887ab7b7da9ecd87" id="r_a17f8c9e9d0884095887ab7b7da9ecd87"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType&gt; </td></tr>
+<tr class="memitem:a17f8c9e9d0884095887ab7b7da9ecd87 template"><td class="memItemLeft">bool constexpr&#160;</td><td class="memItemRight"><a class="el" href="#a17f8c9e9d0884095887ab7b7da9ecd87">utilities::detail::HAS_CAUSAL_INFO</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility functions. </p>
@@ -239,6 +327,30 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 </div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="aadf465e12bc7ce5ef473208eff5e3a8d" name="aadf465e12bc7ce5ef473208eff5e3a8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadf465e12bc7ce5ef473208eff5e3a8d">&#9670;&#160;</a></span>Artifact_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class utilities::Artifact_kind</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00089">89</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ad9c9232841af64b400d39d994e5564c5" name="ad9c9232841af64b400d39d994e5564c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad9c9232841af64b400d39d994e5564c5">&#9670;&#160;</a></span>topology_type</h2>
 
@@ -261,11 +373,185 @@ Functions</h2></td></tr>
 
 <p>clang-15 does not support std::format </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00048">48</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00066">66</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a430abc34f8bdadfe90f01c3a3088471e" name="a430abc34f8bdadfe90f01c3a3088471e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a430abc34f8bdadfe90f01c3a3088471e">&#9670;&#160;</a></span>artifact_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::artifact_name </td>
+          <td>(</td>
+          <td class="paramtype">Artifact_kind const</td>          <td class="paramname"><span class="paramname"><em>artifact</em></span></td><td>)</td>
+          <td> -&gt; std::string_view</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00152">152</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a75a9935aa203af985991fddab3704eef" name="a75a9935aa203af985991fddab3704eef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75a9935aa203af985991fddab3704eef">&#9670;&#160;</a></span>canonical_placement_fingerprint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::canonical_placement_fingerprint </td>
+          <td>(</td>
+          <td class="paramtype">ManifoldType const &amp;</td>          <td class="paramname"><span class="paramname"><em>manifold</em></span></td><td>)</td>
+          <td> -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fingerprint finite vertex coordinates and timeslice metadata. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01496">1496</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a62757ff724295300ea9fb5635f427559" name="a62757ff724295300ea9fb5635f427559"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62757ff724295300ea9fb5635f427559">&#9670;&#160;</a></span>canonical_placement_fingerprint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::canonical_placement_fingerprint </td>
+          <td>(</td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span></td><td>)</td>
+          <td> -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00277">277</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae560585f560b387f104199cdc1c7c6b7" name="ae560585f560b387f104199cdc1c7c6b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae560585f560b387f104199cdc1c7c6b7">&#9670;&#160;</a></span>canonical_topology_fingerprint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::canonical_topology_fingerprint </td>
+          <td>(</td>
+          <td class="paramtype">ManifoldType const &amp;</td>          <td class="paramname"><span class="paramname"><em>manifold</em></span></td><td>)</td>
+          <td> -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fingerprint vertices, causal metadata, and abstract finite cells. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01487">1487</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab68a16a017518e82d2233982b0e982e4" name="ab68a16a017518e82d2233982b0e982e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab68a16a017518e82d2233982b0e982e4">&#9670;&#160;</a></span>canonical_topology_fingerprint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::canonical_topology_fingerprint </td>
+          <td>(</td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span></td><td>)</td>
+          <td> -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00282">282</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8c06e2ca4711a3467cd35565dcd00b45" name="a8c06e2ca4711a3467cd35565dcd00b45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c06e2ca4711a3467cd35565dcd00b45">&#9670;&#160;</a></span>cell_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::cell_key </td>
+          <td>(</td>
+          <td class="paramtype">auto const &amp;</td>          <td class="paramname"><span class="paramname"><em>cell</em></span></td><td>)</td>
+          <td> -&gt; std::string</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00220">220</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
 <a id="aa715f4183fc64cef39399db9906f229b" name="aa715f4183fc64cef39399db9906f229b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa715f4183fc64cef39399db9906f229b">&#9670;&#160;</a></span>create_logger()</h2>
 
@@ -315,7 +601,7 @@ Functions</h2></td></tr>
 </ol>
 <p>If an exception is thrown, then the default global console logger is used. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00575">575</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01829">1829</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -354,7 +640,7 @@ Functions</h2></td></tr>
 <dd>
 <a href="https://en.cppreference.com/w/cpp/chrono/zoned_time">https://en.cppreference.com/w/cpp/chrono/zoned_time</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00137">137</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01354">1354</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -385,7 +671,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 <p>Roll a die using a caller-supplied <span class="tt">std::uniform_random_bit_generator</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00371">371</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01625">1625</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -433,7 +719,34 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of points per timeslice to obtain the desired number of simplices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00462">462</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01716">1716</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a137112966360a6f39632a061511d6fc2" name="a137112966360a6f39632a061511d6fc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a137112966360a6f39632a061511d6fc2">&#9670;&#160;</a></span>fingerprint_records()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::fingerprint_records </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::string &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>records</em></span></td><td>)</td>
+          <td> -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00259">259</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -464,7 +777,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 <p>Generate a probability. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00442">442</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01696">1696</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -522,7 +835,7 @@ template&lt;typename NumberType, class Distribution, std::uniform_random_bit_gen
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A random value in the distribution between min_value and max_value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00397">397</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01651">1651</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -562,7 +875,7 @@ template&lt;std::uniform_random_bit_generator Generator, typename IntegerType&gt
 
 <p>Generate random integers by calling generate_random, preserves template argument deduction. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00408">408</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01662">1662</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -602,7 +915,7 @@ template&lt;std::uniform_random_bit_generator Generator, typename FloatingPointT
 
 <p>Generate random real numbers by calling generate_random, preserves template argument deduction. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00431">431</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01685">1685</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -637,7 +950,7 @@ template&lt;std::uniform_random_bit_generator Generator, typename IntegerType&gt
 
 <p>Generate a random timeslice. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00419">419</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01673">1673</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -696,7 +1009,7 @@ template&lt;std::uniform_random_bit_generator Generator, typename IntegerType&gt
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Points per timeslice and the last-layer point count </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00526">526</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01780">1780</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -733,7 +1046,7 @@ template&lt;std::uniform_random_bit_generator Generator, typename IntegerType&gt
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The double conversion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00548">548</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01802">1802</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -762,7 +1075,7 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00198">198</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01415">1415</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -797,7 +1110,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Generate a filename that records the effective run seed. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00208">208</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01425">1425</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -837,7 +1150,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Generate a checkpoint filename that records seed and pass. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00219">219</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01436">1436</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -902,7 +1215,105 @@ template&lt;typename ManifoldType&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A filename </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00153">153</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01370">1370</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a97a307e9d362b8d2b854294907e1cf4a" name="a97a307e9d362b8d2b854294907e1cf4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a307e9d362b8d2b854294907e1cf4a">&#9670;&#160;</a></span>make_reproducibility_metadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::make_reproducibility_metadata </td>
+          <td>(</td>
+          <td class="paramtype">ManifoldType const &amp;</td>          <td class="paramname"><span class="paramname"><em>manifold</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cdt::Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Artifact_kind const</td>          <td class="paramname"><span class="paramname"><em>artifact</em></span>&#160;) -&gt; <a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Build provenance from a canonical manifold state. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01505">1505</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a900d04c48cdfcb2a835587922a85d582" name="a900d04c48cdfcb2a835587922a85d582"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a900d04c48cdfcb2a835587922a85d582">&#9670;&#160;</a></span>metadata_filename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::metadata_filename </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>payload</em></span></td><td>)</td>
+          <td> -&gt; std::filesystem::path</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00133">133</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6a70b88164db4665fc7fe0ecd36a7451" name="a6a70b88164db4665fc7fe0ecd36a7451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a70b88164db4665fc7fe0ecd36a7451">&#9670;&#160;</a></span>metadata_text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::metadata_text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1detail_1_1_payload__integrity.html">Payload_integrity</a> const</td>          <td class="paramname"><span class="paramname"><em>payload</em></span>&#160;) -&gt; std::string</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00338">338</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -943,7 +1354,293 @@ template&lt;typename ManifoldType&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An output string of the topology </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00058">58</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00076">76</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa5e9c8dcaab103f3604ab867a4d26d1f" name="aa5e9c8dcaab103f3604ab867a4d26d1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5e9c8dcaab103f3604ab867a4d26d1f">&#9670;&#160;</a></span>parse_count_line()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_count_line </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;) -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00516">516</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5c9c414a3b1a5f07d1a51bb2d6eb27cf" name="a5c9c414a3b1a5f07d1a51bb2d6eb27cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c9c414a3b1a5f07d1a51bb2d6eb27cf">&#9670;&#160;</a></span>parse_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_info </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;) -&gt; <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00436">436</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aca764d97e0669ef825fe0dff606ce65b" name="aca764d97e0669ef825fe0dff606ce65b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca764d97e0669ef825fe0dff606ce65b">&#9670;&#160;</a></span>parse_metadata_floating()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::floating_point Float&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_metadata_floating </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;) -&gt; Float</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00469">469</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2d22bda7cb6aba779ef0969638211a0d" name="a2d22bda7cb6aba779ef0969638211a0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d22bda7cb6aba779ef0969638211a0d">&#9670;&#160;</a></span>parse_metadata_integer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_metadata_integer </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;) -&gt; <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00452">452</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a153be8236f8b9874547d2611dc246af4" name="a153be8236f8b9874547d2611dc246af4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a153be8236f8b9874547d2611dc246af4">&#9670;&#160;</a></span>parse_payload()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_payload </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
+          <td> -&gt; TriangulationType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01014">1014</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab74b10c78ac6ab42ac84ce29c6d19017" name="ab74b10c78ac6ab42ac84ce29c6d19017"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab74b10c78ac6ab42ac84ce29c6d19017">&#9670;&#160;</a></span>parse_record()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_record </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;) -&gt; std::pair&lt; std::string, <a class="el" href="_settings_8hpp.html#a9b4d7cf81076dcbf230bb7afddc82385">Int_precision</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00492">492</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac8d19d5b04227e8c2f50fa195c8e6ec2" name="ac8d19d5b04227e8c2f50fa195c8e6ec2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8d19d5b04227e8c2f50fa195c8e6ec2">&#9670;&#160;</a></span>parse_unsigned()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::parse_unsigned </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int const</td>          <td class="paramname"><span class="paramname"><em>base</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;) -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00419">419</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aaf2084cf985eb941c69f36e29269ef73" name="aaf2084cf985eb941c69f36e29269ef73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf2084cf985eb941c69f36e29269ef73">&#9670;&#160;</a></span>payload_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::payload_integrity </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
+          <td> -&gt; <a class="el" href="structutilities_1_1detail_1_1_payload__integrity.html">Payload_integrity</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00178">178</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab8b1a5499c4466638de74f8ccb5de1d5" name="ab8b1a5499c4466638de74f8ccb5de1d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8b1a5499c4466638de74f8ccb5de1d5">&#9670;&#160;</a></span>point_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::point_key </td>
+          <td>(</td>
+          <td class="paramtype">auto const &amp;</td>          <td class="paramname"><span class="paramname"><em>point</em></span></td><td>)</td>
+          <td> -&gt; std::string</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00213">213</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -979,7 +1676,7 @@ template&lt;typename Point&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the point </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00620">620</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01874">1874</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1014,7 +1711,37 @@ template&lt;typename TriangulationType&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00234">234</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01451">1451</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af9463d53d6981c4a8c523370070188bb" name="af9463d53d6981c4a8c523370070188bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9463d53d6981c4a8c523370070188bb">&#9670;&#160;</a></span>read_causal_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::read_causal_info </td>
+          <td>(</td>
+          <td class="paramtype">std::istream &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00531">531</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1050,7 +1777,59 @@ template&lt;typename TriangulationType&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Delaunay triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00338">338</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01607">1607</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0ff02cc735e8149911bf288a55c9acc4" name="a0ff02cc735e8149911bf288a55c9acc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ff02cc735e8149911bf288a55c9acc4">&#9670;&#160;</a></span>read_persistence_metadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::read_persistence_metadata </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td> -&gt; <a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">Parsed_persistence_metadata</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00661">661</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6d97b7623fe7b71e1dca61ae977464a7" name="a6d97b7623fe7b71e1dca61ae977464a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d97b7623fe7b71e1dca61ae977464a7">&#9670;&#160;</a></span>reconcile_payload_metadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::reconcile_payload_metadata </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01082">1082</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1081,7 +1860,34 @@ template&lt;typename TriangulationType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00105">105</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00990">990</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a253480c9156e2b4cf8794f625d5f48c4" name="a253480c9156e2b4cf8794f625d5f48c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a253480c9156e2b4cf8794f625d5f48c4">&#9670;&#160;</a></span>standard_library_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::standard_library_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> -&gt; std::string</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00165">165</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1117,12 +1923,180 @@ template&lt;typename TriangulationType&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the <a class="el" href="#ad9c9232841af64b400d39d994e5564c5" title="clang-15 does not support std::format">topology_type</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00630">630</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01884">1884</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a03b717a24d06b625ca46f6c3dee95f1e" name="a03b717a24d06b625ca46f6c3dee95f1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03b717a24d06b625ca46f6c3dee95f1e">&#9670;&#160;</a></span>update_reproducibility_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::update_reproducibility_state </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ManifoldType const &amp;</td>          <td class="paramname"><span class="paramname"><em>manifold</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Refresh state-dependent provenance after a transition sequence. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01530">1530</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad9c5d5785e07ecf03c8ab7b2a0a92d92" name="ad9c5d5785e07ecf03c8ab7b2a0a92d92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9c5d5785e07ecf03c8ab7b2a0a92d92">&#9670;&#160;</a></span>validate_payload_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::validate_payload_integrity </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>payload</em></span></td><td>)</td>
+          <td> -&gt; std::optional&lt; <a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">Parsed_persistence_metadata</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00939">939</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad912a76a6919a4d1307ee648de6d1bb7" name="ad912a76a6919a4d1307ee648de6d1bb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad912a76a6919a4d1307ee648de6d1bb7">&#9670;&#160;</a></span>validate_persistence_metadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::validate_persistence_metadata </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1detail_1_1_parsed__persistence__metadata.html">Parsed_persistence_metadata</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>payload_path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata_path</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01134">1134</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a3dbde6ece9b2ce1669ff21f4cbe357f0" name="a3dbde6ece9b2ce1669ff21f4cbe357f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dbde6ece9b2ce1669ff21f4cbe357f0">&#9670;&#160;</a></span>validate_serialized_payload()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::validate_serialized_payload </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>original</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01163">1163</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8a33073944ec1f64a1b5a22d6382048b" name="a8a33073944ec1f64a1b5a22d6382048b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a33073944ec1f64a1b5a22d6382048b">&#9670;&#160;</a></span>vertex_records()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::detail::vertex_records </td>
+          <td>(</td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span></td><td>)</td>
+          <td> -&gt; std::vector&lt; std::string &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00243">243</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a240d93f6093495266a7c666cd789ba1d" name="a240d93f6093495266a7c666cd789ba1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a240d93f6093495266a7c666cd789ba1d">&#9670;&#160;</a></span>write_causal_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::write_causal_info </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>output</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00300">300</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a0c39183b7cfafd2dce8e474d12da33a1" name="a0c39183b7cfafd2dce8e474d12da33a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c39183b7cfafd2dce8e474d12da33a1">&#9670;&#160;</a></span>write_file() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c39183b7cfafd2dce8e474d12da33a1">&#9670;&#160;</a></span>write_file() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1152,12 +2126,12 @@ template&lt;typename ManifoldType&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00310">310</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01554">1554</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
 <a id="af534b650d93f8dc085059b59002e6590" name="af534b650d93f8dc085059b59002e6590"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af534b650d93f8dc085059b59002e6590">&#9670;&#160;</a></span>write_file() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af534b650d93f8dc085059b59002e6590">&#9670;&#160;</a></span>write_file() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1179,12 +2153,12 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Write a triangulation with the effective seed in its filename. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00319">319</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01563">1563</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
 <a id="af6ea9a2bd02652a416dee3107b413897" name="af6ea9a2bd02652a416dee3107b413897"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6ea9a2bd02652a416dee3107b413897">&#9670;&#160;</a></span>write_file() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af6ea9a2bd02652a416dee3107b413897">&#9670;&#160;</a></span>write_file() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1211,12 +2185,39 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Write a checkpoint with its effective seed and pass in its name. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00326">326</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01573">1573</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a87ecb005502d42150a58ea67853cf265" name="a87ecb005502d42150a58ea67853cf265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87ecb005502d42150a58ea67853cf265">&#9670;&#160;</a></span>write_file() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::write_file </td>
+          <td>(</td>
+          <td class="paramtype">ManifoldType const &amp;</td>          <td class="paramname"><span class="paramname"><em>universe</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write a named stochastic artifact and its complete provenance. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01585">1585</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a1c8794a8c6a512fa264d9aa0e9203b14" name="a1c8794a8c6a512fa264d9aa0e9203b14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c8794a8c6a512fa264d9aa0e9203b14">&#9670;&#160;</a></span>write_file() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c8794a8c6a512fa264d9aa0e9203b14">&#9670;&#160;</a></span>write_file() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1251,7 +2252,40 @@ template&lt;typename TriangulationType&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00253">253</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01470">1470</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa12970a5381914b00c346937054e8b49" name="aa12970a5381914b00c346937054e8b49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa12970a5381914b00c346937054e8b49">&#9670;&#160;</a></span>write_file() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::write_file </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Atomically replace a triangulation and its verifiable provenance. </p>
+<p>Derives payload-dependent metadata from the triangulation and validates the complete typed manifest before either file is published. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01480">1480</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1278,7 +2312,7 @@ template&lt;typename TriangulationType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00079">79</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00964">964</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1305,7 +2339,130 @@ template&lt;typename TriangulationType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00073">73</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00958">958</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a930b69e71382b7daaa905997252a7f53" name="a930b69e71382b7daaa905997252a7f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a930b69e71382b7daaa905997252a7f53">&#9670;&#160;</a></span>write_payload()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::write_payload </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TriangulationType const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structutilities_1_1_reproducibility__metadata.html">Reproducibility_metadata</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>metadata</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01254">1254</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5a0f9461c5f3c19be6f38e022ce475c3" name="a5a0f9461c5f3c19be6f38e022ce475c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a0f9461c5f3c19be6f38e022ce475c3">&#9670;&#160;</a></span>write_text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void utilities::detail::write_text </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path const &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>contents</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01220">1220</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a177cebd84e06ec2f09685d59e3e88d77" name="a177cebd84e06ec2f09685d59e3e88d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a177cebd84e06ec2f09685d59e3e88d77">&#9670;&#160;</a></span>CAUSAL_INFO_HEADER</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view constexpr utilities::detail::CAUSAL_INFO_HEADER</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">        <span class="stringliteral">&quot;cdt-plusplus-causal-info-v1&quot;</span>}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00143">143</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a17f8c9e9d0884095887ab7b7da9ecd87" name="a17f8c9e9d0884095887ab7b7da9ecd87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17f8c9e9d0884095887ab7b7da9ecd87">&#9670;&#160;</a></span>HAS_CAUSAL_INFO</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TriangulationType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool constexpr utilities::detail::HAS_CAUSAL_INFO</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">                                  =</div>
+<div class="line"><span class="keyword">requires</span>(TriangulationType <span class="keyword">const</span>&amp; triangulation) {</div>
+<div class="line">  triangulation.finite_vertices_begin();</div>
+<div class="line">  triangulation.finite_vertices_end();</div>
+<div class="line">  triangulation.finite_cells_begin();</div>
+<div class="line">  triangulation.finite_cells_end();</div>
+<div class="line">  triangulation.number_of_vertices();</div>
+<div class="line">  triangulation.number_of_finite_cells();</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00232">232</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>

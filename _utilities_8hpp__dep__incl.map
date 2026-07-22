@@ -1,31 +1,32 @@
 <map id="include/Utilities.hpp" name="include/Utilities.hpp">
-<area shape="rect" id="Node000001" title="Utility functions." alt="" coords="238,5,389,33"/>
-<area shape="rect" id="Node000002" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="112,81,354,109"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,46,249,82,245,79,289,42"/>
-<area shape="rect" id="Node000010" href="$cdt-viewer_8cpp.html" title="Views 3D spacetimes." alt="" coords="5,316,144,344"/>
-<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="220,25,189,33,157,44,127,60,102,83,84,111,72,143,65,176,63,210,66,272,74,316,69,316,61,273,57,210,60,176,67,141,79,109,98,79,124,56,155,39,188,28,224,22"/>
-<area shape="rect" id="Node000012" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="300,157,487,184"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="339,42,369,80,385,121,394,157,389,156,380,122,364,82,338,47"/>
-<area shape="rect" id="Node000013" href="$_runtime__config_8hpp.html" title="Validated runtime configuration for CDT++ command&#45;line programs." alt="" coords="423,232,624,260"/>
-<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="354,38,391,58,430,85,468,117,501,155,511,175,518,195,525,233,520,231,513,197,506,177,496,158,464,121,427,89,388,63,355,43"/>
-<area shape="rect" id="Node000003" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="112,157,275,184"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="220,120,203,158,198,155,217,125"/>
-<area shape="rect" id="Node000004" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="133,232,290,260"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="201,197,211,232,206,232,200,202"/>
-<area shape="rect" id="Node000005" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="168,308,339,353"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="226,271,245,308,240,307,225,277"/>
-<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="175,271,98,318,95,314,178,266"/>
-<area shape="rect" id="Node000011" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="363,316,490,344"/>
-<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="260,263,395,315,390,317,260,269"/>
-<area shape="rect" id="Node000006" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="320,401,490,428"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="307,358,383,400,378,400,306,363"/>
-<area shape="rect" id="Node000008" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="88,401,296,428"/>
-<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="230,364,204,402,200,398,226,367"/>
-<area shape="rect" id="Node000007" href="$cdt_8cpp.html" title="The main executable." alt="" coords="421,476,512,504"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="427,438,458,477,453,475,425,443"/>
-<area shape="rect" id="Node000009" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="97,476,286,504"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="194,442,194,477,190,474,190,446"/>
-<area shape="poly" id="edge12_Node000012_Node000005" title=" " alt="" coords="374,194,274,309,270,306,370,198"/>
-<area shape="poly" id="edge14_Node000013_Node000007" title=" " alt="" coords="526,274,522,346,516,388,505,429,493,456,478,478,475,473,488,453,500,427,511,387,517,346,522,278"/>
-<area shape="poly" id="edge15_Node000013_Node000011" title=" " alt="" coords="499,269,443,318,440,314,495,271"/>
+<area shape="rect" id="Node000001" title="Utility functions." alt="" coords="313,5,464,33"/>
+<area shape="rect" id="Node000002" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="267,81,510,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="389,46,391,81,386,80,387,51"/>
+<area shape="rect" id="Node000006" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="597,401,766,428"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="479,25,550,39,585,51,618,65,647,84,670,107,685,136,691,169,691,248,685,402,680,399,686,247,686,169,680,137,666,111,644,88,616,70,583,56,549,44,480,30"/>
+<area shape="rect" id="Node000010" href="$cdt-viewer_8cpp.html" title="Views 3D spacetimes." alt="" coords="231,316,370,344"/>
+<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="308,41,281,58,257,83,236,127,233,167,242,209,257,259,272,290,291,316,286,316,268,293,253,261,237,210,228,167,231,126,253,79,278,54,312,37"/>
+<area shape="rect" id="Node000012" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="5,157,193,184"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="318,40,267,59,212,83,156,122,115,158,110,154,153,117,210,79,265,54,322,36"/>
+<area shape="rect" id="Node000013" href="$_runtime__config_8hpp.html" title="Validated runtime configuration for CDT++ command&#45;line programs." alt="" coords="449,232,650,260"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="461,36,496,54,524,79,544,119,553,162,555,202,554,233,549,230,550,202,548,163,539,121,520,83,493,58,461,41"/>
+<area shape="rect" id="Node000003" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="287,157,450,184"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="382,121,374,158,370,155,379,126"/>
+<area shape="rect" id="Node000004" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="267,232,424,260"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="361,197,352,233,347,230,358,202"/>
+<area shape="rect" id="Node000005" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="36,308,207,353"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="294,268,182,310,180,305,297,264"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="333,272,309,318,305,314,329,275"/>
+<area shape="rect" id="Node000011" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="394,316,521,344"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="377,267,442,316,437,316,376,272"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="223,351,428,381,599,404,594,405,427,386,223,356"/>
+<area shape="rect" id="Node000008" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="18,401,226,428"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="123,366,124,401,119,399,120,371"/>
+<area shape="rect" id="Node000007" href="$cdt_8cpp.html" title="The main executable." alt="" coords="575,476,666,504"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="663,439,633,478,630,474,659,441"/>
+<area shape="rect" id="Node000009" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="27,476,216,504"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="124,442,124,477,119,475,120,446"/>
+<area shape="poly" id="edge13_Node000012_Node000005" title=" " alt="" coords="104,197,121,308,116,308,102,202"/>
+<area shape="poly" id="edge15_Node000013_Node000007" title=" " alt="" coords="554,273,566,345,588,427,614,477,609,475,583,429,561,347,551,278"/>
+<area shape="poly" id="edge16_Node000013_Node000011" title=" " alt="" coords="526,269,474,318,471,314,521,272"/>
 </map>
