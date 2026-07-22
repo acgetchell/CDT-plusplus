@@ -21,7 +21,6 @@ made; the rest of the workflow is identical:
 # For the stable release, use TAG=v1.0.0.
 TAG=v1.0.0-rc1
 VERSION="${TAG#v}"
-RELEASE_DATE="$(date +%F)"
 
 RELEASE_FLAGS=()
 if [[ "$VERSION" == *-rc* ]]; then
