@@ -2,6 +2,8 @@
 
 **Quantize spacetime on your laptop.**
 
+[![DOI](https://zenodo.org/badge/11688464.svg)](https://doi.org/10.5281/zenodo.21487044)
+[![GitHub stars](https://badgen.net/github/stars/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/stargazers)
 [![License](https://badgen.net/github/license/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md)
 [![CI](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml)
 [![Documentation](https://github.com/acgetchell/CDT-plusplus/actions/workflows/doxygen.yml/badge.svg)](https://www.adamgetchell.org/CDT-plusplus/)
@@ -450,9 +452,10 @@ In addition to the command line output, you can see detailed results in the
 ### Coverage
 
 Coverage reporting is supported on Linux with GNU GCC and its matching gcov,
-CMake, Ninja, LCOV, and `genhtml`. On Debian or Ubuntu, install the additional
-reporting tool with `sudo apt-get install lcov`; the normal build prerequisites
-provide the remaining tools. Generate the same reports used by Codecov with:
+CMake, Ninja, LCOV 2.5 or newer, and `genhtml`. Distribution packages may
+provide an older LCOV that cannot parse coverage from current GCC releases; use
+the [upstream LCOV release](https://github.com/linux-test-project/lcov/releases/tag/v2.5)
+when necessary. Generate the same reports used by Codecov with:
 
 ```bash
 CXX=g++ GCOV=gcov just coverage

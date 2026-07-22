@@ -31,6 +31,18 @@ for tool in cmake ninja lcov genhtml "${cxx}" "${gcov_tool}"; do
   fi
 done
 
+lcov_version="$(lcov --version | awk 'NR == 1 { print $NF }')"
+if [[ ! "${lcov_version}" =~ ^([0-9]+)\.([0-9]+) ]]; then
+  echo "Unable to parse LCOV version '${lcov_version}'." >&2
+  exit 1
+fi
+lcov_major="${BASH_REMATCH[1]}"
+lcov_minor="${BASH_REMATCH[2]}"
+if ((lcov_major < 2 || (lcov_major == 2 && lcov_minor < 5))); then
+  echo "LCOV 2.5 or newer is required; found ${lcov_version}." >&2
+  exit 1
+fi
+
 cxx_version="$("${cxx}" -dumpfullversion -dumpversion)"
 gcov_version="$("${gcov_tool}" --version | awk 'NR == 1 { print $NF }')"
 if [[ "${cxx_version%%.*}" != "${gcov_version%%.*}" ]]; then

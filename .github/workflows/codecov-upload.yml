@@ -33,7 +33,22 @@ jobs:
           sudo apt update
           sudo apt-get install --yes \
             automake autoconf autoconf-archive build-essential ccache \
-            lcov libtool-bin ninja-build texinfo yasm
+            curl lcov libtool-bin ninja-build texinfo yasm
+
+      - name: Install LCOV 2.5
+        env:
+          LCOV_SHA256: 7e5e5a154bd5f3557659c328cab376764e7abd238bb403c424472c296b175126
+          LCOV_VERSION: "2.5"
+        run: |
+          archive="${RUNNER_TEMP}/lcov-${LCOV_VERSION}.tar.gz"
+          source_dir="${RUNNER_TEMP}/lcov-${LCOV_VERSION}"
+          curl --fail --location --show-error \
+            --output "${archive}" \
+            "https://github.com/linux-test-project/lcov/releases/download/v${LCOV_VERSION}/lcov-${LCOV_VERSION}.tar.gz"
+          echo "${LCOV_SHA256}  ${archive}" | sha256sum --check -
+          tar --extract --gzip --file "${archive}" --directory "${RUNNER_TEMP}"
+          sudo make --directory "${source_dir}" install
+          lcov --version
 
       - name: Set up Just
         uses: ./.github/actions/setup-just
