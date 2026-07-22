@@ -488,6 +488,11 @@ data; the project-only extraction removes them from both published reports. If
 coverage collection fails, verify that `g++ -dumpfullversion -dumpversion` and
 `gcov --version` report the same major version.
 
+GCC 16 also emits three known line-hit/branch-unhit records for templated
+assignments in `Utilities.hpp`. The coverage recipe keeps LCOV's warnings
+visible and requires that exact count during extraction and report generation;
+new or removed inconsistencies therefore fail the command for review.
+
 The Codecov workflow runs this recipe, uploads only `build/coverage.info` with
 OIDC, and preserves both reports as a 14-day GitHub Actions artifact for local
 diagnosis. If report generation fails, the workflow also preserves the gcov

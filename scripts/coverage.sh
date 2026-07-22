@@ -86,16 +86,25 @@ lcov \
   "${repo_root}/include/*" \
   "${repo_root}/src/*" \
   --no-function-coverage \
+  --ignore-errors inconsistent \
+  --expect-message-count inconsistent:3 \
   --rc branch_coverage=1 \
   --output-file "${coverage_file}"
+# GCC 16 emits three known line-hit/branch-unhit records in Utilities.hpp.
+# LCOV checks each record twice while rendering and listing the filtered report,
+# so keep the warnings visible and fail if either expected count changes.
 genhtml \
   --branch-coverage \
   --no-function-coverage \
+  --ignore-errors inconsistent \
+  --expect-message-count inconsistent:6 \
   --output-directory "${html_dir}" \
   "${coverage_file}"
 lcov \
   --list "${coverage_file}" \
   --no-function-coverage \
+  --ignore-errors inconsistent \
+  --expect-message-count inconsistent:6 \
   --rc branch_coverage=1
 rm -f -- "${raw_coverage_file}"
 
