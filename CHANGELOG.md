@@ -5,7 +5,7 @@ All notable changes to CDT++ are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0-rc1] - 2026-07-21
+## [1.0.0-rc2] - 2026-07-22
 
 ### Added
 
@@ -35,4 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add release tooling and repair coverage [`1416708`](https://github.com/acgetchell/CDT-plusplus/commit/14167080aa06a0fbe6e8c81664ba516b8dcfe96e)
 
-[1.0.0-rc1]: https://github.com/acgetchell/CDT-plusplus/compare/0.1.8...v1.0.0-rc1
+- Update docs/RELEASING.md [`26196da`](https://github.com/acgetchell/CDT-plusplus/commit/26196daa76b1094ea9364a20b3618ef61a5c4185)
+
+[1.0.0-rc2]: https://github.com/acgetchell/CDT-plusplus/compare/0.1.8...v1.0.0-rc2

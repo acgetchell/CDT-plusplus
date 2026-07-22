@@ -53,6 +53,11 @@ docs-check:
 docs:
     ./scripts/doxygen.sh build "{{ doxygen_version }}" "{{ graphviz_version }}"
 
+# Build with GNU coverage instrumentation and generate LCOV and HTML reports.
+[group('workflows')]
+coverage:
+    ./scripts/coverage.sh
+
 # Measure run-owned PCG sampling against the removed entropy-per-draw design.
 [group('workflows')]
 benchmark-rng draws='10000': build

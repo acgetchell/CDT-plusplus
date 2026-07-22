@@ -40,7 +40,10 @@ class GenerateChangelogTests(unittest.TestCase):
     ) -> None:
         """Validation completes before the tracked artifact is replaced."""
         metadata.return_value = ("1.0.0-rc1", date(2026, 7, 21))
-        git.return_value = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="0.1.8\n", stderr="")
+        git.side_effect = [
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="0.1.8\n", stderr=""),
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="", stderr=""),
+        ]
         command.return_value = subprocess.CompletedProcess(
             args=["git-cliff"],
             returncode=0,
@@ -75,7 +78,10 @@ class GenerateChangelogTests(unittest.TestCase):
             stdout="# Changelog\n\n## [1.0.0-rc1] - 2099-01-01\n\n- Fixed.\n\n",
             stderr="",
         )
-        git.return_value = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v0.9.0-rc1\n0.1.8\n", stderr="")
+        git.side_effect = [
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v0.9.0-rc1\n0.1.8\n", stderr=""),
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="", stderr=""),
+        ]
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             (root / "cliff.toml").write_text("[changelog]\n", encoding="utf-8")
@@ -90,6 +96,49 @@ class GenerateChangelogTests(unittest.TestCase):
         environment = command.call_args.kwargs["environment"]
         self.assertEqual(environment["GIT_CLIFF_OFFLINE"], "true")
         self.assertEqual(command.call_args.args[1][-1], "0.1.8..HEAD")
+
+    @mock.patch("scripts.generate_changelog.run_support_command")
+    @mock.patch("scripts.generate_changelog.run_git_command")
+    @mock.patch("scripts.generate_changelog.release_check.check_release_inputs")
+    def test_ignores_prior_release_tag_on_head(
+        self,
+        metadata: mock.Mock,
+        git: mock.Mock,
+        command: mock.Mock,
+    ) -> None:
+        """A prior RC on HEAD cannot override the requested synthetic release."""
+        metadata.return_value = ("1.0.0-rc2", date(2026, 7, 22))
+        git.side_effect = [
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v1.0.0-rc1\n0.1.8\n", stderr=""),
+            subprocess.CompletedProcess(args=["git"], returncode=0, stdout="v1.0.0-rc1\nv1.0.0-rc2\n", stderr=""),
+        ]
+        command.return_value = subprocess.CompletedProcess(
+            args=["git-cliff"],
+            returncode=0,
+            stdout="# Changelog\n\n## [1.0.0-rc2] - 2099-01-01\n\n- Fixed.\n",
+            stderr="",
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            (root / "cliff.toml").write_text("[changelog]\n", encoding="utf-8")
+
+            generated = generate_changelog.generate_changelog("v1.0.0-rc2", root=root, output=root / "CHANGELOG.md")
+
+            text = generated.read_text(encoding="utf-8")
+
+        self.assertIn("## [1.0.0-rc2] - 2026-07-22", text)
+        self.assertEqual(
+            command.call_args.args[1],
+            [
+                "--config",
+                str(root.resolve() / "cliff.toml"),
+                "--tag",
+                "v1.0.0-rc2",
+                "--ignore-tags",
+                r"^(?:v1\.0\.0\-rc1)$",
+                "0.1.8..HEAD",
+            ],
+        )
 
     @mock.patch("scripts.generate_changelog.release_check.check_release_inputs")
     def test_rejects_tag_metadata_mismatch_before_running_git_cliff(self, metadata: mock.Mock) -> None:

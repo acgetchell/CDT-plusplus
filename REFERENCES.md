@@ -10,7 +10,7 @@ Quick citation for the current declared release:
 
 ```text
 Adam Getchell. 2026. CDT-plusplus: Causal Dynamical Triangulations in C++.
-Version 1.0.0-rc1. GitHub. https://github.com/acgetchell/CDT-plusplus
+Version 1.0.0-rc2. GitHub. https://github.com/acgetchell/CDT-plusplus
 ```
 
 The sections below are grouped by scientific domain. Cite the entries relevant

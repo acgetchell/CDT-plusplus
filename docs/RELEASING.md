@@ -19,7 +19,7 @@ made; the rest of the workflow is identical:
 ```bash
 # The Git tag has a leading v; metadata versions do not.
 # For the stable release, use TAG=v1.0.0.
-TAG=v1.0.0-rc1
+TAG=v1.0.0-rc2
 VERSION="${TAG#v}"
 
 RELEASE_FLAGS=()
@@ -28,8 +28,8 @@ if [[ "$VERSION" == *-rc* ]]; then
 fi
 ```
 
-A release-candidate tag such as `v1.0.0-rc1` uses `1.0.0-rc1` for product,
-vcpkg, Doxygen, and citation metadata, and the PEP 440 spelling `1.0.0rc1` for
+A release-candidate tag such as `v1.0.0-rc2` uses `1.0.0-rc2` for product,
+vcpkg, Doxygen, and citation metadata, and the PEP 440 spelling `1.0.0rc2` for
 Python metadata. A stable tag such as `v1.0.0` uses `1.0.0` everywhere else.
 
 The changelog workflow requires the pinned `git-cliff` version declared by the
@@ -71,7 +71,8 @@ Edit the following synchronized metadata:
 - `README.md`, `REFERENCES.md`, and `.github/CONTRIBUTING.md`: active release
   references and release-facing prose.
 
-For `v1.0.0-rc1`, the versions are already synchronized in the repository.
+For `v1.0.0-rc2`, synchronize the versions in the repository before generating
+the changelog.
 Set `CITATION.cff`'s `date-released` to the actual release date and review the
 other fields rather than rewriting unchanged metadata:
 
@@ -163,6 +164,8 @@ Return to `main`, update it to the merge commit, and repeat the release gates
 against the exact commit that will be tagged:
 
 ```bash
+TAG=v1.0.0-rc2
+
 git switch main
 git pull --ff-only
 git status --short
@@ -196,7 +199,32 @@ tagged commit is wrong, prepare a new version instead.
 Create the GitHub release from the annotated tag. `RELEASE_FLAGS` marks an RC
 as a prerelease and expands to no arguments for a stable release:
 
+Before publishing a release that Zenodo should archive, sign in to Zenodo with
+the GitHub-linked account, enable this repository under **Profile → GitHub**,
+and verify that GitHub has exactly one active Zenodo release webhook without
+printing its token-bearing callback URL:
+
 ```bash
+ZENODO_HOOK_COUNT="$(
+  gh api repos/acgetchell/CDT-plusplus/hooks \
+    --paginate \
+    --slurp |
+    jq '[.[][] | select(
+      .active and
+      (.events | index("release")) and
+      (.config.url | startswith("https://zenodo.org/"))
+    )] | length'
+)"
+test "$ZENODO_HOOK_COUNT" -eq 1
+```
+
+Stop if this preflight fails. Enabling Zenodo after publication does not
+reliably import an earlier GitHub release.
+
+```bash
+TAG=v1.0.0-rc2
+RELEASE_FLAGS=(--prerelease)
+
 gh release create "$TAG" \
   --verify-tag \
   --title "$TAG" \
@@ -204,22 +232,58 @@ gh release create "$TAG" \
   "${RELEASE_FLAGS[@]}"
 ```
 
+Published releases may be immutable. Never delete a published release to
+retrigger an integration: GitHub permanently reserves an immutable release's
+tag name, so the release cannot be recreated with that tag. Verify external
+integrations before publishing and create a new version if a release must be
+repeated.
+
 Always use the exact tag, including the leading `v`, as the release title.
-Verify the published release:
+Verify the published release. The tag-specific delivery lookup requires
+repository-webhook read access; if `gh` reports a missing `admin:repo_hook`
+scope, add it once with `gh auth refresh -h github.com -s admin:repo_hook`:
 
 ```bash
 gh release view "$TAG" \
   --json url,tagName,name,isDraft,isPrerelease \
   --jq .
+
+ZENODO_HOOK_ID="$(
+  gh api repos/acgetchell/CDT-plusplus/hooks \
+    --paginate \
+    --jq '.[] | select(
+      .active and
+      (.events | index("release")) and
+      (.config.url | startswith("https://zenodo.org/"))
+    ) | .id'
+)"
+ZENODO_DELIVERY="$(
+  gh api --paginate \
+    "repos/acgetchell/CDT-plusplus/hooks/$ZENODO_HOOK_ID/deliveries" \
+    --jq '.[] | select(.event == "release") | .id' |
+    while IFS= read -r delivery_id; do
+      gh api \
+        "repos/acgetchell/CDT-plusplus/hooks/$ZENODO_HOOK_ID/deliveries/$delivery_id" |
+        jq --arg tag "$TAG" 'select(
+          .request.payload.release.tag_name == $tag
+        ) | {event, action, status, status_code, delivered_at, redelivery}'
+    done |
+    jq -s 'sort_by(.delivered_at) | last'
+)"
+jq -e 'select(
+  .status == "OK" and
+  (.status_code >= 200 and .status_code < 400)
+)' <<<"$ZENODO_DELIVERY"
 ```
 
-If this is a stable release, complete the Zenodo handoff tracked in
-[issue #96]: confirm that Zenodo received the release, verify its version,
-date, title, authors, license, repository URL, and files, and record the final
-DOI according to the archival plan. If the DOI was unavailable before tagging,
-update `CITATION.cff` in a focused follow-up pull request rather than rewriting
-the tag. Complete repository archival only after the GitHub release and Zenodo
-record are correct. A prerelease requires no Zenodo action.
+For an intentionally archived release candidate, verify the Zenodo record and
+DOI without treating it as the final archival handoff. For a stable release,
+complete the Zenodo handoff tracked in [issue #96]: confirm that Zenodo received
+the release, verify its version, date, title, authors, license, repository URL,
+and files, and record the final DOI according to the archival plan. If the DOI
+was unavailable before tagging, update `CITATION.cff` in a focused follow-up
+pull request rather than rewriting the tag. Complete repository archival only
+after the GitHub release and Zenodo record are correct.
 
 ## Step 4: Clean up
 
