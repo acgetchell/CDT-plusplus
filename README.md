@@ -482,13 +482,17 @@ LCOV tracefile to `build/coverage.info` and the browsable report to
 paths are retained, consistently excluding tests, generated files, system
 headers, and vcpkg dependencies. Reports include line and branch coverage;
 function coverage is disabled because GCC can emit inconsistent function and
-line records for generated lambda bodies. If coverage collection fails, verify
-that `g++ -dumpfullversion -dumpversion` and `gcov --version` report the same
-major version.
+line records for generated lambda bodies. The raw LCOV capture temporarily
+retains function records because LCOV 2.5 requires them while filtering GCC 16
+data; the project-only extraction removes them from both published reports. If
+coverage collection fails, verify that `g++ -dumpfullversion -dumpversion` and
+`gcov --version` report the same major version.
 
 The Codecov workflow runs this recipe, uploads only `build/coverage.info` with
 OIDC, and preserves both reports as a 14-day GitHub Actions artifact for local
-diagnosis. It does not rely on Codecov's automatic gcov discovery.
+diagnosis. If report generation fails, the workflow also preserves the gcov
+inputs and CTest diagnostics for seven days. It does not rely on Codecov's
+automatic gcov discovery.
 
 ### Static Analysis
 

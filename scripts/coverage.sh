@@ -73,11 +73,12 @@ ctest \
   --timeout 600 \
   -j "${jobs}" || test_status=$?
 
+# LCOV 2.5 needs function records while filtering GCC 16 gcov data. Keep them
+# in the raw capture, then remove them from the project-only report below.
 lcov \
   --capture \
   --directory "${cmake_build_dir}" \
   --gcov-tool "${gcov_tool}" \
-  --no-function-coverage \
   --rc branch_coverage=1 \
   --output-file "${raw_coverage_file}"
 lcov \

@@ -82,6 +82,19 @@ jobs:
             build/coverage-html
           retention-days: 14
 
+      - name: Preserve gcov inputs after generation failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          if-no-files-found: warn
+          name: coverage-inputs-${{ github.sha }}
+          path: |
+            build/coverage/**/*.gcda
+            build/coverage/**/*.gcno
+            build/coverage/Testing/Temporary/CTestCostData.txt
+            build/coverage/Testing/Temporary/LastTest.log
+          retention-days: 7
+
       - name: Submit to codecov.io
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
