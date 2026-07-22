@@ -1,4 +1,29 @@
 var searchData=
 [
-  ['ergodic_20move_20audit_0',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
+  ['calculus_0',['Regge calculus',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus',1,'']]],
+  ['calculus_20and_20discrete_20action_1',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
+  ['carlo_20methods_2',['Monte Carlo Methods',['../md__r_e_f_e_r_e_n_c_e_s.html#monte-carlo-methods',1,'']]],
+  ['causal_20dynamical_20triangulations_20theory_3',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]],
+  ['cdt_4',['CDT',['../index.html#citing-cdt',1,'Citing CDT++'],['../md_docs_2_r_e_l_e_a_s_i_n_g.html',1,'Releasing CDT++']]],
+  ['cdt_202001_5',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
+  ['cdt_20ergodic_20move_20audit_6',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]],
+  ['cdt_20framework_7',['Original CDT framework',['../md__r_e_f_e_r_e_n_c_e_s.html#original-cdt-framework',1,'']]],
+  ['cdt_20framework_202001_8',['CDT framework (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'']]],
+  ['cdt_20plusplus_9',['CDT-plusplus',['../index.html',1,'']]],
+  ['cgal_20triangulations_10',['CGAL triangulations',['../md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations',1,'']]],
+  ['check_11',['Move-selection performance check',['../md_docs_2reproducibility.html#move-selection-performance-check',1,'']]],
+  ['citations_12',['References and Citations',['../md__r_e_f_e_r_e_n_c_e_s.html',1,'']]],
+  ['cite_20this_20software_13',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]],
+  ['citing_20cdt_14',['Citing CDT++',['../index.html#citing-cdt',1,'']]],
+  ['clean_20up_15',['Step 4: Clean up',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-4-clean-up',1,'']]],
+  ['common_20contract_16',['Conventions and common contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'']]],
+  ['computational_20geometry_20and_20random_20number_20generation_17',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
+  ['contents_18',['Table of contents',['../index.html#table-of-contents',1,'']]],
+  ['contract_19',['contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'Conventions and common contract'],['../md_docs_2metropolis-hastings.html',1,'Metropolis-Hastings transition contract'],['../md_docs_2reproducibility.html#persistence-contract',1,'Persistence contract']]],
+  ['contributing_20',['Contributing',['../index.html#contributing',1,'']]],
+  ['conventions_21',['Conventions',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#conventions',1,'']]],
+  ['conventions_20and_20common_20contract_22',['Conventions and common contract',['../md_docs_2ergodic-moves.html#conventions-and-common-contract',1,'']]],
+  ['counters_23',['Counters',['../md_docs_2metropolis-hastings.html#counters',1,'']]],
+  ['critical_20fixes_24',['Release-critical fixes',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#release-critical-fixes',1,'']]],
+  ['current_20reference_20suite_20status_25',['Current reference-suite status',['../index.html#current-reference-suite-status',1,'']]]
 ];

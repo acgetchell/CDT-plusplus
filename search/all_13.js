@@ -1,32 +1,4 @@
 var searchData=
 [
-  ['s3_5fbulk_5faction_0',['S3_bulk_action',['../_s3_action_8hpp.html#a5b3a7bdba73f9e372a861f0219f53ebf',1,'S3Action.hpp']]],
-  ['s3_5fbulk_5faction_5falpha_5fminus_5fone_1',['S3_bulk_action_alpha_minus_one',['../_s3_action_8hpp.html#a69c2e0cc22fdadd22830f070d4b745b4',1,'S3Action.hpp']]],
-  ['s3_5fbulk_5faction_5falpha_5fone_2',['S3_bulk_action_alpha_one',['../_s3_action_8hpp.html#ac9900d9631adaa3456f909b79edb3089',1,'S3Action.hpp']]],
-  ['s3action_2ehpp_3',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
-  ['same_5fconfiguration_5fvalue_4',['same_configuration_value',['../_ergodic__moves__3_8hpp.html#aa4ad62748c17ebcf86bcc7a967ee49b8',1,'ergodic_moves::detail']]],
-  ['sanitizers_5',['Sanitizers',['../index.html#sanitizers',1,'']]],
-  ['scope_6',['Regression-oracle scope',['../index.html#regression-oracle-scope',1,'']]],
-  ['seed_7',['seed',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae77512af960ee64a7bca226af0d78a72',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::seed()'],['../class_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a35698e5c79399e8fc276f4f9b44bffb3',1,'MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::seed()'],['../classcdt_1_1_random.html#a8b524d4ccfc7afd4362909b478a8059c',1,'cdt::Random::seed()']]],
-  ['selection_20performance_20check_8',['Move-selection performance check',['../md_docs_2reproducibility.html#move-selection-performance-check',1,'']]],
-  ['settings_2ehpp_9',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
-  ['setup_10',['Setup',['../index.html#setup',1,'']]],
-  ['simplices_11',['simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['simplicial_20topology_20and_20local_20moves_12',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]],
-  ['simulation_13',['Simulation',['../classruntime__config_1_1_simulation.html',1,'runtime_config']]],
-  ['six_5ftwo_5fmoves_14',['six_two_moves',['../classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347',1,'move_tracker::MoveTracker::six_two_moves() -&gt; auto &amp;'],['../classmove__tracker_1_1_move_tracker.html#a251d4e8805065619ba36cd61f7f6b93a',1,'move_tracker::MoveTracker::six_two_moves() const']]],
-  ['size_15',['size',['../class_move_command.html#a64c236cb2b7499d49f8faf1225a0fa14',1,'MoveCommand::size()'],['../classmove__tracker_1_1_move_tracker.html#ab989fcf20aa7bb1df705a9a8cc5214e1',1,'move_tracker::MoveTracker::size()']]],
-  ['software_16',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]],
-  ['spacelike_5fface_5fcount_17',['spacelike_face_count',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#aeec98517d4b292640ecb27cdb9fbcc5f',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::spacelike_face_count()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a751a88dba904348ed7f5530792e0a11c',1,'manifolds::Manifold&lt; 3 &gt;::spacelike_face_count()']]],
-  ['split_18',['split',['../classcdt_1_1_random.html#a6219dfe9070147ffbd3cc3fc80d49b60',1,'cdt::Random']]],
-  ['squared_5fdistance_19',['squared_distance',['../struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f',1,'TriangulationTraits&lt; 3 &gt;']]],
-  ['squared_5fradius_20',['squared_radius',['../_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76',1,'foliated_triangulations']]],
-  ['state_20and_20geometry_20deltas_21',['State and geometry deltas',['../md_docs_2metropolis-hastings.html#state-and-geometry-deltas',1,'']]],
-  ['static_20analysis_22',['Static Analysis',['../index.html#static-analysis',1,'']]],
-  ['status_23',['status',['../index.html#current-reference-suite-status',1,'Current reference-suite status'],['../index.html#maintenance-status',1,'Maintenance status']]],
-  ['strategies_24',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],
-  ['stream_25',['stream',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a819002468c47a447ee070a43046f27d6',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::stream()'],['../classcdt_1_1_random.html#a422fe97c34cf2fb3d7d99d839b45f4d8',1,'cdt::Random::stream()']]],
-  ['stream_20policy_26',['Parallel stream policy',['../md_docs_2reproducibility.html#parallel-stream-policy',1,'']]],
-  ['suite_20status_27',['Current reference-suite status',['../index.html#current-reference-suite-status',1,'']]],
-  ['swap_28',['swap',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#abf7acc093980c2031c2a9cea3bd9500c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a2947583313ce6002731610f71ed3488c',1,'Geometry&lt; 3 &gt;::swap()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a61062e1226c169c0efe8db68d3384b09',1,'manifolds::Manifold&lt; 3 &gt;::swap()']]]
+  ['quickstart_0',['Quickstart',['../index.html#quickstart',1,'']]]
 ];

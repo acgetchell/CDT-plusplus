@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['bistellar_5fflip_0',['bistellar_flip',['../_ergodic__moves__3_8hpp.html#ac42094816fc0a939ee1e5b607fc475ff',1,'ergodic_moves']]],
-  ['build_1',['Build',['../index.html#build',1,'']]],
-  ['by_20move_20record_2',['Move-by-move record',['../md_docs_2ergodic-moves.html#move-by-move-record',1,'']]]
+  ['4_3a_20clean_20up_0',['Step 4: Clean up',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-4-clean-up',1,'']]]
 ];

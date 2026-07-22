@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['delta_20derivations_0',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
-  ['deltas_1',['State and geometry deltas',['../md_docs_2metropolis-hastings.html#state-and-geometry-deltas',1,'']]],
-  ['derivations_2',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
-  ['developer_20workflow_3',['Developer workflow',['../index.html#developer-workflow',1,'']]],
-  ['dimensional_20cdt_202001_4',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
-  ['discrete_20action_5',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
-  ['documentation_6',['Documentation',['../index.html#documentation',1,'']]],
-  ['dynamical_20triangulations_20theory_7',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
+  ['branch_0',['Validate the release branch',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#validate-the-release-branch',1,'']]],
+  ['build_1',['Build',['../index.html#build',1,'']]],
+  ['by_20move_20record_2',['Move-by-move record',['../md_docs_2ergodic-moves.html#move-by-move-record',1,'']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['layout_0',['Project Layout',['../index.html#project-layout',1,'']]],
-  ['list_1',['Todo List',['../todo.html',1,'']]],
-  ['local_20moves_2',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]]
+  ['independent_20delta_20derivations_0',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
+  ['introduction_1',['Introduction',['../index.html#introduction',1,'']]],
+  ['issues_2',['Issues',['../index.html#issues',1,'']]]
 ];

@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['workflow_0',['Developer workflow',['../index.html#developer-workflow',1,'']]],
-  ['write_5ffile_1',['write_file',['../_utilities_8hpp.html#a1c8794a8c6a512fa264d9aa0e9203b14',1,'utilities::write_file(std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation)'],['../_utilities_8hpp.html#aa12970a5381914b00c346937054e8b49',1,'utilities::write_file(std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation, Reproducibility_metadata const &amp;metadata)'],['../_utilities_8hpp.html#a0c39183b7cfafd2dce8e474d12da33a1',1,'utilities::write_file(ManifoldType const &amp;t_universe)'],['../_utilities_8hpp.html#af534b650d93f8dc085059b59002e6590',1,'utilities::write_file(ManifoldType const &amp;t_universe, cdt::Random_seed const seed)'],['../_utilities_8hpp.html#af6ea9a2bd02652a416dee3107b413897',1,'utilities::write_file(ManifoldType const &amp;t_universe, cdt::Random_seed const seed, Int_precision const completed_passes)'],['../_utilities_8hpp.html#a87ecb005502d42150a58ea67853cf265',1,'utilities::write_file(ManifoldType const &amp;universe, Reproducibility_metadata const &amp;metadata)']]],
-  ['writefileoperation_2',['WriteFileOperation',['../classutilities_1_1detail_1_1_write_file_operation.html',1,'utilities::detail']]],
-  ['writes_5ffiles_3',['writes_files',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a29c08cd76add730598bd37204e951958',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]]
+  ['up_0',['Step 4: Clean up',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-4-clean-up',1,'']]],
+  ['update_20release_20metadata_1',['Update release metadata',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#update-release-metadata',1,'']]],
+  ['update_5freproducibility_5fstate_2',['update_reproducibility_state',['../_utilities_8hpp.html#a03b717a24d06b625ca46f6c3dee95f1e',1,'utilities']]],
+  ['updated_3',['updated',['../classmanifolds_1_1_manifold_3_013_01_4.html#a162b76deb8bdc92056167969b80a186c',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['usage_4',['USAGE',['../cdt_8cpp.html#ad3eee35d94eb8f93508e7a55efad889f',1,'cdt.cpp']]],
+  ['usage_5',['Usage',['../index.html#usage',1,'']]],
+  ['utilities_2ehpp_6',['Utilities.hpp',['../_utilities_8hpp.html',1,'']]]
 ];
