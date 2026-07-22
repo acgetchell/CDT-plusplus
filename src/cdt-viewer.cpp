@@ -16,6 +16,7 @@ Copyright © 2022 Adam Getchell
 #include "Utilities.hpp"
 #include "Version.hpp"
 
+using namespace cdt;
 namespace po = boost::program_options;
 
 static auto constexpr USAGE =

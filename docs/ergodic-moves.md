@@ -78,7 +78,8 @@ The fixed boundary and Euler relation then force every tracked count delta to
 zero.
 
 These derivations agree with the source's f-vectors (71)-(73) but do not call
-`ergodic_moves::check_move()` or any production count-delta helper.
+`cdt::ergodic_moves::detail::check_move()` or any production count-delta
+helper.
 
 ## Verification record
 

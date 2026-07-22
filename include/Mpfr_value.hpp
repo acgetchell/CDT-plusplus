@@ -17,16 +17,16 @@
 
 #include "Settings.hpp"
 
-namespace mpfr_values
+namespace cdt::mpfr_values
 {
-  using Value                                = CGAL::Gmpfr;
+  using Value                         = CGAL::Gmpfr;
 
   /// MPFR round-to-nearest with ties to an even significand.
   ///
   /// Keeping one explicit policy at every arithmetic boundary prevents a
   /// caller from accidentally mixing directed roundings inside an action
   /// calculation.
-  static inline auto constexpr rounding_mode = MPFR_RNDN;
+  inline auto constexpr rounding_mode = MPFR_RNDN;
 
   static_assert(std::is_nothrow_destructible_v<Value>,
                 "MPFR values must release their resources without throwing.");
@@ -142,6 +142,6 @@ namespace mpfr_values
 
   [[nodiscard]] inline auto to_long_double(Value const& value) -> long double
   { return mpfr_get_ld(value.fr(), rounding_mode); }
-}  // namespace mpfr_values
+}  // namespace cdt::mpfr_values
 
 #endif  // CDT_PLUSPLUS_MPFR_VALUE_HPP

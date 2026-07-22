@@ -14,6 +14,8 @@
 #include <limits>
 #include <type_traits>
 
+using namespace cdt;
+
 namespace
 {
   auto test_make_triangulation(bool const spherical, bool const toroidal,

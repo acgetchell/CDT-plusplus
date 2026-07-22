@@ -5,7 +5,7 @@ set minimum-version := "1.57.0"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 just_version := "1.57.0"
-uv_version := "0.11.30"
+uv_version := "0.11.31"
 git_cliff_version := "2.13.1"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version

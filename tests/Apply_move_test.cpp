@@ -19,6 +19,7 @@
 
 #include "Ergodic_moves_3.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
@@ -74,7 +75,7 @@ namespace
   {
     CHECK(before.is_correct());
     CHECK(after.is_correct());
-    CHECK(ergodic_moves::check_move(before, after, move));
+    CHECK(ergodic_moves::detail::check_move(before, after, move));
   }
 }  // namespace
 

@@ -22,6 +22,7 @@
 
 using Timer = CGAL::Real_timer;
 
+using namespace cdt;
 using namespace std;
 namespace po = boost::program_options;
 

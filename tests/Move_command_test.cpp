@@ -22,6 +22,7 @@
 
 #include "Apply_move.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
@@ -29,6 +30,57 @@ namespace
 {
   using VertexState = std::tuple<double, double, double, Int_precision>;
   using CellState   = std::pair<std::array<VertexState, 4>, Int_precision>;
+
+  struct ExpectedGeometryDelta
+  {
+    Int_precision n3;
+    Int_precision n3_31;
+    Int_precision n3_13;
+    Int_precision n3_31_13;
+    Int_precision n3_22;
+    Int_precision n2;
+    Int_precision n1;
+    Int_precision n1_tl;
+    Int_precision n1_sl;
+    Int_precision n0;
+  };
+
+  [[nodiscard]] auto constexpr expected_geometry_delta(
+      move_tracker::move_type const move) -> ExpectedGeometryDelta
+  {
+    using enum move_tracker::move_type;
+    switch (move)
+    {
+      case TWO_THREE: return {1, 0, 0, 0, 1, 2, 1, 1, 0, 0};
+      case THREE_TWO: return {-1, 0, 0, 0, -1, -2, -1, -1, 0, 0};
+      case TWO_SIX: return {4, 2, 2, 4, 0, 8, 5, 2, 3, 1};
+      case SIX_TWO: return {-4, -2, -2, -4, 0, -8, -5, -2, -3, -1};
+      case FOUR_FOUR: return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    }
+    return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  }
+
+  void check_successful_move_outcome(Manifold_3 const&             before,
+                                     Manifold_3 const&             after,
+                                     move_tracker::move_type const move)
+  {
+    auto const expected = expected_geometry_delta(move);
+    CHECK(after.is_correct());
+    CHECK_EQ(after.initial_radius(), before.initial_radius());
+    CHECK_EQ(after.foliation_spacing(), before.foliation_spacing());
+    CHECK_EQ(after.N3() - before.N3(), expected.n3);
+    CHECK_EQ(after.N3_31() - before.N3_31(), expected.n3_31);
+    CHECK_EQ(after.N3_13() - before.N3_13(), expected.n3_13);
+    CHECK_EQ(after.N3_31_13() - before.N3_31_13(), expected.n3_31_13);
+    CHECK_EQ(after.N3_22() - before.N3_22(), expected.n3_22);
+    CHECK_EQ(after.N2() - before.N2(), expected.n2);
+    CHECK_EQ(after.N1() - before.N1(), expected.n1);
+    CHECK_EQ(after.N1_TL() - before.N1_TL(), expected.n1_tl);
+    CHECK_EQ(after.N1_SL() - before.N1_SL(), expected.n1_sl);
+    CHECK_EQ(after.N0() - before.N0(), expected.n0);
+    CHECK_EQ(after.max_time(), before.max_time());
+    CHECK_EQ(after.min_time(), before.min_time());
+  }
 
   auto vertex_state(Vertex_handle_t<3> const& vertex) -> VertexState
   {
@@ -116,7 +168,7 @@ namespace
     if (succeeded == 1)
     {
       CHECK_EQ(result.simplices(), before.simplices() + cell_delta);
-      CHECK(ergodic_moves::check_move(before, result, move));
+      check_successful_move_outcome(before, result, move);
     }
     else
     {
@@ -194,8 +246,9 @@ SCENARIO("Invoking a move with a function pointer" *
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+        REQUIRE(result.has_value());
+        check_successful_move_outcome(manifold, *result,
+                                      move_tracker::move_type::TWO_THREE);
       }
     }
   }
@@ -221,8 +274,8 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
-        CHECK(ergodic_moves::check_move(manifold, result,
-                                        move_tracker::move_type::TWO_THREE));
+        check_successful_move_outcome(manifold, result,
+                                      move_tracker::move_type::TWO_THREE);
       }
     }
   }
@@ -246,8 +299,9 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = apply_move(manifold, move, random);
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+        REQUIRE(result.has_value());
+        check_successful_move_outcome(manifold, *result,
+                                      move_tracker::move_type::TWO_THREE);
       }
     }
   }

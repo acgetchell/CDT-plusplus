@@ -16,6 +16,7 @@
 
 #include "Foliated_triangulation.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace foliated_triangulations;
 
@@ -72,7 +73,7 @@ SCENARIO("Find distances between points of the tetrahedron" *
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;
   using FoliatedTriangulation = FoliatedTriangulation_3;
-  using squared_distance      = TriangulationTraits<3>::squared_distance;
+  using squared_distance = detail::TriangulationTraits<3>::squared_distance;
   GIVEN("Points in a tetrahedron.")
   {
     auto origin         = Point{0, 0, 0};

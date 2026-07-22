@@ -19,7 +19,7 @@
 #include "Random.hpp"
 #include "Utilities.hpp"
 
-namespace runtime_config
+namespace cdt::runtime_config
 {
   /// Parameters shared by triangulation-producing command-line programs.
   /// @details Instances can only be created by make_triangulation(), so the
@@ -307,6 +307,6 @@ namespace runtime_config
                       checked_lambda, checked_passes, checked_checkpoint,
                       write_files};
   }
-}  // namespace runtime_config
+}  // namespace cdt::runtime_config
 
 #endif  // CDT_PLUSPLUS_RUNTIME_CONFIG_HPP

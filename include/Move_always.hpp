@@ -19,171 +19,174 @@
 #include "Move_strategy.hpp"
 #include "Random.hpp"
 
-/// @brief The Move Always algorithm
-template <typename ManifoldType>
-  requires(ManifoldType::dimension == 3)
-class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
+namespace cdt
 {
-  using Counter = move_tracker::MoveTracker<ManifoldType>;
-
-  /// @brief The number of move passes executed by the algorithm
-  /// @details Each move pass makes a number of attempts equal to the number
-  /// of simplices in the triangulation.
-  Int_precision m_passes{1};
-
-  /// @brief The number of passes before a checkpoint
-  /// @details Each checkpoint writes a file containing the current
-  /// triangulation.
-  Int_precision m_checkpoint{1};
-
-  /// @brief Run-owned random stream used for move selection and site ordering
-  cdt::Random m_random;
-
-  /// @brief The number of moves that were attempted by a MoveCommand
-  Counter m_attempted_moves;
-
-  /// @brief The number of moves that succeeded in the MoveCommand
-  Counter m_successful_moves;
-
-  /// @brief The number of moves that a MoveCommand failed to make due to an
-  /// error.
-  Counter m_failed_moves;
-
- public:
-  /// @brief Default ctor
-  MoveStrategy() = default;
-
-  /// @brief Constructor for MoveAlways
-  /// @param t_number_of_passes Number of passes to run
-  /// @param t_checkpoint Number of passes per checkpoint
-  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
-                                Int_precision const t_checkpoint)
-      : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{}}
-  {}
-
-  /// @brief Construct a replayable MoveAlways run from an explicit seed.
-  [[maybe_unused]] MoveStrategy(Int_precision const    t_number_of_passes,
-                                Int_precision const    t_checkpoint,
-                                cdt::Random_seed const seed)
-      : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{seed}}
-  {}
-
-  /// @brief Construct a MoveAlways run from an owned PCG stream.
-  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
-                                Int_precision const t_checkpoint,
-                                cdt::Random         random)
-      : m_passes{t_number_of_passes}
-      , m_checkpoint{t_checkpoint}
-      , m_random{std::move(random)}
+  /// @brief The Move Always algorithm
+  template <typename ManifoldType>
+    requires(ManifoldType::dimension == 3)
+  class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   {
-    if (m_passes < 0)
+    using Counter = move_tracker::MoveTracker<ManifoldType>;
+
+    /// @brief The number of move passes executed by the algorithm
+    /// @details Each move pass makes a number of attempts equal to the number
+    /// of simplices in the triangulation.
+    Int_precision m_passes{1};
+
+    /// @brief The number of passes before a checkpoint
+    /// @details Each checkpoint writes a file containing the current
+    /// triangulation.
+    Int_precision m_checkpoint{1};
+
+    /// @brief Run-owned random stream used for move selection and site ordering
+    cdt::Random m_random;
+
+    /// @brief The number of moves that were attempted by a MoveCommand
+    Counter m_attempted_moves;
+
+    /// @brief The number of moves that succeeded in the MoveCommand
+    Counter m_successful_moves;
+
+    /// @brief The number of moves that a MoveCommand failed to make due to an
+    /// error.
+    Counter m_failed_moves;
+
+   public:
+    /// @brief Default ctor
+    MoveStrategy() = default;
+
+    /// @brief Constructor for MoveAlways
+    /// @param t_number_of_passes Number of passes to run
+    /// @param t_checkpoint Number of passes per checkpoint
+    [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
+                                  Int_precision const t_checkpoint)
+        : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{}}
+    {}
+
+    /// @brief Construct a replayable MoveAlways run from an explicit seed.
+    [[maybe_unused]] MoveStrategy(Int_precision const    t_number_of_passes,
+                                  Int_precision const    t_checkpoint,
+                                  cdt::Random_seed const seed)
+        : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{seed}}
+    {}
+
+    /// @brief Construct a MoveAlways run from an owned PCG stream.
+    [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
+                                  Int_precision const t_checkpoint,
+                                  cdt::Random         random)
+        : m_passes{t_number_of_passes}
+        , m_checkpoint{t_checkpoint}
+        , m_random{std::move(random)}
     {
-      throw std::invalid_argument{"MoveAlways passes cannot be negative"};
+      if (m_passes < 0)
+      {
+        throw std::invalid_argument{"MoveAlways passes cannot be negative"};
+      }
+      if (m_checkpoint <= 0)
+      {
+        throw std::invalid_argument{
+            "MoveAlways checkpoint interval must be positive"};
+      }
     }
-    if (m_checkpoint <= 0)
+
+    /// @returns The number of passes made on a triangulation
+    [[nodiscard]] auto passes() const { return m_passes; }
+
+    /// @returns The number of passes per checkpoint
+    [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
+
+    /// @returns The effective root seed used for this run.
+    [[nodiscard]] auto seed() const noexcept { return m_random.seed(); }
+
+    /// @returns The MoveTracker of attempted moves
+    auto get_attempted() const { return m_attempted_moves; }
+
+    /// @returns The MoveTracker of successful moves
+    auto get_succeeded() const { return m_successful_moves; }
+
+    /// @returns The array of failed moves
+    auto get_failed() const { return m_failed_moves; }
+
+    /// @brief Call operator
+    auto operator()(ManifoldType const& t_manifold) -> ManifoldType
     {
-      throw std::invalid_argument{
-          "MoveAlways checkpoint interval must be positive"};
-    }
-  }
-
-  /// @returns The number of passes made on a triangulation
-  [[nodiscard]] auto passes() const { return m_passes; }
-
-  /// @returns The number of passes per checkpoint
-  [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
-
-  /// @returns The effective root seed used for this run.
-  [[nodiscard]] auto seed() const noexcept { return m_random.seed(); }
-
-  /// @returns The MoveTracker of attempted moves
-  auto get_attempted() const { return m_attempted_moves; }
-
-  /// @returns The MoveTracker of successful moves
-  auto get_succeeded() const { return m_successful_moves; }
-
-  /// @returns The array of failed moves
-  auto get_failed() const { return m_failed_moves; }
-
-  /// @brief Call operator
-  auto operator()(ManifoldType const& t_manifold) -> ManifoldType
-  {
 #ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
-    fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
-               ManifoldType::dimension - 1);
-    fmt::print("Effective random seed: {} (stream {}).\n", m_random.seed(),
-               m_random.stream());
+      fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
+                 ManifoldType::dimension - 1);
+      fmt::print("Effective random seed: {} (stream {}).\n", m_random.seed(),
+                 m_random.stream());
 
-    m_attempted_moves.reset();
-    m_successful_moves.reset();
-    m_failed_moves.reset();
+      m_attempted_moves.reset();
+      m_successful_moves.reset();
+      m_failed_moves.reset();
 
-    // Start the move command
-    MoveCommand command(t_manifold);
+      // Start the move command
+      MoveCommand command(t_manifold);
 
-    fmt::print("Making random moves ...\n");
+      fmt::print("Making random moves ...\n");
 
-    // Loop through passes
-    for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
-    {
-      fmt::print("=== Pass {} ===\n", pass_number);
-      auto total_simplices_this_pass = command.get_const_results().N3();
-      // Make a random move per simplex
-      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-           ++move_attempt)
+      // Loop through passes
+      for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
       {
-        // Pick a move to attempt
-        command.enqueue(move_tracker::generate_random_move_3(m_random));
-      }
-      command.execute(m_random);
-      // Update attempted, successful, and failed moves
-      m_attempted_moves += command.get_attempted();
-      m_successful_moves += command.get_succeeded();
-      m_failed_moves += command.get_failed();
-      command.reset_counters();
+        fmt::print("=== Pass {} ===\n", pass_number);
+        auto total_simplices_this_pass = command.get_const_results().N3();
+        // Make a random move per simplex
+        for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+             ++move_attempt)
+        {
+          // Pick a move to attempt
+          command.enqueue(move_tracker::generate_random_move_3(m_random));
+        }
+        command.execute(m_random);
+        // Update attempted, successful, and failed moves
+        m_attempted_moves += command.get_attempted();
+        m_successful_moves += command.get_succeeded();
+        m_failed_moves += command.get_failed();
+        command.reset_counters();
 
-      if (pass_number % m_checkpoint == 0)
-      {
-        fmt::print("Writing checkpoint for pass {}.\n", pass_number);
-        print_results();
-        utilities::write_file(command.get_results(), m_random.seed(),
-                              pass_number);
+        if (pass_number % m_checkpoint == 0)
+        {
+          fmt::print("Writing checkpoint for pass {}.\n", pass_number);
+          print_results();
+          utilities::write_file(command.get_results(), m_random.seed(),
+                                pass_number);
+        }
       }
+      print_results();
+      return command.get_results();
     }
-    print_results();
-    return command.get_results();
-  }
 
-  /// @brief Display results of run
-  void print_results()
-  {
-    fmt::print("=== Move Results ===\n");
-    fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
-               m_attempted_moves.two_three_moves(),
-               m_successful_moves.two_three_moves(),
-               m_failed_moves.two_three_moves());
-    fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
-               m_attempted_moves.three_two_moves(),
-               m_successful_moves.three_two_moves(),
-               m_failed_moves.three_two_moves());
-    fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
-               m_attempted_moves.two_six_moves(),
-               m_successful_moves.two_six_moves(),
-               m_failed_moves.two_six_moves());
-    fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
-               m_attempted_moves.six_two_moves(),
-               m_successful_moves.six_two_moves(),
-               m_failed_moves.six_two_moves());
-    fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
-               m_attempted_moves.four_four_moves(),
-               m_successful_moves.four_four_moves(),
-               m_failed_moves.four_four_moves());
-  }
-};
+    /// @brief Display results of run
+    void print_results()
+    {
+      fmt::print("=== Move Results ===\n");
+      fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
+                 m_attempted_moves.two_three_moves(),
+                 m_successful_moves.two_three_moves(),
+                 m_failed_moves.two_three_moves());
+      fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
+                 m_attempted_moves.three_two_moves(),
+                 m_successful_moves.three_two_moves(),
+                 m_failed_moves.three_two_moves());
+      fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
+                 m_attempted_moves.two_six_moves(),
+                 m_successful_moves.two_six_moves(),
+                 m_failed_moves.two_six_moves());
+      fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
+                 m_attempted_moves.six_two_moves(),
+                 m_successful_moves.six_two_moves(),
+                 m_failed_moves.six_two_moves());
+      fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
+                 m_attempted_moves.four_four_moves(),
+                 m_successful_moves.four_four_moves(),
+                 m_failed_moves.four_four_moves());
+    }
+  };
 
-using MoveAlways_3 =
-    MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_3>;
+  using MoveAlways_3 =
+      MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_3>;
+}  // namespace cdt
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

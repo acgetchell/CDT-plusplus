@@ -23,6 +23,7 @@
 #include <string>
 #include <string_view>
 
+using namespace cdt;
 using namespace std;
 using namespace utilities;
 
@@ -322,8 +323,8 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
 
       THEN("The versioned payload trailer restores the complete causal state")
       {
-        CHECK_EQ(detail::canonical_topology_fingerprint(restored),
-                 detail::canonical_topology_fingerprint(annotated));
+        CHECK_EQ(utilities::detail::canonical_topology_fingerprint(restored),
+                 utilities::detail::canonical_topology_fingerprint(annotated));
       }
     }
     WHEN("A stochastic artifact is written with reproducibility metadata")

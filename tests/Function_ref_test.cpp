@@ -18,6 +18,7 @@
 
 #include "Ergodic_moves_3.hpp"
 
+using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
@@ -79,8 +80,8 @@ SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
         cdt::Random random{92};
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
-        CHECK(ergodic_moves::check_move(manifold_before, result,
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold_before, result, move_tracker::move_type::TWO_THREE));
       }
     }
   }
@@ -113,8 +114,9 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
       REQUIRE(result.has_value());
       THEN("The move from the function_ref is correct.")
       {
-        CHECK(ergodic_moves::check_move(manifold_before, result.value(),
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold_before, result.value(),
+            move_tracker::move_type::TWO_THREE));
       }
     }
   }
@@ -137,8 +139,8 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
           "The move stored in the lambda invoked by the function_ref is "
           "correct.")
       {
-        CHECK(ergodic_moves::check_move(manifold_before, result,
-                                        move_tracker::move_type::TWO_THREE));
+        CHECK(ergodic_moves::detail::check_move(
+            manifold_before, result, move_tracker::move_type::TWO_THREE));
       }
     }
   }

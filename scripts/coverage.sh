@@ -77,19 +77,25 @@ lcov \
   --capture \
   --directory "${cmake_build_dir}" \
   --gcov-tool "${gcov_tool}" \
+  --no-function-coverage \
   --rc branch_coverage=1 \
   --output-file "${raw_coverage_file}"
 lcov \
   --extract "${raw_coverage_file}" \
   "${repo_root}/include/*" \
   "${repo_root}/src/*" \
+  --no-function-coverage \
   --rc branch_coverage=1 \
   --output-file "${coverage_file}"
 genhtml \
   --branch-coverage \
+  --no-function-coverage \
   --output-directory "${html_dir}" \
   "${coverage_file}"
-lcov --list "${coverage_file}" --rc branch_coverage=1
+lcov \
+  --list "${coverage_file}" \
+  --no-function-coverage \
+  --rc branch_coverage=1
 rm -f -- "${raw_coverage_file}"
 
 if [[ "${test_status}" -ne 0 ]]; then

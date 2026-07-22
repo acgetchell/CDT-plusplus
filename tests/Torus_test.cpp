@@ -12,6 +12,8 @@
 
 #include "Torus_d.hpp"
 
+using namespace cdt::experimental::torus;
+
 SCENARIO("Torus construction" * doctest::test_suite("torus"))
 {
   std::size_t constexpr NUMBER_OF_POINTS = 250;

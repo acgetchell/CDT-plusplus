@@ -31,7 +31,7 @@
 #include "Manifold.hpp"
 #include "Move_tracker.hpp"
 
-namespace ergodic_moves
+namespace cdt::ergodic_moves
 {
   using Manifold         = manifolds::Manifold_3;
   using Expected         = std::expected<Manifold, std::string>;
@@ -229,6 +229,52 @@ namespace ergodic_moves
             return point_less(left->point(), right->point());
           });
     }
+
+    [[nodiscard]] inline auto try_23_move(Delaunay&          triangulation,
+                                          Cell_handle const& to_be_moved)
+        -> bool;
+
+    [[nodiscard]] inline auto try_32_move(Delaunay&          triangulation,
+                                          Edge_handle const& to_be_moved)
+        -> bool;
+
+    [[nodiscard]] inline auto find_adjacent_31_cell(Cell_handle const& cell)
+        -> std::optional<int>;
+
+    [[nodiscard]] inline auto is_62_movable(Delaunay const&      triangulation,
+                                            Vertex_handle const& candidate)
+        -> bool;
+
+    template <std::uniform_random_bit_generator Generator>
+    [[nodiscard]] inline auto try_62_move(Delaunay const& source_triangulation,
+                                          Vertex_handle const source_candidate,
+                                          Generator&          generator)
+        -> std::optional<Delaunay>;
+
+    [[nodiscard]] inline auto incident_cells_from_edge(
+        Delaunay const& triangulation, Edge_handle const& edge)
+        -> std::optional<Cell_container>;
+
+    [[nodiscard]] inline auto find_bistellar_flip_location(
+        Delaunay const& triangulation, Edge_handle const& candidate)
+        -> std::optional<Cell_container>;
+
+    [[nodiscard]] inline auto bistellar_flip(
+        Delaunay const& source_triangulation, Edge_handle source_edge,
+        Vertex_handle source_top, Vertex_handle source_bottom)
+        -> std::optional<Delaunay>;
+
+    [[nodiscard]] inline auto find_pivot_edge(Delaunay const& triangulation,
+                                              Edge_container const& edges)
+        -> std::optional<Edge_handle>;
+
+    [[nodiscard]] inline auto get_vertices(Cell_container const& cells)
+        -> Vertex_container;
+
+    [[nodiscard]] inline auto check_move(Manifold const&                before,
+                                         Manifold const&                after,
+                                         move_tracker::move_type const& move)
+        -> bool;
   }  // namespace detail
 
   /// @brief Perform a null move
@@ -246,8 +292,9 @@ namespace ergodic_moves
   /// @returns True if move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4
-  [[nodiscard]] inline auto try_23_move(Delaunay&          triangulation,
-                                        Cell_handle const& to_be_moved) -> bool
+  [[nodiscard]] inline auto detail::try_23_move(Delaunay& triangulation,
+                                                Cell_handle const& to_be_moved)
+      -> bool
   {
     if (to_be_moved == nullptr || triangulation.dimension() != 3 ||
         !triangulation.tds().is_cell(to_be_moved) ||
@@ -329,7 +376,7 @@ namespace ergodic_moves
     std::ranges::shuffle(two_two, generator);
     // Try a (2,3) move on successive cells in the sequence
     if (std::ranges::any_of(two_two, [&](auto& cell) {
-          return try_23_move(triangulation, cell);
+          return detail::try_23_move(triangulation, cell);
         }))
     {
       return detail::make_manifold(std::move(triangulation), t_manifold);
@@ -352,7 +399,7 @@ namespace ergodic_moves
         foliated_triangulations::collect_cells<3>(triangulation),
         Cell_type::TWO_TWO);
     auto const candidate = detail::canonical_random_element(two_two, generator);
-    if (candidate && try_23_move(triangulation, *candidate))
+    if (candidate && detail::try_23_move(triangulation, *candidate))
     {
       return detail::make_manifold(std::move(triangulation), t_manifold);
     }
@@ -407,8 +454,9 @@ namespace ergodic_moves
   /// @returns True if the CDT cavity is admissible and CGAL performs the flip
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
-  [[nodiscard]] inline auto try_32_move(Delaunay&          triangulation,
-                                        Edge_handle const& to_be_moved) -> bool
+  [[nodiscard]] inline auto detail::try_32_move(Delaunay& triangulation,
+                                                Edge_handle const& to_be_moved)
+      -> bool
   {
     if (!detail::is_32_movable(triangulation, to_be_moved)) { return false; }
     return triangulation.flip(to_be_moved.first, to_be_moved.second,
@@ -440,7 +488,7 @@ namespace ergodic_moves
     std::ranges::shuffle(timelike_edges, generator);
     // Try a (3,2) move on successive timelike edges in the sequence
     if (std::ranges::any_of(timelike_edges, [&](auto& edge) {
-          return try_32_move(triangulation, edge);
+          return detail::try_32_move(triangulation, edge);
         }))
     {
       return detail::make_manifold(std::move(triangulation), t_manifold);
@@ -462,7 +510,7 @@ namespace ergodic_moves
         foliated_triangulations::collect_edges<3>(triangulation), true);
     auto const candidate =
         detail::canonical_random_element(timelike_edges, generator);
-    if (candidate && try_32_move(triangulation, *candidate))
+    if (candidate && detail::try_32_move(triangulation, *candidate))
     {
       return detail::make_manifold(std::move(triangulation), t_manifold);
     }
@@ -474,8 +522,8 @@ namespace ergodic_moves
   /// with a (1,3) simplex, it checks neighbors for a (3,1) simplex.
   /// @param t_cell The (1,3) simplex that is checked
   /// @returns The integer of the neighboring (3,1) simplex or nullopt
-  [[nodiscard]] inline auto find_adjacent_31_cell(Cell_handle const& t_cell)
-      -> std::optional<int>
+  [[nodiscard]] inline auto detail::find_adjacent_31_cell(
+      Cell_handle const& t_cell) -> std::optional<int>
   {
     if (t_cell == nullptr ||
         !foliated_triangulations::is_cell_type_correct<3>(t_cell) ||
@@ -662,25 +710,15 @@ namespace ergodic_moves
   /// @param t_manifold The simplicial manifold
   /// @param generator Caller-owned generator whose state advances during the
   /// move
-  /// @param only_first_site Whether to examine only one uniformly selected site
   /// @returns The Expected (2,6) moved manifold or an Unexpected
   /// @note The source manifold is unchanged on success and failure.
-
-  template <std::uniform_random_bit_generator Generator>
-  [[nodiscard]] inline auto do_26_move_impl(Manifold const& t_manifold,
-                                            Generator&      generator,
-                                            bool const      only_first_site)
-      -> Expected
-  {
-    return detail::do_26_move_impl(t_manifold, generator, only_first_site,
-                                   detail::accept_post_mutation);
-  }
-
-  /// @brief Perform a (2,6) move using a caller-owned random stream.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto do_26_move(Manifold const& t_manifold,
                                        Generator&      generator) -> Expected
-  { return do_26_move_impl(t_manifold, generator, false); }
+  {
+    return detail::do_26_move_impl(t_manifold, generator, false,
+                                   detail::accept_post_mutation);
+  }
 
   /// @brief Propose a uniformly selected (2,6) site.
   /// @details Exactly one uniformly selected (1,3) cell is examined. An
@@ -689,7 +727,10 @@ namespace ergodic_moves
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_26_move(Manifold const& t_manifold,
                                             Generator& generator) -> Expected
-  { return do_26_move_impl(t_manifold, generator, true); }
+  {
+    return detail::do_26_move_impl(t_manifold, generator, true,
+                                   detail::accept_post_mutation);
+  }
 
   /// @brief Find a (6,2) move location
   /// @details This function checks to see if a (6,2) move is possible. Starting
@@ -699,9 +740,8 @@ namespace ergodic_moves
   /// @param triangulation The triangulation containing the candidate
   /// @param candidate The vertex to check
   /// @returns True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Delaunay const&      triangulation,
-                                          Vertex_handle const& candidate)
-      -> bool
+  [[nodiscard]] inline auto detail::is_62_movable(
+      Delaunay const& triangulation, Vertex_handle const& candidate) -> bool
   {
     if (triangulation.dimension() != 3) { return false; }
 
@@ -844,9 +884,9 @@ namespace ergodic_moves
   /// @returns The moved triangulation, or nullopt when the topology is not
   /// flippable or the result violates a triangulation or causal-cell invariant
   template <std::uniform_random_bit_generator Generator>
-  [[nodiscard]] inline auto try_62_move(Delaunay const& source_triangulation,
-                                        Vertex_handle const source_candidate,
-                                        Generator&          generator)
+  [[nodiscard]] inline auto detail::try_62_move(
+      Delaunay const&     source_triangulation,
+      Vertex_handle const source_candidate, Generator& generator)
       -> std::optional<Delaunay>
   {
     return detail::try_62_move_impl(source_triangulation, source_candidate,
@@ -887,8 +927,8 @@ namespace ergodic_moves
     // Try a (6,2) move on successive vertices in the sequence
     for (auto const& vertex : vertices)
     {
-      if (!is_62_movable(triangulation, vertex)) { continue; }
-      if (auto moved = try_62_move(triangulation, vertex, generator))
+      if (!detail::is_62_movable(triangulation, vertex)) { continue; }
+      if (auto moved = detail::try_62_move(triangulation, vertex, generator))
       {
         return detail::make_manifold(std::move(*moved), t_manifold);
       }
@@ -907,9 +947,10 @@ namespace ergodic_moves
     auto vertices = foliated_triangulations::collect_vertices<3>(triangulation);
     auto const candidate =
         detail::canonical_random_element(vertices, generator);
-    if (candidate && is_62_movable(triangulation, *candidate))
+    if (candidate && detail::is_62_movable(triangulation, *candidate))
     {
-      if (auto moved = try_62_move(triangulation, *candidate, generator))
+      if (auto moved =
+              detail::try_62_move(triangulation, *candidate, generator))
       {
         return detail::make_manifold(std::move(*moved), t_manifold);
       }
@@ -923,8 +964,8 @@ namespace ergodic_moves
   /// @returns A container of cells incident to the edge or nullopt
   /// @see
   /// https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094
-  [[nodiscard]] inline auto incident_cells_from_edge(
-      Delaunay_t<3> const& triangulation, Edge_handle const& edge)
+  [[nodiscard]] inline auto detail::incident_cells_from_edge(
+      Delaunay const& triangulation, Edge_handle const& edge)
       -> std::optional<Cell_container>
   {
     return detail::finite_incident_cells(triangulation, edge);
@@ -938,13 +979,13 @@ namespace ergodic_moves
   /// @param triangulation The simplicial manifold
   /// @param t_edge_candidate The edge to check
   /// @returns A container of incident cells if there are exactly 4 or nullopt
-  [[nodiscard]] inline auto find_bistellar_flip_location(
+  [[nodiscard]] inline auto detail::find_bistellar_flip_location(
       Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
       -> std::optional<Cell_container>
   {
     if (!detail::is_well_formed_edge(t_edge_candidate)) { return std::nullopt; }
     auto incident_cells =
-        incident_cells_from_edge(triangulation, t_edge_candidate);
+        detail::incident_cells_from_edge(triangulation, t_edge_candidate);
     if (!incident_cells || incident_cells->size() != 4) { return std::nullopt; }
 
     auto const first_time =
@@ -966,17 +1007,6 @@ namespace ergodic_moves
     }
     return std::nullopt;
   }  // find_bistellar_flip_location()
-
-  /// @brief Return a container of cells incident to an edge.
-  /// @param triangulation The triangulation with the cells.
-  /// @param edge The edge to find the incident cells of.
-  /// @returns A container of cells incident to the edge or nullopt
-  [[nodiscard]] inline auto get_incident_cells(Delaunay const&   triangulation,
-                                               Edge_handle const edge)
-      -> std::optional<Cell_container>
-  {
-    return incident_cells_from_edge(triangulation, edge);
-  }  // get_incident_cells()
 
   namespace detail
   {
@@ -1053,7 +1083,7 @@ namespace ergodic_moves
     Edge_handle const edge{copied_edge_cell, copied_edge_first_index,
                            copied_edge_second_index};
 
-    auto const        incident_cells = get_incident_cells(triangulation, edge);
+    auto const incident_cells = incident_cells_from_edge(triangulation, edge);
     if (!incident_cells || incident_cells->size() != 4 || top == bottom ||
         top == pivot_from_1 || top == pivot_from_2 || bottom == pivot_from_1 ||
         bottom == pivot_from_2 ||
@@ -1135,10 +1165,9 @@ namespace ergodic_moves
   /// @param source_bottom Bottom vertex of the cells being flipped
   /// @returns A flipped triangulation or nullopt
   /// @see [Pachner moves](../REFERENCES.md#pachner-moves)
-  [[nodiscard]] inline auto bistellar_flip(Delaunay const& source_triangulation,
-                                           Edge_handle const   source_edge,
-                                           Vertex_handle const source_top,
-                                           Vertex_handle const source_bottom)
+  [[nodiscard]] inline auto detail::bistellar_flip(
+      Delaunay const& source_triangulation, Edge_handle const source_edge,
+      Vertex_handle const source_top, Vertex_handle const source_bottom)
       -> std::optional<Delaunay>
   {
     return detail::bistellar_flip_impl(source_triangulation, source_edge,
@@ -1147,13 +1176,14 @@ namespace ergodic_moves
   }  // bistellar_flip()
 
   /// @return The center edge of a 4-cell complex
-  [[nodiscard]] inline auto find_pivot_edge(Delaunay const&       triangulation,
-                                            Edge_container const& edges)
+  [[nodiscard]] inline auto detail::find_pivot_edge(
+      Delaunay const& triangulation, Edge_container const& edges)
       -> std::optional<Edge_handle>
   {
     for (auto const& edge : edges)
     {
-      if (auto incident_cells = incident_cells_from_edge(triangulation, edge))
+      if (auto incident_cells =
+              detail::incident_cells_from_edge(triangulation, edge))
       {
         if (incident_cells->size() == 4) { return edge; }
       }
@@ -1164,7 +1194,8 @@ namespace ergodic_moves
   /// @brief Return a container of all vertices in a container of cells.
   /// @param cells The cells to find the vertices of.
   /// @return A container of vertices in the cells
-  [[nodiscard]] inline auto get_vertices(Cell_container const& cells)
+  [[nodiscard]] inline auto detail::get_vertices(Cell_container const& cells)
+      -> Vertex_container
   {
     std::unordered_set<Vertex_handle> vertices;
     auto get_vertices = [&vertices](auto const& cell) {
@@ -1213,7 +1244,7 @@ namespace ergodic_moves
     {
       // Obtain all incident cells
       if (auto const incident_cells =
-              find_bistellar_flip_location(triangulation, edge);
+              detail::find_bistellar_flip_location(triangulation, edge);
           incident_cells)
       {
         // Get edge vertices
@@ -1247,7 +1278,7 @@ namespace ergodic_moves
 
         // Try the bistellar flip
         if (auto flipped_triangulation =
-                bistellar_flip(triangulation, edge, top, bottom);
+                detail::bistellar_flip(triangulation, edge, top, bottom);
             flipped_triangulation.has_value())
         {
           return detail::make_manifold(std::move(*flipped_triangulation),
@@ -1282,7 +1313,7 @@ namespace ergodic_moves
     }
 
     auto const incident_cells =
-        find_bistellar_flip_location(triangulation, *candidate);
+        detail::find_bistellar_flip_location(triangulation, *candidate);
     if (!incident_cells)
     {
       return std::unexpected("Selected (4,4) proposal site is not movable.\n");
@@ -1309,7 +1340,8 @@ namespace ergodic_moves
       }
     }
 
-    if (auto flipped = bistellar_flip(triangulation, *candidate, top, bottom))
+    if (auto flipped =
+            detail::bistellar_flip(triangulation, *candidate, top, bottom))
     {
       return detail::make_manifold(std::move(*flipped), t_manifold);
     }
@@ -1325,10 +1357,9 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(Manifold const&                t_before,
-                                       Manifold const&                t_after,
-                                       move_tracker::move_type const& t_move)
-      -> bool
+  [[nodiscard]] inline auto detail::check_move(
+      Manifold const& t_before, Manifold const& t_after,
+      move_tracker::move_type const& t_move) -> bool
   {
     if (!t_after.is_correct() ||
         !detail::same_configuration_value(t_after.initial_radius(),
@@ -1404,6 +1435,6 @@ namespace ergodic_moves
     }
   }  // check_move()
 
-}  // namespace ergodic_moves
+}  // namespace cdt::ergodic_moves
 
 #endif  // CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP

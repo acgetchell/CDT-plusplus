@@ -21,9 +21,9 @@
 #include "Settings.hpp"
 #include "Utilities.hpp"
 
-namespace move_tracker
+namespace cdt::move_tracker
 {
-  static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
+  inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
 
   /**
    * \brief The types of 3D ergodic moves
@@ -212,6 +212,6 @@ namespace move_tracker
     void reset() { moves.fill(0); }
   };
 
-}  // namespace move_tracker
+}  // namespace cdt::move_tracker
 
 #endif  // CDT_PLUSPLUS_MOVE_TRACKER_HPP
