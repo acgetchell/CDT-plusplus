@@ -64,51 +64,62 @@ static_assert(
 SCENARIO("Raw move-run cadence is parsed into a positive domain value" *
          doctest::test_suite("move_run"))
 {
-  GIVEN("The positive boundary and largest representable counts")
+  GIVEN("The positive boundary and largest representable counts.")
   {
-    auto const minimum = MoveRunCadence::parse(1, 1);
-    auto const maximum =
-        MoveRunCadence::parse(std::numeric_limits<Int_precision>::max(),
-                              std::numeric_limits<Int_precision>::max());
-
-    THEN("Both become infallible cadence values")
+    WHEN("Both cadence pairs are parsed.")
     {
-      REQUIRE(minimum);
-      CHECK_EQ(minimum->passes(), 1);
-      CHECK_EQ(minimum->checkpoint(), 1);
-      REQUIRE(maximum);
-      CHECK_EQ(maximum->passes(), std::numeric_limits<Int_precision>::max());
-      CHECK_EQ(maximum->checkpoint(),
-               std::numeric_limits<Int_precision>::max());
+      auto const minimum = MoveRunCadence::parse(1, 1);
+      auto const maximum =
+          MoveRunCadence::parse(std::numeric_limits<Int_precision>::max(),
+                                std::numeric_limits<Int_precision>::max());
+
+      THEN("Both become infallible cadence values.")
+      {
+        REQUIRE(minimum);
+        CHECK_EQ(minimum->passes(), 1);
+        CHECK_EQ(minimum->checkpoint(), 1);
+        REQUIRE(maximum);
+        CHECK_EQ(maximum->passes(), std::numeric_limits<Int_precision>::max());
+        CHECK_EQ(maximum->checkpoint(),
+                 std::numeric_limits<Int_precision>::max());
+      }
     }
   }
 
-  GIVEN("A nonpositive pass count")
+  GIVEN("A nonpositive pass count.")
   {
-    THEN("Parsing preserves its rejection reason")
+    WHEN("Cadences containing it are parsed.")
     {
       auto const zero         = MoveRunCadence::parse(0, 1);
       auto const negative     = MoveRunCadence::parse(-1, 1);
       auto const both_invalid = MoveRunCadence::parse(-1, 0);
-      REQUIRE_FALSE(zero);
-      REQUIRE_FALSE(negative);
-      REQUIRE_FALSE(both_invalid);
-      CHECK_EQ(zero.error(), MoveRunCadenceError::NONPOSITIVE_PASSES);
-      CHECK_EQ(negative.error(), MoveRunCadenceError::NONPOSITIVE_PASSES);
-      CHECK_EQ(both_invalid.error(), MoveRunCadenceError::NONPOSITIVE_PASSES);
+
+      THEN("Parsing preserves the pass-count rejection reason.")
+      {
+        REQUIRE_FALSE(zero);
+        REQUIRE_FALSE(negative);
+        REQUIRE_FALSE(both_invalid);
+        CHECK_EQ(zero.error(), MoveRunCadenceError::NONPOSITIVE_PASSES);
+        CHECK_EQ(negative.error(), MoveRunCadenceError::NONPOSITIVE_PASSES);
+        CHECK_EQ(both_invalid.error(), MoveRunCadenceError::NONPOSITIVE_PASSES);
+      }
     }
   }
 
-  GIVEN("A nonpositive checkpoint interval")
+  GIVEN("A nonpositive checkpoint interval.")
   {
-    THEN("Parsing preserves its rejection reason")
+    WHEN("Cadences containing it are parsed.")
     {
       auto const zero     = MoveRunCadence::parse(1, 0);
       auto const negative = MoveRunCadence::parse(1, -1);
-      REQUIRE_FALSE(zero);
-      REQUIRE_FALSE(negative);
-      CHECK_EQ(zero.error(), MoveRunCadenceError::NONPOSITIVE_CHECKPOINT);
-      CHECK_EQ(negative.error(), MoveRunCadenceError::NONPOSITIVE_CHECKPOINT);
+
+      THEN("Parsing preserves the checkpoint rejection reason.")
+      {
+        REQUIRE_FALSE(zero);
+        REQUIRE_FALSE(negative);
+        CHECK_EQ(zero.error(), MoveRunCadenceError::NONPOSITIVE_CHECKPOINT);
+        CHECK_EQ(negative.error(), MoveRunCadenceError::NONPOSITIVE_CHECKPOINT);
+      }
     }
   }
 }
@@ -116,68 +127,135 @@ SCENARIO("Raw move-run cadence is parsed into a positive domain value" *
 SCENARIO("MoveCommand results are consumed and reset once" *
          doctest::test_suite("move_run"))
 {
-  ScriptedCommand command;
-  auto constexpr move               = move_tracker::move_type::TWO_THREE;
-  command.results().attempted[move] = 3;
-  command.results().succeeded[move] = 1;
-  command.results().failed[move]    = 2;
+  GIVEN("A command with cumulative attempted, succeeded, and failed counts.")
+  {
+    ScriptedCommand command;
+    auto constexpr move               = move_tracker::move_type::TWO_THREE;
+    command.results().attempted[move] = 3;
+    command.results().succeeded[move] = 1;
+    command.results().failed[move]    = 2;
 
-  auto const consumed =
-      detail::consume_command_results<ScriptedManifold>(command);
+    WHEN("The command results are consumed.")
+    {
+      auto const consumed =
+          detail::consume_command_results<ScriptedManifold>(command);
 
-  CHECK_EQ(consumed.attempted.total(), 3);
-  CHECK_EQ(consumed.succeeded.total(), 1);
-  CHECK_EQ(consumed.failed.total(), 2);
-  CHECK_EQ(command.get_attempted().total(), 0);
-  CHECK_EQ(command.get_succeeded().total(), 0);
-  CHECK_EQ(command.get_failed().total(), 0);
-  CHECK_EQ(command.reset_count(), 1);
+      THEN("The snapshot is exact and the source resets once.")
+      {
+        CHECK_EQ(consumed.attempted.total(), 3);
+        CHECK_EQ(consumed.succeeded.total(), 1);
+        CHECK_EQ(consumed.failed.total(), 2);
+        CHECK_EQ(command.get_attempted().total(), 0);
+        CHECK_EQ(command.get_succeeded().total(), 0);
+        CHECK_EQ(command.get_failed().total(), 0);
+        CHECK_EQ(command.reset_count(), 1);
+      }
+    }
+  }
 }
 
 SCENARIO("Shared move-run orchestration accumulates pass deltas once" *
          doctest::test_suite("move_run"))
 {
-  auto const cadence = MoveRunCadence::parse(3, 2);
-  REQUIRE(cadence);
-  std::vector<Int_precision> reports;
-  std::vector<Int_precision> checkpoints;
+  GIVEN("A three-pass cadence with reporting and checkpoint collectors.")
+  {
+    auto const cadence = MoveRunCadence::parse(3, 2);
+    REQUIRE(cadence);
+    std::vector<Int_precision> reports;
+    std::vector<Int_precision> checkpoints;
+    std::vector<Int_precision> checkpoint_attempts;
 
-  auto                       result = detail::execute_move_run(
-      ScriptedManifold{}, 0, *cadence,
-      detail::MoveRunIdentity{.algorithm = "Scripted",
-                              .seed      = Random_seed{103},
-                              .stream    = Random_stream{7}},
-      true,
-      [](ScriptedManifold current, int pass_index,
-         Int_precision const attempts) {
-        ++pass_index;
-        detail::MoveCommandResults<ScriptedManifold> delta;
-        auto constexpr move   = move_tracker::move_type::TWO_THREE;
-        delta.attempted[move] = attempts;
-        delta.succeeded[move] = pass_index;
-        delta.failed[move]    = attempts - pass_index;
-        current.simplices     = attempts + 1;
-        return detail::MovePassResult<ScriptedManifold, int>{
-            .manifold        = current,
-            .command_results = delta,
-            .strategy_state  = pass_index};
-      },
-      [&reports](ScriptedManifold const&,
-                 detail::MoveCommandResults<ScriptedManifold> const& totals,
-                 int const&) { reports.push_back(totals.attempted.total()); },
-      [&checkpoints](ScriptedManifold const&,
+    WHEN("The shared runner executes scripted pass deltas.")
+    {
+      auto result = detail::execute_move_run(
+          ScriptedManifold{}, 0, *cadence,
+          detail::MoveRunIdentity{.algorithm = "Scripted",
+                                  .seed      = Random_seed{103},
+                                  .stream    = Random_stream{7}},
+          true,
+          [](ScriptedManifold current, int pass_index,
+             Int_precision const attempts) {
+            ++pass_index;
+            detail::MoveCommandResults<ScriptedManifold> delta;
+            auto constexpr move   = move_tracker::move_type::TWO_THREE;
+            delta.attempted[move] = attempts;
+            delta.succeeded[move] = pass_index;
+            delta.failed[move]    = attempts - pass_index;
+            current.simplices     = attempts + 1;
+            return detail::MovePassResult<ScriptedManifold, int>{
+                .manifold        = current,
+                .command_results = delta,
+                .strategy_state  = pass_index};
+          },
+          [&reports](ScriptedManifold const&,
                      detail::MoveCommandResults<ScriptedManifold> const& totals,
-                     int const&, Int_precision const pass_number) {
-        CHECK_EQ(totals.attempted.total(), 5);
-        checkpoints.push_back(pass_number);
-      });
+                     int const&) {
+            reports.push_back(totals.attempted.total());
+          },
+          [&checkpoints, &checkpoint_attempts](
+              ScriptedManifold const&,
+              detail::MoveCommandResults<ScriptedManifold> const& totals,
+              int const&, Int_precision const pass_number) {
+            checkpoints.push_back(pass_number);
+            checkpoint_attempts.push_back(totals.attempted.total());
+          });
 
-  CHECK_EQ(result.manifold.N3(), 5);
-  CHECK_EQ(result.strategy_state, 3);
-  CHECK_EQ(result.command_results.attempted.total(), 9);
-  CHECK_EQ(result.command_results.succeeded.total(), 6);
-  CHECK_EQ(result.command_results.failed.total(), 3);
-  CHECK_EQ(result.checkpoint_events, 1);
-  CHECK_EQ(reports, std::vector<Int_precision>{5, 9});
-  CHECK_EQ(checkpoints, std::vector<Int_precision>{2});
+      THEN("Each delta is accumulated once at the configured cadence.")
+      {
+        CHECK_EQ(result.manifold.N3(), 5);
+        CHECK_EQ(result.strategy_state, 3);
+        CHECK_EQ(result.command_results.attempted.total(), 9);
+        CHECK_EQ(result.command_results.succeeded.total(), 6);
+        CHECK_EQ(result.command_results.failed.total(), 3);
+        CHECK_EQ(result.checkpoint_events, 1);
+        CHECK_EQ(reports, std::vector<Int_precision>{5, 9});
+        CHECK_EQ(checkpoints, std::vector<Int_precision>{2});
+        CHECK_EQ(checkpoint_attempts, std::vector<Int_precision>{5});
+      }
+    }
+  }
+}
+
+SCENARIO(
+    "Shared move-run orchestration suppresses disabled checkpoint effects" *
+    doctest::test_suite("move_run"))
+{
+  GIVEN("A checkpoint-every-pass cadence with file writes disabled.")
+  {
+    auto const cadence = MoveRunCadence::parse(2, 1);
+    REQUIRE(cadence);
+    auto report_calls     = 0;
+    auto checkpoint_calls = 0;
+
+    WHEN("The shared runner executes two passes.")
+    {
+      auto result = detail::execute_move_run(
+          ScriptedManifold{}, 0, *cadence,
+          detail::MoveRunIdentity{.algorithm = "Scripted",
+                                  .seed      = Random_seed{103},
+                                  .stream    = Random_stream{7}},
+          false,
+          [](ScriptedManifold current, int pass_index, Int_precision) {
+            return detail::MovePassResult<ScriptedManifold, int>{
+                .manifold        = current,
+                .command_results = {},
+                .strategy_state  = pass_index + 1};
+          },
+          [&report_calls](ScriptedManifold const&,
+                          detail::MoveCommandResults<ScriptedManifold> const&,
+                          int const&) { ++report_calls; },
+          [&checkpoint_calls](
+              ScriptedManifold const&,
+              detail::MoveCommandResults<ScriptedManifold> const&, int const&,
+              Int_precision) { ++checkpoint_calls; });
+
+      THEN("Accounting and reports continue without checkpoint effects.")
+      {
+        CHECK_EQ(result.strategy_state, 2);
+        CHECK_EQ(result.checkpoint_events, 2);
+        CHECK_EQ(report_calls, 3);
+        CHECK_EQ(checkpoint_calls, 0);
+      }
+    }
+  }
 }

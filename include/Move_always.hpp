@@ -93,15 +93,21 @@ namespace cdt
     /// @brief Default ctor
     MoveStrategy() = default;
 
-    /// @brief Constructor for MoveAlways
-    /// @param t_number_of_passes Number of passes to run
-    /// @param t_checkpoint Number of passes per checkpoint
+    /// @brief Construct a MoveAlways run using a fresh entropy-backed stream.
+    /// @param t_number_of_passes Positive number of passes to run.
+    /// @param t_checkpoint Positive number of passes per checkpoint.
+    /// @throws std::invalid_argument When either cadence value is nonpositive.
     [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
                                   Int_precision const t_checkpoint)
         : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{}, true}
     {}
 
     /// @brief Construct a replayable MoveAlways run from an explicit seed.
+    /// @param t_number_of_passes Positive number of passes to run.
+    /// @param t_checkpoint Positive number of passes per checkpoint.
+    /// @param seed Root seed for the owned random stream.
+    /// @param write_files Whether checkpoints may write triangulation files.
+    /// @throws std::invalid_argument When either cadence value is nonpositive.
     [[maybe_unused]] MoveStrategy(Int_precision const    t_number_of_passes,
                                   Int_precision const    t_checkpoint,
                                   cdt::Random_seed const seed,
@@ -111,6 +117,11 @@ namespace cdt
     {}
 
     /// @brief Construct a MoveAlways run from an owned PCG stream.
+    /// @param t_number_of_passes Positive number of passes to run.
+    /// @param t_checkpoint Positive number of passes per checkpoint.
+    /// @param random Stream whose current state becomes owned by this strategy.
+    /// @param write_files Whether checkpoints may write triangulation files.
+    /// @throws std::invalid_argument When either cadence value is nonpositive.
     [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
                                   Int_precision const t_checkpoint,
                                   cdt::Random         random,

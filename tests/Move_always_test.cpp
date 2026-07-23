@@ -148,42 +148,72 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
 SCENARIO("MoveAlways multi-pass accounting is per invocation" *
          doctest::test_suite("move_always"))
 {
-  auto const initial        = minimal_23_manifold();
-  auto constexpr passes     = Int_precision{4};
-  auto constexpr checkpoint = Int_precision{2};
-  auto constexpr seed       = cdt::Random_seed{103};
-  MoveAlways_3 strategy(passes, checkpoint, seed, false);
+  GIVEN("A fixed seed and a four-pass MoveAlways strategy.")
+  {
+    auto const initial        = minimal_23_manifold();
+    auto constexpr passes     = Int_precision{4};
+    auto constexpr checkpoint = Int_precision{2};
+    auto constexpr seed       = cdt::Random_seed{103};
+    MoveAlways_3 strategy(passes, checkpoint, seed, false);
+    CAPTURE(seed);
 
-  auto const   first_result    = strategy(initial);
-  auto const   first_attempted = strategy.get_attempted().total();
-  auto const   first_succeeded = strategy.get_succeeded().total();
-  auto const   first_failed    = strategy.get_failed().total();
+    WHEN("The strategy and a fresh replay each run twice.")
+    {
+      auto const   first_result       = strategy(initial);
+      auto const   first_attempted    = strategy.get_attempted().total();
+      auto const   first_succeeded    = strategy.get_succeeded().total();
+      auto const   first_failed       = strategy.get_failed().total();
+      auto const   first_checkpoints  = strategy.checkpoint_events();
 
-  CHECK_EQ(strategy.checkpoint_events(), 2);
-  CHECK_EQ(first_attempted, first_succeeded + first_failed);
+      auto const   second_result      = strategy(initial);
+      auto const   second_attempted   = strategy.get_attempted().total();
+      auto const   second_succeeded   = strategy.get_succeeded().total();
+      auto const   second_failed      = strategy.get_failed().total();
+      auto const   second_checkpoints = strategy.checkpoint_events();
 
-  auto const second_result    = strategy(initial);
-  auto const second_attempted = strategy.get_attempted().total();
-  auto const second_succeeded = strategy.get_succeeded().total();
-  auto const second_failed    = strategy.get_failed().total();
+      MoveAlways_3 replay(passes, checkpoint, seed, false);
+      auto const   replay_first_result       = replay(initial);
+      auto const   replay_first_attempted    = replay.get_attempted().total();
+      auto const   replay_first_succeeded    = replay.get_succeeded().total();
+      auto const   replay_first_failed       = replay.get_failed().total();
+      auto const   replay_first_checkpoints  = replay.checkpoint_events();
 
-  CHECK_EQ(strategy.checkpoint_events(), 2);
-  CHECK_EQ(second_attempted, second_succeeded + second_failed);
+      auto const   replay_second_result      = replay(initial);
+      auto const   replay_second_attempted   = replay.get_attempted().total();
+      auto const   replay_second_succeeded   = replay.get_succeeded().total();
+      auto const   replay_second_failed      = replay.get_failed().total();
+      auto const   replay_second_checkpoints = replay.checkpoint_events();
 
-  MoveAlways_3 replay(passes, checkpoint, seed, false);
-  auto const   replay_first_result = replay(initial);
-  CHECK_EQ(first_result.delaunay_snapshot(),
-           replay_first_result.delaunay_snapshot());
-  CHECK_EQ(first_attempted, replay.get_attempted().total());
-  CHECK_EQ(first_succeeded, replay.get_succeeded().total());
-  CHECK_EQ(first_failed, replay.get_failed().total());
+      THEN("Each invocation has exact accounting and is replayable.")
+      {
+        CHECK_EQ(first_checkpoints, passes / checkpoint);
+        CHECK_EQ(first_attempted, 10);
+        CHECK_EQ(first_succeeded, 1);
+        CHECK_EQ(first_failed, 9);
+        CHECK_EQ(first_attempted, first_succeeded + first_failed);
 
-  auto const replay_second_result = replay(initial);
-  CHECK_EQ(second_result.delaunay_snapshot(),
-           replay_second_result.delaunay_snapshot());
-  CHECK_EQ(second_attempted, replay.get_attempted().total());
-  CHECK_EQ(second_succeeded, replay.get_succeeded().total());
-  CHECK_EQ(second_failed, replay.get_failed().total());
+        CHECK_EQ(second_checkpoints, passes / checkpoint);
+        CHECK_EQ(second_attempted, 9);
+        CHECK_EQ(second_succeeded, 2);
+        CHECK_EQ(second_failed, 7);
+        CHECK_EQ(second_attempted, second_succeeded + second_failed);
+
+        CHECK_EQ(replay_first_checkpoints, passes / checkpoint);
+        CHECK_EQ(first_result.delaunay_snapshot(),
+                 replay_first_result.delaunay_snapshot());
+        CHECK_EQ(first_attempted, replay_first_attempted);
+        CHECK_EQ(first_succeeded, replay_first_succeeded);
+        CHECK_EQ(first_failed, replay_first_failed);
+
+        CHECK_EQ(replay_second_checkpoints, passes / checkpoint);
+        CHECK_EQ(second_result.delaunay_snapshot(),
+                 replay_second_result.delaunay_snapshot());
+        CHECK_EQ(second_attempted, replay_second_attempted);
+        CHECK_EQ(second_succeeded, replay_second_succeeded);
+        CHECK_EQ(second_failed, replay_second_failed);
+      }
+    }
+  }
 }
 
 SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always"))

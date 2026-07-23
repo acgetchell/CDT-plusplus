@@ -176,11 +176,14 @@ namespace cdt
     /// caller, so a reusable strategy never exposes partially reset counters.
     template <typename ManifoldType, typename StrategyState,
               typename ExecutePass, typename Report, typename Checkpoint>
-    [[nodiscard]] auto execute_move_run(
-        ManifoldType initial, StrategyState initial_strategy_state,
-        MoveRunCadence const cadence, MoveRunIdentity const identity,
-        bool const writes_files, ExecutePass&& execute_pass, Report&& report,
-        Checkpoint&& checkpoint) -> MoveRunResult<ManifoldType, StrategyState>
+    [[nodiscard]] auto execute_move_run(ManifoldType  initial,
+                                        StrategyState initial_strategy_state,
+                                        MoveRunCadence const  cadence,
+                                        MoveRunIdentity const identity,
+                                        bool const            writes_files,
+                                        ExecutePass execute_pass, Report report,
+                                        Checkpoint checkpoint)
+        -> MoveRunResult<ManifoldType, StrategyState>
     {
       auto current           = std::move(initial);
       auto command_totals    = MoveCommandResults<ManifoldType>{};
