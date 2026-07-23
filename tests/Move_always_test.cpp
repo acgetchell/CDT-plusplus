@@ -36,6 +36,59 @@ namespace
     vector<size_t> timevalues{1, 1, 1, 2, 2};
     return Manifold_3{make_causal_vertices<3>(vertices, timevalues)};
   }
+
+  struct Expected_run_accounting
+  {
+    Int_precision attempted;
+    Int_precision succeeded;
+    Int_precision failed;
+  };
+
+  struct Expected_move_always_fixture
+  {
+    Expected_run_accounting first;
+    Expected_run_accounting second;
+    move_tracker::move_type continuation_move;
+    Int_precision           first_continuation_attempts;
+    Int_precision           second_continuation_attempts;
+    char const*             standard_library;
+  };
+
+  /// `std::uniform_int_distribution` mappings vary by standard library.
+  [[nodiscard]] consteval auto expected_move_always_fixture()
+      -> Expected_move_always_fixture
+  {
+#if defined(_LIBCPP_VERSION)
+    return {
+        .first                        = {10, 1, 9},
+        .second                       = { 9, 2, 7},
+        .continuation_move            = move_tracker::move_type::TWO_THREE,
+        .first_continuation_attempts  = 3,
+        .second_continuation_attempts = 1,
+        .standard_library             = "libc++"
+    };
+#elif defined(__GLIBCXX__)
+    return {
+        .first                        = {9, 3, 6},
+        .second                       = {9, 3, 6},
+        .continuation_move            = move_tracker::move_type::TWO_SIX,
+        .first_continuation_attempts  = 3,
+        .second_continuation_attempts = 1,
+        .standard_library             = "libstdc++"
+    };
+#elif defined(_MSVC_STL_VERSION)
+    return {
+        .first                        = {8, 0, 8},
+        .second                       = {9, 2, 7},
+        .continuation_move            = move_tracker::move_type::TWO_THREE,
+        .first_continuation_attempts  = 0,
+        .second_continuation_attempts = 1,
+        .standard_library             = "msvc-stl"
+    };
+#else
+#error Unsupported standard library for deterministic MoveAlways fixture
+#endif
+  }
 }  // namespace
 
 static_assert(std::is_nothrow_swappable_v<MoveAlways_3>);
@@ -154,22 +207,26 @@ SCENARIO("MoveAlways multi-pass accounting is per invocation" *
     auto constexpr passes     = Int_precision{4};
     auto constexpr checkpoint = Int_precision{2};
     auto constexpr seed       = cdt::Random_seed{103};
+    auto constexpr expected   = expected_move_always_fixture();
     MoveAlways_3 strategy(passes, checkpoint, seed, false);
     CAPTURE(seed);
+    CAPTURE(expected.standard_library);
 
     WHEN("The strategy and a fresh replay each run twice.")
     {
-      auto const   first_result       = strategy(initial);
-      auto const   first_attempted    = strategy.get_attempted().total();
-      auto const   first_succeeded    = strategy.get_succeeded().total();
-      auto const   first_failed       = strategy.get_failed().total();
-      auto const   first_checkpoints  = strategy.checkpoint_events();
+      auto const   first_result           = strategy(initial);
+      auto const   first_attempted_moves  = strategy.get_attempted();
+      auto const   first_attempted        = first_attempted_moves.total();
+      auto const   first_succeeded        = strategy.get_succeeded().total();
+      auto const   first_failed           = strategy.get_failed().total();
+      auto const   first_checkpoints      = strategy.checkpoint_events();
 
-      auto const   second_result      = strategy(initial);
-      auto const   second_attempted   = strategy.get_attempted().total();
-      auto const   second_succeeded   = strategy.get_succeeded().total();
-      auto const   second_failed      = strategy.get_failed().total();
-      auto const   second_checkpoints = strategy.checkpoint_events();
+      auto const   second_result          = strategy(initial);
+      auto const   second_attempted_moves = strategy.get_attempted();
+      auto const   second_attempted       = second_attempted_moves.total();
+      auto const   second_succeeded       = strategy.get_succeeded().total();
+      auto const   second_failed          = strategy.get_failed().total();
+      auto const   second_checkpoints     = strategy.checkpoint_events();
 
       MoveAlways_3 replay(passes, checkpoint, seed, false);
       auto const   replay_first_result       = replay(initial);
@@ -187,16 +244,20 @@ SCENARIO("MoveAlways multi-pass accounting is per invocation" *
       THEN("Each invocation has exact accounting and is replayable.")
       {
         CHECK_EQ(first_checkpoints, passes / checkpoint);
-        CHECK_EQ(first_attempted, 10);
-        CHECK_EQ(first_succeeded, 1);
-        CHECK_EQ(first_failed, 9);
+        CHECK_EQ(first_attempted, expected.first.attempted);
+        CHECK_EQ(first_succeeded, expected.first.succeeded);
+        CHECK_EQ(first_failed, expected.first.failed);
         CHECK_EQ(first_attempted, first_succeeded + first_failed);
+        CHECK_EQ(first_attempted_moves[expected.continuation_move],
+                 expected.first_continuation_attempts);
 
         CHECK_EQ(second_checkpoints, passes / checkpoint);
-        CHECK_EQ(second_attempted, 9);
-        CHECK_EQ(second_succeeded, 2);
-        CHECK_EQ(second_failed, 7);
+        CHECK_EQ(second_attempted, expected.second.attempted);
+        CHECK_EQ(second_succeeded, expected.second.succeeded);
+        CHECK_EQ(second_failed, expected.second.failed);
         CHECK_EQ(second_attempted, second_succeeded + second_failed);
+        CHECK_EQ(second_attempted_moves[expected.continuation_move],
+                 expected.second_continuation_attempts);
 
         CHECK_EQ(replay_first_checkpoints, passes / checkpoint);
         CHECK_EQ(first_result.delaunay_snapshot(),

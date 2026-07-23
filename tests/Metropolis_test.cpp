@@ -127,6 +127,47 @@ namespace
 
     [[nodiscard]] auto calls() const noexcept -> std::size_t { return m_calls; }
   };
+
+  struct Expected_run_accounting
+  {
+    Int_precision attempted;
+    Int_precision succeeded;
+    Int_precision failed;
+  };
+
+  struct Expected_metropolis_fixture
+  {
+    Expected_run_accounting first;
+    Expected_run_accounting second;
+    char const*             standard_library;
+  };
+
+  /// `std::uniform_int_distribution` mappings vary by standard library.
+  [[nodiscard]] consteval auto expected_metropolis_fixture()
+      -> Expected_metropolis_fixture
+  {
+#if defined(_LIBCPP_VERSION)
+    return {
+        .first = {8, 1, 7},
+          .second = {8, 2, 6},
+          .standard_library = "libc++"
+    };
+#elif defined(__GLIBCXX__)
+    return {
+        .first            = { 8, 3, 5},
+        .second           = {10, 2, 8},
+        .standard_library = "libstdc++"
+    };
+#elif defined(_MSVC_STL_VERSION)
+    return {
+        .first            = { 8, 3, 5},
+        .second           = {10, 2, 8},
+        .standard_library = "msvc-stl"
+    };
+#else
+#error Unsupported standard library for deterministic Metropolis fixture
+#endif
+  }
 }  // namespace
 
 static_assert(std::is_nothrow_swappable_v<Metropolis_3>);
@@ -627,8 +668,10 @@ SCENARIO("Metropolis multi-pass accounting is per invocation" *
     auto constexpr passes     = Int_precision{4};
     auto constexpr checkpoint = Int_precision{2};
     auto constexpr seed       = cdt::Random_seed{103};
+    auto constexpr expected   = expected_metropolis_fixture();
     Metropolis_3 strategy(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
     CAPTURE(seed);
+    CAPTURE(expected.standard_library);
 
     WHEN("The strategy and a fresh replay each run twice.")
     {
@@ -657,16 +700,16 @@ SCENARIO("Metropolis multi-pass accounting is per invocation" *
       THEN("Each invocation has exact accounting and is replayable.")
       {
         CHECK_EQ(first_checkpoints, passes / checkpoint);
-        CHECK_EQ(first_attempted, 8);
-        CHECK_EQ(first_succeeded, 1);
-        CHECK_EQ(first_failed, 7);
+        CHECK_EQ(first_attempted, expected.first.attempted);
+        CHECK_EQ(first_succeeded, expected.first.succeeded);
+        CHECK_EQ(first_failed, expected.first.failed);
         CHECK_EQ(first_attempted, first_succeeded + first_failed);
         CHECK_EQ(first_transitions, first_attempted);
 
         CHECK_EQ(second_checkpoints, passes / checkpoint);
-        CHECK_EQ(second_attempted, 8);
-        CHECK_EQ(second_succeeded, 2);
-        CHECK_EQ(second_failed, 6);
+        CHECK_EQ(second_attempted, expected.second.attempted);
+        CHECK_EQ(second_succeeded, expected.second.succeeded);
+        CHECK_EQ(second_failed, expected.second.failed);
         CHECK_EQ(second_attempted, second_succeeded + second_failed);
         CHECK_EQ(second_transitions, second_attempted);
 
