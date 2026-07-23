@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "Ergodic_moves_3.hpp"
+#include "Foliated_triangulation.hpp"
 #include "Metropolis.hpp"
 #include "Move_always.hpp"
 #include "Move_command.hpp"
@@ -21,6 +22,11 @@ static_assert(std::same_as<cdt::Geometry_3, cdt::Geometry<3>>);
 static_assert(
     std::same_as<cdt::foliated_triangulations::FoliatedTriangulation_3,
                  cdt::foliated_triangulations::FoliatedTriangulation<3>>);
+static_assert(requires(cdt::Random& random) {
+  {
+    cdt::foliated_triangulations::make_triangulation<3>(2, 2, 1.0, 1.0, random)
+  } -> std::same_as<cdt::Delaunay_t<3>>;
+});
 static_assert(
     std::same_as<cdt::MoveAlways_3,
                  cdt::MoveStrategy<cdt::Strategies::MOVE_ALWAYS, Manifold>>);

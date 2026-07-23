@@ -102,7 +102,7 @@ After building, run that fixture directly with:
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
-- [ ] Restore optional parallel triangulation with [TBB] ([#74](https://github.com/acgetchell/CDT-plusplus/issues/74))
+- [x] Restore optional parallel triangulation with [TBB] ([#74](https://github.com/acgetchell/CDT-plusplus/issues/74))
 - [x] Automated code analysis with [CodeQL]
 - [x] Build/debug with [Visual Studio 2022]
 - [x] Use [{fmt}] library (instead of `iostream`)
@@ -160,7 +160,7 @@ With the pinned baseline, the reference configuration and build succeed on macOS
 `just build` command runs all 22 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
 one unit-test launcher containing 90 doctest scenarios and 21 CLI integration tests. The same `reference-smoke` preset
 is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting
-another doctest suite.
+another doctest suite. The parallel-enabled AddressSanitizer configuration adds one launcher containing three scenarios.
 
 ## Setup
 
@@ -433,10 +433,11 @@ subsequent releases.
 ## Testing
 
 Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
-executes all 22 CTest entries: one unit-test launcher containing 90 doctest scenarios plus 21 executable integration
-tests covering normal CLI use and invalid-boundary rejection. CTest labels the launcher `unit` and every process-level
-test `integration`; invalid-input tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete local
-validation gate.
+executes all 22 CTest entries: one unit-test launcher containing 90 doctest scenarios and 21 executable integration
+tests covering normal CLI use and invalid-boundary rejection. The parallel-enabled AddressSanitizer configuration adds
+one launcher containing three scenarios labeled `unit`, `parallel`, and `configuration`. Every process-level test is
+labeled `integration`, and invalid-input tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete
+local validation gate.
 
 `just check` also runs the repository-owned Semgrep policy and its annotated
 fixtures. Use `just semgrep-test` while changing the rules and `just semgrep` to
@@ -497,7 +498,10 @@ The Codecov workflow runs this recipe, uploads only `build/coverage.info` with
 OIDC, and preserves both reports as a 14-day GitHub Actions artifact for local
 diagnosis. If report generation fails, the workflow also preserves the gcov
 inputs and CTest diagnostics for seven days. It does not rely on Codecov's
-automatic gcov discovery.
+automatic gcov discovery. Codecov retains the LCOV branch detail but counts an
+executed line with an uncovered branch as a line hit, keeping its project
+percentage comparable to LCOV's line rate; use the LCOV artifact for the
+separate branch-coverage rate.
 
 ### Static Analysis
 
@@ -519,7 +523,8 @@ just clang-tidy
 [AddressSanitizer] + [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer] share the
 repository-owned Linux driver and CMake presets. Run one locally with `just sanitize asan`, `just sanitize lsan`,
 `just sanitize msan`, or `just sanitize tsan`; the GitHub Actions workflows invoke the same commands. MemorySanitizer
-remains experimental because third-party dependencies are not instrumented.
+remains experimental because third-party dependencies are not instrumented. AddressSanitizer enables the optional
+CGAL/TBB path and its parallel contract; ThreadSanitizer exercises the default sequential configuration.
 
 ## Optimizing Parameters
 
