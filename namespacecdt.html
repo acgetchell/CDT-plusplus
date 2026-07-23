@@ -127,6 +127,8 @@ Classes</h2></td></tr>
 <tr class="memitem:Geometry_3C_203_20_3E" id="r_Geometry_3C_203_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcdt_1_1_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D <a class="el" href="structcdt_1_1_geometry.html">Geometry</a>  <a href="structcdt_1_1_geometry_3_013_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MoveCommand" id="r_MoveCommand"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a></td></tr>
+<tr class="memitem:MoveRunCadence" id="r_MoveRunCadence"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_move_run_cadence.html">MoveRunCadence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Positive pass count and checkpoint interval for a move run.  <a href="classcdt_1_1_move_run_cadence.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MoveStrategy" id="r_MoveStrategy"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_move_strategy.html">MoveStrategy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select a move algorithm.  <a href="classcdt_1_1_move_strategy.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MoveStrategy_3C_20Strategies_3A_3AMETROPOLIS_2C_20ManifoldType_20_3E" id="r_MoveStrategy_3C_20Strategies_3A_3AMETROPOLIS_2C_20ManifoldType_20_3E"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;</a></td></tr>
@@ -181,6 +183,10 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:ac0f7c57082cf513f960e813bee886322"><td class="mdescLeft">&#160;</td><td class="mdescRight">(n,m) is number of vertices on (lower, higher) timeslice  <a href="#ac0f7c57082cf513f960e813bee886322">More...</a><br /></td></tr>
+<tr class="memitem:ae8d47aac1d039afaa775d08c0e6cd74e" id="r_ae8d47aac1d039afaa775d08c0e6cd74e"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ae8d47aac1d039afaa775d08c0e6cd74e">MoveRunCadenceError</a> { <b>NONPOSITIVE_PASSES</b>
+, <b>NONPOSITIVE_CHECKPOINT</b>
+ }</td></tr>
+<tr class="memdesc:ae8d47aac1d039afaa775d08c0e6cd74e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reasons raw move-run cadence cannot become a domain value.  <a href="#ae8d47aac1d039afaa775d08c0e6cd74e">More...</a><br /></td></tr>
 <tr class="memitem:a3427a02a866b7e687930770ea4f9358d" id="r_a3427a02a866b7e687930770ea4f9358d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a3427a02a866b7e687930770ea4f9358d">Strategies</a> { <b>MOVE_ALWAYS</b>
 , <b>METROPOLIS</b>
  }</td></tr>
@@ -398,7 +404,7 @@ template&lt;int dimension&gt; </div>
 <div class="line"><a class="code hl_class" href="classcdt_1_1_move_strategy.html">MoveStrategy&lt;Strategies::METROPOLIS, manifolds::Manifold_3&gt;</a></div>
 <div class="ttc" id="aclasscdt_1_1_move_strategy_html"><div class="ttname"><a href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a></div><div class="ttdoc">Select a move algorithm.</div><div class="ttdef"><b>Definition</b> <a href="_move__strategy_8hpp_source.html#l00033">Move_strategy.hpp:34</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00601">601</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00626">626</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -416,7 +422,7 @@ template&lt;int dimension&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line"> </div>
 <div class="line"><a class="code hl_class" href="classcdt_1_1_move_strategy.html">MoveStrategy&lt;Strategies::MOVE_ALWAYS, manifolds::Manifold_3&gt;</a></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00188">188</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00199">199</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
 </div>
 </div>
@@ -534,6 +540,32 @@ template&lt;int dimension&gt; </div>
 <p>(n,m) is number of vertices on (lower, higher) timeslice </p>
 
 <p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00309">309</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae8d47aac1d039afaa775d08c0e6cd74e" name="ae8d47aac1d039afaa775d08c0e6cd74e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8d47aac1d039afaa775d08c0e6cd74e">&#9670;&#160;</a></span>MoveRunCadenceError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ae8d47aac1d039afaa775d08c0e6cd74e">cdt::MoveRunCadenceError</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reasons raw move-run cadence cannot become a domain value. </p>
+
+<p class="definition">Definition at line <a class="el" href="_move__run_8hpp_source.html#l00027">27</a> of file <a class="el" href="_move__run_8hpp_source.html">Move_run.hpp</a>.</p>
 
 </div>
 </div>

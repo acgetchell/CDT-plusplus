@@ -114,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classcdt_1_1_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">cdt::MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt; Class Template Reference</div></div>
@@ -143,50 +145,60 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight"><b>MoveStrategy</b> ()=default</td></tr>
 <tr class="memdesc:a95c9c8211244628d608d6f6816d3dbda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default ctor. <br /></td></tr>
 <tr class="memitem:aac86223e7098a1c196ccabb9c6171529" id="r_aac86223e7098a1c196ccabb9c6171529"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aac86223e7098a1c196ccabb9c6171529">MoveStrategy</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_number_of_passes, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_checkpoint)</td></tr>
-<tr class="memdesc:aac86223e7098a1c196ccabb9c6171529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for MoveAlways.  <br /></td></tr>
-<tr class="memitem:aa7c53945570c881bee138b0560bd4417" id="r_aa7c53945570c881bee138b0560bd4417"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa7c53945570c881bee138b0560bd4417">MoveStrategy</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_number_of_passes, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_checkpoint, <a class="el" href="classcdt_1_1_random.html">cdt::Random</a> random)</td></tr>
-<tr class="memdesc:aa7c53945570c881bee138b0560bd4417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a MoveAlways run from an owned PCG stream.  <br /></td></tr>
-<tr class="memitem:a74f1a762c17bd5ed643b9a8bb3add2b3" id="r_a74f1a762c17bd5ed643b9a8bb3add2b3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a74f1a762c17bd5ed643b9a8bb3add2b3">MoveStrategy</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_number_of_passes, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_checkpoint, cdt::Random_seed const seed)</td></tr>
-<tr class="memdesc:a74f1a762c17bd5ed643b9a8bb3add2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a replayable MoveAlways run from an explicit seed.  <br /></td></tr>
-<tr class="memitem:ac00b2a3d61302955e40fb9d35d92e81e" id="r_ac00b2a3d61302955e40fb9d35d92e81e"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac00b2a3d61302955e40fb9d35d92e81e">checkpoint</a> () const</td></tr>
+<tr class="memdesc:aac86223e7098a1c196ccabb9c6171529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a MoveAlways run using a fresh entropy-backed stream.  <br /></td></tr>
+<tr class="memitem:a20618cfb0e0810d916cbf2d3c3c0c541" id="r_a20618cfb0e0810d916cbf2d3c3c0c541"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a20618cfb0e0810d916cbf2d3c3c0c541">MoveStrategy</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_number_of_passes, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_checkpoint, <a class="el" href="classcdt_1_1_random.html">cdt::Random</a> random, bool const write_files=true)</td></tr>
+<tr class="memdesc:a20618cfb0e0810d916cbf2d3c3c0c541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a MoveAlways run from an owned PCG stream.  <br /></td></tr>
+<tr class="memitem:a8b776b398dcbfb3e3d5efbb7c9a41415" id="r_a8b776b398dcbfb3e3d5efbb7c9a41415"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8b776b398dcbfb3e3d5efbb7c9a41415">MoveStrategy</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_number_of_passes, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_checkpoint, cdt::Random_seed const seed, bool const write_files=true)</td></tr>
+<tr class="memdesc:a8b776b398dcbfb3e3d5efbb7c9a41415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a replayable MoveAlways run from an explicit seed.  <br /></td></tr>
+<tr class="memitem:a8b6ebbdb1ce9bedad64d5de664a441ea" id="r_a8b6ebbdb1ce9bedad64d5de664a441ea"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8b6ebbdb1ce9bedad64d5de664a441ea">checkpoint</a> () const noexcept</td></tr>
+<tr class="memitem:ab3fc3d5d263c8673684f972413064653" id="r_ab3fc3d5d263c8673684f972413064653"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab3fc3d5d263c8673684f972413064653">checkpoint_events</a> () const noexcept</td></tr>
 <tr class="memitem:a8e56116a50b051e232457aa85b487e0e" id="r_a8e56116a50b051e232457aa85b487e0e"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8e56116a50b051e232457aa85b487e0e">get_attempted</a> () const</td></tr>
 <tr class="memitem:a99820245c4c48e8ff36f12dd77957dd4" id="r_a99820245c4c48e8ff36f12dd77957dd4"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a99820245c4c48e8ff36f12dd77957dd4">get_failed</a> () const</td></tr>
 <tr class="memitem:a92f63046de07664b259bf0fd21d2d815" id="r_a92f63046de07664b259bf0fd21d2d815"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a92f63046de07664b259bf0fd21d2d815">get_succeeded</a> () const</td></tr>
 <tr class="memitem:a79641237dfa14d911b7123c8c7ac64eb" id="r_a79641237dfa14d911b7123c8c7ac64eb"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a79641237dfa14d911b7123c8c7ac64eb">operator()</a> (ManifoldType const &amp;t_manifold) -&gt; ManifoldType</td></tr>
-<tr class="memdesc:a79641237dfa14d911b7123c8c7ac64eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call operator.  <br /></td></tr>
-<tr class="memitem:ac3041f78c5f350b7d40f63befbc28105" id="r_ac3041f78c5f350b7d40f63befbc28105"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac3041f78c5f350b7d40f63befbc28105">passes</a> () const</td></tr>
-<tr class="memitem:abd0a814f50bd9e1c1ae0af2088e5fdc0" id="r_abd0a814f50bd9e1c1ae0af2088e5fdc0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abd0a814f50bd9e1c1ae0af2088e5fdc0">print_results</a> ()</td></tr>
-<tr class="memdesc:abd0a814f50bd9e1c1ae0af2088e5fdc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display results of run.  <br /></td></tr>
+<tr class="memdesc:a79641237dfa14d911b7123c8c7ac64eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a fresh run while continuing the owned random stream.  <br /></td></tr>
+<tr class="memitem:aa04971aa89774ee80d41a8e4271e87b1" id="r_aa04971aa89774ee80d41a8e4271e87b1"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa04971aa89774ee80d41a8e4271e87b1">passes</a> () const noexcept</td></tr>
+<tr class="memitem:a4f22996551cf2716b854ffc23d45c474" id="r_a4f22996551cf2716b854ffc23d45c474"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4f22996551cf2716b854ffc23d45c474">print_results</a> () const</td></tr>
+<tr class="memdesc:a4f22996551cf2716b854ffc23d45c474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display results of the latest completed invocation.  <br /></td></tr>
 <tr class="memitem:a9f82939248a49a135d7dfc4a06284ccd" id="r_a9f82939248a49a135d7dfc4a06284ccd"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a9f82939248a49a135d7dfc4a06284ccd">seed</a> () const noexcept</td></tr>
+<tr class="memitem:a058fc6a6c800ba7a5a78251a36c9e830" id="r_a058fc6a6c800ba7a5a78251a36c9e830"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a058fc6a6c800ba7a5a78251a36c9e830">stream</a> () const noexcept</td></tr>
+<tr class="memitem:a9e5b298ab2f1694f192fbbd296336b75" id="r_a9e5b298ab2f1694f192fbbd296336b75"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a9e5b298ab2f1694f192fbbd296336b75">writes_files</a> () const noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:ab13ad19aef8af9005a5e8a8802757444" id="r_ab13ad19aef8af9005a5e8a8802757444"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ab13ad19aef8af9005a5e8a8802757444">Counter</a> = <a class="el" href="classcdt_1_1move__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a>&lt;ManifoldType&gt;</td></tr>
+<tr class="memitem:aaa5de671271778e5e3c312616f8bb16c" id="r_aaa5de671271778e5e3c312616f8bb16c"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#aaa5de671271778e5e3c312616f8bb16c">CommandResults</a> = detail::MoveCommandResults&lt;ManifoldType&gt;</td></tr>
+<tr class="memitem:a2aa2af36eae88baae17efd4108945ba4" id="r_a2aa2af36eae88baae17efd4108945ba4"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a2aa2af36eae88baae17efd4108945ba4">PassResult</a> = detail::MovePassResult&lt;ManifoldType, std::monostate&gt;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a3476ef8d0012d9f923aed2f5e6549dda" id="r_a3476ef8d0012d9f923aed2f5e6549dda"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a3476ef8d0012d9f923aed2f5e6549dda">execute_pass</a> (ManifoldType current, std::monostate strategy_state, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const attempts) -&gt; PassResult</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a553900b3400084d1cec9f705a6dfcb14" id="r_a553900b3400084d1cec9f705a6dfcb14"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a553900b3400084d1cec9f705a6dfcb14">print_results</a> (CommandResults const &amp;results)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a604b185c0f9fea6261a8a7c08d650be3" id="r_a604b185c0f9fea6261a8a7c08d650be3"><td class="memItemLeft">Counter&#160;</td><td class="memItemRight"><a class="el" href="#a604b185c0f9fea6261a8a7c08d650be3">m_attempted_moves</a></td></tr>
-<tr class="memdesc:a604b185c0f9fea6261a8a7c08d650be3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of moves that were attempted by a <a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a>.  <br /></td></tr>
-<tr class="memitem:a6f21d3ff38b6c5f36cad185a7389def3" id="r_a6f21d3ff38b6c5f36cad185a7389def3"><td class="memItemLeft"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6f21d3ff38b6c5f36cad185a7389def3">m_checkpoint</a> {1}</td></tr>
-<tr class="memdesc:a6f21d3ff38b6c5f36cad185a7389def3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of passes before a checkpoint.  <br /></td></tr>
-<tr class="memitem:adc54bef1ceaf2e5e8e8180e22802ffbf" id="r_adc54bef1ceaf2e5e8e8180e22802ffbf"><td class="memItemLeft">Counter&#160;</td><td class="memItemRight"><a class="el" href="#adc54bef1ceaf2e5e8e8180e22802ffbf">m_failed_moves</a></td></tr>
-<tr class="memdesc:adc54bef1ceaf2e5e8e8180e22802ffbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of moves that a <a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a> failed to make due to an error.  <br /></td></tr>
-<tr class="memitem:a7aba002b6da7b388e1162782f01c349c" id="r_a7aba002b6da7b388e1162782f01c349c"><td class="memItemLeft"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7aba002b6da7b388e1162782f01c349c">m_passes</a> {1}</td></tr>
-<tr class="memdesc:a7aba002b6da7b388e1162782f01c349c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of move passes executed by the algorithm.  <br /></td></tr>
+<tr class="memitem:a256fc7aa1b07fd3fb8d9be6263db6b7f" id="r_a256fc7aa1b07fd3fb8d9be6263db6b7f"><td class="memItemLeft"><a class="el" href="classcdt_1_1_move_run_cadence.html">MoveRunCadence</a>&#160;</td><td class="memItemRight"><a class="el" href="#a256fc7aa1b07fd3fb8d9be6263db6b7f">m_cadence</a></td></tr>
+<tr class="memdesc:a256fc7aa1b07fd3fb8d9be6263db6b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Positive pass and checkpoint cadence.  <br /></td></tr>
+<tr class="memitem:a53a1f1f35a414d178796de84717c38bc" id="r_a53a1f1f35a414d178796de84717c38bc"><td class="memItemLeft"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a53a1f1f35a414d178796de84717c38bc">m_checkpoint_events</a> {}</td></tr>
+<tr class="memdesc:a53a1f1f35a414d178796de84717c38bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checkpoint events from the latest completed invocation.  <br /></td></tr>
+<tr class="memitem:a28c38ddcf75e3ff75f46055b92f4fb3f" id="r_a28c38ddcf75e3ff75f46055b92f4fb3f"><td class="memItemLeft">CommandResults&#160;</td><td class="memItemRight"><a class="el" href="#a28c38ddcf75e3ff75f46055b92f4fb3f">m_command_results</a></td></tr>
+<tr class="memdesc:a28c38ddcf75e3ff75f46055b92f4fb3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command counters from the latest completed invocation.  <br /></td></tr>
 <tr class="memitem:a90a8e169e93a610df81f8651fb9a6c0c" id="r_a90a8e169e93a610df81f8651fb9a6c0c"><td class="memItemLeft"><a class="el" href="classcdt_1_1_random.html">cdt::Random</a>&#160;</td><td class="memItemRight"><a class="el" href="#a90a8e169e93a610df81f8651fb9a6c0c">m_random</a></td></tr>
 <tr class="memdesc:a90a8e169e93a610df81f8651fb9a6c0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run-owned random stream used for move selection and site ordering.  <br /></td></tr>
-<tr class="memitem:a0580738f54e06bc8f52de04761d12e7d" id="r_a0580738f54e06bc8f52de04761d12e7d"><td class="memItemLeft">Counter&#160;</td><td class="memItemRight"><a class="el" href="#a0580738f54e06bc8f52de04761d12e7d">m_successful_moves</a></td></tr>
-<tr class="memdesc:a0580738f54e06bc8f52de04761d12e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of moves that succeeded in the <a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a>.  <br /></td></tr>
+<tr class="memitem:acaeb4d6bf365484cb5eb7ce6e05249d7" id="r_acaeb4d6bf365484cb5eb7ce6e05249d7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#acaeb4d6bf365484cb5eb7ce6e05249d7">m_write_files</a> {true}</td></tr>
+<tr class="memdesc:acaeb4d6bf365484cb5eb7ce6e05249d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether checkpoint triangulation files may be written.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename ManifoldType&gt;<br />
 requires (ManifoldType::dimension == 3)<br />
 class cdt::MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;</div><p>The Move Always algorithm. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00027">27</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00029">29</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
-<a id="ab13ad19aef8af9005a5e8a8802757444" name="ab13ad19aef8af9005a5e8a8802757444"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab13ad19aef8af9005a5e8a8802757444">&#9670;&#160;</a></span>Counter</h2>
+<a id="aaa5de671271778e5e3c312616f8bb16c" name="aaa5de671271778e5e3c312616f8bb16c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa5de671271778e5e3c312616f8bb16c">&#9670;&#160;</a></span>CommandResults</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,7 +209,7 @@ template&lt;typename ManifoldType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::Counter = <a class="el" href="classcdt_1_1move__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a>&lt;ManifoldType&gt;</td>
+          <td class="memname">using <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::CommandResults = detail::MoveCommandResults&lt;ManifoldType&gt;</td>
         </tr>
       </table>
   </td>
@@ -207,7 +219,33 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00029">29</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00031">31</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2aa2af36eae88baae17efd4108945ba4" name="a2aa2af36eae88baae17efd4108945ba4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2aa2af36eae88baae17efd4108945ba4">&#9670;&#160;</a></span>PassResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::PassResult = detail::MovePassResult&lt;ManifoldType, std::monostate&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00032">32</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
 </div>
 </div>
@@ -241,23 +279,29 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constructor for MoveAlways. </p>
+<p>Construct a MoveAlways run using a fresh entropy-backed stream. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t_number_of_passes</td><td>Number of passes to run </td></tr>
-    <tr><td class="paramname">t_checkpoint</td><td>Number of passes per checkpoint </td></tr>
+    <tr><td class="paramname">t_number_of_passes</td><td>Positive number of passes to run. </td></tr>
+    <tr><td class="paramname">t_checkpoint</td><td>Positive number of passes per checkpoint. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>When either cadence value is nonpositive. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00061">61</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00100">100</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="#a95c9c8211244628d608d6f6816d3dbda">MoveStrategy()</a>.</p>
 
 </div>
 </div>
-<a id="a74f1a762c17bd5ed643b9a8bb3add2b3" name="a74f1a762c17bd5ed643b9a8bb3add2b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74f1a762c17bd5ed643b9a8bb3add2b3">&#9670;&#160;</a></span>MoveStrategy() <span class="overload">[2/3]</span></h2>
+<a id="a8b776b398dcbfb3e3d5efbb7c9a41415" name="a8b776b398dcbfb3e3d5efbb7c9a41415"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b776b398dcbfb3e3d5efbb7c9a41415">&#9670;&#160;</a></span>MoveStrategy() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -280,7 +324,12 @@ template&lt;typename ManifoldType&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">cdt::Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span>&#160;)</td>
+          <td class="paramtype">cdt::Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>write_files</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -291,15 +340,30 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 
 <p>Construct a replayable MoveAlways run from an explicit seed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_number_of_passes</td><td>Positive number of passes to run. </td></tr>
+    <tr><td class="paramname">t_checkpoint</td><td>Positive number of passes per checkpoint. </td></tr>
+    <tr><td class="paramname">seed</td><td>Root seed for the owned random stream. </td></tr>
+    <tr><td class="paramname">write_files</td><td>Whether checkpoints may write triangulation files. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>When either cadence value is nonpositive. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00067">67</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00111">111</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="#a95c9c8211244628d608d6f6816d3dbda">MoveStrategy()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00099">seed()</a>.</p>
+<p class="reference">References <a class="el" href="#a95c9c8211244628d608d6f6816d3dbda">MoveStrategy()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00147">seed()</a>.</p>
 
 </div>
 </div>
-<a id="aa7c53945570c881bee138b0560bd4417" name="aa7c53945570c881bee138b0560bd4417"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7c53945570c881bee138b0560bd4417">&#9670;&#160;</a></span>MoveStrategy() <span class="overload">[3/3]</span></h2>
+<a id="a20618cfb0e0810d916cbf2d3c3c0c541" name="a20618cfb0e0810d916cbf2d3c3c0c541"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20618cfb0e0810d916cbf2d3c3c0c541">&#9670;&#160;</a></span>MoveStrategy() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -322,7 +386,12 @@ template&lt;typename ManifoldType&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classcdt_1_1_random.html">cdt::Random</a></td>          <td class="paramname"><span class="paramname"><em>random</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1_random.html">cdt::Random</a></td>          <td class="paramname"><span class="paramname"><em>random</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool const</td>          <td class="paramname"><span class="paramname"><em>write_files</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -333,16 +402,31 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 
 <p>Construct a MoveAlways run from an owned PCG stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_number_of_passes</td><td>Positive number of passes to run. </td></tr>
+    <tr><td class="paramname">t_checkpoint</td><td>Positive number of passes per checkpoint. </td></tr>
+    <tr><td class="paramname">random</td><td>Stream whose current state becomes owned by this strategy. </td></tr>
+    <tr><td class="paramname">write_files</td><td>Whether checkpoints may write triangulation files. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>When either cadence value is nonpositive. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00074">74</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00125">125</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00039">m_checkpoint</a>, <a class="el" href="_move__always_8hpp_source.html#l00034">m_passes</a>, and <a class="el" href="_move__always_8hpp_source.html#l00042">m_random</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00035">m_cadence</a>, <a class="el" href="_move__always_8hpp_source.html#l00038">m_random</a>, and <a class="el" href="_move__always_8hpp_source.html#l00041">m_write_files</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="ac00b2a3d61302955e40fb9d35d92e81e" name="ac00b2a3d61302955e40fb9d35d92e81e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac00b2a3d61302955e40fb9d35d92e81e">&#9670;&#160;</a></span>checkpoint()</h2>
+<a id="a8b6ebbdb1ce9bedad64d5de664a441ea" name="a8b6ebbdb1ce9bedad64d5de664a441ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b6ebbdb1ce9bedad64d5de664a441ea">&#9670;&#160;</a></span>checkpoint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -361,15 +445,85 @@ template&lt;typename ManifoldType&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of passes per checkpoint </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00096">96</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00139">139</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00039">m_checkpoint</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00035">m_cadence</a>.</p>
+
+</div>
+</div>
+<a id="ab3fc3d5d263c8673684f972413064653" name="ab3fc3d5d263c8673684f972413064653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3fc3d5d263c8673684f972413064653">&#9670;&#160;</a></span>checkpoint_events()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::checkpoint_events </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Checkpoint events completed by the latest invocation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00143">143</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00047">m_checkpoint_events</a>.</p>
+
+</div>
+</div>
+<a id="a3476ef8d0012d9f923aed2f5e6549dda" name="a3476ef8d0012d9f923aed2f5e6549dda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3476ef8d0012d9f923aed2f5e6549dda">&#9670;&#160;</a></span>execute_pass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::execute_pass </td>
+          <td>(</td>
+          <td class="paramtype">ManifoldType</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::monostate</td>          <td class="paramname"><span class="paramname"><em>strategy_state</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>attempts</em></span>&#160;) -&gt; PassResult</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00049">49</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
 </div>
 </div>
@@ -393,15 +547,15 @@ template&lt;typename ManifoldType&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The MoveTracker of attempted moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00102">102</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00156">156</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00045">m_attempted_moves</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00044">m_command_results</a>.</p>
 
 </div>
 </div>
@@ -425,15 +579,15 @@ template&lt;typename ManifoldType&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The array of failed moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00108">108</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00164">164</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00052">m_failed_moves</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00044">m_command_results</a>.</p>
 
 </div>
 </div>
@@ -457,15 +611,15 @@ template&lt;typename ManifoldType&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The MoveTracker of successful moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00105">105</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00160">160</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00048">m_successful_moves</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00044">m_command_results</a>.</p>
 
 </div>
 </div>
@@ -494,16 +648,17 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Call operator. </p>
+<p>Execute a fresh run while continuing the owned random stream. </p>
+<p>Counters and checkpoint events are replaced only after the invocation completes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00111">111</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00169">169</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00115">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::enqueue()</a>, <a class="el" href="_move__command_8hpp_source.html#l00127">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::execute()</a>, <a class="el" href="_move__command_8hpp_source.html#l00086">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::get_attempted()</a>, <a class="el" href="_move__command_8hpp_source.html#l00075">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::get_const_results()</a>, <a class="el" href="_move__command_8hpp_source.html#l00098">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::get_failed()</a>, <a class="el" href="_move__command_8hpp_source.html#l00081">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::get_results()</a>, <a class="el" href="_move__command_8hpp_source.html#l00092">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::get_succeeded()</a>, <a class="el" href="_move__always_8hpp_source.html#l00045">m_attempted_moves</a>, <a class="el" href="_move__always_8hpp_source.html#l00039">m_checkpoint</a>, <a class="el" href="_move__always_8hpp_source.html#l00052">m_failed_moves</a>, <a class="el" href="_move__always_8hpp_source.html#l00034">m_passes</a>, <a class="el" href="_move__always_8hpp_source.html#l00042">m_random</a>, <a class="el" href="_move__always_8hpp_source.html#l00048">m_successful_moves</a>, <a class="el" href="_move__always_8hpp_source.html#l00162">print_results()</a>, and <a class="el" href="_move__command_8hpp_source.html#l00104">cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;::reset_counters()</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00035">m_cadence</a>, <a class="el" href="_move__always_8hpp_source.html#l00047">m_checkpoint_events</a>, <a class="el" href="_move__always_8hpp_source.html#l00044">m_command_results</a>, <a class="el" href="_move__always_8hpp_source.html#l00041">m_write_files</a>, <a class="el" href="_move__always_8hpp_source.html#l00147">seed()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00150">stream()</a>.</p>
 
 </div>
 </div>
-<a id="ac3041f78c5f350b7d40f63befbc28105" name="ac3041f78c5f350b7d40f63befbc28105"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3041f78c5f350b7d40f63befbc28105">&#9670;&#160;</a></span>passes()</h2>
+<a id="aa04971aa89774ee80d41a8e4271e87b1" name="aa04971aa89774ee80d41a8e4271e87b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa04971aa89774ee80d41a8e4271e87b1">&#9670;&#160;</a></span>passes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -522,20 +677,20 @@ template&lt;typename ManifoldType&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of passes made on a triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00093">93</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00136">136</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00034">m_passes</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00035">m_cadence</a>.</p>
 
 </div>
 </div>
-<a id="abd0a814f50bd9e1c1ae0af2088e5fdc0" name="abd0a814f50bd9e1c1ae0af2088e5fdc0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd0a814f50bd9e1c1ae0af2088e5fdc0">&#9670;&#160;</a></span>print_results()</h2>
+<a id="a4f22996551cf2716b854ffc23d45c474" name="a4f22996551cf2716b854ffc23d45c474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f22996551cf2716b854ffc23d45c474">&#9670;&#160;</a></span>print_results() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -549,7 +704,7 @@ template&lt;typename ManifoldType&gt; </div>
           <td class="memname">void <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::print_results </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -559,13 +714,42 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Display results of run. </p>
+<p>Display results of the latest completed invocation. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00162">162</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00196">196</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00045">m_attempted_moves</a>, <a class="el" href="_move__always_8hpp_source.html#l00052">m_failed_moves</a>, and <a class="el" href="_move__always_8hpp_source.html#l00048">m_successful_moves</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00044">m_command_results</a>, and <a class="el" href="_move__always_8hpp_source.html#l00196">print_results()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00196">print_results()</a>.</p>
+
+</div>
+</div>
+<a id="a553900b3400084d1cec9f705a6dfcb14" name="a553900b3400084d1cec9f705a6dfcb14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a553900b3400084d1cec9f705a6dfcb14">&#9670;&#160;</a></span>print_results() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::print_results </td>
+          <td>(</td>
+          <td class="paramtype">CommandResults const &amp;</td>          <td class="paramname"><span class="paramname"><em>results</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00067">67</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
 </div>
 </div>
@@ -595,17 +779,83 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The effective root seed used for this run. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00099">99</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00147">147</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00042">m_random</a>.</p>
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00038">m_random</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00067">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00111">MoveStrategy()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00169">operator()()</a>.</p>
+
+</div>
+</div>
+<a id="a058fc6a6c800ba7a5a78251a36c9e830" name="a058fc6a6c800ba7a5a78251a36c9e830"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a058fc6a6c800ba7a5a78251a36c9e830">&#9670;&#160;</a></span>stream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::stream </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The PCG stream selector used for this run. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00150">150</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00038">m_random</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00169">operator()()</a>.</p>
+
+</div>
+</div>
+<a id="a9e5b298ab2f1694f192fbbd296336b75" name="a9e5b298ab2f1694f192fbbd296336b75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e5b298ab2f1694f192fbbd296336b75">&#9670;&#160;</a></span>writes_files()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::writes_files </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Whether the strategy writes checkpoint triangulation files. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00153">153</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_move__always_8hpp_source.html#l00041">m_write_files</a>.</p>
 
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a604b185c0f9fea6261a8a7c08d650be3" name="a604b185c0f9fea6261a8a7c08d650be3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a604b185c0f9fea6261a8a7c08d650be3">&#9670;&#160;</a></span>m_attempted_moves</h2>
+<a id="a256fc7aa1b07fd3fb8d9be6263db6b7f" name="a256fc7aa1b07fd3fb8d9be6263db6b7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a256fc7aa1b07fd3fb8d9be6263db6b7f">&#9670;&#160;</a></span>m_cadence</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -616,7 +866,7 @@ template&lt;typename ManifoldType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Counter <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_attempted_moves</td>
+          <td class="memname"><a class="el" href="classcdt_1_1_move_run_cadence.html">MoveRunCadence</a> <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_cadence</td>
         </tr>
       </table>
   </td>
@@ -626,16 +876,16 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The number of moves that were attempted by a <a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a>. </p>
+<p>Positive pass and checkpoint cadence. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00045">45</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00035">35</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00102">get_attempted()</a>, <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00162">print_results()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00125">MoveStrategy()</a>, <a class="el" href="_move__always_8hpp_source.html#l00139">checkpoint()</a>, <a class="el" href="_move__always_8hpp_source.html#l00169">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00136">passes()</a>.</p>
 
 </div>
 </div>
-<a id="a6f21d3ff38b6c5f36cad185a7389def3" name="a6f21d3ff38b6c5f36cad185a7389def3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f21d3ff38b6c5f36cad185a7389def3">&#9670;&#160;</a></span>m_checkpoint</h2>
+<a id="a53a1f1f35a414d178796de84717c38bc" name="a53a1f1f35a414d178796de84717c38bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53a1f1f35a414d178796de84717c38bc">&#9670;&#160;</a></span>m_checkpoint_events</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -646,7 +896,7 @@ template&lt;typename ManifoldType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_checkpoint {1}</td>
+          <td class="memname"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_checkpoint_events {}</td>
         </tr>
       </table>
   </td>
@@ -656,17 +906,16 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The number of passes before a checkpoint. </p>
-<p>Each checkpoint writes a file containing the current triangulation. </p>
+<p>Checkpoint events from the latest completed invocation. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00039">39</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00047">47</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy()</a>, <a class="el" href="_move__always_8hpp_source.html#l00096">checkpoint()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00143">checkpoint_events()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00169">operator()()</a>.</p>
 
 </div>
 </div>
-<a id="adc54bef1ceaf2e5e8e8180e22802ffbf" name="adc54bef1ceaf2e5e8e8180e22802ffbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc54bef1ceaf2e5e8e8180e22802ffbf">&#9670;&#160;</a></span>m_failed_moves</h2>
+<a id="a28c38ddcf75e3ff75f46055b92f4fb3f" name="a28c38ddcf75e3ff75f46055b92f4fb3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28c38ddcf75e3ff75f46055b92f4fb3f">&#9670;&#160;</a></span>m_command_results</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -677,7 +926,7 @@ template&lt;typename ManifoldType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Counter <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_failed_moves</td>
+          <td class="memname">CommandResults <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_command_results</td>
         </tr>
       </table>
   </td>
@@ -687,42 +936,11 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The number of moves that a <a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a> failed to make due to an error. </p>
+<p>Command counters from the latest completed invocation. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00052">52</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00044">44</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00108">get_failed()</a>, <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00162">print_results()</a>.</p>
-
-</div>
-</div>
-<a id="a7aba002b6da7b388e1162782f01c349c" name="a7aba002b6da7b388e1162782f01c349c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7aba002b6da7b388e1162782f01c349c">&#9670;&#160;</a></span>m_passes</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_passes {1}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of move passes executed by the algorithm. </p>
-<p>Each move pass makes a number of attempts equal to the number of simplices in the triangulation. </p>
-
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00034">34</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy()</a>, <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00093">passes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00156">get_attempted()</a>, <a class="el" href="_move__always_8hpp_source.html#l00164">get_failed()</a>, <a class="el" href="_move__always_8hpp_source.html#l00160">get_succeeded()</a>, <a class="el" href="_move__always_8hpp_source.html#l00169">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00196">print_results()</a>.</p>
 
 </div>
 </div>
@@ -750,14 +968,14 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Run-owned random stream used for move selection and site ordering. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00042">42</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00038">38</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy()</a>, <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00099">seed()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00125">MoveStrategy()</a>, <a class="el" href="_move__always_8hpp_source.html#l00147">seed()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00150">stream()</a>.</p>
 
 </div>
 </div>
-<a id="a0580738f54e06bc8f52de04761d12e7d" name="a0580738f54e06bc8f52de04761d12e7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0580738f54e06bc8f52de04761d12e7d">&#9670;&#160;</a></span>m_successful_moves</h2>
+<a id="acaeb4d6bf365484cb5eb7ce6e05249d7" name="acaeb4d6bf365484cb5eb7ce6e05249d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaeb4d6bf365484cb5eb7ce6e05249d7">&#9670;&#160;</a></span>m_write_files</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -768,7 +986,7 @@ template&lt;typename ManifoldType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Counter <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_successful_moves</td>
+          <td class="memname">bool <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::m_write_files {true}</td>
         </tr>
       </table>
   </td>
@@ -778,11 +996,11 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The number of moves that succeeded in the <a class="el" href="classcdt_1_1_move_command.html">MoveCommand</a>. </p>
+<p>Whether checkpoint triangulation files may be written. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00048">48</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__always_8hpp_source.html#l00041">41</a> of file <a class="el" href="_move__always_8hpp_source.html">Move_always.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00105">get_succeeded()</a>, <a class="el" href="_move__always_8hpp_source.html#l00111">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00162">print_results()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00125">MoveStrategy()</a>, <a class="el" href="_move__always_8hpp_source.html#l00169">operator()()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00153">writes_files()</a>.</p>
 
 </div>
 </div>

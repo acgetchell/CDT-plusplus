@@ -1,7 +1,9 @@
 <map id="cdt::MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;" name="cdt::MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;">
-<area shape="rect" id="Node000001" title="The Move Always algorithm." alt="" coords="64,396,253,838"/>
-<area shape="rect" id="Node000002" href="$classcdt_1_1_random.html" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="5,5,130,301"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,298,115,380,109,380,96,303"/>
-<area shape="rect" id="Node000003" href="$classcdt_1_1_move_strategy.html" title="Select a move algorithm." alt="" coords="154,108,344,198"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="239,210,204,397,199,396,237,215"/>
+<area shape="rect" id="Node000001" title="The Move Always algorithm." alt="" coords="152,396,342,905"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_move_run_cadence.html" title="Positive pass count and checkpoint interval for a move run." alt="" coords="5,61,161,245"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,242,157,371,160,380,155,380,152,373,113,248"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_random.html" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="185,5,310,301"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,298,250,380,245,379,247,303"/>
+<area shape="rect" id="Node000004" href="$classcdt_1_1_move_strategy.html" title="Select a move algorithm." alt="" coords="334,108,523,198"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="409,209,342,398,337,396,406,214"/>
 </map>

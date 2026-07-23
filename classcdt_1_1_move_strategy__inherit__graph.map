@@ -1,11 +1,11 @@
 <map id="cdt::MoveStrategy&lt; strategies, ManifoldType &gt;" name="cdt::MoveStrategy&lt; strategies, ManifoldType &gt;">
 <area shape="rect" id="Node000001" title="Select a move algorithm." alt="" coords="315,5,504,95"/>
-<area shape="rect" id="Node000002" href="$classcdt_1_1_move_strategy.html" title=" " alt="" coords="5,503,182,609"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,65,191,86,146,102,119,121,90,164,71,213,61,265,57,318,59,371,65,420,81,503,76,503,59,421,54,371,52,318,56,264,66,212,85,162,115,117,144,97,189,81,302,61"/>
-<area shape="rect" id="Node000003" href="$classcdt_1_1_move_strategy.html" title=" " alt="" coords="210,503,399,609"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="338,108,334,120,314,169,301,221,292,274,288,326,290,425,298,503,293,502,284,425,283,326,287,273,296,220,309,167,330,117,341,104"/>
-<area shape="rect" id="Node000004" href="$classcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html" title="Metropolis&#45;Hastings algorithm strategy." alt="" coords="424,212,612,899"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="479,103,489,117,509,164,522,213,517,212,503,165,485,120,479,109"/>
-<area shape="rect" id="Node000005" href="$classcdt_1_1_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html" title="The Move Always algorithm." alt="" coords="638,324,827,788"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="518,60,630,81,676,97,705,117,736,163,755,214,766,269,770,325,765,323,761,270,750,216,731,165,701,121,673,102,629,87,520,65"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_move_strategy.html" title=" " alt="" coords="5,545,182,651"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,65,191,87,147,102,120,121,88,169,68,224,56,282,53,342,55,400,62,454,81,545,76,545,57,455,50,400,48,341,51,282,62,223,83,167,116,117,145,97,190,81,302,61"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_move_strategy.html" title=" " alt="" coords="210,545,399,651"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="339,108,334,120,312,175,298,232,289,292,285,350,288,459,297,545,292,544,282,460,279,350,283,291,292,231,307,173,330,117,341,104"/>
+<area shape="rect" id="Node000004" href="$classcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html" title="Metropolis&#45;Hastings algorithm strategy." alt="" coords="424,212,612,983"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="479,103,489,117,509,163,523,213,518,212,504,165,485,120,479,109"/>
+<area shape="rect" id="Node000005" href="$classcdt_1_1_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html" title="The Move Always algorithm." alt="" coords="638,321,827,874"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="518,60,629,82,675,97,704,117,734,162,755,213,768,267,774,323,769,321,763,268,750,215,730,165,700,121,672,102,628,87,520,65"/>
 </map>

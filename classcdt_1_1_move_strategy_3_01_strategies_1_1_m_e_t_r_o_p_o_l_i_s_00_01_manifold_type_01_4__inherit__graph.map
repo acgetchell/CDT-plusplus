@@ -1,5 +1,5 @@
 <map id="cdt::MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;" name="cdt::MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;">
-<area shape="rect" id="Node000001" title="Metropolis&#45;Hastings algorithm strategy." alt="" coords="6,190,194,877"/>
+<area shape="rect" id="Node000001" title="Metropolis&#45;Hastings algorithm strategy." alt="" coords="6,190,194,961"/>
 <area shape="rect" id="Node000002" href="$classcdt_1_1_move_strategy.html" title="Select a move algorithm." alt="" coords="5,5,195,95"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,107,103,190,98,190,100,112"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,107,103,191,98,190,100,112"/>
 </map>
