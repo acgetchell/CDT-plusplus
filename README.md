@@ -157,10 +157,10 @@ Windows development.
 ### Current reference-suite status
 
 With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform
-`just build` command runs all 23 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
-one unit-test launcher containing 90 doctest scenarios, one parallel-configuration launcher containing three scenarios,
-and 21 CLI integration tests. The same `reference-smoke` preset is the supported local and CI contract; there are no
-overlapping focused registrations that can pass while omitting another doctest suite.
+`just build` command runs all 22 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
+one unit-test launcher containing 90 doctest scenarios and 21 CLI integration tests. The same `reference-smoke` preset
+is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting
+another doctest suite. The parallel-enabled AddressSanitizer configuration adds one launcher containing three scenarios.
 
 ## Setup
 
@@ -433,11 +433,11 @@ subsequent releases.
 ## Testing
 
 Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
-executes all 23 CTest entries: one unit-test launcher containing 90 doctest scenarios, one parallel-configuration
-launcher containing three scenarios, and 21 executable integration tests covering normal CLI use and invalid-boundary
-rejection. CTest labels both C++ test launchers `unit`; the parallel test also carries `parallel` and `configuration`.
-Every process-level test is labeled `integration`, and invalid-input tests also carry the `cli-boundary` subcategory.
-Run `just ci` for the complete local validation gate.
+executes all 22 CTest entries: one unit-test launcher containing 90 doctest scenarios and 21 executable integration
+tests covering normal CLI use and invalid-boundary rejection. The parallel-enabled AddressSanitizer configuration adds
+one launcher containing three scenarios labeled `unit`, `parallel`, and `configuration`. Every process-level test is
+labeled `integration`, and invalid-input tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete
+local validation gate.
 
 `just check` also runs the repository-owned Semgrep policy and its annotated
 fixtures. Use `just semgrep-test` while changing the rules and `just semgrep` to
@@ -523,7 +523,8 @@ just clang-tidy
 [AddressSanitizer] + [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer] share the
 repository-owned Linux driver and CMake presets. Run one locally with `just sanitize asan`, `just sanitize lsan`,
 `just sanitize msan`, or `just sanitize tsan`; the GitHub Actions workflows invoke the same commands. MemorySanitizer
-remains experimental because third-party dependencies are not instrumented.
+remains experimental because third-party dependencies are not instrumented. AddressSanitizer enables the optional
+CGAL/TBB path and its parallel contract; ThreadSanitizer exercises the default sequential configuration.
 
 ## Optimizing Parameters
 

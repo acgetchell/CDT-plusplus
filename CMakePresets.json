@@ -63,6 +63,7 @@
       "description": "Configure the AddressSanitizer and UndefinedBehaviorSanitizer diagnostics",
       "inherits": "unix-diagnostics",
       "cacheVariables": {
+        "ENABLE_PARALLEL_TRIANGULATION": true,
         "ENABLE_SANITIZER_ADDRESS": true,
         "ENABLE_SANITIZER_UNDEFINED_BEHAVIOR": true
       }

@@ -133,13 +133,13 @@ target_link_libraries(project_options INTERFACE Boost::compat)
 # https://github.com/gabime/spdlog
 find_package(spdlog CONFIG REQUIRED)
 
-# https://github.com/intel/tbb
-find_package(TBB CONFIG REQUIRED)
-include(CGAL_TBB_support)
-if(NOT TARGET CGAL::TBB_support)
-  message(FATAL_ERROR "CGAL parallel triangulation requires CGAL::TBB_support")
-endif()
 if(ENABLE_PARALLEL_TRIANGULATION)
+  # https://github.com/intel/tbb
+  find_package(TBB CONFIG REQUIRED)
+  include(CGAL_TBB_support)
+  if(NOT TARGET CGAL::TBB_support)
+    message(FATAL_ERROR "CGAL parallel triangulation requires CGAL::TBB_support")
+  endif()
   target_link_libraries(project_options INTERFACE CGAL::TBB_support)
 endif()
 
