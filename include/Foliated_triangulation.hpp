@@ -21,6 +21,7 @@
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 #define CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 
+#include <CGAL/Bbox_3.h>
 #include <CGAL/Random.h>
 
 #include <algorithm>
@@ -28,6 +29,8 @@
 #include <functional>
 #include <iterator>
 #include <limits>
+#include <memory>
+#include <numeric>
 #include <type_traits>
 #include <utility>
 
@@ -81,6 +84,225 @@ namespace cdt
     concept ContainerType               = std::movable<C>;
 
     inline int constexpr MAX_FIX_PASSES = 50;
+
+#ifdef CGAL_LINKED_WITH_TBB
+    inline int constexpr LOCK_GRID_RESOLUTION = 50;
+
+    [[nodiscard]] inline auto pad_locking_box(CGAL::Bbox_3 const& box)
+        -> CGAL::Bbox_3
+    {
+      auto const padding = std::max({1.0, (box.xmax() - box.xmin()) * 0.01,
+                                     (box.ymax() - box.ymin()) * 0.01,
+                                     (box.zmax() - box.zmin()) * 0.01});
+      return {box.xmin() - padding, box.ymin() - padding, box.zmin() - padding,
+              box.xmax() + padding, box.ymax() + padding, box.zmax() + padding};
+    }
+
+    [[nodiscard]] inline auto default_locking_box() -> CGAL::Bbox_3
+    {
+      auto const extent = static_cast<double>(GV_BOUNDING_BOX_SIZE);
+      return {-extent, -extent, -extent, extent, extent, extent};
+    }
+
+    template <typename Iterator, typename Point_projection>
+    [[nodiscard]] auto locking_box(Iterator first, Iterator last,
+                                   Point_projection point_for) -> CGAL::Bbox_3
+    {
+      if (first == last) { return default_locking_box(); }
+
+      auto const box = std::accumulate(
+          std::next(first), last, std::invoke(point_for, *first).bbox(),
+          [&point_for](CGAL::Bbox_3 accumulated, auto const& value) {
+            return accumulated + std::invoke(point_for, value).bbox();
+          });
+      return pad_locking_box(box);
+    }
+
+    template <int dimension>
+    [[nodiscard]] auto locking_box(
+        Causal_vertices_t<dimension> const& causal_vertices) -> CGAL::Bbox_3
+    {
+      return locking_box(causal_vertices.begin(), causal_vertices.end(),
+                         [](auto const& causal_vertex) -> auto const& {
+                           return causal_vertex.first;
+                         });
+    }
+
+    template <int dimension>
+    [[nodiscard]] auto locking_box(Delaunay_t<dimension> const& triangulation)
+        -> CGAL::Bbox_3
+    {
+      return locking_box(
+          triangulation.finite_vertices_begin(),
+          triangulation.finite_vertices_end(),
+          [](auto const& vertex) -> auto const& { return vertex.point(); });
+    }
+#endif
+
+    /// @brief A Delaunay triangulation and the lock grid it observes.
+    /// @details CGAL stores a non-owning pointer to the lock grid. Declaring
+    /// the owner first guarantees that the triangulation is destroyed before
+    /// the grid, including while this state is transferred into its owner.
+    template <int dimension>
+    class Delaunay_state
+    {
+     public:
+      using Delaunay = Delaunay_t<dimension>;
+      using Kernel   = typename TriangulationTraits<dimension>::Kernel;
+
+#ifdef CGAL_LINKED_WITH_TBB
+      using Lock_data_structure = typename Delaunay::Lock_data_structure;
+      using Lock_owner          = std::unique_ptr<Lock_data_structure>;
+#else
+      struct Lock_owner
+      {};
+#endif
+
+      static_assert(
+          noexcept(std::declval<Delaunay&>().swap(std::declval<Delaunay&>())),
+          "Delaunay_state swap requires CGAL's swap to be noexcept.");
+      static_assert(std::is_nothrow_swappable_v<Lock_owner>,
+                    "Delaunay_state swap requires a non-throwing lock owner.");
+      static_assert(std::is_nothrow_move_constructible_v<Lock_owner> &&
+                        std::is_nothrow_move_constructible_v<Delaunay>,
+                    "Delaunay_state move construction requires non-throwing "
+                    "members.");
+
+     private:
+      Lock_owner m_lock_data_structure;
+      Delaunay   m_triangulation;
+
+      struct Pending_state
+      {
+        Lock_owner lock_data_structure;
+        Delaunay   triangulation;
+      };
+
+      [[nodiscard]] static auto make_empty_state() -> Pending_state
+      {
+#ifdef CGAL_LINKED_WITH_TBB
+        auto lock = std::make_unique<Lock_data_structure>(
+            locking_box<dimension>(Delaunay{}), LOCK_GRID_RESOLUTION);
+        Delaunay triangulation{Kernel{}, lock.get()};
+        return {std::move(lock), std::move(triangulation)};
+#else
+        return {Lock_owner{}, Delaunay{}};
+#endif
+      }
+
+      [[nodiscard]] static auto make_insertion_state(
+          Causal_vertices_t<dimension> const& causal_vertices) -> Pending_state
+      {
+#ifdef CGAL_LINKED_WITH_TBB
+        auto lock = std::make_unique<Lock_data_structure>(
+            locking_box<dimension>(causal_vertices), LOCK_GRID_RESOLUTION);
+        Delaunay triangulation{Kernel{}, lock.get()};
+        return {std::move(lock), std::move(triangulation)};
+#else
+        static_cast<void>(causal_vertices);
+        return {Lock_owner{}, Delaunay{}};
+#endif
+      }
+
+      [[nodiscard]] static auto make_adopted_state(Delaunay source)
+          -> Pending_state
+      {
+#ifdef CGAL_LINKED_WITH_TBB
+        auto lock = std::make_unique<Lock_data_structure>(
+            locking_box<dimension>(source), LOCK_GRID_RESOLUTION);
+        source.set_lock_data_structure(lock.get());
+        return {std::move(lock), std::move(source)};
+#else
+        source.set_lock_data_structure(nullptr);
+        return {Lock_owner{}, std::move(source)};
+#endif
+      }
+
+      explicit Delaunay_state(Pending_state state) noexcept
+          : m_lock_data_structure{std::move(state.lock_data_structure)}
+          , m_triangulation{std::move(state.triangulation)}
+      { state.triangulation.set_lock_data_structure(nullptr); }
+
+     public:
+      Delaunay_state() : Delaunay_state{make_empty_state()} {}
+
+      explicit Delaunay_state(
+          Causal_vertices_t<dimension> const& causal_vertices)
+          : Delaunay_state{make_insertion_state(causal_vertices)}
+      {
+        m_triangulation.insert(causal_vertices.begin(), causal_vertices.end());
+      }
+
+      explicit Delaunay_state(Delaunay source)
+          : Delaunay_state{make_adopted_state(std::move(source))}
+      {}
+
+      Delaunay_state(Delaunay_state const& other)
+          : Delaunay_state{Delaunay{other.m_triangulation}}
+      {}
+
+      Delaunay_state(Delaunay_state&& other) noexcept
+          : m_lock_data_structure{std::move(other.m_lock_data_structure)}
+          , m_triangulation{std::move(other.m_triangulation)}
+      { other.m_triangulation.set_lock_data_structure(nullptr); }
+
+      friend void swap(Delaunay_state& lhs, Delaunay_state& rhs) noexcept
+      {
+        lhs.m_triangulation.swap(rhs.m_triangulation);
+        using std::swap;
+        swap(lhs.m_lock_data_structure, rhs.m_lock_data_structure);
+      }
+
+      auto operator=(Delaunay_state const& other) -> Delaunay_state&
+      {
+        if (this != &other)
+        {
+          Delaunay_state copy{other};
+          swap(*this, copy);
+        }
+        return *this;
+      }
+
+      auto operator=(Delaunay_state&& other) noexcept -> Delaunay_state&
+      {
+        if (this != &other) { swap(*this, other); }
+        return *this;
+      }
+
+      ~Delaunay_state() = default;
+
+      [[nodiscard]] auto triangulation() const noexcept -> Delaunay const&
+      { return m_triangulation; }
+
+      /// @brief Mutable access for internal CGAL algorithms.
+      /// @pre The caller must not replace the triangulation's lock pointer.
+      [[nodiscard]] auto mutable_triangulation_unchecked() noexcept -> Delaunay&
+      { return m_triangulation; }
+
+      [[nodiscard]] auto lock_data_structure() const noexcept
+      {
+#ifdef CGAL_LINKED_WITH_TBB
+        return m_lock_data_structure.get();
+#else
+        return nullptr;
+#endif
+      }
+
+      [[nodiscard]] auto has_consistent_lock_binding() const noexcept -> bool
+      {
+        return m_triangulation.get_lock_data_structure() ==
+               lock_data_structure();
+      }
+
+      [[nodiscard]] auto into_detached_triangulation() && -> Delaunay
+      {
+        m_triangulation.set_lock_data_structure(nullptr);
+#ifdef CGAL_LINKED_WITH_TBB
+        m_lock_data_structure.reset();
+#endif
+        return std::move(m_triangulation);
+      }
+    };
   }  // namespace detail
 
   /// (n,m) is number of vertices on (lower, higher) timeslice
@@ -1007,7 +1229,13 @@ namespace cdt::foliated_triangulations
   /// @param foliation_spacing Radial separation between timeslices
   /// @param generator Caller-owned random stream whose state is maintained by
   /// the caller and advanced during this call
-  /// @return A Delaunay triangulation with a timevalue for each vertex
+  /// @return An owning Delaunay triangulation detached from the internal lock
+  /// grid
+  /// @details Construction uses the configured parallel range operations when
+  /// available. The returned triangulation does not borrow the temporary lock
+  /// grid and can safely outlive this call. Its subsequent range operations
+  /// are sequential; in a TBB-enabled build, callers can attach a compatible
+  /// lock grid that they own to re-enable parallel execution.
   /// @see [CGAL triangulations](../REFERENCES.md#cgal-triangulations)
   template <int dimension, std::uniform_random_bit_generator Generator>
   [[nodiscard]] auto make_triangulation(Int_precision const t_simplices,
@@ -1021,26 +1249,12 @@ namespace cdt::foliated_triangulations
     spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
     fmt::print("\nGenerating universe ...\n");
-#ifdef CGAL_LINKED_WITH_TBB
-    // Construct the locking data-structure
-    // using the bounding-box of the points
-    auto bounding_box_size = static_cast<double>(t_timeslices + 1);
-    typename Delaunay_t<dimension>::Lock_data_structure locking_ds{
-        CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
-                     bounding_box_size, bounding_box_size, bounding_box_size},
-        50
-    };
-    Delaunay_t<dimension> triangulation = Delaunay_t<dimension>{
-        detail::TriangulationTraits<3>::Kernel{}, &locking_ds};
-#else
-    Delaunay_t<dimension> triangulation = Delaunay_t<dimension>{};
-#endif
-
     // Make initial triangulation
     auto causal_vertices =
         make_foliated_ball<dimension>(t_simplices, t_timeslices, initial_radius,
                                       foliation_spacing, generator);
-    triangulation.insert(causal_vertices.begin(), causal_vertices.end());
+    detail::Delaunay_state<dimension> state{causal_vertices};
+    auto& triangulation = state.mutable_triangulation_unchecked();
 
     // Fix vertices
     for (auto passes = 1; passes < detail::MAX_FIX_PASSES + 1; ++passes)
@@ -1075,7 +1289,7 @@ namespace cdt::foliated_triangulations
 
     utilities::print_delaunay(triangulation);
     assert(!check_timevalues<dimension>(triangulation));
-    return triangulation;
+    return std::move(state).into_detached_triangulation();
   }  // make_triangulation
 
   /// FoliatedTriangulation class template
@@ -1103,14 +1317,13 @@ namespace cdt::foliated_triangulations
     using Vertex_container    = std::vector<Vertex_handle>;
     using Volume_entry        = std::pair<Int_precision, Facet_t<3>>;
     using Volume_by_timeslice = std::vector<Volume_entry>;
+    using Delaunay_state      = detail::Delaunay_state<3>;
 
-    static_assert(
-        noexcept(std::declval<Delaunay&>().swap(std::declval<Delaunay&>())),
-        "FoliatedTriangulation swap requires CGAL's swap to be noexcept.");
     static_assert(std::is_nothrow_swappable_v<double>,
                   "FoliatedTriangulation swap requires non-throwing scalars.");
     static_assert(
-        std::is_nothrow_swappable_v<Vertex_container> &&
+        std::is_nothrow_swappable_v<Delaunay_state> &&
+            std::is_nothrow_swappable_v<Vertex_container> &&
             std::is_nothrow_swappable_v<Cell_container> &&
             std::is_nothrow_swappable_v<Face_container> &&
             std::is_nothrow_swappable_v<Edge_container> &&
@@ -1119,7 +1332,7 @@ namespace cdt::foliated_triangulations
     static_assert(std::is_nothrow_swappable_v<Int_precision>,
                   "FoliatedTriangulation swap requires non-throwing bounds.");
     static_assert(
-        std::is_nothrow_move_constructible_v<Delaunay> &&
+        std::is_nothrow_move_constructible_v<Delaunay_state> &&
             std::is_nothrow_move_constructible_v<Vertex_container> &&
             std::is_nothrow_move_constructible_v<Cell_container> &&
             std::is_nothrow_move_constructible_v<Face_container> &&
@@ -1132,20 +1345,26 @@ namespace cdt::foliated_triangulations
         Face_container const& faces) -> Volume_by_timeslice
     { return collect_spacelike_facets<3>(std::span{faces}); }
 
-    [[nodiscard]] static auto require_nonempty(Delaunay triangulation)
-        -> Delaunay
+    [[nodiscard]] static auto require_nonempty(Delaunay_state state)
+        -> Delaunay_state
     {
-      if (triangulation.number_of_vertices() == 0)
+      if (state.triangulation().number_of_vertices() == 0)
       {
         throw std::invalid_argument(
             "A foliated triangulation must contain at least one vertex.");
       }
-      return triangulation;
+      return state;
     }
+
+    [[nodiscard]] auto triangulation() noexcept -> Delaunay&
+    { return m_delaunay_state.mutable_triangulation_unchecked(); }
+
+    [[nodiscard]] auto triangulation() const noexcept -> Delaunay const&
+    { return m_delaunay_state.triangulation(); }
 
     /// Data members initialized in order of declaration (Working Draft,
     /// Standard for C++ Programming Language, 11.9.3 section 13.3)
-    Delaunay            m_triangulation{Delaunay{}};
+    Delaunay_state      m_delaunay_state;
     double              m_initial_radius{INITIAL_RADIUS};
     double              m_foliation_spacing{FOLIATION_SPACING};
     Vertex_container    m_vertices;
@@ -1172,13 +1391,13 @@ namespace cdt::foliated_triangulations
     FoliatedTriangulation(FoliatedTriangulation const& other)
         : FoliatedTriangulation{}
     {
-      if (other.m_triangulation.number_of_vertices() == 0)
+      if (other.triangulation().number_of_vertices() == 0)
       {
         m_initial_radius    = other.m_initial_radius;
         m_foliation_spacing = other.m_foliation_spacing;
         return;
       }
-      FoliatedTriangulation copy{Delaunay{other.m_triangulation},
+      FoliatedTriangulation copy{Delaunay_state{other.m_delaunay_state},
                                  other.m_initial_radius,
                                  other.m_foliation_spacing};
       swap(copy, *this);
@@ -1195,9 +1414,8 @@ namespace cdt::foliated_triangulations
     }
 
     /// @brief Move constructor
-    /// @details Moves the triangulation and all handle caches directly,
-    /// without first performing the potentially throwing default
-    /// construction.
+    /// @details The invariant-bearing Delaunay state transfers its lock owner
+    /// and detaches the moved-from triangulation as one operation.
     FoliatedTriangulation(FoliatedTriangulation&& other) noexcept = default;
 
     /// @brief Move assignment operator
@@ -1218,12 +1436,12 @@ namespace cdt::foliated_triangulations
     friend void swap(FoliatedTriangulation& swap_from,
                      FoliatedTriangulation& swap_into) noexcept
     {
-      // Uses the triangulation swap method in CGAL
-      // This assumes that the first triangulation is not used afterward!
+      // Delaunay_state swaps the triangulations before their lock owners so
+      // each triangulation remains paired with the grid it observes.
       // See
       // https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a767066a964b4d7b14376e5f5d1a04b34
-      swap_into.m_triangulation.swap(swap_from.m_triangulation);
       using std::swap;
+      swap(swap_from.m_delaunay_state, swap_into.m_delaunay_state);
       swap(swap_from.m_initial_radius, swap_into.m_initial_radius);
       swap(swap_from.m_foliation_spacing, swap_into.m_foliation_spacing);
       swap(swap_from.m_vertices, swap_into.m_vertices);
@@ -1250,11 +1468,19 @@ namespace cdt::foliated_triangulations
     explicit FoliatedTriangulation(
         Delaunay triangulation, double const initial_radius = INITIAL_RADIUS,
         double const foliation_spacing = FOLIATION_SPACING)
-        : m_triangulation{require_nonempty(std::move(triangulation))}
+        : FoliatedTriangulation{Delaunay_state{std::move(triangulation)},
+                                initial_radius, foliation_spacing}
+    {}
+
+   private:
+    explicit FoliatedTriangulation(Delaunay_state state,
+                                   double const   initial_radius,
+                                   double const   foliation_spacing)
+        : m_delaunay_state{require_nonempty(std::move(state))}
         , m_initial_radius{initial_radius}
         , m_foliation_spacing{foliation_spacing}
-        , m_vertices{classify_vertices(collect_vertices<3>(m_triangulation))}
-        , m_cells{classify_cells(collect_cells<3>(m_triangulation))}
+        , m_vertices{classify_vertices(collect_vertices<3>(triangulation()))}
+        , m_cells{classify_cells(collect_cells<3>(triangulation()))}
         , m_three_one{filter_cells<3>(m_cells, Cell_type::THREE_ONE)}
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
@@ -1267,6 +1493,7 @@ namespace cdt::foliated_triangulations
         , m_min_timevalue{find_min_timevalue<3>(std::span{m_vertices})}
     {}
 
+   public:
     /// @brief Constructor with a caller-owned initialization stream.
     /// @param t_simplices Desired number of simplices
     /// @param t_timeslices Desired number of timeslices
@@ -1310,10 +1537,8 @@ namespace cdt::foliated_triangulations
         Causal_vertices_t<3> const& causal_vertices,
         double const                t_initial_radius    = INITIAL_RADIUS,
         double const                t_foliation_spacing = FOLIATION_SPACING)
-        : FoliatedTriangulation{
-              Delaunay{causal_vertices.begin(), causal_vertices.end()},
-              t_initial_radius, t_foliation_spacing
-    }
+        : FoliatedTriangulation{Delaunay_state{causal_vertices},
+                                t_initial_radius, t_foliation_spacing}
     {}
 
     /// @brief Verifies the triangulation is properly foliated
@@ -1324,16 +1549,16 @@ namespace cdt::foliated_triangulations
     /// @return True if foliated correctly
     [[nodiscard]] auto is_foliated() const -> bool
     {
-      return !static_cast<bool>(check_timevalues<3>(m_triangulation));
+      return !static_cast<bool>(check_timevalues<3>(triangulation()));
     }  // is_foliated
 
     /// @return True if the triangulation is Delaunay
     [[nodiscard]] auto is_delaunay() const -> bool
-    { return m_triangulation.is_valid(); }  // is_delaunay
+    { return triangulation().is_valid(); }  // is_delaunay
 
     /// @return True if the triangulation data structure is valid
     [[nodiscard]] auto is_tds_valid() const -> bool
-    { return m_triangulation.tds().is_valid(); }  // is_tds_valid
+    { return triangulation().tds().is_valid(); }  // is_tds_valid
 
     /// @return True if the Foliated Triangulation class invariants hold
     [[nodiscard]] auto is_correct() const -> bool
@@ -1349,7 +1574,7 @@ namespace cdt::foliated_triangulations
     /// @return True if fixes were done on the Delaunay triangulation
     [[nodiscard]] auto is_fixed() -> bool
     {
-      Delaunay   updated{m_triangulation};
+      Delaunay   updated{triangulation()};
       auto const fixed_vertices = foliated_triangulations::fix_vertices<3>(
           updated, m_initial_radius, m_foliation_spacing);
       auto const fixed_cells = foliated_triangulations::fix_cells<3>(updated);
@@ -1369,32 +1594,37 @@ namespace cdt::foliated_triangulations
     /// @details Mutating the returned value cannot invalidate this object's
     /// cached topology classifications.
     [[nodiscard]] auto delaunay_snapshot() const -> Delaunay
-    { return m_triangulation; }  // delaunay_snapshot
+    {
+      Delaunay snapshot{triangulation()};
+      // A snapshot does not own this object's lock grid and can outlive it.
+      snapshot.set_lock_data_structure(nullptr);
+      return snapshot;
+    }  // delaunay_snapshot
 
     /// @return Number of 3D simplices in triangulation data structure
     [[nodiscard]] auto number_of_finite_cells() const
     {
-      return m_triangulation.number_of_finite_cells();
+      return triangulation().number_of_finite_cells();
     }  // number_of_finite_cells
 
     /// @return Number of 2D faces in triangulation data structure
     [[nodiscard]] auto number_of_finite_facets() const
     {
-      return m_triangulation.number_of_finite_facets();
+      return triangulation().number_of_finite_facets();
     }  // number_of_finite_facets
 
     /// @return Number of 1D edges in triangulation data structure
     [[nodiscard]] auto number_of_finite_edges() const
     {
-      return m_triangulation.number_of_finite_edges();
+      return triangulation().number_of_finite_edges();
     }  // number_of_finite_edges
 
     /// @return Number of vertices in triangulation data structure
     [[nodiscard]] auto number_of_vertices() const
-    { return m_triangulation.number_of_vertices(); }  // number_of_vertices
+    { return triangulation().number_of_vertices(); }  // number_of_vertices
 
     /// @return Dimensionality of triangulation data structure (int)
-    [[nodiscard]] auto dimension() const { return m_triangulation.dimension(); }
+    [[nodiscard]] auto dimension() const { return triangulation().dimension(); }
 
     /// @return Number of spacelike facets on a timeslice
     [[nodiscard]] auto spacelike_face_count(
@@ -1475,13 +1705,13 @@ namespace cdt::foliated_triangulations
     [[nodiscard]] auto check_all_vertices() const -> bool
     {
       return foliated_triangulations::check_vertices<3>(
-          m_triangulation, m_initial_radius, m_foliation_spacing);
+          triangulation(), m_initial_radius, m_foliation_spacing);
     }  // check_all_vertices
 
     /// @brief Fix vertices with wrong timevalues after foliation
     [[nodiscard]] auto fix_vertices() -> bool
     {
-      Delaunay   updated{m_triangulation};
+      Delaunay   updated{triangulation()};
       auto const changed = foliated_triangulations::fix_vertices<3>(
           updated, m_initial_radius, m_foliation_spacing);
       if (changed)
@@ -1547,13 +1777,13 @@ namespace cdt::foliated_triangulations
     /// @return True if there are no cells or all cells are validly classified
     [[nodiscard]] auto check_all_cells() const -> bool
     {
-      return foliated_triangulations::check_cells<3>(m_triangulation);
+      return foliated_triangulations::check_cells<3>(triangulation());
     }  // check_all_cells
 
     /// @brief Fix all cells in the triangulation
     auto fix_cells() -> bool
     {
-      Delaunay   updated{m_triangulation};
+      Delaunay   updated{triangulation()};
       auto const changed = foliated_triangulations::fix_cells<3>(updated);
       if (changed)
       {
@@ -1612,17 +1842,17 @@ namespace cdt::foliated_triangulations
       // Somewhere in bistellar_flip_really a vertex is rendered invalid
       assert(is_tds_valid());
       Face_container init_faces;
-      init_faces.reserve(m_triangulation.number_of_finite_facets());
-      for (auto fit = m_triangulation.finite_facets_begin();
-           fit != m_triangulation.finite_facets_end(); ++fit)
+      init_faces.reserve(triangulation().number_of_finite_facets());
+      for (auto fit = triangulation().finite_facets_begin();
+           fit != triangulation().finite_facets_end(); ++fit)
       {
         Cell_handle_t<3> const cell = fit->first;
         // Each face is valid in the triangulation
-        assert(m_triangulation.tds().is_facet(cell, fit->second));
+        assert(triangulation().tds().is_facet(cell, fit->second));
         Face_handle_t<3> const thisFacet{std::make_pair(cell, fit->second)};
         init_faces.emplace_back(thisFacet);
       }
-      assert(init_faces.size() == m_triangulation.number_of_finite_facets());
+      assert(init_faces.size() == triangulation().number_of_finite_facets());
       return init_faces;
     }  // collect_faces
 
@@ -1632,15 +1862,15 @@ namespace cdt::foliated_triangulations
       assert(is_tds_valid());
       Edge_container init_edges;
       init_edges.reserve(number_of_finite_edges());
-      for (auto eit = m_triangulation.finite_edges_begin();
-           eit != m_triangulation.finite_edges_end(); ++eit)
+      for (auto eit = triangulation().finite_edges_begin();
+           eit != triangulation().finite_edges_end(); ++eit)
       {
         Cell_handle_t<3> const cell = eit->first;
         Edge_handle_t<3> const thisEdge{cell,
                                         cell->index(cell->vertex(eit->second)),
                                         cell->index(cell->vertex(eit->third))};
         // Each edge is valid in the triangulation
-        assert(m_triangulation.tds().is_valid(thisEdge.first, thisEdge.second,
+        assert(triangulation().tds().is_valid(thisEdge.first, thisEdge.second,
                                               thisEdge.third));
         init_edges.emplace_back(thisEdge);
       }

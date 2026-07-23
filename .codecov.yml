@@ -16,6 +16,12 @@ coverage:
     patch: false
     changes: false
 
+parsers:
+  lcov:
+    # LCOV reports branch detail on otherwise executed lines. Preserve that
+    # detail without treating every partially covered branch line as a miss.
+    partials_as_hits: true
+
 comment:
   layout: "reach, diff, flags, files, footer"
   behavior: default

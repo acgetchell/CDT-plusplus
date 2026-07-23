@@ -74,6 +74,8 @@ include(cmake/StaticAnalyzers.cmake)
 # Options ##
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable building of tests" ON)
+option(ENABLE_PARALLEL_TRIANGULATION
+       "Enable CGAL parallel Delaunay insertion and removal in production targets" OFF)
 
 # Modules and scripts ##
 include(CTest)
@@ -133,6 +135,13 @@ find_package(spdlog CONFIG REQUIRED)
 
 # https://github.com/intel/tbb
 find_package(TBB CONFIG REQUIRED)
+include(CGAL_TBB_support)
+if(NOT TARGET CGAL::TBB_support)
+  message(FATAL_ERROR "CGAL parallel triangulation requires CGAL::TBB_support")
+endif()
+if(ENABLE_PARALLEL_TRIANGULATION)
+  target_link_libraries(project_options INTERFACE CGAL::TBB_support)
+endif()
 
 # Header files
 include_directories(BEFORE ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/include)

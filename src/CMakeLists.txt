@@ -7,7 +7,6 @@ target_link_libraries(
           Boost::program_options
           fmt::fmt-header-only
           spdlog::spdlog_header_only
-          TBB::tbb
           CGAL::CGAL)
 target_compile_features(initialize PRIVATE cxx_std_23)
 
@@ -20,7 +19,6 @@ target_link_libraries(
           Boost::program_options
           fmt::fmt-header-only
           spdlog::spdlog_header_only
-          TBB::tbb
           CGAL::CGAL)
 target_compile_features(cdt PRIVATE cxx_std_23)
 

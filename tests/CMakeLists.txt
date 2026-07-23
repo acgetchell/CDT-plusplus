@@ -30,8 +30,20 @@ target_link_libraries(
           date::date-tz
           doctest::doctest
           fmt::fmt-header-only
-          TBB::tbb
           CGAL::CGAL)
+
+add_executable(CDT_parallel_triangulation_test
+               ${PROJECT_SOURCE_DIR}/tests/main.cpp
+               Parallel_triangulation_test.cpp)
+target_compile_features(CDT_parallel_triangulation_test PRIVATE cxx_std_23)
+target_link_libraries(
+  CDT_parallel_triangulation_test
+  PRIVATE project_options
+          project_warnings
+          doctest::doctest
+          fmt::fmt-header-only
+          CGAL::CGAL
+          CGAL::TBB_support)
 
 # Compile Random.hpp through only the repository-owned project boundary so PCG
 # cannot remain available solely through another vcpkg target's include path.
@@ -50,7 +62,6 @@ target_link_libraries(
           date::date-tz
           fmt::fmt-header-only
           spdlog::spdlog_header_only
-          TBB::tbb
           CGAL::CGAL)
 
 # Compile every supported header as the first include in an independent
@@ -97,7 +108,6 @@ target_link_libraries(
           date::date-tz
           fmt::fmt-header-only
           spdlog::spdlog_header_only
-          TBB::tbb
           CGAL::CGAL)
 
 # Keep the issue #105 before/after diagnostic buildable without registering it
@@ -114,6 +124,11 @@ target_link_libraries(
 
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_unit_tests>)
+add_test(NAME cdt-parallel-triangulation
+         COMMAND $<TARGET_FILE:CDT_parallel_triangulation_test>)
+set_tests_properties(
+  cdt-parallel-triangulation
+  PROPERTIES LABELS "unit;parallel;configuration" TIMEOUT 60)
 set(cdt_unit_test_timeout 180)
 if(ENABLE_SANITIZER_ADDRESS)
   # CGAL-heavy unit tests routinely need 12-19 minutes under ASan on hosted runners.
