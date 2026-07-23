@@ -171,9 +171,19 @@ SCENARIO("MoveAlways multi-pass accounting is per invocation" *
   CHECK_EQ(second_attempted, second_succeeded + second_failed);
 
   MoveAlways_3 replay(passes, checkpoint, seed, false);
-  auto const   replay_result = replay(initial);
-  CHECK_EQ(first_result.delaunay_snapshot(), replay_result.delaunay_snapshot());
-  CHECK_NE(first_result.delaunay_snapshot(), second_result.delaunay_snapshot());
+  auto const   replay_first_result = replay(initial);
+  CHECK_EQ(first_result.delaunay_snapshot(),
+           replay_first_result.delaunay_snapshot());
+  CHECK_EQ(first_attempted, replay.get_attempted().total());
+  CHECK_EQ(first_succeeded, replay.get_succeeded().total());
+  CHECK_EQ(first_failed, replay.get_failed().total());
+
+  auto const replay_second_result = replay(initial);
+  CHECK_EQ(second_result.delaunay_snapshot(),
+           replay_second_result.delaunay_snapshot());
+  CHECK_EQ(second_attempted, replay.get_attempted().total());
+  CHECK_EQ(second_succeeded, replay.get_succeeded().total());
+  CHECK_EQ(second_failed, replay.get_failed().total());
 }
 
 SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always"))
