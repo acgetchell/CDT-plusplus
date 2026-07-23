@@ -26,6 +26,7 @@
 
 // CDT headers
 #include "Ergodic_moves_3.hpp"
+#include "Move_run.hpp"
 #include "Move_strategy.hpp"
 #include "Random.hpp"
 #include "S3Action.hpp"
@@ -50,7 +51,31 @@ namespace cdt
     requires(ManifoldType::dimension == 3)
   class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   {
-    using Counter = move_tracker::MoveTracker<ManifoldType>;
+    using Counter        = move_tracker::MoveTracker<ManifoldType>;
+    using CommandResults = detail::MoveCommandResults<ManifoldType>;
+
+    struct RunStatistics
+    {
+      /// @brief The geometry used by the latest acceptance decision
+      Geometry<ManifoldType::dimension> geometry;
+
+      /// @brief Compact fingerprint of ordered transition outcomes
+      std::uint64_t transition_trace{14695981039346656037ULL};
+
+      /// @brief Number of transition records in the fingerprint
+      std::uint64_t transition_count{};
+
+      /// @brief Move types and raw sites proposed
+      Counter proposed;
+
+      /// @brief Proposals committed as state transitions
+      Counter accepted;
+
+      /// @brief Explicit self-transitions
+      Counter rejected;
+    };
+
+    using PassResult = detail::MovePassResult<ManifoldType, RunStatistics>;
 
     /// @brief The length of the timelike edges
     long double m_Alpha{};
@@ -62,21 +87,11 @@ namespace cdt
     /// the cosmological constant
     long double m_Lambda{};
 
-    /// @brief The number of move passes executed by the algorithm
-    /// @details Each move pass makes a number of attempts equal to the number
-    /// of simplices in the triangulation.
-    Int_precision m_passes{1};
-
-    /// @brief The number of passes before a checkpoint
-    /// @details Each checkpoint writes a file containing the current
-    /// triangulation.
-    Int_precision m_checkpoint{1};
+    /// @brief Positive pass and checkpoint cadence
+    MoveRunCadence m_cadence;
 
     /// @brief Whether checkpoint and final triangulation files may be written
     bool m_write_files{true};
-
-    /// @brief The current geometry of the manifold
-    Geometry<ManifoldType::dimension> m_geometry;
 
     /// @brief Run-owned random engine used for move, site, and acceptance draws
     cdt::Random m_generator{
@@ -85,34 +100,14 @@ namespace cdt
     /// @brief Immutable run provenance, refreshed with state at each output.
     utilities::Reproducibility_metadata m_reproducibility;
 
-    /// @brief Compact deterministic fingerprint of ordered transition outcomes.
-    std::uint64_t m_transition_trace{14695981039346656037ULL};
+    /// @brief Command counters from the latest completed invocation
+    CommandResults m_command_results;
 
-    /// @brief Number of transition records incorporated into the fingerprint.
-    std::uint64_t m_transition_count{};
+    /// @brief Metropolis statistics from the latest completed invocation
+    RunStatistics m_run_statistics;
 
-    /// @brief The number of move types and raw sites proposed
-    /// @details This equals accepted moves + rejected moves.
-    Counter m_proposed_moves;
-
-    /// @brief The number of proposals committed as state transitions
-    Counter m_accepted_moves;
-
-    /// @brief The number of explicit self-transitions
-    /// @details Includes inapplicable sites, failed candidate construction, and
-    /// candidates rejected by the Metropolis-Hastings draw.
-    Counter m_rejected_moves;
-
-    /// @brief The number of proposal sites whose construction was attempted
-    /// @details This equals proposed moves.
-    Counter m_attempted_moves;
-
-    /// @brief The number of attempts that produced a valid candidate manifold
-    /// @details A successful candidate may still be rejected by MH.
-    Counter m_succeeded_moves;
-
-    /// @brief The number of inapplicable or invalid candidate constructions
-    Counter m_failed_moves;
+    /// @brief Checkpoint events from the latest completed invocation
+    Int_precision m_checkpoint_events{};
 
     enum class Transition_outcome : std::uint8_t
     {
@@ -121,16 +116,17 @@ namespace cdt
       REJECTED
     };
 
-    void record_transition(move_tracker::move_type const move,
-                           Transition_outcome const      outcome) noexcept
+    static void record_transition(RunStatistics&                statistics,
+                                  move_tracker::move_type const move,
+                                  Transition_outcome const outcome) noexcept
     {
-      auto const append = [this](std::uint8_t const value) {
-        m_transition_trace ^= value;
-        m_transition_trace *= 1099511628211ULL;
+      auto const append = [&statistics](std::uint8_t const value) {
+        statistics.transition_trace ^= value;
+        statistics.transition_trace *= 1099511628211ULL;
       };
       append(static_cast<std::uint8_t>(move));
       append(static_cast<std::uint8_t>(outcome));
-      ++m_transition_count;
+      ++statistics.transition_count;
     }
 
    public:
@@ -174,8 +170,8 @@ namespace cdt
         bool const write_files, cdt::Random random,
         std::optional<utilities::Reproducibility_metadata> reproducibility =
             std::nullopt)
-        : m_passes(passes)
-        , m_checkpoint{checkpoint}
+        : m_cadence{
+              detail::parse_move_run_cadence(passes, checkpoint, "Metropolis")}
         , m_write_files{write_files}
         , m_generator{std::move(random)}
         , m_reproducibility{
@@ -197,17 +193,8 @@ namespace cdt
       m_reproducibility.alpha               = m_Alpha;
       m_reproducibility.k                   = m_K;
       m_reproducibility.lambda              = m_Lambda;
-      m_reproducibility.configured_passes   = m_passes;
-      m_reproducibility.checkpoint_interval = m_checkpoint;
-      if (m_passes <= 0)
-      {
-        throw std::invalid_argument{"Metropolis passes must be positive"};
-      }
-      if (m_checkpoint <= 0)
-      {
-        throw std::invalid_argument{
-            "Metropolis checkpoint interval must be positive"};
-      }
+      m_reproducibility.configured_passes   = m_cadence.passes();
+      m_reproducibility.checkpoint_interval = m_cadence.checkpoint();
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
@@ -239,10 +226,15 @@ namespace cdt
     [[nodiscard]] auto Lambda() const noexcept { return m_Lambda; }
 
     /// @returns The number of passes to make
-    [[nodiscard]] auto passes() const noexcept { return m_passes; }
+    [[nodiscard]] auto passes() const noexcept { return m_cadence.passes(); }
 
     /// @returns The number of passes before writing a checkpoint file
-    [[nodiscard]] auto checkpoint() const noexcept { return m_checkpoint; }
+    [[nodiscard]] auto checkpoint() const noexcept
+    { return m_cadence.checkpoint(); }
+
+    /// @returns Checkpoint events completed by the latest invocation.
+    [[nodiscard]] auto checkpoint_events() const noexcept
+    { return m_checkpoint_events; }
 
     /// @returns Whether the strategy writes checkpoint triangulation files
     [[nodiscard]] auto writes_files() const noexcept { return m_write_files; }
@@ -256,11 +248,11 @@ namespace cdt
     /// @returns FNV-1a fingerprint of the ordered move/outcome transition
     /// trace.
     [[nodiscard]] auto transition_trace() const noexcept
-    { return m_transition_trace; }
+    { return m_run_statistics.transition_trace; }
 
     /// @returns Number of transitions represented by transition_trace().
     [[nodiscard]] auto transition_count() const noexcept
-    { return m_transition_count; }
+    { return m_run_statistics.transition_count; }
 
     /// @brief Materialize output provenance for the supplied canonical state.
     [[nodiscard]] auto reproducibility_metadata(
@@ -268,45 +260,32 @@ namespace cdt
         Int_precision const completed_passes) const
         -> utilities::Reproducibility_metadata
     {
-      auto metadata             = m_reproducibility;
-      metadata.artifact         = artifact;
-      metadata.completed_passes = completed_passes;
-      metadata.transition_trace = m_transition_trace;
-      metadata.transition_count = m_transition_count;
-      utilities::update_reproducibility_state(metadata, manifold);
-      if (metadata.desired_simplices == 0)
-      {
-        metadata.desired_simplices = manifold.N3();
-      }
-      if (metadata.desired_timeslices == 0)
-      {
-        metadata.desired_timeslices = manifold.max_time();
-      }
-      return metadata;
+      return make_reproducibility_metadata(manifold, artifact, completed_passes,
+                                           m_run_statistics);
     }
 
     /// @returns The container of trial moves
-    auto get_proposed() const { return m_proposed_moves; }
+    auto get_proposed() const { return m_run_statistics.proposed; }
 
     /// @returns The container of accepted moves
-    auto get_accepted() const { return m_accepted_moves; }
+    auto get_accepted() const { return m_run_statistics.accepted; }
 
     /// @returns The container of rejected moves
-    auto get_rejected() const { return m_rejected_moves; }
+    auto get_rejected() const { return m_run_statistics.rejected; }
 
     /// @returns The container of attempted moves
-    auto get_attempted() const { return m_attempted_moves; }
+    auto get_attempted() const { return m_command_results.attempted; }
 
     /// @returns The container of successful moves
-    auto get_succeeded() const { return m_succeeded_moves; }
+    auto get_succeeded() const { return m_command_results.succeeded; }
 
     /// @returns The container of failed moves
-    auto get_failed() const { return m_failed_moves; }
+    auto get_failed() const { return m_command_results.failed; }
 
     /// @returns The geometry used by the most recent acceptance decision
     [[nodiscard]] auto get_geometry() const noexcept
         -> Geometry<ManifoldType::dimension> const&
-    { return m_geometry; }
+    { return m_run_statistics.geometry; }
 
     /// @returns The inverse Pachner move
     [[nodiscard]] static auto constexpr reverse_move(
@@ -428,6 +407,157 @@ namespace cdt
       return std::unexpected("Unknown 3D Pachner move.\n");
     }
 
+    [[nodiscard]] auto make_reproducibility_metadata(
+        ManifoldType const& manifold, utilities::Artifact_kind const artifact,
+        Int_precision const  completed_passes,
+        RunStatistics const& statistics) const
+        -> utilities::Reproducibility_metadata
+    {
+      auto metadata             = m_reproducibility;
+      metadata.artifact         = artifact;
+      metadata.completed_passes = completed_passes;
+      metadata.transition_trace = statistics.transition_trace;
+      metadata.transition_count = statistics.transition_count;
+      utilities::update_reproducibility_state(metadata, manifold);
+      if (metadata.desired_simplices == 0)
+      {
+        metadata.desired_simplices = manifold.N3();
+      }
+      if (metadata.desired_timeslices == 0)
+      {
+        metadata.desired_timeslices = manifold.max_time();
+      }
+      return metadata;
+    }
+
+    auto attempt_transition(ManifoldType&                 current,
+                            CommandResults&               command_results,
+                            RunStatistics&                statistics,
+                            move_tracker::move_type const move,
+                            long double const             trial_value) -> bool
+    {
+      if (!std::isfinite(trial_value) || trial_value < 0.0L ||
+          trial_value > 1.0L)
+      {
+        throw std::invalid_argument("MH trial value must lie in [0, 1].");
+      }
+
+      statistics.geometry = current.get_geometry();
+      ++statistics.proposed[move];
+      ++command_results.attempted[move];
+
+      auto candidate = propose_candidate(current, move);
+      if (!candidate ||
+          !ergodic_moves::detail::check_move(current, *candidate, move))
+      {
+        ++command_results.failed[move];
+        ++statistics.rejected[move];
+        record_transition(statistics, move,
+                          Transition_outcome::CANDIDATE_FAILED);
+        return false;
+      }
+
+      ++command_results.succeeded[move];
+      auto const probability = acceptance_probability(
+          statistics.geometry, candidate->get_geometry(), move);
+      if (mpfr_cmp_ld(probability.fr(), trial_value) >= 0)
+      {
+        swap(*candidate, current);
+        statistics.geometry = current.get_geometry();
+        ++statistics.accepted[move];
+        record_transition(statistics, move, Transition_outcome::ACCEPTED);
+        return true;
+      }
+
+      ++statistics.rejected[move];
+      record_transition(statistics, move, Transition_outcome::REJECTED);
+      return false;
+    }
+
+    [[nodiscard]] auto execute_pass(ManifoldType        current,
+                                    RunStatistics       statistics,
+                                    Int_precision const attempts) -> PassResult
+    {
+      auto command_results = CommandResults{};
+      std::uniform_real_distribution<long double> acceptance_draw{0.0L, 1.0L};
+      for (auto move_attempt = Int_precision{0}; move_attempt < attempts;
+           ++move_attempt)
+      {
+        auto const move = move_tracker::generate_random_move_3(m_generator);
+        static_cast<void>(attempt_transition(current, command_results,
+                                             statistics, move,
+                                             acceptance_draw(m_generator)));
+      }
+      return {.manifold        = std::move(current),
+              .command_results = std::move(command_results),
+              .strategy_state  = std::move(statistics)};
+    }
+
+    static void print_results(CommandResults const& command_results,
+                              RunStatistics const&  statistics)
+    {
+      fmt::print("=== Move Results ===\n");
+      fmt::print(
+          "There were {} proposed moves with {} accepted moves and {} rejected "
+          "moves.\n",
+          statistics.proposed.total(), statistics.accepted.total(),
+          statistics.rejected.total());
+      fmt::print(
+          "There were {} candidate construction attempts with {} successful "
+          "candidates and {} failed candidates.\n",
+          command_results.attempted.total(), command_results.succeeded.total(),
+          command_results.failed.total());
+      fmt::print(
+          "(2,3) moves: {} proposed ({} accepted and {} rejected); candidate "
+          "construction: {} attempted ({} succeeded and {} failed).\n",
+          statistics.proposed.two_three_moves(),
+          statistics.accepted.two_three_moves(),
+          statistics.rejected.two_three_moves(),
+          command_results.attempted.two_three_moves(),
+          command_results.succeeded.two_three_moves(),
+          command_results.failed.two_three_moves());
+
+      fmt::print(
+          "(3,2) moves: {} proposed ({} accepted and {} rejected); candidate "
+          "construction: {} attempted ({} succeeded and {} failed).\n",
+          statistics.proposed.three_two_moves(),
+          statistics.accepted.three_two_moves(),
+          statistics.rejected.three_two_moves(),
+          command_results.attempted.three_two_moves(),
+          command_results.succeeded.three_two_moves(),
+          command_results.failed.three_two_moves());
+
+      fmt::print(
+          "(2,6) moves: {} proposed ({} accepted and {} rejected); candidate "
+          "construction: {} attempted ({} succeeded and {} failed).\n",
+          statistics.proposed.two_six_moves(),
+          statistics.accepted.two_six_moves(),
+          statistics.rejected.two_six_moves(),
+          command_results.attempted.two_six_moves(),
+          command_results.succeeded.two_six_moves(),
+          command_results.failed.two_six_moves());
+
+      fmt::print(
+          "(6,2) moves: {} proposed ({} accepted and {} rejected); candidate "
+          "construction: {} attempted ({} succeeded and {} failed).\n",
+          statistics.proposed.six_two_moves(),
+          statistics.accepted.six_two_moves(),
+          statistics.rejected.six_two_moves(),
+          command_results.attempted.six_two_moves(),
+          command_results.succeeded.six_two_moves(),
+          command_results.failed.six_two_moves());
+
+      fmt::print(
+          "(4,4) moves: {} proposed ({} accepted and {} rejected); candidate "
+          "construction: {} attempted ({} succeeded and {} failed).\n",
+          statistics.proposed.four_four_moves(),
+          statistics.accepted.four_four_moves(),
+          statistics.rejected.four_four_moves(),
+          command_results.attempted.four_four_moves(),
+          command_results.succeeded.four_four_moves(),
+          command_results.failed.four_four_moves());
+    }
+
    public:
     /// @brief Attempt and immediately resolve one Markov transition
     /// @param current Canonical state, updated only after a successful MH
@@ -439,163 +569,58 @@ namespace cdt
                             move_tracker::move_type const move,
                             long double const             trial_value) -> bool
     {
-      if (!std::isfinite(trial_value) || trial_value < 0.0L ||
-          trial_value > 1.0L)
-      {
-        throw std::invalid_argument("MH trial value must lie in [0, 1].");
-      }
-
-      m_geometry = current.get_geometry();
-      ++m_proposed_moves[move];
-      ++m_attempted_moves[move];
-
-      auto candidate = propose_candidate(current, move);
-      if (!candidate ||
-          !ergodic_moves::detail::check_move(current, *candidate, move))
-      {
-        ++m_failed_moves[move];
-        ++m_rejected_moves[move];
-        record_transition(move, Transition_outcome::CANDIDATE_FAILED);
-        return false;
-      }
-
-      ++m_succeeded_moves[move];
-      auto const probability =
-          acceptance_probability(m_geometry, candidate->get_geometry(), move);
-      if (mpfr_cmp_ld(probability.fr(), trial_value) >= 0)
-      {
-        swap(*candidate, current);
-        m_geometry = current.get_geometry();
-        ++m_accepted_moves[move];
-        record_transition(move, Transition_outcome::ACCEPTED);
-        return true;
-      }
-
-      ++m_rejected_moves[move];
-      record_transition(move, Transition_outcome::REJECTED);
-      return false;
+      return attempt_transition(current, m_command_results, m_run_statistics,
+                                move, trial_value);
     }
 
     /// @brief Initialize the cached action geometry from the canonical manifold
     void initialize(ManifoldType const& manifold)
-    { m_geometry = manifold.get_geometry(); }
+    { m_run_statistics.geometry = manifold.get_geometry(); }
 
-    /// @brief Run sequential Metropolis-Hastings passes on a manifold
+    /// @brief Execute a fresh run while continuing the owned random stream.
+    /// @details Counters, transition statistics, and checkpoint events are
+    /// replaced only after the invocation completes.
     auto operator()(ManifoldType const& t_manifold) -> ManifoldType
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
 
-      fmt::print(
-          "Starting Metropolis-Hastings algorithm in {}+1 dimensions ...\n",
-          ManifoldType::dimension - 1);
-      fmt::print("Effective random seed: {} (stream {}).\n", m_generator.seed(),
-                 m_generator.stream());
-
-      m_proposed_moves.reset();
-      m_accepted_moves.reset();
-      m_rejected_moves.reset();
-      m_attempted_moves.reset();
-      m_succeeded_moves.reset();
-      m_failed_moves.reset();
-      m_transition_trace = 14695981039346656037ULL;
-      m_transition_count = 0;
-
-      auto current       = t_manifold;
-      initialize(current);
-      std::uniform_real_distribution<long double> acceptance_draw{0.0L, 1.0L};
-
-      fmt::print("Making random moves ...\n");
-      for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
-      {
-        fmt::print("=== Pass {} ===\n", pass_number);
-        auto const attempts_this_pass = current.N3();
-        for (auto move_attempt = 0; move_attempt < attempts_this_pass;
-             ++move_attempt)
-        {
-          auto const move = move_tracker::generate_random_move_3(m_generator);
-          static_cast<void>(
-              attempt_transition(current, move, acceptance_draw(m_generator)));
-        }
-
-        if (pass_number % m_checkpoint == 0)
-        {
-          print_results();
-          if (m_write_files)
-          {
-            fmt::print("Writing to file.\n");
+      auto initial_statistics     = RunStatistics{};
+      initial_statistics.geometry = t_manifold.get_geometry();
+      auto result                 = detail::execute_move_run(
+          t_manifold, std::move(initial_statistics), m_cadence,
+          detail::MoveRunIdentity{.algorithm = "Metropolis-Hastings",
+                                  .seed      = seed(),
+                                  .stream    = stream()},
+          m_write_files,
+          [this](ManifoldType current, RunStatistics statistics,
+                 Int_precision const attempts) {
+            return execute_pass(std::move(current), std::move(statistics),
+                                attempts);
+          },
+          [](ManifoldType const&, CommandResults const& command_results,
+             RunStatistics const& statistics) {
+            print_results(command_results, statistics);
+          },
+          [this](ManifoldType const&  current, CommandResults const&,
+                 RunStatistics const& statistics,
+                 Int_precision const  pass_number) {
             utilities::write_file(
-                current, reproducibility_metadata(
+                current, make_reproducibility_metadata(
                              current, utilities::Artifact_kind::CHECKPOINT,
-                             pass_number));
-          }
-        }
-      }
+                             pass_number, statistics));
+          });
 
-      fmt::print("=== Run results ===\n");
-      print_results();
-      return current;
-    }  // operator()
+      m_command_results   = std::move(result.command_results);
+      m_run_statistics    = std::move(result.strategy_state);
+      m_checkpoint_events = result.checkpoint_events;
+      return std::move(result.manifold);
+    }
 
-    /// @brief Display results of run
-    void print_results()
-    {
-      fmt::print("=== Move Results ===\n");
-      fmt::print(
-          "There were {} proposed moves with {} accepted moves and {} rejected "
-          "moves.\n",
-          m_proposed_moves.total(), m_accepted_moves.total(),
-          m_rejected_moves.total());
-      fmt::print(
-          "There were {} candidate construction attempts with {} successful "
-          "candidates and {} failed candidates.\n",
-          m_attempted_moves.total(), m_succeeded_moves.total(),
-          m_failed_moves.total());
-      fmt::print(
-          "(2,3) moves: {} proposed ({} accepted and {} rejected); candidate "
-          "construction: {} attempted ({} succeeded and {} failed).\n",
-          m_proposed_moves.two_three_moves(),
-          m_accepted_moves.two_three_moves(),
-          m_rejected_moves.two_three_moves(),
-          m_attempted_moves.two_three_moves(),
-          m_succeeded_moves.two_three_moves(),
-          m_failed_moves.two_three_moves());
-
-      fmt::print(
-          "(3,2) moves: {} proposed ({} accepted and {} rejected); candidate "
-          "construction: {} attempted ({} succeeded and {} failed).\n",
-          m_proposed_moves.three_two_moves(),
-          m_accepted_moves.three_two_moves(),
-          m_rejected_moves.three_two_moves(),
-          m_attempted_moves.three_two_moves(),
-          m_succeeded_moves.three_two_moves(),
-          m_failed_moves.three_two_moves());
-
-      fmt::print(
-          "(2,6) moves: {} proposed ({} accepted and {} rejected); candidate "
-          "construction: {} attempted ({} succeeded and {} failed).\n",
-          m_proposed_moves.two_six_moves(), m_accepted_moves.two_six_moves(),
-          m_rejected_moves.two_six_moves(), m_attempted_moves.two_six_moves(),
-          m_succeeded_moves.two_six_moves(), m_failed_moves.two_six_moves());
-
-      fmt::print(
-          "(6,2) moves: {} proposed ({} accepted and {} rejected); candidate "
-          "construction: {} attempted ({} succeeded and {} failed).\n",
-          m_proposed_moves.six_two_moves(), m_accepted_moves.six_two_moves(),
-          m_rejected_moves.six_two_moves(), m_attempted_moves.six_two_moves(),
-          m_succeeded_moves.six_two_moves(), m_failed_moves.six_two_moves());
-
-      fmt::print(
-          "(4,4) moves: {} proposed ({} accepted and {} rejected); candidate "
-          "construction: {} attempted ({} succeeded and {} failed).\n",
-          m_proposed_moves.four_four_moves(),
-          m_accepted_moves.four_four_moves(),
-          m_rejected_moves.four_four_moves(),
-          m_attempted_moves.four_four_moves(),
-          m_succeeded_moves.four_four_moves(),
-          m_failed_moves.four_four_moves());
-    }  // print_results
+    /// @brief Display results of the latest completed invocation.
+    void print_results() const
+    { print_results(m_command_results, m_run_statistics); }
   };  // Metropolis
 
   using Metropolis_3 =

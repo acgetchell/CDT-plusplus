@@ -1,6 +1,120 @@
 ---
 # Repository-owned Semgrep rules for narrow CDT++ maintenance invariants.
 rules:
+  - id: cdt.cpp.no-crtp-inheritance
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Do not encode static polymorphism with CRTP. Prefer a free function,
+      concept-constrained callable, explicit value, or ordinary composition so
+      data flow and dispatch remain visible.
+    metadata:
+      category: architecture
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/103"
+      rationale: >-
+        Self-typed inheritance hides coupling in a base-class protocol and
+        works against the repository's value-oriented functional design.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-regex: |-
+      (?x)
+      \b(?:class|struct)[\t\r\n ]+
+      (?<derived>[A-Za-z_][A-Za-z0-9_]*)
+      (?:[\t\r\n ]+final)?
+      [\t\r\n ]*:[\t\r\n ]*
+      (?:
+        (?:(?:public|protected|private|virtual)[\t\r\n ]+)*
+        (?:[A-Za-z_][A-Za-z0-9_]*::)*
+        [A-Za-z_][A-Za-z0-9_]*
+        (?:[\t\r\n ]*<[^<>{};,\r\n]*>)?
+        [\t\r\n ]*,[\t\r\n ]*
+      )*
+      (?:(?:public|protected|private|virtual)[\t\r\n ]+)*
+      (?:[A-Za-z_][A-Za-z0-9_]*::)*
+      [A-Za-z_][A-Za-z0-9_]*[\t\r\n ]*
+      <[\t\r\n ]*
+      \k<derived>
+      (?:[\t\r\n ]*<[^<>{};\r\n]+>)?
+      (?:[\t\r\n ]*,[^<>{};\r\n]*)?
+      [\t\r\n ]*>
+  - id: cdt.cpp.move-run-accounting-is-value-oriented
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Keep per-run move accounting in a fresh value returned by the shared
+      runner, then replace strategy state once. Do not reset or increment
+      persistent counters while orchestrating a run.
+    metadata:
+      category: architecture
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/103"
+      rationale: >-
+        A returned run result makes state transitions explicit, prevents stale
+        counter reuse, and keeps pass execution independently testable.
+    paths:
+      include:
+        - "/include/Metropolis.hpp"
+        - "/include/Move_always.hpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-either:
+      - patterns:
+          - pattern: $COUNTER.reset();
+          - metavariable-regex:
+              metavariable: $COUNTER
+              regex: ^m_(?:attempted|successful|succeeded|failed|proposed|accepted|rejected)_moves$
+      - patterns:
+          - pattern: $TOTAL += $COMMAND.$GETTER();
+          - metavariable-regex:
+              metavariable: $TOTAL
+              regex: ^m_(?:attempted|successful|succeeded|failed|proposed|accepted|rejected)_moves$
+          - metavariable-regex:
+              metavariable: $GETTER
+              regex: ^get_(?:attempted|successful|succeeded|failed|proposed|accepted|rejected)$
+  - id: cdt.cpp.move-run-cadence-is-parsed-once
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Store MoveRunCadence after parsing raw pass and checkpoint values at the
+      boundary. Do not preserve or revalidate raw cadence fields in a strategy.
+    metadata:
+      category: correctness
+      tracking_issue: "https://github.com/acgetchell/CDT-plusplus/issues/103"
+      rationale: >-
+        A proof-bearing cadence value makes zero, negative, and inconsistent
+        scheduling states unrepresentable in the move-run core.
+    paths:
+      include:
+        - "/include/Metropolis.hpp"
+        - "/include/Move_always.hpp"
+        - "/tests/semgrep/**/*.cpp"
+    pattern-either:
+      - pattern-regex: |-
+          (?xm)
+          ^[\t ]*
+          (?:
+            (?:cdt::)?Int_precision
+            | std::size_t
+            | std::(?:u?int(?:8|16|32|64)_t)
+            | (?:unsigned[\t ]+)?(?:short|int|long(?:[\t ]+long)?)
+          )
+          (?:[\t ]+const)?[\t ]+
+          m_(?:passes|checkpoint)\b[^;\r\n]*;
+      - patterns:
+          - pattern-either:
+              - pattern: if ($FIELD <= 0) { ... }
+              - pattern: if ($FIELD < 1) { ... }
+              - pattern: if (0 >= $FIELD) { ... }
+              - pattern: if (1 > $FIELD) { ... }
+          - metavariable-regex:
+              metavariable: $FIELD
+              regex: ^m_(?:passes|checkpoint)$
   - id: cdt.cpp.no-routine-output-in-move-hot-paths
     languages:
       - cpp

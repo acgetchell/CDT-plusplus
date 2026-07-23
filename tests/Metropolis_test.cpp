@@ -127,6 +127,47 @@ namespace
 
     [[nodiscard]] auto calls() const noexcept -> std::size_t { return m_calls; }
   };
+
+  struct Expected_run_accounting
+  {
+    Int_precision attempted;
+    Int_precision succeeded;
+    Int_precision failed;
+  };
+
+  struct Expected_metropolis_fixture
+  {
+    Expected_run_accounting first;
+    Expected_run_accounting second;
+    char const*             standard_library;
+  };
+
+  /// `std::uniform_int_distribution` mappings vary by standard library.
+  [[nodiscard]] consteval auto expected_metropolis_fixture()
+      -> Expected_metropolis_fixture
+  {
+#if defined(_LIBCPP_VERSION)
+    return {
+        .first = {8, 1, 7},
+          .second = {8, 2, 6},
+          .standard_library = "libc++"
+    };
+#elif defined(__GLIBCXX__)
+    return {
+        .first            = { 8, 3, 5},
+        .second           = {10, 2, 8},
+        .standard_library = "libstdc++"
+    };
+#elif defined(_MSVC_STL_VERSION)
+    return {
+        .first            = { 8, 3, 5},
+        .second           = {10, 2, 8},
+        .standard_library = "msvc-stl"
+    };
+#else
+#error Unsupported standard library for deterministic Metropolis fixture
+#endif
+  }
 }  // namespace
 
 static_assert(std::is_nothrow_swappable_v<Metropolis_3>);
@@ -616,6 +657,67 @@ SCENARIO("Metropolis runs replay every transition from an identical start" *
   CHECK_EQ(first.transition_count(), first.get_proposed().total());
   CHECK_EQ(replay.transition_count(), replay.get_proposed().total());
   CHECK_EQ(first.transition_trace(), replay.transition_trace());
+}
+
+SCENARIO("Metropolis multi-pass accounting is per invocation" *
+         doctest::test_suite("metropolis"))
+{
+  GIVEN("A fixed seed and a four-pass Metropolis strategy.")
+  {
+    auto const initial        = minimal_23_manifold();
+    auto constexpr passes     = Int_precision{4};
+    auto constexpr checkpoint = Int_precision{2};
+    auto constexpr seed       = cdt::Random_seed{103};
+    auto constexpr expected   = expected_metropolis_fixture();
+    Metropolis_3 strategy(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
+    CAPTURE(seed);
+    CAPTURE(expected.standard_library);
+
+    WHEN("The strategy and a fresh replay each run twice.")
+    {
+      static_cast<void>(strategy(initial));
+      auto const first_attempted   = strategy.get_attempted().total();
+      auto const first_succeeded   = strategy.get_succeeded().total();
+      auto const first_failed      = strategy.get_failed().total();
+      auto const first_trace       = strategy.transition_trace();
+      auto const first_transitions = strategy.transition_count();
+      auto const first_checkpoints = strategy.checkpoint_events();
+
+      static_cast<void>(strategy(initial));
+      auto const   second_attempted   = strategy.get_attempted().total();
+      auto const   second_succeeded   = strategy.get_succeeded().total();
+      auto const   second_failed      = strategy.get_failed().total();
+      auto const   second_trace       = strategy.transition_trace();
+      auto const   second_transitions = strategy.transition_count();
+      auto const   second_checkpoints = strategy.checkpoint_events();
+
+      Metropolis_3 replay(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
+      static_cast<void>(replay(initial));
+      auto const replay_first_trace = replay.transition_trace();
+      static_cast<void>(replay(initial));
+      auto const replay_second_trace = replay.transition_trace();
+
+      THEN("Each invocation has exact accounting and is replayable.")
+      {
+        CHECK_EQ(first_checkpoints, passes / checkpoint);
+        CHECK_EQ(first_attempted, expected.first.attempted);
+        CHECK_EQ(first_succeeded, expected.first.succeeded);
+        CHECK_EQ(first_failed, expected.first.failed);
+        CHECK_EQ(first_attempted, first_succeeded + first_failed);
+        CHECK_EQ(first_transitions, first_attempted);
+
+        CHECK_EQ(second_checkpoints, passes / checkpoint);
+        CHECK_EQ(second_attempted, expected.second.attempted);
+        CHECK_EQ(second_succeeded, expected.second.succeeded);
+        CHECK_EQ(second_failed, expected.second.failed);
+        CHECK_EQ(second_attempted, second_succeeded + second_failed);
+        CHECK_EQ(second_transitions, second_attempted);
+
+        CHECK_EQ(replay_first_trace, first_trace);
+        CHECK_EQ(replay_second_trace, second_trace);
+      }
+    }
+  }
 }
 
 SCENARIO("Metropolis provenance is derived from the actual run" *

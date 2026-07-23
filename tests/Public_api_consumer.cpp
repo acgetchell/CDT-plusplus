@@ -10,6 +10,7 @@
 #include "Metropolis.hpp"
 #include "Move_always.hpp"
 #include "Move_command.hpp"
+#include "Move_run.hpp"
 #include "Runtime_config.hpp"
 #include "S3Action.hpp"
 
@@ -34,6 +35,12 @@ static_assert(
     std::same_as<cdt::Metropolis_3,
                  cdt::MoveStrategy<cdt::Strategies::METROPOLIS, Manifold>>);
 static_assert(std::is_constructible_v<cdt::MoveCommand<Manifold>, Manifold>);
+static_assert(requires {
+  {
+    cdt::MoveRunCadence::parse(1, 1)
+  }
+  -> std::same_as<std::expected<cdt::MoveRunCadence, cdt::MoveRunCadenceError>>;
+});
 
 static_assert(requires(Manifold const& manifold, cdt::Random& random) {
   { cdt::ergodic_moves::null_move(manifold) } -> std::same_as<Move_result>;
