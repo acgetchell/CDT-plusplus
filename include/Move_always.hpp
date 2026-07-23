@@ -13,9 +13,11 @@
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
 #define INCLUDE_MOVE_ALWAYS_HPP_
 
-#include <stdexcept>
+#include <utility>
+#include <variant>
 
 #include "Move_command.hpp"
+#include "Move_run.hpp"
 #include "Move_strategy.hpp"
 #include "Random.hpp"
 
@@ -26,30 +28,66 @@ namespace cdt
     requires(ManifoldType::dimension == 3)
   class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   {
-    using Counter = move_tracker::MoveTracker<ManifoldType>;
+    using CommandResults = detail::MoveCommandResults<ManifoldType>;
+    using PassResult     = detail::MovePassResult<ManifoldType, std::monostate>;
 
-    /// @brief The number of move passes executed by the algorithm
-    /// @details Each move pass makes a number of attempts equal to the number
-    /// of simplices in the triangulation.
-    Int_precision m_passes{1};
-
-    /// @brief The number of passes before a checkpoint
-    /// @details Each checkpoint writes a file containing the current
-    /// triangulation.
-    Int_precision m_checkpoint{1};
+    /// @brief Positive pass and checkpoint cadence
+    MoveRunCadence m_cadence;
 
     /// @brief Run-owned random stream used for move selection and site ordering
     cdt::Random m_random;
 
-    /// @brief The number of moves that were attempted by a MoveCommand
-    Counter m_attempted_moves;
+    /// @brief Whether checkpoint triangulation files may be written
+    bool m_write_files{true};
 
-    /// @brief The number of moves that succeeded in the MoveCommand
-    Counter m_successful_moves;
+    /// @brief Command counters from the latest completed invocation
+    CommandResults m_command_results;
 
-    /// @brief The number of moves that a MoveCommand failed to make due to an
-    /// error.
-    Counter m_failed_moves;
+    /// @brief Checkpoint events from the latest completed invocation
+    Int_precision      m_checkpoint_events{};
+
+    [[nodiscard]] auto execute_pass(ManifoldType        current,
+                                    std::monostate      strategy_state,
+                                    Int_precision const attempts) -> PassResult
+    {
+      MoveCommand<ManifoldType> command{std::move(current)};
+      for (auto move_attempt = Int_precision{0}; move_attempt < attempts;
+           ++move_attempt)
+      {
+        command.enqueue(move_tracker::generate_random_move_3(m_random));
+      }
+      command.execute(m_random);
+      auto command_results =
+          detail::consume_command_results<ManifoldType>(command);
+      return {.manifold        = std::move(command.get_results()),
+              .command_results = std::move(command_results),
+              .strategy_state  = strategy_state};
+    }
+
+    static void print_results(CommandResults const& results)
+    {
+      fmt::print("=== Move Results ===\n");
+      fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
+                 results.attempted.two_three_moves(),
+                 results.succeeded.two_three_moves(),
+                 results.failed.two_three_moves());
+      fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
+                 results.attempted.three_two_moves(),
+                 results.succeeded.three_two_moves(),
+                 results.failed.three_two_moves());
+      fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
+                 results.attempted.two_six_moves(),
+                 results.succeeded.two_six_moves(),
+                 results.failed.two_six_moves());
+      fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
+                 results.attempted.six_two_moves(),
+                 results.succeeded.six_two_moves(),
+                 results.failed.six_two_moves());
+      fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
+                 results.attempted.four_four_moves(),
+                 results.succeeded.four_four_moves(),
+                 results.failed.four_four_moves());
+    }
 
    public:
     /// @brief Default ctor
@@ -60,129 +98,91 @@ namespace cdt
     /// @param t_checkpoint Number of passes per checkpoint
     [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
                                   Int_precision const t_checkpoint)
-        : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{}}
+        : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{}, true}
     {}
 
     /// @brief Construct a replayable MoveAlways run from an explicit seed.
     [[maybe_unused]] MoveStrategy(Int_precision const    t_number_of_passes,
                                   Int_precision const    t_checkpoint,
-                                  cdt::Random_seed const seed)
-        : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{seed}}
+                                  cdt::Random_seed const seed,
+                                  bool const             write_files = true)
+        : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{seed},
+                       write_files}
     {}
 
     /// @brief Construct a MoveAlways run from an owned PCG stream.
     [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
                                   Int_precision const t_checkpoint,
-                                  cdt::Random         random)
-        : m_passes{t_number_of_passes}
-        , m_checkpoint{t_checkpoint}
+                                  cdt::Random         random,
+                                  bool const          write_files = true)
+        : m_cadence{detail::parse_move_run_cadence(t_number_of_passes,
+                                                   t_checkpoint, "MoveAlways")}
         , m_random{std::move(random)}
-    {
-      if (m_passes < 0)
-      {
-        throw std::invalid_argument{"MoveAlways passes cannot be negative"};
-      }
-      if (m_checkpoint <= 0)
-      {
-        throw std::invalid_argument{
-            "MoveAlways checkpoint interval must be positive"};
-      }
-    }
+        , m_write_files{write_files}
+    {}
 
     /// @returns The number of passes made on a triangulation
-    [[nodiscard]] auto passes() const { return m_passes; }
+    [[nodiscard]] auto passes() const noexcept { return m_cadence.passes(); }
 
     /// @returns The number of passes per checkpoint
-    [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
+    [[nodiscard]] auto checkpoint() const noexcept
+    { return m_cadence.checkpoint(); }
+
+    /// @returns Checkpoint events completed by the latest invocation.
+    [[nodiscard]] auto checkpoint_events() const noexcept
+    { return m_checkpoint_events; }
 
     /// @returns The effective root seed used for this run.
     [[nodiscard]] auto seed() const noexcept { return m_random.seed(); }
 
+    /// @returns The PCG stream selector used for this run.
+    [[nodiscard]] auto stream() const noexcept { return m_random.stream(); }
+
+    /// @returns Whether the strategy writes checkpoint triangulation files.
+    [[nodiscard]] auto writes_files() const noexcept { return m_write_files; }
+
     /// @returns The MoveTracker of attempted moves
-    auto get_attempted() const { return m_attempted_moves; }
+    [[nodiscard]] auto get_attempted() const
+    { return m_command_results.attempted; }
 
     /// @returns The MoveTracker of successful moves
-    auto get_succeeded() const { return m_successful_moves; }
+    [[nodiscard]] auto get_succeeded() const
+    { return m_command_results.succeeded; }
 
     /// @returns The array of failed moves
-    auto get_failed() const { return m_failed_moves; }
+    [[nodiscard]] auto get_failed() const { return m_command_results.failed; }
 
-    /// @brief Call operator
+    /// @brief Execute a fresh run while continuing the owned random stream.
+    /// @details Counters and checkpoint events are replaced only after the
+    /// invocation completes.
     auto operator()(ManifoldType const& t_manifold) -> ManifoldType
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
-      fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
-                 ManifoldType::dimension - 1);
-      fmt::print("Effective random seed: {} (stream {}).\n", m_random.seed(),
-                 m_random.stream());
+      auto result = detail::execute_move_run(
+          t_manifold, std::monostate{}, m_cadence,
+          detail::MoveRunIdentity{
+              .algorithm = "Move Always", .seed = seed(), .stream = stream()},
+          m_write_files,
+          [this](ManifoldType current, std::monostate state,
+                 Int_precision const attempts) {
+            return execute_pass(std::move(current), state, attempts);
+          },
+          [](ManifoldType const&, CommandResults const& results,
+             std::monostate const&) { print_results(results); },
+          [this](ManifoldType const& current, CommandResults const&,
+                 std::monostate const&, Int_precision const pass_number) {
+            utilities::write_file(current, seed(), pass_number);
+          });
 
-      m_attempted_moves.reset();
-      m_successful_moves.reset();
-      m_failed_moves.reset();
-
-      // Start the move command
-      MoveCommand command(t_manifold);
-
-      fmt::print("Making random moves ...\n");
-
-      // Loop through passes
-      for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
-      {
-        fmt::print("=== Pass {} ===\n", pass_number);
-        auto total_simplices_this_pass = command.get_const_results().N3();
-        // Make a random move per simplex
-        for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-             ++move_attempt)
-        {
-          // Pick a move to attempt
-          command.enqueue(move_tracker::generate_random_move_3(m_random));
-        }
-        command.execute(m_random);
-        // Update attempted, successful, and failed moves
-        m_attempted_moves += command.get_attempted();
-        m_successful_moves += command.get_succeeded();
-        m_failed_moves += command.get_failed();
-        command.reset_counters();
-
-        if (pass_number % m_checkpoint == 0)
-        {
-          fmt::print("Writing checkpoint for pass {}.\n", pass_number);
-          print_results();
-          utilities::write_file(command.get_results(), m_random.seed(),
-                                pass_number);
-        }
-      }
-      print_results();
-      return command.get_results();
+      m_command_results   = std::move(result.command_results);
+      m_checkpoint_events = result.checkpoint_events;
+      return std::move(result.manifold);
     }
 
-    /// @brief Display results of run
-    void print_results()
-    {
-      fmt::print("=== Move Results ===\n");
-      fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.two_three_moves(),
-                 m_successful_moves.two_three_moves(),
-                 m_failed_moves.two_three_moves());
-      fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.three_two_moves(),
-                 m_successful_moves.three_two_moves(),
-                 m_failed_moves.three_two_moves());
-      fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.two_six_moves(),
-                 m_successful_moves.two_six_moves(),
-                 m_failed_moves.two_six_moves());
-      fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.six_two_moves(),
-                 m_successful_moves.six_two_moves(),
-                 m_failed_moves.six_two_moves());
-      fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
-                 m_attempted_moves.four_four_moves(),
-                 m_successful_moves.four_four_moves(),
-                 m_failed_moves.four_four_moves());
-    }
+    /// @brief Display results of the latest completed invocation.
+    void print_results() const { print_results(m_command_results); }
   };
 
   using MoveAlways_3 =

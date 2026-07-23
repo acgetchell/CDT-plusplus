@@ -618,6 +618,40 @@ SCENARIO("Metropolis runs replay every transition from an identical start" *
   CHECK_EQ(first.transition_trace(), replay.transition_trace());
 }
 
+SCENARIO("Metropolis multi-pass accounting is per invocation" *
+         doctest::test_suite("metropolis"))
+{
+  auto const initial        = minimal_23_manifold();
+  auto constexpr passes     = Int_precision{4};
+  auto constexpr checkpoint = Int_precision{2};
+  auto constexpr seed       = cdt::Random_seed{103};
+  Metropolis_3 strategy(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
+
+  static_cast<void>(strategy(initial));
+  auto const first_attempted = strategy.get_attempted().total();
+  auto const first_succeeded = strategy.get_succeeded().total();
+  auto const first_failed    = strategy.get_failed().total();
+  auto const first_trace     = strategy.transition_trace();
+
+  CHECK_EQ(strategy.checkpoint_events(), 2);
+  CHECK_EQ(first_attempted, first_succeeded + first_failed);
+  CHECK_EQ(strategy.transition_count(), first_attempted);
+
+  static_cast<void>(strategy(initial));
+  auto const second_attempted = strategy.get_attempted().total();
+  auto const second_succeeded = strategy.get_succeeded().total();
+  auto const second_failed    = strategy.get_failed().total();
+
+  CHECK_EQ(strategy.checkpoint_events(), 2);
+  CHECK_EQ(second_attempted, second_succeeded + second_failed);
+  CHECK_EQ(strategy.transition_count(), second_attempted);
+  CHECK_NE(strategy.transition_trace(), first_trace);
+
+  Metropolis_3 replay(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
+  static_cast<void>(replay(initial));
+  CHECK_EQ(replay.transition_trace(), first_trace);
+}
+
 SCENARIO("Metropolis provenance is derived from the actual run" *
          doctest::test_suite("metropolis"))
 {

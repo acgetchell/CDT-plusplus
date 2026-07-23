@@ -12,11 +12,31 @@
 
 #include <doctest/doctest.h>
 
+#include <numbers>
 #include <type_traits>
+#include <vector>
 
 using namespace cdt;
 using namespace std;
 using namespace manifolds;
+
+namespace
+{
+  [[nodiscard]] auto minimal_23_manifold() -> Manifold_3
+  {
+    auto constexpr radius = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    auto constexpr root_2 = std::numbers::sqrt2_v<double>;
+    vector vertices{
+        Point_t<3>{     1,      0,      0},
+        Point_t<3>{     0,      1,      0},
+        Point_t<3>{     0,      0,      1},
+        Point_t<3>{radius, radius, radius},
+        Point_t<3>{root_2, root_2,      0}
+    };
+    vector<size_t> timevalues{1, 1, 1, 2, 2};
+    return Manifold_3{make_causal_vertices<3>(vertices, timevalues)};
+  }
+}  // namespace
 
 static_assert(std::is_nothrow_swappable_v<MoveAlways_3>);
 
@@ -94,6 +114,8 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
       }
       CHECK_THROWS_AS(MoveAlways_3(-1, checkpoint, cdt::Random_seed{92}),
                       std::invalid_argument);
+      CHECK_THROWS_AS(MoveAlways_3(0, checkpoint, cdt::Random_seed{92}),
+                      std::invalid_argument);
       CHECK_THROWS_AS(MoveAlways_3(passes, 0, cdt::Random_seed{92}),
                       std::invalid_argument);
       THEN("Attempted, successful, and failed moves are zero-initialized.")
@@ -121,6 +143,37 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
       }
     }
   }
+}
+
+SCENARIO("MoveAlways multi-pass accounting is per invocation" *
+         doctest::test_suite("move_always"))
+{
+  auto const initial        = minimal_23_manifold();
+  auto constexpr passes     = Int_precision{4};
+  auto constexpr checkpoint = Int_precision{2};
+  auto constexpr seed       = cdt::Random_seed{103};
+  MoveAlways_3 strategy(passes, checkpoint, seed, false);
+
+  auto const   first_result    = strategy(initial);
+  auto const   first_attempted = strategy.get_attempted().total();
+  auto const   first_succeeded = strategy.get_succeeded().total();
+  auto const   first_failed    = strategy.get_failed().total();
+
+  CHECK_EQ(strategy.checkpoint_events(), 2);
+  CHECK_EQ(first_attempted, first_succeeded + first_failed);
+
+  auto const second_result    = strategy(initial);
+  auto const second_attempted = strategy.get_attempted().total();
+  auto const second_succeeded = strategy.get_succeeded().total();
+  auto const second_failed    = strategy.get_failed().total();
+
+  CHECK_EQ(strategy.checkpoint_events(), 2);
+  CHECK_EQ(second_attempted, second_succeeded + second_failed);
+
+  MoveAlways_3 replay(passes, checkpoint, seed, false);
+  auto const   replay_result = replay(initial);
+  CHECK_EQ(first_result.delaunay_snapshot(), replay_result.delaunay_snapshot());
+  CHECK_NE(first_result.delaunay_snapshot(), second_result.delaunay_snapshot());
 }
 
 SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always"))
