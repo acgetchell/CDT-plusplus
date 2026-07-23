@@ -109,16 +109,9 @@ namespace cdt
     /// @brief Checkpoint events from the latest completed invocation
     Int_precision m_checkpoint_events{};
 
-    enum class Transition_outcome : std::uint8_t
-    {
-      CANDIDATE_FAILED,
-      ACCEPTED,
-      REJECTED
-    };
-
-    static void record_transition(RunStatistics&                statistics,
-                                  move_tracker::move_type const move,
-                                  Transition_outcome const outcome) noexcept
+    static void   record_transition(
+        RunStatistics& statistics, move_tracker::move_type const move,
+        ergodic_moves::MoveOutcome const outcome) noexcept
     {
       auto const append = [&statistics](std::uint8_t const value) {
         statistics.transition_trace ^= value;
@@ -388,7 +381,7 @@ namespace cdt
    private:
     [[nodiscard]] auto propose_candidate(ManifoldType const&           current,
                                          move_tracker::move_type const move)
-        -> std::expected<ManifoldType, std::string>
+        -> ergodic_moves::MoveResult<ManifoldType>
     {
       using enum move_tracker::move_type;
       switch (move)
@@ -404,7 +397,11 @@ namespace cdt
         case FOUR_FOUR:
           return ergodic_moves::propose_44_move(current, m_generator);
       }
-      return std::unexpected("Unknown 3D Pachner move.\n");
+      return std::unexpected{
+          ergodic_moves::MoveError{
+                                   .category       = ergodic_moves::MoveFailure::UNKNOWN_MOVE,
+                                   .requested_move = move}
+      };
     }
 
     [[nodiscard]] auto make_reproducibility_metadata(
@@ -447,13 +444,20 @@ namespace cdt
       ++command_results.attempted[move];
 
       auto candidate = propose_candidate(current, move);
-      if (!candidate ||
-          !ergodic_moves::detail::check_move(current, *candidate, move))
+      if (!candidate)
       {
         ++command_results.failed[move];
         ++statistics.rejected[move];
         record_transition(statistics, move,
-                          Transition_outcome::CANDIDATE_FAILED);
+                          ergodic_moves::outcome_from(candidate.error()));
+        return false;
+      }
+      if (!ergodic_moves::detail::check_move(current, *candidate, move))
+      {
+        ++command_results.failed[move];
+        ++statistics.rejected[move];
+        record_transition(statistics, move,
+                          ergodic_moves::MoveOutcome::EXECUTION_FAILED);
         return false;
       }
 
@@ -465,12 +469,14 @@ namespace cdt
         swap(*candidate, current);
         statistics.geometry = current.get_geometry();
         ++statistics.accepted[move];
-        record_transition(statistics, move, Transition_outcome::ACCEPTED);
+        record_transition(statistics, move,
+                          ergodic_moves::MoveOutcome::METROPOLIS_ACCEPTED);
         return true;
       }
 
       ++statistics.rejected[move];
-      record_transition(statistics, move, Transition_outcome::REJECTED);
+      record_transition(statistics, move,
+                        ergodic_moves::MoveOutcome::METROPOLIS_REJECTED);
       return false;
     }
 

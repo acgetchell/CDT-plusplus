@@ -14,8 +14,13 @@
 #include "Runtime_config.hpp"
 #include "S3Action.hpp"
 
-using Manifold    = cdt::manifolds::Manifold_3;
-using Move_result = std::expected<Manifold, std::string>;
+using Manifold     = cdt::manifolds::Manifold_3;
+using Move_command = cdt::MoveCommand<Manifold>;
+using Move_result  = cdt::ergodic_moves::MoveResult<Manifold>;
+
+template <typename Result>
+concept Supported_move_command_result =
+    requires { typename cdt::MoveCommand<Manifold, Result>; };
 
 static_assert(std::same_as<cdt::Int_precision, std::int32_t>);
 static_assert(std::uniform_random_bit_generator<cdt::Random>);
@@ -34,7 +39,12 @@ static_assert(
 static_assert(
     std::same_as<cdt::Metropolis_3,
                  cdt::MoveStrategy<cdt::Strategies::METROPOLIS, Manifold>>);
-static_assert(std::is_constructible_v<cdt::MoveCommand<Manifold>, Manifold>);
+static_assert(std::is_constructible_v<Move_command, Manifold>);
+static_assert(
+    std::same_as<Move_command, cdt::MoveCommand<Manifold, Move_result>>);
+static_assert(Supported_move_command_result<Move_result>);
+static_assert(
+    !Supported_move_command_result<std::expected<Manifold, std::string>>);
 static_assert(requires {
   {
     cdt::MoveRunCadence::parse(1, 1)
