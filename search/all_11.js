@@ -8,5 +8,6 @@ var searchData=
   ['operator_5b_5d_5',['operator[]',['../classcdt_1_1move__tracker_1_1_move_tracker.html#ac16bdd720b9a64a47c5a3c32cfd30c0d',1,'cdt::move_tracker::MoveTracker::operator[](gsl::index index) -&gt; auto &amp;'],['../classcdt_1_1move__tracker_1_1_move_tracker.html#aa0b9b80d16e1adc49fa2a4ef735b6ade',1,'cdt::move_tracker::MoveTracker::operator[](move_type const move) -&gt; auto &amp;'],['../classcdt_1_1move__tracker_1_1_move_tracker.html#a0de1f542193630b95a0f5c4f1cade2a9',1,'cdt::move_tracker::MoveTracker::operator[](move_type const move) const -&gt; auto &amp;']]],
   ['optimizing_20parameters_6',['Optimizing Parameters',['../index.html#optimizing-parameters',1,'']]],
   ['oracle_20scope_7',['Regression-oracle scope',['../index.html#regression-oracle-scope',1,'']]],
-  ['original_20cdt_20framework_8',['Original CDT framework',['../md__r_e_f_e_r_e_n_c_e_s.html#original-cdt-framework',1,'']]]
+  ['original_20cdt_20framework_8',['Original CDT framework',['../md__r_e_f_e_r_e_n_c_e_s.html#original-cdt-framework',1,'']]],
+  ['outcome_5ffrom_9',['outcome_from',['../_move__outcome_8hpp.html#a7b25767d48585c14fff3376dc452692f',1,'cdt::ergodic_moves']]]
 ];

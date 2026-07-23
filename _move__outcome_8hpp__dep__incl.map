@@ -1,0 +1,13 @@
+<map id="include/Move_outcome.hpp" name="include/Move_outcome.hpp">
+<area shape="rect" id="Node000001" title="Structured Pachner&#45;move failures and transition outcomes." alt="" coords="96,5,297,33"/>
+<area shape="rect" id="Node000002" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="111,81,282,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,46,199,81,194,80,196,51"/>
+<area shape="rect" id="Node000003" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="5,174,175,201"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="155,137,109,175,105,171,159,133"/>
+<area shape="rect" id="Node000005" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="199,174,408,201"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="237,133,289,173,283,173,236,138"/>
+<area shape="rect" id="Node000004" href="$cdt_8cpp.html" title="The main executable." alt="" coords="44,249,136,277"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="92,215,92,250,88,248,88,219"/>
+<area shape="rect" id="Node000006" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="209,249,398,277"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="305,215,305,250,301,247,301,219"/>
+</map>

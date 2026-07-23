@@ -1,17 +1,20 @@
 <map id="include/Move_tracker.hpp" name="include/Move_tracker.hpp">
-<area shape="rect" id="Node000001" title="Track ergodic moves." alt="" coords="194,5,382,33"/>
-<area shape="rect" id="Node000002" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="106,81,278,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,45,219,82,216,78,263,42"/>
-<area shape="rect" id="Node000007" href="$_move__run_8hpp.html" title="Shared value&#45;oriented orchestration for ergodic&#45;move strategies." alt="" coords="302,90,466,117"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="315,40,372,89,366,89,314,46"/>
-<area shape="rect" id="Node000003" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="238,174,408,201"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="240,132,305,173,299,173,239,137"/>
-<area shape="rect" id="Node000005" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="5,174,214,201"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="162,135,125,175,121,171,158,139"/>
-<area shape="rect" id="Node000004" href="$cdt_8cpp.html" title="The main executable." alt="" coords="277,249,368,277"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="325,215,325,250,321,247,321,219"/>
-<area shape="rect" id="Node000006" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="40,249,230,277"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="121,214,133,250,128,248,117,218"/>
-<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="367,128,334,175,331,171,363,131"/>
-<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="406,126,419,145,428,164,430,184,422,203,396,216,348,229,224,251,223,246,346,223,394,211,418,200,425,184,423,166,415,147,405,131"/>
+<area shape="rect" id="Node000001" title="Track ergodic moves." alt="" coords="128,5,315,33"/>
+<area shape="rect" id="Node000002" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="34,157,206,201"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,42,133,59,112,82,105,100,105,119,113,156,108,156,99,120,100,99,107,80,130,55,161,38"/>
+<area shape="rect" id="Node000007" href="$_move__outcome_8hpp.html" title="Structured Pachner&#45;move failures and transition outcomes." alt="" coords="121,81,322,109"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="222,46,224,81,219,80,221,51"/>
+<area shape="rect" id="Node000008" href="$_move__run_8hpp.html" title="Shared value&#45;oriented orchestration for ergodic&#45;move strategies." alt="" coords="277,165,441,193"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="277,37,309,55,336,79,348,101,356,124,361,166,356,164,350,125,343,103,331,83,306,59,277,42"/>
+<area shape="rect" id="Node000003" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="238,249,408,277"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="188,205,293,248,288,250,188,210"/>
+<area shape="rect" id="Node000005" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="5,249,214,277"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="117,214,114,250,109,248,114,219"/>
+<area shape="rect" id="Node000004" href="$cdt_8cpp.html" title="The main executable." alt="" coords="277,325,368,353"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="325,291,325,326,321,323,321,295"/>
+<area shape="rect" id="Node000006" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="40,325,230,353"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="121,290,133,325,128,324,117,294"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="192,121,149,158,145,154,195,117"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="349,206,330,251,327,247,345,209"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="390,200,409,218,423,237,430,258,422,279,396,292,348,304,224,327,223,322,346,299,394,287,418,275,424,258,419,240,405,221,388,205"/>
 </map>

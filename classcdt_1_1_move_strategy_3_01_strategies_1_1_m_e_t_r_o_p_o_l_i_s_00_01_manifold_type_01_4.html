@@ -200,22 +200,18 @@ Private Types</h2></td></tr>
 <tr class="memitem:aa40cc045184487f0cb62d454ca56eed1" id="r_aa40cc045184487f0cb62d454ca56eed1"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#aa40cc045184487f0cb62d454ca56eed1">CommandResults</a> = detail::MoveCommandResults&lt;ManifoldType&gt;</td></tr>
 <tr class="memitem:a6ce1a5333f304a9cd7a6fe0e0db0fd95" id="r_a6ce1a5333f304a9cd7a6fe0e0db0fd95"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a6ce1a5333f304a9cd7a6fe0e0db0fd95">Counter</a> = <a class="el" href="classcdt_1_1move__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a>&lt;ManifoldType&gt;</td></tr>
 <tr class="memitem:acb1bf18b2db9e08a1c3a13d02e62ae35" id="r_acb1bf18b2db9e08a1c3a13d02e62ae35"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#acb1bf18b2db9e08a1c3a13d02e62ae35">PassResult</a> = detail::MovePassResult&lt;ManifoldType, <a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a>&gt;</td></tr>
-<tr class="memitem:aeca46cd3215c64017f988e9b6d2ff0e7" id="r_aeca46cd3215c64017f988e9b6d2ff0e7"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><b>Transition_outcome</b> : std::uint8_t { <b>CANDIDATE_FAILED</b>
-, <b>ACCEPTED</b>
-, <b>REJECTED</b>
- }</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a3db478366afe186acb4a49ca91e0b256" id="r_a3db478366afe186acb4a49ca91e0b256"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a3db478366afe186acb4a49ca91e0b256">attempt_transition</a> (ManifoldType &amp;current, CommandResults &amp;command_results, <a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a> &amp;statistics, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const move, long double const trial_value) -&gt; bool</td></tr>
 <tr class="memitem:ac59f5edc744acf479dabb0d195936438" id="r_ac59f5edc744acf479dabb0d195936438"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac59f5edc744acf479dabb0d195936438">execute_pass</a> (ManifoldType current, <a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a> statistics, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const attempts) -&gt; PassResult</td></tr>
 <tr class="memitem:a68d0f20259fe7d0801b5dfe5e7f08ba0" id="r_a68d0f20259fe7d0801b5dfe5e7f08ba0"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a68d0f20259fe7d0801b5dfe5e7f08ba0">make_reproducibility_metadata</a> (ManifoldType const &amp;manifold, utilities::Artifact_kind const artifact, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const completed_passes, <a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a> const &amp;statistics) const -&gt; <a class="el" href="structcdt_1_1utilities_1_1_reproducibility__metadata.html">utilities::Reproducibility_metadata</a></td></tr>
-<tr class="memitem:a576a4cb8f907846c7c316fda51291ab1" id="r_a576a4cb8f907846c7c316fda51291ab1"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a576a4cb8f907846c7c316fda51291ab1">propose_candidate</a> (ManifoldType const &amp;current, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const move) -&gt; std::expected&lt; ManifoldType, std::string &gt;</td></tr>
+<tr class="memitem:a0e9aeb14e4bf3d13e80915df3f73be30" id="r_a0e9aeb14e4bf3d13e80915df3f73be30"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a0e9aeb14e4bf3d13e80915df3f73be30">propose_candidate</a> (ManifoldType const &amp;current, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const move) -&gt; <a class="el" href="_move__outcome_8hpp.html#ac4b1bcba668fc016267958281c9309f7">ergodic_moves::MoveResult</a>&lt; ManifoldType &gt;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
 <tr class="memitem:ab93cb2b95d5ed24a8dca6ed44ca0e22c" id="r_ab93cb2b95d5ed24a8dca6ed44ca0e22c"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ab93cb2b95d5ed24a8dca6ed44ca0e22c">print_results</a> (CommandResults const &amp;command_results, <a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a> const &amp;statistics)</td></tr>
-<tr class="memitem:ad9ad55c8df4a4968c7898daf626b111d" id="r_ad9ad55c8df4a4968c7898daf626b111d"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ad9ad55c8df4a4968c7898daf626b111d">record_transition</a> (<a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a> &amp;statistics, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const move, Transition_outcome const outcome) noexcept</td></tr>
+<tr class="memitem:a1d546f376c4f48dd203f3feb7ada53d0" id="r_a1d546f376c4f48dd203f3feb7ada53d0"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a1d546f376c4f48dd203f3feb7ada53d0">record_transition</a> (<a class="el" href="structcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html">RunStatistics</a> &amp;statistics, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const move, <a class="el" href="_move__outcome_8hpp.html#ae1568aa3b78a1d08083e896fe3b7c032">ergodic_moves::MoveOutcome</a> const outcome) noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -337,33 +333,6 @@ template&lt;typename ManifoldType&gt; </div>
 
 </div>
 </div>
-<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Member Enumeration Documentation</h2>
-<a id="aeca46cd3215c64017f988e9b6d2ff0e7" name="aeca46cd3215c64017f988e9b6d2ff0e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeca46cd3215c64017f988e9b6d2ff0e7">&#9670;&#160;</a></span>Transition_outcome</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="classcdt_1_1_move_strategy.html">cdt::MoveStrategy</a>&lt; Strategies::METROPOLIS, ManifoldType &gt;::Transition_outcome : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00112">112</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
-
-</div>
-</div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a66868f5f5b554a934f225c448440694e" name="a66868f5f5b554a934f225c448440694e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66868f5f5b554a934f225c448440694e">&#9670;&#160;</a></span>MoveStrategy() <span class="overload">[1/4]</span></h2>
@@ -392,11 +361,11 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Construct a default strategy on the named transition stream. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00134">134</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00127">127</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00097">m_generator</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00101">m_reproducibility</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00149">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00142">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -462,9 +431,9 @@ template&lt;typename ManifoldType&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00149">149</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00142">142</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00134">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00220">Alpha()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00232">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00223">K()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00226">Lambda()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00229">passes()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00127">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00213">Alpha()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00225">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00216">K()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00219">Lambda()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00222">passes()</a>.</p>
 
 </div>
 </div>
@@ -530,9 +499,9 @@ template&lt;typename ManifoldType&gt; </div>
 <p>Construct a run from an already selected PCG stream. </p>
 <p>Seed, transition-stream, action, and cadence provenance are derived from the actual constructor arguments. Caller metadata supplies initialization and requested-state context only. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00167">167</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00160">160</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00220">Alpha()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00232">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00223">K()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00226">Lambda()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00081">m_Alpha</a>, <a class="el" href="_metropolis_8hpp_source.html#l00091">m_cadence</a>, <a class="el" href="_metropolis_8hpp_source.html#l00097">m_generator</a>, <a class="el" href="_metropolis_8hpp_source.html#l00084">m_K</a>, <a class="el" href="_metropolis_8hpp_source.html#l00088">m_Lambda</a>, <a class="el" href="_metropolis_8hpp_source.html#l00101">m_reproducibility</a>, <a class="el" href="_metropolis_8hpp_source.html#l00094">m_write_files</a>, <a class="el" href="_metropolis_8hpp_source.html#l00229">passes()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00243">seed()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00213">Alpha()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00225">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00216">K()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00219">Lambda()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00081">m_Alpha</a>, <a class="el" href="_metropolis_8hpp_source.html#l00091">m_cadence</a>, <a class="el" href="_metropolis_8hpp_source.html#l00097">m_generator</a>, <a class="el" href="_metropolis_8hpp_source.html#l00084">m_K</a>, <a class="el" href="_metropolis_8hpp_source.html#l00088">m_Lambda</a>, <a class="el" href="_metropolis_8hpp_source.html#l00101">m_reproducibility</a>, <a class="el" href="_metropolis_8hpp_source.html#l00094">m_write_files</a>, <a class="el" href="_metropolis_8hpp_source.html#l00222">passes()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00236">seed()</a>.</p>
 
 </div>
 </div>
@@ -592,9 +561,9 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Construct a replayable run with an explicit RNG seed. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00204">204</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00197">197</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00134">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00220">Alpha()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00232">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00223">K()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00226">Lambda()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00229">passes()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00243">seed()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00127">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00213">Alpha()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00225">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00216">K()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00219">Lambda()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00222">passes()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00236">seed()</a>.</p>
 
 </div>
 </div>
@@ -634,9 +603,9 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>\(\min(1, q(T|T&#39;)/q(T&#39;|T)e^{S(T)-S(T&#39;)})\) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00377">377</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00370">370</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00343">CalculateA1()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00361">CalculateA2()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00336">CalculateA1()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00354">CalculateA2()</a>.</p>
 
 </div>
 </div>
@@ -666,11 +635,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The length of the timelike edge </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00220">220</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00213">213</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00081">m_Alpha</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00149">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00142">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -718,7 +687,7 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00433">433</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00430">430</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -767,7 +736,7 @@ template&lt;typename ManifoldType&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True only when a valid candidate is accepted and committed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00568">568</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00574">574</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -810,11 +779,11 @@ template&lt;typename ManifoldType&gt; </div>
 <p>Calculate the Hastings reverse-to-forward proposal ratio. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm" title="Metropolis-Hastings algorithm">Metropolis-Hastings algorithm</a>Metropolis-Hastings algorithm </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00343">343</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00336">336</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00327">proposal_probability()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00291">reverse_move()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00320">proposal_probability()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00284">reverse_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00377">acceptance_probability()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00370">acceptance_probability()</a>.</p>
 
 </div>
 </div>
@@ -850,11 +819,11 @@ template&lt;typename ManifoldType&gt; </div>
 <p>Calculate the action factor \(e^{S(T)-S(T&#39;)}\). </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001" title="Three-dimensional CDT (2001)">Three-dimensional CDT action</a>Three-dimensional CDT action </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00361">361</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00354">354</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00081">m_Alpha</a>, <a class="el" href="_metropolis_8hpp_source.html#l00084">m_K</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00088">m_Lambda</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00377">acceptance_probability()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00370">acceptance_probability()</a>.</p>
 
 </div>
 </div>
@@ -884,11 +853,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of passes before writing a checkpoint file </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00232">232</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00225">225</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00091">m_cadence</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00149">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00142">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -918,7 +887,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Checkpoint events completed by the latest invocation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00236">236</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00229">229</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00110">m_checkpoint_events</a>.</p>
 
@@ -958,7 +927,7 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00477">477</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00483">483</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -988,7 +957,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The container of accepted moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00271">271</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00264">264</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1020,7 +989,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The container of attempted moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00277">277</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00270">270</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>.</p>
 
@@ -1052,7 +1021,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The container of failed moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00283">283</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00276">276</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>.</p>
 
@@ -1084,7 +1053,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The geometry used by the most recent acceptance decision </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00286">286</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00279">279</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1116,7 +1085,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The container of trial moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00268">268</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00261">261</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1148,7 +1117,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The container of rejected moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00274">274</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00267">267</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1180,7 +1149,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The container of successful moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00280">280</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00273">273</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>.</p>
 
@@ -1213,7 +1182,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Initialize the cached action geometry from the canonical manifold. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00577">577</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00583">583</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1245,11 +1214,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The normalized Newton's constant </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00223">223</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00216">216</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00084">m_K</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00149">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00142">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -1279,11 +1248,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The normalized Cosmological constant </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00226">226</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00219">219</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00088">m_Lambda</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00149">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00142">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -1326,7 +1295,7 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00410">410</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00407">407</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -1358,9 +1327,9 @@ template&lt;typename ManifoldType&gt; </div>
 <p>Execute a fresh run while continuing the owned random stream. </p>
 <p>Counters, transition statistics, and checkpoint events are replaced only after the invocation completes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00583">583</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00589">589</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00060">cdt::MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::RunStatistics::geometry</a>, <a class="el" href="_metropolis_8hpp_source.html#l00091">m_cadence</a>, <a class="el" href="_metropolis_8hpp_source.html#l00110">m_checkpoint_events</a>, <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>, <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>, <a class="el" href="_metropolis_8hpp_source.html#l00094">m_write_files</a>, <a class="el" href="_metropolis_8hpp_source.html#l00243">seed()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00246">stream()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00060">cdt::MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::RunStatistics::geometry</a>, <a class="el" href="_metropolis_8hpp_source.html#l00091">m_cadence</a>, <a class="el" href="_metropolis_8hpp_source.html#l00110">m_checkpoint_events</a>, <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>, <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>, <a class="el" href="_metropolis_8hpp_source.html#l00094">m_write_files</a>, <a class="el" href="_metropolis_8hpp_source.html#l00236">seed()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00239">stream()</a>.</p>
 
 </div>
 </div>
@@ -1390,11 +1359,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of passes to make </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00229">229</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00222">222</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00091">m_cadence</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00149">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00142">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -1425,7 +1394,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Display results of the latest completed invocation. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00622">622</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00628">628</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00104">m_command_results</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1460,7 +1429,7 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00496">496</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00502">502</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -1495,11 +1464,11 @@ template&lt;typename ManifoldType&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The probability of selecting a particular raw proposal site</dd></dl>
 <p>Move types are uniform. A raw site is then uniform within its type-specific domain. Inapplicable sites remain explicit self-transitions. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00327">327</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00320">320</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00307">proposal_site_count()</a>.</p>
+<p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00300">proposal_site_count()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00343">CalculateA1()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00336">CalculateA1()</a>.</p>
 
 </div>
 </div>
@@ -1533,14 +1502,14 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of raw sites from which a move type is proposed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00307">307</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00300">300</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00327">proposal_probability()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00320">proposal_probability()</a>.</p>
 
 </div>
 </div>
-<a id="a576a4cb8f907846c7c316fda51291ab1" name="a576a4cb8f907846c7c316fda51291ab1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a576a4cb8f907846c7c316fda51291ab1">&#9670;&#160;</a></span>propose_candidate()</h2>
+<a id="a0e9aeb14e4bf3d13e80915df3f73be30" name="a0e9aeb14e4bf3d13e80915df3f73be30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e9aeb14e4bf3d13e80915df3f73be30">&#9670;&#160;</a></span>propose_candidate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1558,7 +1527,7 @@ template&lt;typename ManifoldType&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const</td>          <td class="paramname"><span class="paramname"><em>move</em></span>&#160;) -&gt; std::expected&lt; ManifoldType, std::string &gt;</td>
+          <td class="paramtype"><a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const</td>          <td class="paramname"><span class="paramname"><em>move</em></span>&#160;) -&gt; <a class="el" href="_move__outcome_8hpp.html#ac4b1bcba668fc016267958281c9309f7">ergodic_moves::MoveResult</a>&lt; ManifoldType &gt;</td>
         </tr>
       </table>
   </td>
@@ -1568,12 +1537,12 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00389">389</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00382">382</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad9ad55c8df4a4968c7898daf626b111d" name="ad9ad55c8df4a4968c7898daf626b111d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9ad55c8df4a4968c7898daf626b111d">&#9670;&#160;</a></span>record_transition()</h2>
+<a id="a1d546f376c4f48dd203f3feb7ada53d0" name="a1d546f376c4f48dd203f3feb7ada53d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d546f376c4f48dd203f3feb7ada53d0">&#9670;&#160;</a></span>record_transition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1596,7 +1565,7 @@ template&lt;typename ManifoldType&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Transition_outcome const</td>          <td class="paramname"><span class="paramname"><em>outcome</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="_move__outcome_8hpp.html#ae1568aa3b78a1d08083e896fe3b7c032">ergodic_moves::MoveOutcome</a> const</td>          <td class="paramname"><span class="paramname"><em>outcome</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1606,7 +1575,7 @@ template&lt;typename ManifoldType&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00119">119</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00112">112</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -1646,7 +1615,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p>Materialize output provenance for the supplied canonical state. </p>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00258">258</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00251">251</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1678,9 +1647,9 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The inverse Pachner move </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00291">291</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00284">284</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00343">CalculateA1()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00336">CalculateA1()</a>.</p>
 
 </div>
 </div>
@@ -1710,11 +1679,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The effective root seed used for this run. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00243">243</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00236">236</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00097">m_generator</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00204">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00197">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>.</p>
 
 </div>
 </div>
@@ -1744,11 +1713,11 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The PCG stream selector used for transitions. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00246">246</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00239">239</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00097">m_generator</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>.</p>
 
 </div>
 </div>
@@ -1778,7 +1747,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Number of transitions represented by <a class="el" href="#a01293d9329574f208542b99b30fd81db">transition_trace()</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00254">254</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00247">247</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1810,7 +1779,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>FNV-1a fingerprint of the ordered move/outcome transition trace. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00250">250</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00243">243</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00107">m_run_statistics</a>.</p>
 
@@ -1842,7 +1811,7 @@ template&lt;typename ManifoldType&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Whether the strategy writes checkpoint triangulation files </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00240">240</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00233">233</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_metropolis_8hpp_source.html#l00094">m_write_files</a>.</p>
 
@@ -1875,7 +1844,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00081">81</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00220">Alpha()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00361">CalculateA2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00213">Alpha()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00354">CalculateA2()</a>.</p>
 
 </div>
 </div>
@@ -1905,7 +1874,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00091">91</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00232">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00229">passes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00225">checkpoint()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00222">passes()</a>.</p>
 
 </div>
 </div>
@@ -1935,7 +1904,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00110">110</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00236">checkpoint_events()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00229">checkpoint_events()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>.</p>
 
 </div>
 </div>
@@ -1965,7 +1934,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00104">104</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00568">attempt_transition()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00277">get_attempted()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00283">get_failed()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00280">get_succeeded()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00622">print_results()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00574">attempt_transition()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00270">get_attempted()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00276">get_failed()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00273">get_succeeded()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00628">print_results()</a>.</p>
 
 </div>
 </div>
@@ -1999,7 +1968,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00097">97</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00134">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00243">seed()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00246">stream()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00127">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00236">seed()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00239">stream()</a>.</p>
 
 </div>
 </div>
@@ -2029,7 +1998,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00084">84</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00361">CalculateA2()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00223">K()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00354">CalculateA2()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00216">K()</a>.</p>
 
 </div>
 </div>
@@ -2059,7 +2028,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00088">88</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00361">CalculateA2()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00226">Lambda()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00354">CalculateA2()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00219">Lambda()</a>.</p>
 
 </div>
 </div>
@@ -2089,7 +2058,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00101">101</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00134">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00127">MoveStrategy()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>.</p>
 
 </div>
 </div>
@@ -2119,7 +2088,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00107">107</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00568">attempt_transition()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00271">get_accepted()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00286">get_geometry()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00268">get_proposed()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00274">get_rejected()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00577">initialize()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00622">print_results()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00258">reproducibility_metadata()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00254">transition_count()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00250">transition_trace()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00574">attempt_transition()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00264">get_accepted()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00279">get_geometry()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00261">get_proposed()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00267">get_rejected()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00583">initialize()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00628">print_results()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00251">reproducibility_metadata()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00247">transition_count()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00243">transition_trace()</a>.</p>
 
 </div>
 </div>
@@ -2149,7 +2118,7 @@ template&lt;typename ManifoldType&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00094">94</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00167">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00583">operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00240">writes_files()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00160">MoveStrategy()</a>, <a class="el" href="_metropolis_8hpp_source.html#l00589">operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00233">writes_files()</a>.</p>
 
 </div>
 </div>

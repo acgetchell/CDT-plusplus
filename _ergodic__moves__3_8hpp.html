@@ -127,9 +127,16 @@ document.addEventListener('DOMContentLoaded', () => {
 <code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;expected&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;random&gt;</code><br />
 <code>#include &lt;ranges&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_move__outcome_8hpp_source.html">Move_outcome.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>Include dependency graph for Ergodic_moves_3.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -155,10 +162,13 @@ Namespaces</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:a87cdc26df101d43f4a15d2aabb56ee51" id="r_a87cdc26df101d43f4a15d2aabb56ee51"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a87cdc26df101d43f4a15d2aabb56ee51">cdt::ergodic_moves::Cell_container</a> = std::vector&lt;Cell_handle&gt;</td></tr>
 <tr class="memitem:ad005da3c10de092169c01af5cd570c69" id="r_ad005da3c10de092169c01af5cd570c69"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ad005da3c10de092169c01af5cd570c69">cdt::ergodic_moves::Cell_handle</a> = Cell_handle_t&lt;3&gt;</td></tr>
+<tr class="memitem:a92c152137854b28b4df4f2a7eb20c788" id="r_a92c152137854b28b4df4f2a7eb20c788"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a92c152137854b28b4df4f2a7eb20c788">cdt::ergodic_moves::detail::Cell_points</a> = std::array&lt;Point_t&lt;3&gt;, 4&gt;</td></tr>
 <tr class="memitem:afeac4c99af5a4cb98673faccda411ad8" id="r_afeac4c99af5a4cb98673faccda411ad8"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#afeac4c99af5a4cb98673faccda411ad8">cdt::ergodic_moves::Delaunay</a> = Delaunay_t&lt;3&gt;</td></tr>
 <tr class="memitem:a9f386f2af30080a582dd59153cdc93ea" id="r_a9f386f2af30080a582dd59153cdc93ea"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a9f386f2af30080a582dd59153cdc93ea">cdt::ergodic_moves::Edge_container</a> = std::vector&lt;Edge_handle&gt;</td></tr>
 <tr class="memitem:a82a368869e665a228b20da71072537ac" id="r_a82a368869e665a228b20da71072537ac"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a82a368869e665a228b20da71072537ac">cdt::ergodic_moves::Edge_handle</a> = Edge_handle_t&lt;3&gt;</td></tr>
-<tr class="memitem:a25450b9f3215ff500adf2af19b619ac6" id="r_a25450b9f3215ff500adf2af19b619ac6"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a25450b9f3215ff500adf2af19b619ac6">cdt::ergodic_moves::Expected</a> = std::expected&lt;Manifold, std::string&gt;</td></tr>
+<tr class="memitem:a1b146a39e27bb556c42b882fe6ff525f" id="r_a1b146a39e27bb556c42b882fe6ff525f"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a1b146a39e27bb556c42b882fe6ff525f">cdt::ergodic_moves::detail::Edge_points</a> = std::array&lt;Point_t&lt;3&gt;, 2&gt;</td></tr>
+<tr class="memitem:ab6172566771ec328b8d09e34b6a624e8" id="r_ab6172566771ec328b8d09e34b6a624e8"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ab6172566771ec328b8d09e34b6a624e8">cdt::ergodic_moves::detail::Execution</a> = std::expected&lt;void, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a>&gt;</td></tr>
+<tr class="memitem:abb2f01a18383838f55bbb553110061e8" id="r_abb2f01a18383838f55bbb553110061e8"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#abb2f01a18383838f55bbb553110061e8">cdt::ergodic_moves::Expected</a> = <a class="el" href="_move__outcome_8hpp.html#ac4b1bcba668fc016267958281c9309f7">MoveResult</a>&lt;Manifold&gt;</td></tr>
 <tr class="memitem:ac284c43025850308d4fc59b0215da221" id="r_ac284c43025850308d4fc59b0215da221"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ac284c43025850308d4fc59b0215da221">cdt::ergodic_moves::Manifold</a> = manifolds::Manifold_3</td></tr>
 <tr class="memitem:aa77871ec6c6883a7e3112025392af974" id="r_aa77871ec6c6883a7e3112025392af974"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#aa77871ec6c6883a7e3112025392af974">cdt::ergodic_moves::Vertex_container</a> = std::vector&lt;Vertex_handle&gt;</td></tr>
 <tr class="memitem:a3a33631da2521a84b7e8ef957bccc3d7" id="r_a3a33631da2521a84b7e8ef957bccc3d7"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a3a33631da2521a84b7e8ef957bccc3d7">cdt::ergodic_moves::Vertex_handle</a> = Vertex_handle_t&lt;3&gt;</td></tr>
@@ -207,6 +217,22 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 <tr class="memitem:ac829bf57a0a6b01f7b8d9188d53ddc23 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac829bf57a0a6b01f7b8d9188d53ddc23">cdt::ergodic_moves::do_62_move</a> (Manifold const &amp;t_manifold, Generator &amp;generator) -&gt; Expected</td></tr>
 <tr class="memdesc:ac829bf57a0a6b01f7b8d9188d53ddc23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (6,2) move.  <br /></td></tr>
 <tr class="memitem:ab8d4a17782c3c35a2dc6542874d31a7a" id="r_ab8d4a17782c3c35a2dc6542874d31a7a"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab8d4a17782c3c35a2dc6542874d31a7a">cdt::ergodic_moves::detail::edge_precedes</a> (Edge_handle const &amp;left, Edge_handle const &amp;right) -&gt; bool</td></tr>
+<tr class="memitem:a86d29c8184430a84a44264b64fc9a888" id="r_a86d29c8184430a84a44264b64fc9a888"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a86d29c8184430a84a44264b64fc9a888">cdt::ergodic_moves::detail::execute</a> (Delaunay &amp;triangulation, ApplicableThreeTwoMove const &amp;move) -&gt; Execution</td></tr>
+<tr class="memdesc:a86d29c8184430a84a44264b64fc9a888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consume a prepared (3,2) value at the checked CGAL flip boundary.  <br /></td></tr>
+<tr class="memitem:a80b2433466909dcf2d032739613aba52" id="r_a80b2433466909dcf2d032739613aba52"><td class="memTemplParams" colspan="2">template&lt;typename Post_mutation_validator&gt; <br />
+requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;</td></tr>
+<tr class="memitem:a80b2433466909dcf2d032739613aba52 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a80b2433466909dcf2d032739613aba52">cdt::ergodic_moves::detail::execute</a> (Delaunay &amp;triangulation, ApplicableTwoSixMove const &amp;move, Post_mutation_validator post_mutation_validator) -&gt; Execution</td></tr>
+<tr class="memdesc:a80b2433466909dcf2d032739613aba52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consume a prepared (2,6) value on an unobservable candidate.  <br /></td></tr>
+<tr class="memitem:a20a4e922a283a36acd6c5ef2681f5403" id="r_a20a4e922a283a36acd6c5ef2681f5403"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a20a4e922a283a36acd6c5ef2681f5403">cdt::ergodic_moves::detail::execute</a> (Delaunay &amp;triangulation, ApplicableTwoThreeMove const &amp;move) -&gt; Execution</td></tr>
+<tr class="memdesc:a20a4e922a283a36acd6c5ef2681f5403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consume a prepared (2,3) value at the mutation boundary.  <br /></td></tr>
+<tr class="memitem:afeb9da1db7585b16f3bfdfe8ad40cc21" id="r_afeb9da1db7585b16f3bfdfe8ad40cc21"><td class="memTemplParams" colspan="2">template&lt;typename Post_mutation_validator&gt; <br />
+requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;</td></tr>
+<tr class="memitem:afeb9da1db7585b16f3bfdfe8ad40cc21 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#afeb9da1db7585b16f3bfdfe8ad40cc21">cdt::ergodic_moves::detail::execute</a> (Delaunay const &amp;source_triangulation, ApplicableFourFourMove const &amp;move, Post_mutation_validator post_mutation_validator) -&gt; std::expected&lt; Delaunay, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:afeb9da1db7585b16f3bfdfe8ad40cc21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consume a prepared (4,4) value on a private triangulation copy.  <br /></td></tr>
+<tr class="memitem:a05901c5e705352292c8ef7f0bb4d7dd5" id="r_a05901c5e705352292c8ef7f0bb4d7dd5"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator, typename Post_mutation_validator&gt; <br />
+requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;</td></tr>
+<tr class="memitem:a05901c5e705352292c8ef7f0bb4d7dd5 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a05901c5e705352292c8ef7f0bb4d7dd5">cdt::ergodic_moves::detail::execute</a> (Delaunay const &amp;source_triangulation, ApplicableSixTwoMove const &amp;move, Generator &amp;generator, Post_mutation_validator post_mutation_validator) -&gt; std::expected&lt; Delaunay, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:a05901c5e705352292c8ef7f0bb4d7dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consume a prepared (6,2) value on a private triangulation copy.  <br /></td></tr>
 <tr class="memitem:ab237554695246533330804ae0bd5ce8b" id="r_ab237554695246533330804ae0bd5ce8b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab237554695246533330804ae0bd5ce8b">cdt::ergodic_moves::detail::find_adjacent_31_cell</a> (Cell_handle const &amp;cell) -&gt; std::optional&lt; int &gt;</td></tr>
 <tr class="memdesc:ab237554695246533330804ae0bd5ce8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a (2,6) move location.  <br /></td></tr>
 <tr class="memitem:a1edfccfef2e916bea604f1f285af21bd" id="r_a1edfccfef2e916bea604f1f285af21bd"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a1edfccfef2e916bea604f1f285af21bd">cdt::ergodic_moves::detail::find_bistellar_flip_location</a> (Delaunay const &amp;triangulation, Edge_handle const &amp;candidate) -&gt; std::optional&lt; Cell_container &gt;</td></tr>
@@ -226,9 +252,22 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 <tr class="memdesc:a50ae961620ed097be2884e47c2696048"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check an edge handle without dereferencing its cell handle.  <br /></td></tr>
 <tr class="memitem:a64f9445eafd166244daaac224656c054" id="r_a64f9445eafd166244daaac224656c054"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a64f9445eafd166244daaac224656c054">cdt::ergodic_moves::detail::make_manifold</a> (Delaunay triangulation, Manifold const &amp;source) -&gt; Manifold</td></tr>
 <tr class="memdesc:a64f9445eafd166244daaac224656c054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuild all derived topology and geometry state around a value.  <br /></td></tr>
+<tr class="memitem:a0b059e4c70764295ca586fc06ddc79a2" id="r_a0b059e4c70764295ca586fc06ddc79a2"><td class="memItemLeft">auto constexpr&#160;</td><td class="memItemRight"><a class="el" href="#a0b059e4c70764295ca586fc06ddc79a2">cdt::ergodic_moves::detail::move_error</a> (<a class="el" href="_move__outcome_8hpp.html#afeadca7b620dd75acc055e025e54e60f">MoveFailure</a> const reason, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const move) noexcept -&gt; std::unexpected&lt; <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
 <tr class="memitem:a902ea99d8f866cba5dd86061379273d0" id="r_a902ea99d8f866cba5dd86061379273d0"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a902ea99d8f866cba5dd86061379273d0">cdt::ergodic_moves::null_move</a> (Manifold const &amp;t_manifold) -&gt; Expected</td></tr>
 <tr class="memdesc:a902ea99d8f866cba5dd86061379273d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a null move.  <br /></td></tr>
 <tr class="memitem:aa099fbbf6a4bd4256e862352a4543278" id="r_aa099fbbf6a4bd4256e862352a4543278"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa099fbbf6a4bd4256e862352a4543278">cdt::ergodic_moves::detail::point_less</a> (Point_t&lt; 3 &gt; const &amp;left, Point_t&lt; 3 &gt; const &amp;right) -&gt; bool</td></tr>
+<tr class="memitem:a10fe4e662d2637efb070e88e81788ff0" id="r_a10fe4e662d2637efb070e88e81788ff0"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a10fe4e662d2637efb070e88e81788ff0">cdt::ergodic_moves::detail::prepare_bistellar_flip</a> (Delaunay const &amp;triangulation, Edge_handle const &amp;candidate, Vertex_handle const &amp;top, Vertex_handle const &amp;bottom) -&gt; std::expected&lt; ApplicableFourFourMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:a10fe4e662d2637efb070e88e81788ff0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare the generic topological seam used by <a class="el" href="#a647c602b427a3a2704d978f2f9155ba1" title="Perform a bistellar flip on triangulation via the given edge.">bistellar_flip()</a>.  <br /></td></tr>
+<tr class="memitem:af7e999b60bc575392896c3602059e1f4" id="r_af7e999b60bc575392896c3602059e1f4"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#af7e999b60bc575392896c3602059e1f4">cdt::ergodic_moves::detail::prepare_four_four</a> (Delaunay const &amp;triangulation, Edge_handle const &amp;candidate) -&gt; std::expected&lt; ApplicableFourFourMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:af7e999b60bc575392896c3602059e1f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a raw spacelike edge into an applicable (4,4) move.  <br /></td></tr>
+<tr class="memitem:ae33b289237a50bfa6f225ec1c58e2031" id="r_ae33b289237a50bfa6f225ec1c58e2031"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ae33b289237a50bfa6f225ec1c58e2031">cdt::ergodic_moves::detail::prepare_six_two</a> (Delaunay const &amp;triangulation, Vertex_handle const &amp;candidate) -&gt; std::expected&lt; ApplicableSixTwoMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:ae33b289237a50bfa6f225ec1c58e2031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a raw vertex into an applicable causal (6,2) move.  <br /></td></tr>
+<tr class="memitem:a2abd513d72ed3a21c99c6dafa7617700" id="r_a2abd513d72ed3a21c99c6dafa7617700"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a2abd513d72ed3a21c99c6dafa7617700">cdt::ergodic_moves::detail::prepare_three_two</a> (Delaunay const &amp;triangulation, Edge_handle const &amp;candidate) -&gt; std::expected&lt; ApplicableThreeTwoMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:a2abd513d72ed3a21c99c6dafa7617700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a raw edge into an applicable causal (3,2) move.  <br /></td></tr>
+<tr class="memitem:a7243a15f63e2fcd8691c9cb959008dea" id="r_a7243a15f63e2fcd8691c9cb959008dea"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a7243a15f63e2fcd8691c9cb959008dea">cdt::ergodic_moves::detail::prepare_two_six</a> (Delaunay const &amp;triangulation, Cell_handle const &amp;candidate) -&gt; std::expected&lt; ApplicableTwoSixMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:a7243a15f63e2fcd8691c9cb959008dea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a raw (1,3) cell into an applicable (2,6) move.  <br /></td></tr>
+<tr class="memitem:ac25debea06e93d81e1012c19c317c284" id="r_ac25debea06e93d81e1012c19c317c284"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac25debea06e93d81e1012c19c317c284">cdt::ergodic_moves::detail::prepare_two_three</a> (Delaunay const &amp;triangulation, Cell_handle const &amp;candidate) -&gt; std::expected&lt; ApplicableTwoThreeMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td></tr>
+<tr class="memdesc:ac25debea06e93d81e1012c19c317c284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a raw (2,2) cell into an applicable causal (2,3) move.  <br /></td></tr>
 <tr class="memitem:a4e446f0024943a962b08c6ff28309eab" id="r_a4e446f0024943a962b08c6ff28309eab"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:a4e446f0024943a962b08c6ff28309eab template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a4e446f0024943a962b08c6ff28309eab">cdt::ergodic_moves::propose_23_move</a> (Manifold const &amp;t_manifold, Generator &amp;generator) -&gt; Expected</td></tr>
 <tr class="memdesc:a4e446f0024943a962b08c6ff28309eab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propose one (2,3) site for Metropolis-Hastings.  <br /></td></tr>
@@ -247,12 +286,15 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 <tr class="memitem:ad8c9966d7a0fa4659201592e897487f7" id="r_ad8c9966d7a0fa4659201592e897487f7"><td class="memTemplParams" colspan="2">template&lt;typename Container, std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:ad8c9966d7a0fa4659201592e897487f7 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ad8c9966d7a0fa4659201592e897487f7">cdt::ergodic_moves::detail::random_element</a> (Container const &amp;candidates, Generator &amp;generator) -&gt; std::optional&lt; typename Container::value_type &gt;</td></tr>
 <tr class="memdesc:ad8c9966d7a0fa4659201592e897487f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select exactly one raw proposal site uniformly in container order.  <br /></td></tr>
+<tr class="memitem:ab53351696268649f69884be69c4cf94b" id="r_ab53351696268649f69884be69c4cf94b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab53351696268649f69884be69c4cf94b">cdt::ergodic_moves::detail::resolve_cell</a> (Delaunay const &amp;triangulation, Cell_points const &amp;points) -&gt; std::optional&lt; Cell_handle &gt;</td></tr>
+<tr class="memitem:a03164a05e98aac40d2b99f58987ad409" id="r_a03164a05e98aac40d2b99f58987ad409"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a03164a05e98aac40d2b99f58987ad409">cdt::ergodic_moves::detail::resolve_edge</a> (Delaunay const &amp;triangulation, Edge_points const &amp;points) -&gt; std::optional&lt; Edge_handle &gt;</td></tr>
+<tr class="memitem:a602aa45de869eb66d835dc3e1c353d39" id="r_a602aa45de869eb66d835dc3e1c353d39"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a602aa45de869eb66d835dc3e1c353d39">cdt::ergodic_moves::detail::resolve_vertex</a> (Delaunay const &amp;triangulation, Point_t&lt; 3 &gt; const &amp;point) -&gt; std::optional&lt; Vertex_handle &gt;</td></tr>
 <tr class="memitem:a5228d8c991337acee2c56ab2c487f614" id="r_a5228d8c991337acee2c56ab2c487f614"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a5228d8c991337acee2c56ab2c487f614">cdt::ergodic_moves::detail::same_configuration_value</a> (double const first, double const second) noexcept -&gt; bool</td></tr>
 <tr class="memdesc:a5228d8c991337acee2c56ab2c487f614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare preserved floating-point configuration state exactly.  <br /></td></tr>
 <tr class="memitem:abccab17f83e96bc1694f9382bd0781fc" id="r_abccab17f83e96bc1694f9382bd0781fc"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#abccab17f83e96bc1694f9382bd0781fc">cdt::ergodic_moves::detail::try_23_move</a> (Delaunay &amp;triangulation, Cell_handle const &amp;to_be_moved) -&gt; bool</td></tr>
-<tr class="memdesc:abccab17f83e96bc1694f9382bd0781fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a checked Triangulation_3 flip on a causal CDT facet.  <br /></td></tr>
+<tr class="memdesc:abccab17f83e96bc1694f9382bd0781fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility seam that prepares and immediately executes (2,3).  <br /></td></tr>
 <tr class="memitem:a03912a49c844b85e855a55f7add93875" id="r_a03912a49c844b85e855a55f7add93875"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a03912a49c844b85e855a55f7add93875">cdt::ergodic_moves::detail::try_32_move</a> (Delaunay &amp;triangulation, Edge_handle const &amp;to_be_moved) -&gt; bool</td></tr>
-<tr class="memdesc:a03912a49c844b85e855a55f7add93875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a checked (3,2) flip on a causal CDT edge cavity.  <br /></td></tr>
+<tr class="memdesc:a03912a49c844b85e855a55f7add93875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility seam that prepares and immediately executes (3,2).  <br /></td></tr>
 <tr class="memitem:a07200ef7e24aa9965f4e67f490ec68da" id="r_a07200ef7e24aa9965f4e67f490ec68da"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:a07200ef7e24aa9965f4e67f490ec68da template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a07200ef7e24aa9965f4e67f490ec68da">cdt::ergodic_moves::detail::try_62_move</a> (Delaunay const &amp;source_triangulation, Vertex_handle const source_candidate, Generator &amp;generator) -&gt; std::optional&lt; Delaunay &gt;</td></tr>
 <tr class="memdesc:a07200ef7e24aa9965f4e67f490ec68da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply the combinatorial (6,2) retriangulation on a private copy.  <br /></td></tr>
@@ -284,7 +326,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">39</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00046">46</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -300,7 +342,23 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00038">38</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00045">45</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a92c152137854b28b4df4f2a7eb20c788" name="a92c152137854b28b4df4f2a7eb20c788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92c152137854b28b4df4f2a7eb20c788">&#9670;&#160;</a></span>Cell_points</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using cdt::ergodic_moves::detail::Cell_points = std::array&lt;Point_t&lt;3&gt;, 4&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00055">55</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -316,7 +374,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00044">44</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">51</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -332,7 +390,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00041">41</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00048">48</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -348,23 +406,55 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00040">40</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00047">47</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a25450b9f3215ff500adf2af19b619ac6" name="a25450b9f3215ff500adf2af19b619ac6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25450b9f3215ff500adf2af19b619ac6">&#9670;&#160;</a></span>Expected</h2>
+<a id="a1b146a39e27bb556c42b882fe6ff525f" name="a1b146a39e27bb556c42b882fe6ff525f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b146a39e27bb556c42b882fe6ff525f">&#9670;&#160;</a></span>Edge_points</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using cdt::ergodic_moves::Expected = std::expected&lt;Manifold, std::string&gt;</td>
+          <td class="memname">using cdt::ergodic_moves::detail::Edge_points = std::array&lt;Point_t&lt;3&gt;, 2&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00037">37</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00056">56</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab6172566771ec328b8d09e34b6a624e8" name="ab6172566771ec328b8d09e34b6a624e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6172566771ec328b8d09e34b6a624e8">&#9670;&#160;</a></span>Execution</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using cdt::ergodic_moves::detail::Execution = std::expected&lt;void, MoveError&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00057">57</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="abb2f01a18383838f55bbb553110061e8" name="abb2f01a18383838f55bbb553110061e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb2f01a18383838f55bbb553110061e8">&#9670;&#160;</a></span>Expected</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using cdt::ergodic_moves::Expected = MoveResult&lt;Manifold&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00044">44</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,7 +470,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00036">36</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00043">43</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -396,7 +486,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00043">43</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00050">50</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -412,7 +502,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00042">42</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00049">49</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -442,7 +532,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 
 <p>Default validator for internal post-mutation test seams. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00060">60</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00186">186</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -496,7 +586,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 <dl class="section return"><dt>Returns</dt><dd>A flipped triangulation or nullopt </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#pachner-moves" title="Pachner moves">Pachner moves</a>Pachner moves </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01168">1168</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01672">1672</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -545,7 +635,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01025">1025</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01648">1648</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -572,7 +662,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00117">117</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00243">243</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -599,7 +689,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00126">126</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00252">252</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -632,7 +722,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00211">211</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00384">384</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +761,7 @@ template&lt;typename Container, std::uniform_random_bit_generator Generator, typ
 </div><div class="memdoc">
 <p>Select the same canonical rank as sorting followed by indexed selection, without sorting the complete proposal domain. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00195">195</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00368">368</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -704,7 +794,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00217">217</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00390">390</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -737,7 +827,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00223">223</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00396">396</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -764,7 +854,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00155">155</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00328">328</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -791,7 +881,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00158">158</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00331">331</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -818,7 +908,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00161">161</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00334">334</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -849,7 +939,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00135">135</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00310">310</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -896,7 +986,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the move correctly changed the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01360">1360</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01812">1812</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -949,7 +1039,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (2,3) moved manifold or an Unexpected </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The source manifold is unchanged on success and failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00367">367</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00641">641</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1002,7 +1092,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (2,6) moved manifold or an Unexpected </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The source manifold is unchanged on success and failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00716">716</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01098">1098</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1046,7 +1136,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00574">574</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01025">1025</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1096,7 +1186,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (3,2) moved manifold or an Unexpected </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The source manifold is unchanged on success and failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00480">480</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00803">803</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1149,7 +1239,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (4,4) moved manifold or Unexpected </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The source manifold is unchanged on success and failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01234">1234</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01738">1738</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1202,7 +1292,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The Expected (6,2) moved manifold or Unexpected </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The source manifold is unchanged on success and failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00919">919</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01344">1344</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1233,7 +1323,203 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00145">145</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00319">319</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a86d29c8184430a84a44264b64fc9a888" name="a86d29c8184430a84a44264b64fc9a888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86d29c8184430a84a44264b64fc9a888">&#9670;&#160;</a></span>execute() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::execute </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ApplicableThreeTwoMove const &amp;</td>          <td class="paramname"><span class="paramname"><em>move</em></span>&#160;) -&gt; Execution</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Consume a prepared (3,2) value at the checked CGAL flip boundary. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00766">766</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a80b2433466909dcf2d032739613aba52" name="a80b2433466909dcf2d032739613aba52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80b2433466909dcf2d032739613aba52">&#9670;&#160;</a></span>execute() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Post_mutation_validator&gt; <br />
+requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::execute </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ApplicableTwoSixMove const &amp;</td>          <td class="paramname"><span class="paramname"><em>move</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Post_mutation_validator</td>          <td class="paramname"><span class="paramname"><em>post_mutation_validator</em></span>&#160;) -&gt; Execution</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Consume a prepared (2,6) value on an unobservable candidate. </p>
+<p>Local mutation is deliberate. Any postcondition failure discards the private triangulation at the high-level value boundary. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00947">947</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a20a4e922a283a36acd6c5ef2681f5403" name="a20a4e922a283a36acd6c5ef2681f5403"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20a4e922a283a36acd6c5ef2681f5403">&#9670;&#160;</a></span>execute() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::execute </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ApplicableTwoThreeMove const &amp;</td>          <td class="paramname"><span class="paramname"><em>move</em></span>&#160;) -&gt; Execution</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Consume a prepared (2,3) value at the mutation boundary. </p>
+<p>Only point-to-handle resolution is repeated. CDT applicability is carried by the input type; CGAL remains responsible for its checked geometric flip. A successful flip invalidates affected cell handles, none of which are stored in the applicable value. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00582">582</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afeb9da1db7585b16f3bfdfe8ad40cc21" name="afeb9da1db7585b16f3bfdfe8ad40cc21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeb9da1db7585b16f3bfdfe8ad40cc21">&#9670;&#160;</a></span>execute() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Post_mutation_validator&gt; <br />
+requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::execute </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>source_triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ApplicableFourFourMove const &amp;</td>          <td class="paramname"><span class="paramname"><em>move</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Post_mutation_validator</td>          <td class="paramname"><span class="paramname"><em>post_mutation_validator</em></span>&#160;) -&gt; std::expected&lt; Delaunay, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Consume a prepared (4,4) value on a private triangulation copy. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01575">1575</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a05901c5e705352292c8ef7f0bb4d7dd5" name="a05901c5e705352292c8ef7f0bb4d7dd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05901c5e705352292c8ef7f0bb4d7dd5">&#9670;&#160;</a></span>execute() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::uniform_random_bit_generator Generator, typename Post_mutation_validator&gt; <br />
+requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::execute </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>source_triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ApplicableSixTwoMove const &amp;</td>          <td class="paramname"><span class="paramname"><em>move</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Generator &amp;</td>          <td class="paramname"><span class="paramname"><em>generator</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Post_mutation_validator</td>          <td class="paramname"><span class="paramname"><em>post_mutation_validator</em></span>&#160;) -&gt; std::expected&lt; Delaunay, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Consume a prepared (6,2) value on a private triangulation copy. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01216">1216</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1269,7 +1555,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The integer of the neighboring (3,1) simplex or nullopt </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00525">525</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00868">868</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1310,7 +1596,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of incident cells if there are exactly 4 or nullopt </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00982">982</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01423">1423</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1342,7 +1628,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The center edge of a 4-cell complex </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01179">1179</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01683">1683</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1376,7 +1662,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <p>Collect the finite cells incident to a checked edge. </p>
 <p>The returned handles borrow from <code class="param">triangulation</code> and remain valid only until an affected-cell mutation is performed. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00092">92</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00218">218</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1412,7 +1698,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of vertices in the cells </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01197">1197</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01701">1701</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1454,7 +1740,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>A container of cells incident to the edge or nullopt </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094">https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00967">967</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01408">1408</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1487,7 +1773,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 <p>Check for the causal cavity inverse to a (2,3) move. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00412">412</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00706">706</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1528,7 +1814,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if (6,2) move is possible </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00743">743</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01125">1125</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1558,7 +1844,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <p>Check an edge handle without dereferencing its cell handle. </p>
 <p>A tetrahedral cell has four local vertex indices in [0, 4). </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00077">77</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00203">203</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1591,7 +1877,38 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 <p>Rebuild all derived topology and geometry state around a value. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00065">65</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00191">191</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0b059e4c70764295ca586fc06ddc79a2" name="a0b059e4c70764295ca586fc06ddc79a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b059e4c70764295ca586fc06ddc79a2">&#9670;&#160;</a></span>move_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto constexpr cdt::ergodic_moves::detail::move_error </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_move__outcome_8hpp.html#afeadca7b620dd75acc055e025e54e60f">MoveFailure</a> const</td>          <td class="paramname"><span class="paramname"><em>reason</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const</td>          <td class="paramname"><span class="paramname"><em>move</em></span>&#160;) -&gt; std::unexpected&lt; <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00165">165</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1627,7 +1944,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The null-moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00284">284</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00512">512</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1658,7 +1975,221 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00113">113</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00239">239</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a10fe4e662d2637efb070e88e81788ff0" name="a10fe4e662d2637efb070e88e81788ff0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10fe4e662d2637efb070e88e81788ff0">&#9670;&#160;</a></span>prepare_bistellar_flip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::prepare_bistellar_flip </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Edge_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>candidate</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>top</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>bottom</em></span>&#160;) -&gt; std::expected&lt; ApplicableFourFourMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prepare the generic topological seam used by bistellar_flip(). </p>
+<p>Unlike prepare_four_four(), this internal compatibility boundary proves only the CGAL four-cell diamond and caller-supplied boundary vertices. High-level CDT moves must use the stronger causal preparation. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01516">1516</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af7e999b60bc575392896c3602059e1f4" name="af7e999b60bc575392896c3602059e1f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7e999b60bc575392896c3602059e1f4">&#9670;&#160;</a></span>prepare_four_four()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::prepare_four_four </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Edge_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>candidate</em></span>&#160;) -&gt; std::expected&lt; ApplicableFourFourMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a raw spacelike edge into an applicable (4,4) move. </p>
+<p>Success proves the finite four-cell causal diamond and identifies its distinct top and bottom vertices without retaining CGAL handles. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01455">1455</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae33b289237a50bfa6f225ec1c58e2031" name="ae33b289237a50bfa6f225ec1c58e2031"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae33b289237a50bfa6f225ec1c58e2031">&#9670;&#160;</a></span>prepare_six_two()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::prepare_six_two </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>candidate</em></span>&#160;) -&gt; std::expected&lt; ApplicableSixTwoMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a raw vertex into an applicable causal (6,2) move. </p>
+<p>Success proves degree five, six finite incident cells, and the exact three-(3,1)/three-(1,3) causal composition with correct metadata. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01181">1181</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2abd513d72ed3a21c99c6dafa7617700" name="a2abd513d72ed3a21c99c6dafa7617700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2abd513d72ed3a21c99c6dafa7617700">&#9670;&#160;</a></span>prepare_three_two()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::prepare_three_two </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Edge_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>candidate</em></span>&#160;) -&gt; std::expected&lt; ApplicableThreeTwoMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a raw edge into an applicable causal (3,2) move. </p>
+<p>Success proves a finite timelike degree-three cavity containing exactly two (2,2) cells and one consistently oriented (3,1) or (1,3) cell. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00747">747</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7243a15f63e2fcd8691c9cb959008dea" name="a7243a15f63e2fcd8691c9cb959008dea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7243a15f63e2fcd8691c9cb959008dea">&#9670;&#160;</a></span>prepare_two_six()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::prepare_two_six </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>candidate</em></span>&#160;) -&gt; std::expected&lt; ApplicableTwoSixMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a raw (1,3) cell into an applicable (2,6) move. </p>
+<p>Success proves a correctly labelled adjacent (3,1) cell and a common spacelike facet whose three vertices share one time value. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00905">905</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac25debea06e93d81e1012c19c317c284" name="ac25debea06e93d81e1012c19c317c284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac25debea06e93d81e1012c19c317c284">&#9670;&#160;</a></span>prepare_two_three()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::prepare_two_three </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_handle const &amp;</td>          <td class="paramname"><span class="paramname"><em>candidate</em></span>&#160;) -&gt; std::expected&lt; ApplicableTwoThreeMove, <a class="el" href="structcdt_1_1ergodic__moves_1_1_move_error.html">MoveError</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a raw (2,2) cell into an applicable causal (2,3) move. </p>
+<p>Success proves that the selected finite cell has correct metadata, has a correctly classified (3,1) or (1,3) neighbor, and that the two vertices opposite their shared facet span adjacent slices. The returned value owns only stable point locators and must be executed against the same unmodified triangulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00521">521</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1694,7 +2225,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <p>Propose one (2,3) site for Metropolis-Hastings. </p>
 <p>Unlike do_23_move(), this samples exactly one of the N3(2,2) cells. An inapplicable selected cell is a rejected proposal rather than a reason to condition the proposal distribution on the movable subset. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00394">394</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00683">683</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1730,7 +2261,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <p>Propose a uniformly selected (2,6) site. </p>
 <p>Exactly one uniformly selected (1,3) cell is examined. An inapplicable raw site is returned as a failed proposal so Metropolis- Hastings can account for it as a self-transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00728">728</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01110">1110</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1766,7 +2297,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <p>Propose one (3,2) site for Metropolis-Hastings. </p>
 <p>The raw proposal domain is the set of timelike edges. Selecting a nonflippable edge produces a self-transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00505">505</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00843">843</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1802,7 +2333,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 <p>Propose one spacelike edge as a (4,4) site. </p>
 <p>Selecting an edge that is not the pivot of a causal four-cell complex is an explicit self-transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01301">1301</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01779">1779</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1837,7 +2368,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 <p>Propose one vertex as a (6,2) site for Metropolis-Hastings. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00943">943</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01382">1382</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1872,7 +2403,100 @@ template&lt;typename Container, std::uniform_random_bit_generator Generator&gt; 
 
 <p>Select exactly one raw proposal site uniformly in container order. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00181">181</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00354">354</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab53351696268649f69884be69c4cf94b" name="ab53351696268649f69884be69c4cf94b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab53351696268649f69884be69c4cf94b">&#9670;&#160;</a></span>resolve_cell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::resolve_cell </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_points const &amp;</td>          <td class="paramname"><span class="paramname"><em>points</em></span>&#160;) -&gt; std::optional&lt; Cell_handle &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00270">270</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a03164a05e98aac40d2b99f58987ad409" name="a03164a05e98aac40d2b99f58987ad409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03164a05e98aac40d2b99f58987ad409">&#9670;&#160;</a></span>resolve_edge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::resolve_edge </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Edge_points const &amp;</td>          <td class="paramname"><span class="paramname"><em>points</em></span>&#160;) -&gt; std::optional&lt; Edge_handle &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00291">291</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a602aa45de869eb66d835dc3e1c353d39" name="a602aa45de869eb66d835dc3e1c353d39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a602aa45de869eb66d835dc3e1c353d39">&#9670;&#160;</a></span>resolve_vertex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::ergodic_moves::detail::resolve_vertex </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay const &amp;</td>          <td class="paramname"><span class="paramname"><em>triangulation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point_t&lt; 3 &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>point</em></span>&#160;) -&gt; std::optional&lt; Vertex_handle &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00261">261</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1906,7 +2530,7 @@ template&lt;typename Container, std::uniform_random_bit_generator Generator&gt; 
 <p>Compare preserved floating-point configuration state exactly. </p>
 <p>Move construction copies these values; arithmetic tolerance is inappropriate because any representation change indicates state drift. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">51</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00177">177</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1937,18 +2561,9 @@ template&lt;typename Container, std::uniform_random_bit_generator Generator&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Perform a checked Triangulation_3 flip on a causal CDT facet. </p>
-<p>On success, affected cell handles are invalidated; vertex handles remain valid. Rejection occurs before mutation. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">triangulation</td><td>The triangulation containing the cell to flip </td></tr>
-    <tr><td class="paramname">to_be_moved</td><td>The cell on which to try the move </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4</a> </dd></dl>
+<p>Compatibility seam that prepares and immediately executes (2,3). </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00295">295</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00615">615</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -1979,18 +2594,9 @@ template&lt;typename Container, std::uniform_random_bit_generator Generator&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Perform a checked (3,2) flip on a causal CDT edge cavity. </p>
-<p>On success, affected cell handles are invalidated; vertex handles remain valid. Rejection occurs before mutation. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">triangulation</td><td>The triangulation containing the edge to flip </td></tr>
-    <tr><td class="paramname">to_be_moved</td><td>The edge on which to try the move </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the CDT cavity is admissible and CGAL performs the flip </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033</a> </dd></dl>
+<p>Compatibility seam that prepares and immediately executes (3,2). </p>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00457">457</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00781">781</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -2039,7 +2645,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The moved triangulation, or nullopt when the topology is not flippable or the result violates a triangulation or causal-cell invariant </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00887">887</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01312">1312</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -2083,7 +2689,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00812">812</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01286">1286</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
@@ -2114,7 +2720,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00168">168</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00341">341</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>

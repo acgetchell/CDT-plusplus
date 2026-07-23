@@ -1,4 +1,4 @@
-<map id="cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;" name="cdt::MoveCommand&lt; ManifoldType, ExpectedType &gt;">
+<map id="cdt::MoveCommand&lt; ManifoldType, ResultType &gt;" name="cdt::MoveCommand&lt; ManifoldType, ResultType &gt;">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,481,219,950"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="21,318,204,408"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,405,115,464,110,464,112,410"/>
