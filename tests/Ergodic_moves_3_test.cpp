@@ -285,7 +285,8 @@ SCENARIO(
       THEN("The move is not performed")
       {
         CHECK_FALSE(result);
-        CHECK_EQ(result.error(), "No (3,2) move possible.\n");
+        CHECK_EQ(result.error().reason(),
+                 ergodic_moves::MoveFailure::CAUSAL_INVALIDITY);
       }
     }
   }
@@ -440,7 +441,8 @@ SCENARIO(
       THEN("The move is not performed")
       {
         CHECK_FALSE(result);
-        CHECK_EQ(result.error(), "No (6,2) move possible.\n");
+        CHECK_EQ(result.error().reason(),
+                 ergodic_moves::MoveFailure::CAUSAL_INVALIDITY);
       }
     }
   }

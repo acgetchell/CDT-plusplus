@@ -12,6 +12,7 @@ add_executable(
   Metropolis_test.cpp
   Move_always_test.cpp
   Move_command_test.cpp
+  Move_outcome_test.cpp
   Move_run_test.cpp
   Move_tracker_test.cpp
   Random_test.cpp
@@ -82,6 +83,7 @@ set(
   Metropolis.hpp
   Move_always.hpp
   Move_command.hpp
+  Move_outcome.hpp
   Move_run.hpp
   Move_strategy.hpp
   Move_tracker.hpp

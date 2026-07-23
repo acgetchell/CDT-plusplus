@@ -32,11 +32,31 @@ unchanged. A successful move constructs a new `FoliatedTriangulation`, which
 rebuilds all handle-bearing caches and scalar geometry from the moved canonical
 triangulation.
 
+Raw proposal sites do not flow directly into mutation. Each move has a
+move-specific `detail::Applicable*Move` value constructed by a
+`detail::prepare_*()` boundary. Construction proves the local topology,
+causality, simplex classification, adjacency, and metadata requirements for
+that move. The value stores owned point-value locators rather than CGAL handles;
+execution resolves handles only at the mutation boundary and reports a
+`STALE_CANDIDATE` if the prepared site is no longer present. The applicable
+value is then consumed by `detail::execute()`, which does not rediscover the CDT
+preconditions and leaves CGAL's checked flip or retriangulation operation as the
+remaining fallible effect.
+
+The public high-level result is `MoveResult<Manifold>`, an allocation-free
+`std::expected` whose error is `MoveError`. `MoveFailure` distinguishes no raw
+candidate, invalid topology, causal invalidity, a stale prepared site, checked
+execution failure, post-mutation invariant failure, and an unknown move.
+`MoveOutcome` maps those typed failures and successful candidates into command
+and Metropolis accounting, keeping an inapplicable proposal distinct from an
+execution failure and from a valid Metropolis rejection.
+
 CGAL 6.2 documents that checked three-dimensional flips preserve vertex handles
 and invalidate only affected cell handles. CDT++ never carries affected cell
-handles past a successful flip. A copied triangulation has different handles;
-the `(4,4)` and `(6,2)` implementations therefore capture stable point values
-and re-resolve vertices and edges in their private copies before mutation.
+handles in prepared values or past a successful flip. A copied triangulation
+has different handles; every applicable-move implementation therefore captures
+stable point values and re-resolves vertices, cells, or edges in the owning
+candidate immediately before mutation.
 
 None of these moves is required to preserve the Euclidean empty-sphere
 (Delaunay) property of the representative coordinates. The scientific state is
@@ -95,6 +115,9 @@ helper.
 - exact inverse round trips for `(2,3)/(3,2)`, `(2,6)/(6,2)`, and `(4,4)`;
 - malformed-handle, stale-metadata, wrong-cavity, non-applicable, and empty-state
   rejection checks with canonical failure-atomicity comparisons; and
+- valid construction, forbidden default construction, and stale-locator
+  behavior for the applicable-move boundary, including structured failure
+  classification; and
 - replay of every inverse pair with seeds `0`, `1`, `2`, `92`, `106`, and
   `20260721`.
 

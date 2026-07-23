@@ -19,8 +19,9 @@
 namespace cdt
 {
   template <typename ManifoldType,
-            typename ExpectedType = std::expected<ManifoldType, std::string>>
-    requires(ManifoldType::dimension == 3)
+            typename ResultType = ergodic_moves::MoveResult<ManifoldType>>
+    requires(ManifoldType::dimension == 3 &&
+             std::same_as<ResultType, ergodic_moves::MoveResult<ManifoldType>>)
   class MoveCommand
   {
     using Queue   = std::deque<move_tracker::move_type>;
@@ -131,25 +132,25 @@ namespace cdt
         auto move_type = m_moves.back();
         // Record attempted move
         ++m_attempted[as_integer(move_type)];
-        if (auto result = apply_random_move(std::as_const(m_manifold),
-                                            move_type, generator);
-            result)
+        auto result =
+            apply_random_move(std::as_const(m_manifold), move_type, generator);
+        auto outcome = result ? ergodic_moves::MoveOutcome::SUCCEEDED
+                              : ergodic_moves::outcome_from(result.error());
+        if (result &&
+            !ergodic_moves::detail::check_move(m_manifold, *result, move_type))
         {
-          if (ergodic_moves::detail::check_move(m_manifold, *result, move_type))
-          {
-            swap(result.value(), m_manifold);
-            ++m_succeeded[as_integer(move_type)];
-          }
-          else
-          {
-            spdlog::warn(
-                "Move violated a manifold invariant or geometry delta.\n");
-            ++m_failed[as_integer(move_type)];
-          }
+          outcome = ergodic_moves::MoveOutcome::EXECUTION_FAILED;
+          spdlog::warn(
+              "Move violated a manifold invariant or geometry delta.\n");
+        }
+
+        if (outcome == ergodic_moves::MoveOutcome::SUCCEEDED)
+        {
+          swap(result.value(), m_manifold);
+          ++m_succeeded[as_integer(move_type)];
         }
         else
         {
-          // Routine inapplicable sites are represented by the failed counter.
           ++m_failed[as_integer(move_type)];
         }
         // Remove move from queue
@@ -161,7 +162,7 @@ namespace cdt
     template <std::uniform_random_bit_generator Generator>
     static auto apply_random_move(ManifoldType const&           manifold,
                                   move_tracker::move_type const move,
-                                  Generator& generator) -> ExpectedType
+                                  Generator& generator) -> ResultType
     {
       using enum move_tracker::move_type;
       switch (move)
@@ -172,7 +173,11 @@ namespace cdt
         case SIX_TWO: return ergodic_moves::do_62_move(manifold, generator);
         case FOUR_FOUR: return ergodic_moves::do_44_move(manifold, generator);
       }
-      return std::unexpected("Unknown Pachner move.");
+      return std::unexpected{
+          ergodic_moves::MoveError{
+                                   .category       = ergodic_moves::MoveFailure::UNKNOWN_MOVE,
+                                   .requested_move = move}
+      };
     }
 
     /**

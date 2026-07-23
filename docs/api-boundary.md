@@ -19,7 +19,7 @@ required by that library's customization contract.
 | Header | Supported surface | Internal, customization, or experimental surface |
 | --- | --- | --- |
 | `Apply_move.hpp` | `cdt::apply_move` | None |
-| `Ergodic_moves_3.hpp` | `cdt::ergodic_moves` aliases plus `null_move`, `do_*_move`, and `propose_*_move` | Every declaration in `cdt::ergodic_moves::detail`, including raw CGAL flips, cavity recognition, collection helpers, `bistellar_flip`, and `check_move` |
+| `Ergodic_moves_3.hpp` | `cdt::ergodic_moves` aliases plus `null_move`, `do_*_move`, and `propose_*_move` | Every declaration in `cdt::ergodic_moves::detail`, including applicable-move preparation/execution, raw CGAL flips, cavity recognition, collection helpers, `bistellar_flip`, and `check_move` |
 | `Foliated_triangulation.hpp` | Root CGAL interop aliases and `Cell_type`; construction, inspection, repair, and `FoliatedTriangulation` declarations in `cdt::foliated_triangulations` | Generic constraints and repair limits in `cdt::detail`; the component declarations are the supported advanced triangulation API |
 | `Formatters.hpp` | `fmt::formatter<CGAL::Point_3<...>>` | Supported external-library customization point |
 | `Geometry.hpp` | `cdt::Geometry` and `cdt::Geometry_3` | None |
@@ -27,6 +27,7 @@ required by that library's customization contract.
 | `Metropolis.hpp` | `cdt::MoveStrategy` Metropolis specialization and `cdt::Metropolis_3` | Private members and nested types are implementation details |
 | `Move_always.hpp` | `cdt::MoveStrategy` move-always specialization and `cdt::MoveAlways_3` | Private members are implementation details |
 | `Move_command.hpp` | `cdt::MoveCommand` | Private queue and counter types are implementation details |
+| `Move_outcome.hpp` | `cdt::ergodic_moves::MoveFailure`, `MoveError`, `MoveResult`, `MoveOutcome`, and `outcome_from` | `format_as` is the supported `fmt`/`spdlog` customization hook for `MoveError` |
 | `Move_strategy.hpp` | `cdt::Strategies` and `cdt::MoveStrategy` | None |
 | `Move_tracker.hpp` | Move enumeration, counters, conversion, and sampling in `cdt::move_tracker` | None |
 | `Mpfr_value.hpp` | Scoped MPFR value and operations in `cdt::mpfr_values` | None |

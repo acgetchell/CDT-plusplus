@@ -20,12 +20,35 @@
 #include <optional>
 #include <ranges>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "Ergodic_moves_3.hpp"
 
 using namespace cdt;
+
+static_assert(std::is_trivially_copyable_v<ergodic_moves::MoveError>);
+static_assert(std::is_trivially_copyable_v<
+              ergodic_moves::detail::ApplicableTwoThreeMove>);
+static_assert(std::is_trivially_copyable_v<
+              ergodic_moves::detail::ApplicableThreeTwoMove>);
+static_assert(
+    std::is_trivially_copyable_v<ergodic_moves::detail::ApplicableTwoSixMove>);
+static_assert(
+    std::is_trivially_copyable_v<ergodic_moves::detail::ApplicableSixTwoMove>);
+static_assert(std::is_trivially_copyable_v<
+              ergodic_moves::detail::ApplicableFourFourMove>);
+static_assert(!std::is_default_constructible_v<
+              ergodic_moves::detail::ApplicableTwoThreeMove>);
+static_assert(!std::is_default_constructible_v<
+              ergodic_moves::detail::ApplicableThreeTwoMove>);
+static_assert(!std::is_default_constructible_v<
+              ergodic_moves::detail::ApplicableTwoSixMove>);
+static_assert(!std::is_default_constructible_v<
+              ergodic_moves::detail::ApplicableSixTwoMove>);
+static_assert(!std::is_default_constructible_v<
+              ergodic_moves::detail::ApplicableFourFourMove>);
 
 namespace
 {
@@ -576,6 +599,18 @@ namespace
     check_independent_invariants(*inverse);
     CHECK_EQ(canonical_state(*inverse), before);
   }
+
+  template <typename Result>
+  void check_stale_candidate(Result const&                 result,
+                             move_tracker::move_type const expected_move)
+  {
+    REQUIRE_FALSE(result.has_value());
+    CHECK_EQ(result.error().reason(),
+             ergodic_moves::MoveFailure::STALE_CANDIDATE);
+    CHECK_EQ(result.error().move(), expected_move);
+    CHECK_EQ(ergodic_moves::outcome_from(result.error()),
+             ergodic_moves::MoveOutcome::EXECUTION_FAILED);
+  }
 }  // namespace
 
 SCENARIO("Every 2+1D CDT move has the literature-derived local delta" *
@@ -1031,4 +1066,158 @@ TEST_CASE("Move validation rejects exact configuration-state drift" *
   REQUIRE(after.is_correct());
   CHECK_FALSE(ergodic_moves::detail::check_move(
       before, after, move_tracker::move_type::FOUR_FOUR));
+}
+
+SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
+         doctest::test_suite("ergodic-audit"))
+{
+  GIVEN("A valid raw (2,3) cell")
+  {
+    auto triangulation = make_23_fixture().delaunay_snapshot();
+    auto two_two       = foliated_triangulations::filter_cells<3>(
+        foliated_triangulations::collect_cells<3>(triangulation),
+        Cell_type::TWO_TWO);
+    REQUIRE_EQ(two_two.size(), 1);
+
+    auto const prepared = ergodic_moves::detail::prepare_two_three(
+        triangulation, two_two.front());
+    REQUIRE(prepared.has_value());
+
+    WHEN("the proof value is consumed against the unchanged owner")
+    {
+      auto const executed =
+          ergodic_moves::detail::execute(triangulation, *prepared);
+      THEN("the checked flip succeeds without repeating CDT validation")
+      { CHECK(executed.has_value()); }
+    }
+
+    WHEN("the owning triangulation no longer contains the prepared site")
+    {
+      triangulation     = Delaunay{};
+      auto const before = canonical_triangulation(triangulation);
+      auto const executed =
+          ergodic_moves::detail::execute(triangulation, *prepared);
+      THEN(
+          "the stable locator reports a stale proof instead of dereferencing a handle")
+      {
+        check_stale_candidate(executed, move_tracker::move_type::TWO_THREE);
+        CHECK_EQ(canonical_triangulation(triangulation), before);
+      }
+    }
+  }
+
+  GIVEN("A prepared (3,2) edge whose owning triangulation is gone")
+  {
+    cdt::Random random{1032};
+    auto const  expanded = ergodic_moves::do_23_move(make_23_fixture(), random);
+    REQUIRE(expanded.has_value());
+
+    auto       triangulation = expanded->delaunay_snapshot();
+    auto const edge          = find_inverse_32_edge(triangulation);
+    REQUIRE(edge.has_value());
+    auto const prepared =
+        ergodic_moves::detail::prepare_three_two(triangulation, *edge);
+    REQUIRE(prepared.has_value());
+
+    triangulation     = Delaunay{};
+    auto const before = canonical_triangulation(triangulation);
+    auto const executed =
+        ergodic_moves::detail::execute(triangulation, *prepared);
+
+    THEN("execution reports the originating (3,2) move as stale")
+    {
+      check_stale_candidate(executed, move_tracker::move_type::THREE_TWO);
+      CHECK_EQ(canonical_triangulation(triangulation), before);
+    }
+  }
+
+  GIVEN("A prepared (2,6) facet whose owning triangulation is gone")
+  {
+    auto triangulation = make_26_fixture().delaunay_snapshot();
+    auto one_three     = foliated_triangulations::filter_cells<3>(
+        foliated_triangulations::collect_cells<3>(triangulation),
+        Cell_type::ONE_THREE);
+    REQUIRE_EQ(one_three.size(), 1);
+    auto const prepared = ergodic_moves::detail::prepare_two_six(
+        triangulation, one_three.front());
+    REQUIRE(prepared.has_value());
+
+    triangulation       = Delaunay{};
+    auto const before   = canonical_triangulation(triangulation);
+    auto const executed = ergodic_moves::detail::execute(
+        triangulation, *prepared, ergodic_moves::detail::accept_post_mutation);
+
+    THEN("execution reports the originating (2,6) move as stale")
+    {
+      check_stale_candidate(executed, move_tracker::move_type::TWO_SIX);
+      CHECK_EQ(canonical_triangulation(triangulation), before);
+    }
+  }
+
+  GIVEN("A prepared (6,2) vertex whose owning triangulation is gone")
+  {
+    cdt::Random setup_random{1062};
+    auto const  expanded =
+        ergodic_moves::do_26_move(make_26_fixture(), setup_random);
+    REQUIRE(expanded.has_value());
+
+    auto triangulation = expanded->delaunay_snapshot();
+    auto vertices = foliated_triangulations::collect_vertices<3>(triangulation);
+    auto const candidate =
+        std::ranges::find_if(vertices, [&](auto const& vertex) {
+          return ergodic_moves::detail::is_62_movable(triangulation, vertex);
+        });
+    REQUIRE(candidate != vertices.end());
+    auto const prepared =
+        ergodic_moves::detail::prepare_six_two(triangulation, *candidate);
+    REQUIRE(prepared.has_value());
+
+    triangulation      = Delaunay{};
+    auto const  before = canonical_triangulation(triangulation);
+    cdt::Random execution_random{1063};
+    auto const  executed = ergodic_moves::detail::execute(
+        triangulation, *prepared, execution_random,
+        ergodic_moves::detail::accept_post_mutation);
+
+    THEN("execution reports the originating (6,2) move as stale")
+    {
+      check_stale_candidate(executed, move_tracker::move_type::SIX_TWO);
+      CHECK_EQ(canonical_triangulation(triangulation), before);
+    }
+  }
+
+  GIVEN("A prepared (4,4) diamond whose owning triangulation is gone")
+  {
+    auto       triangulation = make_44_fixture().delaunay_snapshot();
+    auto const pivot         = find_44_pivot(triangulation);
+    REQUIRE(pivot.has_value());
+    auto const prepared =
+        ergodic_moves::detail::prepare_four_four(triangulation, *pivot);
+    REQUIRE(prepared.has_value());
+
+    triangulation       = Delaunay{};
+    auto const before   = canonical_triangulation(triangulation);
+    auto const executed = ergodic_moves::detail::execute(
+        triangulation, *prepared, ergodic_moves::detail::accept_post_mutation);
+
+    THEN("execution reports the originating (4,4) move as stale")
+    {
+      check_stale_candidate(executed, move_tracker::move_type::FOUR_FOUR);
+      CHECK_EQ(canonical_triangulation(triangulation), before);
+    }
+  }
+
+  GIVEN("A causal manifold with no raw (2,3) proposal site")
+  {
+    cdt::Random random{101};
+    auto const  result = ergodic_moves::do_23_move(make_26_fixture(), random);
+    THEN("the boundary distinguishes absence from an invalid selected site")
+    {
+      REQUIRE_FALSE(result.has_value());
+      CHECK_EQ(result.error().reason(),
+               ergodic_moves::MoveFailure::NO_CANDIDATE);
+      CHECK_EQ(ergodic_moves::outcome_from(result.error()),
+               ergodic_moves::MoveOutcome::INAPPLICABLE);
+    }
+  }
 }
