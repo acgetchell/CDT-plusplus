@@ -40,7 +40,7 @@ CDT++ does not disable CGAL triangulation assertions or postconditions.
 | --- | --- | --- |
 | `Triangulation_traits.hpp` kernel and info bases | Modernized | Retain EPICK; compose the cell info base over `Delaunay_triangulation_cell_base_3`; select the TDS concurrency tag explicitly; publish canonical Delaunay handle, facet, and edge types. |
 | `Delaunay_state` construction and ownership | Modernized | Retain bulk point/info range insertion; reject duplicate geometric points with ambiguous labels; own the parallel lock grid with the triangulation and detach it before returning an unowned triangulation. |
-| `FoliatedTriangulation` traversal and caches | Modernized | Use finite handle and simplex ranges; rebuild and verify all derived handle caches at the owning mutation boundary. |
+| `FoliatedTriangulation` traversal and caches | Modernized | Use finite handle and simplex ranges; rebuild all derived handle caches at the owning mutation boundary and expose an opt-in diagnostic comparison. |
 | Causality repair and vertex removal | Retained | Keep CGAL range removal and cavity retriangulation; every published replacement is constructed on a private copy and rebuilds caches before swap. |
 | Point lookup | Retained | The current zero-overhead adapter adds optional absence handling and is used at stable point-value mutation boundaries. |
 | Checked Delaunay and TDS flips | Retained | CGAL establishes combinatorial/geometric flippability; typed applicable moves independently establish CDT causal admissibility. |
@@ -114,7 +114,7 @@ following stricter owning rule:
 | Copy | Treat every handle in the copy as belonging to the copy; rebuild wrapper caches from its canonical triangulation. |
 | Move or swap | Transfer the lock owner, triangulation, caches, and scalar bounds together. |
 | Public snapshot | Return an owning triangulation with no borrowed lock-grid pointer; snapshot handles cannot mutate the source wrapper. |
-| Published replacement | Validate TDS, foliation, metadata, counts, and derived-cache consistency before a non-throwing swap. |
+| Published replacement | Rebuild derived caches and validate TDS, foliation, metadata, and tracked counts before a non-throwing swap; the full derived-cache comparison remains opt-in. |
 
 The underlying mutable triangulation accessor is an internal CGAL algorithm
 boundary. Public callers receive a read-only view or an owning snapshot, so

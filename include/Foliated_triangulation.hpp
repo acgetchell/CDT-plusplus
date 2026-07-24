@@ -1374,20 +1374,38 @@ namespace cdt::foliated_triangulations
     Int_precision       m_max_timevalue{0};
     Int_precision       m_min_timevalue{0};
 
-    [[nodiscard]] auto  has_consistent_derived_state() const -> bool
+    [[nodiscard]] auto  has_consistent_structure() const -> bool
     {
       auto const& delaunay = triangulation();
-      auto const& tds      = delaunay.tds();
-      if (!m_delaunay_state.has_consistent_lock_binding() ||
-          m_vertices.size() != delaunay.number_of_vertices() ||
-          m_cells.size() != delaunay.number_of_finite_cells() ||
+      auto const  cells_are_partitioned =
+          m_three_one.size() + m_two_two.size() + m_one_three.size() ==
+          m_cells.size();
+      auto const edges_are_partitioned =
+          m_timelike_edges.size() + m_spacelike_edges.size() == m_edges.size();
+      auto const time_bounds_are_valid =
+          m_vertices.empty() ? m_max_timevalue == 0 && m_min_timevalue == 0
+                             : m_min_timevalue <= m_max_timevalue;
+      return m_delaunay_state.has_consistent_lock_binding() &&
+             m_vertices.size() == delaunay.number_of_vertices() &&
+             m_spacelike_facets.size() <= m_faces.size() &&
+             cells_are_partitioned && edges_are_partitioned &&
+             time_bounds_are_valid;
+    }
+
+    [[nodiscard]] auto has_consistent_derived_state() const -> bool
+    {
+      if (!has_consistent_structure()) { return false; }
+
+      auto const& delaunay = triangulation();
+      if (m_cells.size() != delaunay.number_of_finite_cells() ||
           m_faces.size() != delaunay.number_of_finite_facets() ||
           m_edges.size() != delaunay.number_of_finite_edges())
       {
         return false;
       }
 
-      auto const valid_vertices = std::ranges::all_of(
+      auto const& tds            = delaunay.tds();
+      auto const  valid_vertices = std::ranges::all_of(
           m_vertices,
           [&tds](Vertex_handle const vertex) { return tds.is_vertex(vertex); });
       auto const valid_cells = std::ranges::all_of(
@@ -1416,10 +1434,7 @@ namespace cdt::foliated_triangulations
         return false;
       }
 
-      if (m_vertices.empty())
-      {
-        return m_max_timevalue == 0 && m_min_timevalue == 0;
-      }
+      if (m_vertices.empty()) { return true; }
       return m_max_timevalue == find_max_timevalue<3>(std::span{m_vertices}) &&
              m_min_timevalue == find_min_timevalue<3>(std::span{m_vertices});
     }
@@ -1604,12 +1619,23 @@ namespace cdt::foliated_triangulations
     [[nodiscard]] auto is_tds_valid() const -> bool
     { return triangulation().tds().is_valid(); }  // is_tds_valid
 
-    /// @return True if the Foliated Triangulation class invariants hold
-    [[nodiscard]] auto is_correct() const -> bool
+    /// @return True if the essential structural and causal invariants hold
+    /// @details This path avoids rebuilding derived caches and is suitable for
+    /// validating move candidates.
+    [[nodiscard]] auto is_structurally_correct() const -> bool
     {
-      return is_foliated() && is_tds_valid() && check_all_cells() &&
-             has_consistent_derived_state();
-    }  // is_correct
+      return has_consistent_structure() && is_tds_valid() && check_all_cells();
+    }
+
+    /// @return True if the essential class invariants hold
+    [[nodiscard]] auto is_correct() const -> bool
+    { return is_structurally_correct(); }  // is_correct
+
+    /// @return True if all invariants and derived caches are consistent
+    /// @details This diagnostic path rescans cached handles and rebuilds
+    /// classifications for comparison. Prefer is_correct() in hot paths.
+    [[nodiscard]] auto is_correct_with_diagnostics() const -> bool
+    { return is_structurally_correct() && has_consistent_derived_state(); }
 
     /// @return True if the Foliated Triangulation has been initialized
     /// correctly

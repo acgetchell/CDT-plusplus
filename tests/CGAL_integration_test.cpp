@@ -20,6 +20,7 @@
 #include <utility>
 #include <vector>
 
+#include "CGAL_test_helpers.hpp"
 #include "Foliated_triangulation.hpp"
 
 namespace
@@ -89,15 +90,8 @@ SCENARIO("CGAL bulk insertion preserves point metadata" *
       THEN("Every geometric point retains its original timevalue.")
       {
         REQUIRE_EQ(state.triangulation().number_of_vertices(), input.size());
-        for (auto const& labelled_point : input)
-        {
-          auto const& point     = labelled_point.first;
-          auto const  timevalue = labelled_point.second;
-          auto const  vertex    = cdt::foliated_triangulations::find_vertex<3>(
-              state.triangulation(), point);
-          REQUIRE(vertex.has_value());
-          CHECK_EQ(vertex.value()->info(), timevalue);
-        }
+        cdt::test_helpers::expect_labels_preserved(state.triangulation(),
+                                                   input);
       }
     }
   }
@@ -176,15 +170,8 @@ SCENARIO("EPICK resolves adversarial orientation and co-spherical input" *
         CHECK_EQ(state.triangulation().number_of_vertices(),
                  cospherical.size());
         CHECK(state.triangulation().is_valid());
-        for (auto const& labelled_point : cospherical)
-        {
-          auto const& point     = labelled_point.first;
-          auto const  timevalue = labelled_point.second;
-          auto const  vertex    = cdt::foliated_triangulations::find_vertex<3>(
-              state.triangulation(), point);
-          REQUIRE(vertex.has_value());
-          CHECK_EQ(vertex.value()->info(), timevalue);
-        }
+        cdt::test_helpers::expect_labels_preserved(state.triangulation(),
+                                                   cospherical);
       }
     }
   }

@@ -62,7 +62,9 @@ None of these moves is required to preserve the Euclidean empty-sphere
 (Delaunay) property of the representative coordinates. The scientific state is
 a valid causal combinatorial triangulation. `tds().is_valid()` establishes the
 CGAL incidence and adjacency contract; `Manifold::is_correct()` adds foliation
-and causal cell-metadata checks.
+and causal cell-metadata checks without rebuilding derived caches. Call
+`Manifold::is_correct_with_diagnostics()` to opt into a full derived-cache
+comparison outside hot move paths.
 
 ## Move-by-move record
 
