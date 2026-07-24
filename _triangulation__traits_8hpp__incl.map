@@ -1,19 +1,29 @@
 <map id="include/Triangulation_traits.hpp" name="include/Triangulation_traits.hpp">
-<area shape="rect" id="Node000001" title="Traits class for particular uses of CGAL." alt="" coords="591,5,747,50"/>
+<area shape="rect" id="Node000001" title="Traits class for particular uses of CGAL." alt="" coords="1059,5,1215,50"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,115,245,143"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="588,42,436,68,258,101,196,114,195,108,256,95,435,63,593,40"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="269,98,440,160"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="602,50,456,99,454,93,597,51"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="464,115,661,143"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="648,49,589,107,586,102,643,52"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="685,106,869,151"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="693,48,745,96,740,95,692,53"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="893,106,1096,151"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="741,48,911,101,906,102,740,53"/>
-<area shape="rect" id="Node000007" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1119,115,1222,143"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="748,32,916,53,1013,71,1108,95,1135,108,1130,107,1107,101,1012,76,915,58,748,37"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="1003,208,1188,235"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1162,142,1117,198,1115,193,1157,144"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="1212,208,1278,235"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="1182,141,1227,196,1222,195,1180,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1056,32,910,40,710,53,484,72,256,101,191,113,189,108,255,95,483,67,710,47,909,35,1061,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="268,106,480,151"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1056,34,806,58,650,77,493,101,471,105,469,100,493,95,649,71,805,53,1061,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="505,98,676,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1056,38,893,63,691,100,690,95,893,58,1061,37"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="700,115,897,143"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1065,50,859,113,857,108,1060,51"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="922,115,1022,143"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1103,50,1008,109,1006,104,1098,51"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="1045,106,1229,151"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1139,48,1139,93,1135,89,1135,52"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="1253,106,1402,151"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1179,48,1275,99,1270,99,1178,53"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="1426,106,1629,151"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1216,46,1415,95,1433,102,1428,102,1414,101,1215,51"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="1653,115,1712,143"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1215,26,1305,29,1413,40,1529,61,1587,76,1642,96,1658,106,1653,105,1640,100,1585,81,1528,66,1413,45,1305,35,1216,31"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="1736,115,1799,143"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1216,31,1487,54,1626,72,1682,83,1725,96,1742,107,1737,106,1723,100,1681,89,1625,78,1487,59,1216,36"/>
+<area shape="rect" id="Node000012" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1823,115,1926,143"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1216,26,1333,29,1483,40,1647,61,1730,76,1811,95,1840,108,1834,107,1810,101,1729,81,1647,66,1482,45,1333,35,1216,31"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="1707,208,1892,235"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1866,142,1821,198,1819,193,1861,144"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1916,208,1982,235"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="1886,141,1931,197,1926,194,1884,145"/>
 </map>

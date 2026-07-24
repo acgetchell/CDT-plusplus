@@ -128,14 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="textblock"><code>#include &lt;CGAL/Bbox_3.h&gt;</code><br />
 <code>#include &lt;CGAL/Random.h&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cassert&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;iterator&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;numeric&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;ranges&gt;</code><br />
+<code>#include &lt;set&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="_random_8hpp_source.html">Random.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_triangulation__traits_8hpp_source.html">Triangulation_traits.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>&quot;</code><br />
@@ -166,8 +177,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-concepts" class="groupheader"><a id="concepts" name="concepts"></a>
 Concepts</h2></td></tr>
-<tr class="memitem:cdt_3A_3AContainerType" id="r_cdt_3A_3AContainerType"><td class="memItemLeft">concept &#160;</td><td class="memItemRight"><a class="el" href="conceptcdt_1_1_container_type.html">cdt::ContainerType</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires <span class="tt">std::movable</span>, defined in the standard <span class="tt">&lt;concepts&gt;</span> header. <br /></td></tr>
+<tr class="memitem:cdt_3A_3AConstForwardRange" id="r_cdt_3A_3AConstForwardRange"><td class="memItemLeft">concept &#160;</td><td class="memItemRight"><a class="el" href="conceptcdt_1_1_const_forward_range.html">cdt::ConstForwardRange</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A multi-pass range whose const-qualified value can be traversed by classification and materialization helpers. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -179,8 +190,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a3de1b640337333982c080630a7f80d92 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a3de1b640337333982c080630a7f80d92">cdt::Delaunay_t</a> = typename detail::TriangulationTraits&lt;dimension&gt;::Delaunay</td></tr>
 <tr class="memitem:ad9fd904096faeb4bf67f5b2a6ce0f2d5" id="r_ad9fd904096faeb4bf67f5b2a6ce0f2d5"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:ad9fd904096faeb4bf67f5b2a6ce0f2d5 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#ad9fd904096faeb4bf67f5b2a6ce0f2d5">cdt::Edge_handle_t</a></td></tr>
-<tr class="memitem:ae12b87713ce5c15f4b66d2e6ad1d7b1f" id="r_ae12b87713ce5c15f4b66d2e6ad1d7b1f"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
-<tr class="memitem:ae12b87713ce5c15f4b66d2e6ad1d7b1f template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#ae12b87713ce5c15f4b66d2e6ad1d7b1f">cdt::Face_handle_t</a></td></tr>
 <tr class="memitem:a1bd9087be368ffbd8c33df1afcb7be95" id="r_a1bd9087be368ffbd8c33df1afcb7be95"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a1bd9087be368ffbd8c33df1afcb7be95 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a1bd9087be368ffbd8c33df1afcb7be95">cdt::Facet_t</a> = typename detail::TriangulationTraits&lt;dimension&gt;::Facet</td></tr>
 <tr class="memitem:a8744be8ba4f1dccaa9a4371fc7e194b5" id="r_a8744be8ba4f1dccaa9a4371fc7e194b5"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a8744be8ba4f1dccaa9a4371fc7e194b5">cdt::foliated_triangulations::FoliatedTriangulation_3</a> = <a class="el" href="classcdt_1_1foliated__triangulations_1_1_foliated_triangulation.html">FoliatedTriangulation</a>&lt;3&gt;</td></tr>
@@ -224,15 +233,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a58863718bd548dd7b52beb4eaecd9612" id="r_a58863718bd548dd7b52beb4eaecd9612"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a58863718bd548dd7b52beb4eaecd9612 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a58863718bd548dd7b52beb4eaecd9612">cdt::foliated_triangulations::collect_edges</a> (Delaunay_t&lt; dimension &gt; const &amp;delaunay)</td></tr>
 <tr class="memdesc:a58863718bd548dd7b52beb4eaecd9612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a container of all the finite edges in the triangulation.  <br /></td></tr>
-<tr class="memitem:ab0ce4aca0d4f3ea55c92d39ca672f3c0" id="r_ab0ce4aca0d4f3ea55c92d39ca672f3c0"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ContainerType Container&gt; </td></tr>
-<tr class="memitem:ab0ce4aca0d4f3ea55c92d39ca672f3c0 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab0ce4aca0d4f3ea55c92d39ca672f3c0">cdt::foliated_triangulations::collect_spacelike_facets</a> (Container &amp;&amp;t_facets) -&gt; std::vector&lt; std::pair&lt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>, Facet_t&lt; 3 &gt; &gt; &gt;</td></tr>
-<tr class="memdesc:ab0ce4aca0d4f3ea55c92d39ca672f3c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collect spacelike facets into a contiguous container ordered by time value.  <br /></td></tr>
+<tr class="memitem:a0e2092ef94ac544eab299fd44d7d0a55" id="r_a0e2092ef94ac544eab299fd44d7d0a55"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ConstForwardRange Container&gt; </td></tr>
+<tr class="memitem:a0e2092ef94ac544eab299fd44d7d0a55 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a0e2092ef94ac544eab299fd44d7d0a55">cdt::foliated_triangulations::collect_spacelike_facets</a> (Container const &amp;t_facets) -&gt; std::vector&lt; std::pair&lt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>, Facet_t&lt; 3 &gt; &gt; &gt;</td></tr>
+<tr class="memdesc:a0e2092ef94ac544eab299fd44d7d0a55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collect spacelike facets into a contiguous container ordered by time value.  <br /></td></tr>
 <tr class="memitem:af7673dd443ce70375977e214326afb87" id="r_af7673dd443ce70375977e214326afb87"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:af7673dd443ce70375977e214326afb87 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#af7673dd443ce70375977e214326afb87">cdt::foliated_triangulations::collect_vertices</a> (Delaunay_t&lt; dimension &gt; const &amp;t_triangulation)</td></tr>
 <tr class="memdesc:af7673dd443ce70375977e214326afb87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain all finite vertices in the Delaunay triangulation.  <br /></td></tr>
-<tr class="memitem:a09011ef6bfcee3600e35d1392af99c17" id="r_a09011ef6bfcee3600e35d1392af99c17"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ContainerType Container&gt; </td></tr>
-<tr class="memitem:a09011ef6bfcee3600e35d1392af99c17 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a09011ef6bfcee3600e35d1392af99c17">cdt::foliated_triangulations::debug_print_cells</a> (Container &amp;&amp;t_cells)</td></tr>
-<tr class="memdesc:a09011ef6bfcee3600e35d1392af99c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write to debug log timevalues of each vertex in the cell and the resulting cell-&gt;info.  <br /></td></tr>
+<tr class="memitem:a34b4dfdd52530b7700b40fb8ae98056a" id="r_a34b4dfdd52530b7700b40fb8ae98056a"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ConstForwardRange Container&gt; </td></tr>
+<tr class="memitem:a34b4dfdd52530b7700b40fb8ae98056a template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a34b4dfdd52530b7700b40fb8ae98056a">cdt::foliated_triangulations::debug_print_cells</a> (Container const &amp;t_cells)</td></tr>
+<tr class="memdesc:a34b4dfdd52530b7700b40fb8ae98056a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write to debug log timevalues of each vertex in the cell and the resulting cell-&gt;info.  <br /></td></tr>
 <tr class="memitem:ac04c10a863833c905d7c7e373d0f3c30" id="r_ac04c10a863833c905d7c7e373d0f3c30"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:ac04c10a863833c905d7c7e373d0f3c30 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac04c10a863833c905d7c7e373d0f3c30">cdt::foliated_triangulations::expected_cell_type</a> (Cell_handle_t&lt; dimension &gt; const &amp;t_cell)</td></tr>
 <tr class="memdesc:ac04c10a863833c905d7c7e373d0f3c30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classifies cells by their timevalues.  <br /></td></tr>
@@ -258,10 +267,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a1f60ddc711aa7dcbff7dc65a7fb2bd7d" id="r_a1f60ddc711aa7dcbff7dc65a7fb2bd7d"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a1f60ddc711aa7dcbff7dc65a7fb2bd7d template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a1f60ddc711aa7dcbff7dc65a7fb2bd7d">cdt::foliated_triangulations::find_incorrect_vertices</a> (std::vector&lt; Cell_handle_t&lt; dimension &gt; &gt; const &amp;t_cells, double t_initial_radius, double t_foliation_spacing)</td></tr>
 <tr class="memdesc:a1f60ddc711aa7dcbff7dc65a7fb2bd7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain vertices with incorrect timevalues.  <br /></td></tr>
-<tr class="memitem:a11de6b75c4f15eedc4a02c9e4ac9d6b4" id="r_a11de6b75c4f15eedc4a02c9e4ac9d6b4"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ContainerType Container&gt; </td></tr>
-<tr class="memitem:a11de6b75c4f15eedc4a02c9e4ac9d6b4 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a11de6b75c4f15eedc4a02c9e4ac9d6b4">cdt::foliated_triangulations::find_max_timevalue</a> (Container &amp;&amp;t_vertices) -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td></tr>
-<tr class="memitem:ab6ab6efa59dd4c56cccb8f2a510ed0c3" id="r_ab6ab6efa59dd4c56cccb8f2a510ed0c3"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ContainerType Container&gt; </td></tr>
-<tr class="memitem:ab6ab6efa59dd4c56cccb8f2a510ed0c3 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab6ab6efa59dd4c56cccb8f2a510ed0c3">cdt::foliated_triangulations::find_min_timevalue</a> (Container &amp;&amp;t_vertices) -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td></tr>
+<tr class="memitem:a9bb50ebdc6966707729c3ad604934fdf" id="r_a9bb50ebdc6966707729c3ad604934fdf"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ConstForwardRange Container&gt; </td></tr>
+<tr class="memitem:a9bb50ebdc6966707729c3ad604934fdf template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a9bb50ebdc6966707729c3ad604934fdf">cdt::foliated_triangulations::find_max_timevalue</a> (Container const &amp;t_vertices) -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td></tr>
+<tr class="memitem:a298b22f42e7a13ed1e02e4c5ebb31f6f" id="r_a298b22f42e7a13ed1e02e4c5ebb31f6f"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ConstForwardRange Container&gt; </td></tr>
+<tr class="memitem:a298b22f42e7a13ed1e02e4c5ebb31f6f template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a298b22f42e7a13ed1e02e4c5ebb31f6f">cdt::foliated_triangulations::find_min_timevalue</a> (Container const &amp;t_vertices) -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td></tr>
 <tr class="memitem:af00aca5cedd5581f296497d4363eb7c8" id="r_af00aca5cedd5581f296497d4363eb7c8"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:af00aca5cedd5581f296497d4363eb7c8 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#af00aca5cedd5581f296497d4363eb7c8">cdt::foliated_triangulations::find_vertex</a> (Delaunay_t&lt; dimension &gt; const &amp;delaunay, Point_t&lt; dimension &gt; const &amp;point) -&gt; std::optional&lt; Vertex_handle_t&lt; dimension &gt; &gt;</td></tr>
 <tr class="memdesc:af00aca5cedd5581f296497d4363eb7c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vertex containing the given point.  <br /></td></tr>
@@ -298,9 +307,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a98d701eb0e55a484f858d7234fc5b7d6" id="r_a98d701eb0e55a484f858d7234fc5b7d6"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a98d701eb0e55a484f858d7234fc5b7d6 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a98d701eb0e55a484f858d7234fc5b7d6">cdt::foliated_triangulations::print_cell</a> (Cell_handle_t&lt; dimension &gt; cell)</td></tr>
 <tr class="memdesc:a98d701eb0e55a484f858d7234fc5b7d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a cell in the triangulation.  <br /></td></tr>
-<tr class="memitem:aee07f6da73d41b61b1b4e53bb3c84dd8" id="r_aee07f6da73d41b61b1b4e53bb3c84dd8"><td class="memTemplParams" colspan="2">template&lt;int dimension, typename Container&gt; </td></tr>
-<tr class="memitem:aee07f6da73d41b61b1b4e53bb3c84dd8 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aee07f6da73d41b61b1b4e53bb3c84dd8">cdt::foliated_triangulations::print_cells</a> (Container &amp;&amp;t_cells)</td></tr>
-<tr class="memdesc:aee07f6da73d41b61b1b4e53bb3c84dd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print timevalues of each vertex in the cell and the resulting cell-&gt;info().  <br /></td></tr>
+<tr class="memitem:aaf7afbe23ece32d17f81ead68cf5dc3e" id="r_aaf7afbe23ece32d17f81ead68cf5dc3e"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ConstForwardRange Container&gt; </td></tr>
+<tr class="memitem:aaf7afbe23ece32d17f81ead68cf5dc3e template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aaf7afbe23ece32d17f81ead68cf5dc3e">cdt::foliated_triangulations::print_cells</a> (Container const &amp;t_cells)</td></tr>
+<tr class="memdesc:aaf7afbe23ece32d17f81ead68cf5dc3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print timevalues of each vertex in the cell and the resulting cell-&gt;info().  <br /></td></tr>
 <tr class="memitem:ad0daf3853a89c2cfc938eacd90d166e4" id="r_ad0daf3853a89c2cfc938eacd90d166e4"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:ad0daf3853a89c2cfc938eacd90d166e4 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad0daf3853a89c2cfc938eacd90d166e4">cdt::foliated_triangulations::print_edge</a> (Edge_handle_t&lt; dimension &gt; const &amp;t_edge)</td></tr>
 <tr class="memdesc:ad0daf3853a89c2cfc938eacd90d166e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print edge.  <br /></td></tr>
@@ -310,7 +319,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a8594a906efb0a7980c14af43984fda6d" id="r_a8594a906efb0a7980c14af43984fda6d"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a8594a906efb0a7980c14af43984fda6d template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8594a906efb0a7980c14af43984fda6d">cdt::foliated_triangulations::squared_radius</a> (Vertex_handle_t&lt; dimension &gt; const &amp;t_vertex) -&gt; double</td></tr>
 <tr class="memdesc:a8594a906efb0a7980c14af43984fda6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the squared radius from the origin.  <br /></td></tr>
-<tr class="memitem:a342ef9af1e787cc5e171010c2e42a97e" id="r_a342ef9af1e787cc5e171010c2e42a97e"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ContainerType Container&gt; </td></tr>
+<tr class="memitem:a342ef9af1e787cc5e171010c2e42a97e" id="r_a342ef9af1e787cc5e171010c2e42a97e"><td class="memTemplParams" colspan="2">template&lt;int dimension, detail::ConstForwardRange Container&gt; </td></tr>
 <tr class="memitem:a342ef9af1e787cc5e171010c2e42a97e template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a342ef9af1e787cc5e171010c2e42a97e">cdt::foliated_triangulations::volume_per_timeslice</a> (Container &amp;&amp;t_facets) -&gt; std::multimap&lt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>, Facet_t&lt; 3 &gt; &gt;</td></tr>
 <tr class="memdesc:a342ef9af1e787cc5e171010c2e42a97e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collect spacelike facets into a container indexed by time value.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -340,7 +349,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01882">1882</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01927">1927</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -385,7 +394,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if there are no finite cells, or all finite cells are correctly classified </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00825">825</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00828">828</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -429,7 +438,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An optional container of invalid cells </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01050">1050</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01044">1044</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +493,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if all vertices have correct timevalues </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00614">614</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00619">619</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -528,7 +537,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if timelike and false if spacelike </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00472">472</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00481">481</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -572,7 +581,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of finite cells </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00631">631</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00635">635</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -616,17 +625,17 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Container of all the finite edges in the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00353">353</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00376">376</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab0ce4aca0d4f3ea55c92d39ca672f3c0" name="ab0ce4aca0d4f3ea55c92d39ca672f3c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0ce4aca0d4f3ea55c92d39ca672f3c0">&#9670;&#160;</a></span>collect_spacelike_facets()</h2>
+<a id="a0e2092ef94ac544eab299fd44d7d0a55" name="a0e2092ef94ac544eab299fd44d7d0a55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e2092ef94ac544eab299fd44d7d0a55">&#9670;&#160;</a></span>collect_spacelike_facets()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;int dimension, detail::ContainerType Container&gt; </div>
+template&lt;int dimension, detail::ConstForwardRange Container&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -634,7 +643,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
         <tr>
           <td class="memname">auto cdt::foliated_triangulations::collect_spacelike_facets </td>
           <td>(</td>
-          <td class="paramtype">Container &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t_facets</em></span></td><td>)</td>
+          <td class="paramtype">Container const &amp;</td>          <td class="paramname"><span class="paramname"><em>t_facets</em></span></td><td>)</td>
           <td> -&gt; std::vector&lt; std::pair&lt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>, Facet_t&lt; 3 &gt; &gt; &gt;</td>
         </tr>
       </table>
@@ -660,7 +669,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Contiguous container with spacelike facets per timeslice </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00966">966</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00960">960</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -704,22 +713,22 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of finite vertices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00592">592</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00598">598</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a09011ef6bfcee3600e35d1392af99c17" name="a09011ef6bfcee3600e35d1392af99c17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09011ef6bfcee3600e35d1392af99c17">&#9670;&#160;</a></span>debug_print_cells()</h2>
+<a id="a34b4dfdd52530b7700b40fb8ae98056a" name="a34b4dfdd52530b7700b40fb8ae98056a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34b4dfdd52530b7700b40fb8ae98056a">&#9670;&#160;</a></span>debug_print_cells()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;int dimension, detail::ContainerType Container&gt; </div>
+template&lt;int dimension, detail::ConstForwardRange Container&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void cdt::foliated_triangulations::debug_print_cells </td>
           <td>(</td>
-          <td class="paramtype">Container &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t_cells</em></span></td><td>)</td>
+          <td class="paramtype">Container const &amp;</td>          <td class="paramname"><span class="paramname"><em>t_cells</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -740,7 +749,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00908">908</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00904">904</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -784,7 +793,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The type of the simplex </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00750">750</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00753">753</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -844,7 +853,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The effective radius of the vertex </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00555">555</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00561">561</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -891,7 +900,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of simplices filtered by type </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00514">514</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00522">522</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -938,7 +947,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of is_Timelike edges </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00495">495</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00504">504</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -982,7 +991,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The offending vertex </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01072">1072</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01066">1066</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1050,7 +1059,7 @@ template&lt;int dimension&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The cell containing the vertices </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646">https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00404">404</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00421">421</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1149,7 +1158,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of vertices with incorrect timevalues </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00696">696</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00699">699</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1204,17 +1213,17 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of vertices with incorrect timevalues </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00672">672</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00675">675</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a11de6b75c4f15eedc4a02c9e4ac9d6b4" name="a11de6b75c4f15eedc4a02c9e4ac9d6b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11de6b75c4f15eedc4a02c9e4ac9d6b4">&#9670;&#160;</a></span>find_max_timevalue()</h2>
+<a id="a9bb50ebdc6966707729c3ad604934fdf" name="a9bb50ebdc6966707729c3ad604934fdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bb50ebdc6966707729c3ad604934fdf">&#9670;&#160;</a></span>find_max_timevalue()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;int dimension, detail::ContainerType Container&gt; </div>
+template&lt;int dimension, detail::ConstForwardRange Container&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1222,7 +1231,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
         <tr>
           <td class="memname">auto cdt::foliated_triangulations::find_max_timevalue </td>
           <td>(</td>
-          <td class="paramtype">Container &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t_vertices</em></span></td><td>)</td>
+          <td class="paramtype">Container const &amp;</td>          <td class="paramname"><span class="paramname"><em>t_vertices</em></span></td><td>)</td>
           <td> -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td>
         </tr>
       </table>
@@ -1246,17 +1255,17 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The maximum timevalue in the container </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00431">431</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00448">448</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab6ab6efa59dd4c56cccb8f2a510ed0c3" name="ab6ab6efa59dd4c56cccb8f2a510ed0c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6ab6efa59dd4c56cccb8f2a510ed0c3">&#9670;&#160;</a></span>find_min_timevalue()</h2>
+<a id="a298b22f42e7a13ed1e02e4c5ebb31f6f" name="a298b22f42e7a13ed1e02e4c5ebb31f6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a298b22f42e7a13ed1e02e4c5ebb31f6f">&#9670;&#160;</a></span>find_min_timevalue()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;int dimension, detail::ContainerType Container&gt; </div>
+template&lt;int dimension, detail::ConstForwardRange Container&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1264,7 +1273,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
         <tr>
           <td class="memname">auto cdt::foliated_triangulations::find_min_timevalue </td>
           <td>(</td>
-          <td class="paramtype">Container &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t_vertices</em></span></td><td>)</td>
+          <td class="paramtype">Container const &amp;</td>          <td class="paramname"><span class="paramname"><em>t_vertices</em></span></td><td>)</td>
           <td> -&gt; <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td>
         </tr>
       </table>
@@ -1288,7 +1297,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The minimum timevalue in the container </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00452">452</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00464">464</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1338,7 +1347,7 @@ template&lt;int dimension&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The vertex containing the given point </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140">https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00381">381</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00398">398</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1426,7 +1435,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if incorrectly foliated simplices were fixed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01106">1106</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01100">1100</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1481,7 +1490,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if any vertex-&gt;info() was fixed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00737">737</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00740">740</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1536,7 +1545,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if any vertex-&gt;info() was fixed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00714">714</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00717">717</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1574,7 +1583,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>All of the vertices contained in the cells </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00649">649</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00652">652</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1618,7 +1627,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the cell_info matches expected cell_info </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00810">810</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00813">813</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1673,7 +1682,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the timevalue of the vertex matches its effective radius </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00573">573</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00579">579</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1714,7 +1723,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of vertices that have an associated timevalue </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00328">328</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00347">347</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1782,7 +1791,7 @@ template&lt;int dimension, std::uniform_random_bit_generator Generator&gt; </div
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of (vertex, timevalue) pairs </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01148">1148</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01142">1142</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1851,7 +1860,7 @@ template&lt;int dimension, std::uniform_random_bit_generator Generator&gt; </div
 <dl class="section return"><dt>Returns</dt><dd>An owning Delaunay triangulation detached from the internal lock grid</dd></dl>
 <p>Construction uses the configured parallel range operations when available. The returned triangulation does not borrow the temporary lock grid and can safely outlive this call. Its subsequent range operations are sequential; in a TBB-enabled build, callers can attach a compatible lock grid that they own to re-enable parallel execution. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations" title="CGAL triangulations">CGAL triangulations</a>CGAL triangulations </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01241">1241</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01235">1235</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1890,18 +1899,18 @@ template&lt;int dimension&gt; </div>
 
 </div>
 </div>
-<a id="aee07f6da73d41b61b1b4e53bb3c84dd8" name="aee07f6da73d41b61b1b4e53bb3c84dd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee07f6da73d41b61b1b4e53bb3c84dd8">&#9670;&#160;</a></span>print_cells()</h2>
+<a id="aaf7afbe23ece32d17f81ead68cf5dc3e" name="aaf7afbe23ece32d17f81ead68cf5dc3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf7afbe23ece32d17f81ead68cf5dc3e">&#9670;&#160;</a></span>print_cells()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;int dimension, typename Container&gt; </div>
+template&lt;int dimension, detail::ConstForwardRange Container&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void cdt::foliated_triangulations::print_cells </td>
           <td>(</td>
-          <td class="paramtype">Container &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t_cells</em></span></td><td>)</td>
+          <td class="paramtype">Container const &amp;</td>          <td class="paramname"><span class="paramname"><em>t_cells</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1943,7 +1952,7 @@ template&lt;int dimension&gt; </div>
 </div><div class="memdoc">
 
 <p>Print edge. </p>
-<p>An edge is represented by a cell and two indices which refer to the vertices of the cell connected by the edge. The data is stored in a CGAL::Triple, which is an extension of std::pair. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>An edge is represented by a cell and two indices which refer to the vertices of the cell connected by the edge. The public type is the triangulation's canonical <span class="tt">Delaunay::Edge</span> alias. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">dimension</td><td>The dimensionality of the simplices </td></tr>
   </table>
@@ -1955,11 +1964,9 @@ template&lt;int dimension&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/index.html#fig__TDS3figrepres">https://doc.cgal.org/latest/TDS_3/index.html#fig__TDS3figrepres</a> </dd>
-<dd>
-<a href="https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Triple.html">https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Triple.html</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/index.html#fig__TDS3figrepres">https://doc.cgal.org/latest/TDS_3/index.html#fig__TDS3figrepres</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00946">946</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00940">940</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -1994,7 +2001,7 @@ template&lt;int dimension&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00928">928</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00923">923</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -2038,7 +2045,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The squared radial distance of the vertex from the origin </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00534">534</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00540">540</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -2048,7 +2055,7 @@ template&lt;int dimension&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;int dimension, detail::ContainerType Container&gt; </div>
+template&lt;int dimension, detail::ConstForwardRange Container&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2082,7 +2089,7 @@ template&lt;int dimension, detail::ContainerType Container&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Container with spacelike facets per timeslice </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01026">1026</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l01020">1020</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -2120,7 +2127,7 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if timevalue of lhs is less than rhs </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00422">422</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00439">439</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -2144,7 +2151,7 @@ template&lt;int dimension&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00086">86</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00092">92</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['hastings_20algorithm_0',['Metropolis-Hastings algorithm',['../md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm',1,'']]],
-  ['hastings_20transition_20contract_1',['Metropolis-Hastings transition contract',['../md_docs_2metropolis-hastings.html',1,'']]],
-  ['header_20classification_2',['Header classification',['../md_docs_2api-boundary.html#header-classification',1,'']]],
-  ['how_20to_20cite_20this_20software_3',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]]
+  ['generation_0',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
+  ['generators_1',['PCG random-number generators',['../md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators',1,'']]],
+  ['geometry_20and_20random_20number_20generation_2',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
+  ['geometry_20deltas_3',['State and geometry deltas',['../md_docs_2metropolis-hastings.html#state-and-geometry-deltas',1,'']]]
 ];

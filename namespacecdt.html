@@ -140,8 +140,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-concepts" class="groupheader"><a id="concepts" name="concepts"></a>
 Concepts</h2></td></tr>
-<tr class="memitem:ContainerType" id="r_ContainerType"><td class="memItemLeft">concept &#160;</td><td class="memItemRight"><a class="el" href="conceptcdt_1_1_container_type.html">ContainerType</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires <span class="tt">std::movable</span>, defined in the standard <span class="tt">&lt;concepts&gt;</span> header. <br /></td></tr>
+<tr class="memitem:ConstForwardRange" id="r_ConstForwardRange"><td class="memItemLeft">concept &#160;</td><td class="memItemRight"><a class="el" href="conceptcdt_1_1_const_forward_range.html">ConstForwardRange</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A multi-pass range whose const-qualified value can be traversed by classification and materialization helpers. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -153,8 +153,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a3de1b640337333982c080630a7f80d92 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a3de1b640337333982c080630a7f80d92">Delaunay_t</a> = typename detail::TriangulationTraits&lt;dimension&gt;::Delaunay</td></tr>
 <tr class="memitem:ad9fd904096faeb4bf67f5b2a6ce0f2d5" id="r_ad9fd904096faeb4bf67f5b2a6ce0f2d5"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:ad9fd904096faeb4bf67f5b2a6ce0f2d5 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ad9fd904096faeb4bf67f5b2a6ce0f2d5">Edge_handle_t</a></td></tr>
-<tr class="memitem:ae12b87713ce5c15f4b66d2e6ad1d7b1f" id="r_ae12b87713ce5c15f4b66d2e6ad1d7b1f"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
-<tr class="memitem:ae12b87713ce5c15f4b66d2e6ad1d7b1f template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ae12b87713ce5c15f4b66d2e6ad1d7b1f">Face_handle_t</a></td></tr>
 <tr class="memitem:a1bd9087be368ffbd8c33df1afcb7be95" id="r_a1bd9087be368ffbd8c33df1afcb7be95"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a1bd9087be368ffbd8c33df1afcb7be95 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a1bd9087be368ffbd8c33df1afcb7be95">Facet_t</a> = typename detail::TriangulationTraits&lt;dimension&gt;::Facet</td></tr>
 <tr class="memitem:a881928b21066d3dbf7340ccd44c642db" id="r_a881928b21066d3dbf7340ccd44c642db"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a881928b21066d3dbf7340ccd44c642db">Geometry_3</a> = <a class="el" href="structcdt_1_1_geometry.html">Geometry</a>&lt;3&gt;</td></tr>
@@ -239,7 +237,7 @@ template&lt;int dimension&gt; </div>
 <div class="line">std::vector&lt;std::pair&lt;Point_t&lt;dimension&gt;, <a class="code hl_typedef" href="#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>&gt;&gt;</div>
 <div class="ttc" id="anamespacecdt_html_a7fdde000f87f9b5df3570a6f7f5802dd"><div class="ttname"><a href="#a7fdde000f87f9b5df3570a6f7f5802dd">cdt::Int_precision</a></div><div class="ttdeci">std::int32_t Int_precision</div><div class="ttdef"><b>Definition</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00050">50</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00061">61</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -259,7 +257,7 @@ template&lt;int dimension&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line"> </div>
 <div class="line"><span class="keyword">typename</span> detail::TriangulationTraits&lt;dimension&gt;::Cell_handle</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00054">54</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00065">65</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -277,7 +275,7 @@ template&lt;int dimension&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00044">44</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00055">55</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -297,27 +295,7 @@ template&lt;int dimension&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line"> </div>
 <div class="line"><span class="keyword">typename</span> detail::TriangulationTraits&lt;dimension&gt;::Edge_handle</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00065">65</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ae12b87713ce5c15f4b66d2e6ad1d7b1f" name="ae12b87713ce5c15f4b66d2e6ad1d7b1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae12b87713ce5c15f4b66d2e6ad1d7b1f">&#9670;&#160;</a></span>Face_handle_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dimension&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using cdt::Face_handle_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> </div>
-<div class="line"><span class="keyword">typename</span> detail::TriangulationTraits&lt;dimension&gt;::Face_handle</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00058">58</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00072">72</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -335,7 +313,7 @@ template&lt;int dimension&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00062">62</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00069">69</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -440,7 +418,7 @@ template&lt;int dimension&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00047">47</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00058">58</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -492,7 +470,7 @@ template&lt;int dimension&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line"><span class="keyword">typename</span> detail::TriangulationTraits&lt;</div>
 <div class="line">     dimension&gt;::Spherical_points_generator</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00073">73</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00080">80</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -512,7 +490,7 @@ template&lt;int dimension&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line"> </div>
 <div class="line"><span class="keyword">typename</span> detail::TriangulationTraits&lt;dimension&gt;::Vertex_handle</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00069">69</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00076">76</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -539,7 +517,7 @@ template&lt;int dimension&gt; </div>
 
 <p>(n,m) is number of vertices on (lower, higher) timeslice </p>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00309">309</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00328">328</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -741,7 +719,7 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 
 <p>Except when we only need 32 bits. </p>
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00060">60</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00058">58</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
 </div>
 </div>
@@ -767,7 +745,7 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 
 <p>Aligns data for ease of access on 64-bit CPUs at the expense of padding. </p>
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00057">57</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00055">55</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
 </div>
 </div>
@@ -791,7 +769,7 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00048">48</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00046">46</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
 </div>
 </div>
@@ -817,7 +795,7 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 
 <p>Depends on INITIAL_RADIUS and RADIAL_FACTOR. </p>
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00054">54</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00052">52</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
 </div>
 </div>
@@ -843,9 +821,9 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 
 <p>Default foliated triangulation spacings. </p>
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00047">47</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00045">45</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_foliated__triangulation_8hpp_source.html#l01536">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01468">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01522">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01504">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_manifold_8hpp_source.html#l00148">cdt::manifolds::Manifold&lt; 3 &gt;::Manifold()</a>, <a class="el" href="_manifold_8hpp_source.html#l00135">cdt::manifolds::Manifold&lt; 3 &gt;::Manifold()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00118">cdt::manifolds::Manifold&lt; 3 &gt;::Manifold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_foliated__triangulation_8hpp_source.html#l01595">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01527">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01581">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_foliated__triangulation_8hpp_source.html#l01563">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation()</a>, <a class="el" href="_manifold_8hpp_source.html#l00148">cdt::manifolds::Manifold&lt; 3 &gt;::Manifold()</a>, <a class="el" href="_manifold_8hpp_source.html#l00135">cdt::manifolds::Manifold&lt; 3 &gt;::Manifold()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00118">cdt::manifolds::Manifold&lt; 3 &gt;::Manifold()</a>.</p>
 
 </div>
 </div>
@@ -872,7 +850,7 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 <p>Sets the precision for <a href="http://www.mpfr.org">MPFR</a>. </p>
 <p>Correctly declare global constants See Jonathan Boccara's C++ Pitfalls, January 2021 </p>
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00044">44</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00042">42</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
 </div>
 </div>
@@ -898,9 +876,9 @@ template&lt;typename ManifoldType, typename FunctionType, typename... Arguments&
 
 <p>Sets epsilon values for floating point comparisons. </p>
 
-<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00051">51</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_settings_8hpp_source.html#l00049">49</a> of file <a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_foliated__triangulation_8hpp_source.html#l01667">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::does_vertex_radius_match_timevalue()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_foliated__triangulation_8hpp_source.html#l01738">cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::does_vertex_radius_match_timevalue()</a>.</p>
 
 </div>
 </div>

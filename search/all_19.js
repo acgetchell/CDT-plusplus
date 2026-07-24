@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['workflow_0',['Developer workflow',['../index.html#developer-workflow',1,'']]],
-  ['write_5ffile_1',['write_file',['../_utilities_8hpp.html#a9d69dbb0b8c01675ea4f5106741c392b',1,'cdt::utilities::write_file(std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation)'],['../_utilities_8hpp.html#a6cc3893f8e34ce6d05e905e707b447e8',1,'cdt::utilities::write_file(std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation, Reproducibility_metadata const &amp;metadata)'],['../_utilities_8hpp.html#ab114bab123752af7729987e492135e4e',1,'cdt::utilities::write_file(ManifoldType const &amp;t_universe)'],['../_utilities_8hpp.html#a1ba4d5ce4d4e45bfeae179bb4ddbbb2c',1,'cdt::utilities::write_file(ManifoldType const &amp;t_universe, cdt::Random_seed const seed)'],['../_utilities_8hpp.html#a971106241ec92821fb51e2d0e62c7816',1,'cdt::utilities::write_file(ManifoldType const &amp;t_universe, cdt::Random_seed const seed, Int_precision const completed_passes)'],['../_utilities_8hpp.html#a85166fa219540226c4608dff1e06b787',1,'cdt::utilities::write_file(ManifoldType const &amp;universe, Reproducibility_metadata const &amp;metadata)']]],
-  ['writes_5ffiles_2',['writes_files',['../classcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a5cbab32b8df91447f6e6ab8d84997805',1,'cdt::MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::writes_files()'],['../classcdt_1_1_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a9e5b298ab2f1694f192fbbd296336b75',1,'cdt::MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::writes_files()']]]
+  ['validate_20the_20release_20branch_0',['Validate the release branch',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#validate-the-release-branch',1,'']]],
+  ['vcpkg_20maintenance_1',['vcpkg maintenance',['../index.html#vcpkg-maintenance',1,'']]],
+  ['verification_20record_2',['Verification record',['../md_docs_2ergodic-moves.html#verification-record',1,'']]],
+  ['verify_20the_20release_3',['Step 3: Publish and verify the release',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-3-publish-and-verify-the-release',1,'']]],
+  ['vertices_4',['vertices',['../classcdt_1_1manifolds_1_1_manifold_3_013_01_4.html#a2b9f7bc8c269b8f679c9b08a147e8d89',1,'cdt::manifolds::Manifold&lt; 3 &gt;']]],
+  ['visualization_5',['Visualization',['../index.html#visualization',1,'']]],
+  ['volume_5fper_5ftimeslice_6',['volume_per_timeslice',['../_foliated__triangulation_8hpp.html#a342ef9af1e787cc5e171010c2e42a97e',1,'cdt::foliated_triangulations']]]
 ];

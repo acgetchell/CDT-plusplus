@@ -197,7 +197,7 @@ requires std::predicate&lt;Post_mutation_validator&amp;, Delaunay const&amp;&gt;
 <tr class="memitem:ac597458cab62eddef5ef472a2ca32e8f" id="r_ac597458cab62eddef5ef472a2ca32e8f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac597458cab62eddef5ef472a2ca32e8f">cdt::ergodic_moves::detail::canonicalize</a> (Vertex_container &amp;vertices)</td></tr>
 <tr class="memitem:aa05b8dbb08b146c474f057676328dc22" id="r_aa05b8dbb08b146c474f057676328dc22"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa05b8dbb08b146c474f057676328dc22">cdt::ergodic_moves::detail::cell_precedes</a> (Cell_handle const &amp;left, Cell_handle const &amp;right) -&gt; bool</td></tr>
 <tr class="memitem:aa5f04cee3d0e5ee231593517f0ba9f0a" id="r_aa5f04cee3d0e5ee231593517f0ba9f0a"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa5f04cee3d0e5ee231593517f0ba9f0a">cdt::ergodic_moves::detail::check_move</a> (Manifold const &amp;before, Manifold const &amp;after, <a class="el" href="_move__tracker_8hpp.html#abfd4202e81dcb5f3729e3b30a3f79dbc">move_tracker::move_type</a> const &amp;move) -&gt; bool</td></tr>
-<tr class="memdesc:aa5f04cee3d0e5ee231593517f0ba9f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check tracked move deltas and the complete CDT manifold invariant.  <br /></td></tr>
+<tr class="memdesc:aa5f04cee3d0e5ee231593517f0ba9f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check tracked move deltas and essential CDT manifold invariants.  <br /></td></tr>
 <tr class="memitem:afd7a86bf27fe9de16f51b13c47ea8eee" id="r_afd7a86bf27fe9de16f51b13c47ea8eee"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:afd7a86bf27fe9de16f51b13c47ea8eee template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#afd7a86bf27fe9de16f51b13c47ea8eee">cdt::ergodic_moves::do_23_move</a> (Manifold const &amp;t_manifold, Generator &amp;generator) -&gt; Expected</td></tr>
 <tr class="memdesc:afd7a86bf27fe9de16f51b13c47ea8eee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (2,3) move.  <br /></td></tr>
@@ -975,8 +975,8 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Check tracked move deltas and the complete CDT manifold invariant. </p>
-<p>This verifies causal foliation, cell metadata, TDS validity, geometry counts, time bounds, and preserved foliation parameters. It does not require Euclidean Delaunayhood. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Check tracked move deltas and essential CDT manifold invariants. </p>
+<p>This verifies structural cache counts, causal foliation, cell metadata, TDS validity, geometry deltas, time bounds, and preserved foliation parameters without rebuilding derived caches. It does not require Euclidean Delaunayhood. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_before</td><td>The manifold before the move </td></tr>
     <tr><td class="paramname">t_after</td><td>The manifold after the move </td></tr>
@@ -986,7 +986,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the move correctly changed the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01812">1812</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l01813">1813</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
 </div>
 </div>
