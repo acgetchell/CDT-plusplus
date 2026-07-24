@@ -126,8 +126,9 @@ SCENARIO("CGAL insertion rejects ambiguous boundary metadata" *
 
     THEN("Pair construction rejects the narrowing conversion.")
     {
-      CHECK_THROWS_AS(cdt::foliated_triangulations::make_causal_vertices<3>(
-                          points, timevalues),
+      CHECK_THROWS_AS(static_cast<void>(
+                          cdt::foliated_triangulations::make_causal_vertices<3>(
+                              points, timevalues)),
                       std::out_of_range);
     }
   }

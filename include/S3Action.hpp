@@ -30,11 +30,26 @@
 
 namespace cdt::s3_action
 {
-  struct PhysicalParameters
+  class PhysicalParameters
   {
-    long double alpha;
-    long double k;
-    long double lambda;
+    long double m_alpha;
+    long double m_k;
+    long double m_lambda;
+
+    explicit constexpr PhysicalParameters(long double const alpha,
+                                          long double const k,
+                                          long double const lambda) noexcept
+        : m_alpha{alpha}, m_k{k}, m_lambda{lambda}
+    {}
+
+    friend auto make_physical_parameters(long double alpha, long double k,
+                                         long double lambda)
+        -> PhysicalParameters;
+
+   public:
+    [[nodiscard]] constexpr auto alpha() const noexcept { return m_alpha; }
+    [[nodiscard]] constexpr auto k() const noexcept { return m_k; }
+    [[nodiscard]] constexpr auto lambda() const noexcept { return m_lambda; }
   };
 
   [[nodiscard]] inline auto make_physical_parameters(long double const alpha,
@@ -50,19 +65,22 @@ namespace cdt::s3_action
     {
       throw std::domain_error("Alpha in 3D must be greater than 1/2.");
     }
-    return {alpha, k, lambda};
+    return PhysicalParameters{alpha, k, lambda};
   }
 
-  [[nodiscard]] inline auto make_finite_couplings(long double const k,
-                                                  long double const lambda)
-      -> std::pair<long double, long double>
+  namespace detail
   {
-    if (!std::isfinite(k) || !std::isfinite(lambda))
+    [[nodiscard]] inline auto make_finite_couplings(long double const k,
+                                                    long double const lambda)
+        -> std::pair<long double, long double>
     {
-      throw std::invalid_argument("Physical parameters must be finite.");
+      if (!std::isfinite(k) || !std::isfinite(lambda))
+      {
+        throw std::invalid_argument("Physical parameters must be finite.");
+      }
+      return {k, lambda};
     }
-    return {k, lambda};
-  }
+  }  // namespace detail
   /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
   ///
   /// This result is i* the action for Euclidean dynamically triangulated
@@ -73,26 +91,26 @@ namespace cdt::s3_action
   /// \lambda\right)+N_3^{(2,2)}\left(7.386ik+0.118i\lambda\right)
   /// \equiv iS^3_{EDT}\f]
   ///
-  /// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-  /// @param N3_31_13  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+  /// @param n1_tl_count \f$N_1^{TL}\f$ is the number of timelike links
+  /// @param n3_31_13_count \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
   /// simplices
-  /// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
-  /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-  /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+  /// @param n3_22_count \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+  /// @param k_value \f$k=\frac{1}{8\pi G_{Newton}}\f$
+  /// @param lambda_value \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
   ///                   Cosmological constant
   /// @returns \f$S^{(3)}(\alpha=-1)\f$ as a 256-bit MPFR value
-  [[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
-      Int_precision const N1_TL, Int_precision const N3_31_13,
-      Int_precision const N3_22, long double const K, long double const Lambda)
-      -> mpfr_values::Value
+  [[nodiscard]] inline auto s3_bulk_action_alpha_minus_one(
+      Int_precision const n1_tl_count, Int_precision const n3_31_13_count,
+      Int_precision const n3_22_count, long double const k_value,
+      long double const lambda_value) -> mpfr_values::Value
   {
     auto const [checked_k, checked_lambda] =
-        s3_action::make_finite_couplings(K, Lambda);
+        detail::make_finite_couplings(k_value, lambda_value);
 
     // Set input parameters and constants to MPFR equivalents
-    auto const n1_tl     = mpfr_values::from_integer(N1_TL);
-    auto const n3_31     = mpfr_values::from_integer(N3_31_13);
-    auto const n3_22     = mpfr_values::from_integer(N3_22);
+    auto const n1_tl     = mpfr_values::from_integer(n1_tl_count);
+    auto const n3_31     = mpfr_values::from_integer(n3_31_13_count);
+    auto const n3_22     = mpfr_values::from_integer(n3_22_count);
     auto const k         = mpfr_values::from_long_double(checked_k);
     auto const lambda    = mpfr_values::from_long_double(checked_lambda);
     auto const two       = mpfr_values::from_integer(2);
@@ -125,7 +143,7 @@ namespace cdt::s3_action
     auto const total = mpfr_values::add(r11, r12);     // total = r11+r12
 
     return total;
-  }  // S3_bulk_action_alpha_minus_one()
+  }  // s3_bulk_action_alpha_minus_one()
 
   /// @brief Calculates S3 bulk action for \f$\alpha\f$=1.
   ///
@@ -134,26 +152,26 @@ namespace cdt::s3_action
   /// \f[S^{(3)}(\alpha=1)=2\pi k N_1^{TL}+N_3^{(3,1)}\left(-3.548k-0.167\lambda
   /// \right)+N_3^{(2,2)}\left(-5.355k-0.204\lambda\right)\f]
   ///
-  /// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-  /// @param N3_31_13  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+  /// @param n1_tl_count \f$N_1^{TL}\f$ is the number of timelike links
+  /// @param n3_31_13_count \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
   /// simplices
-  /// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
-  /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-  /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+  /// @param n3_22_count \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+  /// @param k_value \f$k=\frac{1}{8\pi G_{Newton}}\f$
+  /// @param lambda_value \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
   ///                   Cosmological constant
   /// @returns \f$S^{(3)}(\alpha=1)\f$ as a 256-bit MPFR value
-  [[nodiscard]] inline auto S3_bulk_action_alpha_one(
-      Int_precision const N1_TL, Int_precision const N3_31_13,
-      Int_precision const N3_22, long double const K, long double const Lambda)
-      -> mpfr_values::Value
+  [[nodiscard]] inline auto s3_bulk_action_alpha_one(
+      Int_precision const n1_tl_count, Int_precision const n3_31_13_count,
+      Int_precision const n3_22_count, long double const k_value,
+      long double const lambda_value) -> mpfr_values::Value
   {
     auto const [checked_k, checked_lambda] =
-        s3_action::make_finite_couplings(K, Lambda);
+        detail::make_finite_couplings(k_value, lambda_value);
 
     // Set input parameters and constants to MPFR equivalents
-    auto const n1_tl     = mpfr_values::from_integer(N1_TL);
-    auto const n3_31     = mpfr_values::from_integer(N3_31_13);
-    auto const n3_22     = mpfr_values::from_integer(N3_22);
+    auto const n1_tl     = mpfr_values::from_integer(n1_tl_count);
+    auto const n3_31     = mpfr_values::from_integer(n3_31_13_count);
+    auto const n3_22     = mpfr_values::from_integer(n3_22_count);
     auto const k         = mpfr_values::from_long_double(checked_k);
     auto const lambda    = mpfr_values::from_long_double(checked_lambda);
     auto const two       = mpfr_values::from_integer(2);
@@ -187,7 +205,7 @@ namespace cdt::s3_action
     auto const total = mpfr_values::add(r11, r12);  // total = r11+r12
 
     return total;
-  }  // S3_bulk_action_alpha_one()
+  }  // s3_bulk_action_alpha_one()
 
   /// @brief Calculates the generalized S3 bulk action in terms of \f$\alpha\f$,
   /// \f$k\f$, \f$\lambda\f$, \f$N_1^{TL}\f$, \f$N_3^{(3,1)}\f$, and
@@ -206,33 +224,28 @@ namespace cdt::s3_action
   /// {4\alpha +1}\right)-4k\sqrt{\alpha}\text{arccos}\left(\frac{-1}{4\alpha+1}
   /// \right)-\frac{\lambda}{12}\sqrt{4\alpha +2}\right]\f}
   ///
-  /// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-  /// @param N3_31_13  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+  /// @param n1_tl_count \f$N_1^{TL}\f$ is the number of timelike links
+  /// @param n3_31_13_count \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
   /// simplices
-  /// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
-  /// @param Alpha  \f$\alpha\f$ is the timelike edge length
-  /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-  /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
-  ///                   Cosmological constant
+  /// @param n3_22_count \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+  /// @param parameters Validated physical parameters for the action
   /// @returns \f$S^{(3)}(\alpha)\f$ as a 256-bit MPFR value
   /// @see [Regge calculus](../REFERENCES.md#regge-calculus)
   /// @see [Three-dimensional CDT
   /// action](../REFERENCES.md#three-dimensional-cdt-2001)
-  [[nodiscard]] inline auto S3_bulk_action(
-      Int_precision const N1_TL, Int_precision const N3_31_13,
-      Int_precision const N3_22, long double const Alpha, long double const K,
-      long double const Lambda) -> mpfr_values::Value
+  [[nodiscard]] inline auto s3_bulk_action(Int_precision const n1_tl_count,
+                                           Int_precision const n3_31_13_count,
+                                           Int_precision const n3_22_count,
+                                           PhysicalParameters const& parameters)
+      -> mpfr_values::Value
   {
-    auto const parameters =
-        s3_action::make_physical_parameters(Alpha, K, Lambda);
-
     // Set input parameters and constants to MPFR equivalents
-    auto const n1_tl  = mpfr_values::from_integer(N1_TL);
-    auto const n3_31  = mpfr_values::from_integer(N3_31_13);
-    auto const n3_22  = mpfr_values::from_integer(N3_22);
-    auto const alpha  = mpfr_values::from_long_double(parameters.alpha);
-    auto const k      = mpfr_values::from_long_double(parameters.k);
-    auto const lambda = mpfr_values::from_long_double(parameters.lambda);
+    auto const n1_tl  = mpfr_values::from_integer(n1_tl_count);
+    auto const n3_31  = mpfr_values::from_integer(n3_31_13_count);
+    auto const n3_22  = mpfr_values::from_integer(n3_22_count);
+    auto const alpha  = mpfr_values::from_long_double(parameters.alpha());
+    auto const k      = mpfr_values::from_long_double(parameters.k());
+    auto const lambda = mpfr_values::from_long_double(parameters.lambda());
     auto const two    = mpfr_values::from_integer(2);
     auto const pi     = mpfr_values::pi();
     auto const three  = mpfr_values::from_integer(3);
@@ -325,7 +338,7 @@ namespace cdt::s3_action
     auto const total = mpfr_values::add(r51, r52);  // total = r51+r52
 
     return total;
-  }  // S3_bulk_action()
+  }  // s3_bulk_action()
 
 #pragma GCC diagnostic pop
 

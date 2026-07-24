@@ -11,6 +11,7 @@
 #define CDT_PLUSPLUS_RUNTIME_CONFIG_HPP
 
 #include <cmath>
+#include <cstddef>
 #include <limits>
 #include <stdexcept>
 #include <string>
@@ -29,24 +30,24 @@ namespace cdt::runtime_config
     friend auto make_triangulation(bool spherical, bool toroidal,
                                    long long simplices, long long timeslices,
                                    long long dimensions, double initial_radius,
-                                   double           foliation_spacing,
-                                   cdt::Random_seed seed) -> Triangulation;
+                                   double          foliation_spacing,
+                                   cdt::RandomSeed seed, long long threads)
+        -> Triangulation;
 
-    topology_type    m_topology;
-    Int_precision    m_simplices;
-    Int_precision    m_timeslices;
-    Int_precision    m_dimensions;
-    double           m_initial_radius;
-    double           m_foliation_spacing;
-    cdt::Random_seed m_seed;
+    Topology        m_topology;
+    Int_precision   m_simplices;
+    Int_precision   m_timeslices;
+    Int_precision   m_dimensions;
+    double          m_initial_radius;
+    double          m_foliation_spacing;
+    cdt::RandomSeed m_seed;
+    std::size_t     m_threads;
 
-    explicit Triangulation(topology_type const    topology,
-                           Int_precision const    simplices,
-                           Int_precision const    timeslices,
-                           Int_precision const    dimensions,
-                           double const           initial_radius,
-                           double const           foliation_spacing,
-                           cdt::Random_seed const seed) noexcept
+    explicit Triangulation(
+        Topology const topology, Int_precision const simplices,
+        Int_precision const timeslices, Int_precision const dimensions,
+        double const initial_radius, double const foliation_spacing,
+        cdt::RandomSeed const seed, std::size_t const threads) noexcept
         : m_topology{topology}
         , m_simplices{simplices}
         , m_timeslices{timeslices}
@@ -54,6 +55,7 @@ namespace cdt::runtime_config
         , m_initial_radius{initial_radius}
         , m_foliation_spacing{foliation_spacing}
         , m_seed{seed}
+        , m_threads{threads}
     {}
 
    public:
@@ -63,7 +65,7 @@ namespace cdt::runtime_config
     auto operator=(Triangulation&&) noexcept -> Triangulation& = default;
     ~Triangulation()                                           = default;
 
-    [[nodiscard]] auto topology() const noexcept -> topology_type
+    [[nodiscard]] auto topology() const noexcept -> Topology
     { return m_topology; }
 
     [[nodiscard]] auto simplices() const noexcept -> Int_precision
@@ -81,8 +83,12 @@ namespace cdt::runtime_config
     [[nodiscard]] auto foliation_spacing() const noexcept -> double
     { return m_foliation_spacing; }
 
-    [[nodiscard]] auto seed() const noexcept -> cdt::Random_seed
+    [[nodiscard]] auto seed() const noexcept -> cdt::RandomSeed
     { return m_seed; }
+
+    /// @returns The maximum oneTBB concurrency for eligible Delaunay work.
+    [[nodiscard]] auto threads() const noexcept -> std::size_t
+    { return m_threads; }
   };
 
   /// Complete validated configuration for the Metropolis simulation.
@@ -171,9 +177,32 @@ namespace cdt::runtime_config
       return static_cast<Int_precision>(value);
     }
 
+    [[nodiscard]] inline auto checked_threads(long long const value)
+        -> std::size_t
+    {
+      if (value <= 0)
+      {
+        throw std::invalid_argument("Thread count must be positive.");
+      }
+      if (!std::in_range<std::size_t>(value))
+      {
+        throw std::out_of_range(
+            "Thread count exceeds the supported size range.");
+      }
+#if !defined(CDT_ENABLE_PARALLEL_TRIANGULATION) || \
+    !CDT_ENABLE_PARALLEL_TRIANGULATION
+      if (value != 1)
+      {
+        throw std::invalid_argument(
+            "This build supports only --threads 1; use the parallel preset "
+            "for larger values.");
+      }
+#endif
+      return static_cast<std::size_t>(value);
+    }
+
     [[nodiscard]] inline auto select_topology(bool const spherical,
-                                              bool const toroidal)
-        -> topology_type
+                                              bool const toroidal) -> Topology
     {
       if (spherical == toroidal)
       {
@@ -185,7 +214,7 @@ namespace cdt::runtime_config
         throw std::invalid_argument(
             "Toroidal triangulations are not yet supported.");
       }
-      return topology_type::SPHERICAL;
+      return Topology::SPHERICAL;
     }
 
     using GeneratedPopulation = utilities::Generated_population_bounds;
@@ -231,7 +260,8 @@ namespace cdt::runtime_config
       bool const spherical, bool const toroidal, long long const simplices,
       long long const timeslices, long long const dimensions,
       double const initial_radius, double const foliation_spacing,
-      cdt::Random_seed const seed = 0) -> Triangulation
+      cdt::RandomSeed const seed    = cdt::RandomSeed{},
+      long long const       threads = 1) -> Triangulation
   {
     auto const topology = detail::select_topology(spherical, toroidal);
     auto const checked_simplices =
@@ -268,13 +298,15 @@ namespace cdt::runtime_config
     [[maybe_unused]] auto const population = detail::make_generated_population(
         checked_simplices, checked_timeslices, checked_initial_radius,
         checked_foliation_spacing);
+    auto const checked_threads = detail::checked_threads(threads);
     return Triangulation{topology,
                          checked_simplices,
                          checked_timeslices,
                          checked_dimensions,
                          checked_initial_radius,
                          checked_foliation_spacing,
-                         seed};
+                         seed,
+                         checked_threads};
   }
 
   /// Validate the complete simulation configuration.

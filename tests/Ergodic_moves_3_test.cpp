@@ -19,11 +19,11 @@ using namespace cdt;
 using namespace std;
 using namespace manifolds;
 
-static inline std::floating_point auto constexpr RADIUS_2 =
+static inline constexpr std::floating_point auto RADIUS_2 =
     2.0 * std::numbers::inv_sqrt3_v<double>;
-static inline std::floating_point auto constexpr SQRT_2 =
+static inline constexpr std::floating_point auto SQRT_2 =
     std::numbers::sqrt2_v<double>;
-static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
+static inline constexpr std::floating_point auto INV_SQRT_2 = 1 / SQRT_2;
 
 namespace
 {
@@ -41,10 +41,10 @@ namespace
     Int_precision n0;
   };
 
-  [[nodiscard]] auto constexpr expected_geometry_delta(
-      move_tracker::move_type const move) -> ExpectedGeometryDelta
+  [[nodiscard]] constexpr auto expected_geometry_delta(
+      move_tracker::MoveType const move) -> ExpectedGeometryDelta
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     switch (move)
     {
       case TWO_THREE: return {1, 0, 0, 0, 1, 2, 1, 1, 0, 0};
@@ -57,7 +57,7 @@ namespace
   }
 
   void check_geometry_delta(Manifold_3 const& before, Manifold_3 const& after,
-                            move_tracker::move_type const move)
+                            move_tracker::MoveType const move)
   {
     auto const expected = expected_geometry_delta(move);
     CHECK_EQ(after.N3() - before.N3(), expected.n3);
@@ -148,9 +148,9 @@ SCENARIO("Use check_move to validate successful move" *
       THEN("check_move returns true")
       {
         check_geometry_delta(manifold_before, manifold,
-                             move_tracker::move_type::TWO_THREE);
+                             move_tracker::MoveType::TWO_THREE);
         CHECK(ergodic_moves::detail::check_move(
-            manifold_before, manifold, move_tracker::move_type::TWO_THREE));
+            manifold_before, manifold, move_tracker::MoveType::TWO_THREE));
       }
     }
   }
@@ -205,9 +205,9 @@ SCENARIO(
       THEN("The move is correct and the manifold invariants are maintained")
       {
         check_geometry_delta(manifold_before, manifold,
-                             move_tracker::move_type::TWO_THREE);
+                             move_tracker::MoveType::TWO_THREE);
         CHECK(ergodic_moves::detail::check_move(
-            manifold_before, manifold, move_tracker::move_type::TWO_THREE));
+            manifold_before, manifold, move_tracker::MoveType::TWO_THREE));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 5);
@@ -263,9 +263,9 @@ SCENARIO(
       THEN("The move is correct and the manifold invariants are maintained")
       {
         check_geometry_delta(manifold_before, manifold,
-                             move_tracker::move_type::THREE_TWO);
+                             move_tracker::MoveType::THREE_TWO);
         CHECK(ergodic_moves::detail::check_move(
-            manifold_before, manifold, move_tracker::move_type::THREE_TWO));
+            manifold_before, manifold, move_tracker::MoveType::THREE_TWO));
         // Manual check
         REQUIRE(manifold.is_correct());
         CHECK_EQ(manifold.vertices(), 5);
@@ -344,9 +344,9 @@ SCENARIO(
         THEN("The move is correct and the manifold invariants are maintained")
         {
           check_geometry_delta(manifold_before, manifold,
-                               move_tracker::move_type::TWO_SIX);
+                               move_tracker::MoveType::TWO_SIX);
           CHECK(ergodic_moves::detail::check_move(
-              manifold_before, manifold, move_tracker::move_type::TWO_SIX));
+              manifold_before, manifold, move_tracker::MoveType::TWO_SIX));
           // Manual check
           REQUIRE(manifold.is_correct());
           CHECK_EQ(manifold.vertices(), 6);  // +1 vertex
@@ -412,10 +412,10 @@ SCENARIO(
         THEN("The move is correct and the manifold invariants are maintained")
         {
           check_geometry_delta(manifold_before, manifold,
-                               move_tracker::move_type::SIX_TWO);
+                               move_tracker::MoveType::SIX_TWO);
           // Check the move
           CHECK(ergodic_moves::detail::check_move(
-              manifold_before, manifold, move_tracker::move_type::SIX_TWO));
+              manifold_before, manifold, move_tracker::MoveType::SIX_TWO));
           // Manual check
           REQUIRE(manifold.is_correct());
           CHECK(manifold.is_foliated());
@@ -504,10 +504,10 @@ SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
         THEN("The move is correct and the manifold invariants are maintained")
         {
           check_geometry_delta(manifold_before, manifold,
-                               move_tracker::move_type::FOUR_FOUR);
+                               move_tracker::MoveType::FOUR_FOUR);
           // Check the move
           CHECK(ergodic_moves::detail::check_move(
-              manifold_before, manifold, move_tracker::move_type::FOUR_FOUR));
+              manifold_before, manifold, move_tracker::MoveType::FOUR_FOUR));
           CHECK_EQ(manifold.initial_radius(), manifold_before.initial_radius());
           CHECK_EQ(manifold.foliation_spacing(),
                    manifold_before.foliation_spacing());

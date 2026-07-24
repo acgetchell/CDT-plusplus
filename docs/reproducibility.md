@@ -20,6 +20,12 @@ are invalid in Windows filenames.
 ./out/build/reference/src/initialize -s -n640 -t4 --seed 92
 ```
 
+`--threads` is orthogonal to RNG ownership. It defaults to 1 and records the
+maximum eligible Delaunay concurrency as `parallel.max_threads` in persisted
+metadata. Parallel scheduling consumes no random draws; changing the thread
+limit can nevertheless select another valid CGAL topology for cospherical
+input, so the fresh-topology replay limitations below still apply.
+
 Distributions are short-lived operations applied to a caller-owned engine.
 Algorithms do not acquire entropy per sample, and tests use fixed seeds. The
 repository-owned Semgrep rules prevent new direct `std::random_device` or PCG
@@ -73,6 +79,7 @@ manifest. The manifest records:
 - requested and actual topology dimensions and counts;
 - foliation parameters and, for simulations, the action parameters and pass
   cadence;
+- the maximum requested Delaunay thread count;
 - completed passes and the transition-trace fingerprint;
 - a canonical placement fingerprint derived from sorted finite vertices and
   their timeslices;

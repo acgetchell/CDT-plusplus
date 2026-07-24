@@ -36,6 +36,11 @@ function(add_cli_failure_test test_name target expected_regex)
   set_tests_properties(${test_name} PROPERTIES LABELS "integration;cli-boundary")
 endfunction()
 
+set(cdt_cli_explicit_threads 1)
+if(ENABLE_PARALLEL_TRIANGULATION)
+  set(cdt_cli_explicit_threads 2)
+endif()
+
 add_test(
   NAME cdt
   COMMAND
@@ -44,6 +49,7 @@ add_test(
     "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-output"
     "-DEXPECTED_ARTIFACT=final-triangulation"
     "-DEXPECTED_SEED=92"
+    "-DEXPECTED_THREADS=1"
     "-DTEST_ARGUMENTS=-s;-n127;-t4;-a0.6;-k1.1;-l0.1;-p1;--seed;92"
     -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
 set_tests_properties(cdt PROPERTIES LABELS "integration;persistence")
@@ -54,6 +60,7 @@ add_test(
     ${CMAKE_COMMAND} -DCDT_EXECUTABLE=$<TARGET_FILE:cdt>
     -DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}
     -DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-no-output
+    -DTEST_THREADS=${cdt_cli_explicit_threads}
     -P ${PROJECT_SOURCE_DIR}/cmake/RunCdtNoOutputTest.cmake)
 set_tests_properties(cdt-no-output PROPERTIES LABELS "integration")
 
@@ -76,6 +83,8 @@ add_cli_failure_test(cdt-spacing-zero cdt "Foliation spacing must be positive." 
 add_cli_failure_test(cdt-empty-population cdt "would create an empty triangulation" -s -n3 -t2 -a0.6 -k1.1 -l0.1 --seed 92)
 add_cli_failure_test(cdt-integer-narrowing cdt "exceeds the supported integer range" -s -n2147483648 -t3 -a0.6
                      -k1.1 -l0.1 --seed 92)
+add_cli_failure_test(cdt-threads-zero cdt "Thread count must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1
+                     --threads 0 --seed 92)
 
 add_test(
   NAME initialize
@@ -85,7 +94,8 @@ add_test(
     "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/initialize-output"
     "-DEXPECTED_ARTIFACT=initial-triangulation"
     "-DEXPECTED_SEED=92"
-    "-DTEST_ARGUMENTS=-s;-n640;-t4;-o;--seed;92"
+    "-DEXPECTED_THREADS=${cdt_cli_explicit_threads}"
+    "-DTEST_ARGUMENTS=-s;-n640;-t4;-o;--seed;92;--threads;${cdt_cli_explicit_threads}"
     -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
 set_tests_properties(initialize PROPERTIES LABELS "integration;persistence")
 
@@ -96,6 +106,7 @@ add_test(
     "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}"
     "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/initialize-generated-seed-output"
     "-DEXPECTED_ARTIFACT=initial-triangulation"
+    "-DEXPECTED_THREADS=1"
     "-DTEST_ARGUMENTS=-s;-n64;-t3;-o" -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
 set_tests_properties(initialize-generated-seed PROPERTIES LABELS "integration;persistence")
 
@@ -106,3 +117,5 @@ add_cli_failure_test(initialize-dimensionality initialize "Only three-dimensiona
 add_cli_failure_test(initialize-toroidal initialize "Toroidal triangulations are not yet supported." -e -n64 -t3 -o --seed 92)
 add_cli_failure_test(initialize-integer-narrowing initialize "exceeds the supported integer range" -s -n2147483648 -t3 --seed 92)
 add_cli_failure_test(initialize-spacing-zero initialize "Foliation spacing must be positive." -s -n64 -t3 -f0 --seed 92)
+add_cli_failure_test(initialize-threads-zero initialize "Thread count must be positive." -s -n64 -t3 --threads 0
+                     --seed 92)

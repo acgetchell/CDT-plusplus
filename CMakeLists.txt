@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 4.4.0)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -30,6 +30,34 @@ project(
 # the product version used by executables and release metadata.
 set(CDT_VERSION_SUFFIX "-rc2")
 set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
+set(CDT_SOURCE_REVISION "unknown")
+find_package(Git QUIET)
+if(GIT_FOUND)
+  execute_process(
+    COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+    RESULT_VARIABLE _git_revision_result
+    OUTPUT_VARIABLE _git_revision
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET)
+  if(_git_revision_result EQUAL 0)
+    set(CDT_SOURCE_REVISION "${_git_revision}")
+    execute_process(
+      COMMAND "${GIT_EXECUTABLE}" status --porcelain --untracked-files=no
+      WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+      RESULT_VARIABLE _git_status_result
+      OUTPUT_VARIABLE _git_status
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET)
+    if(_git_status_result EQUAL 0 AND NOT _git_status STREQUAL "")
+      string(APPEND CDT_SOURCE_REVISION "-dirty")
+    endif()
+  endif()
+  unset(_git_revision)
+  unset(_git_revision_result)
+  unset(_git_status)
+  unset(_git_status_result)
+endif()
 
 # Project settings
 include(cmake/StandardProjectSettings.cmake)
@@ -78,6 +106,13 @@ option(ENABLE_PARALLEL_TRIANGULATION
        "Enable CGAL parallel Delaunay insertion and removal in production targets" OFF)
 option(ENABLE_DEPRECATION_ERRORS
        "Treat deprecated C++ and CGAL API use in project targets as an error" ON)
+
+if(ENABLE_PARALLEL_TRIANGULATION AND ENABLE_SANITIZER_THREAD)
+  message(
+    FATAL_ERROR
+      "The pinned CGAL/oneTBB parallel path is not a supported ThreadSanitizer combination. Use the sequential tsan preset and the parallel asan preset."
+  )
+endif()
 
 target_compile_definitions(
   project_options

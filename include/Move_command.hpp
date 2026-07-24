@@ -18,14 +18,13 @@
 
 namespace cdt
 {
-  template <typename ManifoldType,
-            typename ResultType = ergodic_moves::MoveResult<ManifoldType>>
-    requires(ManifoldType::dimension == 3 &&
-             std::same_as<ResultType, ergodic_moves::MoveResult<ManifoldType>>)
+  template <typename ManifoldType>
+    requires(ManifoldType::dimension == 3)
   class MoveCommand
   {
-    using Queue   = std::deque<move_tracker::move_type>;
-    using Counter = move_tracker::MoveTracker<ManifoldType>;
+    using Queue      = std::deque<move_tracker::MoveType>;
+    using Counter    = move_tracker::MoveTracker;
+    using MoveResult = ergodic_moves::MoveResult<ManifoldType>;
 
     /**
      * \brief The manifold on which to perform moves
@@ -71,33 +70,42 @@ namespace cdt
     {}
 
     /**
-     * \brief A read-only reference to the manifold
+     * \brief Access the result manifold without transferring ownership
      */
-    auto get_const_results() const -> ManifoldType const&
-    { return m_manifold; }  // get_const_results
+    [[nodiscard]] auto result() & noexcept -> ManifoldType&
+    { return m_manifold; }
 
     /**
-     * \brief Results of the moves invoked by MoveCommand
+     * \brief Access the result manifold without transferring ownership
      */
-    [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
+    [[nodiscard]] auto result() const& noexcept -> ManifoldType const&
+    { return m_manifold; }
+
+    /**
+     * \brief Consume the result manifold
+     */
+    [[nodiscard]] auto result() && noexcept -> ManifoldType
+    { return std::move(m_manifold); }
+
+    auto result() const&& -> ManifoldType = delete;
 
     /**
      * \brief Attempted moves by MoveCommand
      */
-    [[nodiscard]] auto get_attempted() const -> Counter const&
-    { return m_attempted; }  // get_attempts
+    [[nodiscard]] auto attempted() const noexcept -> Counter const&
+    { return m_attempted; }
 
     /**
      * \brief Successful moves by MoveCommand
      */
-    [[nodiscard]] auto get_succeeded() const -> Counter const&
-    { return m_succeeded; }  // get_succeeded
+    [[nodiscard]] auto succeeded() const noexcept -> Counter const&
+    { return m_succeeded; }
 
     /**
      * \brief Failed moves by MoveCommand
      */
-    [[nodiscard]] auto get_failed() const -> Counter const&
-    { return m_failed; }  // get_errors
+    [[nodiscard]] auto failed() const noexcept -> Counter const&
+    { return m_failed; }
 
     /**
      * \brief Reset counters
@@ -113,13 +121,13 @@ namespace cdt
      * \brief Push a Pachner move onto the move queue
      * \param t_move The move to add
      */
-    void enqueue(move_tracker::move_type const t_move)
+    void enqueue(move_tracker::MoveType const t_move)
     { m_moves.push_front(t_move); }
 
     /**
      * \brief The number of moves on the queue
      */
-    auto size() const { return m_moves.size(); }
+    [[nodiscard]] auto size() const noexcept { return m_moves.size(); }
 
     /**
      * \brief Execute all moves in the queue on the manifold
@@ -129,15 +137,15 @@ namespace cdt
     {
       while (!m_moves.empty())
       {
-        auto move_type = m_moves.back();
+        auto const move = m_moves.back();
         // Record attempted move
-        ++m_attempted[as_integer(move_type)];
+        ++m_attempted[move];
         auto result =
-            apply_random_move(std::as_const(m_manifold), move_type, generator);
+            apply_random_move(std::as_const(m_manifold), move, generator);
         auto outcome = result ? ergodic_moves::MoveOutcome::SUCCEEDED
                               : ergodic_moves::outcome_from(result.error());
         if (result &&
-            !ergodic_moves::detail::check_move(m_manifold, *result, move_type))
+            !ergodic_moves::detail::check_move(m_manifold, *result, move))
         {
           outcome = ergodic_moves::MoveOutcome::EXECUTION_FAILED;
           spdlog::warn(
@@ -147,11 +155,11 @@ namespace cdt
         if (outcome == ergodic_moves::MoveOutcome::SUCCEEDED)
         {
           swap(result.value(), m_manifold);
-          ++m_succeeded[as_integer(move_type)];
+          ++m_succeeded[move];
         }
         else
         {
-          ++m_failed[as_integer(move_type)];
+          ++m_failed[move];
         }
         // Remove move from queue
         m_moves.pop_back();
@@ -160,11 +168,11 @@ namespace cdt
 
     /// @brief Apply one queued move using the caller-owned random stream.
     template <std::uniform_random_bit_generator Generator>
-    static auto apply_random_move(ManifoldType const&           manifold,
-                                  move_tracker::move_type const move,
-                                  Generator& generator) -> ResultType
+    [[nodiscard]] static auto apply_random_move(
+        ManifoldType const& manifold, move_tracker::MoveType const move,
+        Generator& generator) -> MoveResult
     {
-      using enum move_tracker::move_type;
+      using enum move_tracker::MoveType;
       switch (move)
       {
         case TWO_THREE: return ergodic_moves::do_23_move(manifold, generator);

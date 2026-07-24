@@ -26,9 +26,9 @@ namespace cdt::manifolds
   /// @param timevalues A container of matching timevalues
   /// @return A container of Causal_vertices
   template <int dimension>
-  auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
-                            std::span<size_t const> const       timevalues)
-      -> Causal_vertices_t<dimension>
+  [[nodiscard]] auto make_causal_vertices(
+      std::span<Point_t<dimension> const> vertices,
+      std::span<size_t const> const timevalues) -> Causal_vertices_t<dimension>
   {
     return foliated_triangulations::make_causal_vertices<dimension>(vertices,
                                                                     timevalues);
@@ -63,19 +63,19 @@ namespace cdt::manifolds
    public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
-    static int constexpr dimension          = 3;
+    static constexpr int dimension                     = 3;
 
     /// @brief Topology of the manifold
-    static topology_type constexpr topology = topology_type::SPHERICAL;
+    static constexpr Topology topology                 = Topology::SPHERICAL;
 
     /// @brief Default dtor
-    ~Manifold()                             = default;
+    ~Manifold()                                        = default;
 
     /// @brief Default ctor
-    Manifold()                              = default;
+    Manifold()                                         = default;
 
     /// @brief Default copy ctor
-    Manifold(Manifold const& other)         = default;
+    Manifold(Manifold const& other)                    = default;
 
     /// @brief Default copy assignment
     auto operator=(Manifold const& other) -> Manifold& = default;
@@ -178,8 +178,8 @@ namespace cdt::manifolds
     { return m_triangulation.delaunay_snapshot(); }
 
     /// @returns A read-only reference to the Geometry
-    [[nodiscard]] auto get_geometry() const -> Geometry const&
-    { return m_geometry; }  // get_geometry
+    [[nodiscard]] auto geometry() const -> Geometry const&
+    { return m_geometry; }  // geometry
 
     /// @brief Forwarding to FoliatedTriangulation_3.is_foliated()
     /// @returns True if the Manifold triangulation is foliated

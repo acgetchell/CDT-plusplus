@@ -19,7 +19,7 @@ Copyright © 2022 Adam Getchell
 using namespace cdt;
 namespace po = boost::program_options;
 
-static auto constexpr USAGE =
+static constexpr auto USAGE =
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2022 Adam Getchell

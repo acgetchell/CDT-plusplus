@@ -74,8 +74,8 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
   {
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      auto constexpr desired_simplices  = 72;
-      auto constexpr desired_timeslices = 3;
+      constexpr auto                desired_simplices  = 72;
+      constexpr auto                desired_timeslices = 3;
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, cdt::Random{92});
       Geometry_3 geometry(triangulation);
@@ -116,7 +116,7 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
     {
       THEN("All data members are zero-initialized.")
       {
-        Geometry_3 constexpr geometry;
+        constexpr Geometry_3 geometry;
         REQUIRE_EQ(geometry.N3, 0);
         REQUIRE_EQ(geometry.N3_31, 0);
         REQUIRE_EQ(geometry.N3_13, 0);
@@ -130,8 +130,8 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
     }
     WHEN("It is constructed with a triangulation.")
     {
-      auto constexpr desired_simplices  = 640;
-      auto constexpr desired_timeslices = 4;
+      constexpr auto                desired_simplices  = 640;
+      constexpr auto                desired_timeslices = 4;
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, cdt::Random{92});
       Geometry_3 const geometry(triangulation);

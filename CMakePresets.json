@@ -1,20 +1,40 @@
 {
-  "version": 3,
+  "$schema": "https://raw.githubusercontent.com/Kitware/CMake/v4.4.0/Help/manual/presets/schema.json",
+  "version": 12,
   "cmakeMinimumRequired": {
-    "major": 3,
-    "minor": 21,
+    "major": 4,
+    "minor": 4,
     "patch": 0
   },
   "configurePresets": [
     {
       "name": "common",
       "hidden": true,
+      "$comment": "Uninitialized-variable diagnostics are disabled because vcpkg and imported package configurations probe optional variables before defining them.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_CXX_EXTENSIONS": false,
         "CMAKE_CXX_STANDARD": "23",
         "CMAKE_CXX_STANDARD_REQUIRED": true
+      },
+      "warnings": {
+        "author": true,
+        "deprecated": true,
+        "experimental": true,
+        "installAbsoluteDestination": true,
+        "policy": true,
+        "uninitialized": false,
+        "unusedCli": true
+      },
+      "errors": {
+        "author": true,
+        "deprecated": true,
+        "experimental": true,
+        "installAbsoluteDestination": true,
+        "policy": true,
+        "uninitialized": false,
+        "unusedCli": true
       }
     },
     {
@@ -45,6 +65,16 @@
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "ENABLE_CACHE": false,
         "ENABLE_TESTING": true
+      }
+    },
+    {
+      "name": "parallel",
+      "displayName": "Supported CGAL/oneTBB build",
+      "description": "Configure the opt-in CGAL parallel insertion and removal path with tests",
+      "inherits": "reference",
+      "binaryDir": "${sourceDir}/out/build/parallel",
+      "cacheVariables": {
+        "ENABLE_PARALLEL_TRIANGULATION": true
       }
     },
     {
@@ -98,6 +128,11 @@
       "name": "reference",
       "displayName": "Build the supported headless reference targets",
       "configurePreset": "reference"
+    },
+    {
+      "name": "parallel",
+      "displayName": "Build the supported CGAL/oneTBB targets",
+      "configurePreset": "parallel"
     }
   ],
   "testPresets": [
@@ -106,6 +141,19 @@
       "displayName": "Run the complete unit and integration suite",
       "description": "Run all registered unit and integration tests",
       "configurePreset": "reference",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "parallel-smoke",
+      "displayName": "Run the CGAL/oneTBB invariant and stress suite",
+      "description": "Run the complete suite with the parallel TDS plus the replayable stress contract",
+      "configurePreset": "parallel",
       "output": {
         "outputOnFailure": true
       },

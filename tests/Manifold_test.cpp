@@ -23,10 +23,13 @@ using namespace manifolds;
 static_assert(std::is_nothrow_swappable_v<Manifold_3>);
 static_assert(std::is_nothrow_move_constructible_v<Manifold_3>);
 static_assert(std::is_nothrow_move_assignable_v<Manifold_3>);
+static_assert(
+    std::is_same_v<decltype(std::declval<Manifold_3 const&>().geometry()),
+                   Geometry_3 const&>);
 
 using Causal_vertices_3_t             = Causal_vertices_t<3>;
 
-static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline constexpr auto RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Manifold special member and swap properties" *
          doctest::test_suite("manifold"))
@@ -145,8 +148,8 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
     {
       THEN("An exception is thrown.")
       {
-        REQUIRE_THROWS(
-            manifolds::make_causal_vertices<3>(Vertices, Timevalues));
+        REQUIRE_THROWS(static_cast<void>(
+            manifolds::make_causal_vertices<3>(Vertices, Timevalues)));
       }
     }
   }
@@ -265,12 +268,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      THEN("The geometry is of type geometry class.")
-      {
-        auto const& geometry_type = typeid(manifold.get_geometry()).name();
-        std::string geometry_string{geometry_type};
-        CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
-      }
     }
     WHEN("It is constructed from causal vertices.")
     {
@@ -285,12 +282,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
-      }
-      THEN("The geometry is of type geometry class.")
-      {
-        auto const& geometry_type = typeid(manifold.get_geometry()).name();
-        std::string geometry_string{geometry_type};
-        CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -327,12 +318,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      THEN("The geometry is of type geometry class.")
-      {
-        auto const& geometry_type = typeid(manifold.get_geometry()).name();
-        std::string geometry_string{geometry_type};
-        CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
-      }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -352,8 +337,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("Constructing the minimum size triangulation.")
     {
-      auto constexpr desired_simplices  = 2;
-      auto constexpr desired_timeslices = 2;
+      constexpr auto   desired_simplices  = 2;
+      constexpr auto   desired_timeslices = 2;
       Manifold_3 const manifold(desired_simplices, desired_timeslices,
                                 cdt::Random{92});
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
@@ -379,8 +364,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("Constructing a small triangulation.")
     {
-      auto constexpr desired_simplices  = 640;
-      auto constexpr desired_timeslices = 4;
+      constexpr auto   desired_simplices  = 640;
+      constexpr auto   desired_timeslices = 4;
       Manifold_3 const manifold(desired_simplices, desired_timeslices,
                                 cdt::Random{92});
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
@@ -395,8 +380,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("Constructing a medium triangulation.")
     {
-      auto constexpr desired_simplices  = 6400;
-      auto constexpr desired_timeslices = 7;
+      constexpr auto   desired_simplices  = 6400;
+      constexpr auto   desired_timeslices = 7;
       Manifold_3 const manifold(desired_simplices, desired_timeslices,
                                 cdt::Random{92});
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
@@ -434,22 +419,22 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
   {
     WHEN("It is initialized.")
     {
-      auto constexpr desired_timeslices = 4;
-      auto constexpr desired_simplices  = 640;
+      constexpr auto   desired_timeslices = 4;
+      constexpr auto   desired_simplices  = 640;
       Manifold_3 const manifold(desired_simplices, desired_timeslices,
                                 cdt::Random{92});
       THEN("Functions referencing geometry data are accurate")
       {
-        CHECK_EQ(manifold.N3(), manifold.get_geometry().N3);
-        CHECK_EQ(manifold.N3_31(), manifold.get_geometry().N3_31);
-        CHECK_EQ(manifold.N3_13(), manifold.get_geometry().N3_13);
-        CHECK_EQ(manifold.N3_31_13(), manifold.get_geometry().N3_31_13);
-        CHECK_EQ(manifold.N3_22(), manifold.get_geometry().N3_22);
-        CHECK_EQ(manifold.N2(), manifold.get_geometry().N2);
-        CHECK_EQ(manifold.N1(), manifold.get_geometry().N1);
-        CHECK_EQ(manifold.N1_TL(), manifold.get_geometry().N1_TL);
-        CHECK_EQ(manifold.N1_SL(), manifold.get_geometry().N1_SL);
-        CHECK_EQ(manifold.N0(), manifold.get_geometry().N0);
+        CHECK_EQ(manifold.N3(), manifold.geometry().N3);
+        CHECK_EQ(manifold.N3_31(), manifold.geometry().N3_31);
+        CHECK_EQ(manifold.N3_13(), manifold.geometry().N3_13);
+        CHECK_EQ(manifold.N3_31_13(), manifold.geometry().N3_31_13);
+        CHECK_EQ(manifold.N3_22(), manifold.geometry().N3_22);
+        CHECK_EQ(manifold.N2(), manifold.geometry().N2);
+        CHECK_EQ(manifold.N1(), manifold.geometry().N1);
+        CHECK_EQ(manifold.N1_TL(), manifold.geometry().N1_TL);
+        CHECK_EQ(manifold.N1_SL(), manifold.geometry().N1_SL);
+        CHECK_EQ(manifold.N0(), manifold.geometry().N0);
       }
     }
   }
@@ -459,8 +444,8 @@ SCENARIO("3-Manifold copying" * doctest::test_suite("manifold"))
   spdlog::debug("3-Manifold copying.\n");
   GIVEN("A 3-manifold.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 640;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     WHEN("It is copied.")
     {
@@ -495,8 +480,8 @@ SCENARIO("3-Manifold moving" * doctest::test_suite("manifold"))
 {
   GIVEN("A 3-manifold with known geometry.")
   {
-    auto constexpr desired_simplices  = 64;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 64;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 source(desired_simplices, desired_timeslices, cdt::Random{92});
     auto const expected_simplices = source.simplices();
     auto const expected_faces     = source.faces();
@@ -554,8 +539,8 @@ SCENARIO("3-Manifold value rebuild" * doctest::test_suite("manifold"))
   spdlog::debug("3-Manifold update geometry.\n");
   GIVEN("A 3-manifold.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 640;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     WHEN("We rebuild it as a new value.")
     {
@@ -585,8 +570,8 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
   spdlog::debug("3-Manifold mutation.\n");
   GIVEN("A pair of 3-manifolds.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto   desired_simplices  = 640;
+    constexpr auto   desired_timeslices = 4;
     Manifold_3       manifold1(desired_simplices, desired_timeslices,
                                cdt::Random{92});
     Manifold_3 const manifold2(desired_simplices, desired_timeslices,
@@ -685,8 +670,8 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
   {
     WHEN("It is constructed.")
     {
-      auto constexpr desired_timeslices = 7;
-      auto constexpr desired_simplices  = 6400;
+      constexpr auto   desired_timeslices = 7;
+      constexpr auto   desired_simplices  = 6400;
       Manifold_3 const manifold(desired_simplices, desired_timeslices,
                                 cdt::Random{92});
       THEN("The triangulation is valid and Delaunay.")

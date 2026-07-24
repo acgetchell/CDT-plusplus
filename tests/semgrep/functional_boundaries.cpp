@@ -50,9 +50,9 @@ class Imperative_move_run
   void consume(Command& command)
   {
     // ruleid: cdt.cpp.move-run-accounting-is-value-oriented
-    m_attempted_moves += command.get_attempted();
+    m_attempted_moves += command.attempted();
     // ruleid: cdt.cpp.move-run-accounting-is-value-oriented
-    m_failed_moves += command.get_failed();
+    m_failed_moves += command.failed();
   }
 
  private:
@@ -78,7 +78,7 @@ auto collect_command_result(Command& command)
 {
   Move_counter attempted_moves{};
   // ok: cdt.cpp.move-run-accounting-is-value-oriented
-  attempted_moves += command.get_attempted();
+  attempted_moves += command.attempted();
   return MoveCommandResults{std::move(attempted_moves), {}, {}};
 }
 

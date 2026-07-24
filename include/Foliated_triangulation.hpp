@@ -89,11 +89,11 @@ namespace cdt
     concept ConstForwardRange = std::ranges::forward_range<
         std::add_const_t<std::remove_reference_t<C>>>;
 
-    inline int constexpr MAX_FIX_PASSES = 50;
+    inline constexpr int MAX_FIX_PASSES = 50;
 
 #if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
     CDT_ENABLE_PARALLEL_TRIANGULATION
-    inline int constexpr LOCK_GRID_RESOLUTION = 50;
+    inline constexpr int      LOCK_GRID_RESOLUTION = 50;
 
     [[nodiscard]] inline auto pad_locking_box(CGAL::Bbox_3 const& box)
         -> CGAL::Bbox_3
@@ -325,7 +325,7 @@ namespace cdt
   }  // namespace detail
 
   /// (n,m) is number of vertices on (lower, higher) timeslice
-  enum class Cell_type
+  enum class CellType
   {
     // 3D simplices
     THREE_ONE    = 31,  // (3,1)
@@ -333,6 +333,13 @@ namespace cdt
     ONE_THREE    = 13,  // (1,3)
     ACAUSAL      = 99,  // The vertex timevalues differ by > 1 or are all equal
     UNCLASSIFIED = 0    // An error happened classifying cell
+  };
+
+  /// @brief Causal classification of an edge by its endpoint timeslices.
+  enum class EdgeType
+  {
+    SPACELIKE,
+    TIMELIKE
   };
 }  // namespace cdt
 
@@ -344,9 +351,9 @@ namespace cdt::foliated_triangulations
   /// @param timevalues The timevalue of each vertex
   /// @return A container of vertices that have an associated timevalue
   template <int dimension>
-  auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
-                            std::span<size_t const>             timevalues)
-      -> Causal_vertices_t<dimension>
+  [[nodiscard]] auto make_causal_vertices(
+      std::span<Point_t<dimension> const> vertices,
+      std::span<size_t const> timevalues) -> Causal_vertices_t<dimension>
   {
     if (vertices.size() != timevalues.size())
     {
@@ -436,7 +443,7 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @returns True if timevalue of lhs is less than rhs
   template <int dimension>
-  auto constexpr compare_v_info = [](Vertex_handle_t<dimension> const& lhs,
+  constexpr auto compare_v_info = [](Vertex_handle_t<dimension> const& lhs,
                                      Vertex_handle_t<dimension> const& rhs) {
     return lhs->info() < rhs->info();
   };
@@ -476,10 +483,10 @@ namespace cdt::foliated_triangulations
   /// @brief Predicate to classify edge as timelike or spacelike
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_edge The Edge_handle to classify
-  /// @returns True if timelike and false if spacelike
+  /// @returns The causal edge classification
   template <int dimension>
   [[nodiscard]] auto classify_edge(Edge_handle_t<dimension> const& t_edge)
-      -> bool
+      -> EdgeType
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
@@ -493,24 +500,24 @@ namespace cdt::foliated_triangulations
                   time1, time2);
 #endif
 
-    return time1 != time2;
+    return time1 != time2 ? EdgeType::TIMELIKE : EdgeType::SPACELIKE;
   }  // classify_edge
 
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_edges The container of edges to filter
-  /// @param t_is_Timelike_pred The predicate to filter by
-  /// @returns A container of is_Timelike edges
+  /// @param edge_type The edge classification to retain
+  /// @returns A container of edges with the requested classification
   template <int dimension>
   [[nodiscard]] auto filter_edges(
       std::vector<Edge_handle_t<dimension>> const& t_edges,
-      bool t_is_Timelike_pred) -> std::vector<Edge_handle_t<dimension>>
+      EdgeType const edge_type) -> std::vector<Edge_handle_t<dimension>>
   {
     std::vector<Edge_handle_t<dimension>> filtered_edges;
     filtered_edges.reserve(t_edges.size());
-    std::ranges::copy_if(
-        t_edges, std::back_inserter(filtered_edges), [&](auto const& edge) {
-          return t_is_Timelike_pred == classify_edge<dimension>(edge);
-        });
+    std::ranges::copy_if(t_edges, std::back_inserter(filtered_edges),
+                         [&](auto const& edge) {
+                           return edge_type == classify_edge<dimension>(edge);
+                         });
     return filtered_edges;
   }  // filter_edges
 
@@ -521,7 +528,7 @@ namespace cdt::foliated_triangulations
   template <int dimension>
   [[nodiscard]] auto filter_cells(
       std::vector<Cell_handle_t<dimension>> const& t_cells,
-      Cell_type const& t_cell_type) -> std::vector<Cell_handle_t<dimension>>
+      CellType const& t_cell_type) -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> filtered_cells;
     filtered_cells.reserve(t_cells.size());
@@ -779,7 +786,7 @@ namespace cdt::foliated_triangulations
                     mintime);
       spdlog::trace("--\n");
 #endif
-      return Cell_type::ACAUSAL;
+      return CellType::ACAUSAL;
     }
     std::multiset<int> const timevalues{vertex_timevalues.begin(),
                                         vertex_timevalues.end()};
@@ -787,9 +794,9 @@ namespace cdt::foliated_triangulations
     auto                     min_vertices = timevalues.count(mintime);
 
     // 3D simplices
-    if (max_vertices == 3 && min_vertices == 1) { return Cell_type::ONE_THREE; }
-    if (max_vertices == 2 && min_vertices == 2) { return Cell_type::TWO_TWO; }
-    if (max_vertices == 1 && min_vertices == 3) { return Cell_type::THREE_ONE; }
+    if (max_vertices == 3 && min_vertices == 1) { return CellType::ONE_THREE; }
+    if (max_vertices == 2 && min_vertices == 2) { return CellType::TWO_TWO; }
+    if (max_vertices == 1 && min_vertices == 3) { return CellType::THREE_ONE; }
 
     // If we got here, there's some kind of error
 #ifndef NDEBUG
@@ -802,7 +809,7 @@ namespace cdt::foliated_triangulations
         max_vertices, min_vertices);
     spdlog::trace("--\n");
 #endif
-    return Cell_type::UNCLASSIFIED;
+    return CellType::UNCLASSIFIED;
   }  // expected_cell_type
 
   /// @brief Checks if a cell is classified correctly
@@ -814,9 +821,9 @@ namespace cdt::foliated_triangulations
       Cell_handle_t<dimension> const& t_cell) -> bool
   {
     auto cell_type = expected_cell_type<dimension>(t_cell);
-    return cell_type != Cell_type::ACAUSAL &&
-           cell_type != Cell_type::UNCLASSIFIED &&
-           cell_type == static_cast<Cell_type>(t_cell->info());
+    return cell_type != CellType::ACAUSAL &&
+           cell_type != CellType::UNCLASSIFIED &&
+           cell_type == static_cast<CellType>(t_cell->info());
   }  // is_cell_type_correct
 
   /// @brief Check all finite cells in the Delaunay triangulation
@@ -856,8 +863,7 @@ namespace cdt::foliated_triangulations
   /// @param t_triangulation The Delaunay triangulation
   /// @return True if cells->info() was fixed
   template <int dimension>
-  [[nodiscard]] auto fix_cells(Delaunay_t<dimension> const& t_triangulation)
-      -> bool
+  [[nodiscard]] auto fix_cells(Delaunay_t<dimension>& t_triangulation) -> bool
   {
     auto incorrect_cells = find_incorrect_cells<dimension>(t_triangulation);
     std::for_each(
@@ -958,12 +964,12 @@ namespace cdt::foliated_triangulations
   /// @return Contiguous container with spacelike facets per timeslice
   template <int dimension, detail::ConstForwardRange Container>
   [[nodiscard]] auto collect_spacelike_facets(Container const& t_facets)
-      -> std::vector<std::pair<Int_precision, Facet_t<3>>>
+      -> std::vector<std::pair<Int_precision, Facet_t<dimension>>>
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
-    using Volume_entry = std::pair<Int_precision, Facet_t<3>>;
+    using Volume_entry = std::pair<Int_precision, Facet_t<dimension>>;
     std::vector<Volume_entry> space_faces;
     if constexpr (std::ranges::sized_range<Container>)
     {
@@ -1017,16 +1023,15 @@ namespace cdt::foliated_triangulations
   /// @param t_facets A container of facets
   /// @return Container with spacelike facets per timeslice
   template <int dimension, detail::ConstForwardRange Container>
-  [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
-      -> std::multimap<Int_precision, Facet_t<3>>
+  [[nodiscard]] auto volume_per_timeslice(Container const& t_facets)
+      -> std::multimap<Int_precision, Facet_t<dimension>>
   {
-    auto space_faces =
-        collect_spacelike_facets<dimension>(std::forward<Container>(t_facets));
+    auto space_faces = collect_spacelike_facets<dimension>(t_facets);
     return {std::make_move_iterator(space_faces.begin()),
             std::make_move_iterator(space_faces.end())};
   }  // volume_per_timeslice
 
-  /// @brief Check cells for correct foliation
+  /// @brief Find cells whose vertex timevalues violate foliation
   /// @details The timevalues of the vertices of a cell differ by at most one
   /// and cannot all be the same. The first case would correspond to the
   /// cell (simplex) spanning more than one timeslice; the second would
@@ -1039,24 +1044,28 @@ namespace cdt::foliated_triangulations
   /// fix_vertices() should be called before this function.
   /// @tparam dimension The dimensionality of the cells and triangulation
   /// @param t_triangulation The Delaunay triangulation
-  /// @return An optional container of invalid cells
+  /// @return A container of invalid cells; empty means the foliation is valid
   template <int dimension>
-  [[nodiscard]] auto check_timevalues(
+  [[nodiscard]] auto find_invalid_timevalue_cells(
       Delaunay_t<dimension> const& t_triangulation)
-      -> std::optional<std::vector<Cell_handle_t<dimension>>>
+      -> std::vector<Cell_handle_t<dimension>>
   {
     auto const& cells = collect_cells<dimension>(t_triangulation);
     std::vector<Cell_handle_t<dimension>> invalid_cells;
     std::copy_if(
         cells.begin(), cells.end(), std::back_inserter(invalid_cells),
         [](auto const& cell) {
-          return expected_cell_type<dimension>(cell) == Cell_type::ACAUSAL ||
-                 expected_cell_type<dimension>(cell) == Cell_type::UNCLASSIFIED;
+          return expected_cell_type<dimension>(cell) == CellType::ACAUSAL ||
+                 expected_cell_type<dimension>(cell) == CellType::UNCLASSIFIED;
         });
-    auto result = invalid_cells.empty() ? std::nullopt
-                                        : std::make_optional(invalid_cells);
-    return result;
-  }  // check_timevalues
+    return invalid_cells;
+  }  // find_invalid_timevalue_cells
+
+  /// @brief Check whether all cell timevalues form a valid foliation.
+  template <int dimension>
+  [[nodiscard]] auto has_valid_timevalues(
+      Delaunay_t<dimension> const& triangulation) -> bool
+  { return find_invalid_timevalue_cells<dimension>(triangulation).empty(); }
 
   /// @brief Find the vertex that is causing a cell's foliation to be invalid
   /// @tparam dimension Dimensionality of the cell
@@ -1101,14 +1110,15 @@ namespace cdt::foliated_triangulations
       -> bool
   {
     // Obtain a container of cells that are incorrectly foliated
-    if (auto invalid_cells = check_timevalues<dimension>(t_triangulation);
-        invalid_cells)
+    auto invalid_cells =
+        find_invalid_timevalue_cells<dimension>(t_triangulation);
+    if (!invalid_cells.empty())
     {
       std::set<Vertex_handle_t<dimension>> vertices_to_remove;
       // Transform the invalid cells into a set of vertices to remove
       // Reduction to unique vertices happens via the set container
       std::transform(
-          invalid_cells->begin(), invalid_cells->end(),
+          invalid_cells.begin(), invalid_cells.end(),
           std::inserter(vertices_to_remove, vertices_to_remove.begin()),
           find_bad_vertex<dimension>);
       // Remove the vertices
@@ -1282,7 +1292,7 @@ namespace cdt::foliated_triangulations
     }
 
     utilities::print_delaunay(triangulation);
-    assert(!check_timevalues<dimension>(triangulation));
+    assert(has_valid_timevalues<dimension>(triangulation));
     return std::move(state).into_detached_triangulation();
   }  // make_triangulation
 
@@ -1424,12 +1434,12 @@ namespace cdt::foliated_triangulations
         return false;
       }
 
-      if (m_three_one != filter_cells<3>(m_cells, Cell_type::THREE_ONE) ||
-          m_two_two != filter_cells<3>(m_cells, Cell_type::TWO_TWO) ||
-          m_one_three != filter_cells<3>(m_cells, Cell_type::ONE_THREE) ||
+      if (m_three_one != filter_cells<3>(m_cells, CellType::THREE_ONE) ||
+          m_two_two != filter_cells<3>(m_cells, CellType::TWO_TWO) ||
+          m_one_three != filter_cells<3>(m_cells, CellType::ONE_THREE) ||
           m_spacelike_facets != cache_spacelike_facets(m_faces) ||
-          m_timelike_edges != filter_edges<3>(m_edges, true) ||
-          m_spacelike_edges != filter_edges<3>(m_edges, false))
+          m_timelike_edges != filter_edges<3>(m_edges, EdgeType::TIMELIKE) ||
+          m_spacelike_edges != filter_edges<3>(m_edges, EdgeType::SPACELIKE))
       {
         return false;
       }
@@ -1540,14 +1550,14 @@ namespace cdt::foliated_triangulations
         , m_foliation_spacing{foliation_spacing}
         , m_vertices{classify_vertices(collect_vertices<3>(triangulation()))}
         , m_cells{classify_cells(collect_cells<3>(triangulation()))}
-        , m_three_one{filter_cells<3>(m_cells, Cell_type::THREE_ONE)}
-        , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
-        , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
+        , m_three_one{filter_cells<3>(m_cells, CellType::THREE_ONE)}
+        , m_two_two{filter_cells<3>(m_cells, CellType::TWO_TWO)}
+        , m_one_three{filter_cells<3>(m_cells, CellType::ONE_THREE)}
         , m_faces{collect_faces()}
         , m_spacelike_facets{cache_spacelike_facets(m_faces)}
         , m_edges{foliated_triangulations::collect_edges<3>(triangulation())}
-        , m_timelike_edges{filter_edges<3>(m_edges, true)}
-        , m_spacelike_edges{filter_edges<3>(m_edges, false)}
+        , m_timelike_edges{filter_edges<3>(m_edges, EdgeType::TIMELIKE)}
+        , m_spacelike_edges{filter_edges<3>(m_edges, EdgeType::SPACELIKE)}
         , m_max_timevalue{find_max_timevalue<3>(std::span{m_vertices})}
         , m_min_timevalue{find_min_timevalue<3>(std::span{m_vertices})}
     {}
@@ -1607,9 +1617,7 @@ namespace cdt::foliated_triangulations
     ///
     /// @return True if foliated correctly
     [[nodiscard]] auto is_foliated() const -> bool
-    {
-      return !static_cast<bool>(check_timevalues<3>(triangulation()));
-    }  // is_foliated
+    { return has_valid_timevalues<3>(triangulation()); }  // is_foliated
 
     /// @return True if the triangulation is Delaunay
     [[nodiscard]] auto is_delaunay() const -> bool
@@ -1811,7 +1819,10 @@ namespace cdt::foliated_triangulations
     {
       for (auto const& edge : m_edges)
       {
-        if (classify_edge<3>(edge)) { fmt::print("==> timelike\n"); }
+        if (classify_edge<3>(edge) == EdgeType::TIMELIKE)
+        {
+          fmt::print("==> timelike\n");
+        }
         else
         {
           fmt::print("==> spacelike\n");
@@ -1852,7 +1863,7 @@ namespace cdt::foliated_triangulations
     }  // check_all_cells
 
     /// @brief Fix all cells in the triangulation
-    auto fix_cells() -> bool
+    [[nodiscard]] auto fix_cells() -> bool
     {
       Delaunay   updated{triangulation()};
       auto const changed = foliated_triangulations::fix_cells<3>(updated);
@@ -1894,7 +1905,7 @@ namespace cdt::foliated_triangulations
 
     /// @brief Classify cells
     /// @param cells The container of simplices to classify
-    /// @return A container of simplices with Cell_type written to
+    /// @return A container of simplices with CellType written to
     /// cell->info()
     [[nodiscard]] auto classify_cells(Cell_container const& cells) const
         -> Cell_container

@@ -10,6 +10,7 @@ git_cliff_version := "2.13.1"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 llvm_version := "22"
+cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.0"
 ninja_version := "1.13.2"
 doxygen_version := "1.17.0"
@@ -18,11 +19,17 @@ zizmor_version := "1.26.1"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_cgal_benchmark.exe" } else { "out/build/reference/tests/CDT_cgal_benchmark" }
+parallel_cgal_benchmark_binary := if os_family() == "windows" { "out/build/parallel/tests/CDT_cgal_benchmark.exe" } else { "out/build/parallel/tests/CDT_cgal_benchmark" }
 
 # Build the supported configuration through the repository build script.
 [group('workflows')]
 build:
     {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat'" } else { "just _build-unix" } }}
+
+# Build and test the opt-in CGAL/oneTBB configuration.
+[group('workflows')]
+build-parallel:
+    {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat parallel'" } else { "just _build-parallel-unix" } }}
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
@@ -57,17 +64,41 @@ docs:
 # Build with GNU coverage instrumentation and generate LCOV and HTML reports.
 [group('workflows')]
 coverage:
-    ./scripts/coverage.sh
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec pkgx \
+        "+cmake.org@{{ cmake_version }}" \
+        "+ninja-build.org@{{ ninja_version }}" \
+        -- ./scripts/coverage.sh
+    fi
+    exec ./scripts/coverage.sh
 
 # Measure run-owned PCG sampling against the removed entropy-per-draw design.
 [group('workflows')]
 benchmark-rng draws='10000': build
     {{ rng_benchmark_binary }} {{ draws }}
 
-# Measure seeded CGAL construction, repair, lookup, removal, and moves.
+# Measure the deterministic sequential CGAL reference configuration.
 [group('workflows')]
-benchmark-cgal simplices='640' repetitions='5' moves='50': build
-    {{ cgal_benchmark_binary }} {{ simplices }} {{ repetitions }} {{ moves }}
+benchmark-cgal simplices='640' repetitions='5' moves='50' warmups='1': build
+    {{ cgal_benchmark_binary }} {{ simplices }} {{ repetitions }} {{ moves }} 1 {{ warmups }}
+
+# Record matched one-thread and increasing-thread CGAL/oneTBB scaling samples.
+[group('workflows')]
+benchmark-cgal-parallel threads='1 2 4' simplices='640' repetitions='5' moves='50' warmups='1': build-parallel
+    #!/usr/bin/env bash
+    set -euo pipefail
+    read -r -a thread_counts <<< {{ quote(threads) }}
+    [[ "${#thread_counts[@]}" -gt 0 ]] || {
+      echo "At least one thread count is required." >&2
+      exit 2
+    }
+    for thread_count in "${thread_counts[@]}"; do
+      {{ parallel_cgal_benchmark_binary }} \
+        {{ quote(simplices) }} {{ quote(repetitions) }} {{ quote(moves) }} \
+        "${thread_count}" {{ quote(warmups) }}
+    done
 
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]
@@ -255,6 +286,15 @@ _build-unix:
     exec ./scripts/build.sh
 
 [private]
+_build-parallel-unix:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec ./scripts/pkgx-build.sh --preset parallel
+    fi
+    exec ./scripts/build.sh parallel
+
+[private]
 _codeql-phase phase:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -267,13 +307,25 @@ _codeql-phase phase:
 _cmake-check:
     #!/usr/bin/env bash
     set -euo pipefail
+    minimum="{{ cmake_minimum_version }}"
+    pinned="{{ cmake_version }}"
     if command -v cmake >/dev/null; then
-      exec cmake --list-presets=all >/dev/null
+      installed="$(cmake --version | awk 'NR == 1 { print $3 }')"
+      installed="${installed%%-*}"
+      IFS=. read -r installed_major installed_minor installed_patch <<< "$installed"
+      IFS=. read -r minimum_major minimum_minor minimum_patch <<< "$minimum"
+      if (( installed_major > minimum_major ||
+            (installed_major == minimum_major &&
+             (installed_minor > minimum_minor ||
+              (installed_minor == minimum_minor &&
+               installed_patch >= minimum_patch))) )); then
+        exec cmake --list-presets=all >/dev/null
+      fi
     fi
     if command -v pkgx >/dev/null; then
-      exec pkgx +cmake.org cmake --list-presets=all >/dev/null
+      exec pkgx "+cmake.org@$pinned" cmake --list-presets=all >/dev/null
     fi
-    echo "CMake is required; install it or install pkgx." >&2
+    echo "CMake $minimum or newer is required; install it or install pkgx for the tested $pinned toolchain." >&2
     exit 1
 
 [private]

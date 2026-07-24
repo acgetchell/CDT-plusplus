@@ -27,10 +27,10 @@ static_assert(std::is_nothrow_move_assignable_v<FoliatedTriangulation_3>);
 
 using Causal_vertices_3_t             = Causal_vertices_t<3>;
 
-static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
-static inline std::floating_point auto constexpr SQRT_2 =
+static inline constexpr auto RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline constexpr std::floating_point auto SQRT_2 =
     std::numbers::sqrt2_v<double>;
-static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
+static inline constexpr auto INV_SQRT_2 = 1.0 / SQRT_2;
 
 SCENARIO("FoliatedTriangulation special member and swap properties" *
          doctest::test_suite("foliated_triangulation"))
@@ -153,7 +153,10 @@ SCENARIO("FoliatedTriangulation free functions" *
     WHEN("Causal vertices are created.")
     {
       THEN("An exception is thrown.")
-      { REQUIRE_THROWS(make_causal_vertices<3>(Vertices, Timevalues)); }
+      {
+        REQUIRE_THROWS(
+            static_cast<void>(make_causal_vertices<3>(Vertices, Timevalues)));
+      }
     }
   }
 
@@ -194,10 +197,10 @@ SCENARIO("FoliatedTriangulation free functions" *
       "A minimal triangulation with non-default initial radius and radial "
       "separation.")
   {
-    auto constexpr desired_simplices  = 2;
-    auto constexpr desired_timeslices = 2;
-    auto constexpr initial_radius     = 3.0;
-    auto constexpr foliation_spacing  = 2.0;
+    constexpr auto                desired_simplices  = 2;
+    constexpr auto                desired_timeslices = 2;
+    constexpr auto                initial_radius     = 3.0;
+    constexpr auto                foliation_spacing  = 2.0;
     FoliatedTriangulation_3 const triangulation(
         desired_simplices, desired_timeslices, cdt::Random{92}, initial_radius,
         foliation_spacing);
@@ -379,8 +382,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
     }
     WHEN("Constructing the minimum triangulation.")
     {
-      auto constexpr desired_simplices  = 2;
-      auto constexpr desired_timeslices = 2;
+      constexpr auto          desired_simplices  = 2;
+      constexpr auto          desired_timeslices = 2;
       FoliatedTriangulation_3 triangulation(
           desired_simplices, desired_timeslices, cdt::Random{92});
       THEN("Triangulation is valid and foliated.")
@@ -410,10 +413,10 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         "Constructing the minimal triangulation with non-default initial "
         "radius and separation.")
     {
-      auto constexpr desired_simplices  = 2;
-      auto constexpr desired_timeslices = 2;
-      auto constexpr initial_radius     = 3.0;
-      auto constexpr radial_factor      = 2.0;
+      constexpr auto                desired_simplices  = 2;
+      constexpr auto                desired_timeslices = 2;
+      constexpr auto                initial_radius     = 3.0;
+      constexpr auto                radial_factor      = 2.0;
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, cdt::Random{92},
           initial_radius, radial_factor);
@@ -429,10 +432,10 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         "Constructing a small triangulation with fractional initial radius and "
         "separation.")
     {
-      auto constexpr desired_simplices  = 24;
-      auto constexpr desired_timeslices = 3;
-      auto constexpr initial_radius     = 1.5;
-      auto constexpr radial_factor      = 1.1;
+      constexpr auto                desired_simplices  = 24;
+      constexpr auto                desired_timeslices = 3;
+      constexpr auto                initial_radius     = 1.5;
+      constexpr auto                radial_factor      = 1.1;
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, cdt::Random{92},
           initial_radius, radial_factor);
@@ -446,8 +449,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
     }
     WHEN("Constructing a medium triangulation.")
     {
-      auto constexpr desired_simplices  = 6400;
-      auto constexpr desired_timeslices = 7;
+      constexpr auto                desired_simplices  = 6400;
+      constexpr auto                desired_timeslices = 7;
       FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, cdt::Random{92});
       THEN("Triangulation is valid and foliated.")
@@ -471,15 +474,15 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         CHECK_GT(triangulation.max_time(), triangulation.min_time());
         auto snapshot        = triangulation.delaunay_snapshot();
         auto edges           = collect_edges<3>(snapshot);
-        auto timelike_edges  = filter_edges<3>(edges, true);
-        auto spacelike_edges = filter_edges<3>(edges, false);
+        auto timelike_edges  = filter_edges<3>(edges, EdgeType::TIMELIKE);
+        auto spacelike_edges = filter_edges<3>(edges, EdgeType::SPACELIKE);
         auto check_timelike  = [](Edge_handle_t<3> const& edge) {
-          CHECK(classify_edge<3>(edge));
+          CHECK_EQ(classify_edge<3>(edge), EdgeType::TIMELIKE);
         };
         ranges::for_each(timelike_edges, check_timelike);
 
         auto check_spacelike = [](Edge_handle_t<3> const& edge) {
-          CHECK(!classify_edge<3>(edge));
+          CHECK_EQ(classify_edge<3>(edge), EdgeType::SPACELIKE);
         };
         ranges::for_each(spacelike_edges, check_spacelike);
       }
@@ -493,8 +496,8 @@ SCENARIO("FoliatedTriangulation_3 copying" *
   spdlog::debug("FoliatedTriangulation_3 copying.\n");
   GIVEN("A FoliatedTriangulation_3")
   {
-    auto constexpr desired_simplices  = 6400;
-    auto constexpr desired_timeslices = 7;
+    constexpr auto          desired_simplices  = 6400;
+    constexpr auto          desired_timeslices = 7;
     FoliatedTriangulation_3 triangulation(desired_simplices, desired_timeslices,
                                           cdt::Random{92});
     WHEN("It is copied")
@@ -508,6 +511,7 @@ SCENARIO("FoliatedTriangulation_3 copying" *
       }
       THEN("The foliated triangulations have identical properties.")
       {
+        CHECK_EQ(triangulation.delaunay_snapshot(), ft2.delaunay_snapshot());
         CHECK_EQ(triangulation.is_initialized(), ft2.is_initialized());
         CHECK_EQ(triangulation.number_of_finite_cells(),
                  ft2.number_of_finite_cells());
@@ -530,8 +534,8 @@ SCENARIO("FoliatedTriangulation_3 moving" *
 {
   GIVEN("A foliated triangulation with known simplex classifications.")
   {
-    auto constexpr desired_simplices  = 64;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto          desired_simplices  = 64;
+    constexpr auto          desired_timeslices = 4;
     FoliatedTriangulation_3 source(desired_simplices, desired_timeslices,
                                    cdt::Random{92});
     auto const              expected_cells    = source.number_of_finite_cells();
@@ -608,7 +612,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         auto snapshot = triangulation.delaunay_snapshot();
         CHECK(triangulation.is_correct());
-        CHECK_FALSE(check_timevalues<3>(snapshot));
+        CHECK(has_valid_timevalues<3>(snapshot));
       }
       THEN("No errors in the triangulation foliation are detected")
       {
@@ -636,7 +640,11 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           THEN("Construction synchronizes the replacement without mutation.")
           {
             CHECK(replacement.is_initialized());
+            CHECK(replacement.check_all_vertices());
+            CHECK(replacement.check_all_cells());
             CHECK(triangulation.is_initialized());
+            CHECK(triangulation.check_all_vertices());
+            CHECK(triangulation.check_all_cells());
           }
         }
       }
@@ -659,7 +667,11 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           THEN("Construction synchronizes the replacement without mutation.")
           {
             CHECK(replacement.is_initialized());
+            CHECK(replacement.check_all_vertices());
+            CHECK(replacement.check_all_cells());
             CHECK(triangulation.is_initialized());
+            CHECK(triangulation.check_all_vertices());
+            CHECK(triangulation.check_all_cells());
           }
         }
       }
@@ -681,6 +693,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
+        CHECK(triangulation.check_all_vertices());
+        CHECK(triangulation.check_all_cells());
       }
     }
     WHEN("Constructing a triangulation with an incorrect low value vertex.")
@@ -698,6 +712,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
+        CHECK(triangulation.check_all_vertices());
+        CHECK(triangulation.check_all_cells());
       }
     }
     WHEN(
@@ -717,12 +733,16 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
+        CHECK(triangulation.check_all_vertices());
+        CHECK(triangulation.check_all_cells());
       }
       AND_THEN("The cell type is correct.")
       {
         CHECK_FALSE(triangulation.fix_vertices());
         CHECK_FALSE(triangulation.fix_cells());
         CHECK(triangulation.is_initialized());
+        CHECK(triangulation.check_all_vertices());
+        CHECK(triangulation.check_all_cells());
       }
     }
     WHEN(
@@ -742,7 +762,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         CHECK_FALSE(triangulation.is_initialized());
         auto snapshot = triangulation.delaunay_snapshot();
         auto cell     = snapshot.finite_cells_begin();
-        CHECK_EQ(expected_cell_type<3>(cell), Cell_type::ACAUSAL);
+        CHECK_EQ(expected_cell_type<3>(cell), CellType::ACAUSAL);
       }
     }
     WHEN("Constructing a triangulation with an unfixable vertex.")
@@ -765,16 +785,18 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       FoliatedTriangulation_3 triangulation(delaunay_triangulation);
       THEN("The incorrect cell can be identified.")
       {
-        auto bad_cells = check_timevalues<3>(delaunay_triangulation);
-        CHECK_MESSAGE(bad_cells.has_value(), "No bad cells found.");
+        auto bad_cells =
+            find_invalid_timevalue_cells<3>(delaunay_triangulation);
+        CHECK_FALSE_MESSAGE(bad_cells.empty(), "No bad cells found.");
       }
       AND_THEN("The incorrect vertex can be identified.")
       {
-        auto bad_cells = check_timevalues<3>(delaunay_triangulation);
-        CHECK_MESSAGE(bad_cells.has_value(), "No bad cells found.");
-        if (bad_cells)
+        auto bad_cells =
+            find_invalid_timevalue_cells<3>(delaunay_triangulation);
+        CHECK_FALSE_MESSAGE(bad_cells.empty(), "No bad cells found.");
+        if (!bad_cells.empty())
         {
-          auto bad_vertex = find_bad_vertex<3>(bad_cells->front());
+          auto bad_vertex = find_bad_vertex<3>(bad_cells.front());
           CHECK_EQ(bad_vertex->info(), 3);
         }
       }

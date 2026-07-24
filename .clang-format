@@ -137,9 +137,9 @@ QualifierAlignment: Custom
 QualifierOrder:
   - static
   - inline
+  - constexpr
   - type
   - const
-  - constexpr
   - volatile
   - restrict
 RawStringFormats:

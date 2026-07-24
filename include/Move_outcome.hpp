@@ -35,20 +35,19 @@ namespace cdt::ergodic_moves
   /// derived at the presentation boundary rather than stored in the hot path.
   struct MoveError
   {
-    MoveFailure             category;
-    move_tracker::move_type requested_move;
+    MoveFailure            category;
+    move_tracker::MoveType requested_move;
 
     /// @returns The structured rejection or execution-failure category.
-    [[nodiscard]] auto constexpr reason() const noexcept -> MoveFailure
+    [[nodiscard]] constexpr auto reason() const noexcept -> MoveFailure
     { return category; }
 
     /// @returns The requested Pachner move.
-    [[nodiscard]] auto constexpr move() const noexcept
-        -> move_tracker::move_type
+    [[nodiscard]] constexpr auto move() const noexcept -> move_tracker::MoveType
     { return requested_move; }
 
     /// @returns A stable diagnostic for logs and command-line presentation.
-    [[nodiscard]] auto constexpr message() const noexcept -> std::string_view
+    [[nodiscard]] constexpr auto message() const noexcept -> std::string_view
     {
       using enum MoveFailure;
       switch (category)
@@ -87,7 +86,7 @@ namespace cdt::ergodic_moves
   };
 
   /// @brief Classify a structured move error for counter accounting.
-  [[nodiscard]] auto constexpr outcome_from(MoveError const error) noexcept
+  [[nodiscard]] constexpr auto outcome_from(MoveError const error) noexcept
       -> MoveOutcome
   {
     using enum MoveFailure;
@@ -105,7 +104,7 @@ namespace cdt::ergodic_moves
   }
 
   /// @brief Enable direct formatting through fmt/spdlog.
-  [[nodiscard]] auto constexpr format_as(MoveError const error) noexcept
+  [[nodiscard]] constexpr auto format_as(MoveError const error) noexcept
       -> std::string_view
   { return error.message(); }
 }  // namespace cdt::ergodic_moves

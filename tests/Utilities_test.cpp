@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <system_error>
 
 using namespace cdt;
 using namespace std;
@@ -172,9 +173,9 @@ SCENARIO("Various string/stream/time utilities" *
          doctest::test_suite("utilities"))
 {
   spdlog::debug("Various string/stream/time utilities.\n");
-  GIVEN("A topology_type.")
+  GIVEN("A Topology.")
   {
-    auto constexpr this_topology = topology_type::SPHERICAL;
+    constexpr auto this_topology = Topology::SPHERICAL;
     WHEN("Operator<< is invoked.")
     {
       stringstream buffer;
@@ -211,11 +212,11 @@ SCENARIO("Various string/stream/time utilities" *
     }
     WHEN("A filename is generated.")
     {
-      auto constexpr this_topology = topology_type::SPHERICAL;
-      auto constexpr dimensions    = 3;
-      auto constexpr simplices     = 6700;
-      auto constexpr timeslices    = 16;
-      auto const filename =
+      constexpr auto this_topology = Topology::SPHERICAL;
+      constexpr auto dimensions    = 3;
+      constexpr auto simplices     = 6700;
+      constexpr auto timeslices    = 16;
+      auto const     filename =
           make_filename(this_topology, dimensions, simplices, timeslices,
                         INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
@@ -270,7 +271,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
     WHEN("A replayable checkpoint filename is generated")
     {
-      auto const filename = make_filename(manifold, cdt::Random_seed{92}, 7);
+      auto const filename = make_filename(manifold, cdt::RandomSeed{92}, 7);
       THEN("The seed and completed pass are recorded before the OFF suffix")
       {
         CHECK_NE(filename.string().find("-seed-92-pass-7.off"),
@@ -332,7 +333,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       TemporaryDirectory const directory;
       auto const               filename = directory.file("checkpoint.off");
       auto                     metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       metadata.desired_simplices   = 64;
       metadata.desired_timeslices  = 3;
       metadata.alpha               = 0.6L;
@@ -341,6 +342,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       metadata.configured_passes   = 10;
       metadata.checkpoint_interval = 2;
       metadata.completed_passes    = 4;
+      metadata.max_threads         = 4;
       metadata.transition_trace    = 0x1234;
       metadata.transition_count    = 17;
 
@@ -371,11 +373,12 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK_NE(contents.find("desired.simplices=64"), std::string::npos);
         CHECK_NE(contents.find("alpha=0.6"), std::string::npos);
         CHECK_NE(contents.find("completed_passes=4"), std::string::npos);
+        CHECK_NE(contents.find("parallel.max_threads=4"), std::string::npos);
         CHECK_NE(contents.find("transition_trace.fnv1a64=0000000000001234"),
                  std::string::npos);
         CHECK_NE(contents.find("placement.fnv1a64="), std::string::npos);
         CHECK_NE(contents.find("topology.fnv1a64="), std::string::npos);
-        CHECK_NOTHROW(read_file<Delaunay_t<3>>(filename));
+        CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
         auto payload_temporary = filename;
         payload_temporary += ".tmp";
         auto metadata_temporary = sidecar;
@@ -454,7 +457,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       THEN("The trailing input is reported.")
       {
-        CHECK_THROWS_AS(read_file<SingleInteger>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<SingleInteger>(filename)),
                         std::filesystem::filesystem_error);
       }
     }
@@ -472,7 +475,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       THEN("The malformed input is reported.")
       {
-        CHECK_THROWS_AS(read_file<SingleInteger>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<SingleInteger>(filename)),
                         std::filesystem::filesystem_error);
       }
     }
@@ -492,7 +495,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       auto const filename = directory.file("truncated.off");
       auto const metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       auto checkpoint_metadata             = metadata;
       checkpoint_metadata.completed_passes = 2;
       write_file(filename, triangulation, checkpoint_metadata);
@@ -502,7 +505,7 @@ SCENARIO("File serialization reports complete failures" *
 
       THEN("The checksum mismatch is diagnosed before topology is accepted.")
       {
-        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
       }
     }
@@ -511,7 +514,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       auto const filename = directory.file("malformed-metadata.off");
       auto const metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       auto checkpoint_metadata             = metadata;
       checkpoint_metadata.completed_passes = 2;
       write_file(filename, triangulation, checkpoint_metadata);
@@ -522,7 +525,7 @@ SCENARIO("File serialization reports complete failures" *
 
       THEN("The artifact is rejected rather than treated as legacy data.")
       {
-        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
       }
     }
@@ -531,7 +534,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       auto const filename = directory.file("changed-topology-fingerprint.off");
       auto       metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       metadata.completed_passes = 2;
       write_file(filename, triangulation, metadata);
       corrupt_metadata_hex_field(metadata_filename(filename),
@@ -539,7 +542,7 @@ SCENARIO("File serialization reports complete failures" *
 
       THEN("The semantic manifest/payload mismatch is rejected.")
       {
-        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
       }
     }
@@ -548,7 +551,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       auto const filename = directory.file("changed-incidence-count.off");
       auto       metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       metadata.completed_passes = 2;
       write_file(filename, triangulation, metadata);
       replace_metadata_field(metadata_filename(filename), "actual.simplices",
@@ -556,7 +559,7 @@ SCENARIO("File serialization reports complete failures" *
 
       THEN("The semantic manifest/payload mismatch is rejected.")
       {
-        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
       }
     }
@@ -565,7 +568,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       auto const filename = directory.file("invalid-completed-passes.off");
       auto       metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       metadata.completed_passes = 2;
       write_file(filename, triangulation, metadata);
       replace_metadata_field(metadata_filename(filename), "completed_passes",
@@ -573,8 +576,36 @@ SCENARIO("File serialization reports complete failures" *
 
       THEN("The malformed typed field is rejected.")
       {
-        CHECK_THROWS_AS(read_file<Delaunay_t<3>>(filename),
+        CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("A configured thread limit is zero.")
+    {
+      auto const filename = directory.file("invalid-thread-limit.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.completed_passes = 2;
+      metadata.max_threads      = 1;
+      write_file(filename, triangulation, metadata);
+      replace_metadata_field(metadata_filename(filename),
+                             "parallel.max_threads", "0");
+
+      THEN("The invalid resource provenance is rejected.")
+      {
+        try
+        {
+          static_cast<void>(read_file<Delaunay_t<3>>(filename));
+          FAIL_CHECK("A zero thread limit was accepted.");
+        }
+        catch (std::filesystem::filesystem_error const& error)
+        {
+          CHECK_EQ(error.code(),
+                   std::make_error_code(std::errc::illegal_byte_sequence));
+          CHECK(
+              std::string_view{error.what()}.contains("invalid thread limit"));
+        }
       }
     }
 
@@ -582,7 +613,7 @@ SCENARIO("File serialization reports complete failures" *
     {
       auto const filename = directory.file("reconciled-provenance.off");
       auto       metadata = make_reproducibility_metadata(
-          manifold, cdt::Random_seed{92}, Artifact_kind::CHECKPOINT);
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
       metadata.completed_passes      = 2;
       metadata.actual_simplices      = 999;
       metadata.topology_fingerprint  = 0;
@@ -591,7 +622,7 @@ SCENARIO("File serialization reports complete failures" *
       THEN("The writer derives those fields from the serialized state.")
       {
         CHECK_NOTHROW(write_file(filename, triangulation, metadata));
-        CHECK_NOTHROW(read_file<Delaunay_t<3>>(filename));
+        CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
         std::ifstream     input{metadata_filename(filename)};
         std::string const contents{std::istreambuf_iterator<char>{input},
                                    std::istreambuf_iterator<char>{}};
@@ -612,7 +643,10 @@ SCENARIO("File serialization reports complete failures" *
     WHEN("The abstract triangulation is parsed.")
     {
       THEN("TDS integrity does not impose the Delaunay empty-sphere property.")
-      { CHECK_NOTHROW(read_file<AbstractTriangulationProbe>(filename)); }
+      {
+        CHECK_NOTHROW(
+            static_cast<void>(read_file<AbstractTriangulationProbe>(filename)));
+      }
     }
   }
 }
@@ -639,7 +673,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   }
   GIVEN("A container of ints")
   {
-    Int_precision constexpr VECTOR_TEST_SIZE = 100;
+    constexpr Int_precision                VECTOR_TEST_SIZE = 100;
     array<Int_precision, VECTOR_TEST_SIZE> container{};
     iota(container.begin(), container.end(), 0);
     WHEN("The container is shuffled.")
@@ -663,15 +697,15 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     {
       cdt::Random generator{92};
       CAPTURE(generator.seed());
-      auto constexpr min   = 64;
-      auto constexpr max   = 6400;
-      auto const value1    = generate_random_int(generator, min, max);
-      auto const value2    = generate_random_int(generator, min, max);
-      auto const value3    = generate_random_int(generator, min, max);
-      auto const value4    = generate_random_int(generator, min, max);
-      auto const value5    = generate_random_int(generator, min, max);
-      auto const value6    = generate_random_int(generator, min, max);
-      array      container = {value1, value2, value3, value4, value5, value6};
+      constexpr auto min    = 64;
+      constexpr auto max    = 6400;
+      auto const     value1 = generate_random_int(generator, min, max);
+      auto const     value2 = generate_random_int(generator, min, max);
+      auto const     value3 = generate_random_int(generator, min, max);
+      auto const     value4 = generate_random_int(generator, min, max);
+      auto const     value5 = generate_random_int(generator, min, max);
+      auto const     value6 = generate_random_int(generator, min, max);
+      array container       = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range.")
       {
         // All elements are >= min
@@ -699,7 +733,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
       array      container = {value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range.")
       {
-        auto constexpr min = 1;
+        constexpr auto min = 1;
         // All elements are >= min
         CHECK_GE(*ranges::min_element(container), min);
 
@@ -714,9 +748,9 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
     {
       cdt::Random generator{92};
       CAPTURE(generator.seed());
-      auto constexpr min = 0.0L;
-      auto constexpr max = 1.0L;
-      auto const value   = generate_random_real(generator, min, max);
+      constexpr auto min   = 0.0L;
+      constexpr auto max   = 1.0L;
+      auto const     value = generate_random_real(generator, min, max);
       THEN("The real number should lie within that range.")
       {
         REQUIRE_LE(min, value);
@@ -781,8 +815,9 @@ SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
     {
       THEN("A std::invalid_argument exception is thrown.")
       {
-        REQUIRE_THROWS_AS(expected_points_per_timeslice(4, 640000, 64),
-                          std::invalid_argument);
+        REQUIRE_THROWS_AS(
+            static_cast<void>(expected_points_per_timeslice(4, 640000, 64)),
+            std::invalid_argument);
       }
     }
   }
@@ -796,7 +831,7 @@ SCENARIO("Exact number (Gmpzf) conversion" * doctest::test_suite("utilities"))
     Gmpzf const TEST_VALUE = 0.17;
     WHEN("We convert it to double.")
     {
-      auto const converted_value = Gmpzf_to_double(TEST_VALUE);
+      auto const converted_value = gmpzf_to_double(TEST_VALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
       { REQUIRE_EQ(TEST_VALUE, Gmpzf(converted_value)); }
     }

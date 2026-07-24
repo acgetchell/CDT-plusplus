@@ -15,20 +15,21 @@
 #include <cstddef>
 #include <gsl/util>
 #include <numeric>
+#include <optional>
 #include <random>
 #include <span>
+#include <type_traits>
 
 #include "Settings.hpp"
-#include "Utilities.hpp"
 
 namespace cdt::move_tracker
 {
-  inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
+  inline constexpr std::size_t NUMBER_OF_3D_MOVES = 5;
 
   /**
    * \brief The types of 3D ergodic moves
    */
-  enum class [[nodiscard("This contains data!")]] move_type
+  enum class [[nodiscard("This contains data!")]] MoveType
   {
     TWO_THREE = 0,
     THREE_TWO = 1,
@@ -44,42 +45,42 @@ namespace cdt::move_tracker
    * \return The integer value of the enum
    */
   template <typename Enumeration>
-  auto as_integer(Enumeration value) -> std::underlying_type_t<Enumeration>
+    requires std::is_enum_v<Enumeration>
+  [[nodiscard]] constexpr auto as_integer(Enumeration const value) noexcept
+      -> std::underlying_type_t<Enumeration>
   {
     return static_cast<std::underlying_type_t<Enumeration>>(value);
   }  // as_integer
 
   /**
-   * \brief Convert integer to move_type
-   * \param move_choice The move choice integer
-   * \return The move_type
+   * \brief Convert an integer index to MoveType
+   * \param move_choice The zero-based move index
+   * \return The MoveType, or std::nullopt when the index is out of range
    */
-  inline auto as_move(int const move_choice) -> move_type
+  [[nodiscard]] constexpr auto move_from_index(
+      std::size_t const move_choice) noexcept -> std::optional<MoveType>
   {
-    if (move_choice == 0) { return move_type::TWO_THREE; }
-    if (move_choice == 1) { return move_type::THREE_TWO; }
-    if (move_choice == 2) { return move_type::TWO_SIX; }
-    if (move_choice == 3) { return move_type::SIX_TWO; }
-    return move_type::FOUR_FOUR;
-  }  // as_move
+    using enum MoveType;
+    constexpr std::array moves{TWO_THREE, THREE_TWO, TWO_SIX, SIX_TWO,
+                               FOUR_FOUR};
+    if (move_choice >= moves.size()) { return std::nullopt; }
+    return moves[move_choice];
+  }  // move_from_index
 
   /// Generate a uniformly distributed 3D ergodic move from caller-owned RNG.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto generate_random_move_3(Generator& generator)
-      -> move_type
+      -> MoveType
   {
     std::uniform_int_distribution<int> distribution{
         0, static_cast<int>(NUMBER_OF_3D_MOVES - 1)};
     auto const move_choice = distribution(generator);
-    return as_move(move_choice);
+    return *move_from_index(static_cast<std::size_t>(move_choice));
   }  // generate_random_move_3
 
   /**
    * \brief The data and methods to track ergodic moves
-   * \tparam ManifoldType The type of manifold on which moves are made
    */
-  template <typename ManifoldType>
-    requires(ManifoldType::dimension == 3)
   class MoveTracker
   {
     using Container = std::array<Int_precision, NUMBER_OF_3D_MOVES>;
@@ -91,14 +92,22 @@ namespace cdt::move_tracker
      * \brief Get a view of the moves
      * \return Read-only container of moves
      */
-    auto moves_view() const { return std::span(moves); }
+    [[nodiscard]] auto moves_view() const noexcept { return std::span(moves); }
 
     /**
      * \brief The [] operator for MoveTracker
      * \param index The index of the element to be accessed
      * \return The number of moves at the index
      */
-    auto operator[](gsl::index index) -> auto&
+    [[nodiscard]] auto operator[](gsl::index const index) -> auto&
+    { return gsl::at(moves, index); }  // operator[]
+
+    /**
+     * \brief The [] operator for a read-only MoveTracker
+     * \param index The index of the element to be accessed
+     * \return The number of moves at the index
+     */
+    [[nodiscard]] auto operator[](gsl::index const index) const -> auto const&
     { return gsl::at(moves, index); }  // operator[]
 
     /**
@@ -106,7 +115,7 @@ namespace cdt::move_tracker
      * \param move The move type to be accessed
      * \return The number of moves of that type
      */
-    auto operator[](move_type const move) -> auto&
+    [[nodiscard]] auto operator[](MoveType const move) -> auto&
     { return gsl::at(moves, as_integer(move)); }  // operator[]
 
     /**
@@ -114,7 +123,7 @@ namespace cdt::move_tracker
      * \param move The move type to be accessed
      * \return The number of moves of that type
      */
-    auto operator[](move_type const move) const -> auto&
+    [[nodiscard]] auto operator[](MoveType const move) const -> auto const&
     { return gsl::at(moves, as_integer(move)); }  // operator[]
 
     /**
@@ -135,7 +144,7 @@ namespace cdt::move_tracker
      * \brief Total moves
      * \return The total number of moves in the MoveTracker
      */
-    auto total() const noexcept
+    [[nodiscard]] auto total() const noexcept
     {
       return std::accumulate(moves.begin(), moves.end(), Int_precision{0});
     }  // total
@@ -144,7 +153,7 @@ namespace cdt::move_tracker
      * \brief Container size
      * \return The size of the container of moves
      */
-    auto size() const noexcept { return moves.size(); }
+    [[nodiscard]] auto size() const noexcept { return moves.size(); }
 
     // 3D
 
@@ -152,61 +161,61 @@ namespace cdt::move_tracker
      * \brief Write access to (2,3) moves
      * \return Reference to number of (2,3) moves
      */
-    auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
+    [[nodiscard]] auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
 
     /**
      * \brief Read access to (2,3) moves
      * \return Value of number of (2,3) moves
      */
-    auto two_three_moves() const { return gsl::at(moves, 0); }
+    [[nodiscard]] auto two_three_moves() const { return gsl::at(moves, 0); }
 
     /**
      * \brief Write access to (3,2) moves
      * \return Reference to number of (3,2) moves
      */
-    auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
+    [[nodiscard]] auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
 
     /**
      * \brief Read access to (3,2) moves
      * \return Value of number of (3,2) moves
      */
-    auto three_two_moves() const { return gsl::at(moves, 1); }
+    [[nodiscard]] auto three_two_moves() const { return gsl::at(moves, 1); }
 
     /**
      * \brief Write access to (2,6) moves
      * \return Reference to number of (2,6) moves
      */
-    auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
+    [[nodiscard]] auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
 
     /**
      * \brief Read access to (2,6) moves
      * \return Value of number of (2,6) moves
      */
-    auto two_six_moves() const { return gsl::at(moves, 2); }
+    [[nodiscard]] auto two_six_moves() const { return gsl::at(moves, 2); }
 
     /**
      * \brief Write access to (6,2) moves
      * \return Reference to number of (6,2) moves
      */
-    auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
+    [[nodiscard]] auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
 
     /**
      * \brief Read access to (6,2) moves
      * \return Value of number of (6,2) moves
      */
-    auto six_two_moves() const { return gsl::at(moves, 3); }
+    [[nodiscard]] auto six_two_moves() const { return gsl::at(moves, 3); }
 
     /**
      * \brief Write access to (4,4) moves
      * \return Reference to number of (4,4) moves
      */
-    auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
+    [[nodiscard]] auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
 
     /**
      * \brief Read access to (4,4) moves
      * \return Value of number of (4,4) moves
      */
-    auto four_four_moves() const { return gsl::at(moves, 4); }
+    [[nodiscard]] auto four_four_moves() const { return gsl::at(moves, 4); }
 
     /// @brief Reset all moves counts to zero
     void reset() { moves.fill(0); }
