@@ -75,6 +75,7 @@ namespace
   {
     CHECK(before.is_correct());
     CHECK(after.is_correct());
+    CHECK(after.is_correct_with_diagnostics());
     CHECK(ergodic_moves::detail::check_move(before, after, move));
   }
 }  // namespace

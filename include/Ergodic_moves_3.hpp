@@ -1801,10 +1801,11 @@ namespace cdt::ergodic_moves
     return std::unexpected{flipped.error()};
   }
 
-  /// @brief Check tracked move deltas and the complete CDT manifold invariant
-  /// @details This verifies causal foliation, cell metadata, TDS validity,
-  /// geometry counts, time bounds, and preserved foliation parameters. It does
-  /// not require Euclidean Delaunayhood.
+  /// @brief Check tracked move deltas and essential CDT manifold invariants
+  /// @details This verifies structural cache counts, causal foliation, cell
+  /// metadata, TDS validity, geometry deltas, time bounds, and preserved
+  /// foliation parameters without rebuilding derived caches. It does not
+  /// require Euclidean Delaunayhood.
   /// @param t_before The manifold before the move
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
@@ -1813,7 +1814,7 @@ namespace cdt::ergodic_moves
       Manifold const& t_before, Manifold const& t_after,
       move_tracker::move_type const& t_move) -> bool
   {
-    if (!t_after.is_correct() ||
+    if (!t_after.is_structurally_correct() ||
         !detail::same_configuration_value(t_after.initial_radius(),
                                           t_before.initial_radius()) ||
         !detail::same_configuration_value(t_after.foliation_spacing(),

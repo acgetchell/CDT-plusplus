@@ -76,24 +76,39 @@ option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable building of tests" ON)
 option(ENABLE_PARALLEL_TRIANGULATION
        "Enable CGAL parallel Delaunay insertion and removal in production targets" OFF)
+option(ENABLE_DEPRECATION_ERRORS
+       "Treat deprecated C++ and CGAL API use in project targets as an error" ON)
+
+target_compile_definitions(
+  project_options
+  INTERFACE CDT_ENABLE_PARALLEL_TRIANGULATION=$<BOOL:${ENABLE_PARALLEL_TRIANGULATION}>)
+
+if(ENABLE_DEPRECATION_ERRORS)
+  if(MSVC)
+    target_compile_options(project_options INTERFACE /we4996)
+  else()
+    target_compile_options(project_options INTERFACE -Werror=deprecated-declarations)
+  endif()
+endif()
 
 # Modules and scripts ##
 include(CTest)
 include(CMakeDependentOption)
 
-# Minimum compiler versions required for C++23 support:
+# Minimum compiler versions required by the intersection of C++23 library
+# support and CGAL 6.2's tested platforms:
 # - MSVC 19.34 (Visual Studio 2022 version 17.4)
-# - GCC 12.2
+# - GCC 13.3
 # - AppleClang 15.0 (Xcode 15)
-# - Clang 16.0
+# - Clang 22.0
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.34")
   message(FATAL_ERROR "MSVC 19.34 or higher required for C++23 support")
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "12.2")
-  message(FATAL_ERROR "GCC 12.2 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "13.3")
+  message(FATAL_ERROR "GCC 13.3 or higher required for CGAL 6.2 support")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "15.0")
   message(FATAL_ERROR "AppleClang 15.0 (Xcode 15) or higher required for C++23 std::expected support")
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "16.0")
-  message(FATAL_ERROR "Clang 16.0 or higher required for C++23 support")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "22.0")
+  message(FATAL_ERROR "Clang 22.0 or higher required for CGAL 6.2 support")
 endif()
 
 # Set NOMINMAX to avoid min/max macro errors on Windows in date.h
@@ -109,7 +124,7 @@ endif()
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE
     CACHE BOOL "Force CGAL to maintain CMAKE flags")
-find_package(CGAL CONFIG REQUIRED)
+find_package(CGAL 6.2 EXACT CONFIG REQUIRED)
 
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)
@@ -122,6 +137,7 @@ find_package(fmt CONFIG REQUIRED)
 
 # https://github.com/microsoft/GSL
 find_package(Microsoft.GSL CONFIG REQUIRED)
+target_link_libraries(project_options INTERFACE Microsoft.GSL::GSL)
 
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp" REQUIRED)

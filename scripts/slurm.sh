@@ -10,7 +10,7 @@ repo_root="$(cd -- "${script_dir}/.." && pwd)"
 build_dir="${repo_root}/build"
 
 module load cmake/3.28.1
-module load gcc/13.2.0
+module load gcc/13.3.0
 module load autoconf-archive/2022.02.11
 rm -rf -- "${build_dir}"
 cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S "${repo_root}" -B "${build_dir}"

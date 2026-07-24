@@ -9,12 +9,18 @@
 
 #include <doctest/doctest.h>
 
+#include <atomic>
 #include <concepts>
+#include <gsl/util>
+#include <latch>
 #include <random>
+#include <ranges>
+#include <thread>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "CGAL_test_helpers.hpp"
 #include "Foliated_triangulation.hpp"
 
 using namespace cdt;
@@ -69,6 +75,7 @@ TEST_CASE("CGAL parallel insertion and removal retain their lock-grid owner" *
           detail::locking_box<3>(vertices));
     REQUIRE(state.triangulation().number_of_vertices() > 100);
     REQUIRE(state.triangulation().is_valid());
+    test_helpers::expect_labels_preserved(state.triangulation(), vertices);
 
     detail::Delaunay_state<3> const copied{state};
     REQUIRE(copied.lock_data_structure() != nullptr);
@@ -85,8 +92,8 @@ TEST_CASE("CGAL parallel insertion and removal retain their lock-grid owner" *
     auto& delaunay = moved.mutable_triangulation_unchecked();
     std::vector<Vertex_handle_t<3>> vertices_to_remove;
     vertices_to_remove.reserve(16);
-    auto vertex = delaunay.finite_vertices_begin();
-    for (std::size_t count = 0; count < 16; ++count, ++vertex)
+    for (auto const vertex :
+         delaunay.finite_vertex_handles() | std::views::take(16))
     {
       vertices_to_remove.emplace_back(vertex);
     }
@@ -106,6 +113,72 @@ TEST_CASE("CGAL parallel insertion and removal retain their lock-grid owner" *
   CHECK_FALSE(snapshot.is_parallel());
   CHECK(snapshot.get_lock_data_structure() == nullptr);
   CHECK(snapshot.is_valid());
+}
+
+TEST_CASE("A failed concurrent lock leaves the triangulation unchanged" *
+          doctest::test_suite("parallel_triangulation"))
+{
+  Causal_vertices_t<3> const vertices{
+      {Point_t<3>{-1.0, -1.0, -1.0}, 1},
+      { Point_t<3>{1.0, -1.0, -1.0}, 1},
+      { Point_t<3>{-1.0, 1.0, -1.0}, 2},
+      { Point_t<3>{-1.0, -1.0, 1.0}, 2},
+      {   Point_t<3>{1.0, 1.0, 1.0}, 3},
+  };
+  detail::Delaunay_state<3> state{vertices};
+  auto&       triangulation = state.mutable_triangulation_unchecked();
+  auto* const lock_grid     = state.lock_data_structure();
+  REQUIRE(lock_grid != nullptr);
+
+  auto const       start = *triangulation.finite_cell_handles().begin();
+  auto const       contested_point = start->vertex(0)->point();
+  Point_t<3> const candidate{contested_point.x() + 0.01,
+                             contested_point.y() + 0.01,
+                             contested_point.z() + 0.01};
+  REQUIRE(lock_grid->check_if_all_tls_cells_are_unlocked());
+  REQUIRE(lock_grid->template try_lock<true>(contested_point));
+  REQUIRE_MESSAGE(
+      lock_grid->is_locked_by_this_thread(candidate),
+      "Contention fixture requires candidate and contested_point to share a "
+      "lock-grid cell; update them when LOCK_GRID_RESOLUTION or "
+      "GV_BOUNDING_BOX_SIZE changes.");
+  lock_grid->unlock_all_points_locked_by_this_thread();
+
+  {
+    std::latch                  locked{1};
+    std::latch                  release{1};
+    std::atomic_bool            lock_acquired{false};
+    std::jthread                holder{[&] {
+      lock_acquired.store(lock_grid->template try_lock<true>(contested_point));
+      locked.count_down();
+      release.wait();
+      lock_grid->unlock_all_points_locked_by_this_thread();
+    }};
+    [[maybe_unused]] auto const release_holder =
+        gsl::finally([&release] { release.count_down(); });
+    locked.wait();
+    if (!lock_acquired.load())
+    {
+      FAIL_CHECK("The fixture thread could not acquire the candidate lock.");
+      return;
+    }
+
+    auto const vertices_before = triangulation.number_of_vertices();
+    auto const cells_before    = triangulation.number_of_finite_cells();
+    bool       could_lock_zone = true;
+    auto const inserted =
+        triangulation.insert(candidate, start, &could_lock_zone);
+
+    CHECK_FALSE(could_lock_zone);
+    CHECK(inserted == Vertex_handle_t<3>{});
+    CHECK_EQ(triangulation.number_of_vertices(), vertices_before);
+    CHECK_EQ(triangulation.number_of_finite_cells(), cells_before);
+    CHECK_FALSE(find_vertex<3>(triangulation, candidate));
+    CHECK(triangulation.is_valid());
+
+    triangulation.unlock_all_elements();
+  }
+  CHECK(lock_grid->check_if_all_cells_are_unlocked());
 }
 
 TEST_CASE("Parallel lock ownership survives wrapper value transfers" *

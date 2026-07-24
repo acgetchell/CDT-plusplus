@@ -196,9 +196,18 @@ namespace cdt::manifolds
     [[nodiscard]] auto is_valid() const -> bool
     { return m_triangulation.is_tds_valid(); }  // is_valid
 
-    /// @returns If base data structures are correct
+    /// @returns Whether essential structural and causal invariants hold
+    [[nodiscard]] auto is_structurally_correct() const -> bool
+    { return m_triangulation.is_structurally_correct(); }
+
+    /// @returns Whether essential base-data invariants hold
     [[nodiscard]] auto is_correct() const -> bool
-    { return m_triangulation.is_correct(); }  // is_correct
+    { return is_structurally_correct(); }  // is_correct
+
+    /// @returns Whether all invariants and derived caches are consistent
+    /// @details This opt-in diagnostic performs cache-rebuilding scans.
+    [[nodiscard]] auto is_correct_with_diagnostics() const -> bool
+    { return m_triangulation.is_correct_with_diagnostics(); }
 
     /// @returns Run-time dimensionality of the triangulation data structure
     [[nodiscard]] auto dimensionality() const

@@ -12,10 +12,16 @@
 #define CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP
 
 #include <CGAL/Delaunay_triangulation_3.h>
+#include <CGAL/Delaunay_triangulation_cell_base_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/point_generators_3.h>
+#include <CGAL/tags.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
+#include <CGAL/Triangulation_data_structure_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
+
+#include <utility>
+#include <vector>
 
 #include "Settings.hpp"
 
@@ -30,20 +36,26 @@ namespace cdt::detail
     using Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;
     using Vertex_base =
         CGAL::Triangulation_vertex_base_with_info_3<Int_precision, Kernel>;
+    using Delaunay_cell_base = CGAL::Delaunay_triangulation_cell_base_3<Kernel>;
     using Cell_base =
-        CGAL::Triangulation_cell_base_with_info_3<Int_precision, Kernel>;
-#ifdef CGAL_LINKED_WITH_TBB
-    using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
-                                                     CGAL::Parallel_tag>;
-#else
-    using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base>;
+        CGAL::Triangulation_cell_base_with_info_3<Int_precision, Kernel,
+                                                  Delaunay_cell_base>;
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+#ifndef CGAL_LINKED_WITH_TBB
+#error "Parallel CDT++ triangulations require CGAL::TBB_support."
 #endif
-    using Delaunay    = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
+    using Concurrency_tag = CGAL::Parallel_tag;
+#else
+    using Concurrency_tag = CGAL::Sequential_tag;
+#endif
+    using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
+                                                     Concurrency_tag>;
+    using Delaunay         = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 
-    using Cell_handle = Delaunay::Cell_handle;
-    using Face_handle = std::pair<Cell_handle, Int_precision>;
-    using Facet       = Delaunay::Facet;
-    using Edge_handle = CGAL::Triple<Cell_handle, Int_precision, Int_precision>;
+    using Cell_handle      = Delaunay::Cell_handle;
+    using Facet            = Delaunay::Facet;
+    using Edge_handle      = Delaunay::Edge;
     using Vertex_handle    = Delaunay::Vertex_handle;
     using Point            = Delaunay::Point;
     using Causal_vertices  = std::vector<std::pair<Point, Int_precision>>;
