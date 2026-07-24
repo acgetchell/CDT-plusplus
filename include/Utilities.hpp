@@ -234,10 +234,8 @@ namespace cdt::utilities
     template <typename TriangulationType>
     inline bool constexpr HAS_CAUSAL_INFO =
         requires(TriangulationType const& triangulation) {
-          triangulation.finite_vertices_begin();
-          triangulation.finite_vertices_end();
-          triangulation.finite_cells_begin();
-          triangulation.finite_cells_end();
+          triangulation.finite_vertex_handles();
+          triangulation.finite_cell_handles();
           triangulation.number_of_vertices();
           triangulation.number_of_finite_cells();
         };
@@ -249,8 +247,7 @@ namespace cdt::utilities
       std::vector<std::string> records;
       records.reserve(
           static_cast<std::size_t>(triangulation.number_of_vertices()));
-      for (auto vertex = triangulation.finite_vertices_begin();
-           vertex != triangulation.finite_vertices_end(); ++vertex)
+      for (auto const vertex : triangulation.finite_vertex_handles())
       {
         records.emplace_back(
             fmt::format("v:{}:{}", point_key(vertex->point()), vertex->info()));
@@ -289,8 +286,7 @@ namespace cdt::utilities
       records.reserve(
           static_cast<std::size_t>(triangulation.number_of_vertices() +
                                    triangulation.number_of_finite_cells()));
-      for (auto cell = triangulation.finite_cells_begin();
-           cell != triangulation.finite_cells_end(); ++cell)
+      for (auto const cell : triangulation.finite_cell_handles())
       {
         records.emplace_back(
             fmt::format("c:{}:{}", cell_key(cell), cell->info()));
@@ -308,8 +304,7 @@ namespace cdt::utilities
         std::vector<std::string> vertices;
         vertices.reserve(
             static_cast<std::size_t>(triangulation.number_of_vertices()));
-        for (auto vertex = triangulation.finite_vertices_begin();
-             vertex != triangulation.finite_vertices_end(); ++vertex)
+        for (auto const vertex : triangulation.finite_vertex_handles())
         {
           vertices.emplace_back(
               fmt::format("{}|{}", point_key(vertex->point()), vertex->info()));
@@ -319,8 +314,7 @@ namespace cdt::utilities
         std::vector<std::string> cells;
         cells.reserve(
             static_cast<std::size_t>(triangulation.number_of_finite_cells()));
-        for (auto cell = triangulation.finite_cells_begin();
-             cell != triangulation.finite_cells_end(); ++cell)
+        for (auto const cell : triangulation.finite_cell_handles())
         {
           cells.emplace_back(
               fmt::format("{}|{}", cell_key(cell), cell->info()));
@@ -608,8 +602,7 @@ namespace cdt::utilities
         }
       }
 
-      for (auto vertex = triangulation.finite_vertices_begin();
-           vertex != triangulation.finite_vertices_end(); ++vertex)
+      for (auto const vertex : triangulation.finite_vertex_handles())
       {
         auto const found = vertex_info.find(point_key(vertex->point()));
         if (found == vertex_info.end())
@@ -621,8 +614,7 @@ namespace cdt::utilities
         vertex->info() = found->second;
         vertex_info.erase(found);
       }
-      for (auto cell = triangulation.finite_cells_begin();
-           cell != triangulation.finite_cells_end(); ++cell)
+      for (auto const cell : triangulation.finite_cell_handles())
       {
         auto const found = cell_info.find(cell_key(cell));
         if (found == cell_info.end())
@@ -1113,11 +1105,11 @@ namespace cdt::utilities
         }
         else
         {
-          auto vertex            = triangulation.finite_vertices_begin();
-          auto minimum_timeslice = static_cast<Int_precision>(vertex->info());
+          auto const vertices    = triangulation.finite_vertex_handles();
+          auto const first       = vertices.begin();
+          auto minimum_timeslice = static_cast<Int_precision>((*first)->info());
           auto maximum_timeslice = minimum_timeslice;
-          for (++vertex; vertex != triangulation.finite_vertices_end();
-               ++vertex)
+          for (auto const vertex : vertices)
           {
             auto const time   = static_cast<Int_precision>(vertex->info());
             minimum_timeslice = std::min(minimum_timeslice, time);

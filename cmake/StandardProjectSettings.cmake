@@ -36,22 +36,13 @@ if(ENABLE_IPO)
   endif()
 endif()
 
-# Set minimum Boost version
-set(BOOST_MIN_VERSION "1.75.0")
-
 # Use C++23
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Turn on / off TBB
-set(TBB_ON ON)
-
 # Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
-
-# Turn off CGAL Triangulation Assertions and Postconditions, fix https://gitlab.com/libeigen/eigen/-/issues/1894
-add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS -D_HAS_DEPRECATED_RESULT_OF=1 -DEIGEN_HAS_STD_RESULT_OF=0 -DCGAL_USE_GMP=ON -DCGAL_USE_MPFR=ON -DCGAL_DO_NOT_USE_BOOST_MP=ON)
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

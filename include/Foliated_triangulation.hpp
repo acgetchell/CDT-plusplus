@@ -25,14 +25,25 @@
 #include <CGAL/Random.h>
 
 #include <algorithm>
+#include <array>
+#include <cassert>
 #include <cmath>
+#include <concepts>
 #include <functional>
 #include <iterator>
 #include <limits>
+#include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
+#include <ranges>
+#include <set>
+#include <span>
+#include <stdexcept>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "Random.hpp"
 #include "Triangulation_traits.hpp"
@@ -55,10 +66,6 @@ namespace cdt
       typename detail::TriangulationTraits<dimension>::Cell_handle;
 
   template <int dimension>
-  using Face_handle_t =
-      typename detail::TriangulationTraits<dimension>::Face_handle;
-
-  template <int dimension>
   using Facet_t = typename detail::TriangulationTraits<dimension>::Facet;
 
   template <int dimension>
@@ -73,19 +80,19 @@ namespace cdt
   using Spherical_points_generator_t = typename detail::TriangulationTraits<
       dimension>::Spherical_points_generator;
 
-  /// @concept ContainerType
-  /// @brief Requires `std::movable`, defined in the standard `<concepts>`
-  /// header.
-  /// @details Right now the real restriction on Containers is that elements
-  /// must be swappable in order for std::shuffle to work.
+  /// @concept ConstForwardRange
+  /// @brief A multi-pass range whose const-qualified value can be traversed by
+  /// classification and materialization helpers.
   namespace detail
   {
     template <typename C>
-    concept ContainerType               = std::movable<C>;
+    concept ConstForwardRange = std::ranges::forward_range<
+        std::add_const_t<std::remove_reference_t<C>>>;
 
     inline int constexpr MAX_FIX_PASSES = 50;
 
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
     inline int constexpr LOCK_GRID_RESOLUTION = 50;
 
     [[nodiscard]] inline auto pad_locking_box(CGAL::Bbox_3 const& box)
@@ -132,10 +139,10 @@ namespace cdt
     [[nodiscard]] auto locking_box(Delaunay_t<dimension> const& triangulation)
         -> CGAL::Bbox_3
     {
+      auto const vertices = triangulation.finite_vertex_handles();
       return locking_box(
-          triangulation.finite_vertices_begin(),
-          triangulation.finite_vertices_end(),
-          [](auto const& vertex) -> auto const& { return vertex.point(); });
+          vertices.begin(), vertices.end(),
+          [](auto const vertex) -> auto const& { return vertex->point(); });
     }
 #endif
 
@@ -150,7 +157,8 @@ namespace cdt
       using Delaunay = Delaunay_t<dimension>;
       using Kernel   = typename TriangulationTraits<dimension>::Kernel;
 
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
       using Lock_data_structure = typename Delaunay::Lock_data_structure;
       using Lock_owner          = std::unique_ptr<Lock_data_structure>;
 #else
@@ -180,7 +188,8 @@ namespace cdt
 
       [[nodiscard]] static auto make_empty_state() -> Pending_state
       {
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
         auto lock = std::make_unique<Lock_data_structure>(
             locking_box<dimension>(Delaunay{}), LOCK_GRID_RESOLUTION);
         Delaunay triangulation{Kernel{}, lock.get()};
@@ -193,7 +202,8 @@ namespace cdt
       [[nodiscard]] static auto make_insertion_state(
           Causal_vertices_t<dimension> const& causal_vertices) -> Pending_state
       {
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
         auto lock = std::make_unique<Lock_data_structure>(
             locking_box<dimension>(causal_vertices), LOCK_GRID_RESOLUTION);
         Delaunay triangulation{Kernel{}, lock.get()};
@@ -207,7 +217,8 @@ namespace cdt
       [[nodiscard]] static auto make_adopted_state(Delaunay source)
           -> Pending_state
       {
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
         auto lock = std::make_unique<Lock_data_structure>(
             locking_box<dimension>(source), LOCK_GRID_RESOLUTION);
         source.set_lock_data_structure(lock.get());
@@ -230,7 +241,13 @@ namespace cdt
           Causal_vertices_t<dimension> const& causal_vertices)
           : Delaunay_state{make_insertion_state(causal_vertices)}
       {
-        m_triangulation.insert(causal_vertices.begin(), causal_vertices.end());
+        auto const inserted = m_triangulation.insert(causal_vertices.begin(),
+                                                     causal_vertices.end());
+        if (inserted != std::ssize(causal_vertices))
+        {
+          throw std::invalid_argument(
+              "Causal vertices must contain unique geometric points.");
+        }
       }
 
       explicit Delaunay_state(Delaunay source)
@@ -281,7 +298,8 @@ namespace cdt
 
       [[nodiscard]] auto lock_data_structure() const noexcept
       {
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
         return m_lock_data_structure.get();
 #else
         return nullptr;
@@ -297,7 +315,8 @@ namespace cdt
       [[nodiscard]] auto into_detached_triangulation() && -> Delaunay
       {
         m_triangulation.set_lock_data_structure(nullptr);
-#ifdef CGAL_LINKED_WITH_TBB
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
         m_lock_data_structure.reset();
 #endif
         return std::move(m_triangulation);
@@ -335,11 +354,15 @@ namespace cdt::foliated_triangulations
     }
     Causal_vertices_t<dimension> causal_vertices;
     causal_vertices.reserve(vertices.size());
-    std::ranges::transform(vertices, timevalues,
-                           std::back_inserter(causal_vertices),
-                           [](Point_t<dimension> point, size_t time) {
-                             return std::make_pair(point, time);
-                           });
+    std::ranges::transform(
+        vertices, timevalues, std::back_inserter(causal_vertices),
+        [](Point_t<dimension> point, size_t time) {
+          if (!std::in_range<Int_precision>(time))
+          {
+            throw std::out_of_range("Timevalue does not fit Int_precision.");
+          }
+          return std::pair{point, static_cast<Int_precision>(time)};
+        });
     return causal_vertices;
   }
 
@@ -355,16 +378,10 @@ namespace cdt::foliated_triangulations
     assert(delaunay.is_valid());
     std::vector<Edge_handle_t<dimension>> init_edges;
     init_edges.reserve(delaunay.number_of_finite_edges());
-    for (auto eit = delaunay.finite_edges_begin();
-         eit != delaunay.finite_edges_end(); ++eit)
+    for (auto const& edge : delaunay.finite_edges())
     {
-      Cell_handle_t<3> const cell = eit->first;
-      Edge_handle_t<3> thisEdge{cell, cell->index(cell->vertex(eit->second)),
-                                cell->index(cell->vertex(eit->third))};
-      // Each edge is valid in the triangulation
-      assert(delaunay.tds().is_valid(thisEdge.first, thisEdge.second,
-                                     thisEdge.third));
-      init_edges.emplace_back(thisEdge);
+      assert(delaunay.tds().is_valid(edge.first, edge.second, edge.third));
+      init_edges.emplace_back(edge);
     }
     assert(init_edges.size() == delaunay.number_of_finite_edges());
     return init_edges;
@@ -427,41 +444,33 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @returns The maximum timevalue in the container
-  template <int dimension, detail::ContainerType Container>
-  [[nodiscard]] auto find_max_timevalue(Container&& t_vertices) -> Int_precision
+  template <int dimension, detail::ConstForwardRange Container>
+  [[nodiscard]] auto find_max_timevalue(Container const& t_vertices)
+      -> Int_precision
   {
-    auto vertices = std::forward<Container>(t_vertices);
-    if (vertices.empty())
+    if (std::ranges::empty(t_vertices))
     {
       throw std::invalid_argument("Cannot classify an empty triangulation.");
     }
-    auto max_element  = std::max_element(vertices.begin(), vertices.end(),
-                                         compare_v_info<dimension>);
-    auto result_index = std::distance(vertices.begin(), max_element);
-    // std::distance may be negative if random-access iterators are used and
-    // first is reachable from last
-    assert(result_index >= 0);
-    auto const index = static_cast<std::size_t>(std::abs(result_index));
-    return vertices[index]->info();
+    auto const max_element =
+        std::ranges::max_element(t_vertices, compare_v_info<dimension>);
+    return (*max_element)->info();
   }  // find_max_timevalue
 
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @returns The minimum timevalue in the container
-  template <int dimension, detail::ContainerType Container>
-  [[nodiscard]] auto find_min_timevalue(Container&& t_vertices) -> Int_precision
+  template <int dimension, detail::ConstForwardRange Container>
+  [[nodiscard]] auto find_min_timevalue(Container const& t_vertices)
+      -> Int_precision
   {
-    auto vertices = std::forward<Container>(t_vertices);
-    if (vertices.empty())
+    if (std::ranges::empty(t_vertices))
     {
       throw std::invalid_argument("Cannot classify an empty triangulation.");
     }
-    auto min_element  = std::min_element(vertices.begin(), vertices.end(),
-                                         compare_v_info<dimension>);
-    auto result_index = std::distance(vertices.begin(), min_element);
-    assert(result_index >= 0);
-    auto const index = static_cast<std::size_t>(std::abs(result_index));
-    return vertices[index]->info();
+    auto const min_element =
+        std::ranges::min_element(t_vertices, compare_v_info<dimension>);
+    return (*min_element)->info();
   }  // find_min_timevalue
 
   /// @brief Predicate to classify edge as timelike or spacelike
@@ -497,12 +506,11 @@ namespace cdt::foliated_triangulations
       bool t_is_Timelike_pred) -> std::vector<Edge_handle_t<dimension>>
   {
     std::vector<Edge_handle_t<dimension>> filtered_edges;
-    // Short-circuit if no edges
-    if (t_edges.empty()) { return filtered_edges; }
-    std::copy_if(t_edges.begin(), t_edges.end(),
-                 std::back_inserter(filtered_edges), [&](auto const& edge) {
-                   return t_is_Timelike_pred == classify_edge<dimension>(edge);
-                 });
+    filtered_edges.reserve(t_edges.size());
+    std::ranges::copy_if(
+        t_edges, std::back_inserter(filtered_edges), [&](auto const& edge) {
+          return t_is_Timelike_pred == classify_edge<dimension>(edge);
+        });
     return filtered_edges;
   }  // filter_edges
 
@@ -516,13 +524,11 @@ namespace cdt::foliated_triangulations
       Cell_type const& t_cell_type) -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> filtered_cells;
-    // Short-circuit if no cells
-    if (t_cells.empty()) { return filtered_cells; }
-    std::copy_if(t_cells.begin(), t_cells.end(),
-                 std::back_inserter(filtered_cells),
-                 [&t_cell_type](auto const& cell) {
-                   return cell->info() == static_cast<int>(t_cell_type);
-                 });
+    filtered_cells.reserve(t_cells.size());
+    std::ranges::copy_if(t_cells, std::back_inserter(filtered_cells),
+                         [&t_cell_type](auto const& cell) {
+                           return cell->info() == static_cast<int>(t_cell_type);
+                         });
     return filtered_cells;
   }  // filter_cells
 
@@ -593,12 +599,11 @@ namespace cdt::foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation)
   {
     std::vector<Vertex_handle_t<dimension>> vertices;
-    for (auto vit = t_triangulation.finite_vertices_begin();
-         vit != t_triangulation.finite_vertices_end(); ++vit)
+    vertices.reserve(t_triangulation.number_of_vertices());
+    for (auto const vertex : t_triangulation.finite_vertex_handles())
     {
-      // Each vertex is valid
-      assert(t_triangulation.tds().is_vertex(vit));
-      vertices.emplace_back(vit);
+      assert(t_triangulation.tds().is_vertex(vertex));
+      vertices.emplace_back(vertex);
     }
     return vertices;
   }  // collect_vertices
@@ -615,12 +620,11 @@ namespace cdt::foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
       double t_foliation_spacing)
   {
-    auto checked_vertices = collect_vertices<dimension>(t_triangulation);
-    return std::all_of(checked_vertices.begin(), checked_vertices.end(),
-                       [&](auto const& vertex) {
-                         return is_vertex_timevalue_correct<dimension>(
-                             vertex, t_initial_radius, t_foliation_spacing);
-                       });
+    return std::ranges::all_of(
+        t_triangulation.finite_vertex_handles(), [&](auto const vertex) {
+          return is_vertex_timevalue_correct<dimension>(
+              vertex, t_initial_radius, t_foliation_spacing);
+        });
   }  // check_vertices
 
   /// @brief Obtain all finite cells in the Delaunay triangulation
@@ -632,12 +636,11 @@ namespace cdt::foliated_triangulations
       -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> cells;
-    for (auto cit = t_triangulation.finite_cells_begin();
-         cit != t_triangulation.finite_cells_end(); ++cit)
+    cells.reserve(t_triangulation.number_of_finite_cells());
+    for (auto const cell : t_triangulation.finite_cell_handles())
     {
-      // Each cell is valid
-      assert(t_triangulation.tds().is_cell(cit));
-      cells.emplace_back(cit);
+      assert(t_triangulation.tds().is_cell(cell));
+      cells.emplace_back(cell);
     }
     return cells;
   }  // collect_cells
@@ -825,12 +828,9 @@ namespace cdt::foliated_triangulations
   [[nodiscard]] auto check_cells(Delaunay_t<dimension> const& t_triangulation)
       -> bool
   {
-    auto checked_cells = collect_cells<dimension>(t_triangulation);
-    return checked_cells.empty() ||
-           std::all_of(checked_cells.begin(), checked_cells.end(),
-                       [&](auto const& cell) {
-                         return is_cell_type_correct<dimension>(cell);
-                       });
+    return std::ranges::all_of(
+        t_triangulation.finite_cell_handles(),
+        [](auto const cell) { return is_cell_type_correct<dimension>(cell); });
   }  // check_cells
 
   /// @brief Check all finite cells in the Delaunay triangulation
@@ -889,14 +889,10 @@ namespace cdt::foliated_triangulations
   /// cell->info()
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to print
-  template <int dimension, typename Container>
-  void print_cells(Container&& t_cells)
+  template <int dimension, detail::ConstForwardRange Container>
+  void print_cells(Container const& t_cells)
   {
-    for (auto        cells = std::forward<Container>(t_cells);
-         auto const& cell : cells)
-    {
-      print_cell<dimension>(cell);
-    }
+    for (auto const& cell : t_cells) { print_cell<dimension>(cell); }
   }  // print_cells
 
   /// @brief Write to debug log timevalues of each vertex in the cell and the
@@ -904,11 +900,10 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @tparam Container The type of container
   /// @param t_cells The cells to write to debug log
-  template <int dimension, detail::ContainerType Container>
-  void debug_print_cells(Container&& t_cells)
+  template <int dimension, detail::ConstForwardRange Container>
+  void debug_print_cells(Container const& t_cells)
   {
-    for (auto        cells = std::forward<Container>(t_cells);
-         auto const& cell : cells)
+    for (auto const& cell : t_cells)
     {
       spdlog::debug("Cell info => {}\n", cell->info());
       for (int j = 0; j < dimension + 1; ++j)
@@ -936,12 +931,11 @@ namespace cdt::foliated_triangulations
 
   /// @brief Print edge
   /// @details An edge is represented by a cell and two indices which refer
-  /// to the vertices of the cell connected by the edge. The data is stored
-  /// in a CGAL::Triple, which is an extension of std::pair.
+  /// to the vertices of the cell connected by the edge. The public type is
+  /// the triangulation's canonical `Delaunay::Edge` alias.
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_edge The edge to print
   /// @see https://doc.cgal.org/latest/TDS_3/index.html#fig__TDS3figrepres
-  /// @see https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Triple.html
   template <int dimension>
   void print_edge(Edge_handle_t<dimension> const& t_edge)
   {
@@ -962,8 +956,8 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
   /// @return Contiguous container with spacelike facets per timeslice
-  template <int dimension, detail::ContainerType Container>
-  [[nodiscard]] auto collect_spacelike_facets(Container&& t_facets)
+  template <int dimension, detail::ConstForwardRange Container>
+  [[nodiscard]] auto collect_spacelike_facets(Container const& t_facets)
       -> std::vector<std::pair<Int_precision, Facet_t<3>>>
   {
 #ifndef NDEBUG
@@ -1022,7 +1016,7 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
   /// @return Container with spacelike facets per timeslice
-  template <int dimension, detail::ContainerType Container>
+  template <int dimension, detail::ConstForwardRange Container>
   [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
   {
@@ -1311,7 +1305,7 @@ namespace cdt::foliated_triangulations
     using Delaunay            = Delaunay_t<3>;
     using Cell_handle         = Cell_handle_t<3>;
     using Cell_container      = std::vector<Cell_handle>;
-    using Face_container      = std::vector<Face_handle_t<3>>;
+    using Face_container      = std::vector<Facet_t<3>>;
     using Edge_container      = std::vector<Edge_handle_t<3>>;
     using Vertex_handle       = Vertex_handle_t<3>;
     using Vertex_container    = std::vector<Vertex_handle>;
@@ -1379,6 +1373,56 @@ namespace cdt::foliated_triangulations
     Edge_container      m_spacelike_edges;
     Int_precision       m_max_timevalue{0};
     Int_precision       m_min_timevalue{0};
+
+    [[nodiscard]] auto  has_consistent_derived_state() const -> bool
+    {
+      auto const& delaunay = triangulation();
+      auto const& tds      = delaunay.tds();
+      if (!m_delaunay_state.has_consistent_lock_binding() ||
+          m_vertices.size() != delaunay.number_of_vertices() ||
+          m_cells.size() != delaunay.number_of_finite_cells() ||
+          m_faces.size() != delaunay.number_of_finite_facets() ||
+          m_edges.size() != delaunay.number_of_finite_edges())
+      {
+        return false;
+      }
+
+      auto const valid_vertices = std::ranges::all_of(
+          m_vertices,
+          [&tds](Vertex_handle const vertex) { return tds.is_vertex(vertex); });
+      auto const valid_cells = std::ranges::all_of(
+          m_cells,
+          [&tds](Cell_handle const cell) { return tds.is_cell(cell); });
+      auto const valid_faces =
+          std::ranges::all_of(m_faces, [&tds](auto const& face) {
+            return tds.is_facet(face.first, face.second);
+          });
+      auto const valid_edges =
+          std::ranges::all_of(m_edges, [&tds](auto const& edge) {
+            return tds.is_valid(edge.first, edge.second, edge.third);
+          });
+      if (!valid_vertices || !valid_cells || !valid_faces || !valid_edges)
+      {
+        return false;
+      }
+
+      if (m_three_one != filter_cells<3>(m_cells, Cell_type::THREE_ONE) ||
+          m_two_two != filter_cells<3>(m_cells, Cell_type::TWO_TWO) ||
+          m_one_three != filter_cells<3>(m_cells, Cell_type::ONE_THREE) ||
+          m_spacelike_facets != cache_spacelike_facets(m_faces) ||
+          m_timelike_edges != filter_edges<3>(m_edges, true) ||
+          m_spacelike_edges != filter_edges<3>(m_edges, false))
+      {
+        return false;
+      }
+
+      if (m_vertices.empty())
+      {
+        return m_max_timevalue == 0 && m_min_timevalue == 0;
+      }
+      return m_max_timevalue == find_max_timevalue<3>(std::span{m_vertices}) &&
+             m_min_timevalue == find_min_timevalue<3>(std::span{m_vertices});
+    }
 
    public:
     /// @brief Default dtor
@@ -1486,7 +1530,7 @@ namespace cdt::foliated_triangulations
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
         , m_faces{collect_faces()}
         , m_spacelike_facets{cache_spacelike_facets(m_faces)}
-        , m_edges{collect_edges()}
+        , m_edges{foliated_triangulations::collect_edges<3>(triangulation())}
         , m_timelike_edges{filter_edges<3>(m_edges, true)}
         , m_spacelike_edges{filter_edges<3>(m_edges, false)}
         , m_max_timevalue{find_max_timevalue<3>(std::span{m_vertices})}
@@ -1563,7 +1607,8 @@ namespace cdt::foliated_triangulations
     /// @return True if the Foliated Triangulation class invariants hold
     [[nodiscard]] auto is_correct() const -> bool
     {
-      return is_foliated() && is_tds_valid() && check_all_cells();
+      return is_foliated() && is_tds_valid() && check_all_cells() &&
+             has_consistent_derived_state();
     }  // is_correct
 
     /// @return True if the Foliated Triangulation has been initialized
@@ -1843,40 +1888,14 @@ namespace cdt::foliated_triangulations
       assert(is_tds_valid());
       Face_container init_faces;
       init_faces.reserve(triangulation().number_of_finite_facets());
-      for (auto fit = triangulation().finite_facets_begin();
-           fit != triangulation().finite_facets_end(); ++fit)
+      for (auto const& facet : triangulation().finite_facets())
       {
-        Cell_handle_t<3> const cell = fit->first;
-        // Each face is valid in the triangulation
-        assert(triangulation().tds().is_facet(cell, fit->second));
-        Face_handle_t<3> const thisFacet{std::make_pair(cell, fit->second)};
-        init_faces.emplace_back(thisFacet);
+        assert(triangulation().tds().is_facet(facet.first, facet.second));
+        init_faces.emplace_back(facet);
       }
       assert(init_faces.size() == triangulation().number_of_finite_facets());
       return init_faces;
     }  // collect_faces
-
-    /// @return Container of all the finite edges in the triangulation
-    [[nodiscard]] auto collect_edges() const -> Edge_container
-    {
-      assert(is_tds_valid());
-      Edge_container init_edges;
-      init_edges.reserve(number_of_finite_edges());
-      for (auto eit = triangulation().finite_edges_begin();
-           eit != triangulation().finite_edges_end(); ++eit)
-      {
-        Cell_handle_t<3> const cell = eit->first;
-        Edge_handle_t<3> const thisEdge{cell,
-                                        cell->index(cell->vertex(eit->second)),
-                                        cell->index(cell->vertex(eit->third))};
-        // Each edge is valid in the triangulation
-        assert(triangulation().tds().is_valid(thisEdge.first, thisEdge.second,
-                                              thisEdge.third));
-        init_edges.emplace_back(thisEdge);
-      }
-      assert(init_edges.size() == number_of_finite_edges());
-      return init_edges;
-    }  // collect_edges
   };
 
   using FoliatedTriangulation_3 = FoliatedTriangulation<3>;

@@ -35,8 +35,6 @@ namespace cdt
 #define CDT_PRETTY_FUNCTION __PRETTY_FUNCTION__
 #endif
 
-  // #define CGAL_LINKED_WITH_TBB
-
   /// Correctly declare global constants
   /// See Jonathan Boccara's C++ Pitfalls, January 2021
 

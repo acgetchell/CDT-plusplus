@@ -62,6 +62,9 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Doxygen] provides automated document generation.
 The supported C++ namespace and per-header contract are recorded in the
 [C++ API boundary](docs/api-boundary.md).
+The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and
+upgrade policies are recorded in the
+[CGAL 6.2 integration contract](docs/cgal-integration.md).
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
 [CometML] provides experiment tracking for the optional Python workflows.
@@ -158,9 +161,9 @@ Windows development.
 
 With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform
 `just build` command runs all 22 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
-one unit-test launcher containing 90 doctest scenarios and 21 CLI integration tests. The same `reference-smoke` preset
+one unit-test launcher containing 103 doctest scenarios and 21 CLI integration tests. The same `reference-smoke` preset
 is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting
-another doctest suite. The parallel-enabled AddressSanitizer configuration adds one launcher containing three scenarios.
+another doctest suite. The parallel-enabled AddressSanitizer configuration adds one launcher containing four scenarios.
 
 ## Setup
 
@@ -433,9 +436,9 @@ subsequent releases.
 ## Testing
 
 Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
-executes all 22 CTest entries: one unit-test launcher containing 90 doctest scenarios and 21 executable integration
+executes all 22 CTest entries: one unit-test launcher containing 103 doctest scenarios and 21 executable integration
 tests covering normal CLI use and invalid-boundary rejection. The parallel-enabled AddressSanitizer configuration adds
-one launcher containing three scenarios labeled `unit`, `parallel`, and `configuration`. Every process-level test is
+one launcher containing four scenarios labeled `unit`, `parallel`, and `configuration`. Every process-level test is
 labeled `integration`, and invalid-input tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete
 local validation gate.
 

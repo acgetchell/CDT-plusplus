@@ -46,10 +46,11 @@ failure-atomicity and malformed-handle rejection. Test access does not promote
 those declarations into the supported API.
 
 The supported-header compile contract intentionally excludes `experimental`.
-In particular, the periodic prototypes still depend on CGAL interfaces that
-are absent or incompatible in CGAL 6.2; issue #102 owns that integration work.
+The CGAL 6.2 audit confirmed that the periodic and d-dimensional prototypes are
+not production dependencies and do not meet the supported compile contract.
 Their presence under `include/` preserves archival source access, not a promise
-that they are usable downstream.
+that they are usable downstream. See the
+[CGAL integration contract](cgal-integration.md).
 
 ## Compatibility policy
 

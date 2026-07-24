@@ -17,6 +17,7 @@ graphviz_version := "15.1.0"
 zizmor_version := "1.26.1"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
+cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_cgal_benchmark.exe" } else { "out/build/reference/tests/CDT_cgal_benchmark" }
 
 # Build the supported configuration through the repository build script.
 [group('workflows')]
@@ -63,6 +64,11 @@ coverage:
 benchmark-rng draws='10000': build
     {{ rng_benchmark_binary }} {{ draws }}
 
+# Measure seeded CGAL construction, repair, lookup, removal, and moves.
+[group('workflows')]
+benchmark-cgal simplices='640' repetitions='5' moves='50': build
+    {{ cgal_benchmark_binary }} {{ simplices }} {{ repetitions }} {{ moves }}
+
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]
 fix: _format-fix python-fix
@@ -72,7 +78,26 @@ fix: _format-fix python-fix
 # Run Clang-Tidy with the pinned LLVM toolchain.
 [group('workflows')]
 clang-tidy:
-    ./scripts/clang-tidy.sh
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ! command -v pkgx >/dev/null 2>&1; then
+        exec ./scripts/clang-tidy.sh
+    fi
+    exec pkgx \
+      +git-scm.org@2.55.0 \
+      "+just.systems@{{ just_version }}" \
+      "+llvm.org@{{ llvm_version }}" \
+      "+cmake.org@{{ cmake_version }}" \
+      "+ninja-build.org@{{ ninja_version }}" \
+      +python.org@3.11.15 \
+      +gnu.org/m4@1.4.21 \
+      +gnu.org/autoconf@2.73.0 \
+      +gnu.org/autoconf-archive@2024.10.16 \
+      +gnu.org/automake@1.18.1 \
+      +gnu.org/libtool@2.5.4 \
+      +gnu.org/texinfo@7.3.0 \
+      +freedesktop.org/pkg-config@0.29.2 \
+      -- ./scripts/clang-tidy.sh
 
 # Validate release metadata, citation fields, and version synchronization.
 [group('workflows')]

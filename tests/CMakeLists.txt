@@ -3,6 +3,7 @@ add_executable(
   ${PROJECT_SOURCE_DIR}/tests/main.cpp
   Apply_move_test.cpp
   Bistellar_flip_test.cpp
+  CGAL_integration_test.cpp
   Ergodic_moves_3_audit_test.cpp
   Ergodic_moves_3_test.cpp
   Foliated_triangulation_test.cpp
@@ -127,6 +128,19 @@ target_link_libraries(
           date::date-tz
           fmt::fmt-header-only
           spdlog::spdlog_header_only)
+
+# Keep the issue #102 integration benchmark buildable without registering it
+# as a correctness or performance test. Run it through `just benchmark-cgal`.
+add_executable(CDT_cgal_benchmark CGAL_benchmark.cpp)
+target_compile_features(CDT_cgal_benchmark PRIVATE cxx_std_23)
+target_link_libraries(
+  CDT_cgal_benchmark
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          fmt::fmt-header-only
+          spdlog::spdlog_header_only
+          CGAL::CGAL)
 
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_unit_tests>)
