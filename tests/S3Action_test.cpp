@@ -27,6 +27,70 @@ using namespace manifolds;
 
 static_assert(std::is_nothrow_destructible_v<mpfr_values::Value>);
 
+// Anonymous by design: keep the independent reference oracles local to this
+// test translation unit.
+namespace
+{
+  [[nodiscard]] auto alpha_minus_one_reference(Int_precision const n1_tl,
+                                               Int_precision const n3_31_13,
+                                               Int_precision const n3_22,
+                                               long double const   k,
+                                               long double const   lambda)
+      -> long double
+  {
+    auto const n1  = static_cast<long double>(n1_tl);
+    auto const n31 = static_cast<long double>(n3_31_13);
+    auto const n22 = static_cast<long double>(n3_22);
+    return -2.0L * std::numbers::pi_v<long double> * k * n1 +
+           n31 * (2.673L * k + 0.118L * lambda) +
+           n22 * (7.386L * k + 0.118L * lambda);
+  }
+
+  [[nodiscard]] auto alpha_one_reference(Int_precision const n1_tl,
+                                         Int_precision const n3_31_13,
+                                         Int_precision const n3_22,
+                                         long double const   k,
+                                         long double const   lambda)
+      -> long double
+  {
+    auto const n1  = static_cast<long double>(n1_tl);
+    auto const n31 = static_cast<long double>(n3_31_13);
+    auto const n22 = static_cast<long double>(n3_22);
+    return 2.0L * std::numbers::pi_v<long double> * k * n1 +
+           n31 * (-3.548L * k - 0.167L * lambda) +
+           n22 * (-5.355L * k - 0.204L * lambda);
+  }
+
+  [[nodiscard]] auto generalized_reference(
+      Int_precision const n1_tl, Int_precision const n3_31_13,
+      Int_precision const n3_22, long double const alpha, long double const k,
+      long double const lambda) -> long double
+  {
+    auto const n1                = static_cast<long double>(n1_tl);
+    auto const n31               = static_cast<long double>(n3_31_13);
+    auto const n22               = static_cast<long double>(n3_22);
+    auto const sqrt_alpha        = std::sqrt(alpha);
+    auto const alpha_denominator = 4.0L * alpha + 1.0L;
+
+    auto const three_one =
+        -3.0L * k *
+            std::asinh(1.0L /
+                       (std::sqrt(3.0L) * std::sqrt(alpha_denominator))) -
+        3.0L * k * sqrt_alpha *
+            std::acos((2.0L * alpha + 1.0L) / alpha_denominator) -
+        lambda / 12.0L * std::sqrt(3.0L * alpha + 1.0L);
+    auto const two_two =
+        2.0L * k *
+            std::asinh(2.0L * std::sqrt(2.0L) * std::sqrt(2.0L * alpha + 1.0L) /
+                       alpha_denominator) -
+        4.0L * k * sqrt_alpha * std::acos(-1.0L / alpha_denominator) -
+        lambda / 12.0L * std::sqrt(4.0L * alpha + 2.0L);
+
+    return 2.0L * std::numbers::pi_v<long double> * k * sqrt_alpha * n1 +
+           n31 * three_one + n22 * two_two;
+  }
+}  // namespace
+
 SCENARIO("MPFR calculations use scope-owned values" *
          doctest::test_suite("s3action"))
 {
@@ -53,18 +117,19 @@ SCENARIO("MPFR calculations use scope-owned values" *
     {
       THEN("The invalid input is rejected.")
       {
-        CHECK_THROWS_AS(
+        CHECK_THROWS_WITH_AS(
             static_cast<void>(mpfr_values::from_decimal("not-a-number")),
-            std::invalid_argument);
+            "Invalid decimal MPFR value.", std::invalid_argument);
       }
     }
     WHEN("A null decimal pointer is supplied.")
     {
       THEN("The invalid boundary is rejected before calling MPFR.")
       {
-        CHECK_THROWS_AS(static_cast<void>(mpfr_values::from_decimal(
-                            static_cast<char const*>(nullptr))),
-                        std::invalid_argument);
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(
+                mpfr_values::from_decimal(static_cast<char const*>(nullptr))),
+            "MPFR decimal value must not be null.", std::invalid_argument);
       }
     }
   }
@@ -76,10 +141,10 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
   spdlog::debug("Calculate the bulk action on S3 triangulations.\n");
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    auto constexpr simplices  = 6400;
-    auto constexpr timeslices = 7;
-    auto constexpr K          = 1.1L;  // NOLINT
-    auto constexpr Lambda     = 0.1L;
+    constexpr auto   simplices  = 6400;
+    constexpr auto   timeslices = 7;
+    constexpr auto   K          = 1.1L;  // NOLINT
+    constexpr auto   Lambda     = 0.1L;
     Manifold_3 const universe(simplices, timeslices, cdt::Random{92});
     // Verify triangulation
     CHECK_EQ(universe.N3(), universe.simplices());
@@ -92,56 +157,65 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
     CHECK_EQ(universe.min_time(), 1);
     WHEN("The alpha=-1 Bulk Action is calculated.")
     {
-      auto Bulk_action = S3_bulk_action_alpha_minus_one(
+      auto Bulk_action = s3_bulk_action_alpha_minus_one(
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
-      THEN("The action falls within accepted values.")
+      THEN("The action matches the independent closed-form calculation.")
       {
-        spdlog::debug("S3_bulk_action_alpha_minus_one() = {}\n",
+        spdlog::debug("s3_bulk_action_alpha_minus_one() = {}\n",
                       Bulk_action.to_double());
-        REQUIRE_LE(3500, Bulk_action);
-        REQUIRE_LE(Bulk_action, 4500);
+        auto const expected = alpha_minus_one_reference(
+            universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
+        CHECK(mpfr_values::to_long_double(Bulk_action) ==
+              doctest::Approx(expected).epsilon(1e-12));
       }
     }
     WHEN("The alpha=1 Bulk Action is calculated.")
     {
-      auto Bulk_action = S3_bulk_action_alpha_one(
+      auto Bulk_action = s3_bulk_action_alpha_one(
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
-      THEN("The action falls within accepted values.")
+      THEN("The action matches the independent closed-form calculation.")
       {
-        spdlog::debug("S3_bulk_action_alpha_one() = {}\n",
+        spdlog::debug("s3_bulk_action_alpha_one() = {}\n",
                       Bulk_action.to_double());
-        REQUIRE_LE(2000, Bulk_action);
-        REQUIRE_LE(Bulk_action, 3000);
+        auto const expected = alpha_one_reference(
+            universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
+        CHECK(mpfr_values::to_long_double(Bulk_action) ==
+              doctest::Approx(expected).epsilon(1e-12));
       }
     }
     WHEN("The generalized Bulk Action is calculated.")
     {
-      auto constexpr Alpha = 0.6L;
+      constexpr auto Alpha = 0.6L;
       spdlog::debug("(Long double) Alpha = {}\n", Alpha);
-      auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
-                                        universe.N3_22(), Alpha, K, Lambda);
-      THEN("The action falls within accepted values.")
+      auto const parameters = make_physical_parameters(Alpha, K, Lambda);
+      auto Bulk_action = s3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
+                                        universe.N3_22(), parameters);
+      THEN("The action matches the independent closed-form calculation.")
       {
-        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action.to_double());
-        REQUIRE_LE(2700, Bulk_action);
-        REQUIRE_LE(Bulk_action, 3700);
+        spdlog::debug("s3_bulk_action() = {}\n", Bulk_action.to_double());
+        auto const expected =
+            generalized_reference(universe.N1_TL(), universe.N3_31_13(),
+                                  universe.N3_22(), Alpha, K, Lambda);
+        CHECK(mpfr_values::to_long_double(Bulk_action) ==
+              doctest::Approx(expected).epsilon(1e-12));
       }
     }
     WHEN(
-        "S3_bulk_action(alpha=1) and S3_bulk_action_alpha_one() are "
+        "s3_bulk_action(alpha=1) and s3_bulk_action_alpha_one() are "
         "calculated.")
     {
-      auto constexpr Alpha = 1.0L;
-      auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
-                                        universe.N3_22(), Alpha, K, Lambda);
-      auto Bulk_action_one = S3_bulk_action_alpha_one(
+      constexpr auto Alpha      = 1.0L;
+      auto const     parameters = make_physical_parameters(Alpha, K, Lambda);
+      auto Bulk_action = s3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
+                                        universe.N3_22(), parameters);
+      auto Bulk_action_one = s3_bulk_action_alpha_one(
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN(
-          "S3_bulk_action(alpha=1) == S3_bulk_action_alpha_one() within "
+          "s3_bulk_action(alpha=1) == s3_bulk_action_alpha_one() within "
           "tolerances.")
       {
-        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action.to_double());
-        spdlog::debug("S3_bulk_action_alpha_one() = {}\n",
+        spdlog::debug("s3_bulk_action() = {}\n", Bulk_action.to_double());
+        spdlog::debug("s3_bulk_action_alpha_one() = {}\n",
                       Bulk_action_one.to_double());
         REQUIRE(mpfr_values::to_double(Bulk_action_one) ==
                 doctest::Approx(mpfr_values::to_double(Bulk_action))
@@ -156,12 +230,12 @@ SCENARIO("Bulk action precision survives the acceptance boundary" *
 {
   GIVEN("Two large alpha=1 geometries with a sub-double action delta.")
   {
-    auto constexpr large_count = Int_precision{1'000'000'000};
-    auto const lambda =
+    constexpr auto large_count = Int_precision{1'000'000'000};
+    auto const     lambda =
         (2.0L * std::numbers::pi_v<long double> - 5.355L) / 0.204L;
-    auto const current  = S3_bulk_action_alpha_one(large_count, large_count,
+    auto const current  = s3_bulk_action_alpha_one(large_count, large_count,
                                                    large_count, 1.0L, lambda);
-    auto const proposed = S3_bulk_action_alpha_one(
+    auto const proposed = s3_bulk_action_alpha_one(
         large_count + 1, large_count, large_count + 1, 1.0L, lambda);
     auto const delta = mpfr_values::subtract(current, proposed);
 
@@ -187,38 +261,38 @@ SCENARIO("Bulk action rejects invalid physical parameters" *
   {
     WHEN("Alpha is at the lower domain boundary.")
     {
-      THEN("The generalized action rejects it with a domain error.")
+      THEN("Physical-parameter construction rejects it with a domain error.")
       {
-        CHECK_THROWS_AS(
-            static_cast<void>(S3_bulk_action(1, 1, 1, 0.5L, 1.1L, 0.1L)),
-            std::domain_error);
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(make_physical_parameters(0.5L, 1.1L, 0.1L)),
+            "Alpha in 3D must be greater than 1/2.", std::domain_error);
       }
     }
     WHEN("Alpha is not finite.")
     {
-      THEN("The generalized action rejects it as invalid input.")
+      THEN("Physical-parameter construction rejects it as invalid input.")
       {
-        CHECK_THROWS_AS(
-            static_cast<void>(S3_bulk_action(
-                1, 1, 1, std::numeric_limits<long double>::quiet_NaN(), 1.1L,
-                0.1L)),
-            std::invalid_argument);
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(make_physical_parameters(
+                std::numeric_limits<long double>::quiet_NaN(), 1.1L, 0.1L)),
+            "Physical parameters must be finite.", std::invalid_argument);
       }
     }
     WHEN("A specialized action receives an infinite coupling.")
     {
       THEN("The specialized action rejects it as invalid input.")
       {
-        CHECK_THROWS_AS(
-            static_cast<void>(S3_bulk_action_alpha_one(
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(s3_bulk_action_alpha_one(
                 1, 1, 1, std::numeric_limits<long double>::infinity(), 0.1L)),
-            std::invalid_argument);
+            "Physical parameters must be finite.", std::invalid_argument);
       }
     }
     WHEN("The generalized action's exception specification is examined.")
     {
-      THEN("It permits parameter validation to throw.")
-      { CHECK_FALSE(noexcept(S3_bulk_action(1, 1, 1, 0.6L, 1.1L, 0.1L))); }
+      auto const parameters = make_physical_parameters(0.6L, 1.1L, 0.1L);
+      THEN("It permits MPFR operations to report failures.")
+      { CHECK_FALSE(noexcept(s3_bulk_action(1, 1, 1, parameters))); }
     }
   }
 }

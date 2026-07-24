@@ -75,7 +75,7 @@ rules:
               regex: ^m_(?:attempted|successful|succeeded|failed|proposed|accepted|rejected)_moves$
           - metavariable-regex:
               metavariable: $GETTER
-              regex: ^get_(?:attempted|successful|succeeded|failed|proposed|accepted|rejected)$
+              regex: ^(?:attempted|successful|succeeded|failed|proposed|accepted|rejected)$
   - id: cdt.cpp.move-run-cadence-is-parsed-once
     languages:
       - cpp

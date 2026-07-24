@@ -13,6 +13,11 @@
 #include <CGAL/Real_timer.h>
 
 #include <boost/program_options.hpp>
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+#include <oneapi/tbb/global_control.h>
+#endif
+
 #include <cstdint>
 #include <Metropolis.hpp>
 #include <utility>
@@ -27,7 +32,7 @@ using namespace std;
 namespace po = boost::program_options;
 
 /// Help text used by Boost.Program_options
-static string_view constexpr USAGE{
+static constexpr string_view USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2013-2026 Adam Getchell
@@ -44,6 +49,7 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [--foliate FOLIATION SPACING]
             [--no-output]
             [--seed SEED]
+            [--threads THREADS]
             -k K
             --alpha ALPHA
             --lambda LAMBDA
@@ -78,6 +84,7 @@ try
   long long               passes{};
   long long               checkpoint{};
   std::uint64_t           seed{};
+  long long               threads{};
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -96,6 +103,8 @@ try
       "no-output", "Do not write checkpoint or final triangulation files")(
       "seed", po::value<std::uint64_t>(&seed),
       "Root random seed (default: operating-system entropy)")(
+      "threads", po::value<long long>(&threads)->default_value(1),
+      "Maximum worker threads for supported Delaunay operations")(
       "alpha,a", po::value<long double>(&alpha)->required(),
       "Negative squared geodesic length of 1-d timelike edges")(
       "k,k", po::value<long double>(&k)->required(), "K = 1/(8*pi*G_newton)")(
@@ -136,10 +145,16 @@ try
   auto const triangulation_config = runtime_config::make_triangulation(
       args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
       timeslices, dimensions, initial_radius, foliation_spacing,
-      root_random.seed());
+      root_random.seed(), threads);
   auto const config = runtime_config::make_simulation(
       triangulation_config, alpha, k, lambda, passes, checkpoint,
       !args.count("no-output"));
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+  [[maybe_unused]] oneapi::tbb::global_control thread_limit{
+      oneapi::tbb::global_control::max_allowed_parallelism,
+      config.triangulation().threads()};
+#endif
   auto initialization_random =
       root_random.split(cdt::random_streams::initialization);
   auto transition_random = root_random.split(cdt::random_streams::transitions);
@@ -159,6 +174,8 @@ try
   fmt::print("Number of passes: {}\n", config.passes());
   fmt::print("Checkpoint every {} passes.\n", config.checkpoint());
   fmt::print("Effective random seed: {}\n", config.triangulation().seed());
+  fmt::print("Maximum Delaunay threads: {}\n",
+             config.triangulation().threads());
   fmt::print("=== Parameters ===\n");
   fmt::print("Alpha: {}\n", config.alpha());
   fmt::print("K: {}\n", config.k());
@@ -180,7 +197,7 @@ try
 
   auto reproducibility = utilities::make_reproducibility_metadata(
       universe, config.triangulation().seed(),
-      utilities::Artifact_kind::FINAL_TRIANGULATION);
+      utilities::ArtifactKind::FINAL_TRIANGULATION);
   reproducibility.desired_simplices   = config.triangulation().simplices();
   reproducibility.desired_timeslices  = config.triangulation().timeslices();
   reproducibility.alpha               = config.alpha();
@@ -188,6 +205,7 @@ try
   reproducibility.lambda              = config.lambda();
   reproducibility.configured_passes   = config.passes();
   reproducibility.checkpoint_interval = config.checkpoint();
+  reproducibility.max_threads         = config.triangulation().threads();
 
   // Initialize the Metropolis algorithm with complete run provenance.
   Metropolis_3 run(config.alpha(), config.k(), config.lambda(), config.passes(),
@@ -225,7 +243,7 @@ try
   {
     utilities::write_file(
         result, run.reproducibility_metadata(
-                    result, utilities::Artifact_kind::FINAL_TRIANGULATION,
+                    result, utilities::ArtifactKind::FINAL_TRIANGULATION,
                     config.passes()));
   }
 

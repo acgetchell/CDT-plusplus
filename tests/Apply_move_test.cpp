@@ -25,12 +25,12 @@ using namespace manifolds;
 
 namespace
 {
-  static inline auto constexpr RADIUS_2 =
+  static inline constexpr auto RADIUS_2 =
       2.0 * std::numbers::inv_sqrt3_v<double>;
-  static inline auto constexpr SQRT_2     = std::numbers::sqrt2_v<double>;
-  static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
+  static inline constexpr auto SQRT_2     = std::numbers::sqrt2_v<double>;
+  static inline constexpr auto INV_SQRT_2 = 1.0 / SQRT_2;
 
-  [[nodiscard]] auto make_23_move_manifold() -> Manifold_3
+  [[nodiscard]] auto           make_23_move_manifold() -> Manifold_3
   {
     vector vertices{
         Point_t<3>{       1,        0,        0},
@@ -71,7 +71,7 @@ namespace
   }
 
   void check_applied_move(Manifold_3 const& before, Manifold_3 const& after,
-                          move_tracker::move_type const move)
+                          move_tracker::MoveType const move)
   {
     CHECK(before.is_correct());
     CHECK(after.is_correct());
@@ -111,7 +111,7 @@ SCENARIO("apply_move forwards deterministic ergodic moves" *
       REQUIRE(result.has_value());
       auto const after = std::move(result).value();
       THEN("the exact (2,3) transition is returned")
-      { check_applied_move(before, after, move_tracker::move_type::TWO_THREE); }
+      { check_applied_move(before, after, move_tracker::MoveType::TWO_THREE); }
     }
   }
 
@@ -129,7 +129,7 @@ SCENARIO("apply_move forwards deterministic ergodic moves" *
       REQUIRE(result.has_value());
       auto const after = std::move(result).value();
       THEN("the exact (3,2) transition is returned")
-      { check_applied_move(before, after, move_tracker::move_type::THREE_TWO); }
+      { check_applied_move(before, after, move_tracker::MoveType::THREE_TWO); }
     }
   }
 
@@ -145,7 +145,7 @@ SCENARIO("apply_move forwards deterministic ergodic moves" *
       REQUIRE(result.has_value());
       auto const after = std::move(result).value();
       THEN("the exact (2,6) transition is returned")
-      { check_applied_move(before, after, move_tracker::move_type::TWO_SIX); }
+      { check_applied_move(before, after, move_tracker::MoveType::TWO_SIX); }
     }
   }
 
@@ -163,7 +163,7 @@ SCENARIO("apply_move forwards deterministic ergodic moves" *
       REQUIRE(result.has_value());
       auto const after = std::move(result).value();
       THEN("the exact (6,2) transition is returned")
-      { check_applied_move(before, after, move_tracker::move_type::SIX_TWO); }
+      { check_applied_move(before, after, move_tracker::MoveType::SIX_TWO); }
     }
   }
 
@@ -179,7 +179,7 @@ SCENARIO("apply_move forwards deterministic ergodic moves" *
       REQUIRE(result.has_value());
       auto const after = std::move(result).value();
       THEN("the exact (4,4) transition is returned")
-      { check_applied_move(before, after, move_tracker::move_type::FOUR_FOUR); }
+      { check_applied_move(before, after, move_tracker::MoveType::FOUR_FOUR); }
     }
   }
 }

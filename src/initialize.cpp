@@ -9,6 +9,11 @@
 /// @author Adam Getchell
 
 #include <boost/program_options.hpp>
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+#include <oneapi/tbb/global_control.h>
+#endif
+
 #include <cstdint>
 
 #include "Manifold.hpp"
@@ -19,7 +24,7 @@ using namespace cdt;
 using namespace std;
 namespace po = boost::program_options;
 
-static string_view constexpr USAGE{
+static constexpr string_view USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014 Adam Getchell
@@ -34,6 +39,7 @@ Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
                    [--init INITIAL RADIUS]
                    [--foliate FOLIATION SPACING]
                    [--seed SEED]
+                   [--threads THREADS]
                    [--output]
 
 Optional arguments are in square brackets.
@@ -55,6 +61,7 @@ try
   double                  initial_radius{};
   double                  foliation_spacing{};
   std::uint64_t           seed{};
+  long long               threads{};
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -72,6 +79,8 @@ try
       "Foliation spacing")(
       "seed", po::value<std::uint64_t>(&seed),
       "Root random seed (default: operating-system entropy)")(
+      "threads", po::value<long long>(&threads)->default_value(1),
+      "Maximum worker threads for supported Delaunay operations")(
       "output,o", "Save triangulation into OFF file");
 
   po::variables_map args;
@@ -105,7 +114,12 @@ try
   auto const config = runtime_config::make_triangulation(
       args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
       timeslices, dimensions, initial_radius, foliation_spacing,
-      root_random.seed());
+      root_random.seed(), threads);
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+  [[maybe_unused]] oneapi::tbb::global_control thread_limit{
+      oneapi::tbb::global_control::max_allowed_parallelism, config.threads()};
+#endif
   auto const save_file = args.count("output") != 0;
   auto       initialization_random =
       root_random.split(cdt::random_streams::initialization);
@@ -118,6 +132,7 @@ try
   fmt::print("Initial radius = {}\n", config.initial_radius());
   fmt::print("Foliation spacing = {}\n", config.foliation_spacing());
   fmt::print("Effective random seed: {}\n", root_random.seed());
+  fmt::print("Maximum Delaunay threads: {}\n", config.threads());
 
   if (save_file) { fmt::print("Output will be saved.\n"); }
 
@@ -131,9 +146,10 @@ try
   {
     auto metadata = utilities::make_reproducibility_metadata(
         universe, config.seed(),
-        utilities::Artifact_kind::INITIAL_TRIANGULATION);
+        utilities::ArtifactKind::INITIAL_TRIANGULATION);
     metadata.desired_simplices  = config.simplices();
     metadata.desired_timeslices = config.timeslices();
+    metadata.max_threads        = config.threads();
     utilities::write_file(universe, metadata);
   }
   return EXIT_SUCCESS;

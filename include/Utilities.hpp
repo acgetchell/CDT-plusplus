@@ -65,23 +65,23 @@
 
 namespace cdt
 {
-  enum class topology_type
+  enum class Topology
   {
     TOROIDAL,
     SPHERICAL
   };
 
-  /// @brief Convert topology_type to string output
+  /// @brief Convert Topology to string output
   /// @param t_os The output stream
   /// @param t_topology The topology
   /// @returns An output string of the topology
-  inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
+  inline auto operator<<(std::ostream& t_os, Topology const& t_topology)
       -> std::ostream&
   {
     switch (t_topology)
     {
-      case topology_type::SPHERICAL: return t_os << "spherical";
-      case topology_type::TOROIDAL: return t_os << "toroidal";
+      case Topology::SPHERICAL: return t_os << "spherical";
+      case Topology::TOROIDAL: return t_os << "toroidal";
       default: return t_os << "none";
     }
   }  // operator<<
@@ -89,7 +89,7 @@ namespace cdt
 
 namespace cdt::utilities
 {
-  enum class Artifact_kind
+  enum class ArtifactKind
   {
     INITIAL_TRIANGULATION,
     CHECKPOINT,
@@ -104,29 +104,30 @@ namespace cdt::utilities
   /// responsible for supplying truthful run configuration and RNG provenance.
   struct Reproducibility_metadata
   {
-    Artifact_kind      artifact{Artifact_kind::FINAL_TRIANGULATION};
-    cdt::Random_seed   seed{};
-    cdt::Random_stream initialization_stream{
+    ArtifactKind      artifact{ArtifactKind::FINAL_TRIANGULATION};
+    cdt::RandomSeed   seed{};
+    cdt::RandomStream initialization_stream{
         cdt::random_streams::initialization};
-    cdt::Random_stream transition_stream{cdt::random_streams::transitions};
-    topology_type      topology{topology_type::SPHERICAL};
-    Int_precision      dimension{};
-    Int_precision      desired_simplices{};
-    Int_precision      desired_timeslices{};
-    Int_precision      actual_vertices{};
-    Int_precision      actual_edges{};
-    Int_precision      actual_faces{};
-    Int_precision      actual_simplices{};
-    Int_precision      minimum_timeslice{};
-    Int_precision      maximum_timeslice{};
-    double             initial_radius{};
-    double             foliation_spacing{};
+    cdt::RandomStream transition_stream{cdt::random_streams::transitions};
+    Topology          topology{Topology::SPHERICAL};
+    Int_precision     dimension{};
+    Int_precision     desired_simplices{};
+    Int_precision     desired_timeslices{};
+    Int_precision     actual_vertices{};
+    Int_precision     actual_edges{};
+    Int_precision     actual_faces{};
+    Int_precision     actual_simplices{};
+    Int_precision     minimum_timeslice{};
+    Int_precision     maximum_timeslice{};
+    double            initial_radius{};
+    double            foliation_spacing{};
     std::optional<long double>   alpha;
     std::optional<long double>   k;
     std::optional<long double>   lambda;
     std::optional<Int_precision> configured_passes;
     std::optional<Int_precision> checkpoint_interval;
     std::optional<Int_precision> completed_passes;
+    std::optional<std::uint64_t> max_threads;
     std::optional<std::uint64_t> transition_trace;
     std::optional<std::uint64_t> transition_count;
     std::optional<std::uint64_t> placement_fingerprint;
@@ -143,7 +144,7 @@ namespace cdt::utilities
 
   namespace detail
   {
-    inline std::string_view constexpr CAUSAL_INFO_HEADER{
+    inline constexpr std::string_view CAUSAL_INFO_HEADER{
         "cdt-plusplus-causal-info-v1"};
 
     struct Payload_integrity
@@ -152,15 +153,15 @@ namespace cdt::utilities
       std::uint64_t digest{};
     };
 
-    [[nodiscard]] inline auto artifact_name(Artifact_kind const artifact)
+    [[nodiscard]] inline auto artifact_name(ArtifactKind const artifact)
         -> std::string_view
     {
       switch (artifact)
       {
-        case Artifact_kind::INITIAL_TRIANGULATION:
+        case ArtifactKind::INITIAL_TRIANGULATION:
           return "initial-triangulation";
-        case Artifact_kind::CHECKPOINT: return "checkpoint";
-        case Artifact_kind::FINAL_TRIANGULATION: return "final-triangulation";
+        case ArtifactKind::CHECKPOINT: return "checkpoint";
+        case ArtifactKind::FINAL_TRIANGULATION: return "final-triangulation";
       }
       return "unknown";
     }
@@ -232,7 +233,7 @@ namespace cdt::utilities
     }
 
     template <typename TriangulationType>
-    inline bool constexpr HAS_CAUSAL_INFO =
+    inline constexpr bool HAS_CAUSAL_INFO =
         requires(TriangulationType const& triangulation) {
           triangulation.finite_vertex_handles();
           triangulation.finite_cell_handles();
@@ -375,8 +376,7 @@ namespace cdt::utilities
           cdt::BUILD_SYSTEM_PROCESSOR, standard_library_name(),
           CGAL_VERSION_STR, metadata.seed, metadata.initialization_stream,
           metadata.transition_stream,
-          metadata.topology == topology_type::SPHERICAL ? "spherical"
-                                                        : "toroidal",
+          metadata.topology == Topology::SPHERICAL ? "spherical" : "toroidal",
           metadata.dimension, metadata.desired_simplices,
           metadata.desired_timeslices, metadata.actual_vertices,
           metadata.actual_edges, metadata.actual_faces,
@@ -394,6 +394,7 @@ namespace cdt::utilities
       append_optional("configured_passes", metadata.configured_passes);
       append_optional("checkpoint_interval", metadata.checkpoint_interval);
       append_optional("completed_passes", metadata.completed_passes);
+      append_optional("parallel.max_threads", metadata.max_threads);
       if (metadata.transition_trace)
       {
         text += fmt::format("transition_trace.fnv1a64={:016x}\n",
@@ -636,21 +637,21 @@ namespace cdt::utilities
 
     struct Parsed_persistence_metadata
     {
-      Payload_integrity  payload;
-      Artifact_kind      artifact;
-      cdt::Random_seed   seed;
-      cdt::Random_stream initialization_stream;
-      cdt::Random_stream transition_stream;
-      topology_type      topology;
-      Int_precision      dimension;
-      Int_precision      actual_vertices;
-      Int_precision      actual_edges;
-      Int_precision      actual_faces;
-      Int_precision      actual_simplices;
-      Int_precision      minimum_timeslice;
-      Int_precision      maximum_timeslice;
-      std::uint64_t      placement_fingerprint;
-      std::uint64_t      topology_fingerprint;
+      Payload_integrity payload;
+      ArtifactKind      artifact;
+      cdt::RandomSeed   seed;
+      cdt::RandomStream initialization_stream;
+      cdt::RandomStream transition_stream;
+      Topology          topology;
+      Int_precision     dimension;
+      Int_precision     actual_vertices;
+      Int_precision     actual_edges;
+      Int_precision     actual_faces;
+      Int_precision     actual_simplices;
+      Int_precision     minimum_timeslice;
+      Int_precision     maximum_timeslice;
+      std::uint64_t     placement_fingerprint;
+      std::uint64_t     topology_fingerprint;
     };
 
     [[nodiscard]] inline auto read_persistence_metadata(
@@ -761,18 +762,18 @@ namespace cdt::utilities
             std::make_error_code(std::errc::not_supported));
       }
 
-      Artifact_kind artifact{};
+      ArtifactKind artifact{};
       if (values.at("artifact") == "initial-triangulation")
       {
-        artifact = Artifact_kind::INITIAL_TRIANGULATION;
+        artifact = ArtifactKind::INITIAL_TRIANGULATION;
       }
       else if (values.at("artifact") == "checkpoint")
       {
-        artifact = Artifact_kind::CHECKPOINT;
+        artifact = ArtifactKind::CHECKPOINT;
       }
       else if (values.at("artifact") == "final-triangulation")
       {
-        artifact = Artifact_kind::FINAL_TRIANGULATION;
+        artifact = ArtifactKind::FINAL_TRIANGULATION;
       }
       else
       {
@@ -781,14 +782,14 @@ namespace cdt::utilities
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
 
-      topology_type topology{};
+      Topology topology{};
       if (values.at("topology") == "spherical")
       {
-        topology = topology_type::SPHERICAL;
+        topology = Topology::SPHERICAL;
       }
       else if (values.at("topology") == "toroidal")
       {
-        topology = topology_type::TOROIDAL;
+        topology = Topology::TOROIDAL;
       }
       else
       {
@@ -875,7 +876,7 @@ namespace cdt::utilities
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
 
-      if (artifact == Artifact_kind::CHECKPOINT &&
+      if (artifact == ArtifactKind::CHECKPOINT &&
           !values.contains("completed_passes"))
       {
         throw std::filesystem::filesystem_error(
@@ -887,6 +888,13 @@ namespace cdt::utilities
       {
         throw std::filesystem::filesystem_error(
             "Persistence metadata contains invalid completed passes", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if (values.contains("parallel.max_threads") &&
+          parse_unsigned(values.at("parallel.max_threads"), 10, path) == 0)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata contains an invalid thread limit", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
 
@@ -911,19 +919,20 @@ namespace cdt::utilities
           .payload  = {parse_unsigned(values.at("payload.size"), 10, path),
                        parse_unsigned(values.at("payload.fnv1a64"), 16, path)},
           .artifact = artifact,
-          .seed     = parse_unsigned(values.at("random.seed"), 10, path),
-          .initialization_stream = parse_unsigned(
-              values.at("random.initialization_stream"), 10, path),
-          .transition_stream =
-              parse_unsigned(values.at("random.transition_stream"), 10, path),
-          .topology          = topology,
-          .dimension         = dimension,
-          .actual_vertices   = actual_vertices,
-          .actual_edges      = actual_edges,
-          .actual_faces      = actual_faces,
-          .actual_simplices  = actual_simplices,
-          .minimum_timeslice = minimum_timeslice,
-          .maximum_timeslice = maximum_timeslice,
+          .seed = cdt::RandomSeed{parse_unsigned(values.at("random.seed"), 10,
+                       path)},
+          .initialization_stream = cdt::RandomStream{parse_unsigned(
+              values.at("random.initialization_stream"), 10, path)},
+          .transition_stream     = cdt::RandomStream{parse_unsigned(
+              values.at("random.transition_stream"), 10, path)},
+          .topology              = topology,
+          .dimension             = dimension,
+          .actual_vertices       = actual_vertices,
+          .actual_edges          = actual_edges,
+          .actual_faces          = actual_faces,
+          .actual_simplices      = actual_simplices,
+          .minimum_timeslice     = minimum_timeslice,
+          .maximum_timeslice     = maximum_timeslice,
           .placement_fingerprint =
               parse_unsigned(values.at("placement.fnv1a64"), 16, path),
           .topology_fingerprint =
@@ -1355,7 +1364,7 @@ namespace cdt::utilities
   }  // current_date_time
 
   /// @brief  Generate useful filenames
-  /// @param t_topology The topology type from the scoped enum topology_type
+  /// @param t_topology The topology type from the scoped enum Topology
   /// @param t_dimension The dimensionality of the triangulation
   /// @param t_number_of_simplices The number of simplices in the
   /// triangulation
@@ -1363,16 +1372,16 @@ namespace cdt::utilities
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
   /// @returns A filename
-  [[nodiscard]] inline auto make_filename(topology_type const& t_topology,
-                                          Int_precision        t_dimension,
-                                          Int_precision t_number_of_simplices,
+  [[nodiscard]] inline auto make_filename(Topology const& t_topology,
+                                          Int_precision   t_dimension,
+                                          Int_precision   t_number_of_simplices,
                                           Int_precision t_number_of_timeslices,
                                           double        t_initial_radius,
                                           double        t_foliation_spacing)
       -> std::filesystem::path
   {
     std::string filename;
-    if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
+    if (t_topology == Topology::SPHERICAL) { filename += "S"; }
     else
     {
       filename += "T";
@@ -1418,20 +1427,20 @@ namespace cdt::utilities
 
   /// @brief Generate a filename that records the effective run seed.
   template <typename ManifoldType>
-  [[nodiscard]] auto make_filename(ManifoldType const&    manifold,
-                                   cdt::Random_seed const seed)
+  [[nodiscard]] auto make_filename(ManifoldType const&   manifold,
+                                   cdt::RandomSeed const seed)
   {
     auto const base = make_filename(manifold);
     return base.parent_path() /
-           (base.stem().string() + "-seed-" + std::to_string(seed) +
+           (base.stem().string() + "-seed-" + std::to_string(seed.value()) +
             base.extension().string());
   }
 
   /// @brief Generate a checkpoint filename that records seed and pass.
   template <typename ManifoldType>
-  [[nodiscard]] auto make_filename(ManifoldType const&    manifold,
-                                   cdt::Random_seed const seed,
-                                   Int_precision const    completed_passes)
+  [[nodiscard]] auto make_filename(ManifoldType const&   manifold,
+                                   cdt::RandomSeed const seed,
+                                   Int_precision const   completed_passes)
   {
     auto const base = make_filename(manifold, seed);
     return base.parent_path() /
@@ -1499,8 +1508,8 @@ namespace cdt::utilities
   /// @brief Build provenance from a canonical manifold state.
   template <typename ManifoldType>
   [[nodiscard]] auto make_reproducibility_metadata(ManifoldType const& manifold,
-                                                   cdt::Random_seed const seed,
-                                                   Artifact_kind const artifact)
+                                                   cdt::RandomSeed const seed,
+                                                   ArtifactKind const artifact)
       -> Reproducibility_metadata
   {
     return {.artifact              = artifact,
@@ -1556,21 +1565,21 @@ namespace cdt::utilities
 
   /// @brief Write a triangulation with the effective seed in its filename.
   template <typename ManifoldType>
-  void write_file(ManifoldType const& t_universe, cdt::Random_seed const seed)
+  void write_file(ManifoldType const& t_universe, cdt::RandomSeed const seed)
   {
     auto const metadata = make_reproducibility_metadata(
-        t_universe, seed, Artifact_kind::FINAL_TRIANGULATION);
+        t_universe, seed, ArtifactKind::FINAL_TRIANGULATION);
     write_file(make_filename(t_universe, seed), t_universe.delaunay_snapshot(),
                metadata);
   }
 
   /// @brief Write a checkpoint with its effective seed and pass in its name.
   template <typename ManifoldType>
-  void write_file(ManifoldType const& t_universe, cdt::Random_seed const seed,
+  void write_file(ManifoldType const& t_universe, cdt::RandomSeed const seed,
                   Int_precision const completed_passes)
   {
     auto metadata = make_reproducibility_metadata(t_universe, seed,
-                                                  Artifact_kind::CHECKPOINT);
+                                                  ArtifactKind::CHECKPOINT);
     metadata.completed_passes = completed_passes;
     write_file(make_filename(t_universe, seed, completed_passes),
                t_universe.delaunay_snapshot(), metadata);
@@ -1582,7 +1591,7 @@ namespace cdt::utilities
                   Reproducibility_metadata const& metadata)
   {
     auto filename = make_filename(universe, metadata.seed);
-    if (metadata.artifact == Artifact_kind::CHECKPOINT)
+    if (metadata.artifact == ArtifactKind::CHECKPOINT)
     {
       if (!metadata.completed_passes)
       {
@@ -1600,7 +1609,8 @@ namespace cdt::utilities
   /// @param filename The file to read from
   /// @returns A Delaunay triangulation
   template <typename TriangulationType>
-  auto read_file(std::filesystem::path const& filename) -> TriangulationType
+  [[nodiscard]] auto read_file(std::filesystem::path const& filename)
+      -> TriangulationType
   {
     static std::mutex mutex;
     fmt::print("Reading from file {}\n", filename.string());
@@ -1654,7 +1664,8 @@ namespace cdt::utilities
 
   /// @brief Generate random integers by calling generate_random, preserves
   /// template argument deduction
-  template <std::uniform_random_bit_generator Generator, typename IntegerType>
+  template <std::uniform_random_bit_generator Generator,
+            std::integral                     IntegerType>
   [[nodiscard]] auto generate_random_int(Generator&  generator,
                                          IntegerType t_min_value,
                                          IntegerType t_max_value)
@@ -1665,7 +1676,8 @@ namespace cdt::utilities
   }  // generate_random_int()
 
   /// @brief Generate a random timeslice
-  template <std::uniform_random_bit_generator Generator, typename IntegerType>
+  template <std::uniform_random_bit_generator Generator,
+            std::integral                     IntegerType>
   [[nodiscard]] auto generate_random_timeslice(Generator&  generator,
                                                IntegerType t_max_timeslice)
       -> decltype(auto)
@@ -1677,7 +1689,7 @@ namespace cdt::utilities
   /// @brief Generate random real numbers by calling generate_random,
   /// preserves template argument deduction
   template <std::uniform_random_bit_generator Generator,
-            typename FloatingPointType>
+            std::floating_point               FloatingPointType>
   [[nodiscard]] auto generate_random_real(Generator&        generator,
                                           FloatingPointType t_min_value,
                                           FloatingPointType t_max_value)
@@ -1691,8 +1703,8 @@ namespace cdt::utilities
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto generate_probability(Generator& generator)
   {
-    auto constexpr min = 0.0L;
-    auto constexpr max = 1.0L;
+    constexpr auto min = 0.0L;
+    constexpr auto max = 1.0L;
     return generate_random_real(generator, min, max);
   }  // generate_probability()
 
@@ -1709,7 +1721,7 @@ namespace cdt::utilities
   /// @param t_number_of_timeslices Number of desired timeslices
   /// @returns  The number of points per timeslice to obtain
   /// the desired number of simplices
-  inline auto expected_points_per_timeslice(
+  [[nodiscard]] inline auto expected_points_per_timeslice(
       Int_precision const t_dimension, Int_precision t_number_of_simplices,
       Int_precision t_number_of_timeslices)
   {
@@ -1795,8 +1807,8 @@ namespace cdt::utilities
   ///
   /// @param t_value An exact Gmpzf multiple-precision floating point number
   /// @returns The double conversion
-  [[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& t_value) -> double
-  { return t_value.to_double(); }  // Gmpzf_to_double
+  [[nodiscard]] inline auto gmpzf_to_double(Gmpzf const& t_value) -> double
+  { return t_value.to_double(); }  // gmpzf_to_double
 
   /// @brief Create console and file loggers
   /// @details Create a console and file loggers.
@@ -1868,7 +1880,7 @@ namespace cdt::utilities
   /// @param t_point The point
   /// @returns A string representation of the point
   template <typename Point>
-  auto point_to_str(Point const& t_point) -> std::string
+  [[nodiscard]] auto point_to_str(Point const& t_point) -> std::string
   {
     std::stringstream stream;
     stream << t_point;
@@ -1876,9 +1888,10 @@ namespace cdt::utilities
   }  // point_to_str
 
   /// @brief Convert a topology to a string using it's << operator
-  /// @param t_topology The topology_type to convert
-  /// @returns A string representation of the topology_type
-  inline auto topology_to_str(topology_type const& t_topology) -> std::string
+  /// @param t_topology The Topology to convert
+  /// @returns A string representation of the Topology
+  [[nodiscard]] inline auto topology_to_str(Topology const& t_topology)
+      -> std::string
   {
     std::stringstream stream;
     stream << t_topology;

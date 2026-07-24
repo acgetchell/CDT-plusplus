@@ -129,8 +129,9 @@ target_link_libraries(
           fmt::fmt-header-only
           spdlog::spdlog_header_only)
 
-# Keep the issue #102 integration benchmark buildable without registering it
-# as a correctness or performance test. Run it through `just benchmark-cgal`.
+# Keep the issue #102/#88 integration benchmark buildable without registering
+# it as a correctness or performance test. Run it through
+# `just benchmark-cgal` or `just benchmark-cgal-parallel`.
 add_executable(CDT_cgal_benchmark CGAL_benchmark.cpp)
 target_compile_features(CDT_cgal_benchmark PRIVATE cxx_std_23)
 target_link_libraries(
@@ -142,8 +143,6 @@ target_link_libraries(
           spdlog::spdlog_header_only
           CGAL::CGAL)
 
-# Run unit tests
-add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_unit_tests>)
 if(ENABLE_PARALLEL_TRIANGULATION)
   add_test(NAME cdt-parallel-triangulation
            COMMAND $<TARGET_FILE:CDT_parallel_triangulation_test>)
@@ -160,5 +159,12 @@ elseif(ENABLE_COVERAGE)
   # the Codecov workflow's instrumentation-aware allowance.
   set(cdt_unit_test_timeout 600)
 endif()
-set_tests_properties(
-  cdt-unit-tests PROPERTIES LABELS "unit" TIMEOUT "${cdt_unit_test_timeout}")
+
+# Discover each doctest case as an independent CTest process. Besides producing
+# precise failure names, this prevents long-lived CGAL/oneTBB state from making
+# the complete parallel-TDS suite exceed the per-test timeout.
+include(doctest)
+doctest_discover_tests(
+  CDT_unit_tests
+  TEST_PREFIX "unit: "
+  PROPERTIES LABELS "unit" TIMEOUT "${cdt_unit_test_timeout}")

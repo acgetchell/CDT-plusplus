@@ -65,6 +65,9 @@ The supported C++ namespace and per-header contract are recorded in the
 The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and
 upgrade policies are recorded in the
 [CGAL 6.2 integration contract](docs/cgal-integration.md).
+The opt-in operations, ownership and synchronization rules, replayable stress
+inputs, sanitizer boundary, and matched scaling protocol are recorded in the
+[multithreaded CGAL contract](docs/multithreading.md).
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
 [CometML] provides experiment tracking for the optional Python workflows.
@@ -72,10 +75,10 @@ upgrade policies are recorded in the
 ### Regression-oracle scope
 
 The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in
-[`include/Foliated_triangulation.hpp`](include/Foliated_triangulation.hpp). `check_timevalues` classifies cells from
-stored vertex time labels, `find_bad_vertex` selects a vertex responsible for an acausal local configuration, and
-`fix_timevalues` removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract
-is satisfied.
+[`include/Foliated_triangulation.hpp`](include/Foliated_triangulation.hpp). `find_invalid_timevalue_cells` classifies
+cells from stored vertex time labels, `has_valid_timevalues` provides the predicate, `find_bad_vertex` selects a vertex
+responsible for an acausal local configuration, and `fix_timevalues` removes offending vertices through CGAL so the
+cavity is retriangulated until the foliation contract is satisfied.
 
 The deterministic doctest scenario **"Detecting and fixing problems with vertices and cells"** in
 [`tests/Foliated_triangulation_test.cpp`](tests/Foliated_triangulation_test.cpp) exercises this path with fixed points
@@ -160,10 +163,13 @@ Windows development.
 ### Current reference-suite status
 
 With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform
-`just build` command runs all 22 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
-one unit-test launcher containing 103 doctest scenarios and 21 CLI integration tests. The same `reference-smoke` preset
+`just build` command runs all 24 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
+one unit-test launcher containing 103 doctest scenarios and 23 CLI integration tests. The same `reference-smoke` preset
 is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting
-another doctest suite. The parallel-enabled AddressSanitizer configuration adds one launcher containing four scenarios.
+another doctest suite. The parallel-enabled AddressSanitizer and `parallel`
+configurations add one launcher containing five scenarios, for 25 CTest
+entries including the
+replayable stress contract.
 
 ## Setup
 
@@ -206,6 +212,7 @@ The repository-root [Justfile](Justfile) provides the same small command vocabul
 
 ```bash
 just check                 # Fast, non-mutating local checks
+just build-parallel        # Build and test the opt-in CGAL/oneTBB configuration
 just codeql-prepare        # Configure dependencies before CodeQL tracing
 just codeql-build          # Build production targets for CodeQL extraction
 just fix                   # Format C++/Python source and the Justfile
@@ -229,15 +236,22 @@ just python-fix            # Apply safe Ruff fixes and formatting
 `check` covers repository-wide C++ formatting, Python formatting/lint/type checks, release metadata and citation
 fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
 check and the supported build/test contract. Documentation validation remains available separately through
-`just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs all run the
-same `just ci` command. Windows continues to compile with native MSVC; the locked Python environment supplies
-`clang-format` only as a source formatter. Install the developer tools with Homebrew, use equivalent system packages,
-or let pkgx supply the Unix environment ephemerally; pkgx remains optional. For example:
+`just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
+AppleClang, and Windows MSVC jobs all run `just ci` followed by
+`just build-parallel`. Windows continues to compile with native MSVC; the
+locked Python environment supplies `clang-format` only as a source formatter.
+Install the developer tools with Homebrew, use equivalent system packages, or
+let pkgx supply the Unix environment ephemerally; pkgx remains optional. For
+example:
 
 ```bash
 uv sync --locked --group dev
-pkgx +just.systems@1.57.0 +git-scm.org +cmake.org +ninja-build.org +python.org +zizmor just check
+pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.0 +ninja-build.org +python.org +zizmor just check
 ```
+
+All configure paths require CMake 4.4.0 or newer. The Justfile owns the tested
+4.4.0 toolchain pin: pkgx-backed recipes remain reproducible at that version,
+while direct configure paths accept newer compatible CMake releases.
 
 [pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
 SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact,
@@ -282,7 +296,9 @@ Windows; either platform-specific script can itself be run from any working dire
 uses the pinned disposable checkout described above. Both scripts invoke the `reference` configure and build presets
 followed by the `reference-smoke` test preset; products and tests are isolated under `out/build/reference`, while
 `scripts\fast-build.bat` configures the same reference tree and builds only the primary `cdt` target. All entry points
-preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes.
+preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes. Direct script
+invocations must expose CMake 4.4.0 or newer on `PATH`; the canonical pkgx-backed `just` recipes select the tested
+4.4.0 toolchain automatically.
 
 ### Project Layout
 
@@ -354,6 +370,7 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [--foliate FOLIATION SPACING]
             [--no-output]
             [--seed SEED]
+            [--threads THREADS]
             -k K
             --alpha ALPHA
             --lambda LAMBDA
@@ -380,6 +397,8 @@ Options:
                                 files
   --seed arg                    Root random seed (default: operating-system
                                 entropy)
+  --threads arg (=1)            Maximum worker threads for supported Delaunay
+                                operations
   -a [ --alpha ] arg            Negative squared geodesic length of 1-d
                                 timelike edges
   -k [ --k ] arg                K = 1/(8*pi*G_newton)
@@ -387,6 +406,12 @@ Options:
   -p [ --passes ] arg (=100)    Number of passes
   -c [ --checkpoint ] arg (=10) Checkpoint every n passes
 ```
+
+`--threads` is a maximum concurrency limit for CGAL/oneTBB bulk Delaunay
+operations. It defaults to 1. Zero and negative values are rejected. The
+canonical reference build accepts only 1; values greater than 1 require the
+`parallel` preset. This option does not parallelize Metropolis-Hastings,
+Pachner moves, persistence, or concurrent access to one manifold.
 
 The dimensionality of the spacetime is such that each slice of spacetime is
 `d-1`-dimensional, so setting `d=3` generates two spacelike dimensions and one
@@ -436,10 +461,12 @@ subsequent releases.
 ## Testing
 
 Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
-executes all 22 CTest entries: one unit-test launcher containing 103 doctest scenarios and 21 executable integration
-tests covering normal CLI use and invalid-boundary rejection. The parallel-enabled AddressSanitizer configuration adds
-one launcher containing four scenarios labeled `unit`, `parallel`, and `configuration`. Every process-level test is
-labeled `integration`, and invalid-input tests also carry the `cli-boundary` subcategory. Run `just ci` for the complete
+executes all 24 CTest entries: one unit-test launcher containing 103 doctest scenarios and 23 executable integration
+tests covering normal CLI use and invalid-boundary rejection. The parallel-enabled AddressSanitizer and `parallel`
+configurations add one launcher containing five scenarios labeled `unit`,
+`parallel`, and `configuration`, for 25 CTest entries. Every process-level test is labeled
+`integration`, and invalid-input tests also carry the `cli-boundary`
+subcategory. Run `just ci` for the complete
 local validation gate.
 
 `just check` also runs the repository-owned Semgrep policy and its annotated

@@ -29,9 +29,9 @@ namespace
 {
   [[nodiscard]] auto minimal_23_manifold() -> Manifold_3
   {
-    auto constexpr radius = 2.0 * std::numbers::inv_sqrt3_v<double>;
-    auto constexpr root_2 = std::numbers::sqrt2_v<double>;
-    vector vertices{
+    constexpr auto radius = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    constexpr auto root_2 = std::numbers::sqrt2_v<double>;
+    vector         vertices{
         Point_t<3>{     1,      0,      0},
         Point_t<3>{     0,      1,      0},
         Point_t<3>{     0,      0,      1},
@@ -44,8 +44,8 @@ namespace
 
   [[nodiscard]] auto minimal_26_manifold() -> Manifold_3
   {
-    auto constexpr radius = 2.0 * std::numbers::inv_sqrt3_v<double>;
-    vector vertices{
+    constexpr auto radius = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    vector         vertices{
         Point_t<3>{     0,      0,      0},
         Point_t<3>{     1,      0,      0},
         Point_t<3>{     0,      1,      0},
@@ -57,7 +57,7 @@ namespace
   }
 
   [[nodiscard]] auto actual_raw_site_count(Manifold_3 const& manifold,
-                                           move_tracker::move_type const move)
+                                           move_tracker::MoveType const move)
       -> Int_precision
   {
     auto       triangulation = manifold.delaunay_snapshot();
@@ -65,41 +65,43 @@ namespace
       return static_cast<Int_precision>(sites.size());
     };
 
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     switch (move)
     {
       case TWO_THREE:
         return count(foliated_triangulations::filter_cells<3>(
             foliated_triangulations::collect_cells<3>(triangulation),
-            Cell_type::TWO_TWO));
+            CellType::TWO_TWO));
       case THREE_TWO:
         return count(foliated_triangulations::filter_edges<3>(
-            foliated_triangulations::collect_edges<3>(triangulation), true));
+            foliated_triangulations::collect_edges<3>(triangulation),
+            EdgeType::TIMELIKE));
       case TWO_SIX:
         return count(foliated_triangulations::filter_cells<3>(
             foliated_triangulations::collect_cells<3>(triangulation),
-            Cell_type::ONE_THREE));
+            CellType::ONE_THREE));
       case SIX_TWO:
         return count(
             foliated_triangulations::collect_vertices<3>(triangulation));
       case FOUR_FOUR:
         return count(foliated_triangulations::filter_edges<3>(
-            foliated_triangulations::collect_edges<3>(triangulation), false));
+            foliated_triangulations::collect_edges<3>(triangulation),
+            EdgeType::SPACELIKE));
     }
     return 0;
   }
 
-  void check_proposal_domain(Manifold_3 const&             manifold,
-                             move_tracker::move_type const move)
+  void check_proposal_domain(Manifold_3 const&            manifold,
+                             move_tracker::MoveType const move)
   {
     auto const actual = actual_raw_site_count(manifold, move);
     REQUIRE_GT(actual, 0);
-    CHECK_EQ(Metropolis_3::proposal_site_count(manifold.get_geometry(), move),
+    CHECK_EQ(Metropolis_3::proposal_site_count(manifold.geometry(), move),
              actual);
 
     auto const expected = 1.0L / (5.0L * static_cast<long double>(actual));
     auto const observed =
-        Metropolis_3::proposal_probability(manifold.get_geometry(), move);
+        Metropolis_3::proposal_probability(manifold.geometry(), move);
     CHECK(mpfr_values::to_long_double(observed) == doctest::Approx(expected));
   }
 
@@ -113,10 +115,10 @@ namespace
 
     explicit CountingGenerator(std::uint64_t const seed) : m_engine{seed} {}
 
-    [[nodiscard]] static auto constexpr min() noexcept -> result_type
+    [[nodiscard]] static constexpr auto min() noexcept -> result_type
     { return std::mt19937_64::min(); }
 
-    [[nodiscard]] static auto constexpr max() noexcept -> result_type
+    [[nodiscard]] static constexpr auto max() noexcept -> result_type
     { return std::mt19937_64::max(); }
 
     auto operator()() -> result_type
@@ -186,11 +188,8 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
         REQUIRE(is_nothrow_destructible_v<Metropolis_3>);
         spdlog::debug("It is no-throw destructible.\n");
       }
-      THEN("It is default constructible.")
-      {
-        REQUIRE(is_default_constructible_v<Metropolis_3>);
-        spdlog::debug("It is default constructible.\n");
-      }
+      THEN("It cannot be constructed without physical parameters.")
+      { REQUIRE_FALSE(is_default_constructible_v<Metropolis_3>); }
       THEN("It is no-throw copy constructible.")
       {
         REQUIRE(is_nothrow_copy_constructible_v<Metropolis_3>);
@@ -225,7 +224,10 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
                                    bool>);
         REQUIRE(is_constructible_v<Metropolis_3, long double, long double,
                                    long double, Int_precision, Int_precision,
-                                   bool, std::uint64_t>);
+                                   bool, cdt::RandomSeed>);
+        REQUIRE_FALSE(is_constructible_v<Metropolis_3, long double, long double,
+                                         long double, Int_precision,
+                                         Int_precision, bool, std::uint64_t>);
         spdlog::debug("Its file-output policy is configurable.\n");
       }
     }
@@ -234,56 +236,57 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
 
 SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
 {
-  auto constexpr Alpha  = static_cast<long double>(0.6);
-  auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
-  auto constexpr Lambda = static_cast<long double>(0.1);
+  constexpr auto Alpha  = static_cast<long double>(0.6);
+  constexpr auto K      = static_cast<long double>(1.1);  // NOLINT
+  constexpr auto Lambda = static_cast<long double>(0.1);
   GIVEN("A correctly-constructed Manifold_3.")
   {
-    auto constexpr simplices             = 640;
-    auto constexpr timeslices            = 4;
-    auto constexpr output_every_n_passes = 1;
-    auto constexpr passes                = 10;
+    constexpr auto   simplices             = 640;
+    constexpr auto   timeslices            = 4;
+    constexpr auto   output_every_n_passes = 1;
+    constexpr auto   passes                = 10;
     Manifold_3 const universe(simplices, timeslices, cdt::Random{92});
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
       Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes,
-                           true, 92);
+                           true, cdt::RandomSeed{92});
       THEN("The Metropolis function object is initialized correctly.")
       {
-        CHECK_EQ(testrun.Alpha(), Alpha);
-        CHECK_EQ(testrun.K(), K);
-        CHECK_EQ(testrun.Lambda(), Lambda);
+        CHECK_EQ(testrun.alpha(), Alpha);
+        CHECK_EQ(testrun.k(), K);
+        CHECK_EQ(testrun.lambda(), Lambda);
         CHECK_EQ(testrun.passes(), passes);
         CHECK_EQ(testrun.checkpoint(), output_every_n_passes);
         CHECK(testrun.writes_files());
-        CHECK_EQ(testrun.get_proposed().total(), 0);
-        CHECK_EQ(testrun.get_accepted().total(), 0);
-        CHECK_EQ(testrun.get_rejected().total(), 0);
-        CHECK_EQ(testrun.get_attempted().total(), 0);
-        CHECK_EQ(testrun.get_succeeded().total(), 0);
-        CHECK_EQ(testrun.get_failed().total(), 0);
+        CHECK_EQ(testrun.proposed().total(), 0);
+        CHECK_EQ(testrun.accepted().total(), 0);
+        CHECK_EQ(testrun.rejected().total(), 0);
+        CHECK_EQ(testrun.attempted().total(), 0);
+        CHECK_EQ(testrun.succeeded().total(), 0);
+        CHECK_EQ(testrun.failed().total(), 0);
       }
       THEN("File output can be disabled without changing checkpoint cadence.")
       {
         Metropolis_3 const no_file_output_run(Alpha, K, Lambda, passes,
-                                              output_every_n_passes, false, 92);
+                                              output_every_n_passes, false,
+                                              cdt::RandomSeed{92});
         CHECK_EQ(no_file_output_run.checkpoint(), output_every_n_passes);
         CHECK_FALSE(no_file_output_run.writes_files());
       }
       THEN("Initialization reads the canonical geometry without making moves.")
       {
         testrun.initialize(universe);
-        CHECK_EQ(testrun.get_geometry().N1_TL, universe.N1_TL());
-        CHECK_EQ(testrun.get_geometry().N3_31_13, universe.N3_31_13());
-        CHECK_EQ(testrun.get_geometry().N3_22, universe.N3_22());
-        CHECK_EQ(testrun.get_proposed().total(), 0);
-        CHECK_EQ(testrun.get_accepted().total(), 0);
-        CHECK_EQ(testrun.get_rejected().total(), 0);
-        CHECK_EQ(testrun.get_attempted().total(), 0);
-        CHECK_EQ(testrun.get_succeeded().total(), 0);
-        CHECK_EQ(testrun.get_failed().total(), 0);
+        CHECK_EQ(testrun.geometry().N1_TL, universe.N1_TL());
+        CHECK_EQ(testrun.geometry().N3_31_13, universe.N3_31_13());
+        CHECK_EQ(testrun.geometry().N3_22, universe.N3_22());
+        CHECK_EQ(testrun.proposed().total(), 0);
+        CHECK_EQ(testrun.accepted().total(), 0);
+        CHECK_EQ(testrun.rejected().total(), 0);
+        CHECK_EQ(testrun.attempted().total(), 0);
+        CHECK_EQ(testrun.succeeded().total(), 0);
+        CHECK_EQ(testrun.failed().total(), 0);
       }
     }
     WHEN("A nonpositive pass or checkpoint count is supplied.")
@@ -291,12 +294,14 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
       THEN("Construction rejects the invalid cadence.")
       {
         CHECK_THROWS_AS(
-            Metropolis_3(Alpha, K, Lambda, -1, output_every_n_passes, true, 92),
+            Metropolis_3(Alpha, K, Lambda, -1, output_every_n_passes, true,
+                         cdt::RandomSeed{92}),
             std::invalid_argument);
-        CHECK_THROWS_AS(
-            Metropolis_3(Alpha, K, Lambda, 0, output_every_n_passes, true, 92),
-            std::invalid_argument);
-        CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, passes, 0, true, 92),
+        CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, 0, output_every_n_passes,
+                                     true, cdt::RandomSeed{92}),
+                        std::invalid_argument);
+        CHECK_THROWS_AS(Metropolis_3(Alpha, K, Lambda, passes, 0, true,
+                                     cdt::RandomSeed{92}),
                         std::invalid_argument);
       }
     }
@@ -304,12 +309,14 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
     {
       THEN("Construction reports the corresponding parameter error.")
       {
-        CHECK_THROWS_AS(Metropolis_3(0.5L, K, Lambda, passes,
-                                     output_every_n_passes, true, 92),
-                        std::domain_error);
+        CHECK_THROWS_AS(
+            Metropolis_3(0.5L, K, Lambda, passes, output_every_n_passes, true,
+                         cdt::RandomSeed{92}),
+            std::domain_error);
         CHECK_THROWS_AS(
             Metropolis_3(std::numeric_limits<long double>::infinity(), K,
-                         Lambda, passes, output_every_n_passes, true, 92),
+                         Lambda, passes, output_every_n_passes, true,
+                         cdt::RandomSeed{92}),
             std::invalid_argument);
       }
     }
@@ -319,8 +326,8 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
 SCENARIO("Metropolis-Hastings proposal and acceptance ratios" *
          doctest::test_suite("metropolis"))
 {
-  auto constexpr Alpha = 0.6L;
-  Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, 17);
+  constexpr auto Alpha = 0.6L;
+  Metropolis_3   strategy(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{17});
 
   GIVEN("A small pair of states connected by a (2,3) move.")
   {
@@ -331,10 +338,10 @@ SCENARIO("Metropolis-Hastings proposal and acceptance ratios" *
 
     WHEN("The forward and inverse proposal ratios are evaluated.")
     {
-      auto const forward = Metropolis_3::CalculateA1(
-          current, proposed, move_tracker::move_type::TWO_THREE);
-      auto const reverse = Metropolis_3::CalculateA1(
-          proposed, current, move_tracker::move_type::THREE_TWO);
+      auto const forward = Metropolis_3::hastings_ratio(
+          current, proposed, move_tracker::MoveType::TWO_THREE);
+      auto const reverse = Metropolis_3::hastings_ratio(
+          proposed, current, move_tracker::MoveType::THREE_TWO);
       auto const round_trip = mpfr_values::multiply(forward, reverse);
 
       THEN("They are the exact reverse-to-forward ratios.")
@@ -346,7 +353,7 @@ SCENARIO("Metropolis-Hastings proposal and acceptance ratios" *
       AND_THEN("The zero-action acceptance probability is the Hastings ratio.")
       {
         auto const probability = strategy.acceptance_probability(
-            current, proposed, move_tracker::move_type::TWO_THREE);
+            current, proposed, move_tracker::MoveType::TWO_THREE);
         CHECK(mpfr_values::to_long_double(probability) ==
               doctest::Approx(0.4L));
       }
@@ -362,10 +369,10 @@ SCENARIO("Metropolis-Hastings proposal and acceptance ratios" *
 
     THEN("The one-three-cell and vertex domains determine the ratio.")
     {
-      auto const forward = Metropolis_3::CalculateA1(
-          current, proposed, move_tracker::move_type::TWO_SIX);
-      auto const reverse = Metropolis_3::CalculateA1(
-          proposed, current, move_tracker::move_type::SIX_TWO);
+      auto const forward = Metropolis_3::hastings_ratio(
+          current, proposed, move_tracker::MoveType::TWO_SIX);
+      auto const reverse = Metropolis_3::hastings_ratio(
+          proposed, current, move_tracker::MoveType::SIX_TWO);
       CHECK(mpfr_values::to_long_double(forward) ==
             doctest::Approx(3.0L / 8.0L));
       CHECK(mpfr_values::to_long_double(reverse) ==
@@ -381,9 +388,23 @@ SCENARIO("Metropolis-Hastings proposal and acceptance ratios" *
     proposed.N1_SL = 7;
     THEN("The self-inverse proposal is symmetric.")
     {
-      auto const ratio = Metropolis_3::CalculateA1(
-          current, proposed, move_tracker::move_type::FOUR_FOUR);
+      auto const ratio = Metropolis_3::hastings_ratio(
+          current, proposed, move_tracker::MoveType::FOUR_FOUR);
       CHECK(mpfr_values::to_long_double(ratio) == doctest::Approx(1.0L));
+    }
+  }
+
+  GIVEN("An unrecognized move enumeration value.")
+  {
+    auto const unknown = static_cast<move_tracker::MoveType>(255);
+    Geometry_3 geometry;
+
+    THEN("No inverse move is fabricated.")
+    {
+      CHECK_FALSE(Metropolis_3::reverse_move(unknown).has_value());
+      CHECK_THROWS_AS(static_cast<void>(Metropolis_3::hastings_ratio(
+                          geometry, geometry, unknown)),
+                      std::invalid_argument);
     }
   }
 }
@@ -399,28 +420,26 @@ SCENARIO("Metropolis proposal domains match the sampled raw sites" *
     THEN("Every declared site count matches an independent enumeration.")
     {
       CHECK_EQ(actual_raw_site_count(two_three_state,
-                                     move_tracker::move_type::TWO_THREE),
+                                     move_tracker::MoveType::TWO_THREE),
                1);
       CHECK_EQ(actual_raw_site_count(two_three_state,
-                                     move_tracker::move_type::THREE_TWO),
+                                     move_tracker::MoveType::THREE_TWO),
                5);
+      CHECK_EQ(
+          actual_raw_site_count(two_six_state, move_tracker::MoveType::TWO_SIX),
+          1);
+      CHECK_EQ(
+          actual_raw_site_count(two_six_state, move_tracker::MoveType::SIX_TWO),
+          5);
       CHECK_EQ(actual_raw_site_count(two_six_state,
-                                     move_tracker::move_type::TWO_SIX),
-               1);
-      CHECK_EQ(actual_raw_site_count(two_six_state,
-                                     move_tracker::move_type::SIX_TWO),
-               5);
-      CHECK_EQ(actual_raw_site_count(two_six_state,
-                                     move_tracker::move_type::FOUR_FOUR),
+                                     move_tracker::MoveType::FOUR_FOUR),
                3);
 
-      check_proposal_domain(two_three_state,
-                            move_tracker::move_type::TWO_THREE);
-      check_proposal_domain(two_three_state,
-                            move_tracker::move_type::THREE_TWO);
-      check_proposal_domain(two_six_state, move_tracker::move_type::TWO_SIX);
-      check_proposal_domain(two_six_state, move_tracker::move_type::SIX_TWO);
-      check_proposal_domain(two_six_state, move_tracker::move_type::FOUR_FOUR);
+      check_proposal_domain(two_three_state, move_tracker::MoveType::TWO_THREE);
+      check_proposal_domain(two_three_state, move_tracker::MoveType::THREE_TWO);
+      check_proposal_domain(two_six_state, move_tracker::MoveType::TWO_SIX);
+      check_proposal_domain(two_six_state, move_tracker::MoveType::SIX_TWO);
+      check_proposal_domain(two_six_state, move_tracker::MoveType::FOUR_FOUR);
     }
   }
 
@@ -429,7 +448,7 @@ SCENARIO("Metropolis proposal domains match the sampled raw sites" *
     std::array<Int_precision, 5> const sites{0, 1, 2, 3, 4};
     std::array<std::size_t, 5>         selections{};
     std::mt19937_64                    generator{92};
-    auto constexpr draws = std::size_t{50'000};
+    constexpr auto                     draws = std::size_t{50'000};
 
     WHEN("The production one-site selector is sampled repeatedly.")
     {
@@ -443,8 +462,8 @@ SCENARIO("Metropolis proposal domains match the sampled raw sites" *
 
       THEN("All sites remain within a conservative uniformity envelope.")
       {
-        auto constexpr expected  = draws / sites.size();
-        auto constexpr tolerance = expected / 10;
+        constexpr auto expected  = draws / sites.size();
+        constexpr auto tolerance = expected / 10;
         for (auto const selected : selections)
         {
           CHECK_GE(selected, expected - tolerance);
@@ -510,34 +529,34 @@ SCENARIO("The (6,2) proposal uses the caller-owned generator throughout" *
 SCENARIO("Metropolis transitions are sequential and failure-aware" *
          doctest::test_suite("metropolis"))
 {
-  auto constexpr Alpha = 0.6L;
+  constexpr auto Alpha = 0.6L;
   GIVEN("The minimal manifold supporting a (2,6) move.")
   {
     auto manifold = minimal_26_manifold();
     REQUIRE(manifold.is_correct());
-    Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, 23);
+    Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{23});
 
     WHEN("Two always-accepted candidates are executed sequentially.")
     {
       REQUIRE(strategy.attempt_transition(
-          manifold, move_tracker::move_type::TWO_SIX, 0.0L));
-      auto const after_first = manifold.get_geometry();
+          manifold, move_tracker::MoveType::TWO_SIX, 0.0L));
+      auto const after_first = manifold.geometry();
       REQUIRE(strategy.attempt_transition(
-          manifold, move_tracker::move_type::TWO_SIX, 0.0L));
+          manifold, move_tracker::MoveType::TWO_SIX, 0.0L));
 
       THEN("The second candidate starts from the first committed state.")
       {
         CHECK_EQ(after_first.N3_31_13, 6);
         CHECK_EQ(manifold.N3_31_13(), 10);
         CHECK_EQ(manifold.N3_22(), 0);
-        CHECK_EQ(strategy.get_geometry().N3_31_13, manifold.N3_31_13());
-        CHECK_EQ(strategy.get_geometry().N3_22, manifold.N3_22());
-        CHECK_EQ(strategy.get_proposed().total(), 2);
-        CHECK_EQ(strategy.get_accepted().total(), 2);
-        CHECK_EQ(strategy.get_rejected().total(), 0);
-        CHECK_EQ(strategy.get_attempted().total(), 2);
-        CHECK_EQ(strategy.get_succeeded().total(), 2);
-        CHECK_EQ(strategy.get_failed().total(), 0);
+        CHECK_EQ(strategy.geometry().N3_31_13, manifold.N3_31_13());
+        CHECK_EQ(strategy.geometry().N3_22, manifold.N3_22());
+        CHECK_EQ(strategy.proposed().total(), 2);
+        CHECK_EQ(strategy.accepted().total(), 2);
+        CHECK_EQ(strategy.rejected().total(), 0);
+        CHECK_EQ(strategy.attempted().total(), 2);
+        CHECK_EQ(strategy.succeeded().total(), 2);
+        CHECK_EQ(strategy.failed().total(), 0);
       }
     }
   }
@@ -546,22 +565,22 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
   {
     auto         manifold = minimal_26_manifold();
     auto const   before   = manifold.delaunay_snapshot();
-    Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, 29);
+    Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{29});
 
     WHEN("The impossible proposal is attempted.")
     {
       auto const accepted = strategy.attempt_transition(
-          manifold, move_tracker::move_type::SIX_TWO, 0.0L);
+          manifold, move_tracker::MoveType::SIX_TWO, 0.0L);
       THEN("It is an explicit rejected self-transition.")
       {
         CHECK_FALSE(accepted);
         CHECK_EQ(manifold.delaunay_snapshot(), before);
-        CHECK_EQ(strategy.get_proposed().total(), 1);
-        CHECK_EQ(strategy.get_accepted().total(), 0);
-        CHECK_EQ(strategy.get_rejected().total(), 1);
-        CHECK_EQ(strategy.get_attempted().total(), 1);
-        CHECK_EQ(strategy.get_succeeded().total(), 0);
-        CHECK_EQ(strategy.get_failed().total(), 1);
+        CHECK_EQ(strategy.proposed().total(), 1);
+        CHECK_EQ(strategy.accepted().total(), 0);
+        CHECK_EQ(strategy.rejected().total(), 1);
+        CHECK_EQ(strategy.attempted().total(), 1);
+        CHECK_EQ(strategy.succeeded().total(), 0);
+        CHECK_EQ(strategy.failed().total(), 1);
       }
     }
   }
@@ -569,22 +588,22 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
 
 SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
 {
-  auto constexpr Alpha  = static_cast<long double>(0.6);
-  auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
-  auto constexpr Lambda = static_cast<long double>(0.1);
+  constexpr auto Alpha  = static_cast<long double>(0.6);
+  constexpr auto K      = static_cast<long double>(1.1);  // NOLINT
+  constexpr auto Lambda = static_cast<long double>(0.1);
   GIVEN("A correctly-constructed Manifold_3.")
   {
-    auto constexpr simplices  = 640;
-    auto constexpr timeslices = 4;
+    constexpr auto   simplices  = 640;
+    constexpr auto   timeslices = 4;
     Manifold_3 const universe(simplices, timeslices, cdt::Random{92});
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
-      auto constexpr output_every_n_passes = 1;
-      auto constexpr passes                = 1;
-      Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes,
-                           false, 31);
+      constexpr auto output_every_n_passes = 1;
+      constexpr auto passes                = 1;
+      Metropolis_3   testrun(Alpha, K, Lambda, passes, output_every_n_passes,
+                             false, cdt::RandomSeed{31});
       THEN("A lot of moves are done.")
       {
         auto result = testrun(universe);
@@ -592,12 +611,12 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
         CHECK(result.is_valid());
         AND_THEN("The correct number of moves are attempted.")
         {
-          auto total_proposed   = testrun.get_proposed().total();
-          auto total_accepted   = testrun.get_accepted().total();
-          auto total_rejected   = testrun.get_rejected().total();
-          auto total_attempted  = testrun.get_attempted().total();
-          auto total_successful = testrun.get_succeeded().total();
-          auto total_failed     = testrun.get_failed().total();
+          auto total_proposed   = testrun.proposed().total();
+          auto total_accepted   = testrun.accepted().total();
+          auto total_rejected   = testrun.rejected().total();
+          auto total_attempted  = testrun.attempted().total();
+          auto total_successful = testrun.succeeded().total();
+          auto total_failed     = testrun.failed().total();
           CHECK_EQ(total_proposed, universe.N3() * passes);
           CHECK_EQ(total_proposed, total_accepted + total_rejected);
           CHECK_EQ(total_attempted, total_proposed);
@@ -606,9 +625,9 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
           CHECK_EQ(total_attempted, total_successful + total_failed);
           CHECK_LE(total_accepted, total_successful);
           CHECK_LE(total_failed, total_rejected);
-          CHECK_EQ(testrun.get_geometry().N3, result.N3());
-          CHECK_EQ(testrun.get_geometry().N3_31_13, result.N3_31_13());
-          CHECK_EQ(testrun.get_geometry().N3_22, result.N3_22());
+          CHECK_EQ(testrun.geometry().N3, result.N3());
+          CHECK_EQ(testrun.geometry().N3_31_13, result.N3_31_13());
+          CHECK_EQ(testrun.geometry().N3_22, result.N3_22());
         }
       }
     }
@@ -618,9 +637,9 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
 SCENARIO("Metropolis runs replay every transition from an identical start" *
          doctest::test_suite("metropolis"))
 {
-  auto const initial    = minimal_23_manifold();
-  auto constexpr seed   = cdt::Random_seed{92};
-  auto constexpr passes = Int_precision{2};
+  auto const     initial = minimal_23_manifold();
+  constexpr auto seed    = cdt::RandomSeed{92};
+  constexpr auto passes  = Int_precision{2};
   CAPTURE(seed);
   Metropolis_3 first{
       0.6L,
@@ -648,14 +667,14 @@ SCENARIO("Metropolis runs replay every transition from an identical start" *
   };
 
   CHECK_EQ(first_result.delaunay_snapshot(), replay_result.delaunay_snapshot());
-  CHECK(same_counts(first.get_proposed(), replay.get_proposed()));
-  CHECK(same_counts(first.get_accepted(), replay.get_accepted()));
-  CHECK(same_counts(first.get_rejected(), replay.get_rejected()));
-  CHECK(same_counts(first.get_attempted(), replay.get_attempted()));
-  CHECK(same_counts(first.get_succeeded(), replay.get_succeeded()));
-  CHECK(same_counts(first.get_failed(), replay.get_failed()));
-  CHECK_EQ(first.transition_count(), first.get_proposed().total());
-  CHECK_EQ(replay.transition_count(), replay.get_proposed().total());
+  CHECK(same_counts(first.proposed(), replay.proposed()));
+  CHECK(same_counts(first.accepted(), replay.accepted()));
+  CHECK(same_counts(first.rejected(), replay.rejected()));
+  CHECK(same_counts(first.attempted(), replay.attempted()));
+  CHECK(same_counts(first.succeeded(), replay.succeeded()));
+  CHECK(same_counts(first.failed(), replay.failed()));
+  CHECK_EQ(first.transition_count(), first.proposed().total());
+  CHECK_EQ(replay.transition_count(), replay.proposed().total());
   CHECK_EQ(first.transition_trace(), replay.transition_trace());
 }
 
@@ -664,29 +683,29 @@ SCENARIO("Metropolis multi-pass accounting is per invocation" *
 {
   GIVEN("A fixed seed and a four-pass Metropolis strategy.")
   {
-    auto const initial        = minimal_23_manifold();
-    auto constexpr passes     = Int_precision{4};
-    auto constexpr checkpoint = Int_precision{2};
-    auto constexpr seed       = cdt::Random_seed{103};
-    auto constexpr expected   = expected_metropolis_fixture();
-    Metropolis_3 strategy(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
+    auto const     initial    = minimal_23_manifold();
+    constexpr auto passes     = Int_precision{4};
+    constexpr auto checkpoint = Int_precision{2};
+    constexpr auto seed       = cdt::RandomSeed{103};
+    constexpr auto expected   = expected_metropolis_fixture();
+    Metropolis_3   strategy(0.6L, 0.0L, 0.0L, passes, checkpoint, false, seed);
     CAPTURE(seed);
     CAPTURE(expected.standard_library);
 
     WHEN("The strategy and a fresh replay each run twice.")
     {
       static_cast<void>(strategy(initial));
-      auto const first_attempted   = strategy.get_attempted().total();
-      auto const first_succeeded   = strategy.get_succeeded().total();
-      auto const first_failed      = strategy.get_failed().total();
+      auto const first_attempted   = strategy.attempted().total();
+      auto const first_succeeded   = strategy.succeeded().total();
+      auto const first_failed      = strategy.failed().total();
       auto const first_trace       = strategy.transition_trace();
       auto const first_transitions = strategy.transition_count();
       auto const first_checkpoints = strategy.checkpoint_events();
 
       static_cast<void>(strategy(initial));
-      auto const   second_attempted   = strategy.get_attempted().total();
-      auto const   second_succeeded   = strategy.get_succeeded().total();
-      auto const   second_failed      = strategy.get_failed().total();
+      auto const   second_attempted   = strategy.attempted().total();
+      auto const   second_succeeded   = strategy.succeeded().total();
+      auto const   second_failed      = strategy.failed().total();
       auto const   second_trace       = strategy.transition_trace();
       auto const   second_transitions = strategy.transition_count();
       auto const   second_checkpoints = strategy.checkpoint_events();
@@ -723,9 +742,9 @@ SCENARIO("Metropolis multi-pass accounting is per invocation" *
 SCENARIO("Metropolis provenance is derived from the actual run" *
          doctest::test_suite("metropolis"))
 {
-  GIVEN("A default-constructed strategy")
+  GIVEN("A strategy constructed without an explicit random stream")
   {
-    Metropolis_3 strategy;
+    Metropolis_3 strategy{0.6L, 1.1L, 0.1L, 1, 1, false};
 
     THEN("Its run-owned generator uses the named transition stream.")
     { CHECK_EQ(strategy.stream(), cdt::random_streams::transitions); }
@@ -734,16 +753,17 @@ SCENARIO("Metropolis provenance is derived from the actual run" *
   GIVEN("An injected generator and stale caller-supplied run metadata")
   {
     auto const                          manifold = minimal_23_manifold();
-    utilities::Reproducibility_metadata supplied{.seed                = 7,
-                                                 .transition_stream   = 99,
-                                                 .alpha               = 0.7L,
-                                                 .k                   = 2.0L,
-                                                 .lambda              = 3.0L,
-                                                 .configured_passes   = 100,
-                                                 .checkpoint_interval = 50};
-    auto constexpr seed              = cdt::Random_seed{92};
-    auto constexpr transition_stream = cdt::Random_stream{17};
-    Metropolis_3 strategy{
+    utilities::Reproducibility_metadata supplied{
+        .seed                = cdt::RandomSeed{7},
+        .transition_stream   = cdt::RandomStream{99},
+        .alpha               = 0.7L,
+        .k                   = 2.0L,
+        .lambda              = 3.0L,
+        .configured_passes   = 100,
+        .checkpoint_interval = 50};
+    constexpr auto seed              = cdt::RandomSeed{92};
+    constexpr auto transition_stream = cdt::RandomStream{17};
+    Metropolis_3   strategy{
         0.6L,    1.1L, 0.1L, 2, 1, false, cdt::Random{seed, transition_stream},
         supplied
     };
@@ -751,7 +771,7 @@ SCENARIO("Metropolis provenance is derived from the actual run" *
     WHEN("Output provenance is materialized")
     {
       auto const metadata = strategy.reproducibility_metadata(
-          manifold, utilities::Artifact_kind::FINAL_TRIANGULATION, 0);
+          manifold, utilities::ArtifactKind::FINAL_TRIANGULATION, 0);
 
       THEN("Run-owned seed, stream, action, and cadence replace stale claims.")
       {

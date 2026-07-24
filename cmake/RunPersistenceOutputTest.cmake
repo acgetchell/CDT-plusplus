@@ -25,6 +25,10 @@ if(NOT DEFINED EXPECTED_ARTIFACT OR EXPECTED_ARTIFACT STREQUAL "")
   message(FATAL_ERROR "EXPECTED_ARTIFACT must name the persisted artifact kind")
 endif()
 
+if(NOT DEFINED EXPECTED_THREADS OR NOT EXPECTED_THREADS MATCHES "^[1-9][0-9]*$")
+  message(FATAL_ERROR "EXPECTED_THREADS must be a positive integer")
+endif()
+
 file(REMOVE_RECURSE "${normalized_test_directory}")
 file(MAKE_DIRECTORY "${normalized_test_directory}")
 
@@ -43,6 +47,17 @@ endif()
 set(reported_seed "${CMAKE_MATCH_1}")
 if(DEFINED EXPECTED_SEED AND NOT reported_seed STREQUAL EXPECTED_SEED)
   message(FATAL_ERROR "Command reported seed ${reported_seed}, expected ${EXPECTED_SEED}")
+endif()
+if(NOT run_output MATCHES "Maximum Delaunay threads: ([0-9]+)")
+  message(
+    FATAL_ERROR
+      "Command did not report its Delaunay thread limit:\n${run_output}")
+endif()
+set(reported_threads "${CMAKE_MATCH_1}")
+if(NOT reported_threads STREQUAL EXPECTED_THREADS)
+  message(
+    FATAL_ERROR
+      "Command reported ${reported_threads} Delaunay threads, expected ${EXPECTED_THREADS}")
 endif()
 
 file(GLOB payloads LIST_DIRECTORIES false "${normalized_test_directory}/*.off")
@@ -85,6 +100,16 @@ if(NOT metadata MATCHES "${required}")
     message(FATAL_ERROR "Manifest is missing '${required}':\n${metadata}")
   endif()
 endforeach()
+string(REGEX MATCHALL "parallel[.]max_threads=[0-9]+" thread_fields "${metadata}")
+list(LENGTH thread_fields thread_field_count)
+if(NOT thread_field_count EQUAL 1
+   OR NOT metadata
+          MATCHES
+          "(^|[\r\n])parallel[.]max_threads=${EXPECTED_THREADS}([\r\n]|$)")
+  message(
+    FATAL_ERROR
+      "Manifest does not contain exactly one expected Delaunay thread limit:\n${metadata}")
+endif()
 if(EXPECTED_ARTIFACT STREQUAL "final-triangulation"
    AND (NOT metadata MATCHES "transition_trace.fnv1a64="
         OR NOT metadata MATCHES "transition_trace.count="))

@@ -21,11 +21,11 @@ namespace
 {
   struct ScriptedManifold
   {
-    static auto constexpr dimension = 3;
+    static constexpr auto dimension = 3;
 
-    Int_precision      simplices{2};
+    Int_precision         simplices{2};
 
-    [[nodiscard]] auto N3() const noexcept { return simplices; }
+    [[nodiscard]] auto    N3() const noexcept { return simplices; }
   };
 
   class ScriptedCommand
@@ -36,13 +36,13 @@ namespace
    public:
     [[nodiscard]] auto results() noexcept -> auto& { return m_results; }
 
-    [[nodiscard]] auto get_attempted() const -> auto const&
+    [[nodiscard]] auto attempted() const -> auto const&
     { return m_results.attempted; }
 
-    [[nodiscard]] auto get_succeeded() const -> auto const&
+    [[nodiscard]] auto succeeded() const -> auto const&
     { return m_results.succeeded; }
 
-    [[nodiscard]] auto get_failed() const -> auto const&
+    [[nodiscard]] auto failed() const -> auto const&
     { return m_results.failed; }
 
     void reset_counters()
@@ -130,7 +130,7 @@ SCENARIO("MoveCommand results are consumed and reset once" *
   GIVEN("A command with cumulative attempted, succeeded, and failed counts.")
   {
     ScriptedCommand command;
-    auto constexpr move               = move_tracker::move_type::TWO_THREE;
+    constexpr auto  move              = move_tracker::MoveType::TWO_THREE;
     command.results().attempted[move] = 3;
     command.results().succeeded[move] = 1;
     command.results().failed[move]    = 2;
@@ -145,9 +145,9 @@ SCENARIO("MoveCommand results are consumed and reset once" *
         CHECK_EQ(consumed.attempted.total(), 3);
         CHECK_EQ(consumed.succeeded.total(), 1);
         CHECK_EQ(consumed.failed.total(), 2);
-        CHECK_EQ(command.get_attempted().total(), 0);
-        CHECK_EQ(command.get_succeeded().total(), 0);
-        CHECK_EQ(command.get_failed().total(), 0);
+        CHECK_EQ(command.attempted().total(), 0);
+        CHECK_EQ(command.succeeded().total(), 0);
+        CHECK_EQ(command.failed().total(), 0);
         CHECK_EQ(command.reset_count(), 1);
       }
     }
@@ -170,14 +170,14 @@ SCENARIO("Shared move-run orchestration accumulates pass deltas once" *
       auto result = detail::execute_move_run(
           ScriptedManifold{}, 0, *cadence,
           detail::MoveRunIdentity{.algorithm = "Scripted",
-                                  .seed      = Random_seed{103},
-                                  .stream    = Random_stream{7}},
+                                  .seed      = RandomSeed{103},
+                                  .stream    = RandomStream{7}},
           true,
           [](ScriptedManifold current, int pass_index,
              Int_precision const attempts) {
             ++pass_index;
             detail::MoveCommandResults<ScriptedManifold> delta;
-            auto constexpr move   = move_tracker::move_type::TWO_THREE;
+            constexpr auto move   = move_tracker::MoveType::TWO_THREE;
             delta.attempted[move] = attempts;
             delta.succeeded[move] = pass_index;
             delta.failed[move]    = attempts - pass_index;
@@ -232,8 +232,8 @@ SCENARIO(
       auto result = detail::execute_move_run(
           ScriptedManifold{}, 0, *cadence,
           detail::MoveRunIdentity{.algorithm = "Scripted",
-                                  .seed      = Random_seed{103},
-                                  .stream    = Random_stream{7}},
+                                  .seed      = RandomSeed{103},
+                                  .stream    = RandomStream{7}},
           false,
           [](ScriptedManifold current, int pass_index, Int_precision) {
             return detail::MovePassResult<ScriptedManifold, int>{

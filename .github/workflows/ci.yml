@@ -76,7 +76,9 @@ jobs:
         shell: bash
         run: |
           {
+            echo "cmake=$(just --evaluate cmake_version)"
             echo "llvm=$(just --evaluate llvm_version)"
+            echo "ninja=$(just --evaluate ninja_version)"
             echo "uv=$(just --evaluate uv_version)"
             echo "zizmor=$(just --evaluate zizmor_version)"
           } >> "$GITHUB_OUTPUT"
@@ -85,7 +87,18 @@ jobs:
         if: runner.os != 'Windows'
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
-          +: llvm.org@${{ steps.tool-versions.outputs.llvm }}
+          +: |
+            llvm.org@${{ steps.tool-versions.outputs.llvm }}
+            cmake.org@${{ steps.tool-versions.outputs.cmake }}
+            ninja-build.org@${{ steps.tool-versions.outputs.ninja }}
+
+      - name: Set up pinned CMake and Ninja on Windows
+        if: runner.os == 'Windows'
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
+        with:
+          +: |
+            cmake.org@${{ steps.tool-versions.outputs.cmake }}
+            ninja-build.org@${{ steps.tool-versions.outputs.ninja }}
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
@@ -132,6 +145,13 @@ jobs:
           CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
           CXX: ${{ matrix.cxx }}
         run: just ci
+
+      - name: Run the opt-in CGAL/oneTBB contract
+        env:
+          CC: ${{ matrix.cc }}
+          CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
+          CXX: ${{ matrix.cxx }}
+        run: just build-parallel
 
   build:
     name: build

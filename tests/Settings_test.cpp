@@ -35,9 +35,9 @@ SCENARIO("Check settings" * doctest::test_suite("settings"))
     }
     WHEN("Memory alignment is queried.")
     {
-      auto constexpr align_64 = ALIGNMENT_64_BIT;
+      constexpr auto align_64 = ALIGNMENT_64_BIT;
       THEN("The value is 64 bits.") { REQUIRE_EQ(align_64, 64); }
-      auto constexpr align_32 = ALIGNMENT_32_BIT;
+      constexpr auto align_32 = ALIGNMENT_32_BIT;
       THEN("The value is 32 bits.") { REQUIRE_EQ(align_32, 32); }
     }
   }
