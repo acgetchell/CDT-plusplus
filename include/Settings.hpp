@@ -39,23 +39,23 @@ namespace cdt
   /// See Jonathan Boccara's C++ Pitfalls, January 2021
 
   /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-  inline Int_precision constexpr PRECISION                             = 256;
+  inline constexpr Int_precision PRECISION                             = 256;
 
   /// Default foliated triangulation spacings
-  inline double constexpr INITIAL_RADIUS                               = 1.0;
-  inline double constexpr FOLIATION_SPACING                            = 1.0;
+  inline constexpr double INITIAL_RADIUS                               = 1.0;
+  inline constexpr double FOLIATION_SPACING                            = 1.0;
 
   /// Sets epsilon values for floating point comparisons
-  inline double constexpr TOLERANCE                                    = 0.01;
+  inline constexpr double TOLERANCE                                    = 0.01;
 
   /// Depends on INITIAL_RADIUS and RADIAL_FACTOR
-  [[maybe_unused]] inline Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
+  [[maybe_unused]] inline constexpr Int_precision GV_BOUNDING_BOX_SIZE = 100;
 
   /// Aligns data for ease of access on 64-bit CPUs at the expense of padding
-  inline int constexpr ALIGNMENT_64_BIT                                = 64;
+  inline constexpr int ALIGNMENT_64_BIT                                = 64;
 
   /// Except when we only need 32 bits
-  inline int constexpr ALIGNMENT_32_BIT                                = 32;
+  inline constexpr int ALIGNMENT_32_BIT                                = 32;
 }  // namespace cdt
 
 #endif  // INCLUDE_SETTINGS_HPP_

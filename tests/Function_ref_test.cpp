@@ -26,9 +26,9 @@ namespace
 {
   [[nodiscard]] auto make_23_move_manifold() -> Manifold_3
   {
-    auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
-    auto constexpr sqrt_2   = std::numbers::sqrt2_v<double>;
-    auto const vertices     = std::array{
+    constexpr auto radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    constexpr auto sqrt_2   = std::numbers::sqrt2_v<double>;
+    auto const     vertices = std::array{
         Point_t<3>{       1,        0,        0},
         Point_t<3>{       0,        1,        0},
         Point_t<3>{       0,        0,        1},
@@ -43,7 +43,7 @@ namespace
 
 SCENARIO("Simple Lambda operations" * doctest::test_suite("function_ref"))
 {
-  auto constexpr increment_lambda = [](int a) { return ++a; };  // NOLINT
+  constexpr auto increment_lambda = [](int a) { return ++a; };  // NOLINT
   GIVEN("A simple lambda.")
   {
     WHEN("Lambda is called with 0.")
@@ -81,7 +81,7 @@ SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
         CHECK(ergodic_moves::detail::check_move(
-            manifold_before, result, move_tracker::move_type::TWO_THREE));
+            manifold_before, result, move_tracker::MoveType::TWO_THREE));
       }
     }
   }
@@ -116,7 +116,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
       {
         CHECK(ergodic_moves::detail::check_move(
             manifold_before, result.value(),
-            move_tracker::move_type::TWO_THREE));
+            move_tracker::MoveType::TWO_THREE));
       }
     }
   }
@@ -140,7 +140,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
           "correct.")
       {
         CHECK(ergodic_moves::detail::check_move(
-            manifold_before, result, move_tracker::move_type::TWO_THREE));
+            manifold_before, result, move_tracker::MoveType::TWO_THREE));
       }
     }
   }

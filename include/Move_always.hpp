@@ -26,7 +26,7 @@ namespace cdt
   /// @brief The Move Always algorithm
   template <typename ManifoldType>
     requires(ManifoldType::dimension == 3)
-  class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
+  class MoveStrategy<MoveStrategyKind::MOVE_ALWAYS, ManifoldType>  // NOLINT
   {
     using CommandResults = detail::MoveCommandResults<ManifoldType>;
     using PassResult     = detail::MovePassResult<ManifoldType, std::monostate>;
@@ -59,7 +59,7 @@ namespace cdt
       command.execute(m_random);
       auto command_results =
           detail::consume_command_results<ManifoldType>(command);
-      return {.manifold        = std::move(command.get_results()),
+      return {.manifold        = std::move(command).result(),
               .command_results = std::move(command_results),
               .strategy_state  = strategy_state};
     }
@@ -108,10 +108,10 @@ namespace cdt
     /// @param seed Root seed for the owned random stream.
     /// @param write_files Whether checkpoints may write triangulation files.
     /// @throws std::invalid_argument When either cadence value is nonpositive.
-    [[maybe_unused]] MoveStrategy(Int_precision const    t_number_of_passes,
-                                  Int_precision const    t_checkpoint,
-                                  cdt::Random_seed const seed,
-                                  bool const             write_files = true)
+    [[maybe_unused]] MoveStrategy(Int_precision const   t_number_of_passes,
+                                  Int_precision const   t_checkpoint,
+                                  cdt::RandomSeed const seed,
+                                  bool const            write_files = true)
         : MoveStrategy{t_number_of_passes, t_checkpoint, cdt::Random{seed},
                        write_files}
     {}
@@ -153,20 +153,25 @@ namespace cdt
     [[nodiscard]] auto writes_files() const noexcept { return m_write_files; }
 
     /// @returns The MoveTracker of attempted moves
-    [[nodiscard]] auto get_attempted() const
+    [[nodiscard]] auto attempted() const noexcept
+        -> move_tracker::MoveTracker const&
     { return m_command_results.attempted; }
 
     /// @returns The MoveTracker of successful moves
-    [[nodiscard]] auto get_succeeded() const
+    [[nodiscard]] auto succeeded() const noexcept
+        -> move_tracker::MoveTracker const&
     { return m_command_results.succeeded; }
 
     /// @returns The array of failed moves
-    [[nodiscard]] auto get_failed() const { return m_command_results.failed; }
+    [[nodiscard]] auto failed() const noexcept
+        -> move_tracker::MoveTracker const&
+    { return m_command_results.failed; }
 
     /// @brief Execute a fresh run while continuing the owned random stream.
     /// @details Counters and checkpoint events are replaced only after the
     /// invocation completes.
-    auto operator()(ManifoldType const& t_manifold) -> ManifoldType
+    [[nodiscard]] auto operator()(ManifoldType const& t_manifold)
+        -> ManifoldType
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
@@ -197,7 +202,7 @@ namespace cdt
   };
 
   using MoveAlways_3 =
-      MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_3>;
+      MoveStrategy<MoveStrategyKind::MOVE_ALWAYS, manifolds::Manifold_3>;
 }  // namespace cdt
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

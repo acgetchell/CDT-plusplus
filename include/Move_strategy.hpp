@@ -18,7 +18,7 @@ namespace cdt
   /**
    * \brief The algorithms available to make ergodic moves on triangulations
    */
-  enum class Strategies
+  enum class MoveStrategyKind
   {
     MOVE_ALWAYS,
     METROPOLIS
@@ -26,12 +26,11 @@ namespace cdt
 
   /**
    * \brief Select a move algorithm
-   * \tparam strategies The move algorithm to use
+   * \tparam strategy The move algorithm to use
    * \tparam ManifoldType The manifold to perform moves on
    */
-  template <Strategies strategies, typename ManifoldType>
-  class MoveStrategy
-  {};
+  template <MoveStrategyKind strategy, typename ManifoldType>
+  class MoveStrategy;
 }  // namespace cdt
 
 #endif  // INCLUDE_MOVE_STRATEGY_HPP_

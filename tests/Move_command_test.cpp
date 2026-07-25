@@ -45,10 +45,10 @@ namespace
     Int_precision n0;
   };
 
-  [[nodiscard]] auto constexpr expected_geometry_delta(
-      move_tracker::move_type const move) -> ExpectedGeometryDelta
+  [[nodiscard]] constexpr auto expected_geometry_delta(
+      move_tracker::MoveType const move) -> ExpectedGeometryDelta
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     switch (move)
     {
       case TWO_THREE: return {1, 0, 0, 0, 1, 2, 1, 1, 0, 0};
@@ -60,9 +60,9 @@ namespace
     return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   }
 
-  void check_successful_move_outcome(Manifold_3 const&             before,
-                                     Manifold_3 const&             after,
-                                     move_tracker::move_type const move)
+  void check_successful_move_outcome(Manifold_3 const&            before,
+                                     Manifold_3 const&            after,
+                                     move_tracker::MoveType const move)
   {
     auto const expected = expected_geometry_delta(move);
     CHECK(after.is_correct());
@@ -148,22 +148,22 @@ namespace
   }
 
   static_assert(
-      std::is_same_v<decltype(std::declval<MoveCommand<Manifold_3> const&>()
-                                  .get_succeeded()),
-                     move_tracker::MoveTracker<Manifold_3> const&>);
+      std::is_same_v<
+          decltype(std::declval<MoveCommand<Manifold_3> const&>().succeeded()),
+          move_tracker::MoveTracker const&>);
 
   void check_single_move_outcome(MoveCommand<Manifold_3> const& command,
                                  Manifold_3 const&              before,
-                                 move_tracker::move_type const  move,
+                                 move_tracker::MoveType const   move,
                                  Int_precision const            cell_delta)
   {
-    auto const attempted = command.get_attempted()[move];
-    auto const succeeded = command.get_succeeded()[move];
-    auto const failed    = command.get_failed()[move];
+    auto const attempted = command.attempted()[move];
+    auto const succeeded = command.succeeded()[move];
+    auto const failed    = command.failed()[move];
     CHECK_EQ(attempted, 1);
     CHECK_EQ(succeeded + failed, 1);
 
-    auto const& result = command.get_const_results();
+    auto const& result = command.result();
     CHECK(result.is_valid());
     if (succeeded == 1)
     {
@@ -234,8 +234,8 @@ SCENARIO("Invoking a move with a function pointer" *
   spdlog::debug("Invoking a move with a function pointer.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 640;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move.")
@@ -248,7 +248,7 @@ SCENARIO("Invoking a move with a function pointer" *
         auto result = move23(manifold, random);
         REQUIRE(result.has_value());
         check_successful_move_outcome(manifold, *result,
-                                      move_tracker::move_type::TWO_THREE);
+                                      move_tracker::MoveType::TWO_THREE);
       }
     }
   }
@@ -259,8 +259,8 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
   spdlog::debug("Invoking a move with a lambda.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 640;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
@@ -275,7 +275,7 @@ SCENARIO("Invoking a move with a lambda" * doctest::test_suite("move_command"))
         CAPTURE(random.seed());
         auto result = move23(manifold, random);
         check_successful_move_outcome(manifold, result,
-                                      move_tracker::move_type::TWO_THREE);
+                                      move_tracker::MoveType::TWO_THREE);
       }
     }
   }
@@ -287,8 +287,8 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
   spdlog::debug("Invoking a move with apply_move and a function pointer.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 640;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("Apply_move is used for a move.")
@@ -301,7 +301,7 @@ SCENARIO("Invoking a move with apply_move and a function pointer" *
         auto result = apply_move(manifold, move, random);
         REQUIRE(result.has_value());
         check_successful_move_outcome(manifold, *result,
-                                      move_tracker::move_type::TWO_THREE);
+                                      move_tracker::MoveType::TWO_THREE);
       }
     }
   }
@@ -312,8 +312,8 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
   spdlog::debug("MoveCommand initialization.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
+    constexpr auto desired_simplices  = 640;
+    constexpr auto desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
@@ -322,30 +322,30 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
       THEN("The original is still valid.") { REQUIRE(manifold.is_correct()); }
       THEN("It contains the manifold.")
       {
-        CHECK_EQ(manifold.N3(), command.get_const_results().N3());
-        CHECK_EQ(manifold.N3_31(), command.get_const_results().N3_31());
-        CHECK_EQ(manifold.N3_22(), command.get_const_results().N3_22());
-        CHECK_EQ(manifold.N3_13(), command.get_const_results().N3_13());
-        CHECK_EQ(manifold.N3_31_13(), command.get_const_results().N3_31_13());
-        CHECK_EQ(manifold.N2(), command.get_const_results().N2());
-        CHECK_EQ(manifold.N1(), command.get_const_results().N1());
-        CHECK_EQ(manifold.N1_TL(), command.get_const_results().N1_TL());
-        CHECK_EQ(manifold.N1_SL(), command.get_const_results().N1_SL());
-        CHECK_EQ(manifold.N0(), command.get_const_results().N0());
-        CHECK_EQ(manifold.max_time(), command.get_const_results().max_time());
-        CHECK_EQ(manifold.min_time(), command.get_const_results().min_time());
+        CHECK_EQ(manifold.N3(), command.result().N3());
+        CHECK_EQ(manifold.N3_31(), command.result().N3_31());
+        CHECK_EQ(manifold.N3_22(), command.result().N3_22());
+        CHECK_EQ(manifold.N3_13(), command.result().N3_13());
+        CHECK_EQ(manifold.N3_31_13(), command.result().N3_31_13());
+        CHECK_EQ(manifold.N2(), command.result().N2());
+        CHECK_EQ(manifold.N1(), command.result().N1());
+        CHECK_EQ(manifold.N1_TL(), command.result().N1_TL());
+        CHECK_EQ(manifold.N1_SL(), command.result().N1_SL());
+        CHECK_EQ(manifold.N0(), command.result().N0());
+        CHECK_EQ(manifold.max_time(), command.result().max_time());
+        CHECK_EQ(manifold.min_time(), command.result().min_time());
       }
       THEN("The two manifolds are distinct.")
       {
         auto*       manifold_ptr  = &manifold;
-        auto const* manifold2_ptr = &command.get_const_results();
+        auto const* manifold2_ptr = &command.result();
         CHECK_NE(manifold_ptr, manifold2_ptr);
       }
       THEN("Attempted, succeeded, and failed moves are initialized to 0.")
       {
-        CHECK_EQ(command.get_attempted().total(), 0);
-        CHECK_EQ(command.get_succeeded().total(), 0);
-        CHECK_EQ(command.get_failed().total(), 0);
+        CHECK_EQ(command.attempted().total(), 0);
+        CHECK_EQ(command.succeeded().total(), 0);
+        CHECK_EQ(command.failed().total(), 0);
       }
     }
   }
@@ -356,8 +356,8 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
   spdlog::debug("Queueing and executing moves.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = 9600;
-    auto constexpr desired_timeslices = 7;
+    constexpr auto desired_simplices  = 9600;
+    constexpr auto desired_timeslices = 7;
     Manifold_3 manifold(desired_simplices, desired_timeslices, cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("Move_command copies the manifold and applies the move.")
@@ -368,17 +368,17 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         MoveCommand command(manifold);
         // Note: If we do a move that expands the size of the manifold,
         // without the copy ctor this will Segfault!
-        command.enqueue(move_tracker::move_type::THREE_TWO);
+        command.enqueue(move_tracker::MoveType::THREE_TWO);
 
         // Execute the move
         cdt::Random random{92};
         CAPTURE(random.seed());
         command.execute(random);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::THREE_TWO, -1);
+                                  move_tracker::MoveType::THREE_TWO, -1);
 
         // Get the results
-        auto result        = command.get_results();
+        auto result        = command.result();
 
         // Distinct objects?
         auto* manifold_ptr = &manifold;
@@ -391,7 +391,7 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
     WHEN("A (4,4) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
+      command.enqueue(move_tracker::MoveType::FOUR_FOUR);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -399,13 +399,13 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CAPTURE(random.seed());
         command.execute(random);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::FOUR_FOUR, 0);
+                                  move_tracker::MoveType::FOUR_FOUR, 0);
       }
     }
     WHEN("A (2,3) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
+      command.enqueue(move_tracker::MoveType::TWO_THREE);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -413,13 +413,13 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CAPTURE(random.seed());
         command.execute(random);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::TWO_THREE, 1);
+                                  move_tracker::MoveType::TWO_THREE, 1);
       }
     }
     WHEN("A (3,2) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType::THREE_TWO);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -427,13 +427,13 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CAPTURE(random.seed());
         command.execute(random);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::THREE_TWO, -1);
+                                  move_tracker::MoveType::THREE_TWO, -1);
       }
     }
     WHEN("A (2,6) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_SIX);
+      command.enqueue(move_tracker::MoveType::TWO_SIX);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -441,13 +441,13 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CAPTURE(random.seed());
         command.execute(random);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::TWO_SIX, 4);
+                                  move_tracker::MoveType::TWO_SIX, 4);
       }
     }
     WHEN("A (6,2) move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::SIX_TWO);
+      command.enqueue(move_tracker::MoveType::SIX_TWO);
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -455,7 +455,7 @@ SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
         CAPTURE(random.seed());
         command.execute(random);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::SIX_TWO, -4);
+                                  move_tracker::MoveType::SIX_TWO, -4);
       }
     }
   }
@@ -466,7 +466,7 @@ SCENARIO("Rejected moves preserve manifold state" *
 {
   GIVEN("A single tetrahedron with no movable (2,2) simplex.")
   {
-    auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    constexpr auto       radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
     Causal_vertices_t<3> causal_vertices;
     causal_vertices.emplace_back(Point_t<3>{1, 0, 0}, 1);
     causal_vertices.emplace_back(Point_t<3>{0, 1, 0}, 1);
@@ -476,7 +476,7 @@ SCENARIO("Rejected moves preserve manifold state" *
     REQUIRE(manifold.is_correct());
     REQUIRE_EQ(manifold.N3_22(), 0);
     MoveCommand command(manifold);
-    command.enqueue(move_tracker::move_type::TWO_THREE);
+    command.enqueue(move_tracker::MoveType::TWO_THREE);
 
     WHEN("The move is executed.")
     {
@@ -485,9 +485,9 @@ SCENARIO("Rejected moves preserve manifold state" *
       command.execute(random);
       THEN("The rejection leaves the complete manifold unchanged.")
       {
-        REQUIRE_EQ(command.get_failed().two_three_moves(), 1);
+        REQUIRE_EQ(command.failed().two_three_moves(), 1);
         check_single_move_outcome(command, manifold,
-                                  move_tracker::move_type::TWO_THREE, 1);
+                                  move_tracker::MoveType::TWO_THREE, 1);
       }
     }
   }
@@ -499,16 +499,16 @@ SCENARIO("Executing multiple moves on the queue" *
   spdlog::debug("Executing multiple moves on the queue.\n");
   GIVEN("A valid manifold")
   {
-    auto constexpr desired_simplices  = 9600;
-    auto constexpr desired_timeslices = 7;
+    constexpr auto   desired_simplices  = 9600;
+    constexpr auto   desired_timeslices = 7;
     Manifold_3 const manifold(desired_simplices, desired_timeslices,
                               cdt::Random{92});
     REQUIRE(manifold.is_correct());
     WHEN("(2,3) and (3,2) moves are queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType::TWO_THREE);
+      command.enqueue(move_tracker::MoveType::THREE_TWO);
       THEN("There are two moves in the queue.") { CHECK_EQ(command.size(), 2); }
       THEN("The moves are executed correctly.")
       {
@@ -518,16 +518,15 @@ SCENARIO("Executing multiple moves on the queue" *
         command.execute(random);
 
         // There should be 2 attempted moves
-        CHECK_EQ(command.get_attempted().total(), 2);
+        CHECK_EQ(command.attempted().total(), 2);
 
-        auto successful_23_moves = command.get_succeeded().two_three_moves();
-        auto successful_32_moves = command.get_succeeded().three_two_moves();
+        auto successful_23_moves = command.succeeded().two_three_moves();
+        auto successful_32_moves = command.succeeded().three_two_moves();
 
-        CHECK_EQ(command.get_succeeded().total() + command.get_failed().total(),
-                 2);
+        CHECK_EQ(command.succeeded().total() + command.failed().total(), 2);
 
         // Get the results
-        auto const& result = command.get_const_results();
+        auto const& result = command.result();
 
         CHECK_EQ(
             result.simplices(),
@@ -538,11 +537,11 @@ SCENARIO("Executing multiple moves on the queue" *
     WHEN("One of each move is queued.")
     {
       MoveCommand command(manifold);
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      command.enqueue(move_tracker::move_type::TWO_SIX);
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
-      command.enqueue(move_tracker::move_type::SIX_TWO);
-      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::MoveType::TWO_THREE);
+      command.enqueue(move_tracker::MoveType::TWO_SIX);
+      command.enqueue(move_tracker::MoveType::FOUR_FOUR);
+      command.enqueue(move_tracker::MoveType::SIX_TWO);
+      command.enqueue(move_tracker::MoveType::THREE_TWO);
       THEN("There are five moves in the queue.")
       { CHECK_EQ(command.size(), 5); }
       THEN("The moves are executed correctly.")
@@ -553,18 +552,17 @@ SCENARIO("Executing multiple moves on the queue" *
         command.execute(random);
 
         // There should be 5 attempted moves
-        CHECK_EQ(command.get_attempted().total(), 5);
+        CHECK_EQ(command.attempted().total(), 5);
 
-        auto successful_23_moves = command.get_succeeded().two_three_moves();
-        auto successful_26_moves = command.get_succeeded().two_six_moves();
-        auto successful_62_moves = command.get_succeeded().six_two_moves();
-        auto successful_32_moves = command.get_succeeded().three_two_moves();
+        auto successful_23_moves = command.succeeded().two_three_moves();
+        auto successful_26_moves = command.succeeded().two_six_moves();
+        auto successful_62_moves = command.succeeded().six_two_moves();
+        auto successful_32_moves = command.succeeded().three_two_moves();
 
-        CHECK_EQ(command.get_succeeded().total() + command.get_failed().total(),
-                 5);
+        CHECK_EQ(command.succeeded().total() + command.failed().total(), 5);
 
         // Get the results
-        auto const& result = command.get_const_results();
+        auto const& result = command.result();
 
         CHECK_EQ(result.simplices(),
                  manifold.simplices() + successful_23_moves -

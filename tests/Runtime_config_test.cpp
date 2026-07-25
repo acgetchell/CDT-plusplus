@@ -18,17 +18,15 @@ using namespace cdt;
 
 namespace
 {
-  auto test_make_triangulation(bool const spherical, bool const toroidal,
-                               long long const simplices,
-                               long long const timeslices,
-                               long long const dimensions,
-                               double const    initial_radius,
-                               double const    foliation_spacing)
-      -> runtime_config::Triangulation
+  auto test_make_triangulation(
+      bool const spherical, bool const toroidal, long long const simplices,
+      long long const timeslices, long long const dimensions,
+      double const initial_radius, double const foliation_spacing,
+      long long const threads = 1) -> runtime_config::Triangulation
   {
     return runtime_config::make_triangulation(
         spherical, toroidal, simplices, timeslices, dimensions, initial_radius,
-        foliation_spacing);
+        foliation_spacing, cdt::RandomSeed{}, threads);
   }
 
   auto test_make_simulation(runtime_config::Triangulation const& triangulation,
@@ -44,9 +42,9 @@ namespace
 
 static_assert(!std::is_aggregate_v<runtime_config::Triangulation>);
 static_assert(!std::is_default_constructible_v<runtime_config::Triangulation>);
-static_assert(!std::is_constructible_v<
-              runtime_config::Triangulation, topology_type, Int_precision,
-              Int_precision, Int_precision, double, double>);
+static_assert(!std::is_constructible_v<runtime_config::Triangulation, Topology,
+                                       Int_precision, Int_precision,
+                                       Int_precision, double, double>);
 static_assert(!std::is_aggregate_v<runtime_config::Simulation>);
 static_assert(!std::is_default_constructible_v<runtime_config::Simulation>);
 static_assert(
@@ -66,13 +64,14 @@ SCENARIO("Runtime triangulation options parse into a validated value" *
 
       THEN("The narrowed value contains the supported configuration.")
       {
-        CHECK_EQ(config.topology(), topology_type::SPHERICAL);
+        CHECK_EQ(config.topology(), Topology::SPHERICAL);
         CHECK_EQ(config.simplices(), 64);
         CHECK_EQ(config.timeslices(), 3);
         CHECK_EQ(config.dimensions(), 3);
         CHECK_EQ(config.initial_radius(), 1.0);
         CHECK_EQ(config.foliation_spacing(), 1.0);
-        CHECK_EQ(config.seed(), 0);
+        CHECK_EQ(config.seed(), cdt::RandomSeed{});
+        CHECK_EQ(config.threads(), 1);
       }
     }
   }
@@ -167,6 +166,43 @@ SCENARIO("Runtime triangulation options parse into a validated value" *
       }
     }
   }
+
+  GIVEN("Raw Delaunay thread limits.")
+  {
+    WHEN("A nonpositive thread limit is supplied.")
+    {
+      THEN("The invalid resource limit is rejected before storage.")
+      {
+        CHECK_THROWS_WITH_AS(
+            test_make_triangulation(true, false, 64, 3, 3, 1.0, 1.0, 0),
+            "Thread count must be positive.", std::invalid_argument);
+        CHECK_THROWS_WITH_AS(
+            test_make_triangulation(true, false, 64, 3, 3, 1.0, 1.0, -1),
+            "Thread count must be positive.", std::invalid_argument);
+      }
+    }
+
+    WHEN("More than one thread is requested.")
+    {
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+      auto const config =
+          test_make_triangulation(true, false, 64, 3, 3, 1.0, 1.0, 4);
+
+      THEN("The parallel build retains the validated maximum.")
+      { CHECK_EQ(config.threads(), 4); }
+#else
+      THEN("The sequential build rejects unsupported parallelism.")
+      {
+        CHECK_THROWS_WITH_AS(
+            test_make_triangulation(true, false, 64, 3, 3, 1.0, 1.0, 4),
+            "This build supports only --threads 1; use the parallel preset for "
+            "larger values.",
+            std::invalid_argument);
+      }
+#endif
+    }
+  }
 }
 
 SCENARIO("Simulation options parse into a validated value" *
@@ -196,10 +232,10 @@ SCENARIO("Simulation options parse into a validated value" *
     WHEN("An explicit root seed is parsed with the triangulation options.")
     {
       auto const seeded_triangulation = runtime_config::make_triangulation(
-          true, false, 64, 3, 3, 1.0, 1.0, cdt::Random_seed{92});
+          true, false, 64, 3, 3, 1.0, 1.0, cdt::RandomSeed{92});
 
       THEN("The effective seed is retained by validated configuration.")
-      { CHECK_EQ(seeded_triangulation.seed(), 92); }
+      { CHECK_EQ(seeded_triangulation.seed(), cdt::RandomSeed{92}); }
     }
     WHEN("Alpha is outside its physical domain.")
     {

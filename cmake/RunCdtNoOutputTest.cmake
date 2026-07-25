@@ -29,15 +29,24 @@ execute_process(
 if(NOT help_result EQUAL 0)
   message(FATAL_ERROR "cdt --help failed:\n${help_output}\n${help_error}")
 endif()
-if(NOT help_output MATCHES "--no-output" OR NOT help_output MATCHES "--seed")
-  message(FATAL_ERROR "cdt --help does not document --no-output and --seed")
+if(NOT help_output MATCHES "--no-output" OR NOT help_output MATCHES "--seed"
+   OR NOT help_output MATCHES "--threads")
+  message(
+    FATAL_ERROR
+      "cdt --help does not document --no-output, --seed, and --threads")
+endif()
+
+if(NOT DEFINED TEST_THREADS)
+  set(TEST_THREADS 1)
 endif()
 
 file(REMOVE_RECURSE "${normalized_test_directory}")
 file(MAKE_DIRECTORY "${normalized_test_directory}")
 
 execute_process(
-  COMMAND "${CDT_EXECUTABLE}" -s -n64 -t3 -a0.6 -k1.1 -l0.1 -p1 -c1 --no-output --seed 92
+  COMMAND
+    "${CDT_EXECUTABLE}" -s -n64 -t3 -a0.6 -k1.1 -l0.1 -p1 -c1
+    --no-output --seed 92 --threads "${TEST_THREADS}"
   WORKING_DIRECTORY "${normalized_test_directory}"
   RESULT_VARIABLE run_result
   OUTPUT_VARIABLE run_output
@@ -50,6 +59,11 @@ if(run_output MATCHES "Writing to file" OR run_error MATCHES "Writing to file")
 endif()
 if(NOT run_output MATCHES "Effective random seed: 92")
   message(FATAL_ERROR "cdt did not report the requested effective seed:\n${run_output}")
+endif()
+if(NOT run_output MATCHES "Maximum Delaunay threads: ${TEST_THREADS}[\r\n]")
+  message(
+    FATAL_ERROR
+      "cdt did not report the requested thread limit:\n${run_output}")
 endif()
 
 file(GLOB_RECURSE generated_files LIST_DIRECTORIES false "${normalized_test_directory}/*")

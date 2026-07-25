@@ -26,7 +26,7 @@ namespace fmt
   struct formatter<CGAL::Point_3<Kernel>>
   {
     // Format specification handling - keeping it simple for now
-    auto constexpr parse(format_parse_context& ctx) -> decltype(ctx.begin())
+    constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin())
     { return ctx.begin(); }
 
     // Format the point as a string with coordinates

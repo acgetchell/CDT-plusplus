@@ -33,9 +33,20 @@ if [[ "${1:-}" == "--codeql" ]]; then
   exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/codeql-build.sh" "$@"
 fi
 
+if [[ "${1:-}" == "--preset" ]]; then
+  if [[ "$#" -ne 2 ]] || [[ "$2" != "reference" && "$2" != "parallel" ]]; then
+    printf 'Usage: %s [--preset reference|parallel] [--codeql prepare|build]\n' \
+      "$0" >&2
+    exit 2
+  fi
+  preset="$2"
+  exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/build.sh" "${preset}"
+fi
+
 if [[ "$#" -ne 0 ]]; then
-  printf 'Usage: %s [--codeql prepare|build]\n' "$0" >&2
+  printf 'Usage: %s [--preset reference|parallel] [--codeql prepare|build]\n' \
+    "$0" >&2
   exit 2
 fi
 
-exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/build.sh"
+exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/build.sh" reference

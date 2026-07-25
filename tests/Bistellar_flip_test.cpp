@@ -28,9 +28,9 @@ using namespace ergodic_moves::detail;
 namespace
 {
   // Constants for testing
-  static inline std::floating_point auto constexpr SQRT_2 =
+  static inline constexpr std::floating_point auto SQRT_2 =
       std::numbers::sqrt2_v<double>;
-  static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
+  static inline constexpr std::floating_point auto INV_SQRT_2 = 1 / SQRT_2;
 
   // Helper function to create a triangulation for testing
   auto create_test_triangulation() -> Delaunay
@@ -213,35 +213,19 @@ SCENARIO("Verify cell orientation and vertex ordering after bistellar flip" *
 
       THEN("All cells have correct orientation")
       {
-        // CGAL's is_valid() checks for proper orientation
-        // FoliatedTriangulation doesn't have is_valid() method
-        // Validity will be checked through the Manifold_3 below
+        CHECK(flipped_triangulation->is_valid());
+        CHECK(flipped_triangulation->tds().is_valid());
 
-        AND_THEN("Vertex ordering is consistent")
+        AND_THEN("Every finite cell has positive orientation")
         {
-          bool consistent_ordering = true;
           for (auto cit = flipped_triangulation->finite_cells_begin();
                cit != flipped_triangulation->finite_cells_end(); ++cit)
           {
-            // CGAL ensures that vertices are ordered so that the orientation is
-            // positive This is implicitly checked by is_valid(), but we can
-            // verify the determinant is positive
-            auto v0 = cit->vertex(0)->point();
-            auto v1 = cit->vertex(1)->point();
-            auto v2 = cit->vertex(2)->point();
-            auto v3 = cit->vertex(3)->point();
-
-            // Orientation is checked by CGAL's is_valid, so we don't need to
-            // manually calculate it Just check that each vertex is unique
-            if (v0 == v1 || v0 == v2 || v0 == v3 || v1 == v2 || v1 == v3 ||
-                v2 == v3)
-            {
-              consistent_ordering = false;
-              break;
-            }
+            CHECK_EQ(CGAL::orientation(
+                         cit->vertex(0)->point(), cit->vertex(1)->point(),
+                         cit->vertex(2)->point(), cit->vertex(3)->point()),
+                     CGAL::POSITIVE);
           }
-
-          CHECK(consistent_ordering);
         }
       }
     }
@@ -269,12 +253,14 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
       invalid_edge.second = 0;
       invalid_edge.third  = 1;
 
+      auto const original = triangulation;
       auto result = bistellar_flip(triangulation, invalid_edge, top, bottom);
 
-      THEN("The bistellar flip should fail")
+      THEN("The bistellar flip should fail without changing the source")
       {
         CHECK_FALSE(result.has_value());
         CHECK(triangulation.is_valid());
+        CHECK_EQ(triangulation, original);
       }
     }
 
@@ -302,33 +288,47 @@ SCENARIO("Test edge cases and error conditions for bistellar flip" *
 
     WHEN("We provide null vertex handles")
     {
-      auto result =
+      auto const original = triangulation;
+      auto       result =
           bistellar_flip(triangulation, pivot_edge.value(), nullptr, bottom);
 
-      THEN("The bistellar flip should fail")
-      { CHECK_FALSE(result.has_value()); }
+      THEN("The top-handle failure should not change the source")
+      {
+        CHECK_FALSE(result.has_value());
+        CHECK_EQ(triangulation, original);
+      }
 
       auto result2 =
           bistellar_flip(triangulation, pivot_edge.value(), top, nullptr);
 
-      THEN("The bistellar flip should fail")
-      { CHECK_FALSE(result2.has_value()); }
+      THEN("The bottom-handle failure should not change the source")
+      {
+        CHECK_FALSE(result2.has_value());
+        CHECK_EQ(triangulation, original);
+      }
     }
 
     WHEN("We provide infinite vertices")
     {
-      auto infinite_vertex = triangulation.infinite_vertex();
-      auto result          = bistellar_flip(triangulation, pivot_edge.value(),
-                                            infinite_vertex, bottom);
+      auto const original        = triangulation;
+      auto       infinite_vertex = triangulation.infinite_vertex();
+      auto       result = bistellar_flip(triangulation, pivot_edge.value(),
+                                         infinite_vertex, bottom);
 
-      THEN("The bistellar flip should fail")
-      { CHECK_FALSE(result.has_value()); }
+      THEN("The top-vertex failure should not change the source")
+      {
+        CHECK_FALSE(result.has_value());
+        CHECK_EQ(triangulation, original);
+      }
 
       auto result2 = bistellar_flip(triangulation, pivot_edge.value(), top,
                                     infinite_vertex);
 
-      THEN("The bistellar flip should fail")
-      { CHECK_FALSE(result2.has_value()); }
+      THEN("The bottom-vertex failure should not change the source")
+      {
+        CHECK_FALSE(result2.has_value());
+        CHECK_EQ(triangulation, original);
+      }
     }
   }
 }

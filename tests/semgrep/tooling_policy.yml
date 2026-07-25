@@ -1,0 +1,34 @@
+---
+name: Toolchain policy fixtures
+jobs:
+  direct-action:
+    runs-on: ubuntu-latest
+    steps:
+      # ruleid: cdt.tooling.pkgx-first-toolchain
+      - uses: lukka/get-cmake@0123456789abcdef
+
+  direct-package-manager:
+    runs-on: ubuntu-latest
+    steps:
+      # ruleid: cdt.tooling.pkgx-first-toolchain
+      - run: brew install cmake ninja
+
+  non-windows-uv-tool-install:
+    runs-on: ubuntu-latest
+    steps:
+      # ruleid: cdt.tooling.pkgx-first-toolchain
+      - run: uv tool install --no-build "ninja==1.13.0"
+
+  pkgx-first:
+    runs-on: ubuntu-latest
+    steps:
+      # ok: cdt.tooling.pkgx-first-toolchain
+      - uses: pkgxdev/setup@0123456789abcdef
+        with:
+          +: cmake.org@4.4.0 ninja-build.org@1.13.2
+
+  documented-windows-fallback:
+    runs-on: windows-latest
+    steps:
+      # ok: cdt.tooling.pkgx-first-toolchain
+      - run: uv tool install --no-build "cmake==4.4.0"

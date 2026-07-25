@@ -49,9 +49,9 @@ namespace cdt
   /// @tparam ManifoldType The type of Manifold on which to apply the algorithm
   template <typename ManifoldType>
     requires(ManifoldType::dimension == 3)
-  class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
+  class MoveStrategy<MoveStrategyKind::METROPOLIS, ManifoldType>
   {
-    using Counter        = move_tracker::MoveTracker<ManifoldType>;
+    using Counter        = move_tracker::MoveTracker;
     using CommandResults = detail::MoveCommandResults<ManifoldType>;
 
     struct RunStatistics
@@ -77,15 +77,8 @@ namespace cdt
 
     using PassResult = detail::MovePassResult<ManifoldType, RunStatistics>;
 
-    /// @brief The length of the timelike edges
-    long double m_Alpha{};
-
-    /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$.
-    long double m_K{};
-
-    /// @brief \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
-    /// the cosmological constant
-    long double m_Lambda{};
+    /// @brief Validated physical parameters used by every action evaluation
+    s3_action::PhysicalParameters m_parameters;
 
     /// @brief Positive pass and checkpoint cadence
     MoveRunCadence m_cadence;
@@ -110,7 +103,7 @@ namespace cdt
     Int_precision m_checkpoint_events{};
 
     static void   record_transition(
-        RunStatistics& statistics, move_tracker::move_type const move,
+        RunStatistics& statistics, move_tracker::MoveType const move,
         ergodic_moves::MoveOutcome const outcome) noexcept
     {
       auto const append = [&statistics](std::uint8_t const value) {
@@ -123,30 +116,25 @@ namespace cdt
     }
 
    public:
-    /// @brief Construct a default strategy on the named transition stream.
-    MoveStrategy()
-    {
-      m_reproducibility.seed              = m_generator.seed();
-      m_reproducibility.transition_stream = m_generator.stream();
-    }
+    MoveStrategy() = delete;
 
     /// @brief Metropolis function object constructor
     /// @details Setup of runtime job parameters.
-    /// @param Alpha \f$\alpha\f$ is the timelike edge length.
-    /// @param K \f$k=\frac{1}{8\pi G_{Newton}}\f$
-    /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+    /// @param alpha \f$\alpha\f$ is the timelike edge length.
+    /// @param k \f$k=\frac{1}{8\pi G_{Newton}}\f$
+    /// @param lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
     /// Cosmological constant.
     /// @param passes Number of passes of ergodic moves on triangulation.
     /// @param checkpoint Print/write output for every n=checkpoint passes.
     /// @param write_files Whether checkpoints may write triangulation files.
-    [[maybe_unused]] MoveStrategy(long double const Alpha, long double const K,
-                                  long double const   Lambda,
+    [[maybe_unused]] MoveStrategy(long double const alpha, long double const k,
+                                  long double const   lambda,
                                   Int_precision const passes,
                                   Int_precision const checkpoint,
                                   bool const          write_files = true)
-        : MoveStrategy{Alpha,
-                       K,
-                       Lambda,
+        : MoveStrategy{alpha,
+                       k,
+                       lambda,
                        passes,
                        checkpoint,
                        write_files,
@@ -158,34 +146,30 @@ namespace cdt
     /// derived from the actual constructor arguments. Caller metadata supplies
     /// initialization and requested-state context only.
     [[maybe_unused]] MoveStrategy(
-        long double const Alpha, long double const K, long double const Lambda,
+        long double const alpha, long double const k, long double const lambda,
         Int_precision const passes, Int_precision const checkpoint,
         bool const write_files, cdt::Random random,
         std::optional<utilities::Reproducibility_metadata> reproducibility =
             std::nullopt)
-        : m_cadence{
-              detail::parse_move_run_cadence(passes, checkpoint, "Metropolis")}
+        : m_parameters{s3_action::make_physical_parameters(alpha, k, lambda)}
+        , m_cadence{detail::parse_move_run_cadence(passes, checkpoint,
+                                                   "Metropolis")}
         , m_write_files{write_files}
         , m_generator{std::move(random)}
         , m_reproducibility{
               reproducibility.value_or(utilities::Reproducibility_metadata{
                   .seed                = m_generator.seed(),
-                  .alpha               = Alpha,
-                  .k                   = K,
-                  .lambda              = Lambda,
+                  .alpha               = alpha,
+                  .k                   = k,
+                  .lambda              = lambda,
                   .configured_passes   = passes,
                   .checkpoint_interval = checkpoint})}
     {
-      auto const parameters =
-          s3_action::make_physical_parameters(Alpha, K, Lambda);
-      m_Alpha                               = parameters.alpha;
-      m_K                                   = parameters.k;
-      m_Lambda                              = parameters.lambda;
       m_reproducibility.seed                = m_generator.seed();
       m_reproducibility.transition_stream   = m_generator.stream();
-      m_reproducibility.alpha               = m_Alpha;
-      m_reproducibility.k                   = m_K;
-      m_reproducibility.lambda              = m_Lambda;
+      m_reproducibility.alpha               = m_parameters.alpha();
+      m_reproducibility.k                   = m_parameters.k();
+      m_reproducibility.lambda              = m_parameters.lambda();
       m_reproducibility.configured_passes   = m_cadence.passes();
       m_reproducibility.checkpoint_interval = m_cadence.checkpoint();
 #ifndef NDEBUG
@@ -194,14 +178,14 @@ namespace cdt
     }
 
     /// @brief Construct a replayable run with an explicit RNG seed.
-    MoveStrategy(long double const Alpha, long double const K,
-                 long double const Lambda, Int_precision const passes,
+    MoveStrategy(long double const alpha, long double const k,
+                 long double const lambda, Int_precision const passes,
                  Int_precision const checkpoint, bool const write_files,
-                 std::uint64_t const seed)
+                 cdt::RandomSeed const seed)
         : MoveStrategy{
-              Alpha,
-              K,
-              Lambda,
+              alpha,
+              k,
+              lambda,
               passes,
               checkpoint,
               write_files,
@@ -210,13 +194,13 @@ namespace cdt
     {}
 
     /// @returns The length of the timelike edge
-    [[nodiscard]] auto Alpha() const noexcept { return m_Alpha; }
+    [[nodiscard]] auto alpha() const noexcept { return m_parameters.alpha(); }
 
     /// @returns The normalized Newton's constant
-    [[nodiscard]] auto K() const noexcept { return m_K; }
+    [[nodiscard]] auto k() const noexcept { return m_parameters.k(); }
 
     /// @returns The normalized Cosmological constant
-    [[nodiscard]] auto Lambda() const noexcept { return m_Lambda; }
+    [[nodiscard]] auto lambda() const noexcept { return m_parameters.lambda(); }
 
     /// @returns The number of passes to make
     [[nodiscard]] auto passes() const noexcept { return m_cadence.passes(); }
@@ -249,7 +233,7 @@ namespace cdt
 
     /// @brief Materialize output provenance for the supplied canonical state.
     [[nodiscard]] auto reproducibility_metadata(
-        ManifoldType const& manifold, utilities::Artifact_kind const artifact,
+        ManifoldType const& manifold, utilities::ArtifactKind const artifact,
         Int_precision const completed_passes) const
         -> utilities::Reproducibility_metadata
     {
@@ -258,33 +242,40 @@ namespace cdt
     }
 
     /// @returns The container of trial moves
-    auto get_proposed() const { return m_run_statistics.proposed; }
+    [[nodiscard]] auto proposed() const noexcept -> Counter const&
+    { return m_run_statistics.proposed; }
 
     /// @returns The container of accepted moves
-    auto get_accepted() const { return m_run_statistics.accepted; }
+    [[nodiscard]] auto accepted() const noexcept -> Counter const&
+    { return m_run_statistics.accepted; }
 
     /// @returns The container of rejected moves
-    auto get_rejected() const { return m_run_statistics.rejected; }
+    [[nodiscard]] auto rejected() const noexcept -> Counter const&
+    { return m_run_statistics.rejected; }
 
     /// @returns The container of attempted moves
-    auto get_attempted() const { return m_command_results.attempted; }
+    [[nodiscard]] auto attempted() const noexcept -> Counter const&
+    { return m_command_results.attempted; }
 
     /// @returns The container of successful moves
-    auto get_succeeded() const { return m_command_results.succeeded; }
+    [[nodiscard]] auto succeeded() const noexcept -> Counter const&
+    { return m_command_results.succeeded; }
 
     /// @returns The container of failed moves
-    auto get_failed() const { return m_command_results.failed; }
+    [[nodiscard]] auto failed() const noexcept -> Counter const&
+    { return m_command_results.failed; }
 
     /// @returns The geometry used by the most recent acceptance decision
-    [[nodiscard]] auto get_geometry() const noexcept
+    [[nodiscard]] auto geometry() const noexcept
         -> Geometry<ManifoldType::dimension> const&
     { return m_run_statistics.geometry; }
 
     /// @returns The inverse Pachner move
-    [[nodiscard]] static auto constexpr reverse_move(
-        move_tracker::move_type const move) noexcept -> move_tracker::move_type
+    [[nodiscard]] static constexpr auto reverse_move(
+        move_tracker::MoveType const move) noexcept
+        -> std::optional<move_tracker::MoveType>
     {
-      using enum move_tracker::move_type;
+      using enum move_tracker::MoveType;
       switch (move)
       {
         case TWO_THREE: return THREE_TWO;
@@ -293,15 +284,15 @@ namespace cdt
         case SIX_TWO: return TWO_SIX;
         case FOUR_FOUR: return FOUR_FOUR;
       }
-      return FOUR_FOUR;
+      return std::nullopt;
     }
 
     /// @returns The number of raw sites from which a move type is proposed
-    [[nodiscard]] static auto constexpr proposal_site_count(
+    [[nodiscard]] static constexpr auto proposal_site_count(
         Geometry<ManifoldType::dimension> const& geometry,
-        move_tracker::move_type const            move) noexcept -> Int_precision
+        move_tracker::MoveType const             move) noexcept -> Int_precision
     {
-      using enum move_tracker::move_type;
+      using enum move_tracker::MoveType;
       switch (move)
       {
         case TWO_THREE: return geometry.N3_22;
@@ -319,7 +310,7 @@ namespace cdt
     /// self-transitions.
     [[nodiscard]] static auto proposal_probability(
         Geometry<ManifoldType::dimension> const& geometry,
-        move_tracker::move_type const            move) -> mpfr_values::Value
+        move_tracker::MoveType const             move) -> mpfr_values::Value
     {
       auto const sites = proposal_site_count(geometry, move);
       if (sites <= 0) { return mpfr_values::zero(); }
@@ -333,13 +324,18 @@ namespace cdt
     /// @brief Calculate the Hastings reverse-to-forward proposal ratio
     /// @see [Metropolis-Hastings
     /// algorithm](../REFERENCES.md#metropolis-hastings-algorithm)
-    [[nodiscard]] static auto CalculateA1(
+    [[nodiscard]] static auto hastings_ratio(
         Geometry<ManifoldType::dimension> const& current,
         Geometry<ManifoldType::dimension> const& proposed,
-        move_tracker::move_type const            move) -> mpfr_values::Value
+        move_tracker::MoveType const             move) -> mpfr_values::Value
     {
-      auto const forward = proposal_probability(current, move);
-      auto const reverse = proposal_probability(proposed, reverse_move(move));
+      auto const forward      = proposal_probability(current, move);
+      auto const reverse_type = reverse_move(move);
+      if (!reverse_type)
+      {
+        throw std::invalid_argument{"Cannot reverse an unknown move type."};
+      }
+      auto const reverse = proposal_probability(proposed, *reverse_type);
       if (mpfr_zero_p(forward.fr()) != 0 || mpfr_zero_p(reverse.fr()) != 0)
       {
         throw std::logic_error(
@@ -351,17 +347,15 @@ namespace cdt
     /// @brief Calculate the action factor \f$e^{S(T)-S(T')}\f$
     /// @see [Three-dimensional CDT
     /// action](../REFERENCES.md#three-dimensional-cdt-2001)
-    [[nodiscard]] auto CalculateA2(
+    [[nodiscard]] auto action_ratio(
         Geometry<ManifoldType::dimension> const& current,
         Geometry<ManifoldType::dimension> const& proposed) const
         -> mpfr_values::Value
     {
-      auto const current_action =
-          s3_action::S3_bulk_action(current.N1_TL, current.N3_31_13,
-                                    current.N3_22, m_Alpha, m_K, m_Lambda);
-      auto const proposed_action =
-          s3_action::S3_bulk_action(proposed.N1_TL, proposed.N3_31_13,
-                                    proposed.N3_22, m_Alpha, m_K, m_Lambda);
+      auto const current_action = s3_action::s3_bulk_action(
+          current.N1_TL, current.N3_31_13, current.N3_22, m_parameters);
+      auto const proposed_action = s3_action::s3_bulk_action(
+          proposed.N1_TL, proposed.N3_31_13, proposed.N3_22, m_parameters);
       return mpfr_values::exponential(
           mpfr_values::subtract(current_action, proposed_action));
     }
@@ -370,20 +364,21 @@ namespace cdt
     [[nodiscard]] auto acceptance_probability(
         Geometry<ManifoldType::dimension> const& current,
         Geometry<ManifoldType::dimension> const& proposed,
-        move_tracker::move_type const move) const -> mpfr_values::Value
+        move_tracker::MoveType const move) const -> mpfr_values::Value
     {
-      auto const ratio = mpfr_values::multiply(
-          CalculateA1(current, proposed, move), CalculateA2(current, proposed));
+      auto const ratio =
+          mpfr_values::multiply(hastings_ratio(current, proposed, move),
+                                action_ratio(current, proposed));
       auto const one = mpfr_values::from_integer(1);
       return mpfr_cmp(ratio.fr(), one.fr()) < 0 ? ratio : one;
     }
 
    private:
-    [[nodiscard]] auto propose_candidate(ManifoldType const&           current,
-                                         move_tracker::move_type const move)
+    [[nodiscard]] auto propose_candidate(ManifoldType const&          current,
+                                         move_tracker::MoveType const move)
         -> ergodic_moves::MoveResult<ManifoldType>
     {
-      using enum move_tracker::move_type;
+      using enum move_tracker::MoveType;
       switch (move)
       {
         case TWO_THREE:
@@ -405,7 +400,7 @@ namespace cdt
     }
 
     [[nodiscard]] auto make_reproducibility_metadata(
-        ManifoldType const& manifold, utilities::Artifact_kind const artifact,
+        ManifoldType const& manifold, utilities::ArtifactKind const artifact,
         Int_precision const  completed_passes,
         RunStatistics const& statistics) const
         -> utilities::Reproducibility_metadata
@@ -427,11 +422,11 @@ namespace cdt
       return metadata;
     }
 
-    auto attempt_transition(ManifoldType&                 current,
-                            CommandResults&               command_results,
-                            RunStatistics&                statistics,
-                            move_tracker::move_type const move,
-                            long double const             trial_value) -> bool
+    auto attempt_transition(ManifoldType&                current,
+                            CommandResults&              command_results,
+                            RunStatistics&               statistics,
+                            move_tracker::MoveType const move,
+                            long double const            trial_value) -> bool
     {
       if (!std::isfinite(trial_value) || trial_value < 0.0L ||
           trial_value > 1.0L)
@@ -439,7 +434,7 @@ namespace cdt
         throw std::invalid_argument("MH trial value must lie in [0, 1].");
       }
 
-      statistics.geometry = current.get_geometry();
+      statistics.geometry = current.geometry();
       ++statistics.proposed[move];
       ++command_results.attempted[move];
 
@@ -463,11 +458,11 @@ namespace cdt
 
       ++command_results.succeeded[move];
       auto const probability = acceptance_probability(
-          statistics.geometry, candidate->get_geometry(), move);
+          statistics.geometry, candidate->geometry(), move);
       if (mpfr_cmp_ld(probability.fr(), trial_value) >= 0)
       {
         swap(*candidate, current);
-        statistics.geometry = current.get_geometry();
+        statistics.geometry = current.geometry();
         ++statistics.accepted[move];
         record_transition(statistics, move,
                           ergodic_moves::MoveOutcome::METROPOLIS_ACCEPTED);
@@ -571,9 +566,9 @@ namespace cdt
     /// @param move Uniformly selected move type
     /// @param trial_value Uniform draw in [0,1], injectable for focused tests
     /// @returns True only when a valid candidate is accepted and committed
-    auto attempt_transition(ManifoldType&                 current,
-                            move_tracker::move_type const move,
-                            long double const             trial_value) -> bool
+    [[nodiscard]] auto attempt_transition(ManifoldType&                current,
+                                          move_tracker::MoveType const move,
+                                          long double const trial_value) -> bool
     {
       return attempt_transition(current, m_command_results, m_run_statistics,
                                 move, trial_value);
@@ -581,19 +576,20 @@ namespace cdt
 
     /// @brief Initialize the cached action geometry from the canonical manifold
     void initialize(ManifoldType const& manifold)
-    { m_run_statistics.geometry = manifold.get_geometry(); }
+    { m_run_statistics.geometry = manifold.geometry(); }
 
     /// @brief Execute a fresh run while continuing the owned random stream.
     /// @details Counters, transition statistics, and checkpoint events are
     /// replaced only after the invocation completes.
-    auto operator()(ManifoldType const& t_manifold) -> ManifoldType
+    [[nodiscard]] auto operator()(ManifoldType const& t_manifold)
+        -> ManifoldType
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
 
       auto initial_statistics     = RunStatistics{};
-      initial_statistics.geometry = t_manifold.get_geometry();
+      initial_statistics.geometry = t_manifold.geometry();
       auto result                 = detail::execute_move_run(
           t_manifold, std::move(initial_statistics), m_cadence,
           detail::MoveRunIdentity{.algorithm = "Metropolis-Hastings",
@@ -614,7 +610,7 @@ namespace cdt
                  Int_precision const  pass_number) {
             utilities::write_file(
                 current, make_reproducibility_metadata(
-                             current, utilities::Artifact_kind::CHECKPOINT,
+                             current, utilities::ArtifactKind::CHECKPOINT,
                              pass_number, statistics));
           });
 
@@ -630,7 +626,7 @@ namespace cdt
   };  // Metropolis
 
   using Metropolis_3 =
-      MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold_3>;
+      MoveStrategy<MoveStrategyKind::METROPOLIS, manifolds::Manifold_3>;
 }  // namespace cdt
 
 #endif  // INCLUDE_METROPOLIS_HPP_

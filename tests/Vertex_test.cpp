@@ -20,7 +20,7 @@
 using namespace cdt;
 using namespace manifolds;
 
-static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline constexpr auto RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 namespace
 {

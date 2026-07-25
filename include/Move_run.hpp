@@ -74,10 +74,10 @@ namespace cdt
     }
 
     /// @returns The positive number of passes in a run.
-    [[nodiscard]] auto constexpr passes() const noexcept { return m_passes; }
+    [[nodiscard]] constexpr auto passes() const noexcept { return m_passes; }
 
     /// @returns The positive number of passes between checkpoint events.
-    [[nodiscard]] auto constexpr checkpoint() const noexcept
+    [[nodiscard]] constexpr auto checkpoint() const noexcept
     { return m_checkpoint; }
   };
 
@@ -109,7 +109,7 @@ namespace cdt
       requires(ManifoldType::dimension == 3)
     struct MoveCommandResults
     {
-      using Counter = move_tracker::MoveTracker<ManifoldType>;
+      using Counter = move_tracker::MoveTracker;
 
       Counter attempted;
       Counter succeeded;
@@ -134,10 +134,9 @@ namespace cdt
     [[nodiscard]] auto consume_command_results(Command& command)
         -> MoveCommandResults<ManifoldType>
     {
-      MoveCommandResults<ManifoldType> result{
-          .attempted = command.get_attempted(),
-          .succeeded = command.get_succeeded(),
-          .failed    = command.get_failed()};
+      MoveCommandResults<ManifoldType> result{.attempted = command.attempted(),
+                                              .succeeded = command.succeeded(),
+                                              .failed    = command.failed()};
       command.reset_counters();
       return result;
     }
@@ -164,9 +163,9 @@ namespace cdt
     /// @brief Stable identity displayed by the effectful run shell.
     struct MoveRunIdentity
     {
-      std::string_view   algorithm;
-      cdt::Random_seed   seed;
-      cdt::Random_stream stream;
+      std::string_view  algorithm;
+      cdt::RandomSeed   seed;
+      cdt::RandomStream stream;
     };
 
     /// @brief Execute shared pass, accounting, checkpoint, and report cadence.

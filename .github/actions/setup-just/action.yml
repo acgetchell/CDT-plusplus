@@ -36,6 +36,6 @@ runs:
         echo "version=$version" >> "$GITHUB_OUTPUT"
 
     - name: Install Just
-      uses: taiki-e/install-action@43aecc8d72668fbcfe75c31400bc4f890f1c5853  # v2.83.2
+      uses: taiki-e/install-action@7572810d7dd469b651bb7793945692cf78da5dd7  # v2.85.0
       with:
         tool: just@${{ steps.resolve.outputs.version }}

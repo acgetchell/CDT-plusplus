@@ -129,7 +129,7 @@ namespace
     return result;
   }
 
-  [[nodiscard]] auto independent_cell_type(Cell_handle const cell) -> Cell_type
+  [[nodiscard]] auto independent_cell_type(Cell_handle const cell) -> CellType
   {
     std::array<Int_precision, 4> times{};
     for (int index = 0; index < 4; ++index)
@@ -137,13 +137,13 @@ namespace
       times.at(static_cast<std::size_t>(index)) = cell->vertex(index)->info();
     }
     auto const [minimum, maximum] = std::ranges::minmax(times);
-    if (maximum - minimum != 1) { return Cell_type::ACAUSAL; }
+    if (maximum - minimum != 1) { return CellType::ACAUSAL; }
 
     auto const lower_count = std::ranges::count(times, minimum);
-    if (lower_count == 3) { return Cell_type::THREE_ONE; }
-    if (lower_count == 2) { return Cell_type::TWO_TWO; }
-    if (lower_count == 1) { return Cell_type::ONE_THREE; }
-    return Cell_type::UNCLASSIFIED;
+    if (lower_count == 3) { return CellType::THREE_ONE; }
+    if (lower_count == 2) { return CellType::TWO_TWO; }
+    if (lower_count == 1) { return CellType::ONE_THREE; }
+    return CellType::UNCLASSIFIED;
   }
 
   void assign_independent_cell_metadata(Delaunay& triangulation)
@@ -182,11 +182,11 @@ namespace
     {
       switch (independent_cell_type(cell))
       {
-        case Cell_type::THREE_ONE: ++result.n3_31; break;
-        case Cell_type::TWO_TWO: ++result.n3_22; break;
-        case Cell_type::ONE_THREE: ++result.n3_13; break;
-        case Cell_type::ACAUSAL:
-        case Cell_type::UNCLASSIFIED: break;
+        case CellType::THREE_ONE: ++result.n3_31; break;
+        case CellType::TWO_TWO: ++result.n3_22; break;
+        case CellType::ONE_THREE: ++result.n3_13; break;
+        case CellType::ACAUSAL:
+        case CellType::UNCLASSIFIED: break;
       }
     }
     return result;
@@ -403,8 +403,8 @@ namespace
       Cell_handle const cell_handle = cell;
       auto const        type        = independent_cell_type(cell);
       CHECK(triangulation.tds().is_cell(cell_handle));
-      CHECK((type == Cell_type::THREE_ONE || type == Cell_type::TWO_TWO ||
-             type == Cell_type::ONE_THREE));
+      CHECK((type == CellType::THREE_ONE || type == CellType::TWO_TWO ||
+             type == CellType::ONE_THREE));
       CHECK_EQ(cell->info(), static_cast<Int_precision>(type));
       ++classified_cell_count;
       for (int index = 0; index < 4; ++index)
@@ -436,8 +436,8 @@ namespace
 
   [[nodiscard]] auto make_23_fixture() -> Manifold
   {
-    static auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
-    static auto constexpr sqrt_2   = std::numbers::sqrt2_v<double>;
+    static constexpr auto   radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    static constexpr auto   sqrt_2   = std::numbers::sqrt2_v<double>;
     std::vector<Point_t<3>> vertices{
         {       1,        0,        0},
         {       0,        1,        0},
@@ -451,7 +451,7 @@ namespace
 
   [[nodiscard]] auto make_26_fixture() -> Manifold
   {
-    static auto constexpr radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+    static constexpr auto   radius_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
     std::vector<Point_t<3>> vertices{
         {       0,        0,        0},
         {       1,        0,        0},
@@ -465,7 +465,7 @@ namespace
 
   [[nodiscard]] auto make_44_fixture() -> Manifold
   {
-    static auto constexpr inverse_sqrt_2 = 1.0 / std::numbers::sqrt2_v<double>;
+    static constexpr auto inverse_sqrt_2 = 1.0 / std::numbers::sqrt2_v<double>;
     std::vector<Point_t<3>> vertices{
         {              0,               0,              0},
         { inverse_sqrt_2,               0, inverse_sqrt_2},
@@ -505,13 +505,13 @@ namespace
       if (first_time == second_time) { continue; }
       auto const cells = finite_incident_cells(triangulation, *edge);
       if (!cells || cells->size() != 3) { continue; }
-      auto const count = [&](Cell_type const type) {
+      auto const count = [&](CellType const type) {
         return std::ranges::count_if(*cells, [&](auto const cell) {
           return independent_cell_type(cell) == type;
         });
       };
-      if (count(Cell_type::TWO_TWO) == 2 &&
-          count(Cell_type::THREE_ONE) + count(Cell_type::ONE_THREE) == 1)
+      if (count(CellType::TWO_TWO) == 2 &&
+          count(CellType::THREE_ONE) + count(CellType::ONE_THREE) == 1)
       {
         return *edge;
       }
@@ -530,12 +530,12 @@ namespace
       if (first_time != second_time) { continue; }
       auto const cells = finite_incident_cells(triangulation, *edge);
       if (!cells || cells->size() != 4) { continue; }
-      auto const count = [&](Cell_type const type) {
+      auto const count = [&](CellType const type) {
         return std::ranges::count_if(*cells, [&](auto const cell) {
           return independent_cell_type(cell) == type;
         });
       };
-      if (count(Cell_type::THREE_ONE) == 2 && count(Cell_type::ONE_THREE) == 2)
+      if (count(CellType::THREE_ONE) == 2 && count(CellType::ONE_THREE) == 2)
       {
         return *edge;
       }
@@ -601,8 +601,8 @@ namespace
   }
 
   template <typename Result>
-  void check_stale_candidate(Result const&                 result,
-                             move_tracker::move_type const expected_move)
+  void check_stale_candidate(Result const&                result,
+                             move_tracker::MoveType const expected_move)
   {
     REQUIRE_FALSE(result.has_value());
     CHECK_EQ(result.error().reason(),
@@ -718,7 +718,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto triangulation = make_23_fixture().delaunay_snapshot();
     auto two_two       = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::TWO_TWO);
+        CellType::TWO_TWO);
     REQUIRE_EQ(two_two.size(), 1);
     REQUIRE(ergodic_moves::detail::try_23_move(triangulation, two_two.front()));
     assign_independent_cell_metadata(triangulation);
@@ -770,21 +770,21 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto const corrupt_metadata = [](Cell_handle const& cell) {
       auto const expected =
           foliated_triangulations::expected_cell_type<3>(cell);
-      cell->info() = static_cast<Int_precision>(expected == Cell_type::TWO_TWO
-                                                    ? Cell_type::THREE_ONE
-                                                    : Cell_type::TWO_TWO);
+      cell->info() = static_cast<Int_precision>(expected == CellType::TWO_TWO
+                                                    ? CellType::THREE_ONE
+                                                    : CellType::TWO_TWO);
     };
 
     auto move_23 = make_23_fixture().delaunay_snapshot();
     auto two_two = foliated_triangulations::filter_cells<3>(
-        foliated_triangulations::collect_cells<3>(move_23), Cell_type::TWO_TWO);
+        foliated_triangulations::collect_cells<3>(move_23), CellType::TWO_TWO);
     REQUIRE_EQ(two_two.size(), 1);
     corrupt_metadata(two_two.front());
     auto const before_23     = canonical_triangulation(move_23);
 
     auto       move_32       = make_23_fixture().delaunay_snapshot();
     auto       move_32_cells = foliated_triangulations::filter_cells<3>(
-        foliated_triangulations::collect_cells<3>(move_32), Cell_type::TWO_TWO);
+        foliated_triangulations::collect_cells<3>(move_32), CellType::TWO_TWO);
     REQUIRE_EQ(move_32_cells.size(), 1);
     REQUIRE(ergodic_moves::detail::try_23_move(move_32, move_32_cells.front()));
     assign_independent_cell_metadata(move_32);
@@ -798,7 +798,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto       move_26   = make_26_fixture().delaunay_snapshot();
     auto       one_three = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(move_26),
-        Cell_type::ONE_THREE);
+        CellType::ONE_THREE);
     REQUIRE_EQ(one_three.size(), 1);
     corrupt_metadata(one_three.front());
     auto const  before_26 = canonical_triangulation(move_26);
@@ -854,7 +854,7 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
     auto triangulation = make_23_fixture().delaunay_snapshot();
     auto two_two       = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::TWO_TWO);
+        CellType::TWO_TWO);
     REQUIRE_EQ(two_two.size(), 1);
     two_two.front()->vertex(0)->info() += 3;
     assign_independent_cell_metadata(triangulation);
@@ -1055,17 +1055,26 @@ TEST_CASE("Seeded CDT move replay preserves invariants and inverse structure" *
   }
 }
 
-TEST_CASE("Move validation rejects exact configuration-state drift" *
-          doctest::test_suite("ergodic-audit"))
+SCENARIO("Move validation rejects exact configuration-state drift" *
+         doctest::test_suite("ergodic-audit"))
 {
-  auto const before = make_44_fixture();
-  auto const after  = Manifold{
-      foliated_triangulations::FoliatedTriangulation_3{
-                                                       before.delaunay_snapshot(), -0.0, before.foliation_spacing()}
-  };
-  REQUIRE(after.is_correct());
-  CHECK_FALSE(ergodic_moves::detail::check_move(
-      before, after, move_tracker::move_type::FOUR_FOUR));
+  GIVEN("Two valid manifolds that differ in exact configuration state")
+  {
+    auto const before = make_44_fixture();
+    auto const after  = Manifold{
+        foliated_triangulations::FoliatedTriangulation_3{
+                                                         before.delaunay_snapshot(), -0.0, before.foliation_spacing()}
+    };
+    REQUIRE(after.is_correct());
+
+    WHEN("The candidate is checked as a four-four move")
+    {
+      auto const valid = ergodic_moves::detail::check_move(
+          before, after, move_tracker::MoveType::FOUR_FOUR);
+
+      THEN("The exact state mismatch is rejected") { CHECK_FALSE(valid); }
+    }
+  }
 }
 
 SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
@@ -1076,7 +1085,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
     auto triangulation = make_23_fixture().delaunay_snapshot();
     auto two_two       = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::TWO_TWO);
+        CellType::TWO_TWO);
     REQUIRE_EQ(two_two.size(), 1);
 
     auto const prepared = ergodic_moves::detail::prepare_two_three(
@@ -1100,7 +1109,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
       THEN(
           "the stable locator reports a stale proof instead of dereferencing a handle")
       {
-        check_stale_candidate(executed, move_tracker::move_type::TWO_THREE);
+        check_stale_candidate(executed, move_tracker::MoveType::TWO_THREE);
         CHECK_EQ(canonical_triangulation(triangulation), before);
       }
     }
@@ -1126,7 +1135,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
 
     THEN("execution reports the originating (3,2) move as stale")
     {
-      check_stale_candidate(executed, move_tracker::move_type::THREE_TWO);
+      check_stale_candidate(executed, move_tracker::MoveType::THREE_TWO);
       CHECK_EQ(canonical_triangulation(triangulation), before);
     }
   }
@@ -1136,7 +1145,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
     auto triangulation = make_26_fixture().delaunay_snapshot();
     auto one_three     = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::ONE_THREE);
+        CellType::ONE_THREE);
     REQUIRE_EQ(one_three.size(), 1);
     auto const prepared = ergodic_moves::detail::prepare_two_six(
         triangulation, one_three.front());
@@ -1149,7 +1158,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
 
     THEN("execution reports the originating (2,6) move as stale")
     {
-      check_stale_candidate(executed, move_tracker::move_type::TWO_SIX);
+      check_stale_candidate(executed, move_tracker::MoveType::TWO_SIX);
       CHECK_EQ(canonical_triangulation(triangulation), before);
     }
   }
@@ -1181,7 +1190,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
 
     THEN("execution reports the originating (6,2) move as stale")
     {
-      check_stale_candidate(executed, move_tracker::move_type::SIX_TWO);
+      check_stale_candidate(executed, move_tracker::MoveType::SIX_TWO);
       CHECK_EQ(canonical_triangulation(triangulation), before);
     }
   }
@@ -1202,7 +1211,7 @@ SCENARIO("Applicable moves carry validation evidence without CGAL handles" *
 
     THEN("execution reports the originating (4,4) move as stale")
     {
-      check_stale_candidate(executed, move_tracker::move_type::FOUR_FOUR);
+      check_stale_candidate(executed, move_tracker::MoveType::FOUR_FOUR);
       CHECK_EQ(canonical_triangulation(triangulation), before);
     }
   }

@@ -9,7 +9,7 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "${script_dir}/.." && pwd)"
 build_dir="${repo_root}/build"
 
-module load cmake/3.28.1
+module load cmake/4.4.0
 module load gcc/13.3.0
 module load autoconf-archive/2022.02.11
 rm -rf -- "${build_dir}"

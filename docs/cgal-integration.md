@@ -156,21 +156,23 @@ owner and pointer together. Returned snapshots are detached and operate
 sequentially unless a new owner explicitly attaches a compatible grid. The
 focused parallel test covers insertion, point/info association, copy, move,
 lock-zone refusal without mutation, range removal, wrapper transfer, and
-post-donor lifetime. Issue #88 owns scaling and any broader multithreaded
-simulation policy.
+post-donor lifetime. The complete supported execution, determinism,
+synchronization, sanitizer, stress, and scaling boundary is recorded in
+[Multithreaded CGAL contract](multithreading.md).
 
 ## Reproducible performance baseline
 
 The benchmark is diagnostic rather than a pass/fail test:
 
 ```console
-just benchmark-cgal 640 5 50
+just benchmark-cgal 640 5 50 1
 ```
 
-The arguments are requested simplices, repetitions, and queued moves per
-repetition. Input generation uses seed `102`. The report includes CGAL version,
-TDS mode, generated and surviving topology counts, a checksum, and
-minimum/median/maximum nanoseconds for:
+The arguments are requested simplices, measured repetitions, queued moves per
+repetition, and discarded warm-up repetitions. Input generation uses seed
+`102`. The report includes source, toolchain, platform, dependency, thread,
+fixture, and random-stream metadata; generated and surviving topology counts;
+a checksum; every raw sample; and minimum/median/maximum nanoseconds for:
 
 - bulk point/info insertion;
 - foliation repair;

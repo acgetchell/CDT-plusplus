@@ -20,7 +20,7 @@ using namespace cdt;
 using namespace std;
 using namespace foliated_triangulations;
 
-static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline constexpr auto RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
          doctest::test_suite("tetrahedron"))
@@ -90,8 +90,8 @@ SCENARIO("Find distances between points of the tetrahedron" *
     causal_vertices.emplace_back(v_4, 2);
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulation triangulation(causal_vertices);
-      squared_distance constexpr r_2;
+      FoliatedTriangulation      triangulation(causal_vertices);
+      constexpr squared_distance r_2;
       THEN("The triangulation is initialized correctly.")
       { REQUIRE(triangulation.is_initialized()); }
       THEN("The squared distances of vertices from origin are correct.")
@@ -168,7 +168,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
       {
         auto snapshot = triangulation.delaunay_snapshot();
         auto cell     = snapshot.finite_cells_begin();
-        CHECK_EQ(expected_cell_type<3>(cell), Cell_type::THREE_ONE);
+        CHECK_EQ(expected_cell_type<3>(cell), CellType::THREE_ONE);
       }
 
       THEN("There is one (3,1) simplex.")

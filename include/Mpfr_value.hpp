@@ -26,12 +26,12 @@ namespace cdt::mpfr_values
   /// Keeping one explicit policy at every arithmetic boundary prevents a
   /// caller from accidentally mixing directed roundings inside an action
   /// calculation.
-  inline auto constexpr rounding_mode = MPFR_RNDN;
+  inline constexpr auto rounding_mode = MPFR_RNDN;
 
   static_assert(std::is_nothrow_destructible_v<Value>,
                 "MPFR values must release their resources without throwing.");
 
-  inline auto constexpr precision =
+  inline constexpr auto precision =
       static_cast<Value::Precision_type>(PRECISION);
 
   [[nodiscard]] inline auto zero() -> Value { return Value{0, precision}; }

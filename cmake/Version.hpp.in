@@ -16,6 +16,7 @@
 namespace cdt
 {
 inline constexpr std::string_view VERSION{"@CDT_VERSION@"};
+inline constexpr std::string_view SOURCE_REVISION{"@CDT_SOURCE_REVISION@"};
 inline constexpr std::string_view BUILD_COMPILER_ID{"@CMAKE_CXX_COMPILER_ID@"};
 inline constexpr std::string_view BUILD_COMPILER_VERSION{
     "@CMAKE_CXX_COMPILER_VERSION@"};

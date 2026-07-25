@@ -3,6 +3,17 @@
 SETLOCAL ENABLEEXTENSIONS
 SET "SCRIPT_DIR=%~dp0"
 FOR %%I IN ("%SCRIPT_DIR%..") DO SET "REPO_ROOT=%%~fI"
+IF NOT "%~2"=="" GOTO PRESET_USAGE
+SET "PRESET=%~1"
+IF NOT DEFINED PRESET SET "PRESET=reference"
+IF /I "%PRESET%"=="reference" GOTO PRESET_READY
+IF /I "%PRESET%"=="parallel" GOTO PRESET_READY
+
+:PRESET_USAGE
+echo Usage: %~nx0 [reference^|parallel] 1>&2
+EXIT /B 2
+
+:PRESET_READY
 
 IF DEFINED CDT_VCPKG_CACHE_DIR (
   SET "PINNED_VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
@@ -25,15 +36,15 @@ python.exe "%SCRIPT_DIR%bootstrap_vcpkg.py" || EXIT /B 1
 SET "VCPKG_ROOT=%CDT_VCPKG_CACHE_DIR%"
 CD /D "%REPO_ROOT%" || EXIT /B 1
 CALL :PREPARE_CMAKE_CACHE || EXIT /B 1
-cmake --preset reference -S . || EXIT /B 1
-cmake --build --preset reference --parallel 2 || EXIT /B 1
-ctest --preset reference-smoke || EXIT /B 1
+cmake --preset "%PRESET%" -S . || EXIT /B 1
+cmake --build --preset "%PRESET%" --parallel 2 || EXIT /B 1
+ctest --preset "%PRESET%-smoke" || EXIT /B 1
 EXIT /B 0
 
 :PREPARE_CMAKE_CACHE
-SET "CMAKE_CACHE=%REPO_ROOT%\out\build\reference\CMakeCache.txt"
+SET "CMAKE_CACHE=%REPO_ROOT%\out\build\%PRESET%\CMakeCache.txt"
 SET "EXPECTED_TOOLCHAIN=%VCPKG_ROOT:\=/%/scripts/buildsystems/vcpkg.cmake"
-SET "EXPECTED_INSTALLED=%REPO_ROOT:\=/%/out/build/reference/vcpkg_installed"
+SET "EXPECTED_INSTALLED=%REPO_ROOT:\=/%/out/build/%PRESET%/vcpkg_installed"
 SET "CACHED_TOOLCHAIN="
 SET "CACHED_INSTALLED="
 IF EXIST "%CMAKE_CACHE%" FOR /F "tokens=1,* delims==" %%A IN ('FINDSTR /B /C:"CMAKE_TOOLCHAIN_FILE:" "%CMAKE_CACHE%"') DO SET "CACHED_TOOLCHAIN=%%B"
@@ -47,5 +58,5 @@ EXIT /B 0
 :REFRESH_CMAKE_CACHE
 ECHO vcpkg configuration changed; refreshing CMake configuration state. 1>&2
 DEL /F /Q "%CMAKE_CACHE%" || EXIT /B 1
-IF EXIST "%REPO_ROOT%\out\build\reference\CMakeFiles\." RMDIR /S /Q "%REPO_ROOT%\out\build\reference\CMakeFiles" || EXIT /B 1
+IF EXIST "%REPO_ROOT%\out\build\%PRESET%\CMakeFiles\." RMDIR /S /Q "%REPO_ROOT%\out\build\%PRESET%\CMakeFiles" || EXIT /B 1
 EXIT /B 0

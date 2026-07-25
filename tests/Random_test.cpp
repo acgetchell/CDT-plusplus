@@ -23,7 +23,7 @@ using namespace cdt;
 SCENARIO("PCG runs are reproducible and independently split" *
          doctest::test_suite("random"))
 {
-  auto constexpr seed = cdt::Random_seed{92};
+  constexpr auto seed = cdt::RandomSeed{92};
   CAPTURE(seed);
 
   GIVEN("Two engines with the same seed and stream")
@@ -70,8 +70,8 @@ SCENARIO("PCG runs are reproducible and independently split" *
 SCENARIO("Distinct seeds have pinned PCG transition prefixes" *
          doctest::test_suite("random"))
 {
-  auto constexpr seeds = std::array{cdt::Random_seed{92}, cdt::Random_seed{93}};
-  auto constexpr expected = std::array{
+  constexpr auto seeds = std::array{cdt::RandomSeed{92}, cdt::RandomSeed{93}};
+  constexpr auto expected = std::array{
       std::array<cdt::Random::result_type, 3>{6582339598257575626ULL,
                                               18421894668611219029ULL, 5474286625189102014ULL},
       std::array<cdt::Random::result_type, 3>{8015168658319708503ULL,

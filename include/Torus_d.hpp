@@ -36,7 +36,7 @@ namespace cdt::experimental::torus
   inline void make_d_cube(std::vector<Point>& t_points,
                           std::size_t t_number_of_points, int t_dimension)
   {
-    double constexpr size = 1.0;
+    constexpr double size = 1.0;
 
     fmt::print("Generating {} grid points in {}D\n", t_number_of_points,
                t_dimension);

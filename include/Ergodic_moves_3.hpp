@@ -162,8 +162,8 @@ namespace cdt::ergodic_moves
       { return m_bottom; }
     };
 
-    [[nodiscard]] auto constexpr move_error(
-        MoveFailure const reason, move_tracker::move_type const move) noexcept
+    [[nodiscard]] constexpr auto move_error(
+        MoveFailure const reason, move_tracker::MoveType const move) noexcept
         -> std::unexpected<MoveError>
     {
       return std::unexpected{
@@ -203,8 +203,8 @@ namespace cdt::ergodic_moves
     [[nodiscard]] inline auto is_well_formed_edge(
         Edge_handle const& edge) noexcept -> bool
     {
-      static auto constexpr vertex_count = Int_precision{4};
-      auto const valid_index             = [](Int_precision const index) {
+      static constexpr auto vertex_count = Int_precision{4};
+      auto const            valid_index  = [](Int_precision const index) {
         return index >= 0 && index < vertex_count;
       };
 
@@ -499,9 +499,9 @@ namespace cdt::ergodic_moves
     [[nodiscard]] inline auto get_vertices(Cell_container const& cells)
         -> Vertex_container;
 
-    [[nodiscard]] inline auto check_move(Manifold const&                before,
-                                         Manifold const&                after,
-                                         move_tracker::move_type const& move)
+    [[nodiscard]] inline auto check_move(Manifold const&               before,
+                                         Manifold const&               after,
+                                         move_tracker::MoveType const& move)
         -> bool;
   }  // namespace detail
 
@@ -522,7 +522,7 @@ namespace cdt::ergodic_moves
       Delaunay const& triangulation, Cell_handle const& candidate)
       -> std::expected<ApplicableTwoThreeMove, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     if (candidate == nullptr || triangulation.dimension() != 3 ||
         !triangulation.tds().is_cell(candidate))
     {
@@ -530,7 +530,7 @@ namespace cdt::ergodic_moves
     }
     if (!foliated_triangulations::is_cell_type_correct<3>(candidate) ||
         foliated_triangulations::expected_cell_type<3>(candidate) !=
-            Cell_type::TWO_TWO)
+            CellType::TWO_TWO)
     {
       return move_error(MoveFailure::CAUSAL_INVALIDITY, TWO_THREE);
     }
@@ -549,8 +549,8 @@ namespace cdt::ergodic_moves
       auto const neighbor_type =
           foliated_triangulations::expected_cell_type<3>(neighbor);
       if (!foliated_triangulations::is_cell_type_correct<3>(neighbor) ||
-          (neighbor_type != Cell_type::THREE_ONE &&
-           neighbor_type != Cell_type::ONE_THREE))
+          (neighbor_type != CellType::THREE_ONE &&
+           neighbor_type != CellType::ONE_THREE))
       {
         continue;
       }
@@ -583,7 +583,7 @@ namespace cdt::ergodic_moves
                                             ApplicableTwoThreeMove const& move)
       -> Execution
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     auto const cell     = resolve_cell(triangulation, move.m_cell);
     auto const opposite = resolve_vertex(triangulation, move.m_opposite);
     if (!cell || !opposite)
@@ -644,19 +644,19 @@ namespace cdt::ergodic_moves
     Delaunay triangulation{t_manifold.delaunay_snapshot()};
     auto     two_two = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::TWO_TWO);
+        CellType::TWO_TWO);
     detail::canonicalize(two_two);
     // Shuffle the container to create a random sequence of (2,2) cells
     std::ranges::shuffle(two_two, generator);
     if (two_two.empty())
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::TWO_THREE);
+                                move_tracker::MoveType::TWO_THREE);
     }
 
     auto last_error =
         MoveError{.category       = MoveFailure::NO_CANDIDATE,
-                  .requested_move = move_tracker::move_type::TWO_THREE};
+                  .requested_move = move_tracker::MoveType::TWO_THREE};
     for (auto const& cell : two_two)
     {
       auto const prepared = detail::prepare_two_three(triangulation, cell);
@@ -686,12 +686,12 @@ namespace cdt::ergodic_moves
     auto triangulation = t_manifold.delaunay_snapshot();
     auto two_two       = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::TWO_TWO);
+        CellType::TWO_TWO);
     auto const candidate = detail::canonical_random_element(two_two, generator);
     if (!candidate)
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::TWO_THREE);
+                                move_tracker::MoveType::TWO_THREE);
     }
     auto const prepared = detail::prepare_two_three(triangulation, *candidate);
     if (!prepared) { return std::unexpected{prepared.error()}; }
@@ -727,14 +727,14 @@ namespace cdt::ergodic_moves
         return false;
       }
 
-      auto const cell_type_count = [&](Cell_type const type) {
+      auto const cell_type_count = [&](CellType const type) {
         return std::ranges::count_if(*incident_cells, [&](auto const& cell) {
           return foliated_triangulations::expected_cell_type<3>(cell) == type;
         });
       };
-      auto const incident_31 = cell_type_count(Cell_type::THREE_ONE);
-      auto const incident_22 = cell_type_count(Cell_type::TWO_TWO);
-      auto const incident_13 = cell_type_count(Cell_type::ONE_THREE);
+      auto const incident_31 = cell_type_count(CellType::THREE_ONE);
+      auto const incident_22 = cell_type_count(CellType::TWO_TWO);
+      auto const incident_13 = cell_type_count(CellType::ONE_THREE);
       return incident_22 == 2 && ((incident_31 == 1 && incident_13 == 0) ||
                                   (incident_31 == 0 && incident_13 == 1));
     }
@@ -748,7 +748,7 @@ namespace cdt::ergodic_moves
       Delaunay const& triangulation, Edge_handle const& candidate)
       -> std::expected<ApplicableThreeTwoMove, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     if (!is_well_formed_edge(candidate) || triangulation.dimension() != 3 ||
         !triangulation.tds().is_edge(candidate.first, candidate.second,
                                      candidate.third))
@@ -767,7 +767,7 @@ namespace cdt::ergodic_moves
                                             ApplicableThreeTwoMove const& move)
       -> Execution
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     auto const edge = resolve_edge(triangulation, move.m_edge);
     if (!edge) { return move_error(MoveFailure::STALE_CANDIDATE, THREE_TWO); }
     if (!triangulation.flip(edge->first, edge->second, edge->third))
@@ -805,19 +805,20 @@ namespace cdt::ergodic_moves
   {
     Delaunay triangulation{t_manifold.delaunay_snapshot()};
     auto     timelike_edges = foliated_triangulations::filter_edges<3>(
-        foliated_triangulations::collect_edges<3>(triangulation), true);
+        foliated_triangulations::collect_edges<3>(triangulation),
+        EdgeType::TIMELIKE);
     detail::canonicalize(timelike_edges);
     // Shuffle the container to create a random sequence of edges
     std::ranges::shuffle(timelike_edges, generator);
     if (timelike_edges.empty())
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::THREE_TWO);
+                                move_tracker::MoveType::THREE_TWO);
     }
 
     auto last_error =
         MoveError{.category       = MoveFailure::NO_CANDIDATE,
-                  .requested_move = move_tracker::move_type::THREE_TWO};
+                  .requested_move = move_tracker::MoveType::THREE_TWO};
     for (auto const& edge : timelike_edges)
     {
       auto const prepared = detail::prepare_three_two(triangulation, edge);
@@ -845,13 +846,14 @@ namespace cdt::ergodic_moves
   {
     auto triangulation  = t_manifold.delaunay_snapshot();
     auto timelike_edges = foliated_triangulations::filter_edges<3>(
-        foliated_triangulations::collect_edges<3>(triangulation), true);
+        foliated_triangulations::collect_edges<3>(triangulation),
+        EdgeType::TIMELIKE);
     auto const candidate =
         detail::canonical_random_element(timelike_edges, generator);
     if (!candidate)
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::THREE_TWO);
+                                move_tracker::MoveType::THREE_TWO);
     }
     auto const prepared = detail::prepare_three_two(triangulation, *candidate);
     if (!prepared) { return std::unexpected{prepared.error()}; }
@@ -871,7 +873,7 @@ namespace cdt::ergodic_moves
     if (t_cell == nullptr ||
         !foliated_triangulations::is_cell_type_correct<3>(t_cell) ||
         foliated_triangulations::expected_cell_type<3>(t_cell) !=
-            Cell_type::ONE_THREE)
+            CellType::ONE_THREE)
     {
       return std::nullopt;
     }
@@ -881,7 +883,7 @@ namespace cdt::ergodic_moves
       auto const neighbor = t_cell->neighbor(i);
       if (foliated_triangulations::is_cell_type_correct<3>(neighbor) &&
           foliated_triangulations::expected_cell_type<3>(neighbor) ==
-              Cell_type::THREE_ONE)
+              CellType::THREE_ONE)
       {
         candidates.emplace_back(i);
       }
@@ -906,7 +908,7 @@ namespace cdt::ergodic_moves
       Delaunay const& triangulation, Cell_handle const& candidate)
       -> std::expected<ApplicableTwoSixMove, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     if (candidate == nullptr || triangulation.dimension() != 3 ||
         !triangulation.tds().is_cell(candidate))
     {
@@ -948,8 +950,8 @@ namespace cdt::ergodic_moves
       Delaunay& triangulation, ApplicableTwoSixMove const& move,
       Post_mutation_validator post_mutation_validator) -> Execution
   {
-    using enum move_tracker::move_type;
-    static auto constexpr incident_cell_count = std::size_t{6};
+    using enum move_tracker::MoveType;
+    static constexpr auto incident_cell_count = std::size_t{6};
 
     auto const bottom   = resolve_cell(triangulation, move.bottom_points());
     auto const opposite = resolve_vertex(triangulation, move.opposite_point());
@@ -1030,11 +1032,11 @@ namespace cdt::ergodic_moves
     Delaunay triangulation{t_manifold.delaunay_snapshot()};
     auto     one_three = foliated_triangulations::filter_cells<3>(
         foliated_triangulations::collect_cells<3>(triangulation),
-        Cell_type::ONE_THREE);
+        CellType::ONE_THREE);
     if (one_three.empty())
     {
       return move_error(MoveFailure::NO_CANDIDATE,
-                        move_tracker::move_type::TWO_SIX);
+                        move_tracker::MoveType::TWO_SIX);
     }
 
     if (only_first_site)
@@ -1044,7 +1046,7 @@ namespace cdt::ergodic_moves
       if (!candidate)
       {
         return move_error(MoveFailure::NO_CANDIDATE,
-                          move_tracker::move_type::TWO_SIX);
+                          move_tracker::MoveType::TWO_SIX);
       }
       one_three = {*candidate};
     }
@@ -1058,7 +1060,7 @@ namespace cdt::ergodic_moves
 
     auto last_error =
         MoveError{.category       = MoveFailure::NO_CANDIDATE,
-                  .requested_move = move_tracker::move_type::TWO_SIX};
+                  .requested_move = move_tracker::MoveType::TWO_SIX};
     for (auto const& bottom : one_three)
     {
       auto const prepared = prepare_two_six(triangulation, bottom);
@@ -1153,14 +1155,14 @@ namespace cdt::ergodic_moves
       if (triangulation.is_infinite(cell)) { return false; }
     }
 
-    auto const cell_type_count = [&](Cell_type const type) {
+    auto const cell_type_count = [&](CellType const type) {
       return std::ranges::count_if(incident_cells, [&](auto const& cell) {
         return foliated_triangulations::expected_cell_type<3>(cell) == type;
       });
     };
-    auto const incident_31 = cell_type_count(Cell_type::THREE_ONE);
-    auto const incident_22 = cell_type_count(Cell_type::TWO_TWO);
-    auto const incident_13 = cell_type_count(Cell_type::ONE_THREE);
+    auto const incident_31 = cell_type_count(CellType::THREE_ONE);
+    auto const incident_22 = cell_type_count(CellType::TWO_TWO);
+    auto const incident_13 = cell_type_count(CellType::ONE_THREE);
 
     // All cells should be causally classified and carry matching metadata.
     if (incident_13 + incident_22 + incident_31 != 6 ||  // NOLINT
@@ -1182,7 +1184,7 @@ namespace cdt::ergodic_moves
       Delaunay const& triangulation, Vertex_handle const& candidate)
       -> std::expected<ApplicableSixTwoMove, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     if (candidate == nullptr || triangulation.dimension() != 3 ||
         !triangulation.tds().is_vertex(candidate) ||
         triangulation.is_infinite(candidate))
@@ -1218,7 +1220,7 @@ namespace cdt::ergodic_moves
       Generator& generator, Post_mutation_validator post_mutation_validator)
       -> std::expected<Delaunay, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     Delaunay   triangulation{source_triangulation};
     auto const copied_candidate = foliated_triangulations::find_vertex<3>(
         triangulation, move.vertex_point());
@@ -1269,7 +1271,7 @@ namespace cdt::ergodic_moves
     for (auto const cell : triangulation.finite_cell_handles())
     {
       auto const type = foliated_triangulations::expected_cell_type<3>(cell);
-      if (type == Cell_type::ACAUSAL || type == Cell_type::UNCLASSIFIED)
+      if (type == CellType::ACAUSAL || type == CellType::UNCLASSIFIED)
       {
         return move_error(MoveFailure::INVARIANT_VIOLATION, SIX_TWO);
       }
@@ -1352,12 +1354,12 @@ namespace cdt::ergodic_moves
     if (vertices.empty())
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::SIX_TWO);
+                                move_tracker::MoveType::SIX_TWO);
     }
 
     auto last_error =
         MoveError{.category       = MoveFailure::NO_CANDIDATE,
-                  .requested_move = move_tracker::move_type::SIX_TWO};
+                  .requested_move = move_tracker::MoveType::SIX_TWO};
     for (auto const& vertex : vertices)
     {
       auto const prepared = detail::prepare_six_two(triangulation, vertex);
@@ -1389,7 +1391,7 @@ namespace cdt::ergodic_moves
     if (!candidate)
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::SIX_TWO);
+                                move_tracker::MoveType::SIX_TWO);
     }
     auto const prepared = detail::prepare_six_two(triangulation, *candidate);
     if (!prepared) { return std::unexpected{prepared.error()}; }
@@ -1435,14 +1437,14 @@ namespace cdt::ergodic_moves
         t_edge_candidate.first->vertex(t_edge_candidate.third)->info();
     if (first_time != second_time) { return std::nullopt; }
 
-    auto const cell_type_count = [&](Cell_type const type) {
+    auto const cell_type_count = [&](CellType const type) {
       return std::ranges::count_if(*incident_cells, [&](auto const cell) {
         return foliated_triangulations::is_cell_type_correct<3>(cell) &&
                foliated_triangulations::expected_cell_type<3>(cell) == type;
       });
     };
-    if (cell_type_count(Cell_type::THREE_ONE) == 2 &&
-        cell_type_count(Cell_type::ONE_THREE) == 2)
+    if (cell_type_count(CellType::THREE_ONE) == 2 &&
+        cell_type_count(CellType::ONE_THREE) == 2)
     {
       return incident_cells;
     }
@@ -1456,7 +1458,7 @@ namespace cdt::ergodic_moves
       Delaunay const& triangulation, Edge_handle const& candidate)
       -> std::expected<ApplicableFourFourMove, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     if (!is_well_formed_edge(candidate) ||
         !triangulation.tds().is_edge(candidate.first, candidate.second,
                                      candidate.third))
@@ -1518,7 +1520,7 @@ namespace cdt::ergodic_moves
       Vertex_handle const& top, Vertex_handle const& bottom)
       -> std::expected<ApplicableFourFourMove, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     if (!is_well_formed_edge(candidate) || top == nullptr ||
         bottom == nullptr ||
         !triangulation.tds().is_edge(candidate.first, candidate.second,
@@ -1577,7 +1579,7 @@ namespace cdt::ergodic_moves
       Post_mutation_validator post_mutation_validator)
       -> std::expected<Delaunay, MoveError>
   {
-    using enum move_tracker::move_type;
+    using enum move_tracker::MoveType;
     Delaunay   triangulation{source_triangulation};
     auto const edge   = resolve_edge(triangulation, move.edge_points());
     auto const top    = resolve_vertex(triangulation, move.top_point());
@@ -1607,9 +1609,9 @@ namespace cdt::ergodic_moves
     {
       return move_error(MoveFailure::STALE_CANDIDATE, FOUR_FOUR);
     }
-    auto constexpr cell_index_sum   = 0 + 1 + 2 + 3;
-    auto const boundary_facet_index = cell_index_sum - pivot_from_1_index -
-                                      pivot_from_2_index - boundary_index;
+    constexpr auto cell_index_sum       = 0 + 1 + 2 + 3;
+    auto const     boundary_facet_index = cell_index_sum - pivot_from_1_index -
+                                          pivot_from_2_index - boundary_index;
     if (!triangulation.tds().flip(
             Delaunay::Facet{boundary_facet_cell, boundary_facet_index}))
     {
@@ -1740,19 +1742,20 @@ namespace cdt::ergodic_moves
   {
     auto triangulation   = t_manifold.delaunay_snapshot();
     auto spacelike_edges = foliated_triangulations::filter_edges<3>(
-        foliated_triangulations::collect_edges<3>(triangulation), false);
+        foliated_triangulations::collect_edges<3>(triangulation),
+        EdgeType::SPACELIKE);
     detail::canonicalize(spacelike_edges);
     // Shuffle the container to pick a random sequence of edges to try
     std::ranges::shuffle(spacelike_edges, generator);
     if (spacelike_edges.empty())
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::FOUR_FOUR);
+                                move_tracker::MoveType::FOUR_FOUR);
     }
 
     auto last_error =
         MoveError{.category       = MoveFailure::NO_CANDIDATE,
-                  .requested_move = move_tracker::move_type::FOUR_FOUR};
+                  .requested_move = move_tracker::MoveType::FOUR_FOUR};
     for (auto const& edge : spacelike_edges)
     {
       auto const prepared = detail::prepare_four_four(triangulation, edge);
@@ -1781,13 +1784,14 @@ namespace cdt::ergodic_moves
   {
     auto triangulation   = t_manifold.delaunay_snapshot();
     auto spacelike_edges = foliated_triangulations::filter_edges<3>(
-        foliated_triangulations::collect_edges<3>(triangulation), false);
+        foliated_triangulations::collect_edges<3>(triangulation),
+        EdgeType::SPACELIKE);
     auto const candidate =
         detail::canonical_random_element(spacelike_edges, generator);
     if (!candidate)
     {
       return detail::move_error(MoveFailure::NO_CANDIDATE,
-                                move_tracker::move_type::FOUR_FOUR);
+                                move_tracker::MoveType::FOUR_FOUR);
     }
 
     auto const prepared = detail::prepare_four_four(triangulation, *candidate);
@@ -1812,7 +1816,7 @@ namespace cdt::ergodic_moves
   /// @return True if the move correctly changed the triangulation
   [[nodiscard]] inline auto detail::check_move(
       Manifold const& t_before, Manifold const& t_after,
-      move_tracker::move_type const& t_move) -> bool
+      move_tracker::MoveType const& t_move) -> bool
   {
     if (!t_after.is_structurally_correct() ||
         !detail::same_configuration_value(t_after.initial_radius(),
@@ -1825,7 +1829,7 @@ namespace cdt::ergodic_moves
 
     switch (t_move)
     {
-      case move_tracker::move_type::FOUR_FOUR:
+      case move_tracker::MoveType::FOUR_FOUR:
         return t_after.N3() == t_before.N3() &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() &&
@@ -1836,7 +1840,7 @@ namespace cdt::ergodic_moves
                t_after.N0() == t_before.N0() &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::TWO_THREE:
+      case move_tracker::MoveType::TWO_THREE:
         return t_after.N3() == t_before.N3() + 1 &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() + 1 &&
@@ -1848,7 +1852,7 @@ namespace cdt::ergodic_moves
                t_after.N0() == t_before.N0() &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::THREE_TWO:
+      case move_tracker::MoveType::THREE_TWO:
         return t_after.N3() == t_before.N3() - 1 &&
                t_after.N3_31() == t_before.N3_31() &&
                t_after.N3_22() == t_before.N3_22() - 1 &&
@@ -1860,7 +1864,7 @@ namespace cdt::ergodic_moves
                t_after.N0() == t_before.N0() &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::TWO_SIX:
+      case move_tracker::MoveType::TWO_SIX:
         return t_after.N3() == t_before.N3() + 4 &&
                t_after.N3_31() == t_before.N3_31() + 2 &&
                t_after.N3_22() == t_before.N3_22() &&
@@ -1872,7 +1876,7 @@ namespace cdt::ergodic_moves
                t_after.N0() == t_before.N0() + 1 &&
                t_after.max_time() == t_before.max_time() &&
                t_after.min_time() == t_before.min_time();
-      case move_tracker::move_type::SIX_TWO:
+      case move_tracker::MoveType::SIX_TWO:
         return t_after.N3() == t_before.N3() - 4 &&
                t_after.N3_31() == t_before.N3_31() - 2 &&
                t_after.N3_22() == t_before.N3_22() &&

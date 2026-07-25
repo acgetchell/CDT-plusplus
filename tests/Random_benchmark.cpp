@@ -16,6 +16,7 @@
 #include <string_view>
 
 #include "Move_tracker.hpp"
+#include "Random.hpp"
 
 using namespace cdt;
 
