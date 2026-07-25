@@ -237,8 +237,8 @@ just python-fix            # Apply safe Ruff fixes and formatting
 fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
 check and the supported build/test contract. Documentation validation remains available separately through
 `just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
-AppleClang, and Windows MSVC jobs all run `just ci` followed by
-`just build-parallel`. Windows continues to compile with native MSVC; the
+AppleClang, and Windows MSVC jobs all run `just ci`; the two Ubuntu jobs also
+run `just build-parallel`. Windows continues to compile with native MSVC; the
 locked Python environment supplies `clang-format` only as a source formatter.
 Install the developer tools with Homebrew, use equivalent system packages, or
 let pkgx supply the Unix environment ephemerally; pkgx remains optional. For

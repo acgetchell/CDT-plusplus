@@ -32,9 +32,9 @@ ctest --preset parallel-smoke
 
 The supported release matrix is the same C++23 matrix declared by the root
 CMake configuration: Linux with GCC 13.3 or newer or Clang 22 or newer, macOS
-with AppleClang 15 or newer, and Windows with MSVC 19.34 or newer. The primary
-CI workflow runs `build-parallel` with Ubuntu GCC, Ubuntu Clang, macOS
-AppleClang, and Windows MSVC. The Linux AddressSanitizer workflow supplies the
+with AppleClang 15 or newer, and Windows with MSVC 19.34 or newer. Every primary
+CI job runs the reference contract; the Ubuntu GCC and Ubuntu Clang jobs also
+run `build-parallel`. The Linux AddressSanitizer workflow supplies the
 additional parallel sanitizer cell. Configuration fails when the selected
 CGAL package does not provide `CGAL::TBB_support`; a compiler version alone is
 not evidence that the dependency boundary is available.

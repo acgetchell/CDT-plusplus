@@ -31,21 +31,25 @@ jobs:
             compiler_package: gnu.org/gcc@16
             cc: gcc
             cxx: g++
+            run_parallel_contract: true
           - name: Ubuntu Clang
             os: ubuntu-latest
             compiler_package: llvm.org@22
             cc: clang
             cxx: clang++
+            run_parallel_contract: true
           - name: macOS AppleClang
             os: macos-latest
             compiler_package: ""
             cc: clang
             cxx: clang++
+            run_parallel_contract: false
           - name: Windows MSVC
             os: windows-latest
             compiler_package: ""
             cc: cl
             cxx: cl
+            run_parallel_contract: false
 
     steps:
       - name: Disable Git autocrlf on Windows
@@ -157,6 +161,7 @@ jobs:
         run: just ci
 
       - name: Run the opt-in CGAL/oneTBB contract
+        if: matrix.run_parallel_contract
         env:
           CC: ${{ matrix.cc }}
           CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}

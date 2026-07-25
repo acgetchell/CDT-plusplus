@@ -26,6 +26,9 @@ project(
   DESCRIPTION "Fast Causal Dynamical Triangulations in C++"
   LANGUAGES CXX)
 
+# CDT++ does not use C++ modules, so avoid unnecessary dependency scanning.
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
 # CMake project versions are numeric, so keep the release-candidate suffix in
 # the product version used by executables and release metadata.
 set(CDT_VERSION_SUFFIX "-rc2")

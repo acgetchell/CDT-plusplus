@@ -54,11 +54,11 @@ substantial implementation so its maintenance value and scope can be agreed upon
    CGAL/oneTBB configuration and runs the same scientific suite plus the
    replayable parallel stress launcher, for 25 entries. When changing C++ behavior, also run
    `just clang-tidy` with the pinned LLVM 22 toolchain and review its advisory diagnostics.
-   GitHub Actions runs both `just ci` and `just build-parallel` in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang,
-   and Windows MSVC jobs. The Windows job continues to compile with native MSVC; LLVM tooling is used only for
-   source formatting. Toolchain setup is pkgx-first; because pkgx does not currently publish its CMake and Ninja
-   packages for Windows, that job uses the exact Justfile pins available as PyPI wheels through
-   `uv tool install --no-build`.
+   GitHub Actions runs `just ci` in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs. The two
+   Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract. The Windows job continues
+   to compile with native MSVC; LLVM tooling is used only for source formatting. Toolchain setup is pkgx-first;
+   because pkgx does not currently publish its CMake and Ninja packages for Windows, that job uses the exact Justfile
+   pins available as PyPI wheels through `uv tool install --no-build`.
 
 6. Run the relevant Linux sanitizer configuration for changes involving memory, lifetime, undefined behavior, or
    concurrency:
