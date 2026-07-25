@@ -529,6 +529,8 @@ SCENARIO("Metropolis proposal domains match the sampled raw sites" *
 
       THEN("A predeclared Pearson statistic does not reject uniformity.")
       {
+        static_assert(sites.size() == 5,
+                      "critical_value assumes sites.size() - 1 == 4");
         constexpr auto expected = static_cast<long double>(draws) /
                                   static_cast<long double>(sites.size());
         long double    chi_squared{};

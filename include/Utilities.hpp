@@ -1906,11 +1906,11 @@ namespace cdt::utilities
   struct Generated_population_bounds
   {
     /// Base population used to construct the spherical layers.
-    Int_precision                points_per_timeslice;
+    Int_precision points_per_timeslice;
     /// Untruncated point-count expression for the final spherical layer.
-    long double                  last_layer_points;
+    long double last_layer_points;
     /// Exact total number of vertices supplied to CGAL.
-    std::uint64_t                input_vertices;
+    std::uint64_t input_vertices;
     /// Rigorous finite 3D Delaunay bound, if representable by `uint64_t`.
     std::optional<std::uint64_t> tetrahedra_upper_bound;
   };

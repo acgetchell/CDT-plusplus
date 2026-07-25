@@ -8,12 +8,12 @@
 /// @brief Emit the bounded, canonical C++ reference record for issue #94
 
 #include <CGAL/version.h>
+#include <fmt/format.h>
 
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <iomanip>
-#include <iostream>
+#include <cstdio>
 #include <limits>
 #include <numbers>
 #include <ranges>
@@ -37,6 +37,9 @@ namespace
   using cdt::Int_precision;
   using cdt::Point_t;
   using Manifold = cdt::manifolds::Manifold_3;
+
+  inline constexpr auto output_precision =
+      std::numeric_limits<long double>::max_digits10;
 
   struct Vertex_record
   {
@@ -288,94 +291,89 @@ namespace
                     1};
   }
 
-  void write_vertex_id(std::ostream& output, char const prefix,
-                       std::size_t const id)
-  { output << '"' << prefix << std::setw(2) << std::setfill('0') << id << '"'; }
+  void write_vertex_id(char const prefix, std::size_t const id)
+  { fmt::print("\"{}{:02}\"", prefix, id); }
 
   template <std::size_t Size>
-  void write_vertex_ids(std::ostream&                        output,
-                        std::array<std::size_t, Size> const& vertices)
+  void write_vertex_ids(std::array<std::size_t, Size> const& vertices)
   {
-    output << '[';
+    fmt::print("[");
     for (auto index = std::size_t{}; index < vertices.size(); ++index)
     {
-      if (index != 0) { output << ','; }
-      write_vertex_id(output, 'v', vertices[index]);
+      if (index != 0) { fmt::print(","); }
+      write_vertex_id('v', vertices[index]);
     }
-    output << ']';
+    fmt::print("]");
   }
 
   template <typename StateSource>
-  void write_state(std::ostream& output, std::string_view const id,
-                   StateSource const& source)
+  void write_state(std::string_view const id, StateSource const& source)
   {
     auto const state = canonical_state(source);
-    output << "{\"id\":\"" << id
-           << "\",\"coordinate_units\":\"initial_radius\",\"time_units\":"
-              "\"timeslice\",\"time_bounds\":["
-           << state.minimum_time << ',' << state.maximum_time
-           << "],\"f_vector\":[" << state.vertices.size() << ','
-           << state.edges.size() << ',' << state.facets.size() << ','
-           << state.cells.size() << "],\"vertices\":[";
+    fmt::print(
+        "{{\"id\":\"{}\",\"coordinate_units\":\"initial_radius\","
+        "\"time_units\":\"timeslice\",\"time_bounds\":[{},{}],"
+        "\"f_vector\":[{},{},{},{}],\"vertices\":[",
+        id, state.minimum_time, state.maximum_time, state.vertices.size(),
+        state.edges.size(), state.facets.size(), state.cells.size());
     for (auto index = std::size_t{}; index < state.vertices.size(); ++index)
     {
-      if (index != 0) { output << ','; }
+      if (index != 0) { fmt::print(","); }
       auto const& vertex = state.vertices[index];
-      output << "{\"id\":";
-      write_vertex_id(output, 'v', index);
-      output << ",\"position\":[" << vertex.position[0] << ','
-             << vertex.position[1] << ',' << vertex.position[2]
-             << "],\"time\":" << vertex.time << '}';
+      fmt::print("{{\"id\":");
+      write_vertex_id('v', index);
+      fmt::print(",\"position\":[{:.{}g},{:.{}g},{:.{}g}],\"time\":{}}}",
+                 vertex.position[0], output_precision, vertex.position[1],
+                 output_precision, vertex.position[2], output_precision,
+                 vertex.time);
     }
-    output << "],\"edges\":[";
+    fmt::print("],\"edges\":[");
     for (auto index = std::size_t{}; index < state.edges.size(); ++index)
     {
-      if (index != 0) { output << ','; }
-      output << "{\"id\":";
-      write_vertex_id(output, 'e', index);
-      output << ",\"vertices\":";
-      write_vertex_ids(output, state.edges[index].vertices);
-      output << ",\"type\":\"" << state.edges[index].type << "\"}";
+      if (index != 0) { fmt::print(","); }
+      fmt::print("{{\"id\":");
+      write_vertex_id('e', index);
+      fmt::print(",\"vertices\":");
+      write_vertex_ids(state.edges[index].vertices);
+      fmt::print(",\"type\":\"{}\"}}", state.edges[index].type);
     }
-    output << "],\"facets\":[";
+    fmt::print("],\"facets\":[");
     for (auto index = std::size_t{}; index < state.facets.size(); ++index)
     {
-      if (index != 0) { output << ','; }
-      output << "{\"id\":";
-      write_vertex_id(output, 'f', index);
-      output << ",\"vertices\":";
-      write_vertex_ids(output, state.facets[index].vertices);
-      output << ",\"spacelike\":"
-             << (state.facets[index].spacelike ? "true" : "false");
+      if (index != 0) { fmt::print(","); }
+      fmt::print("{{\"id\":");
+      write_vertex_id('f', index);
+      fmt::print(",\"vertices\":");
+      write_vertex_ids(state.facets[index].vertices);
+      fmt::print(",\"spacelike\":{}", state.facets[index].spacelike);
       if (state.facets[index].spacelike)
       {
-        output << ",\"time\":" << state.facets[index].time;
+        fmt::print(",\"time\":{}", state.facets[index].time);
       }
-      output << '}';
+      fmt::print("}}");
     }
-    output << "],\"cells\":[";
+    fmt::print("],\"cells\":[");
     for (auto index = std::size_t{}; index < state.cells.size(); ++index)
     {
-      if (index != 0) { output << ','; }
-      output << "{\"id\":";
-      write_vertex_id(output, 'c', index);
-      output << ",\"vertices\":";
-      write_vertex_ids(output, state.cells[index].vertices);
-      output << ",\"type\":\"" << state.cells[index].type
-             << "\",\"adjacent_cells\":[";
+      if (index != 0) { fmt::print(","); }
+      fmt::print("{{\"id\":");
+      write_vertex_id('c', index);
+      fmt::print(",\"vertices\":");
+      write_vertex_ids(state.cells[index].vertices);
+      fmt::print(",\"type\":\"{}\",\"adjacent_cells\":[",
+                 state.cells[index].type);
       for (auto adjacency = std::size_t{};
            adjacency < state.cells[index].adjacent_cells.size(); ++adjacency)
       {
-        if (adjacency != 0) { output << ','; }
-        write_vertex_id(output, 'c',
-                        state.cells[index].adjacent_cells[adjacency]);
+        if (adjacency != 0) { fmt::print(","); }
+        write_vertex_id('c', state.cells[index].adjacent_cells[adjacency]);
       }
-      output << "]}";
+      fmt::print("]}}");
     }
-    output << "]}";
+    fmt::print("]}}");
   }
 
-  void write_action_records(std::ostream& output)
+  void write_action_records()
   {
     constexpr auto n1     = Int_precision{11};
     constexpr auto n31    = Int_precision{7};
@@ -393,18 +391,25 @@ namespace
     auto const generalized =
         cdt::s3_action::s3_bulk_action(n1, n31, n22, parameters);
 
-    output << "[{\"id\":\"alpha-minus-one-imaginary-coefficient\",\"counts\":"
-              "{\"n1_timelike\":11,\"n3_31_13\":7,\"n3_22\":5},\"parameters\":"
-              "{\"alpha\":-1,\"k\":1.1,\"lambda\":0.1},\"value\":"
-           << cdt::mpfr_values::to_long_double(imaginary)
-           << "},{\"id\":\"alpha-one-rounded\",\"counts\":{\"n1_timelike\":11,"
-              "\"n3_31_13\":7,\"n3_22\":5},\"parameters\":{\"alpha\":1,\"k\":"
-              "1.1,\"lambda\":0.1},\"value\":"
-           << cdt::mpfr_values::to_long_double(rounded)
-           << "},{\"id\":\"alpha-generalized\",\"counts\":{\"n1_timelike\":11,"
-              "\"n3_31_13\":7,\"n3_22\":5},\"parameters\":{\"alpha\":0.6,\"k\":"
-              "1.1,\"lambda\":0.1},\"value\":"
-           << cdt::mpfr_values::to_long_double(generalized) << "}]";
+    auto const write_inputs = [&](long double const parameter_alpha) {
+      fmt::print(
+          "\"counts\":{{\"n1_timelike\":{},\"n3_31_13\":{},\"n3_22\":{}}},"
+          "\"parameters\":{{\"alpha\":{:.{}g},\"k\":{:.{}g},"
+          "\"lambda\":{:.{}g}}}",
+          n1, n31, n22, parameter_alpha, output_precision, k, output_precision,
+          lambda, output_precision);
+    };
+
+    fmt::print("[{{\"id\":\"alpha-minus-one-imaginary-coefficient\",");
+    write_inputs(-1.0L);
+    fmt::print(",\"value\":{:.{}g}}},{{\"id\":\"alpha-one-rounded\",",
+               cdt::mpfr_values::to_long_double(imaginary), output_precision);
+    write_inputs(1.0L);
+    fmt::print(",\"value\":{:.{}g}}},{{\"id\":\"alpha-generalized\",",
+               cdt::mpfr_values::to_long_double(rounded), output_precision);
+    write_inputs(alpha);
+    fmt::print(",\"value\":{:.{}g}}}]",
+               cdt::mpfr_values::to_long_double(generalized), output_precision);
   }
 }  // namespace
 
@@ -428,44 +433,42 @@ try
         "A deterministic move fixture was not applicable."};
   }
 
-  std::cout << std::setprecision(std::numeric_limits<long double>::max_digits10)
-            << "{\"schema\":\"cdt-reference-raw-v1\",\"implementation\":"
-               "{\"name\":\"CDT-plusplus\",\"version\":\""
-            << cdt::VERSION << "\",\"revision\":\"" << cdt::SOURCE_REVISION
-            << "\",\"compiler\":\"" << cdt::BUILD_COMPILER_ID << ' '
-            << cdt::BUILD_COMPILER_VERSION << "\",\"build_profile\":\""
-            << cdt::BUILD_CONFIGURATION << "\",\"operating_system\":\""
-            << cdt::BUILD_SYSTEM_NAME << "\",\"hardware\":\""
-            << cdt::BUILD_SYSTEM_PROCESSOR
-            << "\",\"logical_threads\":" << std::thread::hardware_concurrency()
-            << ",\"cxx_standard\":23,\"standard_library\":\""
-            << cdt::utilities::detail::standard_library_name()
-            << "\",\"cgal_version\":\"" << CGAL_VERSION_STR
-            << "\"},\"states\":[";
-  write_state(std::cout, "causal-simplex", causal);
-  std::cout << ',';
-  write_state(std::cout, "causality-filter-before", filter_before);
-  std::cout << ',';
-  write_state(std::cout, "causality-filter-after", filter_after);
-  std::cout << ',';
-  write_state(std::cout, "move-23-before", before_23);
-  std::cout << ',';
-  write_state(std::cout, "move-23-after", *after_23);
-  std::cout << ',';
-  write_state(std::cout, "move-26-before", before_26);
-  std::cout << ',';
-  write_state(std::cout, "move-26-after", *after_26);
-  std::cout << ',';
-  write_state(std::cout, "move-44-before", before_44);
-  std::cout << ',';
-  write_state(std::cout, "move-44-after", *after_44);
-  std::cout << "],\"actions\":";
-  write_action_records(std::cout);
-  std::cout << "}\n";
+  fmt::print(
+      "{{\"schema\":\"cdt-reference-raw-v1\",\"implementation\":{{"
+      "\"name\":\"CDT-plusplus\",\"version\":\"{}\",\"revision\":\"{}\","
+      "\"compiler\":\"{} {}\",\"build_profile\":\"{}\","
+      "\"operating_system\":\"{}\",\"hardware\":\"{}\","
+      "\"logical_threads\":{},\"cxx_standard\":23,"
+      "\"standard_library\":\"{}\",\"cgal_version\":\"{}\"}},\"states\":[",
+      cdt::VERSION, cdt::SOURCE_REVISION, cdt::BUILD_COMPILER_ID,
+      cdt::BUILD_COMPILER_VERSION, cdt::BUILD_CONFIGURATION,
+      cdt::BUILD_SYSTEM_NAME, cdt::BUILD_SYSTEM_PROCESSOR,
+      std::thread::hardware_concurrency(),
+      cdt::utilities::detail::standard_library_name(), CGAL_VERSION_STR);
+  write_state("causal-simplex", causal);
+  fmt::print(",");
+  write_state("causality-filter-before", filter_before);
+  fmt::print(",");
+  write_state("causality-filter-after", filter_after);
+  fmt::print(",");
+  write_state("move-23-before", before_23);
+  fmt::print(",");
+  write_state("move-23-after", *after_23);
+  fmt::print(",");
+  write_state("move-26-before", before_26);
+  fmt::print(",");
+  write_state("move-26-after", *after_26);
+  fmt::print(",");
+  write_state("move-44-before", before_44);
+  fmt::print(",");
+  write_state("move-44-after", *after_44);
+  fmt::print("],\"actions\":");
+  write_action_records();
+  fmt::print("}}\n");
   return 0;
 }
 catch (std::exception const& error)
 {
-  std::cerr << "Reference fixture: " << error.what() << '\n';
+  fmt::print(stderr, "Reference fixture: {}\n", error.what());
   return 2;
 }

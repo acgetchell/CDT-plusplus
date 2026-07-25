@@ -14,6 +14,8 @@
 #include <oneapi/tbb/version.h>
 #endif
 
+#include <fmt/format.h>
+
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -21,9 +23,9 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <functional>
 #include <gsl/narrow>
-#include <iostream>
 #include <iterator>
 #include <limits>
 #include <ranges>
@@ -62,16 +64,17 @@ namespace
     {
       auto ordered = samples;
       std::ranges::sort(ordered);
-      std::cout << name << "_ns_min=" << ordered.front() << '\n'
-                << name << "_ns_median=" << ordered[ordered.size() / 2] << '\n'
-                << name << "_ns_max=" << ordered.back() << '\n'
-                << name << "_ns_samples=";
+      fmt::print(
+          "{}_ns_min={}\n{}_ns_median={}\n{}_ns_max={}\n"
+          "{}_ns_samples=",
+          name, ordered.front(), name, ordered[ordered.size() / 2], name,
+          ordered.back(), name);
       for (std::size_t index = 0; index < samples.size(); ++index)
       {
-        if (index != 0) { std::cout << ','; }
-        std::cout << samples[index];
+        if (index != 0) { fmt::print(","); }
+        fmt::print("{}", samples[index]);
       }
-      std::cout << '\n';
+      fmt::print("\n");
     }
   };
 
@@ -278,46 +281,53 @@ try
     }
   }
 
-  std::cout << "record.schema=cdt-cgal-benchmark-v1\n"
-            << "implementation.name=CDT-plusplus\n"
-            << "implementation.version=" << cdt::VERSION << '\n'
-            << "implementation.revision=" << cdt::SOURCE_REVISION << '\n'
-            << "build.compiler_id=" << cdt::BUILD_COMPILER_ID << '\n'
-            << "build.compiler_version=" << cdt::BUILD_COMPILER_VERSION << '\n'
-            << "build.configuration=" << cdt::BUILD_CONFIGURATION << '\n'
-            << "build.system=" << cdt::BUILD_SYSTEM_NAME << '\n'
-            << "build.processor=" << cdt::BUILD_SYSTEM_PROCESSOR << '\n'
-            << "build.cxx_standard=23\n"
-            << "build.standard_library="
-            << cdt::utilities::detail::standard_library_name() << '\n'
-            << "hardware.logical_threads="
-            << std::thread::hardware_concurrency() << '\n'
-            << "dependency.cgal_version=" << CGAL_VERSION_STR << '\n'
+  fmt::print(
+      "record.schema=cdt-cgal-benchmark-v1\n"
+      "implementation.name=CDT-plusplus\n"
+      "implementation.version={}\n"
+      "implementation.revision={}\n"
+      "build.compiler_id={}\n"
+      "build.compiler_version={}\n"
+      "build.configuration={}\n"
+      "build.system={}\n"
+      "build.processor={}\n"
+      "build.cxx_standard=23\n"
+      "build.standard_library={}\n"
+      "hardware.logical_threads={}\n"
+      "dependency.cgal_version={}\n",
+      cdt::VERSION, cdt::SOURCE_REVISION, cdt::BUILD_COMPILER_ID,
+      cdt::BUILD_COMPILER_VERSION, cdt::BUILD_CONFIGURATION,
+      cdt::BUILD_SYSTEM_NAME, cdt::BUILD_SYSTEM_PROCESSOR,
+      cdt::utilities::detail::standard_library_name(),
+      std::thread::hardware_concurrency(), CGAL_VERSION_STR);
 #if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
     CDT_ENABLE_PARALLEL_TRIANGULATION
-            << "dependency.tbb_version=" << TBB_VERSION_STRING << '\n'
+  fmt::print("dependency.tbb_version={}\n", TBB_VERSION_STRING);
 #else
-            << "dependency.tbb_version=disabled\n"
+  fmt::print("dependency.tbb_version=disabled\n");
 #endif
-            << "parallel_tds=" << CDT_ENABLE_PARALLEL_TRIANGULATION << '\n'
-            << "requested_threads=" << thread_count << '\n'
-            << "active_threads=" << active_threads << '\n'
-            << "fixture.id=generated-foliated-ball-v1\n"
-            << "random.seed=" << seed << '\n'
-            << "random.initialization_stream="
-            << cdt::random_streams::initialization << '\n'
-            << "random.transition_stream=" << cdt::random_streams::transitions
-            << '\n'
-            << "requested_simplices=" << simplices << '\n'
-            << "timeslices=" << timeslices << '\n'
-            << "generated_points=" << input.size() << '\n'
-            << "warmups=" << warmups << '\n'
-            << "repetitions=" << repetitions << '\n'
-            << "moves_per_repetition=" << move_count << '\n'
-            << "final_vertices=" << final_vertices << '\n'
-            << "final_cells=" << final_cells << '\n'
-            << "sample.unit=nanoseconds\n"
-            << "checksum=" << checksum << '\n';
+  fmt::print(
+      "parallel_tds={}\n"
+      "requested_threads={}\n"
+      "active_threads={}\n"
+      "fixture.id=generated-foliated-ball-v1\n"
+      "random.seed={}\n"
+      "random.initialization_stream={}\n"
+      "random.transition_stream={}\n"
+      "requested_simplices={}\n"
+      "timeslices={}\n"
+      "generated_points={}\n"
+      "warmups={}\n"
+      "repetitions={}\n"
+      "moves_per_repetition={}\n"
+      "final_vertices={}\n"
+      "final_cells={}\n"
+      "sample.unit=nanoseconds\n"
+      "checksum={}\n",
+      CDT_ENABLE_PARALLEL_TRIANGULATION, thread_count, active_threads, seed,
+      cdt::random_streams::initialization, cdt::random_streams::transitions,
+      simplices, timeslices, input.size(), warmups, repetitions, move_count,
+      final_vertices, final_cells, checksum);
   bulk_insert.print("bulk_insert");
   foliation_repair.print("foliation_repair");
   cache_rebuild.print("cache_rebuild");
@@ -329,6 +339,6 @@ try
 }
 catch (std::exception const& error)
 {
-  std::cerr << "CGAL benchmark: " << error.what() << '\n';
+  fmt::print(stderr, "CGAL benchmark: {}\n", error.what());
   return 2;
 }

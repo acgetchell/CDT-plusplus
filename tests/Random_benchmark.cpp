@@ -7,11 +7,13 @@
 /// @file Random_benchmark.cpp
 /// @brief Before/after benchmark for move-heavy random selection
 
+#include <fmt/format.h>
+
 #include <charconv>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
+#include <cstdio>
 #include <stdexcept>
 #include <string_view>
 
@@ -75,16 +77,15 @@ try
   }
   auto const speedup = static_cast<long double>(entropy_time.count()) /
                        static_cast<long double>(owned_ns);
-  std::cout << "draws=" << draws << '\n'
-            << "before_entropy_per_draw_ns=" << entropy_time.count() << '\n'
-            << "after_run_owned_pcg_ns=" << owned_time.count() << '\n'
-            << "speedup=" << static_cast<double>(speedup) << '\n'
-            << "checksums=" << entropy_checksum << ',' << owned_checksum
-            << '\n';
+  fmt::print(
+      "draws={}\nbefore_entropy_per_draw_ns={}\nafter_run_owned_pcg_ns={}\n"
+      "speedup={}\nchecksums={},{}\n",
+      draws, entropy_time.count(), owned_time.count(),
+      static_cast<double>(speedup), entropy_checksum, owned_checksum);
   return 0;
 }
 catch (std::exception const& error)
 {
-  std::cerr << "rng benchmark: " << error.what() << '\n';
+  fmt::print(stderr, "rng benchmark: {}\n", error.what());
   return 2;
 }

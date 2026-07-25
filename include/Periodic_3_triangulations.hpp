@@ -18,6 +18,7 @@
 #include <CGAL/Random.h>
 #include <CGAL/Timer.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
+#include <fmt/ostream.h>
 
 #include <cassert>
 #include <vector>
@@ -47,7 +48,7 @@ namespace cdt::experimental::periodic_triangulations
   template <typename T>
   void make_random_T3_triangulation(T* T3, int simplices, int timeslices)
   {
-    std::cout << "make_random_T3_triangulation() called" << std::endl;
+    fmt::print("make_random_T3_triangulation() called\n");
 
     int simplices_per_timeslice = simplices / timeslices;
     /// We can't directly pick number of simplices as we can in S3
@@ -71,7 +72,7 @@ namespace cdt::experimental::periodic_triangulations
          ++timeslice_index)
     {
       /// Debugging
-      std::cout << "Timeslice " << timeslice_index << std::endl;
+      fmt::print("Timeslice {}\n", timeslice_index);
       for (int point_index = 0; point_index < points_per_timeslice;
            ++point_index)
       {
@@ -82,7 +83,7 @@ namespace cdt::experimental::periodic_triangulations
       {
         auto const offset =
             timeslice_index * points_per_timeslice + point_index;
-        std::cout << " " << v[static_cast<std::size_t>(offset)] << std::endl;
+        fmt::print(" {}\n", fmt::streamed(v[static_cast<std::size_t>(offset)]));
       }
     }
   }

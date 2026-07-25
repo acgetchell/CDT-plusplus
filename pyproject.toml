@@ -21,6 +21,7 @@ default-groups = ["dev"]
 no-build-package = [
   "clang-format",
   "comet-ml",
+  "jsonschema",
   "matplotlib",
   "numpy",
   "pyyaml",

@@ -336,6 +336,33 @@ rules:
           - metavariable-regex:
               metavariable: $METHOD
               regex: ^print(?:_|$)
+  - id: cdt.cpp.use-fmt-print-for-console-output
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Use fmt::print for console output. Keep stream insertion for serialization
+      contracts, and use fmt::streamed only when a third-party type has no
+      native formatter.
+    metadata:
+      category: maintainability
+      rationale: >-
+        Typed format strings keep output construction explicit and avoid
+        mutable iostream formatting state across CLI, fixture, and benchmark
+        producers.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/*_benchmark.cpp"
+        - "/tests/Reference_fixture.cpp"
+        - "/tests/semgrep/formatted_output.cpp"
+    pattern-either:
+      - pattern: std::cout << $VALUE;
+      - pattern: std::cerr << $VALUE;
+      - pattern: std::clog << $VALUE;
   - id: cdt.cpp.test-temp-paths-are-unique
     languages:
       - cpp

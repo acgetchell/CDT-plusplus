@@ -79,7 +79,94 @@ def validate_entity_ids(entities: list[dict[str, Any]], prefix: str, state_id: s
         raise ValueError(message)
 
 
-def validate_state(state: dict[str, Any]) -> None:  # noqa: C901, PLR0912, PLR0915
+def validate_edges(
+    edges: list[dict[str, Any]],
+    vertex_by_id: dict[str, dict[str, Any]],
+    state_id: str,
+) -> list[list[str]]:
+    """Validate canonical edge incidence and causal classifications."""
+    edge_keys: list[list[str]] = []
+    for edge in edges:
+        endpoints = edge["vertices"]
+        if endpoints != sorted(endpoints) or any(endpoint not in vertex_by_id for endpoint in endpoints):
+            message = f"{state_id}: invalid edge incidence"
+            raise ValueError(message)
+        times = [vertex_by_id[endpoint]["time"] for endpoint in endpoints]
+        expected_type = "spacelike" if times[0] == times[1] else "timelike"
+        if edge["type"] != expected_type:
+            message = f"{state_id}: edge {edge['id']} has incorrect causal type"
+            raise ValueError(message)
+        edge_keys.append(endpoints)
+    if edge_keys != sorted(edge_keys) or len(edge_keys) != len({tuple(key) for key in edge_keys}):
+        message = f"{state_id}: edges are not unique and canonical"
+        raise ValueError(message)
+    return edge_keys
+
+
+def validate_facets(
+    facets: list[dict[str, Any]],
+    vertex_by_id: dict[str, dict[str, Any]],
+    state_id: str,
+) -> list[list[str]]:
+    """Validate canonical facet incidence and causal classifications."""
+    facet_keys: list[list[str]] = []
+    for facet in facets:
+        incident = facet["vertices"]
+        if incident != sorted(incident) or any(vertex not in vertex_by_id for vertex in incident):
+            message = f"{state_id}: invalid facet incidence"
+            raise ValueError(message)
+        times = [vertex_by_id[vertex]["time"] for vertex in incident]
+        spacelike = len(set(times)) == 1
+        if facet["spacelike"] is not spacelike:
+            message = f"{state_id}: facet {facet['id']} has incorrect causal type"
+            raise ValueError(message)
+        if spacelike and facet.get("time") != times[0]:
+            message = f"{state_id}: facet {facet['id']} has incorrect time"
+            raise ValueError(message)
+        facet_keys.append(incident)
+    if facet_keys != sorted(facet_keys) or len(facet_keys) != len({tuple(key) for key in facet_keys}):
+        message = f"{state_id}: facets are not unique and canonical"
+        raise ValueError(message)
+    return facet_keys
+
+
+def validate_cells(
+    cells: list[dict[str, Any]],
+    vertex_by_id: dict[str, dict[str, Any]],
+    state_id: str,
+) -> list[list[str]]:
+    """Validate canonical cell incidence."""
+    cell_keys: list[list[str]] = []
+    for cell in cells:
+        incident = cell["vertices"]
+        if incident != sorted(incident) or len(incident) != len(set(incident)) or any(vertex not in vertex_by_id for vertex in incident):
+            message = f"{state_id}: invalid cell incidence"
+            raise ValueError(message)
+        cell_keys.append(incident)
+    if cell_keys != sorted(cell_keys) or len(cell_keys) != len({tuple(key) for key in cell_keys}):
+        message = f"{state_id}: cells are not unique and canonical"
+        raise ValueError(message)
+    return cell_keys
+
+
+def validate_incidence_closure(
+    edge_keys: list[list[str]],
+    facet_keys: list[list[str]],
+    cell_keys: list[list[str]],
+    state_id: str,
+) -> None:
+    """Require edge and facet sets to equal the cell incidence closure."""
+    expected_edges = sorted({pair for cell in cell_keys for pair in itertools.combinations(cell, 2)})
+    if [tuple(key) for key in edge_keys] != expected_edges:
+        message = f"{state_id}: edge set does not equal cell incidence"
+        raise ValueError(message)
+    expected_facets = sorted({triple for cell in cell_keys for triple in itertools.combinations(cell, 3)})
+    if [tuple(key) for key in facet_keys] != expected_facets:
+        message = f"{state_id}: facet set does not equal cell incidence"
+        raise ValueError(message)
+
+
+def validate_state(state: dict[str, Any]) -> None:
     """Validate ordering, incidence, adjacency, classification, and f-vector."""
     state_id = str(state["id"])
     vertices = state["vertices"]
@@ -109,60 +196,10 @@ def validate_state(state: dict[str, Any]) -> None:  # noqa: C901, PLR0912, PLR09
         message = f"{state_id}: time bounds do not match vertices"
         raise ValueError(message)
 
-    edge_keys: list[list[str]] = []
-    for edge in edges:
-        endpoints = edge["vertices"]
-        if endpoints != sorted(endpoints) or any(endpoint not in vertex_by_id for endpoint in endpoints):
-            message = f"{state_id}: invalid edge incidence"
-            raise ValueError(message)
-        times = [vertex_by_id[endpoint]["time"] for endpoint in endpoints]
-        expected_type = "spacelike" if times[0] == times[1] else "timelike"
-        if edge["type"] != expected_type:
-            message = f"{state_id}: edge {edge['id']} has incorrect causal type"
-            raise ValueError(message)
-        edge_keys.append(endpoints)
-    if edge_keys != sorted(edge_keys) or len(edge_keys) != len({tuple(key) for key in edge_keys}):
-        message = f"{state_id}: edges are not unique and canonical"
-        raise ValueError(message)
-
-    facet_keys: list[list[str]] = []
-    for facet in facets:
-        incident = facet["vertices"]
-        if incident != sorted(incident) or any(vertex not in vertex_by_id for vertex in incident):
-            message = f"{state_id}: invalid facet incidence"
-            raise ValueError(message)
-        times = [vertex_by_id[vertex]["time"] for vertex in incident]
-        spacelike = len(set(times)) == 1
-        if facet["spacelike"] is not spacelike:
-            message = f"{state_id}: facet {facet['id']} has incorrect causal type"
-            raise ValueError(message)
-        if spacelike and facet.get("time") != times[0]:
-            message = f"{state_id}: facet {facet['id']} has incorrect time"
-            raise ValueError(message)
-        facet_keys.append(incident)
-    if facet_keys != sorted(facet_keys) or len(facet_keys) != len({tuple(key) for key in facet_keys}):
-        message = f"{state_id}: facets are not unique and canonical"
-        raise ValueError(message)
-
-    cell_keys: list[list[str]] = []
-    for cell in cells:
-        incident = cell["vertices"]
-        if incident != sorted(incident) or len(incident) != len(set(incident)) or any(vertex not in vertex_by_id for vertex in incident):
-            message = f"{state_id}: invalid cell incidence"
-            raise ValueError(message)
-        cell_keys.append(incident)
-    if cell_keys != sorted(cell_keys) or len(cell_keys) != len({tuple(key) for key in cell_keys}):
-        message = f"{state_id}: cells are not unique and canonical"
-        raise ValueError(message)
-
-    expected_edges = sorted({pair for cell in cell_keys for pair in itertools.combinations(cell, 2)})
-    if [tuple(key) for key in edge_keys] != expected_edges:
-        message = f"{state_id}: edge set does not equal cell incidence"
-        raise ValueError(message)
-    expected_facets = sorted({triple for cell in cell_keys for triple in itertools.combinations(cell, 3)})
-    if [tuple(key) for key in facet_keys] != expected_facets:
-        message = f"{state_id}: facet set does not equal cell incidence"
-        raise ValueError(message)
+    edge_keys = validate_edges(edges, vertex_by_id, state_id)
+    facet_keys = validate_facets(facets, vertex_by_id, state_id)
+    cell_keys = validate_cells(cells, vertex_by_id, state_id)
+    validate_incidence_closure(edge_keys, facet_keys, cell_keys, state_id)
 
     for index, cell in enumerate(cells):
         incident = cell["vertices"]
@@ -631,7 +668,25 @@ def validate_end_to_end(protocol: dict[str, Any], path: Path | None = None) -> N
 
 def parse_key_value_record(path: Path) -> dict[str, str]:
     """Read one raw benchmark record without changing or normalizing it."""
-    return dict(line.split("=", maxsplit=1) for line in path.read_text(encoding="utf-8").splitlines() if "=" in line)
+    return parse_key_value_payload(path.read_text(encoding="utf-8"), str(path))
+
+
+def parse_key_value_payload(payload: str, source: str) -> dict[str, str]:
+    """Parse an unambiguous key-value record with source-specific errors."""
+    result: dict[str, str] = {}
+    for line_number, line in enumerate(payload.splitlines(), start=1):
+        if "=" not in line:
+            message = f"{source}:{line_number}: expected a key=value record"
+            raise ValueError(message)
+        key, value = line.split("=", maxsplit=1)
+        if not key:
+            message = f"{source}:{line_number}: key-value record has an empty key"
+            raise ValueError(message)
+        if key in result:
+            message = f"{source}:{line_number}: duplicate key {key!r}"
+            raise ValueError(message)
+        result[key] = value
+    return result
 
 
 def validate_scaling_records() -> None:

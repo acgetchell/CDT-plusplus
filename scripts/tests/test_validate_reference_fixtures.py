@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import tempfile
 import unittest
 from pathlib import Path
 from typing import override
@@ -117,6 +118,42 @@ class ReferenceFixtureValidationTests(unittest.TestCase):
             self.assertRaisesRegex(ValueError, "clean Git commit"),
         ):
             validator.validate_clean_provenance(raw, manifests)
+
+    def test_fnv1a64_uses_the_published_offset_basis(self) -> None:
+        """The persistence checksum matches the published empty-input vector."""
+        self.assertEqual(validator.fnv1a64(b""), "cbf29ce484222325")
+
+    def test_key_value_records_reject_malformed_lines(self) -> None:
+        """Every scaling-record line must use the declared key=value syntax."""
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "record.txt"
+            path.write_text("record.schema=fixture-v1\nunexpected output\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, r"record\.txt:2: expected a key=value record"):
+                validator.parse_key_value_record(path)
+
+    def test_key_value_records_reject_duplicate_keys(self) -> None:
+        """Conflicting provenance cannot depend on first- or last-key wins."""
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "record.txt"
+            path.write_text(
+                "implementation.revision=first\nimplementation.revision=second\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, r"record\.txt:2: duplicate key 'implementation\.revision'"):
+                validator.parse_key_value_record(path)
+
+    def test_scaling_records_require_every_raw_sample(self) -> None:
+        """Each timing series contains the declared number of repetitions."""
+        records = [validator.parse_key_value_record(validator.REFERENCE / "raw" / "v1" / f"scaling-threads-{threads}.txt") for threads in (1, 2, 4)]
+        records[0]["bulk_insert_ns_samples"] = "1,2,3,4"
+
+        with (
+            mock.patch.object(validator, "parse_key_value_record", side_effect=records),
+            self.assertRaisesRegex(ValueError, "raw sample count does not match repetitions"),
+        ):
+            validator.validate_scaling_records()
 
     def test_proposal_probabilities_are_derived_from_raw_domains(self) -> None:
         """Preserving a wrong Hastings ratio does not conceal scaled inputs."""
