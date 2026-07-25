@@ -24,7 +24,7 @@ case "${phase}" in
     # builds third-party sources outside the CodeQL database, while the build
     # directory keeps installed dependency headers outside the checkout.
     cmake -S "${repo_root}" -B "${codeql_build_dir}" -G Ninja \
-      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_CXX_EXTENSIONS=OFF \
       -DCMAKE_CXX_STANDARD=23 \
       -DCMAKE_CXX_STANDARD_REQUIRED=ON \

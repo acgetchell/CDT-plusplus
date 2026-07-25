@@ -15,6 +15,7 @@ cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.0"
 ninja_version := "1.13.2"
 ninja_windows_wheel_version := "1.13.0"
+ccache_version := "4.13.6"
 doxygen_version := "1.17.0"
 graphviz_version := "15.1.0"
 zizmor_version := "1.28.0"
@@ -33,6 +34,11 @@ build:
 [group('workflows')]
 build-parallel:
     {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat parallel'" } else { "just _build-parallel-unix" } }}
+
+# Build production targets in Debug mode and run the supported CLI integration tests.
+[group('workflows')]
+build-debug:
+    {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat debug'" } else { "just _build-debug-unix" } }}
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
@@ -195,7 +201,11 @@ semgrep: _sync-python-dev
     SEMGREP_ENABLE_VERSION_CHECK=0 SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
         SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
         uv run --no-sync semgrep scan --error --strict --timeout 120 --no-git-ignore \
-            --config semgrep.yaml --exclude tests/semgrep .
+            --config semgrep.yaml \
+            --exclude .cache --exclude .venv --exclude venv \
+            --exclude 'build*' --exclude 'cmake-build*' --exclude cov-int --exclude coverage \
+            --exclude html --exclude out --exclude Testing --exclude vcpkg_installed \
+            --exclude tests/semgrep .
 
 # Test repository-owned Semgrep rules against annotated positive and negative fixtures.
 [group('workflows')]
@@ -343,6 +353,15 @@ _build-parallel-unix:
       exec ./scripts/pkgx-build.sh --preset parallel
     fi
     exec ./scripts/build.sh parallel
+
+[private]
+_build-debug-unix:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec ./scripts/pkgx-build.sh --preset debug
+    fi
+    exec ./scripts/build.sh debug
 
 [private]
 _codeql-phase phase:

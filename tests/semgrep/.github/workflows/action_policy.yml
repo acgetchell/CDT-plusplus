@@ -1,0 +1,32 @@
+---
+name: Action policy fixtures
+on:  # yamllint disable-line rule:truthy
+  workflow_dispatch:
+
+jobs:
+  fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Allowed pinned action
+        # ok: cdt.github-actions.external-action-sha-pinned
+        # ok: cdt.github-actions.external-action-approved-allowlist
+        # ok: cdt.github-actions.external-action-version-comment
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Moving tag action
+        # ruleid: cdt.github-actions.external-action-sha-pinned
+        uses: actions/checkout@v7
+
+      - name: Unapproved external action
+        # ruleid: cdt.github-actions.external-action-approved-allowlist
+        uses: unapproved/example-action@1111111111111111111111111111111111111111  # v1.0.0
+
+      - name: Missing readable version comment
+        # ruleid: cdt.github-actions.external-action-version-comment
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+
+      - name: Local action
+        # ok: cdt.github-actions.external-action-sha-pinned
+        # ok: cdt.github-actions.external-action-approved-allowlist
+        # ok: cdt.github-actions.external-action-version-comment
+        uses: ./.github/actions/setup-just

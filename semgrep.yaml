@@ -42,6 +42,64 @@ rules:
                 ...
                 runs-on: windows-latest
                 ...
+  - id: cdt.github-actions.external-action-sha-pinned
+    languages:
+      - regex
+    severity: WARNING
+    message: "Pin external GitHub Actions to a full 40-character commit SHA."
+    metadata:
+      category: security
+      rationale: "Moving tags can change workflow behavior without review."
+    paths:
+      include:
+        - "/.github/actions/**/*.yaml"
+        - "/.github/actions/**/*.yml"
+        - "/.github/workflows/**/*.yaml"
+        - "/.github/workflows/**/*.yml"
+        - "/tests/semgrep/.github/**/*.yaml"
+        - "/tests/semgrep/.github/**/*.yml"
+    patterns:
+      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?@(?![a-fA-F0-9]{40}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
+  - id: cdt.github-actions.external-action-approved-allowlist
+    languages:
+      - regex
+    severity: WARNING
+    message: >-
+      Use only approved external GitHub Actions, or update the repository
+      allowlist deliberately.
+    metadata:
+      category: security
+      rationale: "A small allowlist keeps workflow supply-chain review explicit."
+    paths:
+      include:
+        - "/.github/actions/**/*.yaml"
+        - "/.github/actions/**/*.yml"
+        - "/.github/workflows/**/*.yaml"
+        - "/.github/workflows/**/*.yml"
+        - "/tests/semgrep/.github/**/*.yaml"
+        - "/tests/semgrep/.github/**/*.yml"
+    patterns:
+      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)(?!(?:actions/(?:cache|checkout|setup-python|upload-artifact)|astral-sh/setup-uv|codecov/codecov-action|DenverCoder1/doxygen-github-pages-action|github/codeql-action/(?:analyze|init)|ilammy/msvc-dev-cmd|JamesIves/github-pages-deploy-action|lukka/run-vcpkg|pkgxdev/setup|taiki-e/(?:cache-cargo-install-action|install-action))@)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?@'  # yamllint disable-line rule:line-length
+  - id: cdt.github-actions.external-action-version-comment
+    languages:
+      - regex
+    severity: WARNING
+    message: "Keep a readable version comment next to external GitHub Action SHA pins."
+    metadata:
+      category: maintainability
+      rationale: >-
+        Version comments make automated dependency updates and human review
+        manageable.
+    paths:
+      include:
+        - "/.github/actions/**/*.yaml"
+        - "/.github/actions/**/*.yml"
+        - "/.github/workflows/**/*.yaml"
+        - "/.github/workflows/**/*.yml"
+        - "/tests/semgrep/.github/**/*.yaml"
+        - "/tests/semgrep/.github/**/*.yml"
+    patterns:
+      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?@[a-fA-F0-9]{40}\s*$'  # yamllint disable-line rule:line-length
   - id: cdt.cpp.no-crtp-inheritance
     languages:
       - cpp

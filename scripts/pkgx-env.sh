@@ -16,16 +16,40 @@ fi
 script_dir="$(cd -- "$(dirname -- "${script_file}")" && pwd -P)"
 repo_root="$(cd -- "${script_dir}/.." && pwd -P)"
 
-if ! pkgx_environment="$(pkgx \
-  +freedesktop.org/pkg-config@0.29.2 \
-  +gnu.org/m4@1.4.21 \
-  +gnu.org/autoconf@2.73.0 \
-  +gnu.org/autoconf-archive@2024.10.16 \
-  +gnu.org/automake@1.18.1 \
-  +gnu.org/libtool@2.5.4 \
-  +gnu.org/texinfo@7.3.0)"; then
+pkgx_packages=(
+  +freedesktop.org/pkg-config@0.29.2
+  +gnu.org/m4@1.4.21
+  +gnu.org/autoconf@2.73.0
+  +gnu.org/autoconf-archive@2024.10.16
+  +gnu.org/automake@1.18.1
+  +gnu.org/libtool@2.5.4
+  +gnu.org/texinfo@7.3.0
+)
+case "${CDT_COMPILER_CACHE:-}" in
+  "" | off) ;;
+  ccache)
+    if ! command -v just >/dev/null 2>&1; then
+      printf 'Just is required to resolve the pinned ccache version.\n' >&2
+      unset pkgx_packages repo_root script_dir script_file
+      return 1 2>/dev/null || exit 1
+    fi
+    cache_version="$(
+      just --justfile "${repo_root}/Justfile" \
+        --evaluate ccache_version
+    )"
+    pkgx_packages+=("+ccache.dev@${cache_version}")
+    ;;
+  *)
+    printf 'Unsupported CDT_COMPILER_CACHE=%s; expected ccache, off, or an empty value.\n' \
+      "${CDT_COMPILER_CACHE}" >&2
+    unset pkgx_packages repo_root script_dir script_file
+    return 2 2>/dev/null || exit 2
+    ;;
+esac
+
+if ! pkgx_environment="$(pkgx "${pkgx_packages[@]}")"; then
   printf 'Unable to resolve the pkgx build environment.\n' >&2
-  unset pkgx_environment repo_root script_dir script_file
+  unset cache_version pkgx_environment pkgx_packages repo_root script_dir script_file
   return 1 2>/dev/null || exit 1
 fi
 
@@ -66,4 +90,4 @@ fi
 
 export VCPKG_ROOT="${repo_root}/.cache/vcpkg"
 
-unset had_allexport pkgx_environment repo_root script_dir script_file
+unset cache_version had_allexport pkgx_environment pkgx_packages repo_root script_dir script_file

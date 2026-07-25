@@ -1,4 +1,4 @@
-option(ENABLE_CACHE "Enable cache if available" ON)
+option(ENABLE_CACHE "Enable cache if available" OFF)
 if(NOT ENABLE_CACHE)
   return()
 endif()
@@ -6,7 +6,7 @@ endif()
 set(CACHE_OPTION
     "ccache"
     CACHE STRING "Compiler cache to be used")
-set(CACHE_OPTION_VALUES "ccache" "sccache")
+set(CACHE_OPTION_VALUES "ccache")
 set_property(CACHE CACHE_OPTION PROPERTY STRINGS ${CACHE_OPTION_VALUES})
 list(
   FIND

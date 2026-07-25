@@ -58,7 +58,7 @@ cmake \
   -G Ninja \
   -S "${repo_root}" \
   -B "${cmake_build_dir}" \
-  -D CMAKE_BUILD_TYPE=RelWithDebInfo \
+  -D CMAKE_BUILD_TYPE=Release \
   -D CMAKE_CXX_COMPILER="${cxx}" \
   -D ENABLE_COVERAGE:BOOL=TRUE \
   -D ENABLE_TESTING:BOOL=TRUE

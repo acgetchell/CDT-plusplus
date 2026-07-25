@@ -50,13 +50,19 @@ substantial implementation so its maintenance value and scope can be agreed upon
 
    `just check` is the fast, non-mutating source and tooling gate, including the repository-owned Semgrep policy and
    its fixtures. `just ci` adds the supported build and complete 24-entry CTest suite: all 103 doctest unit scenarios
-   and 23 CLI integration tests. `just build-parallel` builds the distinct
-   CGAL/oneTBB configuration and runs the same scientific suite plus the
+   and 23 CLI integration tests. `just build-parallel` builds the distinct CGAL/oneTBB configuration and runs the same
+   scientific suite plus the
    replayable parallel stress launcher, for 25 entries. When changing C++ behavior, also run
    `just clang-tidy` with the pinned LLVM 22 toolchain and review its advisory diagnostics.
    GitHub Actions runs `just ci` in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs. The two
-   Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract. The Windows job continues
-   to compile with native MSVC; LLVM tooling is used only for source formatting. Toolchain setup is pkgx-first;
+   Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract. Sanitizer and coverage
+   builds keep Release assertion semantics while adding their own debug information and optimization settings. A
+   separate full-suite Debug job is intentionally omitted because several fixtures traverse invalid intermediate
+   triangulations and abort on CDT++ invariant assertions. Use `just build-debug` to compile production targets with
+   CDT++ assertions enabled and run the 21 compatible CLI integration CTests. That preset defines `CGAL_NDEBUG` for
+   supported move paths while excluding `cdt`, `cdt-no-output`, and the doctest unit fixtures because they trip
+   project assertions on deliberately invalid intermediate states. The Windows job continues to compile with native
+   MSVC; LLVM tooling is used only for source formatting. Toolchain setup is pkgx-first;
    because pkgx does not currently publish its CMake and Ninja packages for Windows, that job uses the exact Justfile
    pins available as PyPI wheels through `uv tool install --no-build`.
 

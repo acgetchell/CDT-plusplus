@@ -79,8 +79,13 @@ include(cmake/PreventInSourceBuilds.cmake)
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_23)
+# Debug keeps CDT++ assertions enabled. CGAL's internal checks are disabled
+# because supported move paths deliberately traverse invalid intermediate
+# triangulations before restoring their invariants.
 target_compile_definitions(
-  project_options INTERFACE CDT_BUILD_CONFIGURATION="$<CONFIG>")
+  project_options
+  INTERFACE CDT_BUILD_CONFIGURATION="$<CONFIG>"
+            $<$<CONFIG:Debug>:CGAL_NDEBUG>)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)

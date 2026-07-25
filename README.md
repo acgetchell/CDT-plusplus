@@ -172,14 +172,41 @@ From a fresh checkout, the primary supported headless build, dependency bootstra
 just build
 ```
 
-The `build` recipe uses the pkgx launcher on Unix when pkgx is available, then delegates to `scripts/build.sh`. Its
+The `build` recipe uses the Release configuration and the pkgx launcher on Unix when pkgx is available, then delegates
+to `scripts/build.sh`. Its
 first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
 bootstraps vcpkg, installs the manifest dependencies, builds in `out/build/reference`, and runs the supported CTest
 smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and
 CMake/Ninja outputs, so an unchanged build is a no-op apart from configuration and tests.
 
+For a production build with CDT++ assertions enabled, use the focused Debug
+workflow:
+
+```bash
+just build-debug
+```
+
+The Debug build preset compiles the `cdt` and `initialize` production targets,
+then the `debug-cli` test preset runs the 21 Debug-compatible CTest entries
+labeled `integration`. It defines `CGAL_NDEBUG` because supported move paths
+deliberately traverse invalid intermediate triangulations, while leaving
+CDT++'s own assertions enabled. The `cdt` and `cdt-no-output` simulation tests
+and the doctest unit suite are excluded because those paths trip project
+invariant assertions on the intermediate state. Release remains the canonical
+complete test configuration.
+
+On Unix, compiler caching is optional. The pkgx launcher supplies the repository-pinned ccache binary when
+`CDT_COMPILER_CACHE=ccache`; leaving the variable unset or setting it to `off` preserves the uncached build:
+
+```bash
+CDT_COMPILER_CACHE=ccache just build
+```
+
+Compiler caching covers project compilation; vcpkg binary caching remains responsible for reusing compiled
+third-party packages.
+
 The optional [pkgx](https://pkgx.sh/) entry point supplies the complete Unix developer-tool environment ephemerally
-and invokes the same build contract directly, without requiring Just:
+and invokes the same build contract directly:
 
 ```bash
 ./scripts/pkgx-build.sh
@@ -225,7 +252,7 @@ The smallest pkgx-assisted host setup is:
 
 - Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
 - pkgx
-- Just when invoking the recipes directly; `scripts/pkgx-build.sh` does not require it
+- Just, used by the recipes and `scripts/pkgx-build.sh` to resolve the repository's tool-version pins
 - Python 3.12 for native dependency bootstrap, and uv when checking or running the Python support scripts
 - Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
 
@@ -254,6 +281,7 @@ The repository-root [Justfile](Justfile) provides the same small command vocabul
 
 ```bash
 just check                 # Fast, non-mutating local checks
+just build-debug           # Build Debug targets and run compatible CLI integration tests
 just build-parallel        # Build and test the opt-in CGAL/oneTBB configuration
 just codeql-prepare        # Configure dependencies before CodeQL tracing
 just codeql-build          # Build production targets for CodeQL extraction
@@ -280,7 +308,11 @@ fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset p
 check and the supported build/test contract. Documentation validation remains available separately through
 `just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
 AppleClang, and Windows MSVC jobs all run `just ci`; the two Ubuntu jobs also
-run `just build-parallel`. Windows continues to compile with native MSVC; the
+run `just build-parallel`. The Ubuntu compiler jobs use the pinned pkgx ccache
+package with a compiler-specific persistent cache. Sanitizer builds use Release
+semantics with sanitizer-provided `-O1 -g` flags, while coverage uses Release
+semantics with coverage-provided `-O0 -g` flags; no duplicate full-suite Debug
+job is needed. Windows continues to compile with native MSVC; the
 locked Python environment supplies `clang-format` only as a source formatter.
 Install the developer tools with Homebrew, use equivalent system packages, or
 let pkgx supply the Unix environment ephemerally; pkgx remains optional. For
