@@ -86,7 +86,7 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
             mock.patch.object(generator, "clean_source_revision", return_value="a" * 40),
             mock.patch.object(generator, "executable", side_effect=lambda path: path),
             mock.patch.object(generator, "produce_raw_artifacts") as produce_raw_artifacts,
-            self.assertRaisesRegex(ValueError, r"--fixture-binary.*'build/custom/CDT_reference_fixture'"),
+            self.assertRaises(ValueError) as raised,
         ):
             generator.regenerate(
                 binaries["--fixture-binary"],
@@ -96,6 +96,8 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
                 None,
             )
 
+        self.assertIn("--fixture-binary", str(raised.exception))
+        self.assertIn(str(binaries["--fixture-binary"]), str(raised.exception))
         produce_raw_artifacts.assert_not_called()
 
     def test_cmake_version_comes_from_the_configured_builds(self) -> None:

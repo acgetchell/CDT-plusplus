@@ -176,6 +176,8 @@ rules:
         - "/include/Ergodic_moves_3.hpp"
         - "/include/Move_tracker.hpp"
         - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/tests/semgrep/formatted_output.cpp"
     pattern-either:
       - pattern: spdlog::trace(...)
       - pattern: spdlog::debug(...)
@@ -328,6 +330,8 @@ rules:
         - "/tests/*_test.cpp"
         - "/tests/**/*_test.cpp"
         - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/tests/semgrep/formatted_output.cpp"
     pattern-either:
       - pattern: fmt::print(...)
       - pattern: std::cout << $VALUE;

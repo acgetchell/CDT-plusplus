@@ -192,7 +192,7 @@ semgrep: _sync-python-dev
     set -euo pipefail
     state_dir="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-state.XXXXXX")"
     trap 'rm -rf "$state_dir"' EXIT
-    SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
+    SEMGREP_ENABLE_VERSION_CHECK=0 SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
         SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
         uv run --no-sync semgrep scan --error --strict --timeout 120 --no-git-ignore \
             --config semgrep.yaml --exclude tests/semgrep .github include src tests
