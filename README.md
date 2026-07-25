@@ -245,18 +245,22 @@ let pkgx supply the Unix environment ephemerally; pkgx remains optional. For
 example:
 
 ```bash
-uv sync --locked --group dev
-pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.0 +ninja-build.org +python.org +zizmor just check
+just python-sync
+pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.0 +ninja-build.org +python.org just check
 ```
 
 All configure paths require CMake 4.4.0 or newer. The Justfile owns the tested
 4.4.0 toolchain pin: pkgx-backed recipes remain reproducible at that version,
-while direct configure paths accept newer compatible CMake releases.
+while direct configure paths accept newer compatible CMake releases. CI is
+pkgx-first; because pkgx does not currently publish its CMake and Ninja packages
+for Windows, that job uses the exact Justfile pins available as PyPI wheels
+through `uv tool install --no-build`.
 
 [pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
 SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact,
-Go, or a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass. The locked uv
-development environment provides `clang-format`, `yamllint`, and `actionlint` consistently on every platform.
+Go, or a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass. Direct third-party
+Python dependencies install only from locked wheels. The uv environment provides `clang-format` and `yamllint`;
+actionlint uses its pinned upstream version, and zizmor uses its pinned PyPI wheel through `uvx`.
 
 ### vcpkg maintenance
 
@@ -565,8 +569,8 @@ Synchronize them from the same uv lockfile when working on the experiment script
 
 ```bash
 just python-sync-experiments
-uv run --locked --group experiments cdt-optimize-initialize
-uv run --locked --group experiments cdt-mnist-experiment
+uv run --no-sync cdt-optimize-initialize
+uv run --no-sync cdt-mnist-experiment
 ```
 
 Run these commands from the repository root. Set `COMET_API_KEY` before starting the parameter optimization; use

@@ -5,17 +5,19 @@ set minimum-version := "1.57.0"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 just_version := "1.57.0"
-uv_version := "0.11.31"
+uv_version := "0.11.32"
 git_cliff_version := "2.13.1"
+actionlint_version := "1.7.12"
 pinact_version := "4.1.0"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 llvm_version := "22"
 cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.0"
 ninja_version := "1.13.2"
+ninja_windows_wheel_version := "1.13.0"
 doxygen_version := "1.17.0"
 graphviz_version := "15.1.0"
-zizmor_version := "1.26.1"
+zizmor_version := "1.28.0"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_cgal_benchmark.exe" } else { "out/build/reference/tests/CDT_cgal_benchmark" }
@@ -132,39 +134,39 @@ clang-tidy:
 
 # Validate release metadata, citation fields, and version synchronization.
 [group('workflows')]
-release-check: _ensure-uv
-    uv run --locked python scripts/release_check.py
+release-check: _sync-python-dev
+    uv run --no-sync python scripts/release_check.py
 
 # Generate the changelog as though the requested release tag already exists.
 [group('release')]
-changelog-unreleased version: _ensure-git-cliff _ensure-uv
-    uv run --locked python scripts/generate_changelog.py {{ quote(version) }}
+changelog-unreleased version: _ensure-git-cliff _sync-python-dev
+    uv run --no-sync python scripts/generate_changelog.py {{ quote(version) }}
 
 # Validate and preview an annotated release tag without creating it.
 [group('release')]
-tag-check version: _ensure-uv
-    uv run --locked cdt-tag-release {{ quote(version) }} --dry-run
+tag-check version: _sync-python-dev
+    uv run --no-sync cdt-tag-release {{ quote(version) }} --dry-run
 
 # Create an annotated release tag from the matching CHANGELOG.md section.
 [group('release')]
-tag version: _ensure-uv
-    uv run --locked cdt-tag-release {{ quote(version) }}
+tag version: _sync-python-dev
+    uv run --no-sync cdt-tag-release {{ quote(version) }}
 
 # Scan production and correctness-test sources for repository-owned policies.
 [group('workflows')]
-semgrep: _ensure-uv
+semgrep: _sync-python-dev
     #!/usr/bin/env bash
     set -euo pipefail
     state_dir="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-state.XXXXXX")"
     trap 'rm -rf "$state_dir"' EXIT
     SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
         SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
-        uv run --locked semgrep scan --error --strict --timeout 120 --no-git-ignore \
-            --config semgrep.yaml --exclude tests/semgrep include src tests
+        uv run --no-sync semgrep scan --error --strict --timeout 120 --no-git-ignore \
+            --config semgrep.yaml --exclude tests/semgrep .github include src tests
 
 # Test repository-owned Semgrep rules against annotated positive and negative fixtures.
 [group('workflows')]
-semgrep-test: _ensure-uv
+semgrep-test: _sync-python-dev
     #!/usr/bin/env bash
     set -euo pipefail
     config_dir="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-config.XXXXXX")"
@@ -179,10 +181,10 @@ semgrep-test: _ensure-uv
         config_path="$config_dir/${rel%.*}.yaml"
         state_dir="$state_root/${rel%.*}"
         mkdir -p "$(dirname "$config_path")" "$state_dir"
-        uv run --locked python scripts/semgrep_fixture_config.py "$fixture" "$PWD/semgrep.yaml" "$config_path"
+        uv run --no-sync python scripts/semgrep_fixture_config.py "$fixture" "$PWD/semgrep.yaml" "$config_path"
         SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
             SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
-            uv run --locked semgrep scan --test --strict --config "$config_path" "$fixture"
+            uv run --no-sync semgrep scan --test --strict --config "$config_path" "$fixture"
     done < <(find tests/semgrep -type f ! -name '*.fixed' -print0)
 
 # Build and exercise one supported Linux sanitizer configuration.
@@ -206,47 +208,47 @@ python-check: python-format-check python-lint python-typecheck python-support-te
 
 # Apply Ruff lint fixes and formatting to Python source.
 [group('workflows')]
-python-fix: _ensure-uv
-    uv run --locked ruff check scripts/ --fix
-    uv run --locked ruff format scripts/
+python-fix: _sync-python-dev
+    uv run --no-sync ruff check scripts/ --fix
+    uv run --no-sync ruff format scripts/
 
 # Check Python formatting with Ruff.
 [group('workflows')]
-python-format-check: _ensure-uv
-    uv run --locked ruff format --check scripts/
+python-format-check: _sync-python-dev
+    uv run --no-sync ruff format --check scripts/
 
 # Lint Python source with Ruff.
 [group('workflows')]
-python-lint: _ensure-uv
-    uv run --locked ruff check scripts/
+python-lint: _sync-python-dev
+    uv run --no-sync ruff check scripts/
 
 # Test repository-owned Python support scripts.
 [group('workflows')]
-python-support-test: _ensure-uv
-    uv run --locked python -m unittest discover -s scripts/tests -p 'test_*.py'
+python-support-test: _sync-python-dev
+    uv run --no-sync python -m unittest discover -s scripts/tests -p 'test_*.py'
 
 # Smoke-test installed entry points without loading optional experiment dependencies.
 [group('workflows')]
-python-entrypoint-test: _ensure-uv
-    uv run --locked cdt-bootstrap-vcpkg --help >/dev/null
-    uv run --locked cdt-optimize-initialize --help >/dev/null
-    uv run --locked cdt-mnist-experiment --help >/dev/null
-    uv run --locked cdt-tag-release --help >/dev/null
+python-entrypoint-test: _sync-python-dev
+    uv run --no-sync cdt-bootstrap-vcpkg --help >/dev/null
+    uv run --no-sync cdt-optimize-initialize --help >/dev/null
+    uv run --no-sync cdt-mnist-experiment --help >/dev/null
+    uv run --no-sync cdt-tag-release --help >/dev/null
 
 # Synchronize the lightweight Python development environment from the lockfile.
 [group('workflows')]
-python-sync: _ensure-uv
-    uv sync --locked --group dev
+python-sync: _sync-python-dev
+    @echo "Python development environment synchronized."
 
 # Synchronize dependencies required by the optional experiment scripts.
 [group('workflows')]
-python-sync-experiments: _ensure-uv
-    uv sync --locked --group dev --group experiments
+python-sync-experiments: _sync-python-experiments
+    @echo "Python experiment environment synchronized."
 
 # Type-check Python support code with ty.
 [group('workflows')]
-python-typecheck: _ensure-uv
-    uv run --locked ty check scripts/*.py scripts/tests/*.py --error all
+python-typecheck: _sync-python-dev
+    uv run --no-sync ty check scripts/*.py scripts/tests/*.py --error all
 
 # Build as needed and run the primary CDT++ executable.
 [group('workflows')]
@@ -267,14 +269,29 @@ default:
     @just --list
 
 [private]
-_action-lint: _ensure-uv
+_action-lint:
     #!/usr/bin/env bash
     set -euo pipefail
     files=()
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '.github/workflows/*.yml' '.github/workflows/*.yaml')
-    uv run --locked actionlint "${files[@]}"
+    if command -v actionlint >/dev/null; then
+      actual_version="$(actionlint --version | head -n 1)"
+      if [[ "$actual_version" != "{{ actionlint_version }}" ]]; then
+        echo "actionlint {{ actionlint_version }} is required; found $actual_version." >&2
+        exit 1
+      fi
+      exec actionlint "${files[@]}"
+    fi
+    if command -v pkgx >/dev/null; then
+      exec pkgx "actionlint@{{ actionlint_version }}" "${files[@]}"
+    fi
+    if command -v go >/dev/null; then
+      exec go run "github.com/rhysd/actionlint/cmd/actionlint@v{{ actionlint_version }}" "${files[@]}"
+    fi
+    echo "actionlint {{ actionlint_version }} is required; install it, Go, or pkgx." >&2
+    exit 1
 
 [private]
 _build-unix:
@@ -355,29 +372,39 @@ _ensure-uv:
     fi
 
 [private]
-_format-check: _ensure-uv
+_sync-python-dev: _ensure-uv
+    uv sync --locked --no-build --no-install-project --group dev
+    uv sync --locked --only-install-project --inexact --group dev
+
+[private]
+_sync-python-experiments: _ensure-uv
+    uv sync --locked --no-build --no-install-project --group dev --group experiments
+    uv sync --locked --only-install-project --inexact --group dev --group experiments
+
+[private]
+_format-check: _sync-python-dev
     #!/usr/bin/env bash
     set -euo pipefail
-    uv run --locked clang-format --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'
+    uv run --no-sync clang-format --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'
     files=()
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
     if [[ "${#files[@]}" -gt 0 ]]; then
-      uv run --locked clang-format --dry-run --Werror "${files[@]}"
+      uv run --no-sync clang-format --dry-run --Werror "${files[@]}"
     fi
 
 [private]
-_format-fix: _ensure-uv
+_format-fix: _sync-python-dev
     #!/usr/bin/env bash
     set -euo pipefail
-    uv run --locked clang-format --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'
+    uv run --no-sync clang-format --version | grep -Eq 'clang-format version {{ llvm_version }}([.]|$)'
     files=()
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.c' '*.cc' '*.cpp' '*.h' '*.hpp')
     if [[ "${#files[@]}" -gt 0 ]]; then
-      uv run --locked clang-format -i "${files[@]}"
+      uv run --no-sync clang-format -i "${files[@]}"
     fi
 
 [private]
@@ -422,24 +449,15 @@ _whitespace-check:
     [[ "$status" -eq 1 ]] || exit "$status"
 
 [private]
-_yaml-check: _ensure-uv
+_yaml-check: _sync-python-dev
     #!/usr/bin/env bash
     set -euo pipefail
     files=(.clang-format)
     while IFS= read -r -d '' file; do
       [[ -f "$file" ]] && files+=("$file")
     done < <(git ls-files -co --exclude-standard -z -- '*.yml' '*.yaml')
-    uv run --locked yamllint "${files[@]}"
+    uv run --no-sync yamllint "${files[@]}"
 
 [private]
-_zizmor:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if command -v zizmor >/dev/null; then
-      zizmor .github
-    elif command -v pkgx >/dev/null; then
-      pkgx zizmor .github
-    else
-      echo "zizmor is required; install it or install pkgx." >&2
-      exit 1
-    fi
+_zizmor: _ensure-uv
+    uvx --no-build --from "zizmor=={{ zizmor_version }}" zizmor .github

@@ -246,7 +246,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_experiments(initialize_binary, api_key, args.seed)
     except ModuleNotFoundError as error:
         print(
-            f"Missing experiment dependency {error.name!r}; run with `uv run --group experiments cdt-optimize-initialize`.",
+            f"Missing experiment dependency {error.name!r}; run `just python-sync-experiments`, then retry with `uv run --no-sync cdt-optimize-initialize`.",
             file=sys.stderr,
         )
         return 2

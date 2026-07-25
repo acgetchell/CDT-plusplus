@@ -53,7 +53,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         _run_experiment()
     except ModuleNotFoundError as error:
         print(
-            f"Missing experiment dependency {error.name!r}; run with `uv run --group experiments cdt-mnist-experiment`.",
+            f"Missing experiment dependency {error.name!r}; run `just python-sync-experiments`, then retry with `uv run --no-sync cdt-mnist-experiment`.",
             file=sys.stderr,
         )
         return 2

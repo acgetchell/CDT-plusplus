@@ -18,6 +18,19 @@ build-backend = "uv_build"
 
 [tool.uv]
 default-groups = ["dev"]
+no-build-package = [
+  "clang-format",
+  "comet-ml",
+  "matplotlib",
+  "numpy",
+  "pyyaml",
+  "ruff",
+  "semgrep",
+  "tensorflow",
+  "ty",
+  "uv-build",
+  "yamllint",
+]
 package = true
 
 [tool.uv.build-backend]
@@ -34,12 +47,11 @@ source-exclude = [
 
 [dependency-groups]
 dev = [
-  "actionlint-py==1.7.12.24",
   "clang-format==22.1.8",
   "pyyaml==6.0.3",
-  "ruff==0.15.21",
-  "semgrep==1.169.0",
-  "ty==0.0.59",
+  "ruff==0.16.0",
+  "semgrep==1.171.0",
+  "ty==0.0.63",
   "yamllint==1.38.0",
 ]
 experiments = [

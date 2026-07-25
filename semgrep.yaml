@@ -1,6 +1,30 @@
 ---
 # Repository-owned Semgrep rules for narrow CDT++ maintenance invariants.
 rules:
+  - id: cdt.tooling.pkgx-first-toolchain
+    languages:
+      - generic
+    severity: ERROR
+    message: >-
+      Keep CMake and Ninja setup pkgx-first. Use pkgxdev/setup with versions
+      resolved from the Justfile; the only approved fallback is the documented
+      Windows-only pinned wheel installation through uv with --no-build.
+    metadata:
+      category: build
+      rationale: >-
+        A single pkgx-owned toolchain path prevents workflow-specific installers
+        and system package managers from drifting away from repository pins.
+    paths:
+      include:
+        - "/.github/**/*.yaml"
+        - "/.github/**/*.yml"
+        - "/tests/semgrep/**/*.yaml"
+        - "/tests/semgrep/**/*.yml"
+    pattern-either:
+      - pattern-regex: |-
+          (?mi)^[\t ]*(?:-[\t ]*)?uses:[\t ]*(?:lukka/get-cmake|jwlawson/actions-setup-cmake|aminya/setup-cpp)@
+      - pattern-regex: |-
+          (?mi)^[^\r\n]*(?:apt-get|brew|choco|winget|pipx?)[\t ]+install[^\r\n]*\b(?:cmake|ninja)\b
   - id: cdt.cpp.no-crtp-inheritance
     languages:
       - cpp
