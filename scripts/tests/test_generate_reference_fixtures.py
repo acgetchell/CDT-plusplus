@@ -97,7 +97,7 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
             )
 
         self.assertIn("--fixture-binary", str(raised.exception))
-        self.assertIn(str(binaries["--fixture-binary"]), str(raised.exception))
+        self.assertIn(repr(str(binaries["--fixture-binary"])), str(raised.exception))
         produce_raw_artifacts.assert_not_called()
 
     def test_cmake_version_comes_from_the_configured_builds(self) -> None:
