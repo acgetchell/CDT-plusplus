@@ -13,6 +13,12 @@ jobs:
       # ruleid: cdt.tooling.pkgx-first-toolchain
       - run: brew install cmake ninja
 
+  non-windows-uv-tool-install:
+    runs-on: ubuntu-latest
+    steps:
+      # ruleid: cdt.tooling.pkgx-first-toolchain
+      - run: uv tool install --no-build "ninja==1.13.0"
+
   pkgx-first:
     runs-on: ubuntu-latest
     steps:

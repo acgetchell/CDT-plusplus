@@ -92,6 +92,20 @@ jobs:
             cmake.org@${{ steps.tool-versions.outputs.cmake }}
             ninja-build.org@${{ steps.tool-versions.outputs.ninja }}
 
+      - name: Resolve pkgx certificate bundle
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          ssl_cert_file="$(
+            env -u SSL_CERT_FILE pkgx +curl.se/ca-certs env |
+              sed -n 's/^SSL_CERT_FILE=//p'
+          )"
+          if [[ -z "$ssl_cert_file" || ! -r "$ssl_cert_file" ]]; then
+            echo "pkgx CA bundle is missing or unreadable: $ssl_cert_file" >&2
+            exit 1
+          fi
+          echo "SSL_CERT_FILE=$ssl_cert_file" >> "$GITHUB_ENV"
+
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
         with:

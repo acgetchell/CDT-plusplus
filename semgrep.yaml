@@ -3,7 +3,7 @@
 rules:
   - id: cdt.tooling.pkgx-first-toolchain
     languages:
-      - generic
+      - yaml
     severity: ERROR
     message: >-
       Keep CMake and Ninja setup pkgx-first. Use pkgxdev/setup with versions
@@ -25,6 +25,23 @@ rules:
           (?mi)^[\t ]*(?:-[\t ]*)?uses:[\t ]*(?:lukka/get-cmake|jwlawson/actions-setup-cmake|aminya/setup-cpp)@
       - pattern-regex: |-
           (?mi)^[^\r\n]*(?:apt-get|brew|choco|winget|pipx?)[\t ]+install[^\r\n]*\b(?:cmake|ninja)\b
+      - patterns:
+          - pattern: |
+              run: $COMMAND
+          - metavariable-regex:
+              metavariable: $COMMAND
+              regex: |-
+                (?mi)\buv(?:[\t ]+[^\s]+)*[\t ]+tool[\t ]+install[^\r\n]*\b(?:cmake|ninja)\b
+          - pattern-not-inside: |
+              - ...
+                if: runner.os == 'Windows'
+                ...
+                run: $COMMAND
+          - pattern-not-inside: |
+              $JOB:
+                ...
+                runs-on: windows-latest
+                ...
   - id: cdt.cpp.no-crtp-inheritance
     languages:
       - cpp
