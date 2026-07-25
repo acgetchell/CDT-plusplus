@@ -173,7 +173,7 @@ just build
 ```
 
 The `build` recipe uses the Release configuration and the pkgx launcher on Unix when pkgx is available, then delegates
-to `scripts/build.sh`. Its
+to `scripts/build.sh` on Unix or `scripts/build.bat` on Windows. Its
 first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
 bootstraps vcpkg, installs the manifest dependencies, builds in `out/build/reference`, and runs the supported CTest
 smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and

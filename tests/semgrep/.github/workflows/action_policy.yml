@@ -25,6 +25,22 @@ jobs:
         # ruleid: cdt.github-actions.external-action-version-comment
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
 
+      - name: Non-version action comment
+        # ruleid: cdt.github-actions.external-action-version-comment
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # pinned
+
+      - name: Valid shortened version comment
+        # ok: cdt.github-actions.external-action-version-comment
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+
+      - name: Mutable container action
+        # ruleid: cdt.github-actions.external-action-sha-pinned
+        uses: docker://alpine:3.20
+
+      - name: Digest-pinned container action
+        # ok: cdt.github-actions.external-action-sha-pinned
+        uses: docker://alpine@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
       - name: Local action
         # ok: cdt.github-actions.external-action-sha-pinned
         # ok: cdt.github-actions.external-action-approved-allowlist

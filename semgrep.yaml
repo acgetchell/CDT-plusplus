@@ -46,10 +46,12 @@ rules:
     languages:
       - regex
     severity: WARNING
-    message: "Pin external GitHub Actions to a full 40-character commit SHA."
+    message: >-
+      Pin external GitHub Actions to a full 40-character commit SHA and
+      container actions to a sha256 digest.
     metadata:
       category: security
-      rationale: "Moving tags can change workflow behavior without review."
+      rationale: "Moving action and container tags can change workflow behavior without review."
     paths:
       include:
         - "/.github/actions/**/*.yaml"
@@ -58,8 +60,9 @@ rules:
         - "/.github/workflows/**/*.yml"
         - "/tests/semgrep/.github/**/*.yaml"
         - "/tests/semgrep/.github/**/*.yml"
-    patterns:
+    pattern-either:
       - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?@(?![a-fA-F0-9]{40}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*uses:\s*docker://(?![^\s#]+@sha256:[a-fA-F0-9]{64}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
   - id: cdt.github-actions.external-action-approved-allowlist
     languages:
       - regex
@@ -99,7 +102,7 @@ rules:
         - "/tests/semgrep/.github/**/*.yaml"
         - "/tests/semgrep/.github/**/*.yml"
     patterns:
-      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?@[a-fA-F0-9]{40}\s*$'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?@[a-fA-F0-9]{40}(?![ \t]+#[ \t]+v[0-9]+(?:\.[0-9]+){1,2}(?:[-+][0-9A-Za-z.-]+)?[ \t]*$)[^\r\n]*$'  # yamllint disable-line rule:line-length
   - id: cdt.cpp.no-crtp-inheritance
     languages:
       - cpp

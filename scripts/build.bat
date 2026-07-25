@@ -6,9 +6,18 @@ FOR %%I IN ("%SCRIPT_DIR%..") DO SET "REPO_ROOT=%%~fI"
 IF NOT "%~2"=="" GOTO PRESET_USAGE
 SET "PRESET=%~1"
 IF NOT DEFINED PRESET SET "PRESET=reference"
-IF /I "%PRESET%"=="reference" GOTO PRESET_READY
-IF /I "%PRESET%"=="parallel" GOTO PRESET_READY
-IF /I "%PRESET%"=="debug" GOTO PRESET_READY
+IF /I "%PRESET%"=="reference" (
+  SET "PRESET=reference"
+  GOTO PRESET_READY
+)
+IF /I "%PRESET%"=="parallel" (
+  SET "PRESET=parallel"
+  GOTO PRESET_READY
+)
+IF /I "%PRESET%"=="debug" (
+  SET "PRESET=debug"
+  GOTO PRESET_READY
+)
 
 :PRESET_USAGE
 echo Usage: %~nx0 [reference^|parallel^|debug] 1>&2
