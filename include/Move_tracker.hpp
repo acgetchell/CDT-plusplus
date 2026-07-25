@@ -63,6 +63,7 @@ namespace cdt::move_tracker
     using enum MoveType;
     constexpr std::array moves{TWO_THREE, THREE_TWO, TWO_SIX, SIX_TWO,
                                FOUR_FOUR};
+    static_assert(moves.size() == NUMBER_OF_3D_MOVES);
     if (move_choice >= moves.size()) { return std::nullopt; }
     return moves[move_choice];
   }  // move_from_index

@@ -637,21 +637,22 @@ namespace cdt::utilities
 
     struct Parsed_persistence_metadata
     {
-      Payload_integrity payload;
-      ArtifactKind      artifact;
-      cdt::RandomSeed   seed;
-      cdt::RandomStream initialization_stream;
-      cdt::RandomStream transition_stream;
-      Topology          topology;
-      Int_precision     dimension;
-      Int_precision     actual_vertices;
-      Int_precision     actual_edges;
-      Int_precision     actual_faces;
-      Int_precision     actual_simplices;
-      Int_precision     minimum_timeslice;
-      Int_precision     maximum_timeslice;
-      std::uint64_t     placement_fingerprint;
-      std::uint64_t     topology_fingerprint;
+      Payload_integrity            payload;
+      ArtifactKind                 artifact;
+      cdt::RandomSeed              seed;
+      cdt::RandomStream            initialization_stream;
+      cdt::RandomStream            transition_stream;
+      Topology                     topology;
+      Int_precision                dimension;
+      Int_precision                actual_vertices;
+      Int_precision                actual_edges;
+      Int_precision                actual_faces;
+      Int_precision                actual_simplices;
+      Int_precision                minimum_timeslice;
+      Int_precision                maximum_timeslice;
+      std::optional<std::uint64_t> max_threads;
+      std::uint64_t                placement_fingerprint;
+      std::uint64_t                topology_fingerprint;
     };
 
     [[nodiscard]] inline auto read_persistence_metadata(
@@ -890,12 +891,17 @@ namespace cdt::utilities
             "Persistence metadata contains invalid completed passes", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
-      if (values.contains("parallel.max_threads") &&
-          parse_unsigned(values.at("parallel.max_threads"), 10, path) == 0)
+      std::optional<std::uint64_t> max_threads;
+      if (auto const field = values.find("parallel.max_threads");
+          field != values.end())
       {
-        throw std::filesystem::filesystem_error(
-            "Persistence metadata contains an invalid thread limit", path,
-            std::make_error_code(std::errc::illegal_byte_sequence));
+        max_threads = parse_unsigned(field->second, 10, path);
+        if (*max_threads == 0)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata contains an invalid thread limit", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
       }
 
       auto const transition_field_count =
@@ -933,6 +939,7 @@ namespace cdt::utilities
           .actual_simplices      = actual_simplices,
           .minimum_timeslice     = minimum_timeslice,
           .maximum_timeslice     = maximum_timeslice,
+          .max_threads           = max_threads,
           .placement_fingerprint =
               parse_unsigned(values.at("placement.fnv1a64"), 16, path),
           .topology_fingerprint =

@@ -378,6 +378,10 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
                  std::string::npos);
         CHECK_NE(contents.find("placement.fnv1a64="), std::string::npos);
         CHECK_NE(contents.find("topology.fnv1a64="), std::string::npos);
+        auto const parsed_metadata =
+            utilities::detail::read_persistence_metadata(sidecar);
+        REQUIRE(parsed_metadata.max_threads.has_value());
+        CHECK_EQ(*parsed_metadata.max_threads, 4);
         CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
         auto payload_temporary = filename;
         payload_temporary += ".tmp";
@@ -385,6 +389,24 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         metadata_temporary += ".tmp";
         CHECK_FALSE(std::filesystem::exists(payload_temporary));
         CHECK_FALSE(std::filesystem::exists(metadata_temporary));
+      }
+    }
+    WHEN("A stochastic artifact omits the optional thread limit")
+    {
+      TemporaryDirectory const directory;
+      auto const               filename = directory.file("checkpoint.off");
+      auto                     metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.completed_passes = 4;
+
+      write_file(filename, manifold.delaunay_snapshot(), metadata);
+
+      THEN("The parsed provenance preserves the field's absence")
+      {
+        auto const parsed_metadata =
+            utilities::detail::read_persistence_metadata(
+                metadata_filename(filename));
+        CHECK_FALSE(parsed_metadata.max_threads.has_value());
       }
     }
   }

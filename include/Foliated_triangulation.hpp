@@ -1052,12 +1052,13 @@ namespace cdt::foliated_triangulations
   {
     auto const& cells = collect_cells<dimension>(t_triangulation);
     std::vector<Cell_handle_t<dimension>> invalid_cells;
-    std::copy_if(
-        cells.begin(), cells.end(), std::back_inserter(invalid_cells),
-        [](auto const& cell) {
-          return expected_cell_type<dimension>(cell) == CellType::ACAUSAL ||
-                 expected_cell_type<dimension>(cell) == CellType::UNCLASSIFIED;
-        });
+    std::copy_if(cells.begin(), cells.end(), std::back_inserter(invalid_cells),
+                 [](auto const& cell) {
+                   auto const classification =
+                       expected_cell_type<dimension>(cell);
+                   return classification == CellType::ACAUSAL ||
+                          classification == CellType::UNCLASSIFIED;
+                 });
     return invalid_cells;
   }  // find_invalid_timevalue_cells
 

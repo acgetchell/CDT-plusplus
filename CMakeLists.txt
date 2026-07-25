@@ -33,6 +33,13 @@ set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
 set(CDT_SOURCE_REVISION "unknown")
 find_package(Git QUIET)
 if(GIT_FOUND)
+  if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/.git")
+    set_property(
+      DIRECTORY APPEND
+      PROPERTY CMAKE_CONFIGURE_DEPENDS
+               "${PROJECT_SOURCE_DIR}/.git/HEAD"
+               "${PROJECT_SOURCE_DIR}/.git/index")
+  endif()
   execute_process(
     COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
