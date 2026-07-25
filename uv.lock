@@ -81,6 +81,7 @@ source = { editable = "." }
 [package.dev-dependencies]
 dev = [
     { name = "clang-format" },
+    { name = "jsonschema" },
     { name = "pyyaml" },
     { name = "ruff" },
     { name = "semgrep" },
@@ -99,6 +100,7 @@ experiments = [
 [package.metadata.requires-dev]
 dev = [
     { name = "clang-format", specifier = "==22.1.8" },
+    { name = "jsonschema", specifier = "==4.25.1" },
     { name = "pyyaml", specifier = "==6.0.3" },
     { name = "ruff", specifier = "==0.16.0" },
     { name = "semgrep", specifier = "==1.171.0" },

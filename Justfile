@@ -22,6 +22,7 @@ primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_cgal_benchmark.exe" } else { "out/build/reference/tests/CDT_cgal_benchmark" }
 parallel_cgal_benchmark_binary := if os_family() == "windows" { "out/build/parallel/tests/CDT_cgal_benchmark.exe" } else { "out/build/parallel/tests/CDT_cgal_benchmark" }
+reference_fixture_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_reference_fixture.exe" } else { "out/build/reference/tests/CDT_reference_fixture" }
 
 # Build the supported configuration through the repository build script.
 [group('workflows')]
@@ -35,12 +36,12 @@ build-parallel:
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check semgrep semgrep-test
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
 [group('workflows')]
-ci: check _pinact-check build
+ci: check _pinact-check reference-generated-check
     @echo "CI validation complete."
 
 # Configure dependencies before CodeQL begins tracing the C++ build.
@@ -101,6 +102,38 @@ benchmark-cgal-parallel threads='1 2 4' simplices='640' repetitions='5' moves='5
         {{ quote(simplices) }} {{ quote(repetitions) }} {{ quote(moves) }} \
         "${thread_count}" {{ quote(warmups) }}
     done
+
+# Print the raw deterministic C++ oracle for the versioned reference package.
+[group('workflows')]
+reference-fixtures: build
+    {{ reference_fixture_binary }}
+
+# Regenerate every raw reference artifact and manifest from one clean commit.
+[group('workflows')]
+reference-regenerate: _sync-python-dev
+    uv run --no-sync python scripts/generate_reference_fixtures.py --check-clean
+    just build
+    just build-parallel
+    uv run --no-sync python scripts/generate_reference_fixtures.py
+    just reference-check
+    just reference-archive-check
+
+# Validate schemas, exact topology, numerical oracles, and provenance.
+[group('workflows')]
+reference-check: _sync-python-dev
+    uv run --no-sync python scripts/validate_reference_fixtures.py
+
+# Require one clean source revision before an archival tag or publication.
+[group('workflows')]
+reference-archive-check: _sync-python-dev
+    uv run --no-sync python scripts/validate_reference_fixtures.py \
+        --provenance-only
+
+# Rebuild the C++ fixture producer and compare its canonical scientific payload.
+[group('workflows')]
+reference-generated-check: build _sync-python-dev
+    uv run --no-sync python scripts/validate_reference_fixtures.py \
+        --generated-only --fixture-binary {{ quote(reference_fixture_binary) }}
 
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]

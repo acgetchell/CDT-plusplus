@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "fixture_set": "cdt-reference-v1",
+  "canonicalization": {
+    "vertices": "ascending (time, x, y, z), then vNN",
+    "edges": "ascending sorted vertex-id pair, then eNN",
+    "facets": "ascending sorted vertex-id triple, then fNN",
+    "cells": "ascending sorted vertex-id quadruple, then cNN",
+    "adjacency": "ascending cell ids sharing exactly one three-vertex facet",
+    "floating_point": "JSON numbers use max_digits10; compare with the named quantity tolerance"
+  },
+  "units": {
+    "coordinates": "initial_radius",
+    "time": "timeslice",
+    "regge_action": "dimensionless",
+    "action_delta": "dimensionless",
+    "probability": "unit_interval",
+    "benchmark_duration": "nanoseconds"
+  },
+  "tolerances": {
+    "coordinates": {
+      "absolute": 2.220446049250313e-15,
+      "relative": 2.220446049250313e-15,
+      "rationale": "Ten binary64 epsilon units cover cross-libm construction of the declared algebraic coordinates."
+    },
+    "regge_action_closed_form": {
+      "absolute": 1.4210854715202004e-14,
+      "relative": 1.4210854715202004e-14,
+      "rationale": "Sixty-four binary64 epsilon units bound the independent libm-to-256-bit-MPFR comparison boundary."
+    },
+    "acceptance_probability": {
+      "absolute": 1e-15,
+      "relative": 1e-15,
+      "rationale": "The fixtures use small closed forms; this covers binary64 publication without replacing the MPFR comparison."
+    }
+  },
+  "comparison_policy": {
+    "exact": [
+      "entity ids and ordering",
+      "incidence",
+      "adjacency",
+      "time labels",
+      "edge and simplex types",
+      "f-vectors",
+      "move sites",
+      "integer deltas",
+      "accept or reject decisions",
+      "persistence topology fingerprint"
+    ],
+    "numerical": {
+      "coordinates": "coordinates",
+      "actions": "regge_action_closed_form",
+      "action_deltas": "regge_action_closed_form",
+      "probabilities": "acceptance_probability"
+    },
+    "implementation_specific": [
+      "compiler and standard-library spelling",
+      "CGAL triangulation handles",
+      "allocation order",
+      "wall-clock duration",
+      "randomized cospherical tetrahedralization"
+    ],
+    "unsupported": [
+      "exact cross-language Monte Carlo trajectory without a shared RNG and distribution mapping",
+      "exact simplex counts from randomized CGAL construction",
+      "treating CDT++ as presumed scientific ground truth"
+    ]
+  },
+  "state_fixtures": [
+    {
+      "id": "causal-simplex",
+      "source": "four explicitly labeled causal vertices",
+      "expected_state": "causal-simplex"
+    },
+    {
+      "id": "causality-filter",
+      "source": "six explicitly labeled vertices in causality-filter-before; remove the time-3 vertex at (0,3,0)",
+      "input_state": "causality-filter-before",
+      "removed_vertex": {
+        "position": [
+          0,
+          3,
+          0
+        ],
+        "time": 3
+      },
+      "expected_state": "causality-filter-after"
+    },
+    {
+      "id": "move-23-cavity",
+      "source": "five explicit vertices",
+      "expected_state": "move-23-before"
+    },
+    {
+      "id": "move-26-cavity",
+      "source": "five explicit vertices",
+      "expected_state": "move-26-before"
+    },
+    {
+      "id": "move-44-diamond",
+      "source": "six explicit vertices",
+      "expected_state": "move-44-before"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "move-23-accepted",
+      "move": "2-3",
+      "before": "move-23-before",
+      "proposed": "move-23-after",
+      "site": {
+        "kind": "2-2-cell",
+        "entity": "c01",
+        "vertices": [
+          "v01",
+          "v02",
+          "v03",
+          "v04"
+        ]
+      },
+      "parameters": {
+        "alpha": 1,
+        "k": 0,
+        "lambda": 1
+      },
+      "proposal_probability": 0.2,
+      "reverse_probability": 0.03333333333333333,
+      "action_delta": 0.2041241452319315,
+      "acceptance_probability": 0.20440840032919283,
+      "acceptance_variate": 0.1,
+      "accepted": true,
+      "committed": "move-23-after"
+    },
+    {
+      "id": "move-23-rejected",
+      "move": "2-3",
+      "before": "move-23-before",
+      "proposed": "move-23-after",
+      "site": {
+        "kind": "2-2-cell",
+        "entity": "c01",
+        "vertices": [
+          "v01",
+          "v02",
+          "v03",
+          "v04"
+        ]
+      },
+      "parameters": {
+        "alpha": 1,
+        "k": 0,
+        "lambda": 1
+      },
+      "proposal_probability": 0.2,
+      "reverse_probability": 0.03333333333333333,
+      "action_delta": 0.2041241452319315,
+      "acceptance_probability": 0.20440840032919283,
+      "acceptance_variate": 0.9,
+      "accepted": false,
+      "committed": "move-23-before"
+    },
+    {
+      "id": "move-32-accepted",
+      "move": "3-2",
+      "before": "move-23-after",
+      "proposed": "move-23-before",
+      "site": {
+        "kind": "timelike-edge",
+        "entity": "e03",
+        "vertices": [
+          "v00",
+          "v04"
+        ]
+      },
+      "parameters": {
+        "alpha": 1,
+        "k": 0,
+        "lambda": 1
+      },
+      "proposal_probability": 0.03333333333333333,
+      "reverse_probability": 0.2,
+      "action_delta": -0.2041241452319315,
+      "acceptance_probability": 1,
+      "acceptance_variate": 0.9,
+      "accepted": true,
+      "committed": "move-23-before"
+    },
+    {
+      "id": "move-26-accepted",
+      "move": "2-6",
+      "before": "move-26-before",
+      "proposed": "move-26-after",
+      "site": {
+        "kind": "1-3-cell",
+        "entity": "c00",
+        "vertices": [
+          "v00",
+          "v01",
+          "v02",
+          "v03"
+        ],
+        "shared_spacelike_facet": "f03"
+      },
+      "parameters": {
+        "alpha": 1,
+        "k": 0,
+        "lambda": 1
+      },
+      "proposal_probability": 0.2,
+      "reverse_probability": 0.03333333333333333,
+      "action_delta": 0.6666666666666666,
+      "acceptance_probability": 0.3246223401757793,
+      "acceptance_variate": 0.3,
+      "accepted": true,
+      "committed": "move-26-after"
+    },
+    {
+      "id": "move-62-accepted",
+      "move": "6-2",
+      "before": "move-26-after",
+      "proposed": "move-26-before",
+      "site": {
+        "kind": "degree-five-vertex",
+        "entity": "v03",
+        "vertices": [
+          "v03"
+        ]
+      },
+      "parameters": {
+        "alpha": 1,
+        "k": 0,
+        "lambda": 1
+      },
+      "proposal_probability": 0.03333333333333333,
+      "reverse_probability": 0.2,
+      "action_delta": -0.6666666666666666,
+      "acceptance_probability": 1,
+      "acceptance_variate": 0.9,
+      "accepted": true,
+      "committed": "move-26-before"
+    },
+    {
+      "id": "move-44-accepted",
+      "move": "4-4",
+      "before": "move-44-before",
+      "proposed": "move-44-after",
+      "site": {
+        "kind": "spacelike-edge",
+        "entity": "e07",
+        "vertices": [
+          "v02",
+          "v03"
+        ],
+        "reverse_vertices": [
+          "v01",
+          "v04"
+        ]
+      },
+      "parameters": {
+        "alpha": 1,
+        "k": 0,
+        "lambda": 1
+      },
+      "proposal_probability": 0.04,
+      "reverse_probability": 0.04,
+      "action_delta": 0,
+      "acceptance_probability": 1,
+      "acceptance_variate": 0.9,
+      "accepted": true,
+      "committed": "move-44-after"
+    }
+  ],
+  "persistence": {
+    "id": "bounded-roundtrip-v1",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "out/build/reference",
+      "-R",
+      "^(cdt|initialize)$",
+      "--output-on-failure"
+    ],
+    "expected": [
+      "payload checksum verified before parse",
+      "canonical placement and topology fingerprints unchanged",
+      "causal metadata and f-vector unchanged",
+      "trailing or malformed data rejected"
+    ]
+  },
+  "bounded_run": {
+    "id": "bounded-end-to-end-v1",
+    "command": [
+      "out/build/reference/src/cdt",
+      "-s",
+      "-n2",
+      "-t2",
+      "-a1",
+      "-k0",
+      "-l1",
+      "-p1",
+      "-c1",
+      "--seed",
+      "92",
+      "--threads",
+      "1",
+      "--no-output"
+    ],
+    "exact": [
+      "validated command-line parameters",
+      "root seed and named streams",
+      "transition accounting identities",
+      "valid final causal manifold"
+    ],
+    "bands": {
+      "randomized_cgal_f_vector": {
+        "minimum": [
+          4,
+          6,
+          4,
+          1
+        ],
+        "maximum": [
+          6,
+          15,
+          20,
+          8
+        ],
+        "rationale": "The run generates at most six vertices. The lower endpoint is one tetrahedron; the upper endpoints use complete incidence bounds and the finite three-dimensional Delaunay tetrahedron bound."
+      }
+    }
+  }
+}

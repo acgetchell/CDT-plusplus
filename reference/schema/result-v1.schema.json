@@ -1,0 +1,426 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://adamgetchell.org/CDT-plusplus/reference/schema/result-v1.schema.json",
+  "title": "CDT++ canonical raw result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "implementation",
+    "states",
+    "actions"
+  ],
+  "properties": {
+    "schema": {
+      "const": "cdt-reference-raw-v1"
+    },
+    "implementation": {
+      "$ref": "#/$defs/implementation"
+    },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/state"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/action"
+      }
+    }
+  },
+  "$defs": {
+    "nonemptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "vertexId": {
+      "type": "string",
+      "pattern": "^v[0-9]{2,}$"
+    },
+    "edgeId": {
+      "type": "string",
+      "pattern": "^e[0-9]{2,}$"
+    },
+    "facetId": {
+      "type": "string",
+      "pattern": "^f[0-9]{2,}$"
+    },
+    "cellId": {
+      "type": "string",
+      "pattern": "^c[0-9]{2,}$"
+    },
+    "position": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "vertexIds2": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/vertexId"
+      }
+    },
+    "vertexIds3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/vertexId"
+      }
+    },
+    "vertexIds4": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/vertexId"
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "revision",
+        "compiler",
+        "build_profile",
+        "operating_system",
+        "hardware",
+        "logical_threads",
+        "cxx_standard",
+        "standard_library",
+        "cgal_version"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "version": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "revision": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "compiler": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "build_profile": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "operating_system": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "hardware": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "logical_threads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cxx_standard": {
+          "const": 23
+        },
+        "standard_library": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "cgal_version": {
+          "$ref": "#/$defs/nonemptyString"
+        }
+      }
+    },
+    "fVector": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ],
+      "items": false
+    },
+    "vertex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "position",
+        "time"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/vertexId"
+        },
+        "position": {
+          "$ref": "#/$defs/position"
+        },
+        "time": {
+          "type": "integer"
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "vertices",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/edgeId"
+        },
+        "vertices": {
+          "$ref": "#/$defs/vertexIds2"
+        },
+        "type": {
+          "enum": [
+            "spacelike",
+            "timelike"
+          ]
+        }
+      }
+    },
+    "facet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "vertices",
+        "spacelike"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/facetId"
+        },
+        "vertices": {
+          "$ref": "#/$defs/vertexIds3"
+        },
+        "spacelike": {
+          "type": "boolean"
+        },
+        "time": {
+          "type": "integer"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "spacelike": {
+                "const": true
+              }
+            },
+            "required": [
+              "spacelike"
+            ]
+          },
+          "then": {
+            "required": [
+              "time"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "time"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "vertices",
+        "type",
+        "adjacent_cells"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/cellId"
+        },
+        "vertices": {
+          "$ref": "#/$defs/vertexIds4"
+        },
+        "type": {
+          "enum": [
+            "3-1",
+            "2-2",
+            "1-3",
+            "acausal",
+            "unclassified"
+          ]
+        },
+        "adjacent_cells": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/cellId"
+          }
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "coordinate_units",
+        "time_units",
+        "time_bounds",
+        "f_vector",
+        "vertices",
+        "edges",
+        "facets",
+        "cells"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "coordinate_units": {
+          "const": "initial_radius"
+        },
+        "time_units": {
+          "const": "timeslice"
+        },
+        "time_bounds": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "items": false
+        },
+        "f_vector": {
+          "$ref": "#/$defs/fVector"
+        },
+        "vertices": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/vertex"
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge"
+          }
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/facet"
+          }
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cell"
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "n1_timelike",
+        "n3_31_13",
+        "n3_22"
+      ],
+      "properties": {
+        "n1_timelike": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "n3_31_13": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "n3_22": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alpha",
+        "k",
+        "lambda"
+      ],
+      "properties": {
+        "alpha": {
+          "type": "number"
+        },
+        "k": {
+          "type": "number"
+        },
+        "lambda": {
+          "type": "number"
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "counts",
+        "parameters",
+        "value"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "counts": {
+          "$ref": "#/$defs/counts"
+        },
+        "parameters": {
+          "$ref": "#/$defs/parameters"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

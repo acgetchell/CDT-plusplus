@@ -80,7 +80,8 @@ add_cli_failure_test(cdt-checkpoint-zero cdt "Checkpoint interval must be positi
                      -l0.1 -c0 --seed 92)
 add_cli_failure_test(cdt-radius-zero cdt "Initial radius must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -i0 --seed 92)
 add_cli_failure_test(cdt-spacing-zero cdt "Foliation spacing must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -f0 --seed 92)
-add_cli_failure_test(cdt-empty-population cdt "would create an empty triangulation" -s -n3 -t2 -a0.6 -k1.1 -l0.1 --seed 92)
+add_cli_failure_test(cdt-empty-population cdt "Initial radius is too small to populate the first timeslice." -s -n64
+                     -t3 -i0.1 -a0.6 -k1.1 -l0.1 --seed 92)
 add_cli_failure_test(cdt-integer-narrowing cdt "exceeds the supported integer range" -s -n2147483648 -t3 -a0.6
                      -k1.1 -l0.1 --seed 92)
 add_cli_failure_test(cdt-threads-zero cdt "Thread count must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1

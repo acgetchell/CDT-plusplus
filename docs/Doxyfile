@@ -835,6 +835,7 @@ WARN_LOGFILE           =
 
 INPUT                  = README.md \
                          REFERENCES.md \
+                         reference/README.md \
                          docs \
                          include \
                          src

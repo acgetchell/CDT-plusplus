@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "run_id": "cdt-scaling-v1-macos-arm64-20260725",
+  "recorded_at_utc": "2026-07-25T06:25:37Z",
+  "implementation": {
+    "name": "CDT-plusplus",
+    "version": "1.0.0-rc2",
+    "source_revision": "49dbce290ee9cc9c0430893e11caa84cbaeaffee-dirty",
+    "note": "The dirty marker denotes the issue #94 population and manifest changes under review."
+  },
+  "toolchain": {
+    "compiler": "AppleClang 21.0.0.21000101",
+    "cxx_standard": 23,
+    "standard_library": "libc++-210106",
+    "cmake": "4.4.0",
+    "cgal": "6.2-I-900",
+    "tbb": "2023.0.0"
+  },
+  "build": {
+    "profile": "RelWithDebInfo",
+    "preset": "parallel",
+    "parallel_triangulation": true,
+    "thread_counts": [
+      1,
+      2,
+      4
+    ]
+  },
+  "host": {
+    "operating_system": "Darwin",
+    "architecture": "arm64",
+    "logical_threads": 16,
+    "comparison_constraint": "All samples were recorded sequentially on the same host, binary, fixture, dependency baseline, warm-up policy, and measurement protocol."
+  },
+  "thread_count": 4,
+  "seeds": {
+    "root": 102,
+    "initialization_stream": 0,
+    "transition_stream": 1
+  },
+  "fixture_version": 1,
+  "commands": [
+    {
+      "id": "scaling-threads-1",
+      "artifacts": [
+        "reference/raw/v1/scaling-threads-1.txt"
+      ],
+      "command_line": [
+        "out/build/parallel/tests/CDT_cgal_benchmark",
+        "640",
+        "5",
+        "50",
+        "1",
+        "1"
+      ]
+    },
+    {
+      "id": "scaling-threads-2",
+      "artifacts": [
+        "reference/raw/v1/scaling-threads-2.txt"
+      ],
+      "command_line": [
+        "out/build/parallel/tests/CDT_cgal_benchmark",
+        "640",
+        "5",
+        "50",
+        "2",
+        "1"
+      ]
+    },
+    {
+      "id": "scaling-threads-4",
+      "artifacts": [
+        "reference/raw/v1/scaling-threads-4.txt"
+      ],
+      "command_line": [
+        "out/build/parallel/tests/CDT_cgal_benchmark",
+        "640",
+        "5",
+        "50",
+        "4",
+        "1"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "reference/raw/v1/scaling-threads-1.txt",
+      "media_type": "text/plain",
+      "sha256": "5a81902d77313be83cdb08e4c784117914e50dd3637fc7835463433b49cb77b7"
+    },
+    {
+      "path": "reference/raw/v1/scaling-threads-2.txt",
+      "media_type": "text/plain",
+      "sha256": "c2a6fb57f623537b63ae6dbde64c06d4c9509949da96c4ac56c12f3bcbc69aab"
+    },
+    {
+      "path": "reference/raw/v1/scaling-threads-4.txt",
+      "media_type": "text/plain",
+      "sha256": "8cfc83922a562d77c22ba114a7fdc2f7bf47e1a7097fc94b8c6dcb81ad2b645e"
+    }
+  ],
+  "verification": {
+    "correctness_gate": {
+      "status": "passed",
+      "command": [
+        "ctest",
+        "--preset",
+        "parallel-smoke",
+        "--output-on-failure"
+      ]
+    },
+    "interpretation": {
+      "randomized_fields": "Final CGAL f-vectors and checksums may differ across thread limits and are recorded rather than treated as exact topology oracles.",
+      "timings": "Raw durations are host-local evidence only; this three-point record is not a general performance claim."
+    }
+  }
+}

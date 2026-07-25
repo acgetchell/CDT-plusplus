@@ -1715,22 +1715,117 @@ namespace cdt::utilities
     return generate_random_real(generator, min, max);
   }  // generate_probability()
 
-  /// @brief Calculate expected # of points per simplex
+  /// @brief Calculate the exact number of vertices generated on spherical
+  /// layers.
+  /// @details For base population \f$p\f$, initial radius \f$r_0\f$, spacing
+  /// \f$\Delta r\f$, and \f$T\f$ layers, this evaluates
+  /// \f$\sum_{i=0}^{T-1}\lfloor p(r_0+i\Delta r)\rfloor\f$ using the same
+  /// long-double product and truncation boundary as `make_foliated_ball()`.
+  /// Every per-layer conversion and the total are checked before narrowing.
+  /// @param points_per_timeslice Base population \f$p\f$ for the first layer
+  /// @param timeslices Number of spherical layers \f$T\f$
+  /// @param initial_radius Radius \f$r_0\f$ of the first layer
+  /// @param foliation_spacing Radius increment \f$\Delta r\f$ per layer
+  /// @return Exact number of vertices supplied to CGAL
+  /// @throws std::invalid_argument if a count, radius, or spacing is not
+  /// positive and finite
+  /// @throws std::out_of_range if a layer or the accumulated vertex count
+  /// cannot be represented by `uint64_t`
+  [[nodiscard]] inline auto generated_input_vertex_count(
+      Int_precision const points_per_timeslice, Int_precision const timeslices,
+      double const initial_radius, double const foliation_spacing)
+      -> std::uint64_t
+  {
+    if (points_per_timeslice <= 0 || timeslices <= 0)
+    {
+      throw std::invalid_argument(
+          "Population and timeslices must both be positive.");
+    }
+    if (!std::isfinite(initial_radius) || initial_radius <= 0.0 ||
+        !std::isfinite(foliation_spacing) || foliation_spacing <= 0.0)
+    {
+      throw std::invalid_argument(
+          "Layer radius and spacing must be finite and positive.");
+    }
+
+    std::uint64_t total{};
+    for (Int_precision layer = 0; layer < timeslices; ++layer)
+    {
+      auto const radius =
+          initial_radius + static_cast<double>(layer) * foliation_spacing;
+      auto const layer_points =
+          static_cast<long double>(points_per_timeslice) * radius;
+      if (!std::isfinite(layer_points) || layer_points < 0.0L ||
+          layer_points > static_cast<long double>(
+                             std::numeric_limits<Int_precision>::max()))
+      {
+        throw std::out_of_range(
+            "A spherical layer exceeds the supported point-count range.");
+      }
+      auto const narrowed =
+          static_cast<std::uint64_t>(static_cast<Int_precision>(layer_points));
+      if (narrowed > std::numeric_limits<std::uint64_t>::max() - total)
+      {
+        throw std::out_of_range(
+            "The generated input-vertex count exceeds uint64_t.");
+      }
+      total += narrowed;
+    }
+    return total;
+  }
+
+  /// @brief Return the rigorous finite 3D Delaunay tetrahedron upper bound.
+  /// @details Evaluates \f$(n^2-3n-2)/2=n(n-3)/2-1\f$ without overflowing.
+  /// `std::nullopt` means that the exact bound exceeds `uint64_t`; it never
+  /// means that the triangulation itself has that many tetrahedra.
+  /// @param vertices Number \f$n\f$ of finite input vertices
+  /// @return The exact bound, or `std::nullopt` when it exceeds `uint64_t`
+  /// @see [Cheng, Dey, and Shewchuk, Chapter
+  /// 4](../REFERENCES.md#three-dimensional-delaunay-complexity)
+  [[nodiscard]] inline auto delaunay_tetrahedron_upper_bound(
+      std::uint64_t const vertices) noexcept -> std::optional<std::uint64_t>
+  {
+    if (vertices < 4) { return std::uint64_t{0}; }
+    auto first  = vertices;
+    auto second = vertices - 3;
+    if (first % 2 == 0) { first /= 2; }
+    else
+    {
+      second /= 2;
+    }
+    if (second != 0 &&
+        first > std::numeric_limits<std::uint64_t>::max() / second)
+    {
+      return std::nullopt;
+    }
+    return first * second - 1;
+  }
+
+  /// @brief Estimate the base population for the layered spherical generator.
+  /// @details The estimator is monotone in the requested simplex count. It
+  /// takes the upper envelope of the historical piecewise schedules, thereby
+  /// preserving their established scale without their downward jumps at
+  /// 1,000, 10,000, and 100,000 requested simplices. This is a construction
+  /// heuristic for CDT++'s nested cospherical inputs, with a 25% population
+  /// margin to keep boundary layers populated. It is not Dwyer's
+  /// distribution-specific expectation or an exact topology oracle.
+  /// @see [Dwyer's expected-complexity
+  /// result](../REFERENCES.md#random-voronoi-and-delaunay-expected-complexity)
   ///
-  /// Usually, there are less vertices than simplices.
-  /// Here, we throw away a number of simplices that aren't correctly
-  /// foliated.
-  /// The exact formula is given by Dwyer:
-  /// http://link.springer.com/article/10.1007/BF02574694
-  ///
-  /// @param t_dimension  Number of dimensions
-  /// @param t_number_of_simplices  Number of desired simplices
-  /// @param t_number_of_timeslices Number of desired timeslices
-  /// @returns  The number of points per timeslice to obtain
-  /// the desired number of simplices
+  /// @param t_dimension Number of dimensions
+  /// @param t_number_of_simplices Desired post-repair tetrahedron count
+  /// @param t_number_of_timeslices Number of spherical layers
+  /// @param initial_radius Radius of the first layer
+  /// @param foliation_spacing Distance between successive layers
+  /// @returns Estimated base population parameter \f$p\f$
+  /// @throws std::invalid_argument if the dimension is not three or a count,
+  /// radius, or spacing is not positive and finite
+  /// @throws std::out_of_range if the requested estimate or generated vertex
+  /// population is not representable
   [[nodiscard]] inline auto expected_points_per_timeslice(
       Int_precision const t_dimension, Int_precision t_number_of_simplices,
-      Int_precision t_number_of_timeslices)
+      Int_precision t_number_of_timeslices, double const initial_radius = 1.0,
+      double const foliation_spacing = 1.0)
   {
 #ifndef NDEBUG
     spdlog::debug("{} simplices on {} timeslices desired.\n",
@@ -1747,42 +1842,77 @@ namespace cdt::utilities
       throw std::invalid_argument(
           "Simplices and timeslices must both be positive.");
     }
-
-    auto const simplices_per_timeslice =
-        t_number_of_simplices / t_number_of_timeslices;
-    // Avoid segfaults for small values
-    if (t_number_of_simplices == t_number_of_timeslices)
+    if (!std::isfinite(initial_radius) || initial_radius <= 0.0 ||
+        !std::isfinite(foliation_spacing) || foliation_spacing <= 0.0)
     {
-      return 2 * simplices_per_timeslice;
-    }
-    if (t_number_of_simplices < 1000)  // NOLINT
-    {
-      return static_cast<Int_precision>(
-          0.4L *  // NOLINT
-          static_cast<long double>(simplices_per_timeslice));
-    }
-    if (t_number_of_simplices < 10000)  // NOLINT
-    {
-      return static_cast<Int_precision>(
-          0.2L *  // NOLINT
-          static_cast<long double>(simplices_per_timeslice));
-    }
-    if (t_number_of_simplices < 100000)  // NOLINT
-    {
-      return static_cast<Int_precision>(
-          0.15L *  // NOLINT
-          static_cast<long double>(simplices_per_timeslice));
+      throw std::invalid_argument(
+          "Layer radius and spacing must be finite and positive.");
     }
 
-    return static_cast<Int_precision>(
-        0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
+    constexpr auto minimum_population = Int_precision{8};
+    auto const     minimum = t_number_of_simplices <= t_number_of_timeslices
+                               ? Int_precision{2}
+                               : minimum_population;
+    auto const     last_radius =
+        static_cast<long double>(initial_radius) +
+        static_cast<long double>(t_number_of_timeslices - 1) *
+            foliation_spacing;
+    if (!std::isfinite(last_radius))
+    {
+      throw std::out_of_range(
+          "The final foliation radius exceeds the supported range.");
+    }
+    auto const maximum_by_radius =
+        static_cast<long double>(std::numeric_limits<Int_precision>::max()) /
+        last_radius;
+    auto const maximum =
+        maximum_by_radius >= static_cast<long double>(
+                                 std::numeric_limits<Int_precision>::max())
+            ? std::numeric_limits<Int_precision>::max()
+            : static_cast<Int_precision>(maximum_by_radius);
+    if (maximum < minimum)
+    {
+      throw std::out_of_range(
+          "Foliation radii leave no supported base population.");
+    }
 
+    auto const simplices  = static_cast<std::uint64_t>(t_number_of_simplices);
+    auto const timeslices = static_cast<std::uint64_t>(t_number_of_timeslices);
+    auto const scaled_floor = [timeslices](
+                                  std::uint64_t const bounded_simplices,
+                                  std::uint64_t const numerator,
+                                  std::uint64_t const denominator) {
+      return bounded_simplices * numerator / (timeslices * denominator);
+    };
+    auto const historical_upper_envelope = std::max(
+        {scaled_floor(std::min(simplices, std::uint64_t{1'000}), 2, 5),
+         scaled_floor(std::min(simplices, std::uint64_t{10'000}), 1, 5),
+         scaled_floor(std::min(simplices, std::uint64_t{100'000}), 3, 20),
+         scaled_floor(simplices, 1, 10)});
+    auto const construction_margin = (5 * historical_upper_envelope + 3) / 4;
+    auto const estimated =
+        std::max(static_cast<std::uint64_t>(minimum), construction_margin);
+    if (estimated > static_cast<std::uint64_t>(maximum))
+    {
+      throw std::out_of_range(
+          "Requested simplex estimate exceeds the supported population.");
+    }
+    auto const population = static_cast<Int_precision>(estimated);
+    static_cast<void>(generated_input_vertex_count(
+        population, t_number_of_timeslices, initial_radius, foliation_spacing));
+    return population;
   }  // expected_points_per_timeslice
 
   struct Generated_population_bounds
   {
-    Int_precision points_per_timeslice;
-    long double   last_layer_points;
+    /// Base population used to construct the spherical layers.
+    Int_precision                points_per_timeslice;
+    /// Untruncated point-count expression for the final spherical layer.
+    long double                  last_layer_points;
+    /// Exact total number of vertices supplied to CGAL.
+    std::uint64_t                input_vertices;
+    /// Rigorous finite 3D Delaunay bound, if representable by `uint64_t`.
+    std::optional<std::uint64_t> tetrahedra_upper_bound;
   };
 
   /// @brief Calculate the generated point count and its upper bound
@@ -1791,19 +1921,32 @@ namespace cdt::utilities
   /// @param timeslices Number of desired timeslices
   /// @param initial_radius Radius of the first timeslice
   /// @param foliation_spacing Distance between successive timeslices
-  /// @return Points per timeslice and the last-layer point count
+  /// @return Base population, last-layer point expression, exact input-vertex
+  /// count, and representable finite 3D Delaunay tetrahedron bound
+  /// @throws std::invalid_argument if the dimension is not three or a count,
+  /// radius, or spacing is not positive and finite
+  /// @throws std::out_of_range if the requested estimate or generated vertex
+  /// population is not representable
   [[nodiscard]] inline auto generated_population_bounds(
       Int_precision const dimension, Int_precision const simplices,
       Int_precision const timeslices, double const initial_radius,
       double const foliation_spacing) -> Generated_population_bounds
   {
-    auto const points_per_timeslice =
-        expected_points_per_timeslice(dimension, simplices, timeslices);
+    auto const points_per_timeslice = expected_points_per_timeslice(
+        dimension, simplices, timeslices, initial_radius, foliation_spacing);
     auto const last_radius =
         static_cast<long double>(initial_radius) +
         static_cast<long double>(timeslices - 1) * foliation_spacing;
-    return {points_per_timeslice,
-            static_cast<long double>(points_per_timeslice) * last_radius};
+    auto const input_vertices = generated_input_vertex_count(
+        points_per_timeslice, timeslices, initial_radius, foliation_spacing);
+    return {
+        .points_per_timeslice = points_per_timeslice,
+        .last_layer_points =
+            static_cast<long double>(points_per_timeslice) * last_radius,
+        .input_vertices = input_vertices,
+        .tetrahedra_upper_bound =
+            delaunay_tetrahedron_upper_bound(input_vertices),
+    };
   }
 
   /// @brief Convert Gmpzf into a double

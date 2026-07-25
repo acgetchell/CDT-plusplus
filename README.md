@@ -26,6 +26,7 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
   - [Maintenance status](#maintenance-status)
   - [Introduction](#introduction)
     - [Regression-oracle scope](#regression-oracle-scope)
+  - [Usage](#usage)
   - [Roadmap](#roadmap)
   - [Quickstart](#quickstart)
     - [Current reference-suite status](#current-reference-suite-status)
@@ -35,8 +36,7 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
     - [vcpkg maintenance](#vcpkg-maintenance)
   - [Build](#build)
     - [Project Layout](#project-layout)
-    - [Run](#run)
-  - [Usage](#usage)
+  - [Command-line reference](#command-line-reference)
   - [Documentation](#documentation)
   - [Citing CDT++](#citing-cdt)
   - [Testing](#testing)
@@ -86,12 +86,54 @@ and time labels. Its inputs, detected bad vertex, final initialization state, ce
 are the first comparison fixture for `causal-triangulations`; exact Monte Carlo trajectories are not required to
 match.
 
+The versioned, language-neutral fixtures, canonical C++ results, run
+manifests, raw outputs, and Rust consumption rules are published in the
+[`reference/`](reference/README.md) package.
+
 After building, run that fixture directly with:
 
 ```bash
 ./out/build/reference/tests/CDT_unit_tests \
   --test-case='*Detecting and fixing problems with vertices and cells*'
 ```
+
+## Usage
+
+The supported build produces `cdt` and `initialize` in
+`out/build/reference/src`. Run the primary simulation through Just and pass its
+arguments after the recipe name:
+
+```bash
+just run --help
+```
+
+For troubleshooting, the equivalent direct command is
+`./out/build/reference/src/cdt --help`.
+
+Use `--no-output` for batch, debugging, or scripted runs that should print
+results without writing checkpoint or final triangulation files:
+
+```bash
+just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --seed 92 --no-output
+```
+
+With output enabled, every generated `.off` triangulation is accompanied by a
+`.off.meta` provenance manifest containing the effective seed, configuration,
+version/toolchain identity, transition-trace fingerprint, and payload checksum.
+Checkpoint files are validated snapshots, not resumable simulation states; see
+[`docs/reproducibility.md`](docs/reproducibility.md) for the replay and
+persistence contract. Same-seed generation replays the random inputs, while
+exact transition replay requires an identical starting manifold; CDT++ does
+not alter its spherical construction to force CGAL to reproduce one of several
+valid cospherical tetrahedralizations.
+
+- `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0
+  target by [#98](https://github.com/acgetchell/CDT-plusplus/issues/98).
+- `initialize` is used by [CometML] to run
+  [parameter optimization](#optimizing-parameters).
+
+See the [command-line reference](#command-line-reference) for every option.
+Build and dependency instructions begin at [Quickstart](#quickstart).
 
 ## Roadmap
 
@@ -318,39 +360,7 @@ The project is similar to [PitchFork Layout], as follows:
 - src - Source files
 - tests - Unit tests
 
-### Run
-
-The supported build produces `cdt` and `initialize` in `out/build/reference/src`. Run the primary `cdt`
-executable through Just and pass its arguments after the recipe name:
-
-```bash
-just run --help
-```
-
-For troubleshooting, the equivalent direct command is `./out/build/reference/src/cdt --help`.
-
-Use `--no-output` for batch, debugging, or scripted runs that should print results without writing checkpoint or final
-triangulation files:
-
-```bash
-just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --no-output
-```
-
-With output enabled, every generated `.off` triangulation is accompanied by a
-`.off.meta` provenance manifest containing the effective seed, configuration,
-version/toolchain identity, transition-trace fingerprint, and payload checksum.
-Checkpoint files are validated snapshots, not resumable simulation states; see
-[`docs/reproducibility.md`](docs/reproducibility.md) for the replay and
-persistence contract. Same-seed generation replays the random inputs, while
-exact transition replay requires an identical starting manifold; CDT++ does
-not alter its spherical construction to force CGAL to reproduce one of several
-valid cospherical tetrahedralizations.
-
-- `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0 target by
-  [#98](https://github.com/acgetchell/CDT-plusplus/issues/98)
-- `initialize` is used by [CometML] to run [parameter optimization](#optimizing-parameters)
-
-## Usage
+## Command-line reference
 
 CDT-plusplus uses [program_options] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
@@ -432,6 +442,9 @@ Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 The scientific transition, proposal-ratio, geometry-delta, counter, and
 precision contracts are recorded in
 [`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
+The cross-language schema, exact-versus-numerical comparison policy, and raw
+archival records are documented in
+[`reference/README.md`](reference/README.md).
 The literature-backed contracts, exact deltas, inverse relationships, and
 failure-atomicity rules for the complete 2+1D move set are recorded in
 [`docs/ergodic-moves.md`](docs/ergodic-moves.md).

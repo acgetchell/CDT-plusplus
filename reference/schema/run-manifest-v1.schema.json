@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://adamgetchell.org/CDT-plusplus/reference/schema/run-manifest-v1.schema.json",
+  "title": "CDT++ reference run manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "recorded_at_utc",
+    "implementation",
+    "toolchain",
+    "build",
+    "host",
+    "thread_count",
+    "seeds",
+    "fixture_version",
+    "commands",
+    "artifacts",
+    "verification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "implementation": {
+      "$ref": "#/$defs/implementation"
+    },
+    "toolchain": {
+      "$ref": "#/$defs/toolchain"
+    },
+    "build": {
+      "$ref": "#/$defs/build"
+    },
+    "host": {
+      "$ref": "#/$defs/host"
+    },
+    "thread_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "seeds": {
+      "$ref": "#/$defs/seeds"
+    },
+    "fixture_version": {
+      "const": 1
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/commandRecord"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "verification": {
+      "type": "object",
+      "minProperties": 1
+    }
+  },
+  "$defs": {
+    "nonemptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/nonemptyString"
+      }
+    },
+    "commandRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "artifacts",
+        "command_line"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^reference/raw/"
+          }
+        },
+        "command_line": {
+          "$ref": "#/$defs/command"
+        }
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "source_revision"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "version": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "source_revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}(-dirty)?$"
+        },
+        "note": {
+          "$ref": "#/$defs/nonemptyString"
+        }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiler",
+        "cxx_standard",
+        "standard_library",
+        "cmake",
+        "cgal"
+      ],
+      "properties": {
+        "compiler": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "cxx_standard": {
+          "const": 23
+        },
+        "standard_library": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "cmake": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "cgal": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "mpfr": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "tbb": {
+          "$ref": "#/$defs/nonemptyString"
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "preset",
+        "parallel_triangulation"
+      ],
+      "properties": {
+        "profile": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "preset": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "parallel_triangulation": {
+          "type": "boolean"
+        },
+        "thread_counts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "host": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operating_system",
+        "architecture",
+        "logical_threads"
+      ],
+      "properties": {
+        "operating_system": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "architecture": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "logical_threads": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "comparison_constraint": {
+          "$ref": "#/$defs/nonemptyString"
+        }
+      }
+    },
+    "seeds": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "media_type",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^reference/"
+        },
+        "media_type": {
+          "$ref": "#/$defs/nonemptyString"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

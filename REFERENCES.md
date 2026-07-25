@@ -65,6 +65,22 @@ DOI: [10.1016/S0195-6698(13)80080-7](<https://doi.org/10.1016/S0195-6698(13)8008
 The CGAL Project, *CGAL User and Reference Manual*. CGAL Editorial Board, 6.2
 edition (2026). <https://doc.cgal.org/6.2/Manual/packages.html>
 
+### Random Voronoi and Delaunay expected complexity
+
+R. A. Dwyer, “Higher-dimensional Voronoi diagrams in linear expected time,”
+*Discrete & Computational Geometry* 6 (1991), 343–367.
+DOI: [10.1007/BF02574694](https://doi.org/10.1007/BF02574694)
+
+### Three-dimensional Delaunay complexity
+
+S.-W. Cheng, T. K. Dey, and J. R. Shewchuk, *Delaunay Mesh Generation*,
+Chapter 4, “Three-dimensional Delaunay triangulation.” CRC Press (2013),
+ISBN 978-1-58488-730-0. DOI metadata issued 2016:
+[10.1201/b12987](https://doi.org/10.1201/b12987).
+The authors’ [Chapter 4
+preprint](<https://www.cs.purdue.edu/homes/tamaldey/course/531/Delaunay%283D%29.pdf>)
+states the finite three-dimensional tetrahedron bound used by CDT++.
+
 ### PCG random-number generators
 
 M. E. O’Neill, “PCG: A family of simple fast space-efficient statistically good

@@ -69,6 +69,12 @@ actual counts, it makes output-state differences visible; it is not a
 fingerprint of the pre-CGAL generated point sequence. Exact generation replay
 is tested directly before insertion.
 
+The archival cross-language record is published in
+[`reference/`](../reference/README.md). It retains raw C++ topology, action,
+persistence, bounded-run, and matched-scaling outputs before post-processing;
+its manifests add fixture version, command line, host, toolchain, thread
+limits, seeds, and SHA-256 checksums.
+
 ## Persistence contract
 
 Each new stochastic `.off` payload has a neighboring `.off.meta` text

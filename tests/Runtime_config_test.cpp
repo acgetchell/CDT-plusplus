@@ -135,8 +135,9 @@ SCENARIO("Runtime triangulation options parse into a validated value" *
       {
         CHECK_THROWS_AS(test_make_triangulation(true, false, 1, 3, 3, 1.0, 1.0),
                         std::invalid_argument);
-        CHECK_THROWS_AS(test_make_triangulation(true, false, 3, 2, 3, 1.0, 1.0),
-                        std::invalid_argument);
+        CHECK_THROWS_AS(
+            test_make_triangulation(true, false, 64, 3, 3, 0.1, 1.0),
+            std::invalid_argument);
       }
     }
     WHEN("The radius or foliation spacing is nonpositive.")
