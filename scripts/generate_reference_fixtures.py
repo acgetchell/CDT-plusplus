@@ -494,6 +494,13 @@ def regenerate(
         executable(benchmark_binary),
     )
     fixture_command, bounded_command, persistence_command, benchmark_commands = producer_commands(*paths)
+    reference_commands = [
+        [display_path(fixture_binary)],
+        [display_path(cdt_binary), *bounded_command[1:]],
+        [display_path(initialize_binary), *persistence_command[1:]],
+    ]
+    scaling_commands = [[display_path(benchmark_binary), *command[1:]] for command in benchmark_commands]
+    validate_producer_paths(reference_commands, scaling_commands)
     generated, fixture_json, scaling_records = produce_raw_artifacts(
         revision,
         fixture_command,
@@ -503,13 +510,6 @@ def regenerate(
     )
     validate_platform_identity(fixture_json, scaling_records)
     recorded = canonical_timestamp(recorded_at_utc)
-    reference_commands = [
-        [display_path(fixture_binary)],
-        [display_path(cdt_binary), *bounded_command[1:]],
-        [display_path(initialize_binary), *persistence_command[1:]],
-    ]
-    scaling_commands = [[display_path(benchmark_binary), *command[1:]] for command in benchmark_commands]
-    validate_producer_paths(reference_commands, scaling_commands)
     metadata = RegenerationMetadata(revision, recorded, configured_cmake_version())
     reference_manifest = make_reference_manifest(generated, fixture_json, metadata, reference_commands)
     scaling_manifest = make_scaling_manifest(generated, scaling_records, metadata, scaling_commands)

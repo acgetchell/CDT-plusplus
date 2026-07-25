@@ -77,6 +77,27 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, r"--fixture-binary.*'build/custom/CDT_reference_fixture'"):
             generator.validate_producer_paths(reference_commands, scaling_commands)
 
+    def test_producer_paths_are_validated_before_execution(self) -> None:
+        """A noncanonical producer cannot run before path validation."""
+        binaries = {option: Path(path) for option, path in generator.CANONICAL_PRODUCER_PATHS.items()}
+        binaries["--fixture-binary"] = Path("build/custom/CDT_reference_fixture")
+
+        with (
+            mock.patch.object(generator, "clean_source_revision", return_value="a" * 40),
+            mock.patch.object(generator, "executable", side_effect=lambda path: path),
+            mock.patch.object(generator, "produce_raw_artifacts") as produce_raw_artifacts,
+            self.assertRaisesRegex(ValueError, r"--fixture-binary.*'build/custom/CDT_reference_fixture'"),
+        ):
+            generator.regenerate(
+                binaries["--fixture-binary"],
+                binaries["--cdt-binary"],
+                binaries["--initialize-binary"],
+                binaries["--benchmark-binary"],
+                None,
+            )
+
+        produce_raw_artifacts.assert_not_called()
+
     def test_cmake_version_comes_from_the_configured_builds(self) -> None:
         """Manifest provenance uses the CMake recorded in each build cache."""
         with tempfile.TemporaryDirectory() as temporary:
@@ -93,6 +114,37 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
                 return_value="cmake version 4.4.0\n",
             ) as run_command:
                 self.assertEqual(generator.configured_cmake_version(cache_paths), "4.4.0")
+
+        self.assertEqual(
+            run_command.call_args_list,
+            [
+                mock.call([str(cmake), "--version"], timeout=30),
+                mock.call([str(cmake), "--version"], timeout=30),
+            ],
+        )
+
+    def test_configured_builds_must_use_the_same_cmake_version(self) -> None:
+        """Divergent producer toolchains cannot share one manifest."""
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            cmake = root / "cmake"
+            cmake.touch()
+            cache_paths = (root / "reference-cache.txt", root / "parallel-cache.txt")
+            for cache_path in cache_paths:
+                cache_path.write_text(f"CMAKE_COMMAND:INTERNAL={cmake}\n", encoding="utf-8")
+
+            with (
+                mock.patch.object(
+                    generator,
+                    "run_command",
+                    side_effect=[
+                        "cmake version 4.4.0\n",
+                        "cmake version 4.5.0\n",
+                    ],
+                ) as run_command,
+                self.assertRaisesRegex(RuntimeError, "different CMake versions"),
+            ):
+                generator.configured_cmake_version(cache_paths)
 
         self.assertEqual(
             run_command.call_args_list,

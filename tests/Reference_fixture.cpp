@@ -38,6 +38,8 @@ namespace
   using cdt::Point_t;
   using Manifold = cdt::manifolds::Manifold_3;
 
+  inline constexpr auto coordinate_precision =
+      std::numeric_limits<double>::max_digits10;
   inline constexpr auto output_precision =
       std::numeric_limits<long double>::max_digits10;
 
@@ -323,8 +325,8 @@ namespace
       fmt::print("{{\"id\":");
       write_vertex_id('v', index);
       fmt::print(",\"position\":[{:.{}g},{:.{}g},{:.{}g}],\"time\":{}}}",
-                 vertex.position[0], output_precision, vertex.position[1],
-                 output_precision, vertex.position[2], output_precision,
+                 vertex.position[0], coordinate_precision, vertex.position[1],
+                 coordinate_precision, vertex.position[2], coordinate_precision,
                  vertex.time);
     }
     fmt::print("],\"edges\":[");

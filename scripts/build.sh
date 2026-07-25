@@ -26,5 +26,20 @@ prepare_cmake_cache "${build_dir}"
 
 cd -- "${repo_root}"
 cmake --preset "${preset}" -S "${repo_root}"
+
+if [[ "$(uname -s)" == "Linux" ]]; then
+  compiler="$(
+    sed -n 's/^CMAKE_CXX_COMPILER:FILEPATH=//p' \
+      "${build_dir}/CMakeCache.txt" | head -n 1
+  )"
+  runtime="$("${compiler}" -print-file-name=libstdc++.so.6)"
+  if [[ "${runtime}" != /* || ! -r "${runtime}" ]]; then
+    printf 'Cannot resolve libstdc++ for %s: %s\n' "${compiler}" "${runtime}" >&2
+    exit 1
+  fi
+  runtime_dir="$(cd -- "$(dirname -- "${runtime}")" && pwd -P)"
+  export LD_LIBRARY_PATH="${runtime_dir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+fi
+
 cmake --build --preset "${preset}"
 ctest --preset "${preset}-smoke"
