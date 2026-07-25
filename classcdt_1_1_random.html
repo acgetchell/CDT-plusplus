@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classcdt_1_1_random__coll__graph.svg" width="136" height="307"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classcdt_1_1_random__coll__graph.svg" width="299" height="496"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
@@ -141,35 +141,37 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a42b629b8f79ccafab3bf50e058939532" id="r_a42b629b8f79ccafab3bf50e058939532"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a> ()</td></tr>
 <tr class="memdesc:a42b629b8f79ccafab3bf50e058939532"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a root stream from operating-system entropy.  <br /></td></tr>
-<tr class="memitem:aedb2ffa91f84e7e29acf119dce82fcfa" id="r_aedb2ffa91f84e7e29acf119dce82fcfa"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aedb2ffa91f84e7e29acf119dce82fcfa">Random</a> (Random_seed const seed, Random_stream const stream=0)</td></tr>
-<tr class="memdesc:aedb2ffa91f84e7e29acf119dce82fcfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a reproducible PCG stream without consulting entropy.  <br /></td></tr>
+<tr class="memitem:a84ed93c5f7b013368f01dac903956dd0" id="r_a84ed93c5f7b013368f01dac903956dd0"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a84ed93c5f7b013368f01dac903956dd0">Random</a> (<a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> const seed, <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const stream=<a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a>{})</td></tr>
+<tr class="memdesc:a84ed93c5f7b013368f01dac903956dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a reproducible PCG stream without consulting entropy.  <br /></td></tr>
+<tr class="memitem:a4b6256a5ea9319279b6bd5e3d2a7008a" id="r_a4b6256a5ea9319279b6bd5e3d2a7008a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4b6256a5ea9319279b6bd5e3d2a7008a">Random</a> (std::uint64_t const seed)</td></tr>
+<tr class="memdesc:a4b6256a5ea9319279b6bd5e3d2a7008a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a root stream from a raw seed value.  <br /></td></tr>
 <tr class="memitem:a6c93ff38c88e726f6189bacfb437d7aa" id="r_a6c93ff38c88e726f6189bacfb437d7aa"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a6c93ff38c88e726f6189bacfb437d7aa">operator()</a> () -&gt; result_type</td></tr>
-<tr class="memitem:a8b524d4ccfc7afd4362909b478a8059c" id="r_a8b524d4ccfc7afd4362909b478a8059c"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a8b524d4ccfc7afd4362909b478a8059c">seed</a> () const noexcept -&gt; Random_seed</td></tr>
-<tr class="memitem:a6219dfe9070147ffbd3cc3fc80d49b60" id="r_a6219dfe9070147ffbd3cc3fc80d49b60"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a6219dfe9070147ffbd3cc3fc80d49b60">split</a> (Random_stream const stream) const -&gt; <a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a></td></tr>
-<tr class="memdesc:a6219dfe9070147ffbd3cc3fc80d49b60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a fresh reproducible stream from the same root seed.  <br /></td></tr>
-<tr class="memitem:a422fe97c34cf2fb3d7d99d839b45f4d8" id="r_a422fe97c34cf2fb3d7d99d839b45f4d8"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a422fe97c34cf2fb3d7d99d839b45f4d8">stream</a> () const noexcept -&gt; Random_stream</td></tr>
+<tr class="memitem:af50ccdc9a889cdde7265c9fc9d6acb55" id="r_af50ccdc9a889cdde7265c9fc9d6acb55"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#af50ccdc9a889cdde7265c9fc9d6acb55">seed</a> () const noexcept -&gt; <a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a></td></tr>
+<tr class="memitem:a24dcfe9560617463f8384e57f8b6909b" id="r_a24dcfe9560617463f8384e57f8b6909b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a24dcfe9560617463f8384e57f8b6909b">split</a> (<a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const stream) const -&gt; <a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a></td></tr>
+<tr class="memdesc:a24dcfe9560617463f8384e57f8b6909b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a fresh reproducible stream from the same root seed.  <br /></td></tr>
+<tr class="memitem:afdde0c7157059952aadd8a2ba55d5ad8" id="r_afdde0c7157059952aadd8a2ba55d5ad8"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#afdde0c7157059952aadd8a2ba55d5ad8">stream</a> () const noexcept -&gt; <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a3108aba1824d54ce8198c626901ae0fe" id="r_a3108aba1824d54ce8198c626901ae0fe"><td class="memItemLeft">static auto constexpr&#160;</td><td class="memItemRight"><a class="el" href="#a3108aba1824d54ce8198c626901ae0fe">max</a> () noexcept -&gt; result_type</td></tr>
-<tr class="memitem:af8b8e4c6d175e6ca26342d21f04ebeb3" id="r_af8b8e4c6d175e6ca26342d21f04ebeb3"><td class="memItemLeft">static auto constexpr&#160;</td><td class="memItemRight"><a class="el" href="#af8b8e4c6d175e6ca26342d21f04ebeb3">min</a> () noexcept -&gt; result_type</td></tr>
+<tr class="memitem:a64bf1f38e272419e376058d973051a55" id="r_a64bf1f38e272419e376058d973051a55"><td class="memItemLeft">static constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="#a64bf1f38e272419e376058d973051a55">max</a> () noexcept -&gt; result_type</td></tr>
+<tr class="memitem:a9d9f3a20df09d81daad877b266c031f6" id="r_a9d9f3a20df09d81daad877b266c031f6"><td class="memItemLeft">static constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="#a9d9f3a20df09d81daad877b266c031f6">min</a> () noexcept -&gt; result_type</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a4a76ea9403ae2abff8621ede37d2b07e" id="r_a4a76ea9403ae2abff8621ede37d2b07e"><td class="memItemLeft">static auto&#160;</td><td class="memItemRight"><a class="el" href="#a4a76ea9403ae2abff8621ede37d2b07e">entropy_seed</a> () -&gt; Random_seed</td></tr>
+<tr class="memitem:af8bffcce1b2d66a5f6c137d3a20d9b45" id="r_af8bffcce1b2d66a5f6c137d3a20d9b45"><td class="memItemLeft">static auto&#160;</td><td class="memItemRight"><a class="el" href="#af8bffcce1b2d66a5f6c137d3a20d9b45">entropy_seed</a> () -&gt; <a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:aaefdc6cb96d7fa83051e02180c238a23" id="r_aaefdc6cb96d7fa83051e02180c238a23"><td class="memItemLeft">pcg64&#160;</td><td class="memItemRight"><a class="el" href="#aaefdc6cb96d7fa83051e02180c238a23">m_engine</a></td></tr>
-<tr class="memitem:ab41f7b367db1ee04e61e7aa64e32ad1e" id="r_ab41f7b367db1ee04e61e7aa64e32ad1e"><td class="memItemLeft">Random_seed&#160;</td><td class="memItemRight"><a class="el" href="#ab41f7b367db1ee04e61e7aa64e32ad1e">m_seed</a> {}</td></tr>
-<tr class="memitem:a233fb76493f01cc957eda2752ba4c841" id="r_a233fb76493f01cc957eda2752ba4c841"><td class="memItemLeft">Random_stream&#160;</td><td class="memItemRight"><a class="el" href="#a233fb76493f01cc957eda2752ba4c841">m_stream</a> {}</td></tr>
+<tr class="memitem:af2f11365c59bef0eae5d835c74eedde4" id="r_af2f11365c59bef0eae5d835c74eedde4"><td class="memItemLeft"><a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a>&#160;</td><td class="memItemRight"><a class="el" href="#af2f11365c59bef0eae5d835c74eedde4">m_seed</a> {}</td></tr>
+<tr class="memitem:ae821523238d1dc5f5db52f839eef58a3" id="r_ae821523238d1dc5f5db52f839eef58a3"><td class="memItemLeft"><a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae821523238d1dc5f5db52f839eef58a3">m_stream</a> {}</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A run-owned PCG engine with a recorded seed and stream identifier. </p>
-<p>Construct one root engine per simulation. Pass engines by reference to distributions and stochastic algorithms instead of drawing fresh entropy for each sample. <span class="tt"><a class="el" href="#a6219dfe9070147ffbd3cc3fc80d49b60" title="Create a fresh reproducible stream from the same root seed.">split()</a></span> creates a reproducible, independently parameterized PCG stream for a subsystem or worker.</p>
+<p>Construct one root engine per simulation. Pass engines by reference to distributions and stochastic algorithms instead of drawing fresh entropy for each sample. <span class="tt"><a class="el" href="#a24dcfe9560617463f8384e57f8b6909b" title="Create a fresh reproducible stream from the same root seed.">split()</a></span> creates a reproducible, independently parameterized PCG stream for a subsystem or worker.</p>
 <p><a class="el" href="classcdt_1_1_random.html" title="A run-owned PCG engine with a recorded seed and stream identifier.">Random</a> is intentionally not internally synchronized. A mutable instance belongs to one run or one thread. Parallel code must give each worker a distinct stream before drawing from it. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators" title="PCG random-number generators">PCG random-number generators</a>PCG random-number generators </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00042">42</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00092">92</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="aaf5e4903f21f20a9710266fd13c9eae0" name="aaf5e4903f21f20a9710266fd13c9eae0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaf5e4903f21f20a9710266fd13c9eae0">&#9670;&#160;</a></span>result_type</h2>
@@ -183,13 +185,13 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00045">45</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00095">95</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a42b629b8f79ccafab3bf50e058939532" name="a42b629b8f79ccafab3bf50e058939532"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42b629b8f79ccafab3bf50e058939532">&#9670;&#160;</a></span>Random() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a42b629b8f79ccafab3bf50e058939532">&#9670;&#160;</a></span>Random() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,16 +215,16 @@ Private Attributes</h2></td></tr>
 
 <p>Construct a root stream from operating-system entropy. </p>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00063">63</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00113">113</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00063">Random()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00113">Random()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00063">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00089">split()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00113">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00116">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00143">split()</a>.</p>
 
 </div>
 </div>
-<a id="aedb2ffa91f84e7e29acf119dce82fcfa" name="aedb2ffa91f84e7e29acf119dce82fcfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedb2ffa91f84e7e29acf119dce82fcfa">&#9670;&#160;</a></span>Random() <span class="overload">[2/2]</span></h2>
+<a id="a4b6256a5ea9319279b6bd5e3d2a7008a" name="a4b6256a5ea9319279b6bd5e3d2a7008a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b6256a5ea9319279b6bd5e3d2a7008a">&#9670;&#160;</a></span>Random() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,12 +235,43 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">cdt::Random::Random </td>
           <td>(</td>
-          <td class="paramtype">Random_seed const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span>, </td>
+          <td class="paramtype">std::uint64_t const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a root stream from a raw seed value. </p>
+
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00116">116</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00113">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00136">seed()</a>.</p>
+
+</div>
+</div>
+<a id="a84ed93c5f7b013368f01dac903956dd0" name="a84ed93c5f7b013368f01dac903956dd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84ed93c5f7b013368f01dac903956dd0">&#9670;&#160;</a></span>Random() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">cdt::Random::Random </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Random_stream const</td>          <td class="paramname"><span class="paramname"><em>stream</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const</td>          <td class="paramname"><span class="paramname"><em>stream</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a>{}</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -257,15 +290,15 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00069">69</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00122">122</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00082">seed()</a>, and <a class="el" href="_random_8hpp_source.html#l00085">stream()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00136">seed()</a>, and <a class="el" href="_random_8hpp_source.html#l00139">stream()</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a4a76ea9403ae2abff8621ede37d2b07e" name="a4a76ea9403ae2abff8621ede37d2b07e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a76ea9403ae2abff8621ede37d2b07e">&#9670;&#160;</a></span>entropy_seed()</h2>
+<a id="af8bffcce1b2d66a5f6c137d3a20d9b45" name="af8bffcce1b2d66a5f6c137d3a20d9b45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8bffcce1b2d66a5f6c137d3a20d9b45">&#9670;&#160;</a></span>entropy_seed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -277,7 +310,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">auto cdt::Random::entropy_seed </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> -&gt; Random_seed</td>
+          <td> -&gt; <a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a></td>
         </tr>
       </table>
   </td>
@@ -287,12 +320,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00052">52</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00102">102</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a3108aba1824d54ce8198c626901ae0fe" name="a3108aba1824d54ce8198c626901ae0fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3108aba1824d54ce8198c626901ae0fe">&#9670;&#160;</a></span>max()</h2>
+<a id="a64bf1f38e272419e376058d973051a55" name="a64bf1f38e272419e376058d973051a55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64bf1f38e272419e376058d973051a55">&#9670;&#160;</a></span>max()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,7 +334,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto constexpr cdt::Random::max </td>
+          <td class="memname">constexpr auto cdt::Random::max </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> -&gt; result_type</td>
@@ -314,12 +347,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00076">76</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00130">130</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
-<a id="af8b8e4c6d175e6ca26342d21f04ebeb3" name="af8b8e4c6d175e6ca26342d21f04ebeb3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8b8e4c6d175e6ca26342d21f04ebeb3">&#9670;&#160;</a></span>min()</h2>
+<a id="a9d9f3a20df09d81daad877b266c031f6" name="a9d9f3a20df09d81daad877b266c031f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d9f3a20df09d81daad877b266c031f6">&#9670;&#160;</a></span>min()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -328,7 +361,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto constexpr cdt::Random::min </td>
+          <td class="memname">constexpr auto cdt::Random::min </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> -&gt; result_type</td>
@@ -341,7 +374,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00073">73</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00127">127</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
@@ -368,12 +401,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00079">79</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00133">133</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a8b524d4ccfc7afd4362909b478a8059c" name="a8b524d4ccfc7afd4362909b478a8059c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b524d4ccfc7afd4362909b478a8059c">&#9670;&#160;</a></span>seed()</h2>
+<a id="af50ccdc9a889cdde7265c9fc9d6acb55" name="af50ccdc9a889cdde7265c9fc9d6acb55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af50ccdc9a889cdde7265c9fc9d6acb55">&#9670;&#160;</a></span>seed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +418,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">auto cdt::Random::seed </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const -&gt; Random_seed</td>
+          <td> const -&gt; <a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a></td>
         </tr>
       </table>
   </td>
@@ -396,14 +429,14 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The effective root seed for replaying this run. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00082">82</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00136">136</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00069">Random()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00122">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00116">Random()</a>.</p>
 
 </div>
 </div>
-<a id="a6219dfe9070147ffbd3cc3fc80d49b60" name="a6219dfe9070147ffbd3cc3fc80d49b60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6219dfe9070147ffbd3cc3fc80d49b60">&#9670;&#160;</a></span>split()</h2>
+<a id="a24dcfe9560617463f8384e57f8b6909b" name="a24dcfe9560617463f8384e57f8b6909b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24dcfe9560617463f8384e57f8b6909b">&#9670;&#160;</a></span>split()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -414,7 +447,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">auto cdt::Random::split </td>
           <td>(</td>
-          <td class="paramtype">Random_stream const</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td> const -&gt; <a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a></td>
         </tr>
       </table>
@@ -427,14 +460,14 @@ Private Attributes</h2></td></tr>
 
 <p>Create a fresh reproducible stream from the same root seed. </p>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00089">89</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00143">143</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00063">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00085">stream()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00113">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00139">stream()</a>.</p>
 
 </div>
 </div>
-<a id="a422fe97c34cf2fb3d7d99d839b45f4d8" name="a422fe97c34cf2fb3d7d99d839b45f4d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a422fe97c34cf2fb3d7d99d839b45f4d8">&#9670;&#160;</a></span>stream()</h2>
+<a id="afdde0c7157059952aadd8a2ba55d5ad8" name="afdde0c7157059952aadd8a2ba55d5ad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdde0c7157059952aadd8a2ba55d5ad8">&#9670;&#160;</a></span>stream()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -446,7 +479,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">auto cdt::Random::stream </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const -&gt; Random_stream</td>
+          <td> const -&gt; <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a></td>
         </tr>
       </table>
   </td>
@@ -457,9 +490,9 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The PCG stream selector used by this engine. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00085">85</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00139">139</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00069">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00089">split()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00122">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00143">split()</a>.</p>
 
 </div>
 </div>
@@ -484,12 +517,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00050">50</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00100">100</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab41f7b367db1ee04e61e7aa64e32ad1e" name="ab41f7b367db1ee04e61e7aa64e32ad1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab41f7b367db1ee04e61e7aa64e32ad1e">&#9670;&#160;</a></span>m_seed</h2>
+<a id="af2f11365c59bef0eae5d835c74eedde4" name="af2f11365c59bef0eae5d835c74eedde4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2f11365c59bef0eae5d835c74eedde4">&#9670;&#160;</a></span>m_seed</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -498,7 +531,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Random_seed cdt::Random::m_seed {}</td>
+          <td class="memname"><a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> cdt::Random::m_seed {}</td>
         </tr>
       </table>
   </td>
@@ -508,12 +541,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00048">48</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00098">98</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a233fb76493f01cc957eda2752ba4c841" name="a233fb76493f01cc957eda2752ba4c841"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a233fb76493f01cc957eda2752ba4c841">&#9670;&#160;</a></span>m_stream</h2>
+<a id="ae821523238d1dc5f5db52f839eef58a3" name="ae821523238d1dc5f5db52f839eef58a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae821523238d1dc5f5db52f839eef58a3">&#9670;&#160;</a></span>m_stream</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -522,7 +555,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Random_stream cdt::Random::m_stream {}</td>
+          <td class="memname"><a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> cdt::Random::m_stream {}</td>
         </tr>
       </table>
   </td>
@@ -532,7 +565,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00049">49</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00099">99</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>

@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">Random.hpp File Reference</div></div>
 </div><!--header-->
@@ -125,13 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="textblock"><code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;ostream&gt;</code><br />
 <code>#include &lt;random&gt;</code><br />
 <code>#include &quot;pcg_random.hpp&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>Include dependency graph for Random.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="_random_8hpp__incl.svg" width="510" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="_random_8hpp__incl.svg" width="608" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>This graph shows which files directly or indirectly include this file:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -146,29 +147,35 @@ document.addEventListener('DOMContentLoaded', () => {
 Classes</h2></td></tr>
 <tr class="memitem:cdt_3A_3ARandom" id="r_cdt_3A_3ARandom"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_random.html">cdt::Random</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A run-owned PCG engine with a recorded seed and stream identifier.  <a href="classcdt_1_1_random.html#details">More...</a><br /></td></tr>
+<tr class="memitem:cdt_3A_3ARandomSeed" id="r_cdt_3A_3ARandomSeed"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_random_seed.html">cdt::RandomSeed</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Root entropy value used to reproduce a random run.  <a href="classcdt_1_1_random_seed.html#details">More...</a><br /></td></tr>
+<tr class="memitem:cdt_3A_3ARandomStream" id="r_cdt_3A_3ARandomStream"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1_random_stream.html">cdt::RandomStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PCG sequence selector derived from a root random seed.  <a href="classcdt_1_1_random_stream.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:cdt" id="r_cdt"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html">cdt</a></td></tr>
 <tr class="memdesc:namespacecdt"><td class="mdescLeft">&#160;</td><td class="mdescRight">clang-15 does not support std::format <br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a0a5d7f344ca12885ef549b94a5eb11f5" id="r_a0a5d7f344ca12885ef549b94a5eb11f5"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a0a5d7f344ca12885ef549b94a5eb11f5">cdt::Random_seed</a> = std::uint64_t</td></tr>
-<tr class="memitem:a9bfdf41a828e5424fd28163785ff7979" id="r_a9bfdf41a828e5424fd28163785ff7979"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a9bfdf41a828e5424fd28163785ff7979">cdt::Random_stream</a> = std::uint64_t</td></tr>
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a2ee6e3ac481c875f657e16e3d45966e4" id="r_a2ee6e3ac481c875f657e16e3d45966e4"><td class="memItemLeft">constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a2ee6e3ac481c875f657e16e3d45966e4">cdt::format_as</a> (<a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> const seed) noexcept -&gt; std::uint64_t</td></tr>
+<tr class="memitem:a9412a7d35dd178d93e7b8a2d8cd6acf4" id="r_a9412a7d35dd178d93e7b8a2d8cd6acf4"><td class="memItemLeft">constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a9412a7d35dd178d93e7b8a2d8cd6acf4">cdt::format_as</a> (<a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const stream) noexcept -&gt; std::uint64_t</td></tr>
+<tr class="memitem:a4b2aef984177aef3c6b1399f64bbef65" id="r_a4b2aef984177aef3c6b1399f64bbef65"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a4b2aef984177aef3c6b1399f64bbef65">cdt::operator&lt;&lt;</a> (std::ostream &amp;output, <a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> const seed) -&gt; std::ostream &amp;</td></tr>
+<tr class="memitem:a49f66e53c94a9728e19363eb30a27432" id="r_a49f66e53c94a9728e19363eb30a27432"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="namespacecdt.html#a49f66e53c94a9728e19363eb30a27432">cdt::operator&lt;&lt;</a> (std::ostream &amp;output, <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const stream) -&gt; std::ostream &amp;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a91ca3ebbfed4fbcd53a36eec3729a3cd" id="r_a91ca3ebbfed4fbcd53a36eec3729a3cd"><td class="memItemLeft">Random_stream constexpr&#160;</td><td class="memItemRight"><a class="el" href="#a91ca3ebbfed4fbcd53a36eec3729a3cd">cdt::random_streams::initialization</a> {0}</td></tr>
-<tr class="memitem:abb3e5b6cd8f55004a75c268eb21dec39" id="r_abb3e5b6cd8f55004a75c268eb21dec39"><td class="memItemLeft">Random_stream constexpr&#160;</td><td class="memItemRight"><a class="el" href="#abb3e5b6cd8f55004a75c268eb21dec39">cdt::random_streams::transitions</a> {1}</td></tr>
+<tr class="memitem:a0061e31aa99eacb68db643fb3ff04335" id="r_a0061e31aa99eacb68db643fb3ff04335"><td class="memItemLeft">constexpr <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0061e31aa99eacb68db643fb3ff04335">cdt::random_streams::initialization</a> {0}</td></tr>
+<tr class="memitem:a4cdc88653af7cf771bdcdafd2d3e7a53" id="r_a4cdc88653af7cf771bdcdafd2d3e7a53"><td class="memItemLeft">constexpr <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4cdc88653af7cf771bdcdafd2d3e7a53">cdt::random_streams::transitions</a> {1}</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Run-owned random-number generation and reproducible stream splitting. </p>
 
 <p class="definition">Definition in file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 </div><a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
-<a id="a91ca3ebbfed4fbcd53a36eec3729a3cd" name="a91ca3ebbfed4fbcd53a36eec3729a3cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91ca3ebbfed4fbcd53a36eec3729a3cd">&#9670;&#160;</a></span>initialization</h2>
+<a id="a0061e31aa99eacb68db643fb3ff04335" name="a0061e31aa99eacb68db643fb3ff04335"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0061e31aa99eacb68db643fb3ff04335">&#9670;&#160;</a></span>initialization</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +184,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Random_stream constexpr cdt::random_streams::initialization {0}</td>
+          <td class="memname">RandomStream cdt::random_streams::initialization {0}</td>
         </tr>
       </table>
   </td>
@@ -187,12 +194,12 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00027">27</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00077">77</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
-<a id="abb3e5b6cd8f55004a75c268eb21dec39" name="abb3e5b6cd8f55004a75c268eb21dec39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb3e5b6cd8f55004a75c268eb21dec39">&#9670;&#160;</a></span>transitions</h2>
+<a id="a4cdc88653af7cf771bdcdafd2d3e7a53" name="a4cdc88653af7cf771bdcdafd2d3e7a53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cdc88653af7cf771bdcdafd2d3e7a53">&#9670;&#160;</a></span>transitions</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -201,7 +208,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Random_stream constexpr cdt::random_streams::transitions {1}</td>
+          <td class="memname">RandomStream cdt::random_streams::transitions {1}</td>
         </tr>
       </table>
   </td>
@@ -211,7 +218,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00028">28</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00078">78</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>

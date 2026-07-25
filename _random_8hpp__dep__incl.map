@@ -1,48 +1,41 @@
 <map id="include/Random.hpp" name="include/Random.hpp">
-<area shape="rect" id="Node000001" title="Run&#45;owned random&#45;number generation and reproducible stream splitting." alt="" coords="372,5,526,33"/>
-<area shape="rect" id="Node000002" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="144,157,386,184"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="420,45,283,158,280,154,423,41"/>
-<area shape="rect" id="Node000004" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="167,308,324,336"/>
-<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="354,34,298,50,236,75,179,110,155,132,134,158,129,180,133,209,143,237,154,258,183,286,217,307,212,308,180,290,150,262,138,239,128,210,124,180,130,155,151,129,176,106,234,70,296,45,359,31"/>
-<area shape="rect" id="Node000006" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="775,476,945,504"/>
-<area shape="poly" id="edge12_Node000001_Node000006" title=" " alt="" coords="541,23,688,35,769,46,848,61,920,80,979,104,1001,118,1018,133,1029,150,1033,169,1033,323,1029,352,1018,377,1002,401,981,422,935,455,892,478,890,473,932,451,978,418,998,397,1013,375,1024,350,1028,323,1028,169,1025,152,1014,137,998,122,976,109,918,85,847,66,768,52,687,41,543,28"/>
-<area shape="rect" id="Node000008" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="120,476,328,504"/>
-<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="355,32,266,51,219,65,173,83,93,113,79,122,68,133,61,149,59,169,59,323,62,350,73,375,89,397,108,417,153,451,196,475,191,476,150,455,105,421,85,401,68,377,57,351,53,323,53,169,56,147,64,130,76,118,91,109,171,79,217,60,265,46,359,29"/>
-<area shape="rect" id="Node000009" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="129,552,319,580"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="355,22,296,28,228,39,159,56,93,83,59,100,32,116,14,137,10,151,8,169,8,407,12,435,24,460,43,482,65,500,119,530,174,551,168,552,117,535,62,505,39,485,20,463,7,437,3,408,3,169,4,150,10,134,29,112,57,95,91,79,157,51,227,33,295,23,359,19"/>
-<area shape="rect" id="Node000012" href="$_move__run_8hpp.html" title="Shared value&#45;oriented orchestration for ergodic&#45;move strategies." alt="" coords="778,308,942,336"/>
-<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="541,21,587,28,635,39,683,55,727,79,757,103,782,133,804,166,822,199,847,262,860,309,855,307,842,264,817,201,799,168,778,136,753,107,724,83,681,60,634,44,587,33,543,26"/>
-<area shape="rect" id="Node000013" href="$_runtime__config_8hpp.html" title="Validated runtime configuration for CDT++ command&#45;line programs." alt="" coords="410,157,611,184"/>
-<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="461,45,508,156,503,156,459,50"/>
-<area shape="rect" id="Node000014" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="562,81,713,109"/>
-<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="497,36,607,80,601,81,497,42"/>
-<area shape="rect" id="Node000003" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="164,232,327,260"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="259,197,251,233,246,231,257,202"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="246,273,248,308,243,307,244,278"/>
-<area shape="rect" id="Node000005" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="517,384,688,428"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="318,337,519,384,514,386,318,342"/>
-<area shape="rect" id="Node000010" href="$cdt-viewer_8cpp.html" title="Views 3D spacetimes." alt="" coords="290,392,428,420"/>
-<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="276,342,343,391,338,392,275,348"/>
-<area shape="rect" id="Node000011" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="138,392,265,420"/>
-<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="233,348,210,393,206,390,229,352"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="685,431,821,476,816,476,685,436"/>
-<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="500,430,285,478,284,473,504,428"/>
-<area shape="rect" id="Node000007" href="$cdt_8cpp.html" title="The main executable." alt="" coords="617,552,708,580"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="813,509,698,554,697,549,808,510"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="226,518,226,553,222,550,222,522"/>
-<area shape="poly" id="edge16_Node000012_Node000006" title=" " alt="" coords="862,349,862,477,858,474,858,353"/>
-<area shape="poly" id="edge17_Node000012_Node000009" title=" " alt="" coords="834,344,774,389,701,431,593,474,482,509,379,535,295,554,294,549,378,530,480,504,591,469,699,426,771,385,829,347"/>
-<area shape="poly" id="edge19_Node000013_Node000007" title=" " alt="" coords="499,197,479,255,471,287,468,321,468,407,472,434,483,459,501,480,522,499,572,529,622,552,617,551,570,534,519,503,497,484,479,461,467,436,463,408,463,320,466,287,474,253,496,201"/>
-<area shape="poly" id="edge20_Node000013_Node000011" title=" " alt="" coords="488,194,338,338,284,370,234,394,231,389,281,365,334,334,484,197"/>
-<area shape="poly" id="edge22_Node000014_Node000002" title=" " alt="" coords="554,114,333,158,331,154,558,110"/>
-<area shape="poly" id="edge23_Node000014_Node000006" title=" " alt="" coords="693,112,759,139,832,181,869,206,903,236,933,269,957,307,965,332,964,357,956,382,943,406,910,448,877,478,875,474,906,444,939,403,951,380,959,356,960,332,952,309,928,273,899,240,866,211,830,185,756,144,693,117"/>
-<area shape="poly" id="edge30_Node000014_Node000010" title=" " alt="" coords="640,122,637,155,626,186,588,224,517,284,377,394,374,389,513,280,585,221,622,183,632,153,637,126"/>
-<area shape="poly" id="edge29_Node000014_Node000013" title=" " alt="" coords="600,118,535,158,532,154,604,115"/>
-<area shape="rect" id="Node000015" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="632,232,819,260"/>
-<area shape="poly" id="edge24_Node000014_Node000015" title=" " alt="" coords="653,119,720,232,715,231,652,124"/>
-<area shape="poly" id="edge25_Node000015_Node000005" title=" " alt="" coords="730,274,728,307,717,337,691,365,659,386,657,381,687,361,712,334,723,305,726,278"/>
-<area shape="poly" id="edge28_Node000015_Node000012" title=" " alt="" coords="763,265,839,308,833,308,762,270"/>
-<area shape="rect" id="Node000016" href="$_move__outcome_8hpp.html" title="Structured Pachner&#45;move failures and transition outcomes." alt="" coords="502,308,703,336"/>
-<area shape="poly" id="edge26_Node000015_Node000016" title=" " alt="" coords="693,267,626,310,623,305,688,270"/>
-<area shape="poly" id="edge27_Node000016_Node000005" title=" " alt="" coords="604,349,605,384,600,382,601,354"/>
+<area shape="rect" id="Node000001" title="Run&#45;owned random&#45;number generation and reproducible stream splitting." alt="" coords="231,5,385,33"/>
+<area shape="rect" id="Node000002" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="267,157,509,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="323,44,384,156,378,156,321,49"/>
+<area shape="rect" id="Node000004" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="309,308,467,336"/>
+<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="289,48,277,75,263,109,255,146,257,184,271,224,297,258,329,285,363,307,358,308,325,290,293,262,266,227,252,185,250,146,258,108,272,73,292,44"/>
+<area shape="rect" id="Node000006" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="718,476,887,504"/>
+<area shape="poly" id="edge12_Node000001_Node000006" title=" " alt="" coords="400,23,543,37,622,48,699,63,768,82,824,105,846,119,863,134,874,151,877,169,877,323,870,370,854,414,833,451,814,478,811,474,828,448,849,411,865,369,872,323,872,169,869,153,859,137,843,123,822,110,766,87,697,68,621,53,542,42,401,28"/>
+<area shape="rect" id="Node000008" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="153,476,362,504"/>
+<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="214,38,161,56,110,83,89,100,73,120,62,143,59,169,59,323,59,380,66,402,83,427,101,443,122,455,169,475,164,477,119,460,98,447,79,430,61,405,54,381,53,323,53,169,57,141,69,117,86,96,107,79,159,51,217,34"/>
+<area shape="rect" id="Node000009" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="21,552,211,580"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="214,30,146,44,111,55,78,70,50,88,28,110,13,137,8,169,8,407,11,430,18,452,42,493,72,526,101,551,96,552,69,530,38,496,13,454,5,431,3,407,3,169,8,136,23,107,47,84,76,65,109,50,144,39,217,26"/>
+<area shape="rect" id="Node000012" href="$_move__run_8hpp.html" title="Shared value&#45;oriented orchestration for ergodic&#45;move strategies." alt="" coords="94,392,258,420"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="270,43,242,66,212,95,189,130,182,149,180,169,180,248,179,392,174,391,175,247,175,169,177,148,184,127,208,91,238,62,273,39"/>
+<area shape="rect" id="Node000013" href="$_runtime__config_8hpp.html" title="Validated runtime configuration for CDT++ command&#45;line programs." alt="" coords="635,232,837,260"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="400,27,535,46,595,61,636,79,674,115,703,158,723,200,735,233,730,231,718,202,698,161,670,118,633,83,593,66,534,52,401,32"/>
+<area shape="rect" id="Node000014" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="471,81,622,109"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="365,35,506,79,502,82,366,41"/>
+<area shape="rect" id="Node000003" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="306,232,470,260"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="389,198,390,233,386,231,387,203"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="389,273,390,309,386,306,387,278"/>
+<area shape="rect" id="Node000005" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="282,384,454,428"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="383,349,376,385,371,381,380,353"/>
+<area shape="rect" id="Node000010" href="$cdt-viewer_8cpp.html" title="Views 3D spacetimes." alt="" coords="478,392,616,420"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="427,341,524,391,519,392,427,346"/>
+<area shape="rect" id="Node000011" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="640,392,768,420"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="456,337,629,381,660,391,654,392,627,386,456,342"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="469,426,727,475,722,476,468,432"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="329,436,277,478,274,473,325,439"/>
+<area shape="rect" id="Node000007" href="$cdt_8cpp.html" title="The main executable." alt="" coords="818,552,910,580"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="824,514,856,553,851,551,822,518"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="221,511,142,554,140,549,216,512"/>
+<area shape="poly" id="edge16_Node000012_Node000006" title=" " alt="" coords="244,421,271,426,514,459,720,481,715,482,513,464,270,431,245,426"/>
+<area shape="poly" id="edge17_Node000012_Node000009" title=" " alt="" coords="163,432,144,477,121,553,117,550,139,475,160,435"/>
+<area shape="poly" id="edge19_Node000013_Node000007" title=" " alt="" coords="767,267,809,306,843,349,868,385,886,423,903,476,905,490,903,505,891,531,876,554,873,549,886,529,897,503,900,490,897,477,882,425,863,387,839,352,805,310,766,272"/>
+<area shape="poly" id="edge20_Node000013_Node000011" title=" " alt="" coords="732,273,709,393,704,390,728,277"/>
+<area shape="poly" id="edge22_Node000014_Node000002" title=" " alt="" coords="502,117,418,158,415,154,507,114"/>
+<area shape="poly" id="edge23_Node000014_Node000006" title=" " alt="" coords="556,121,584,188,603,224,626,258,646,280,666,296,706,317,745,340,764,358,782,382,794,407,801,433,805,478,800,475,795,434,789,409,778,385,760,361,742,345,704,322,664,300,643,284,622,262,598,227,579,190,554,126"/>
+<area shape="poly" id="edge25_Node000014_Node000010" title=" " alt="" coords="549,123,549,393,544,391,545,126"/>
+<area shape="poly" id="edge24_Node000014_Node000013" title=" " alt="" coords="575,115,722,231,717,232,574,121"/>
 </map>

@@ -2,9 +2,9 @@ var searchData=
 [
   ['incident_5fcells_5ffrom_5fedge_0',['incident_cells_from_edge',['../_ergodic__moves__3_8hpp.html#a0d7992506177570e64d631066090f924',1,'cdt::ergodic_moves::detail']]],
   ['independent_20delta_20derivations_1',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
-  ['initial_5fradius_2',['INITIAL_RADIUS',['../namespacecdt.html#a84a672a22f32fbed332983b0773a3805',1,'cdt']]],
+  ['initial_5fradius_2',['INITIAL_RADIUS',['../namespacecdt.html#a2be4948ff413984aa6ad5d8c9a44afcc',1,'cdt']]],
   ['initial_5fradius_3',['initial_radius',['../classcdt_1_1foliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a1fcc25f5e8be9fae163fcddb8377739b',1,'cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::initial_radius()'],['../classcdt_1_1manifolds_1_1_manifold_3_013_01_4.html#acf544e10dc8407f9de0a095fa7e7e2a6',1,'cdt::manifolds::Manifold&lt; 3 &gt;::initial_radius()']]],
-  ['initialize_4',['initialize',['../classcdt_1_1_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a876a914ecb86c497db91c091214175dd',1,'cdt::MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
+  ['initialize_4',['initialize',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a2eeefe7856f29c4ec96608e1831e3c6f',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
   ['initialize_2ecpp_5',['initialize.cpp',['../initialize_8cpp.html',1,'']]],
   ['insertion_20and_20duplicate_20points_6',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
   ['int_5fprecision_7',['Int_precision',['../namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd',1,'cdt']]],

@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structfmt_1_1formatter_3_01_c_g_a_l_1_1_point__3_3_01_kernel_01_4_01_4.html">   26</a></span>  <span class="keyword">struct </span>formatter&lt;CGAL::Point_3&lt;Kernel&gt;&gt;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  {</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// Format specification handling - keeping it simple for now</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">auto</span> <span class="keyword">constexpr</span> parse(format_parse_context&amp; ctx) -&gt; <span class="keyword">decltype</span>(ctx.begin())</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> parse(format_parse_context&amp; ctx) -&gt; <span class="keyword">decltype</span>(ctx.begin())</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    { <span class="keywordflow">return</span> ctx.begin(); }</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// Format the point as a string with coordinates</span></div>

@@ -123,21 +123,23 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespacecdt.html">   17</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecdt.html">cdt</a></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType, <span class="keyword">typename</span> FunctionType, <span class="keyword">typename</span>... Arguments&gt;</div>
-<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="namespacecdt.html#ac93d0f225351909ff758f48a520289d5">   30</a></span>  <span class="keyword">auto</span> <span class="keyword">constexpr</span> <a class="code hl_function" href="namespacecdt.html#ac93d0f225351909ff758f48a520289d5">apply_move</a>(ManifoldType <span class="keyword">const</span>&amp; t_manifold, FunctionType t_move,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                            Arguments&amp;&amp;... arguments) -&gt; <span class="keyword">decltype</span>(<span class="keyword">auto</span>)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">return</span> std::invoke(t_move, t_manifold,</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                       std::forward&lt;Arguments&gt;(arguments)...);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  }</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType, <span class="keyword">typename</span> FunctionType, <span class="keyword">typename</span>... Arguments&gt;</div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespacecdt.html#ab4c41614ba4c6a6e04757b1e3f03dc66">   29</a></span>  [[nodiscard]] <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="namespacecdt.html#ab4c41614ba4c6a6e04757b1e3f03dc66">apply_move</a>(ManifoldType <span class="keyword">const</span>&amp; t_manifold,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                          FunctionType        t_move,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                                          Arguments&amp;&amp;... arguments)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>      -&gt; <span class="keyword">decltype</span>(<span class="keyword">auto</span>)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">return</span> std::invoke(t_move, t_manifold,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                       std::forward&lt;Arguments&gt;(arguments)...);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  }</div>
 </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}  <span class="comment">// namespace cdt</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}  <span class="comment">// namespace cdt</span></div>
 </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif  </span><span class="comment">// CDT_PLUSPLUS_APPLY_MOVE_HPP</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#endif  </span><span class="comment">// CDT_PLUSPLUS_APPLY_MOVE_HPP</span></div>
 <div class="ttc" id="anamespacecdt_html"><div class="ttname"><a href="namespacecdt.html">cdt</a></div><div class="ttdoc">clang-15 does not support std::format</div><div class="ttdef"><b>Definition</b> <a href="#l00017">Apply_move.hpp:18</a></div></div>
-<div class="ttc" id="anamespacecdt_html_ac93d0f225351909ff758f48a520289d5"><div class="ttname"><a href="namespacecdt.html#ac93d0f225351909ff758f48a520289d5">cdt::apply_move</a></div><div class="ttdeci">auto constexpr apply_move(ManifoldType const &amp;t_manifold, FunctionType t_move, Arguments &amp;&amp;... arguments) -&gt; decltype(auto)</div><div class="ttdoc">An applicative function similar to std::apply on a manifold.</div><div class="ttdef"><b>Definition</b> <a href="#l00030">Apply_move.hpp:30</a></div></div>
+<div class="ttc" id="anamespacecdt_html_ab4c41614ba4c6a6e04757b1e3f03dc66"><div class="ttname"><a href="namespacecdt.html#ab4c41614ba4c6a6e04757b1e3f03dc66">cdt::apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType const &amp;t_manifold, FunctionType t_move, Arguments &amp;&amp;... arguments) -&gt; decltype(auto)</div><div class="ttdoc">An applicative function similar to std::apply on a manifold.</div><div class="ttdef"><b>Definition</b> <a href="#l00029">Apply_move.hpp:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

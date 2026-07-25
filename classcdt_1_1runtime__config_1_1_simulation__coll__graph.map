@@ -1,5 +1,7 @@
 <map id="cdt::runtime_config::Simulation" name="cdt::runtime_config::Simulation">
-<area shape="rect" id="Node000001" title=" " alt="" coords="16,570,152,1039"/>
-<area shape="rect" id="Node000002" href="$classcdt_1_1runtime__config_1_1_triangulation.html" title=" " alt="" coords="5,5,163,497"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,494,87,553,82,553,84,499"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="16,804,152,1273"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1runtime__config_1_1_triangulation.html" title=" " alt="" coords="5,218,163,731"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,729,87,788,82,787,84,734"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="22,5,147,145"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,142,87,201,82,200,84,147"/>
 </map>

@@ -4,10 +4,10 @@ var indexSectionsWithContent =
   1: "fgmprst",
   2: "c",
   3: "acefgimprstu",
-  4: "abcdefgiklmnoprstuvw~",
+  4: "abcdefghiklmnoprstuvw~",
   5: "acdgimnprtu",
   6: "gim",
-  7: "cms",
+  7: "cem",
   8: "ms",
   9: "12346abcdefghiklmnopqrstuvw",
   10: "c"

@@ -204,12 +204,12 @@ Sequential and TBB-backed configurations</h1>
 <li>instantiates the TDS with <span class="tt">CGAL::Parallel_tag</span>.</li>
 </ol>
 <p><span class="tt">CDT_ENABLE_PARALLEL_TRIANGULATION</span> records repository policy. <span class="tt">CGAL_LINKED_WITH_TBB</span> remains a capability supplied by the linked CGAL target; the traits header rejects a parallel policy without that capability. Merely including TBB headers or setting the CGAL macro manually is unsupported.</p>
-<p>Each parallel <span class="tt">Delaunay_state</span> owns the lock grid referenced by its triangulation. Copies allocate and bind their own grid; moves transfer the owner and pointer together. Returned snapshots are detached and operate sequentially unless a new owner explicitly attaches a compatible grid. The focused parallel test covers insertion, point/info association, copy, move, lock-zone refusal without mutation, range removal, wrapper transfer, and post-donor lifetime. Issue #88 owns scaling and any broader multithreaded simulation policy.</p>
+<p>Each parallel <span class="tt">Delaunay_state</span> owns the lock grid referenced by its triangulation. Copies allocate and bind their own grid; moves transfer the owner and pointer together. Returned snapshots are detached and operate sequentially unless a new owner explicitly attaches a compatible grid. The focused parallel test covers insertion, point/info association, copy, move, lock-zone refusal without mutation, range removal, wrapper transfer, and post-donor lifetime. The complete supported execution, determinism, synchronization, sanitizer, stress, and scaling boundary is recorded in <a class="el" href="md_docs_2multithreading.html" title="Multithreaded CGAL contract">Multithreaded CGAL contract</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="reproducible-performance-baseline"></a>
 Reproducible performance baseline</h1>
 <p>The benchmark is diagnostic rather than a pass/fail test:</p>
-<div class="fragment"><div class="line">just benchmark-cgal 640 5 50</div>
-</div><!-- fragment --><p>The arguments are requested simplices, repetitions, and queued moves per repetition. Input generation uses seed <span class="tt">102</span>. The report includes CGAL version, TDS mode, generated and surviving topology counts, a checksum, and minimum/median/maximum nanoseconds for:</p>
+<div class="fragment"><div class="line">just benchmark-cgal 640 5 50 1</div>
+</div><!-- fragment --><p>The arguments are requested simplices, measured repetitions, queued moves per repetition, and discarded warm-up repetitions. Input generation uses seed <span class="tt">102</span>. The report includes source, toolchain, platform, dependency, thread, fixture, and random-stream metadata; generated and surviving topology counts; a checksum; every raw sample; and minimum/median/maximum nanoseconds for:</p>
 <ul>
 <li>bulk point/info insertion;</li>
 <li>foliation repair;</li>

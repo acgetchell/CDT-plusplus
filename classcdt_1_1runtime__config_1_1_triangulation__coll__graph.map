@@ -1,3 +1,5 @@
 <map id="cdt::runtime_config::Triangulation" name="cdt::runtime_config::Triangulation">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,163,497"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,218,163,731"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="22,5,147,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,142,87,201,82,200,84,147"/>
 </map>

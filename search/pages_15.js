@@ -3,7 +3,7 @@ var searchData=
   ['random_20number_20generation_0',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
   ['random_20number_20generators_1',['PCG random-number generators',['../md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators',1,'']]],
   ['random_20runs_2',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['record_3',['record',['../md_docs_2ergodic-moves.html#move-by-move-record',1,'Move-by-move record'],['../md_docs_2ergodic-moves.html#verification-record',1,'Verification record']]],
+  ['record_3',['record',['../md_docs_2multithreading.html#matched-scaling-record',1,'Matched scaling record'],['../md_docs_2ergodic-moves.html#move-by-move-record',1,'Move-by-move record'],['../md_docs_2ergodic-moves.html#verification-record',1,'Verification record']]],
   ['reference_20suite_20status_4',['Current reference-suite status',['../index.html#current-reference-suite-status',1,'']]],
   ['references_5',['References',['../md_docs_2metropolis-hastings.html#references',1,'']]],
   ['references_20and_20citations_6',['References and Citations',['../md__r_e_f_e_r_e_n_c_e_s.html',1,'']]],
@@ -22,5 +22,6 @@ var searchData=
   ['roadmap_19',['Roadmap',['../index.html#roadmap',1,'']]],
   ['rules_20',['Mutation and lifetime rules',['../md_docs_2cgal-integration.html#mutation-and-lifetime-rules',1,'']]],
   ['run_21',['Run',['../index.html#run',1,'']]],
-  ['runs_22',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]]
+  ['runs_22',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
+  ['runtime_20thread_20limit_23',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]]
 ];

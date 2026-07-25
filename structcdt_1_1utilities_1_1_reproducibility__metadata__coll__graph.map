@@ -1,3 +1,7 @@
 <map id="cdt::utilities::Reproducibility_metadata" name="cdt::utilities::Reproducibility_metadata">
-<area shape="rect" id="Node000001" title="Provenance recorded next to every stochastic triangulation." alt="" coords="5,5,199,318"/>
+<area shape="rect" id="Node000001" title="Provenance recorded next to every stochastic triangulation." alt="" coords="48,240,242,553"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="5,5,130,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,142,106,224,101,224,84,147"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="154,5,294,145"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,142,190,225,185,223,206,147"/>
 </map>

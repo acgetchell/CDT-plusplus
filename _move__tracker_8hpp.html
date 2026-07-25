@@ -127,15 +127,16 @@ document.addEventListener('DOMContentLoaded', () => {
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;gsl/util&gt;</code><br />
 <code>#include &lt;numeric&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;random&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 <code>#include &quot;<a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>Include dependency graph for Move_tracker.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="_move__tracker_8hpp__incl.svg" width="100%" height="512"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="_move__tracker_8hpp__incl.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;"><span class="dynarrow"><span class="arrowhead closed"></span></span>This graph shows which files directly or indirectly include this file:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:cdt_3A_3Amove_5Ftracker_3A_3AMoveTracker_3C_20ManifoldType_20_3E" id="r_cdt_3A_3Amove_5Ftracker_3A_3AMoveTracker_3C_20ManifoldType_20_3E"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1move__tracker_1_1_move_tracker.html">cdt::move_tracker::MoveTracker&lt; ManifoldType &gt;</a></td></tr>
+<tr class="memitem:cdt_3A_3Amove_5Ftracker_3A_3AMoveTracker" id="r_cdt_3A_3Amove_5Ftracker_3A_3AMoveTracker"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcdt_1_1move__tracker_1_1_move_tracker.html">cdt::move_tracker::MoveTracker</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The data and methods to track ergodic moves.  <a href="classcdt_1_1move__tracker_1_1_move_tracker.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -158,7 +159,7 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:abfd4202e81dcb5f3729e3b30a3f79dbc" id="r_abfd4202e81dcb5f3729e3b30a3f79dbc"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc">cdt::move_tracker::move_type</a> { <br />
+<tr class="memitem:a753f98657c53f1a8685a367ee686f5cf" id="r_a753f98657c53f1a8685a367ee686f5cf"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a753f98657c53f1a8685a367ee686f5cf">cdt::move_tracker::MoveType</a> { <br />
 &#160;&#160;<b>TWO_THREE</b> = 0
 , <b>THREE_TWO</b> = 1
 , <b>TWO_SIX</b> = 2
@@ -167,22 +168,23 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>FOUR_FOUR</b> = 4
 <br />
  }</td></tr>
-<tr class="memdesc:abfd4202e81dcb5f3729e3b30a3f79dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The types of 3D ergodic moves.  <a href="#abfd4202e81dcb5f3729e3b30a3f79dbc">More...</a><br /></td></tr>
+<tr class="memdesc:a753f98657c53f1a8685a367ee686f5cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The types of 3D ergodic moves.  <a href="#a753f98657c53f1a8685a367ee686f5cf">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a454ea88086da87552cfb3e894a8b245a" id="r_a454ea88086da87552cfb3e894a8b245a"><td class="memTemplParams" colspan="2">template&lt;typename Enumeration&gt; </td></tr>
-<tr class="memitem:a454ea88086da87552cfb3e894a8b245a template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a454ea88086da87552cfb3e894a8b245a">cdt::move_tracker::as_integer</a> (Enumeration value) -&gt; std::underlying_type_t&lt; Enumeration &gt;</td></tr>
-<tr class="memdesc:a454ea88086da87552cfb3e894a8b245a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert enum to integer.  <br /></td></tr>
-<tr class="memitem:a7b2c7617217dc99c6afdd5948d6c3380" id="r_a7b2c7617217dc99c6afdd5948d6c3380"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a7b2c7617217dc99c6afdd5948d6c3380">cdt::move_tracker::as_move</a> (int const move_choice) -&gt; <a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc">move_type</a></td></tr>
-<tr class="memdesc:a7b2c7617217dc99c6afdd5948d6c3380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert integer to <a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc" title="The types of 3D ergodic moves.">move_type</a>.  <br /></td></tr>
-<tr class="memitem:a94e36e1c99f1e2323054bf95d5ccf53c" id="r_a94e36e1c99f1e2323054bf95d5ccf53c"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
-<tr class="memitem:a94e36e1c99f1e2323054bf95d5ccf53c template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a94e36e1c99f1e2323054bf95d5ccf53c">cdt::move_tracker::generate_random_move_3</a> (Generator &amp;generator) -&gt; <a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc">move_type</a></td></tr>
-<tr class="memdesc:a94e36e1c99f1e2323054bf95d5ccf53c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a uniformly distributed 3D ergodic move from caller-owned RNG.  <br /></td></tr>
+<tr class="memitem:aa2b8d0eb3835b7852180843f4f00dfe1" id="r_aa2b8d0eb3835b7852180843f4f00dfe1"><td class="memTemplParams" colspan="2">template&lt;typename Enumeration&gt; <br />
+requires std::is_enum_v&lt;Enumeration&gt;</td></tr>
+<tr class="memitem:aa2b8d0eb3835b7852180843f4f00dfe1 template"><td class="memItemLeft">constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="#aa2b8d0eb3835b7852180843f4f00dfe1">cdt::move_tracker::as_integer</a> (Enumeration const value) noexcept -&gt; std::underlying_type_t&lt; Enumeration &gt;</td></tr>
+<tr class="memdesc:aa2b8d0eb3835b7852180843f4f00dfe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert enum to integer.  <br /></td></tr>
+<tr class="memitem:a83d82b310dd35510c0c57f918ce26dbb" id="r_a83d82b310dd35510c0c57f918ce26dbb"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
+<tr class="memitem:a83d82b310dd35510c0c57f918ce26dbb template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a83d82b310dd35510c0c57f918ce26dbb">cdt::move_tracker::generate_random_move_3</a> (Generator &amp;generator) -&gt; <a class="el" href="#a753f98657c53f1a8685a367ee686f5cf">MoveType</a></td></tr>
+<tr class="memdesc:a83d82b310dd35510c0c57f918ce26dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a uniformly distributed 3D ergodic move from caller-owned RNG.  <br /></td></tr>
+<tr class="memitem:acb114b2524a174e1e896ddff92f5e908" id="r_acb114b2524a174e1e896ddff92f5e908"><td class="memItemLeft">constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="#acb114b2524a174e1e896ddff92f5e908">cdt::move_tracker::move_from_index</a> (std::size_t const move_choice) noexcept -&gt; std::optional&lt; <a class="el" href="#a753f98657c53f1a8685a367ee686f5cf">MoveType</a> &gt;</td></tr>
+<tr class="memdesc:acb114b2524a174e1e896ddff92f5e908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an integer index to <a class="el" href="#a753f98657c53f1a8685a367ee686f5cf" title="The types of 3D ergodic moves.">MoveType</a>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aaa8aa9c3a38485dd941003001204ed85" id="r_aaa8aa9c3a38485dd941003001204ed85"><td class="memItemLeft"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> constexpr&#160;</td><td class="memItemRight"><a class="el" href="#aaa8aa9c3a38485dd941003001204ed85">cdt::move_tracker::NUMBER_OF_3D_MOVES</a> = 5</td></tr>
+<tr class="memitem:aea8940a7036fa2c4e545c10f00316380" id="r_aea8940a7036fa2c4e545c10f00316380"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#aea8940a7036fa2c4e545c10f00316380">cdt::move_tracker::NUMBER_OF_3D_MOVES</a> = 5</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Track ergodic moves. </p>
@@ -190,8 +192,8 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
 </div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
-<a id="abfd4202e81dcb5f3729e3b30a3f79dbc" name="abfd4202e81dcb5f3729e3b30a3f79dbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfd4202e81dcb5f3729e3b30a3f79dbc">&#9670;&#160;</a></span>move_type</h2>
+<a id="a753f98657c53f1a8685a367ee686f5cf" name="a753f98657c53f1a8685a367ee686f5cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a753f98657c53f1a8685a367ee686f5cf">&#9670;&#160;</a></span>MoveType</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,7 +202,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum class <a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc">cdt::move_tracker::move_type</a></td>
+          <td class="memname">enum class <a class="el" href="#a753f98657c53f1a8685a367ee686f5cf">cdt::move_tracker::MoveType</a></td>
         </tr>
       </table>
   </td>
@@ -212,26 +214,35 @@ Variables</h2></td></tr>
 
 <p>The types of 3D ergodic moves. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00031">31</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00032">32</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a454ea88086da87552cfb3e894a8b245a" name="a454ea88086da87552cfb3e894a8b245a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a454ea88086da87552cfb3e894a8b245a">&#9670;&#160;</a></span>as_integer()</h2>
+<a id="aa2b8d0eb3835b7852180843f4f00dfe1" name="aa2b8d0eb3835b7852180843f4f00dfe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2b8d0eb3835b7852180843f4f00dfe1">&#9670;&#160;</a></span>as_integer()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Enumeration&gt; </div>
+template&lt;typename Enumeration&gt; <br />
+requires std::is_enum_v&lt;Enumeration&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">auto cdt::move_tracker::as_integer </td>
           <td>(</td>
-          <td class="paramtype">Enumeration</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">Enumeration const</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td> -&gt; std::underlying_type_t&lt; Enumeration &gt;</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Convert enum to integer. </p>
@@ -249,48 +260,12 @@ template&lt;typename Enumeration&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The integer value of the enum </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00047">47</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00049">49</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a7b2c7617217dc99c6afdd5948d6c3380" name="a7b2c7617217dc99c6afdd5948d6c3380"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b2c7617217dc99c6afdd5948d6c3380">&#9670;&#160;</a></span>as_move()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto cdt::move_tracker::as_move </td>
-          <td>(</td>
-          <td class="paramtype">int const</td>          <td class="paramname"><span class="paramname"><em>move_choice</em></span></td><td>)</td>
-          <td> -&gt; <a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc">move_type</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Convert integer to move_type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">move_choice</td><td>The move choice integer </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The move_type </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00057">57</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a94e36e1c99f1e2323054bf95d5ccf53c" name="a94e36e1c99f1e2323054bf95d5ccf53c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94e36e1c99f1e2323054bf95d5ccf53c">&#9670;&#160;</a></span>generate_random_move_3()</h2>
+<a id="a83d82b310dd35510c0c57f918ce26dbb" name="a83d82b310dd35510c0c57f918ce26dbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83d82b310dd35510c0c57f918ce26dbb">&#9670;&#160;</a></span>generate_random_move_3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -304,7 +279,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
           <td class="memname">auto cdt::move_tracker::generate_random_move_3 </td>
           <td>(</td>
           <td class="paramtype">Generator &amp;</td>          <td class="paramname"><span class="paramname"><em>generator</em></span></td><td>)</td>
-          <td> -&gt; <a class="el" href="#abfd4202e81dcb5f3729e3b30a3f79dbc">move_type</a></td>
+          <td> -&gt; <a class="el" href="#a753f98657c53f1a8685a367ee686f5cf">MoveType</a></td>
         </tr>
       </table>
   </td>
@@ -316,13 +291,12 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 <p>Generate a uniformly distributed 3D ergodic move from caller-owned RNG. </p>
 
-<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00068">68</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00073">73</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
 
 </div>
 </div>
-<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
-<a id="aaa8aa9c3a38485dd941003001204ed85" name="aaa8aa9c3a38485dd941003001204ed85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa8aa9c3a38485dd941003001204ed85">&#9670;&#160;</a></span>NUMBER_OF_3D_MOVES</h2>
+<a id="acb114b2524a174e1e896ddff92f5e908" name="acb114b2524a174e1e896ddff92f5e908"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb114b2524a174e1e896ddff92f5e908">&#9670;&#160;</a></span>move_from_index()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -331,7 +305,44 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Int_precision constexpr cdt::move_tracker::NUMBER_OF_3D_MOVES = 5</td>
+          <td class="memname">auto cdt::move_tracker::move_from_index </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t const</td>          <td class="paramname"><span class="paramname"><em>move_choice</em></span></td><td>)</td>
+          <td> -&gt; std::optional&lt; <a class="el" href="#a753f98657c53f1a8685a367ee686f5cf">MoveType</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert an integer index to MoveType. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">move_choice</td><td>The zero-based move index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The MoveType, or std::nullopt when the index is out of range </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00060">60</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="aea8940a7036fa2c4e545c10f00316380" name="aea8940a7036fa2c4e545c10f00316380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea8940a7036fa2c4e545c10f00316380">&#9670;&#160;</a></span>NUMBER_OF_3D_MOVES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t cdt::move_tracker::NUMBER_OF_3D_MOVES = 5</td>
         </tr>
       </table>
   </td>
@@ -341,7 +352,7 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00026">26</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__tracker_8hpp_source.html#l00027">27</a> of file <a class="el" href="_move__tracker_8hpp_source.html">Move_tracker.hpp</a>.</p>
 
 </div>
 </div>

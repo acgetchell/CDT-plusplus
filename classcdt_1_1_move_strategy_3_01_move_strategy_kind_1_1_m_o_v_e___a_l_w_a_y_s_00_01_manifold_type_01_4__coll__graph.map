@@ -1,0 +1,13 @@
+<map id="cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;" name="cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;">
+<area shape="rect" id="Node000001" title="The Move Always algorithm." alt="" coords="156,586,338,1095"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_move_run_cadence.html" title="Positive pass count and checkpoint interval for a move run." alt="" coords="5,262,161,446"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,443,159,570,153,571,114,449"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_random.html" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="185,218,310,491"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,488,250,570,245,569,247,494"/>
+<area shape="rect" id="Node000004" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="106,5,231,145"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="188,142,207,202,202,202,188,147"/>
+<area shape="rect" id="Node000005" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="255,5,394,145"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="306,142,292,203,287,201,305,147"/>
+<area shape="rect" id="Node000006" href="$classcdt_1_1_move_strategy.html" title="Select a move algorithm." alt="" coords="334,310,512,399"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="403,411,340,591,335,589,401,416"/>
+</map>
