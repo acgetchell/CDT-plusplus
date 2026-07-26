@@ -33,6 +33,26 @@ jobs:
         # ok: cdt.github-actions.external-action-version-comment
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
 
+      # ruleid: cdt.github-actions.external-action-sha-pinned
+      - uses: actions/checkout@v7
+
+      # ruleid: cdt.github-actions.external-action-approved-allowlist
+      - uses: unapproved/example-action@1111111111111111111111111111111111111111  # v1.0.0
+
+      # ruleid: cdt.github-actions.external-action-version-comment
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+
+      # ok: cdt.github-actions.external-action-sha-pinned
+      # ok: cdt.github-actions.external-action-approved-allowlist
+      # ok: cdt.github-actions.external-action-version-comment
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      # ruleid: cdt.github-actions.external-action-sha-pinned
+      - uses: docker://alpine:3.20
+
+      # ok: cdt.github-actions.external-action-sha-pinned
+      - uses: docker://alpine@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
       # yamllint disable rule:line-length
       - name: Nested moving-tag action
         # ruleid: cdt.github-actions.external-action-sha-pinned,cdt.github-actions.external-action-approved-allowlist

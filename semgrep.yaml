@@ -61,8 +61,8 @@ rules:
         - "/tests/semgrep/.github/**/*.yaml"
         - "/tests/semgrep/.github/**/*.yml"
     pattern-either:
-      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@(?![a-fA-F0-9]{40}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
-      - pattern-regex: '(?m)^\s*uses:\s*docker://(?![^\s#]+@sha256:[a-fA-F0-9]{64}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@(?![a-fA-F0-9]{40}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*docker://(?![^\s#]+@sha256:[a-fA-F0-9]{64}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
   - id: cdt.github-actions.external-action-approved-allowlist
     languages:
       - regex
@@ -82,7 +82,7 @@ rules:
         - "/tests/semgrep/.github/**/*.yaml"
         - "/tests/semgrep/.github/**/*.yml"
     patterns:
-      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)(?!(?:actions/(?:cache|checkout|setup-python|upload-artifact)|astral-sh/setup-uv|codecov/codecov-action|DenverCoder1/doxygen-github-pages-action|github/codeql-action/(?:analyze|init)|ilammy/msvc-dev-cmd|JamesIves/github-pages-deploy-action|lukka/run-vcpkg|pkgxdev/setup|taiki-e/(?:cache-cargo-install-action|install-action))@)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*(?!\./)(?!docker://)(?!(?:actions/(?:cache|checkout|setup-python|upload-artifact)|astral-sh/setup-uv|codecov/codecov-action|DenverCoder1/doxygen-github-pages-action|github/codeql-action/(?:analyze|init)|ilammy/msvc-dev-cmd|JamesIves/github-pages-deploy-action|lukka/run-vcpkg|pkgxdev/setup|taiki-e/(?:cache-cargo-install-action|install-action))@)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@'  # yamllint disable-line rule:line-length
   - id: cdt.github-actions.external-action-version-comment
     languages:
       - regex
@@ -102,7 +102,7 @@ rules:
         - "/tests/semgrep/.github/**/*.yaml"
         - "/tests/semgrep/.github/**/*.yml"
     patterns:
-      - pattern-regex: '(?m)^\s*uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@[a-fA-F0-9]{40}(?![ \t]+#[ \t]+v[0-9]+(?:\.[0-9]+){1,2}(?:[-+][0-9A-Za-z.-]+)?[ \t]*$)[^\r\n]*$'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@[a-fA-F0-9]{40}(?![ \t]+#[ \t]+v[0-9]+(?:\.[0-9]+){1,2}(?:[-+][0-9A-Za-z.-]+)?[ \t]*$)[^\r\n]*$'  # yamllint disable-line rule:line-length
   - id: cdt.cpp.no-crtp-inheritance
     languages:
       - cpp
