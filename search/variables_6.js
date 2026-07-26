@@ -1,13 +1,20 @@
 var searchData=
 [
-  ['n0_0',['N0',['../structcdt_1_1_geometry_3_013_01_4.html#ad9e85cb134220f6bc3431179a72f3f6b',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n1_1',['N1',['../structcdt_1_1_geometry_3_013_01_4.html#a946003b1c50f8d2068e2e536aae4570d',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n1_5fsl_2',['N1_SL',['../structcdt_1_1_geometry_3_013_01_4.html#a4326ed601f7351df8078ce03d8145fdb',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n1_5ftl_3',['N1_TL',['../structcdt_1_1_geometry_3_013_01_4.html#ae1d5ee9396d765037e06875aab222213',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n2_4',['N2',['../structcdt_1_1_geometry_3_013_01_4.html#a1922cd18f7dbb07aa030312a9f951ab4',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n3_5',['N3',['../structcdt_1_1_geometry_3_013_01_4.html#a0107fcee7ed2ed2cd3e84e45f41f87c6',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n3_5f13_6',['N3_13',['../structcdt_1_1_geometry_3_013_01_4.html#a09c12b2e76983941c594d674a43b9f6e',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n3_5f22_7',['N3_22',['../structcdt_1_1_geometry_3_013_01_4.html#a3725df775eeaa5d50fbc7f1d258993a4',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n3_5f31_8',['N3_31',['../structcdt_1_1_geometry_3_013_01_4.html#af3950a0ffc68bc98fa4a32f23d3b0b96',1,'cdt::Geometry&lt; 3 &gt;']]],
-  ['n3_5f31_5f13_9',['N3_31_13',['../structcdt_1_1_geometry_3_013_01_4.html#a7e329fe365c0e894a9d67c6716412b2e',1,'cdt::Geometry&lt; 3 &gt;']]]
+  ['m_5fattempted_0',['m_attempted',['../classcdt_1_1_move_command.html#ab98577e44ca4e90d53c2855afebe66ac',1,'cdt::MoveCommand']]],
+  ['m_5fcadence_1',['m_cadence',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a0b509479334a48cba2e9d43733a7ca6e',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::m_cadence'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a6da71e32de0648061628230b207ffdc0',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::m_cadence']]],
+  ['m_5fcheckpoint_5fevents_2',['m_checkpoint_events',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a2098fcea862f1d2476d752365bda83b6',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::m_checkpoint_events'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#ae314241c38c3bc4a86dcb2f181cd3f94',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::m_checkpoint_events']]],
+  ['m_5fcommand_5fresults_3',['m_command_results',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a23cecf73f6f58d264fa3c7b87b9a8aba',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::m_command_results'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#ab8e87f378c3c615ec2ce211ac547875e',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::m_command_results']]],
+  ['m_5fdelaunay_5fstate_4',['m_delaunay_state',['../classcdt_1_1foliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a40f901f8386c502b1f3e92d50e02e116',1,'cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
+  ['m_5ffailed_5',['m_failed',['../classcdt_1_1_move_command.html#a237ccb07937606125cfe2a90324f948c',1,'cdt::MoveCommand']]],
+  ['m_5fgenerator_6',['m_generator',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a25b5c29d0a71871e9c8fa9391ca9b4ab',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
+  ['m_5fgeometry_7',['m_geometry',['../classcdt_1_1manifolds_1_1_manifold_3_013_01_4.html#aca476e17dc0ccc43f0203e0ee5c87d25',1,'cdt::manifolds::Manifold&lt; 3 &gt;']]],
+  ['m_5fmanifold_8',['m_manifold',['../classcdt_1_1_move_command.html#a08e791daa20ea62bbe786afcd65e425f',1,'cdt::MoveCommand']]],
+  ['m_5fmoves_9',['m_moves',['../classcdt_1_1_move_command.html#a335d27b3659de9d868275c4bbbed36ab',1,'cdt::MoveCommand']]],
+  ['m_5fparameters_10',['m_parameters',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae6dbd5932c41af9cd469bf4d0f08411c',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
+  ['m_5frandom_11',['m_random',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a635f4484c400d8a9e6c4579c8d992c49',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;']]],
+  ['m_5freproducibility_12',['m_reproducibility',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a899d355bc936968ec2eeb32f9a747158',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
+  ['m_5frun_5fstatistics_13',['m_run_statistics',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae6c623ce4a17823f9bef3e7e1a243d6b',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
+  ['m_5fsucceeded_14',['m_succeeded',['../classcdt_1_1_move_command.html#a73710889fa82f3bf6212530dc823f74e',1,'cdt::MoveCommand']]],
+  ['m_5ftriangulation_15',['m_triangulation',['../classcdt_1_1manifolds_1_1_manifold_3_013_01_4.html#a4c06b038b4ecdbf5ee0300fda1f260e1',1,'cdt::manifolds::Manifold&lt; 3 &gt;']]],
+  ['m_5fwrite_5ffiles_16',['m_write_files',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad5ce6f9a0ba11abfecda08ca7b424abd',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::m_write_files'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a40ebca55e38050bfcce7b9a1604800be',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::m_write_files']]]
 ];

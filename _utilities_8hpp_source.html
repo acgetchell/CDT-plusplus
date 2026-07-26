@@ -1784,180 +1784,292 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l01716" name="l01716"></a><span class="lineno"> 1716</span>  }  <span class="comment">// generate_probability()</span></div>
 </div>
 <div class="line"><a id="l01717" name="l01717"></a><span class="lineno"> 1717</span></div>
-<div class="foldopen" id="foldopen01731" data-start="{" data-end="}">
-<div class="line"><a id="l01731" name="l01731"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a0ec2619f4f5d734415aaa64904a3337c"> 1731</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#a0ec2619f4f5d734415aaa64904a3337c">expected_points_per_timeslice</a>(</div>
-<div class="line"><a id="l01732" name="l01732"></a><span class="lineno"> 1732</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> t_dimension, <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_simplices,</div>
-<div class="line"><a id="l01733" name="l01733"></a><span class="lineno"> 1733</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_timeslices)</div>
-<div class="line"><a id="l01734" name="l01734"></a><span class="lineno"> 1734</span>  {</div>
-<div class="line"><a id="l01735" name="l01735"></a><span class="lineno"> 1735</span><span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a id="l01736" name="l01736"></a><span class="lineno"> 1736</span>    spdlog::debug(<span class="stringliteral">&quot;{} simplices on {} timeslices desired.\n&quot;</span>,</div>
-<div class="line"><a id="l01737" name="l01737"></a><span class="lineno"> 1737</span>                  t_number_of_simplices, t_number_of_timeslices);</div>
-<div class="line"><a id="l01738" name="l01738"></a><span class="lineno"> 1738</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l01739" name="l01739"></a><span class="lineno"> 1739</span> </div>
-<div class="line"><a id="l01740" name="l01740"></a><span class="lineno"> 1740</span>    <span class="keywordflow">if</span> (t_dimension != 3)</div>
-<div class="line"><a id="l01741" name="l01741"></a><span class="lineno"> 1741</span>    {</div>
-<div class="line"><a id="l01742" name="l01742"></a><span class="lineno"> 1742</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l01743" name="l01743"></a><span class="lineno"> 1743</span>          <span class="stringliteral">&quot;Only three-dimensional triangulations are supported.&quot;</span>);</div>
-<div class="line"><a id="l01744" name="l01744"></a><span class="lineno"> 1744</span>    }</div>
-<div class="line"><a id="l01745" name="l01745"></a><span class="lineno"> 1745</span>    <span class="keywordflow">if</span> (t_number_of_simplices &lt;= 0 || t_number_of_timeslices &lt;= 0)</div>
+<div class="foldopen" id="foldopen01734" data-start="{" data-end="}">
+<div class="line"><a id="l01734" name="l01734"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aa150a78a2019fe371be59e1e1a1bc18b"> 1734</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aa150a78a2019fe371be59e1e1a1bc18b">generated_input_vertex_count</a>(</div>
+<div class="line"><a id="l01735" name="l01735"></a><span class="lineno"> 1735</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> points_per_timeslice, <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> timeslices,</div>
+<div class="line"><a id="l01736" name="l01736"></a><span class="lineno"> 1736</span>      <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius, <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing)</div>
+<div class="line"><a id="l01737" name="l01737"></a><span class="lineno"> 1737</span>      -&gt; std::uint64_t</div>
+<div class="line"><a id="l01738" name="l01738"></a><span class="lineno"> 1738</span>  {</div>
+<div class="line"><a id="l01739" name="l01739"></a><span class="lineno"> 1739</span>    <span class="keywordflow">if</span> (points_per_timeslice &lt;= 0 || timeslices &lt;= 0)</div>
+<div class="line"><a id="l01740" name="l01740"></a><span class="lineno"> 1740</span>    {</div>
+<div class="line"><a id="l01741" name="l01741"></a><span class="lineno"> 1741</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l01742" name="l01742"></a><span class="lineno"> 1742</span>          <span class="stringliteral">&quot;Population and timeslices must both be positive.&quot;</span>);</div>
+<div class="line"><a id="l01743" name="l01743"></a><span class="lineno"> 1743</span>    }</div>
+<div class="line"><a id="l01744" name="l01744"></a><span class="lineno"> 1744</span>    <span class="keywordflow">if</span> (!std::isfinite(initial_radius) || initial_radius &lt;= 0.0 ||</div>
+<div class="line"><a id="l01745" name="l01745"></a><span class="lineno"> 1745</span>        !std::isfinite(foliation_spacing) || foliation_spacing &lt;= 0.0)</div>
 <div class="line"><a id="l01746" name="l01746"></a><span class="lineno"> 1746</span>    {</div>
 <div class="line"><a id="l01747" name="l01747"></a><span class="lineno"> 1747</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><a id="l01748" name="l01748"></a><span class="lineno"> 1748</span>          <span class="stringliteral">&quot;Simplices and timeslices must both be positive.&quot;</span>);</div>
+<div class="line"><a id="l01748" name="l01748"></a><span class="lineno"> 1748</span>          <span class="stringliteral">&quot;Layer radius and spacing must be finite and positive.&quot;</span>);</div>
 <div class="line"><a id="l01749" name="l01749"></a><span class="lineno"> 1749</span>    }</div>
 <div class="line"><a id="l01750" name="l01750"></a><span class="lineno"> 1750</span> </div>
-<div class="line"><a id="l01751" name="l01751"></a><span class="lineno"> 1751</span>    <span class="keyword">auto</span> <span class="keyword">const</span> simplices_per_timeslice =</div>
-<div class="line"><a id="l01752" name="l01752"></a><span class="lineno"> 1752</span>        t_number_of_simplices / t_number_of_timeslices;</div>
-<div class="line"><a id="l01753" name="l01753"></a><span class="lineno"> 1753</span>    <span class="comment">// Avoid segfaults for small values</span></div>
-<div class="line"><a id="l01754" name="l01754"></a><span class="lineno"> 1754</span>    <span class="keywordflow">if</span> (t_number_of_simplices == t_number_of_timeslices)</div>
-<div class="line"><a id="l01755" name="l01755"></a><span class="lineno"> 1755</span>    {</div>
-<div class="line"><a id="l01756" name="l01756"></a><span class="lineno"> 1756</span>      <span class="keywordflow">return</span> 2 * simplices_per_timeslice;</div>
-<div class="line"><a id="l01757" name="l01757"></a><span class="lineno"> 1757</span>    }</div>
-<div class="line"><a id="l01758" name="l01758"></a><span class="lineno"> 1758</span>    <span class="keywordflow">if</span> (t_number_of_simplices &lt; 1000)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01759" name="l01759"></a><span class="lineno"> 1759</span>    {</div>
-<div class="line"><a id="l01760" name="l01760"></a><span class="lineno"> 1760</span>      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a id="l01761" name="l01761"></a><span class="lineno"> 1761</span>          0.4L *  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01762" name="l01762"></a><span class="lineno"> 1762</span>          <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
-<div class="line"><a id="l01763" name="l01763"></a><span class="lineno"> 1763</span>    }</div>
-<div class="line"><a id="l01764" name="l01764"></a><span class="lineno"> 1764</span>    <span class="keywordflow">if</span> (t_number_of_simplices &lt; 10000)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01765" name="l01765"></a><span class="lineno"> 1765</span>    {</div>
-<div class="line"><a id="l01766" name="l01766"></a><span class="lineno"> 1766</span>      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a id="l01767" name="l01767"></a><span class="lineno"> 1767</span>          0.2L *  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01768" name="l01768"></a><span class="lineno"> 1768</span>          <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
-<div class="line"><a id="l01769" name="l01769"></a><span class="lineno"> 1769</span>    }</div>
-<div class="line"><a id="l01770" name="l01770"></a><span class="lineno"> 1770</span>    <span class="keywordflow">if</span> (t_number_of_simplices &lt; 100000)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01771" name="l01771"></a><span class="lineno"> 1771</span>    {</div>
-<div class="line"><a id="l01772" name="l01772"></a><span class="lineno"> 1772</span>      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a id="l01773" name="l01773"></a><span class="lineno"> 1773</span>          0.15L *  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01774" name="l01774"></a><span class="lineno"> 1774</span>          <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
-<div class="line"><a id="l01775" name="l01775"></a><span class="lineno"> 1775</span>    }</div>
-<div class="line"><a id="l01776" name="l01776"></a><span class="lineno"> 1776</span> </div>
-<div class="line"><a id="l01777" name="l01777"></a><span class="lineno"> 1777</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a id="l01778" name="l01778"></a><span class="lineno"> 1778</span>        0.1L * <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));  <span class="comment">// NOLINT</span></div>
-<div class="line"><a id="l01779" name="l01779"></a><span class="lineno"> 1779</span> </div>
-<div class="line"><a id="l01780" name="l01780"></a><span class="lineno"> 1780</span>  }  <span class="comment">// expected_points_per_timeslice</span></div>
+<div class="line"><a id="l01751" name="l01751"></a><span class="lineno"> 1751</span>    std::uint64_t total{};</div>
+<div class="line"><a id="l01752" name="l01752"></a><span class="lineno"> 1752</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> layer = 0; layer &lt; timeslices; ++layer)</div>
+<div class="line"><a id="l01753" name="l01753"></a><span class="lineno"> 1753</span>    {</div>
+<div class="line"><a id="l01754" name="l01754"></a><span class="lineno"> 1754</span>      <span class="keyword">auto</span> <span class="keyword">const</span> radius =</div>
+<div class="line"><a id="l01755" name="l01755"></a><span class="lineno"> 1755</span>          initial_radius + <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(layer) * foliation_spacing;</div>
+<div class="line"><a id="l01756" name="l01756"></a><span class="lineno"> 1756</span>      <span class="keyword">auto</span> <span class="keyword">const</span> layer_points =</div>
+<div class="line"><a id="l01757" name="l01757"></a><span class="lineno"> 1757</span>          <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(points_per_timeslice) * radius;</div>
+<div class="line"><a id="l01758" name="l01758"></a><span class="lineno"> 1758</span>      <span class="keywordflow">if</span> (!std::isfinite(layer_points) || layer_points &lt; 0.0L ||</div>
+<div class="line"><a id="l01759" name="l01759"></a><span class="lineno"> 1759</span>          layer_points &gt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l01760" name="l01760"></a><span class="lineno"> 1760</span>                             std::numeric_limits&lt;Int_precision&gt;::max()))</div>
+<div class="line"><a id="l01761" name="l01761"></a><span class="lineno"> 1761</span>      {</div>
+<div class="line"><a id="l01762" name="l01762"></a><span class="lineno"> 1762</span>        <span class="keywordflow">throw</span> std::out_of_range(</div>
+<div class="line"><a id="l01763" name="l01763"></a><span class="lineno"> 1763</span>            <span class="stringliteral">&quot;A spherical layer exceeds the supported point-count range.&quot;</span>);</div>
+<div class="line"><a id="l01764" name="l01764"></a><span class="lineno"> 1764</span>      }</div>
+<div class="line"><a id="l01765" name="l01765"></a><span class="lineno"> 1765</span>      <span class="keyword">auto</span> <span class="keyword">const</span> narrowed =</div>
+<div class="line"><a id="l01766" name="l01766"></a><span class="lineno"> 1766</span>          <span class="keyword">static_cast&lt;</span>std::uint64_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(layer_points));</div>
+<div class="line"><a id="l01767" name="l01767"></a><span class="lineno"> 1767</span>      <span class="keywordflow">if</span> (narrowed &gt; std::numeric_limits&lt;std::uint64_t&gt;::max() - total)</div>
+<div class="line"><a id="l01768" name="l01768"></a><span class="lineno"> 1768</span>      {</div>
+<div class="line"><a id="l01769" name="l01769"></a><span class="lineno"> 1769</span>        <span class="keywordflow">throw</span> std::out_of_range(</div>
+<div class="line"><a id="l01770" name="l01770"></a><span class="lineno"> 1770</span>            <span class="stringliteral">&quot;The generated input-vertex count exceeds uint64_t.&quot;</span>);</div>
+<div class="line"><a id="l01771" name="l01771"></a><span class="lineno"> 1771</span>      }</div>
+<div class="line"><a id="l01772" name="l01772"></a><span class="lineno"> 1772</span>      total += narrowed;</div>
+<div class="line"><a id="l01773" name="l01773"></a><span class="lineno"> 1773</span>    }</div>
+<div class="line"><a id="l01774" name="l01774"></a><span class="lineno"> 1774</span>    <span class="keywordflow">return</span> total;</div>
+<div class="line"><a id="l01775" name="l01775"></a><span class="lineno"> 1775</span>  }</div>
 </div>
-<div class="line"><a id="l01781" name="l01781"></a><span class="lineno"> 1781</span> </div>
-<div class="foldopen" id="foldopen01782" data-start="{" data-end="};">
-<div class="line"><a id="l01782" name="l01782"></a><span class="lineno"><a class="line" href="structcdt_1_1utilities_1_1_generated__population__bounds.html"> 1782</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structcdt_1_1utilities_1_1_generated__population__bounds.html">Generated_population_bounds</a></div>
-<div class="line"><a id="l01783" name="l01783"></a><span class="lineno"> 1783</span>  {</div>
-<div class="line"><a id="l01784" name="l01784"></a><span class="lineno"> 1784</span>    <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> points_per_timeslice;</div>
-<div class="line"><a id="l01785" name="l01785"></a><span class="lineno"> 1785</span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span>   last_layer_points;</div>
-<div class="line"><a id="l01786" name="l01786"></a><span class="lineno"> 1786</span>  };</div>
+<div class="line"><a id="l01776" name="l01776"></a><span class="lineno"> 1776</span></div>
+<div class="foldopen" id="foldopen01785" data-start="{" data-end="}">
+<div class="line"><a id="l01785" name="l01785"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#ae315bbebd36063351d1750110db2c81a"> 1785</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#ae315bbebd36063351d1750110db2c81a">delaunay_tetrahedron_upper_bound</a>(</div>
+<div class="line"><a id="l01786" name="l01786"></a><span class="lineno"> 1786</span>      std::uint64_t <span class="keyword">const</span> vertices) <span class="keyword">noexcept</span> -&gt; std::optional&lt;std::uint64_t&gt;</div>
+<div class="line"><a id="l01787" name="l01787"></a><span class="lineno"> 1787</span>  {</div>
+<div class="line"><a id="l01788" name="l01788"></a><span class="lineno"> 1788</span>    <span class="keywordflow">if</span> (vertices &lt; 4) { <span class="keywordflow">return</span> std::uint64_t{0}; }</div>
+<div class="line"><a id="l01789" name="l01789"></a><span class="lineno"> 1789</span>    <span class="keyword">auto</span> first  = vertices;</div>
+<div class="line"><a id="l01790" name="l01790"></a><span class="lineno"> 1790</span>    <span class="keyword">auto</span> second = vertices - 3;</div>
+<div class="line"><a id="l01791" name="l01791"></a><span class="lineno"> 1791</span>    <span class="keywordflow">if</span> (first % 2 == 0) { first /= 2; }</div>
+<div class="line"><a id="l01792" name="l01792"></a><span class="lineno"> 1792</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01793" name="l01793"></a><span class="lineno"> 1793</span>    {</div>
+<div class="line"><a id="l01794" name="l01794"></a><span class="lineno"> 1794</span>      second /= 2;</div>
+<div class="line"><a id="l01795" name="l01795"></a><span class="lineno"> 1795</span>    }</div>
+<div class="line"><a id="l01796" name="l01796"></a><span class="lineno"> 1796</span>    <span class="keywordflow">if</span> (second != 0 &amp;&amp;</div>
+<div class="line"><a id="l01797" name="l01797"></a><span class="lineno"> 1797</span>        first &gt; std::numeric_limits&lt;std::uint64_t&gt;::max() / second)</div>
+<div class="line"><a id="l01798" name="l01798"></a><span class="lineno"> 1798</span>    {</div>
+<div class="line"><a id="l01799" name="l01799"></a><span class="lineno"> 1799</span>      <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l01800" name="l01800"></a><span class="lineno"> 1800</span>    }</div>
+<div class="line"><a id="l01801" name="l01801"></a><span class="lineno"> 1801</span>    <span class="keywordflow">return</span> first * second - 1;</div>
+<div class="line"><a id="l01802" name="l01802"></a><span class="lineno"> 1802</span>  }</div>
 </div>
-<div class="line"><a id="l01787" name="l01787"></a><span class="lineno"> 1787</span></div>
-<div class="foldopen" id="foldopen01795" data-start="{" data-end="}">
-<div class="line"><a id="l01795" name="l01795"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aeebcc88b7bd276a9b386168e176d39ff"> 1795</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aeebcc88b7bd276a9b386168e176d39ff">generated_population_bounds</a>(</div>
-<div class="line"><a id="l01796" name="l01796"></a><span class="lineno"> 1796</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> dimension, <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> simplices,</div>
-<div class="line"><a id="l01797" name="l01797"></a><span class="lineno"> 1797</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> timeslices, <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius,</div>
-<div class="line"><a id="l01798" name="l01798"></a><span class="lineno"> 1798</span>      <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing) -&gt; <a class="code hl_struct" href="structcdt_1_1utilities_1_1_generated__population__bounds.html">Generated_population_bounds</a></div>
-<div class="line"><a id="l01799" name="l01799"></a><span class="lineno"> 1799</span>  {</div>
-<div class="line"><a id="l01800" name="l01800"></a><span class="lineno"> 1800</span>    <span class="keyword">auto</span> <span class="keyword">const</span> points_per_timeslice =</div>
-<div class="line"><a id="l01801" name="l01801"></a><span class="lineno"> 1801</span>        <a class="code hl_function" href="_utilities_8hpp.html#a0ec2619f4f5d734415aaa64904a3337c">expected_points_per_timeslice</a>(dimension, simplices, timeslices);</div>
-<div class="line"><a id="l01802" name="l01802"></a><span class="lineno"> 1802</span>    <span class="keyword">auto</span> <span class="keyword">const</span> last_radius =</div>
-<div class="line"><a id="l01803" name="l01803"></a><span class="lineno"> 1803</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(initial_radius) +</div>
-<div class="line"><a id="l01804" name="l01804"></a><span class="lineno"> 1804</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(timeslices - 1) * foliation_spacing;</div>
-<div class="line"><a id="l01805" name="l01805"></a><span class="lineno"> 1805</span>    <span class="keywordflow">return</span> {points_per_timeslice,</div>
-<div class="line"><a id="l01806" name="l01806"></a><span class="lineno"> 1806</span>            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(points_per_timeslice) * last_radius};</div>
-<div class="line"><a id="l01807" name="l01807"></a><span class="lineno"> 1807</span>  }</div>
-</div>
-<div class="line"><a id="l01808" name="l01808"></a><span class="lineno"> 1808</span></div>
-<div class="foldopen" id="foldopen01817" data-start="{" data-end="}">
-<div class="line"><a id="l01817" name="l01817"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a9ba23fe14ad32b2d761f146d75dfee57"> 1817</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#a9ba23fe14ad32b2d761f146d75dfee57">gmpzf_to_double</a>(<a class="code hl_typedef" href="namespacecdt.html#a85c2b08e6a75f76bfeeaa1c18edffa33">Gmpzf</a> <span class="keyword">const</span>&amp; t_value) -&gt; <span class="keywordtype">double</span></div>
-<div class="line"><a id="l01818" name="l01818"></a><span class="lineno"> 1818</span>  { <span class="keywordflow">return</span> t_value.to_double(); }  <span class="comment">// gmpzf_to_double</span></div>
-</div>
-<div class="line"><a id="l01819" name="l01819"></a><span class="lineno"> 1819</span></div>
-<div class="foldopen" id="foldopen01845" data-start="{" data-end="}">
-<div class="line"><a id="l01845" name="l01845"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a545b058cace5fe60a724783a15c7708a"> 1845</a></span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="_utilities_8hpp.html#a545b058cace5fe60a724783a15c7708a">create_logger</a>()</div>
-<div class="line"><a id="l01846" name="l01846"></a><span class="lineno"> 1846</span>  <span class="keyword">try</span></div>
-<div class="line"><a id="l01847" name="l01847"></a><span class="lineno"> 1847</span>  {</div>
-<div class="line"><a id="l01848" name="l01848"></a><span class="lineno"> 1848</span>    <span class="keyword">auto</span> <span class="keyword">const</span> console_sink =</div>
-<div class="line"><a id="l01849" name="l01849"></a><span class="lineno"> 1849</span>        std::make_shared&lt;spdlog::sinks::stdout_color_sink_mt&gt;();</div>
-<div class="line"><a id="l01850" name="l01850"></a><span class="lineno"> 1850</span>    console_sink-&gt;set_level(spdlog::level::info);</div>
+<div class="line"><a id="l01803" name="l01803"></a><span class="lineno"> 1803</span></div>
+<div class="foldopen" id="foldopen01825" data-start="{" data-end="}">
+<div class="line"><a id="l01825" name="l01825"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#accce4b92c636929b62a0b25b986296da"> 1825</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#accce4b92c636929b62a0b25b986296da">expected_points_per_timeslice</a>(</div>
+<div class="line"><a id="l01826" name="l01826"></a><span class="lineno"> 1826</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> t_dimension, <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_simplices,</div>
+<div class="line"><a id="l01827" name="l01827"></a><span class="lineno"> 1827</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_timeslices, <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius = 1.0,</div>
+<div class="line"><a id="l01828" name="l01828"></a><span class="lineno"> 1828</span>      <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing = 1.0)</div>
+<div class="line"><a id="l01829" name="l01829"></a><span class="lineno"> 1829</span>  {</div>
+<div class="line"><a id="l01830" name="l01830"></a><span class="lineno"> 1830</span><span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a id="l01831" name="l01831"></a><span class="lineno"> 1831</span>    spdlog::debug(<span class="stringliteral">&quot;{} simplices on {} timeslices desired.\n&quot;</span>,</div>
+<div class="line"><a id="l01832" name="l01832"></a><span class="lineno"> 1832</span>                  t_number_of_simplices, t_number_of_timeslices);</div>
+<div class="line"><a id="l01833" name="l01833"></a><span class="lineno"> 1833</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l01834" name="l01834"></a><span class="lineno"> 1834</span> </div>
+<div class="line"><a id="l01835" name="l01835"></a><span class="lineno"> 1835</span>    <span class="keywordflow">if</span> (t_dimension != 3)</div>
+<div class="line"><a id="l01836" name="l01836"></a><span class="lineno"> 1836</span>    {</div>
+<div class="line"><a id="l01837" name="l01837"></a><span class="lineno"> 1837</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l01838" name="l01838"></a><span class="lineno"> 1838</span>          <span class="stringliteral">&quot;Only three-dimensional triangulations are supported.&quot;</span>);</div>
+<div class="line"><a id="l01839" name="l01839"></a><span class="lineno"> 1839</span>    }</div>
+<div class="line"><a id="l01840" name="l01840"></a><span class="lineno"> 1840</span>    <span class="keywordflow">if</span> (t_number_of_simplices &lt;= 0 || t_number_of_timeslices &lt;= 0)</div>
+<div class="line"><a id="l01841" name="l01841"></a><span class="lineno"> 1841</span>    {</div>
+<div class="line"><a id="l01842" name="l01842"></a><span class="lineno"> 1842</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l01843" name="l01843"></a><span class="lineno"> 1843</span>          <span class="stringliteral">&quot;Simplices and timeslices must both be positive.&quot;</span>);</div>
+<div class="line"><a id="l01844" name="l01844"></a><span class="lineno"> 1844</span>    }</div>
+<div class="line"><a id="l01845" name="l01845"></a><span class="lineno"> 1845</span>    <span class="keywordflow">if</span> (!std::isfinite(initial_radius) || initial_radius &lt;= 0.0 ||</div>
+<div class="line"><a id="l01846" name="l01846"></a><span class="lineno"> 1846</span>        !std::isfinite(foliation_spacing) || foliation_spacing &lt;= 0.0)</div>
+<div class="line"><a id="l01847" name="l01847"></a><span class="lineno"> 1847</span>    {</div>
+<div class="line"><a id="l01848" name="l01848"></a><span class="lineno"> 1848</span>      <span class="keywordflow">throw</span> std::invalid_argument(</div>
+<div class="line"><a id="l01849" name="l01849"></a><span class="lineno"> 1849</span>          <span class="stringliteral">&quot;Layer radius and spacing must be finite and positive.&quot;</span>);</div>
+<div class="line"><a id="l01850" name="l01850"></a><span class="lineno"> 1850</span>    }</div>
 <div class="line"><a id="l01851" name="l01851"></a><span class="lineno"> 1851</span> </div>
-<div class="line"><a id="l01852" name="l01852"></a><span class="lineno"> 1852</span>    <span class="keyword">auto</span> <span class="keyword">const</span> debug_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
-<div class="line"><a id="l01853" name="l01853"></a><span class="lineno"> 1853</span>        <span class="stringliteral">&quot;logs/debug-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l01854" name="l01854"></a><span class="lineno"> 1854</span>    debug_sink-&gt;set_level(spdlog::level::debug);</div>
-<div class="line"><a id="l01855" name="l01855"></a><span class="lineno"> 1855</span> </div>
-<div class="line"><a id="l01856" name="l01856"></a><span class="lineno"> 1856</span>    <span class="keyword">auto</span> <span class="keyword">const</span> trace_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
-<div class="line"><a id="l01857" name="l01857"></a><span class="lineno"> 1857</span>        <span class="stringliteral">&quot;logs/trace-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l01858" name="l01858"></a><span class="lineno"> 1858</span>    trace_sink-&gt;set_level(spdlog::level::trace);</div>
-<div class="line"><a id="l01859" name="l01859"></a><span class="lineno"> 1859</span> </div>
-<div class="line"><a id="l01860" name="l01860"></a><span class="lineno"> 1860</span>    spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};</div>
-<div class="line"><a id="l01861" name="l01861"></a><span class="lineno"> 1861</span> </div>
-<div class="line"><a id="l01862" name="l01862"></a><span class="lineno"> 1862</span>    <span class="keyword">auto</span> <span class="keyword">const</span>              logger    = std::make_shared&lt;spdlog::logger&gt;(</div>
-<div class="line"><a id="l01863" name="l01863"></a><span class="lineno"> 1863</span>        <span class="stringliteral">&quot;multi_sink&quot;</span>, sink_list.begin(), sink_list.end());</div>
-<div class="line"><a id="l01864" name="l01864"></a><span class="lineno"> 1864</span>    <span class="comment">// This allows the logger to capture all events</span></div>
-<div class="line"><a id="l01865" name="l01865"></a><span class="lineno"> 1865</span>    logger-&gt;set_level(spdlog::level::trace);</div>
-<div class="line"><a id="l01866" name="l01866"></a><span class="lineno"> 1866</span>    <span class="comment">// The sinks will filter items further via should_log()</span></div>
-<div class="line"><a id="l01867" name="l01867"></a><span class="lineno"> 1867</span>    logger-&gt;info(<span class="stringliteral">&quot;Multi-sink logger initialized.\n&quot;</span>);</div>
-<div class="line"><a id="l01868" name="l01868"></a><span class="lineno"> 1868</span>    logger-&gt;debug(<span class="stringliteral">&quot;Debug logger initialized.\n&quot;</span>);</div>
-<div class="line"><a id="l01869" name="l01869"></a><span class="lineno"> 1869</span>    logger-&gt;trace(<span class="stringliteral">&quot;Trace logger initialized.\n&quot;</span>);</div>
-<div class="line"><a id="l01870" name="l01870"></a><span class="lineno"> 1870</span>    logger-&gt;debug(</div>
-<div class="line"><a id="l01871" name="l01871"></a><span class="lineno"> 1871</span>        <span class="stringliteral">&quot;You must build in Debug mode for anything to be recorded in this &quot;</span></div>
-<div class="line"><a id="l01872" name="l01872"></a><span class="lineno"> 1872</span>        <span class="stringliteral">&quot;file.\n&quot;</span>);</div>
-<div class="line"><a id="l01873" name="l01873"></a><span class="lineno"> 1873</span> </div>
-<div class="line"><a id="l01874" name="l01874"></a><span class="lineno"> 1874</span>    register_logger(logger);</div>
-<div class="line"><a id="l01875" name="l01875"></a><span class="lineno"> 1875</span>    set_default_logger(logger);</div>
-<div class="line"><a id="l01876" name="l01876"></a><span class="lineno"> 1876</span>  }</div>
-<div class="line"><a id="l01877" name="l01877"></a><span class="lineno"> 1877</span>  <span class="keywordflow">catch</span> (spdlog::spdlog_ex <span class="keyword">const</span>&amp; ex)</div>
-<div class="line"><a id="l01878" name="l01878"></a><span class="lineno"> 1878</span>  {</div>
-<div class="line"><a id="l01879" name="l01879"></a><span class="lineno"> 1879</span>    <span class="comment">// Use default logger</span></div>
-<div class="line"><a id="l01880" name="l01880"></a><span class="lineno"> 1880</span>    spdlog::error(<span class="stringliteral">&quot;Logger initialization failed: {}\n&quot;</span>, ex.what());</div>
-<div class="line"><a id="l01881" name="l01881"></a><span class="lineno"> 1881</span>    spdlog::warn(<span class="stringliteral">&quot;Default logger set.\n&quot;</span>);</div>
-<div class="line"><a id="l01882" name="l01882"></a><span class="lineno"> 1882</span> </div>
-<div class="line"><a id="l01883" name="l01883"></a><span class="lineno"> 1883</span>  }  <span class="comment">// create_logger</span></div>
+<div class="line"><a id="l01852" name="l01852"></a><span class="lineno"> 1852</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> minimum_population = <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>{8};</div>
+<div class="line"><a id="l01853" name="l01853"></a><span class="lineno"> 1853</span>    <span class="keyword">auto</span> <span class="keyword">const</span>     minimum = t_number_of_simplices &lt;= t_number_of_timeslices</div>
+<div class="line"><a id="l01854" name="l01854"></a><span class="lineno"> 1854</span>                               ? <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>{2}</div>
+<div class="line"><a id="l01855" name="l01855"></a><span class="lineno"> 1855</span>                               : minimum_population;</div>
+<div class="line"><a id="l01856" name="l01856"></a><span class="lineno"> 1856</span>    <span class="keyword">auto</span> <span class="keyword">const</span>     last_radius =</div>
+<div class="line"><a id="l01857" name="l01857"></a><span class="lineno"> 1857</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(initial_radius) +</div>
+<div class="line"><a id="l01858" name="l01858"></a><span class="lineno"> 1858</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(t_number_of_timeslices - 1) *</div>
+<div class="line"><a id="l01859" name="l01859"></a><span class="lineno"> 1859</span>            foliation_spacing;</div>
+<div class="line"><a id="l01860" name="l01860"></a><span class="lineno"> 1860</span>    <span class="keywordflow">if</span> (!std::isfinite(last_radius))</div>
+<div class="line"><a id="l01861" name="l01861"></a><span class="lineno"> 1861</span>    {</div>
+<div class="line"><a id="l01862" name="l01862"></a><span class="lineno"> 1862</span>      <span class="keywordflow">throw</span> std::out_of_range(</div>
+<div class="line"><a id="l01863" name="l01863"></a><span class="lineno"> 1863</span>          <span class="stringliteral">&quot;The final foliation radius exceeds the supported range.&quot;</span>);</div>
+<div class="line"><a id="l01864" name="l01864"></a><span class="lineno"> 1864</span>    }</div>
+<div class="line"><a id="l01865" name="l01865"></a><span class="lineno"> 1865</span>    <span class="keyword">auto</span> <span class="keyword">const</span> maximum_by_radius =</div>
+<div class="line"><a id="l01866" name="l01866"></a><span class="lineno"> 1866</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::numeric_limits&lt;Int_precision&gt;::max()) /</div>
+<div class="line"><a id="l01867" name="l01867"></a><span class="lineno"> 1867</span>        last_radius;</div>
+<div class="line"><a id="l01868" name="l01868"></a><span class="lineno"> 1868</span>    <span class="keyword">auto</span> <span class="keyword">const</span> maximum =</div>
+<div class="line"><a id="l01869" name="l01869"></a><span class="lineno"> 1869</span>        maximum_by_radius &gt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(</div>
+<div class="line"><a id="l01870" name="l01870"></a><span class="lineno"> 1870</span>                                 std::numeric_limits&lt;Int_precision&gt;::max())</div>
+<div class="line"><a id="l01871" name="l01871"></a><span class="lineno"> 1871</span>            ? std::numeric_limits&lt;Int_precision&gt;::max()</div>
+<div class="line"><a id="l01872" name="l01872"></a><span class="lineno"> 1872</span>            : <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(maximum_by_radius);</div>
+<div class="line"><a id="l01873" name="l01873"></a><span class="lineno"> 1873</span>    <span class="keywordflow">if</span> (maximum &lt; minimum)</div>
+<div class="line"><a id="l01874" name="l01874"></a><span class="lineno"> 1874</span>    {</div>
+<div class="line"><a id="l01875" name="l01875"></a><span class="lineno"> 1875</span>      <span class="keywordflow">throw</span> std::out_of_range(</div>
+<div class="line"><a id="l01876" name="l01876"></a><span class="lineno"> 1876</span>          <span class="stringliteral">&quot;Foliation radii leave no supported base population.&quot;</span>);</div>
+<div class="line"><a id="l01877" name="l01877"></a><span class="lineno"> 1877</span>    }</div>
+<div class="line"><a id="l01878" name="l01878"></a><span class="lineno"> 1878</span> </div>
+<div class="line"><a id="l01879" name="l01879"></a><span class="lineno"> 1879</span>    <span class="keyword">auto</span> <span class="keyword">const</span> simplices  = <span class="keyword">static_cast&lt;</span>std::uint64_t<span class="keyword">&gt;</span>(t_number_of_simplices);</div>
+<div class="line"><a id="l01880" name="l01880"></a><span class="lineno"> 1880</span>    <span class="keyword">auto</span> <span class="keyword">const</span> timeslices = <span class="keyword">static_cast&lt;</span>std::uint64_t<span class="keyword">&gt;</span>(t_number_of_timeslices);</div>
+<div class="line"><a id="l01881" name="l01881"></a><span class="lineno"> 1881</span>    <span class="keyword">auto</span> <span class="keyword">const</span> scaled_floor = [timeslices](</div>
+<div class="line"><a id="l01882" name="l01882"></a><span class="lineno"> 1882</span>                                  std::uint64_t <span class="keyword">const</span> bounded_simplices,</div>
+<div class="line"><a id="l01883" name="l01883"></a><span class="lineno"> 1883</span>                                  std::uint64_t <span class="keyword">const</span> numerator,</div>
+<div class="line"><a id="l01884" name="l01884"></a><span class="lineno"> 1884</span>                                  std::uint64_t <span class="keyword">const</span> denominator) {</div>
+<div class="line"><a id="l01885" name="l01885"></a><span class="lineno"> 1885</span>      <span class="keywordflow">return</span> bounded_simplices * numerator / (timeslices * denominator);</div>
+<div class="line"><a id="l01886" name="l01886"></a><span class="lineno"> 1886</span>    };</div>
+<div class="line"><a id="l01887" name="l01887"></a><span class="lineno"> 1887</span>    <span class="keyword">auto</span> <span class="keyword">const</span> historical_upper_envelope = std::max(</div>
+<div class="line"><a id="l01888" name="l01888"></a><span class="lineno"> 1888</span>        {scaled_floor(std::min(simplices, std::uint64_t{1&#39;000}), 2, 5),</div>
+<div class="line"><a id="l01889" name="l01889"></a><span class="lineno"> 1889</span>         scaled_floor(std::min(simplices, std::uint64_t{10&#39;000}), 1, 5),</div>
+<div class="line"><a id="l01890" name="l01890"></a><span class="lineno"> 1890</span>         scaled_floor(std::min(simplices, std::uint64_t{100&#39;000}), 3, 20),</div>
+<div class="line"><a id="l01891" name="l01891"></a><span class="lineno"> 1891</span>         scaled_floor(simplices, 1, 10)});</div>
+<div class="line"><a id="l01892" name="l01892"></a><span class="lineno"> 1892</span>    <span class="keyword">auto</span> <span class="keyword">const</span> construction_margin = (5 * historical_upper_envelope + 3) / 4;</div>
+<div class="line"><a id="l01893" name="l01893"></a><span class="lineno"> 1893</span>    <span class="keyword">auto</span> <span class="keyword">const</span> estimated =</div>
+<div class="line"><a id="l01894" name="l01894"></a><span class="lineno"> 1894</span>        std::max(<span class="keyword">static_cast&lt;</span>std::uint64_t<span class="keyword">&gt;</span>(minimum), construction_margin);</div>
+<div class="line"><a id="l01895" name="l01895"></a><span class="lineno"> 1895</span>    <span class="keywordflow">if</span> (estimated &gt; <span class="keyword">static_cast&lt;</span>std::uint64_t<span class="keyword">&gt;</span>(maximum))</div>
+<div class="line"><a id="l01896" name="l01896"></a><span class="lineno"> 1896</span>    {</div>
+<div class="line"><a id="l01897" name="l01897"></a><span class="lineno"> 1897</span>      <span class="keywordflow">throw</span> std::out_of_range(</div>
+<div class="line"><a id="l01898" name="l01898"></a><span class="lineno"> 1898</span>          <span class="stringliteral">&quot;Requested simplex estimate exceeds the supported population.&quot;</span>);</div>
+<div class="line"><a id="l01899" name="l01899"></a><span class="lineno"> 1899</span>    }</div>
+<div class="line"><a id="l01900" name="l01900"></a><span class="lineno"> 1900</span>    <span class="keyword">auto</span> <span class="keyword">const</span> population = <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a><span class="keyword">&gt;</span>(estimated);</div>
+<div class="line"><a id="l01901" name="l01901"></a><span class="lineno"> 1901</span>    <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span>(<a class="code hl_function" href="_utilities_8hpp.html#aa150a78a2019fe371be59e1e1a1bc18b">generated_input_vertex_count</a>(</div>
+<div class="line"><a id="l01902" name="l01902"></a><span class="lineno"> 1902</span>        population, t_number_of_timeslices, initial_radius, foliation_spacing));</div>
+<div class="line"><a id="l01903" name="l01903"></a><span class="lineno"> 1903</span>    <span class="keywordflow">return</span> population;</div>
+<div class="line"><a id="l01904" name="l01904"></a><span class="lineno"> 1904</span>  }  <span class="comment">// expected_points_per_timeslice</span></div>
 </div>
-<div class="line"><a id="l01884" name="l01884"></a><span class="lineno"> 1884</span></div>
-<div class="line"><a id="l01889" name="l01889"></a><span class="lineno"> 1889</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Po<span class="keywordtype">int</span>&gt;</div>
-<div class="foldopen" id="foldopen01890" data-start="{" data-end="}">
-<div class="line"><a id="l01890" name="l01890"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aaaee1fbd2bce52bf61ebc0358c30ecaa"> 1890</a></span>  [[nodiscard]] <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aaaee1fbd2bce52bf61ebc0358c30ecaa">point_to_str</a>(Point <span class="keyword">const</span>&amp; t_point) -&gt; std::string</div>
-<div class="line"><a id="l01891" name="l01891"></a><span class="lineno"> 1891</span>  {</div>
-<div class="line"><a id="l01892" name="l01892"></a><span class="lineno"> 1892</span>    std::stringstream stream;</div>
-<div class="line"><a id="l01893" name="l01893"></a><span class="lineno"> 1893</span>    stream &lt;&lt; t_point;</div>
-<div class="line"><a id="l01894" name="l01894"></a><span class="lineno"> 1894</span>    <span class="keywordflow">return</span> stream.str();</div>
-<div class="line"><a id="l01895" name="l01895"></a><span class="lineno"> 1895</span>  }  <span class="comment">// point_to_str</span></div>
+<div class="line"><a id="l01905" name="l01905"></a><span class="lineno"> 1905</span> </div>
+<div class="foldopen" id="foldopen01906" data-start="{" data-end="};">
+<div class="line"><a id="l01906" name="l01906"></a><span class="lineno"><a class="line" href="structcdt_1_1utilities_1_1_generated__population__bounds.html"> 1906</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structcdt_1_1utilities_1_1_generated__population__bounds.html">Generated_population_bounds</a></div>
+<div class="line"><a id="l01907" name="l01907"></a><span class="lineno"> 1907</span>  {</div>
+<div class="line"><a id="l01909" name="l01909"></a><span class="lineno"><a class="line" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#a5aa731925d01cdfe87720fdc875edb7d"> 1909</a></span>    <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <a class="code hl_variable" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#a5aa731925d01cdfe87720fdc875edb7d">points_per_timeslice</a>;</div>
+<div class="line"><a id="l01911" name="l01911"></a><span class="lineno"><a class="line" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#a63f7444ad5dbda1c3a3e073ced3b0460"> 1911</a></span>    <span class="keywordtype">long</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#a63f7444ad5dbda1c3a3e073ced3b0460">last_layer_points</a>;</div>
+<div class="line"><a id="l01913" name="l01913"></a><span class="lineno"><a class="line" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#aceecd879d08738ad526ae3a158239124"> 1913</a></span>    std::uint64_t <a class="code hl_variable" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#aceecd879d08738ad526ae3a158239124">input_vertices</a>;</div>
+<div class="line"><a id="l01915" name="l01915"></a><span class="lineno"><a class="line" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#ab7ca33e85da099983d8371d153bd9e1f"> 1915</a></span>    std::optional&lt;std::uint64_t&gt; <a class="code hl_variable" href="structcdt_1_1utilities_1_1_generated__population__bounds.html#ab7ca33e85da099983d8371d153bd9e1f">tetrahedra_upper_bound</a>;</div>
+<div class="line"><a id="l01916" name="l01916"></a><span class="lineno"> 1916</span>  };</div>
 </div>
-<div class="line"><a id="l01896" name="l01896"></a><span class="lineno"> 1896</span></div>
-<div class="foldopen" id="foldopen01900" data-start="{" data-end="}">
-<div class="line"><a id="l01900" name="l01900"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aeae8bcaeacffead53cc851df37d2555a"> 1900</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aeae8bcaeacffead53cc851df37d2555a">topology_to_str</a>(Topology <span class="keyword">const</span>&amp; t_topology)</div>
-<div class="line"><a id="l01901" name="l01901"></a><span class="lineno"> 1901</span>      -&gt; std::string</div>
-<div class="line"><a id="l01902" name="l01902"></a><span class="lineno"> 1902</span>  {</div>
-<div class="line"><a id="l01903" name="l01903"></a><span class="lineno"> 1903</span>    std::stringstream stream;</div>
-<div class="line"><a id="l01904" name="l01904"></a><span class="lineno"> 1904</span>    stream &lt;&lt; t_topology;</div>
-<div class="line"><a id="l01905" name="l01905"></a><span class="lineno"> 1905</span>    <span class="keywordflow">return</span> stream.str();</div>
-<div class="line"><a id="l01906" name="l01906"></a><span class="lineno"> 1906</span>  }  <span class="comment">// topology_to_str</span></div>
+<div class="line"><a id="l01917" name="l01917"></a><span class="lineno"> 1917</span></div>
+<div class="foldopen" id="foldopen01930" data-start="{" data-end="}">
+<div class="line"><a id="l01930" name="l01930"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aeebcc88b7bd276a9b386168e176d39ff"> 1930</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aeebcc88b7bd276a9b386168e176d39ff">generated_population_bounds</a>(</div>
+<div class="line"><a id="l01931" name="l01931"></a><span class="lineno"> 1931</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> dimension, <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> simplices,</div>
+<div class="line"><a id="l01932" name="l01932"></a><span class="lineno"> 1932</span>      <a class="code hl_typedef" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> <span class="keyword">const</span> timeslices, <span class="keywordtype">double</span> <span class="keyword">const</span> initial_radius,</div>
+<div class="line"><a id="l01933" name="l01933"></a><span class="lineno"> 1933</span>      <span class="keywordtype">double</span> <span class="keyword">const</span> foliation_spacing) -&gt; <a class="code hl_struct" href="structcdt_1_1utilities_1_1_generated__population__bounds.html">Generated_population_bounds</a></div>
+<div class="line"><a id="l01934" name="l01934"></a><span class="lineno"> 1934</span>  {</div>
+<div class="line"><a id="l01935" name="l01935"></a><span class="lineno"> 1935</span>    <span class="keyword">auto</span> <span class="keyword">const</span> points_per_timeslice = <a class="code hl_function" href="_utilities_8hpp.html#accce4b92c636929b62a0b25b986296da">expected_points_per_timeslice</a>(</div>
+<div class="line"><a id="l01936" name="l01936"></a><span class="lineno"> 1936</span>        dimension, simplices, timeslices, initial_radius, foliation_spacing);</div>
+<div class="line"><a id="l01937" name="l01937"></a><span class="lineno"> 1937</span>    <span class="keyword">auto</span> <span class="keyword">const</span> last_radius =</div>
+<div class="line"><a id="l01938" name="l01938"></a><span class="lineno"> 1938</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(initial_radius) +</div>
+<div class="line"><a id="l01939" name="l01939"></a><span class="lineno"> 1939</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(timeslices - 1) * foliation_spacing;</div>
+<div class="line"><a id="l01940" name="l01940"></a><span class="lineno"> 1940</span>    <span class="keyword">auto</span> <span class="keyword">const</span> input_vertices = <a class="code hl_function" href="_utilities_8hpp.html#aa150a78a2019fe371be59e1e1a1bc18b">generated_input_vertex_count</a>(</div>
+<div class="line"><a id="l01941" name="l01941"></a><span class="lineno"> 1941</span>        points_per_timeslice, timeslices, initial_radius, foliation_spacing);</div>
+<div class="line"><a id="l01942" name="l01942"></a><span class="lineno"> 1942</span>    <span class="keywordflow">return</span> {</div>
+<div class="line"><a id="l01943" name="l01943"></a><span class="lineno"> 1943</span>        .points_per_timeslice = points_per_timeslice,</div>
+<div class="line"><a id="l01944" name="l01944"></a><span class="lineno"> 1944</span>        .last_layer_points =</div>
+<div class="line"><a id="l01945" name="l01945"></a><span class="lineno"> 1945</span>            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(points_per_timeslice) * last_radius,</div>
+<div class="line"><a id="l01946" name="l01946"></a><span class="lineno"> 1946</span>        .input_vertices = input_vertices,</div>
+<div class="line"><a id="l01947" name="l01947"></a><span class="lineno"> 1947</span>        .tetrahedra_upper_bound =</div>
+<div class="line"><a id="l01948" name="l01948"></a><span class="lineno"> 1948</span>            <a class="code hl_function" href="_utilities_8hpp.html#ae315bbebd36063351d1750110db2c81a">delaunay_tetrahedron_upper_bound</a>(input_vertices),</div>
+<div class="line"><a id="l01949" name="l01949"></a><span class="lineno"> 1949</span>    };</div>
+<div class="line"><a id="l01950" name="l01950"></a><span class="lineno"> 1950</span>  }</div>
 </div>
-<div class="line"><a id="l01907" name="l01907"></a><span class="lineno"> 1907</span>}  <span class="comment">// namespace cdt::utilities</span></div>
-<div class="line"><a id="l01908" name="l01908"></a><span class="lineno"> 1908</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_UTILITIES_HPP_</span></div>
+<div class="line"><a id="l01951" name="l01951"></a><span class="lineno"> 1951</span></div>
+<div class="foldopen" id="foldopen01960" data-start="{" data-end="}">
+<div class="line"><a id="l01960" name="l01960"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a9ba23fe14ad32b2d761f146d75dfee57"> 1960</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#a9ba23fe14ad32b2d761f146d75dfee57">gmpzf_to_double</a>(<a class="code hl_typedef" href="namespacecdt.html#a85c2b08e6a75f76bfeeaa1c18edffa33">Gmpzf</a> <span class="keyword">const</span>&amp; t_value) -&gt; <span class="keywordtype">double</span></div>
+<div class="line"><a id="l01961" name="l01961"></a><span class="lineno"> 1961</span>  { <span class="keywordflow">return</span> t_value.to_double(); }  <span class="comment">// gmpzf_to_double</span></div>
+</div>
+<div class="line"><a id="l01962" name="l01962"></a><span class="lineno"> 1962</span></div>
+<div class="foldopen" id="foldopen01988" data-start="{" data-end="}">
+<div class="line"><a id="l01988" name="l01988"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a545b058cace5fe60a724783a15c7708a"> 1988</a></span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="_utilities_8hpp.html#a545b058cace5fe60a724783a15c7708a">create_logger</a>()</div>
+<div class="line"><a id="l01989" name="l01989"></a><span class="lineno"> 1989</span>  <span class="keyword">try</span></div>
+<div class="line"><a id="l01990" name="l01990"></a><span class="lineno"> 1990</span>  {</div>
+<div class="line"><a id="l01991" name="l01991"></a><span class="lineno"> 1991</span>    <span class="keyword">auto</span> <span class="keyword">const</span> console_sink =</div>
+<div class="line"><a id="l01992" name="l01992"></a><span class="lineno"> 1992</span>        std::make_shared&lt;spdlog::sinks::stdout_color_sink_mt&gt;();</div>
+<div class="line"><a id="l01993" name="l01993"></a><span class="lineno"> 1993</span>    console_sink-&gt;set_level(spdlog::level::info);</div>
+<div class="line"><a id="l01994" name="l01994"></a><span class="lineno"> 1994</span> </div>
+<div class="line"><a id="l01995" name="l01995"></a><span class="lineno"> 1995</span>    <span class="keyword">auto</span> <span class="keyword">const</span> debug_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
+<div class="line"><a id="l01996" name="l01996"></a><span class="lineno"> 1996</span>        <span class="stringliteral">&quot;logs/debug-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l01997" name="l01997"></a><span class="lineno"> 1997</span>    debug_sink-&gt;set_level(spdlog::level::debug);</div>
+<div class="line"><a id="l01998" name="l01998"></a><span class="lineno"> 1998</span> </div>
+<div class="line"><a id="l01999" name="l01999"></a><span class="lineno"> 1999</span>    <span class="keyword">auto</span> <span class="keyword">const</span> trace_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
+<div class="line"><a id="l02000" name="l02000"></a><span class="lineno"> 2000</span>        <span class="stringliteral">&quot;logs/trace-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l02001" name="l02001"></a><span class="lineno"> 2001</span>    trace_sink-&gt;set_level(spdlog::level::trace);</div>
+<div class="line"><a id="l02002" name="l02002"></a><span class="lineno"> 2002</span> </div>
+<div class="line"><a id="l02003" name="l02003"></a><span class="lineno"> 2003</span>    spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};</div>
+<div class="line"><a id="l02004" name="l02004"></a><span class="lineno"> 2004</span> </div>
+<div class="line"><a id="l02005" name="l02005"></a><span class="lineno"> 2005</span>    <span class="keyword">auto</span> <span class="keyword">const</span>              logger    = std::make_shared&lt;spdlog::logger&gt;(</div>
+<div class="line"><a id="l02006" name="l02006"></a><span class="lineno"> 2006</span>        <span class="stringliteral">&quot;multi_sink&quot;</span>, sink_list.begin(), sink_list.end());</div>
+<div class="line"><a id="l02007" name="l02007"></a><span class="lineno"> 2007</span>    <span class="comment">// This allows the logger to capture all events</span></div>
+<div class="line"><a id="l02008" name="l02008"></a><span class="lineno"> 2008</span>    logger-&gt;set_level(spdlog::level::trace);</div>
+<div class="line"><a id="l02009" name="l02009"></a><span class="lineno"> 2009</span>    <span class="comment">// The sinks will filter items further via should_log()</span></div>
+<div class="line"><a id="l02010" name="l02010"></a><span class="lineno"> 2010</span>    logger-&gt;info(<span class="stringliteral">&quot;Multi-sink logger initialized.\n&quot;</span>);</div>
+<div class="line"><a id="l02011" name="l02011"></a><span class="lineno"> 2011</span>    logger-&gt;debug(<span class="stringliteral">&quot;Debug logger initialized.\n&quot;</span>);</div>
+<div class="line"><a id="l02012" name="l02012"></a><span class="lineno"> 2012</span>    logger-&gt;trace(<span class="stringliteral">&quot;Trace logger initialized.\n&quot;</span>);</div>
+<div class="line"><a id="l02013" name="l02013"></a><span class="lineno"> 2013</span>    logger-&gt;debug(</div>
+<div class="line"><a id="l02014" name="l02014"></a><span class="lineno"> 2014</span>        <span class="stringliteral">&quot;You must build in Debug mode for anything to be recorded in this &quot;</span></div>
+<div class="line"><a id="l02015" name="l02015"></a><span class="lineno"> 2015</span>        <span class="stringliteral">&quot;file.\n&quot;</span>);</div>
+<div class="line"><a id="l02016" name="l02016"></a><span class="lineno"> 2016</span> </div>
+<div class="line"><a id="l02017" name="l02017"></a><span class="lineno"> 2017</span>    register_logger(logger);</div>
+<div class="line"><a id="l02018" name="l02018"></a><span class="lineno"> 2018</span>    set_default_logger(logger);</div>
+<div class="line"><a id="l02019" name="l02019"></a><span class="lineno"> 2019</span>  }</div>
+<div class="line"><a id="l02020" name="l02020"></a><span class="lineno"> 2020</span>  <span class="keywordflow">catch</span> (spdlog::spdlog_ex <span class="keyword">const</span>&amp; ex)</div>
+<div class="line"><a id="l02021" name="l02021"></a><span class="lineno"> 2021</span>  {</div>
+<div class="line"><a id="l02022" name="l02022"></a><span class="lineno"> 2022</span>    <span class="comment">// Use default logger</span></div>
+<div class="line"><a id="l02023" name="l02023"></a><span class="lineno"> 2023</span>    spdlog::error(<span class="stringliteral">&quot;Logger initialization failed: {}\n&quot;</span>, ex.what());</div>
+<div class="line"><a id="l02024" name="l02024"></a><span class="lineno"> 2024</span>    spdlog::warn(<span class="stringliteral">&quot;Default logger set.\n&quot;</span>);</div>
+<div class="line"><a id="l02025" name="l02025"></a><span class="lineno"> 2025</span> </div>
+<div class="line"><a id="l02026" name="l02026"></a><span class="lineno"> 2026</span>  }  <span class="comment">// create_logger</span></div>
+</div>
+<div class="line"><a id="l02027" name="l02027"></a><span class="lineno"> 2027</span></div>
+<div class="line"><a id="l02032" name="l02032"></a><span class="lineno"> 2032</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Po<span class="keywordtype">int</span>&gt;</div>
+<div class="foldopen" id="foldopen02033" data-start="{" data-end="}">
+<div class="line"><a id="l02033" name="l02033"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aaaee1fbd2bce52bf61ebc0358c30ecaa"> 2033</a></span>  [[nodiscard]] <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aaaee1fbd2bce52bf61ebc0358c30ecaa">point_to_str</a>(Point <span class="keyword">const</span>&amp; t_point) -&gt; std::string</div>
+<div class="line"><a id="l02034" name="l02034"></a><span class="lineno"> 2034</span>  {</div>
+<div class="line"><a id="l02035" name="l02035"></a><span class="lineno"> 2035</span>    std::stringstream stream;</div>
+<div class="line"><a id="l02036" name="l02036"></a><span class="lineno"> 2036</span>    stream &lt;&lt; t_point;</div>
+<div class="line"><a id="l02037" name="l02037"></a><span class="lineno"> 2037</span>    <span class="keywordflow">return</span> stream.str();</div>
+<div class="line"><a id="l02038" name="l02038"></a><span class="lineno"> 2038</span>  }  <span class="comment">// point_to_str</span></div>
+</div>
+<div class="line"><a id="l02039" name="l02039"></a><span class="lineno"> 2039</span></div>
+<div class="foldopen" id="foldopen02043" data-start="{" data-end="}">
+<div class="line"><a id="l02043" name="l02043"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aeae8bcaeacffead53cc851df37d2555a"> 2043</a></span>  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="_utilities_8hpp.html#aeae8bcaeacffead53cc851df37d2555a">topology_to_str</a>(Topology <span class="keyword">const</span>&amp; t_topology)</div>
+<div class="line"><a id="l02044" name="l02044"></a><span class="lineno"> 2044</span>      -&gt; std::string</div>
+<div class="line"><a id="l02045" name="l02045"></a><span class="lineno"> 2045</span>  {</div>
+<div class="line"><a id="l02046" name="l02046"></a><span class="lineno"> 2046</span>    std::stringstream stream;</div>
+<div class="line"><a id="l02047" name="l02047"></a><span class="lineno"> 2047</span>    stream &lt;&lt; t_topology;</div>
+<div class="line"><a id="l02048" name="l02048"></a><span class="lineno"> 2048</span>    <span class="keywordflow">return</span> stream.str();</div>
+<div class="line"><a id="l02049" name="l02049"></a><span class="lineno"> 2049</span>  }  <span class="comment">// topology_to_str</span></div>
+</div>
+<div class="line"><a id="l02050" name="l02050"></a><span class="lineno"> 2050</span>}  <span class="comment">// namespace cdt::utilities</span></div>
+<div class="line"><a id="l02051" name="l02051"></a><span class="lineno"> 2051</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_UTILITIES_HPP_</span></div>
 <div class="ttc" id="a_random_8hpp_html"><div class="ttname"><a href="_random_8hpp.html">Random.hpp</a></div><div class="ttdoc">Run-owned random-number generation and reproducible stream splitting.</div></div>
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a0538584ad8d8dd45880339320cfbafd3"><div class="ttname"><a href="_utilities_8hpp.html#a0538584ad8d8dd45880339320cfbafd3">cdt::utilities::generate_random_int</a></div><div class="ttdeci">auto generate_random_int(Generator &amp;generator, IntegerType t_min_value, IntegerType t_max_value)</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition</b> <a href="#l01676">Utilities.hpp:1676</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a0ec2619f4f5d734415aaa64904a3337c"><div class="ttname"><a href="_utilities_8hpp.html#a0ec2619f4f5d734415aaa64904a3337c">cdt::utilities::expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(Int_precision const t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices)</div><div class="ttdoc">Calculate expected # of points per simplex.</div><div class="ttdef"><b>Definition</b> <a href="#l01731">Utilities.hpp:1731</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a229ea9f3367b0386f21cd96a8b89fbb0"><div class="ttname"><a href="_utilities_8hpp.html#a229ea9f3367b0386f21cd96a8b89fbb0">cdt::utilities::generate_random_real</a></div><div class="ttdeci">auto generate_random_real(Generator &amp;generator, FloatingPointType t_min_value, FloatingPointType t_max_value)</div><div class="ttdoc">Generate random real numbers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition</b> <a href="#l01700">Utilities.hpp:1700</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a245d2afc2bba1fcfc8826ca55e14a930"><div class="ttname"><a href="_utilities_8hpp.html#a245d2afc2bba1fcfc8826ca55e14a930">cdt::utilities::current_date_time</a></div><div class="ttdeci">auto current_date_time(std::chrono::system_clock::time_point const timestamp=std::chrono::system_clock::now())</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition</b> <a href="#l01365">Utilities.hpp:1365</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a381b676f9994702d6b2bb050138a84f1"><div class="ttname"><a href="_utilities_8hpp.html#a381b676f9994702d6b2bb050138a84f1">cdt::utilities::generate_random</a></div><div class="ttdeci">auto generate_random(Generator &amp;generator, NumberType t_min_value, NumberType t_max_value)</div><div class="ttdoc">Generate random numbers with a caller-supplied generator.</div><div class="ttdef"><b>Definition</b> <a href="#l01664">Utilities.hpp:1664</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a393b160ad11db1068c27f84b78307aa3"><div class="ttname"><a href="_utilities_8hpp.html#a393b160ad11db1068c27f84b78307aa3">cdt::utilities::update_reproducibility_state</a></div><div class="ttdeci">void update_reproducibility_state(Reproducibility_metadata &amp;metadata, ManifoldType const &amp;manifold)</div><div class="ttdoc">Refresh state-dependent provenance after a transition sequence.</div><div class="ttdef"><b>Definition</b> <a href="#l01542">Utilities.hpp:1542</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a51429f8b70c497aaf18cbd82b657c020"><div class="ttname"><a href="_utilities_8hpp.html#a51429f8b70c497aaf18cbd82b657c020">cdt::utilities::print_delaunay</a></div><div class="ttdeci">void print_delaunay(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition</b> <a href="#l01463">Utilities.hpp:1463</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a545b058cace5fe60a724783a15c7708a"><div class="ttname"><a href="_utilities_8hpp.html#a545b058cace5fe60a724783a15c7708a">cdt::utilities::create_logger</a></div><div class="ttdeci">void create_logger()</div><div class="ttdoc">Create console and file loggers.</div><div class="ttdef"><b>Definition</b> <a href="#l01845">Utilities.hpp:1845</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a545b058cace5fe60a724783a15c7708a"><div class="ttname"><a href="_utilities_8hpp.html#a545b058cace5fe60a724783a15c7708a">cdt::utilities::create_logger</a></div><div class="ttdeci">void create_logger()</div><div class="ttdoc">Create console and file loggers.</div><div class="ttdef"><b>Definition</b> <a href="#l01988">Utilities.hpp:1988</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a80bd90ee2763a87de162e8a810625275"><div class="ttname"><a href="_utilities_8hpp.html#a80bd90ee2763a87de162e8a810625275">cdt::utilities::generate_probability</a></div><div class="ttdeci">auto generate_probability(Generator &amp;generator)</div><div class="ttdoc">Generate a probability.</div><div class="ttdef"><b>Definition</b> <a href="#l01711">Utilities.hpp:1711</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a8599c6e6c202a76ac038c62fb12a4c9a"><div class="ttname"><a href="_utilities_8hpp.html#a8599c6e6c202a76ac038c62fb12a4c9a">cdt::utilities::canonical_topology_fingerprint</a></div><div class="ttdeci">auto canonical_topology_fingerprint(ManifoldType const &amp;manifold) -&gt; std::uint64_t</div><div class="ttdoc">Fingerprint vertices, causal metadata, and abstract finite cells.</div><div class="ttdef"><b>Definition</b> <a href="#l01499">Utilities.hpp:1499</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a9b795b36fd8b22fdbf071934457cad5c"><div class="ttname"><a href="_utilities_8hpp.html#a9b795b36fd8b22fdbf071934457cad5c">cdt::utilities::canonical_placement_fingerprint</a></div><div class="ttdeci">auto canonical_placement_fingerprint(ManifoldType const &amp;manifold) -&gt; std::uint64_t</div><div class="ttdoc">Fingerprint finite vertex coordinates and timeslice metadata.</div><div class="ttdef"><b>Definition</b> <a href="#l01508">Utilities.hpp:1508</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a9ba23fe14ad32b2d761f146d75dfee57"><div class="ttname"><a href="_utilities_8hpp.html#a9ba23fe14ad32b2d761f146d75dfee57">cdt::utilities::gmpzf_to_double</a></div><div class="ttdeci">auto gmpzf_to_double(Gmpzf const &amp;t_value) -&gt; double</div><div class="ttdoc">Convert Gmpzf into a double.</div><div class="ttdef"><b>Definition</b> <a href="#l01817">Utilities.hpp:1817</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a9ba23fe14ad32b2d761f146d75dfee57"><div class="ttname"><a href="_utilities_8hpp.html#a9ba23fe14ad32b2d761f146d75dfee57">cdt::utilities::gmpzf_to_double</a></div><div class="ttdeci">auto gmpzf_to_double(Gmpzf const &amp;t_value) -&gt; double</div><div class="ttdoc">Convert Gmpzf into a double.</div><div class="ttdef"><b>Definition</b> <a href="#l01960">Utilities.hpp:1960</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a9d69dbb0b8c01675ea4f5106741c392b"><div class="ttname"><a href="_utilities_8hpp.html#a9d69dbb0b8c01675ea4f5106741c392b">cdt::utilities::write_file</a></div><div class="ttdeci">void write_file(std::filesystem::path const &amp;filename, TriangulationType const &amp;triangulation)</div><div class="ttdoc">Write triangulation to file.</div><div class="ttdef"><b>Definition</b> <a href="#l01482">Utilities.hpp:1482</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aaaee1fbd2bce52bf61ebc0358c30ecaa"><div class="ttname"><a href="_utilities_8hpp.html#aaaee1fbd2bce52bf61ebc0358c30ecaa">cdt::utilities::point_to_str</a></div><div class="ttdeci">auto point_to_str(Point const &amp;t_point) -&gt; std::string</div><div class="ttdoc">Covert a CGAL point to a string.</div><div class="ttdef"><b>Definition</b> <a href="#l01890">Utilities.hpp:1890</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aa150a78a2019fe371be59e1e1a1bc18b"><div class="ttname"><a href="_utilities_8hpp.html#aa150a78a2019fe371be59e1e1a1bc18b">cdt::utilities::generated_input_vertex_count</a></div><div class="ttdeci">auto generated_input_vertex_count(Int_precision const points_per_timeslice, Int_precision const timeslices, double const initial_radius, double const foliation_spacing) -&gt; std::uint64_t</div><div class="ttdoc">Calculate the exact number of vertices generated on spherical layers.</div><div class="ttdef"><b>Definition</b> <a href="#l01734">Utilities.hpp:1734</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aaaee1fbd2bce52bf61ebc0358c30ecaa"><div class="ttname"><a href="_utilities_8hpp.html#aaaee1fbd2bce52bf61ebc0358c30ecaa">cdt::utilities::point_to_str</a></div><div class="ttdeci">auto point_to_str(Point const &amp;t_point) -&gt; std::string</div><div class="ttdoc">Covert a CGAL point to a string.</div><div class="ttdef"><b>Definition</b> <a href="#l02033">Utilities.hpp:2033</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_aba40213d84d40d5dec07672d064f758f"><div class="ttname"><a href="_utilities_8hpp.html#aba40213d84d40d5dec07672d064f758f">cdt::utilities::make_filename</a></div><div class="ttdeci">auto make_filename(Topology const &amp;t_topology, Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing) -&gt; std::filesystem::path</div><div class="ttdoc">Generate useful filenames.</div><div class="ttdef"><b>Definition</b> <a href="#l01382">Utilities.hpp:1382</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_abe9a943cedf4a6341615f062976ee11b"><div class="ttname"><a href="_utilities_8hpp.html#abe9a943cedf4a6341615f062976ee11b">cdt::utilities::generate_random_timeslice</a></div><div class="ttdeci">auto generate_random_timeslice(Generator &amp;generator, IntegerType t_max_timeslice) -&gt; decltype(auto)</div><div class="ttdoc">Generate a random timeslice.</div><div class="ttdef"><b>Definition</b> <a href="#l01688">Utilities.hpp:1688</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_accce4b92c636929b62a0b25b986296da"><div class="ttname"><a href="_utilities_8hpp.html#accce4b92c636929b62a0b25b986296da">cdt::utilities::expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(Int_precision const t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double const initial_radius=1.0, double const foliation_spacing=1.0)</div><div class="ttdoc">Estimate the base population for the layered spherical generator.</div><div class="ttdef"><b>Definition</b> <a href="#l01825">Utilities.hpp:1825</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_ad5ed37eb0d81864fc32dd1d495580385"><div class="ttname"><a href="_utilities_8hpp.html#ad5ed37eb0d81864fc32dd1d495580385">cdt::utilities::die_roll</a></div><div class="ttdeci">auto die_roll(Generator &amp;generator)</div><div class="ttdoc">Roll a die using a caller-supplied std::uniform_random_bit_generator.</div><div class="ttdef"><b>Definition</b> <a href="#l01638">Utilities.hpp:1638</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_ae25f184a5b59721e4d5ff9f02f7e45bf"><div class="ttname"><a href="_utilities_8hpp.html#ae25f184a5b59721e4d5ff9f02f7e45bf">cdt::utilities::make_reproducibility_metadata</a></div><div class="ttdeci">auto make_reproducibility_metadata(ManifoldType const &amp;manifold, cdt::RandomSeed const seed, ArtifactKind const artifact) -&gt; Reproducibility_metadata</div><div class="ttdoc">Build provenance from a canonical manifold state.</div><div class="ttdef"><b>Definition</b> <a href="#l01517">Utilities.hpp:1517</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_ae315bbebd36063351d1750110db2c81a"><div class="ttname"><a href="_utilities_8hpp.html#ae315bbebd36063351d1750110db2c81a">cdt::utilities::delaunay_tetrahedron_upper_bound</a></div><div class="ttdeci">auto delaunay_tetrahedron_upper_bound(std::uint64_t const vertices) noexcept -&gt; std::optional&lt; std::uint64_t &gt;</div><div class="ttdoc">Return the rigorous finite 3D Delaunay tetrahedron upper bound.</div><div class="ttdef"><b>Definition</b> <a href="#l01785">Utilities.hpp:1785</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_ae6b1c185667fdd3dd9a9dee9a5087267"><div class="ttname"><a href="_utilities_8hpp.html#ae6b1c185667fdd3dd9a9dee9a5087267">cdt::utilities::read_file</a></div><div class="ttdeci">auto read_file(std::filesystem::path const &amp;filename) -&gt; TriangulationType</div><div class="ttdoc">Read triangulation from file.</div><div class="ttdef"><b>Definition</b> <a href="#l01619">Utilities.hpp:1619</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aeae8bcaeacffead53cc851df37d2555a"><div class="ttname"><a href="_utilities_8hpp.html#aeae8bcaeacffead53cc851df37d2555a">cdt::utilities::topology_to_str</a></div><div class="ttdeci">auto topology_to_str(Topology const &amp;t_topology) -&gt; std::string</div><div class="ttdoc">Convert a topology to a string using it&#39;s &lt;&lt; operator.</div><div class="ttdef"><b>Definition</b> <a href="#l01900">Utilities.hpp:1900</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aeebcc88b7bd276a9b386168e176d39ff"><div class="ttname"><a href="_utilities_8hpp.html#aeebcc88b7bd276a9b386168e176d39ff">cdt::utilities::generated_population_bounds</a></div><div class="ttdeci">auto generated_population_bounds(Int_precision const dimension, Int_precision const simplices, Int_precision const timeslices, double const initial_radius, double const foliation_spacing) -&gt; Generated_population_bounds</div><div class="ttdoc">Calculate the generated point count and its upper bound.</div><div class="ttdef"><b>Definition</b> <a href="#l01795">Utilities.hpp:1795</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aeae8bcaeacffead53cc851df37d2555a"><div class="ttname"><a href="_utilities_8hpp.html#aeae8bcaeacffead53cc851df37d2555a">cdt::utilities::topology_to_str</a></div><div class="ttdeci">auto topology_to_str(Topology const &amp;t_topology) -&gt; std::string</div><div class="ttdoc">Convert a topology to a string using it&#39;s &lt;&lt; operator.</div><div class="ttdef"><b>Definition</b> <a href="#l02043">Utilities.hpp:2043</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aeebcc88b7bd276a9b386168e176d39ff"><div class="ttname"><a href="_utilities_8hpp.html#aeebcc88b7bd276a9b386168e176d39ff">cdt::utilities::generated_population_bounds</a></div><div class="ttdeci">auto generated_population_bounds(Int_precision const dimension, Int_precision const simplices, Int_precision const timeslices, double const initial_radius, double const foliation_spacing) -&gt; Generated_population_bounds</div><div class="ttdoc">Calculate the generated point count and its upper bound.</div><div class="ttdef"><b>Definition</b> <a href="#l01930">Utilities.hpp:1930</a></div></div>
 <div class="ttc" id="aclasscdt_1_1_random_seed_html"><div class="ttname"><a href="classcdt_1_1_random_seed.html">cdt::RandomSeed</a></div><div class="ttdoc">Root entropy value used to reproduce a random run.</div><div class="ttdef"><b>Definition</b> <a href="_random_8hpp_source.html#l00024">Random.hpp:25</a></div></div>
 <div class="ttc" id="aclasscdt_1_1_random_stream_html"><div class="ttname"><a href="classcdt_1_1_random_stream.html">cdt::RandomStream</a></div><div class="ttdoc">PCG sequence selector derived from a root random seed.</div><div class="ttdef"><b>Definition</b> <a href="_random_8hpp_source.html#l00042">Random.hpp:43</a></div></div>
 <div class="ttc" id="anamespacecdt_html"><div class="ttname"><a href="namespacecdt.html">cdt</a></div><div class="ttdoc">clang-15 does not support std::format</div><div class="ttdef"><b>Definition</b> <a href="_apply__move_8hpp_source.html#l00017">Apply_move.hpp:18</a></div></div>
 <div class="ttc" id="anamespacecdt_html_a7fdde000f87f9b5df3570a6f7f5802dd"><div class="ttname"><a href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">cdt::Int_precision</a></div><div class="ttdeci">std::int32_t Int_precision</div><div class="ttdef"><b>Definition</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 <div class="ttc" id="anamespacecdt_html_a85c2b08e6a75f76bfeeaa1c18edffa33"><div class="ttname"><a href="namespacecdt.html#a85c2b08e6a75f76bfeeaa1c18edffa33">cdt::Gmpzf</a></div><div class="ttdeci">CGAL::Gmpzf Gmpzf</div><div class="ttdef"><b>Definition</b> <a href="_settings_8hpp_source.html#l00023">Settings.hpp:23</a></div></div>
-<div class="ttc" id="astructcdt_1_1utilities_1_1_generated__population__bounds_html"><div class="ttname"><a href="structcdt_1_1utilities_1_1_generated__population__bounds.html">cdt::utilities::Generated_population_bounds</a></div><div class="ttdef"><b>Definition</b> <a href="#l01782">Utilities.hpp:1783</a></div></div>
+<div class="ttc" id="astructcdt_1_1utilities_1_1_generated__population__bounds_html"><div class="ttname"><a href="structcdt_1_1utilities_1_1_generated__population__bounds.html">cdt::utilities::Generated_population_bounds</a></div><div class="ttdef"><b>Definition</b> <a href="#l01906">Utilities.hpp:1907</a></div></div>
+<div class="ttc" id="astructcdt_1_1utilities_1_1_generated__population__bounds_html_a5aa731925d01cdfe87720fdc875edb7d"><div class="ttname"><a href="structcdt_1_1utilities_1_1_generated__population__bounds.html#a5aa731925d01cdfe87720fdc875edb7d">cdt::utilities::Generated_population_bounds::points_per_timeslice</a></div><div class="ttdeci">Int_precision points_per_timeslice</div><div class="ttdoc">Base population used to construct the spherical layers.</div><div class="ttdef"><b>Definition</b> <a href="#l01909">Utilities.hpp:1909</a></div></div>
+<div class="ttc" id="astructcdt_1_1utilities_1_1_generated__population__bounds_html_a63f7444ad5dbda1c3a3e073ced3b0460"><div class="ttname"><a href="structcdt_1_1utilities_1_1_generated__population__bounds.html#a63f7444ad5dbda1c3a3e073ced3b0460">cdt::utilities::Generated_population_bounds::last_layer_points</a></div><div class="ttdeci">long double last_layer_points</div><div class="ttdoc">Untruncated point-count expression for the final spherical layer.</div><div class="ttdef"><b>Definition</b> <a href="#l01911">Utilities.hpp:1911</a></div></div>
+<div class="ttc" id="astructcdt_1_1utilities_1_1_generated__population__bounds_html_ab7ca33e85da099983d8371d153bd9e1f"><div class="ttname"><a href="structcdt_1_1utilities_1_1_generated__population__bounds.html#ab7ca33e85da099983d8371d153bd9e1f">cdt::utilities::Generated_population_bounds::tetrahedra_upper_bound</a></div><div class="ttdeci">std::optional&lt; std::uint64_t &gt; tetrahedra_upper_bound</div><div class="ttdoc">Rigorous finite 3D Delaunay bound, if representable by uint64_t.</div><div class="ttdef"><b>Definition</b> <a href="#l01915">Utilities.hpp:1915</a></div></div>
+<div class="ttc" id="astructcdt_1_1utilities_1_1_generated__population__bounds_html_aceecd879d08738ad526ae3a158239124"><div class="ttname"><a href="structcdt_1_1utilities_1_1_generated__population__bounds.html#aceecd879d08738ad526ae3a158239124">cdt::utilities::Generated_population_bounds::input_vertices</a></div><div class="ttdeci">std::uint64_t input_vertices</div><div class="ttdoc">Exact total number of vertices supplied to CGAL.</div><div class="ttdef"><b>Definition</b> <a href="#l01913">Utilities.hpp:1913</a></div></div>
 <div class="ttc" id="astructcdt_1_1utilities_1_1_reproducibility__metadata_html"><div class="ttname"><a href="structcdt_1_1utilities_1_1_reproducibility__metadata.html">cdt::utilities::Reproducibility_metadata</a></div><div class="ttdoc">Provenance recorded next to every stochastic triangulation.</div><div class="ttdef"><b>Definition</b> <a href="#l00105">Utilities.hpp:106</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

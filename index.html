@@ -135,6 +135,9 @@ Table of contents</h1>
 <li><a class="el" href="#regression-oracle-scope" title="Regression-oracle scope">Regression-oracle scope</a>Regression-oracle scope</li>
 </ul>
 <ul>
+<li><a class="el" href="#usage" title="Usage">Usage</a>Usage</li>
+</ul>
+<ul>
 <li><a class="el" href="#roadmap" title="Roadmap">Roadmap</a>Roadmap</li>
 </ul>
 <ul>
@@ -162,10 +165,7 @@ Table of contents</h1>
 <li><a class="el" href="#project-layout" title="Project Layout">Project Layout</a>Project Layout</li>
 </ul>
 <ul>
-<li><a class="el" href="#run" title="Run">Run</a>Run</li>
-</ul>
-<ul>
-<li><a class="el" href="#usage" title="Usage">Usage</a>Usage</li>
+<li><a class="el" href="#command-line-reference" title="Command-line reference">Command-line reference</a>Command-line reference</li>
 </ul>
 <ul>
 <li><a class="el" href="#documentation" title="Documentation">Documentation</a>Documentation</li>
@@ -202,10 +202,25 @@ Introduction</h1>
 Regression-oracle scope</h2>
 <p>The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in <a href="include/Foliated_triangulation.hpp"><span class="tt">include/Foliated_triangulation.hpp</span></a>. <span class="tt">find_invalid_timevalue_cells</span> classifies cells from stored vertex time labels, <span class="tt">has_valid_timevalues</span> provides the predicate, <span class="tt">find_bad_vertex</span> selects a vertex responsible for an acausal local configuration, and <span class="tt">fix_timevalues</span> removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract is satisfied.</p>
 <p>The deterministic doctest scenario <b>"Detecting and fixing problems with vertices and cells"</b> in <a href="tests/Foliated_triangulation_test.cpp"><span class="tt">tests/Foliated_triangulation_test.cpp</span></a> exercises this path with fixed points and time labels. Its inputs, detected bad vertex, final initialization state, cell counts, and causal classification are the first comparison fixture for <span class="tt">causal-triangulations</span>; exact Monte Carlo trajectories are not required to match.</p>
+<p>The versioned, language-neutral fixtures, canonical C++ results, run manifests, raw outputs, and Rust consumption rules are published in the <a class="el" href="dir_6e133a56364528c326e124d8bed524d8.html" title="/home/runner/work/CDT-plusplus/CDT-plusplus/reference/README.md"><span class="tt">reference/</span></a> package.</p>
 <p>After building, run that fixture directly with:</p>
 <div class="fragment"><div class="line">./out/build/reference/tests/CDT_unit_tests \</div>
 <div class="line">  --test-case=&#39;*Detecting and fixing problems with vertices and cells*&#39;</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="roadmap"></a>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="usage"></a>
+Usage</h1>
+<p>The supported build produces <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> and <span class="tt">initialize</span> in <span class="tt">out/build/reference/src</span>. Run the primary simulation through Just and pass its arguments after the recipe name:</p>
+<div class="fragment"><div class="line">just run --help</div>
+</div><!-- fragment --><p>For troubleshooting, the equivalent direct command is <span class="tt">./out/build/reference/src/cdt --help</span>.</p>
+<p>Use <span class="tt">--no-output</span> for batch, debugging, or scripted runs that should print results without writing checkpoint or final triangulation files:</p>
+<div class="fragment"><div class="line">just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --seed 92 --no-output</div>
+</div><!-- fragment --><p>With output enabled, every generated <span class="tt">.off</span> triangulation is accompanied by a <span class="tt">.off.meta</span> provenance manifest containing the effective seed, configuration, version/toolchain identity, transition-trace fingerprint, and payload checksum. Checkpoint files are validated snapshots, not resumable simulation states; see <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a> for the replay and persistence contract. Same-seed generation replays the random inputs, while exact transition replay requires an identical starting manifold; CDT++ does not alter its spherical construction to force CGAL to reproduce one of several valid cospherical tetrahedralizations.</p>
+<ul>
+<li><span class="tt">cdt-viewer</span> is currently disabled and will be restored as an opt-in v1.0.0 target by <a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>.</li>
+<li><span class="tt">initialize</span> is used by <a href="https://www.comet.ml/">CometML</a> to run <a class="el" href="#optimizing-parameters" title="Optimizing Parameters">parameter optimization</a>parameter optimization</li>
+</ul>
+<p>.</p>
+<p>See the <a class="el" href="#command-line-reference" title="Command-line reference">command-line reference</a>command-line reference for every option. Build and dependency instructions begin at <a class="el" href="#quickstart" title="Quickstart">Quickstart</a>Quickstart.</p>
+<h1 class="doxsection"><a class="anchor" id="roadmap"></a>
 Roadmap</h1>
 <ul class="check">
 <li class="checked">Cross-platform support on Linux, macOS (x64 &amp; arm64), and Windows</li>
@@ -287,8 +302,14 @@ Roadmap</h1>
 Quickstart</h1>
 <p>From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:</p>
 <div class="fragment"><div class="line">just build</div>
-</div><!-- fragment --><p>The <span class="tt">build</span> recipe uses the pkgx launcher on Unix when pkgx is available, then delegates to <span class="tt">scripts/build.sh</span>. Its first run creates an ignored <span class="tt">.cache/vcpkg</span> checkout at the exact <span class="tt">builtin-baseline</span> recorded in <span class="tt">vcpkg.json</span>, bootstraps vcpkg, installs the manifest dependencies, builds in <span class="tt">out/build/reference</span>, and runs the supported CTest smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and CMake/Ninja outputs, so an unchanged build is a no-op apart from configuration and tests.</p>
-<p>The optional <a href="https://pkgx.sh/">pkgx</a> entry point supplies the complete Unix developer-tool environment ephemerally and invokes the same build contract directly, without requiring Just:</p>
+</div><!-- fragment --><p>The <span class="tt">build</span> recipe uses the Release configuration and the pkgx launcher on Unix when pkgx is available, then delegates to <span class="tt">scripts/build.sh</span> on Unix or <span class="tt">scripts/build.bat</span> on Windows. Its first run creates an ignored <span class="tt">.cache/vcpkg</span> checkout at the exact <span class="tt">builtin-baseline</span> recorded in <span class="tt">vcpkg.json</span>, bootstraps vcpkg, installs the manifest dependencies, builds in <span class="tt">out/build/reference</span>, and runs the supported CTest smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and CMake/Ninja outputs, so an unchanged build is a no-op apart from configuration and tests.</p>
+<p>For a production build with CDT++ assertions enabled, use the focused Debug workflow:</p>
+<div class="fragment"><div class="line">just build-debug</div>
+</div><!-- fragment --><p>The Debug build preset compiles the <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> and <span class="tt">initialize</span> production targets, then the <span class="tt">debug-cli</span> test preset runs the 21 Debug-compatible CTest entries labeled <span class="tt">integration</span>. It defines <span class="tt">CGAL_NDEBUG</span> because supported move paths deliberately traverse invalid intermediate triangulations, while leaving CDT++'s own assertions enabled. The <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> and <span class="tt">cdt-no-output</span> simulation tests and the doctest unit suite are excluded because those paths trip project invariant assertions on the intermediate state. Release remains the canonical complete test configuration.</p>
+<p>On Unix, compiler caching is optional. The pkgx launcher supplies the repository-pinned ccache binary when <span class="tt">CDT_COMPILER_CACHE=ccache</span>; leaving the variable unset or setting it to <span class="tt">off</span> preserves the uncached build:</p>
+<div class="fragment"><div class="line">CDT_COMPILER_CACHE=ccache just build</div>
+</div><!-- fragment --><p>Compiler caching covers project compilation; vcpkg binary caching remains responsible for reusing compiled third-party packages.</p>
+<p>The optional <a href="https://pkgx.sh/">pkgx</a> entry point supplies the complete Unix developer-tool environment ephemerally and invokes the same build contract directly:</p>
 <div class="fragment"><div class="line">./scripts/pkgx-build.sh</div>
 </div><!-- fragment --><p>To expose the same dependency-build tools to an interactive shell, source the reusable environment script:</p>
 <div class="fragment"><div class="line">source scripts/pkgx-env.sh</div>
@@ -306,7 +327,7 @@ Prerequisites</h2>
 <ul>
 <li>Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux</li>
 <li>pkgx</li>
-<li>Just when invoking the recipes directly; <span class="tt">scripts/pkgx-build.sh</span> does not require it</li>
+<li>Just, used by the recipes and <span class="tt">scripts/pkgx-build.sh</span> to resolve the repository's tool-version pins</li>
 <li>Python 3.12 for native dependency bootstrap, and uv when checking or running the Python support scripts</li>
 <li>Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both</li>
 </ul>
@@ -329,6 +350,7 @@ Prerequisites</h2>
 Developer workflow</h2>
 <p>The repository-root [Justfile](Justfile) provides the same small command vocabulary used by the related projects:</p>
 <div class="fragment"><div class="line">just check                 # Fast, non-mutating local checks</div>
+<div class="line">just build-debug           # Build Debug targets and run compatible CLI integration tests</div>
 <div class="line">just build-parallel        # Build and test the opt-in CGAL/oneTBB configuration</div>
 <div class="line">just codeql-prepare        # Configure dependencies before CodeQL tracing</div>
 <div class="line">just codeql-build          # Build production targets for CodeQL extraction</div>
@@ -348,7 +370,7 @@ Developer workflow</h2>
 <div class="line">just python-sync           # Install the locked Python development environment</div>
 <div class="line">just python-check          # Check Python formatting, lint, and types</div>
 <div class="line">just python-fix            # Apply safe Ruff fixes and formatting</div>
-</div><!-- fragment --><p><span class="tt">check</span> covers repository-wide C++ formatting, Python formatting/lint/type checks, release metadata and citation fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. <span class="tt">ci</span> adds the pinact policy check and the supported build/test contract. Documentation validation remains available separately through <span class="tt">just docs-check</span>. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs all run <span class="tt">just ci</span>; the two Ubuntu jobs also run <span class="tt">just build-parallel</span>. Windows continues to compile with native MSVC; the locked Python environment supplies <span class="tt">clang-format</span> only as a source formatter. Install the developer tools with Homebrew, use equivalent system packages, or let pkgx supply the Unix environment ephemerally; pkgx remains optional. For example:</p>
+</div><!-- fragment --><p><span class="tt">check</span> covers repository-wide C++ formatting, Python formatting/lint/type checks, release metadata and citation fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. <span class="tt">ci</span> adds the pinact policy check and the supported build/test contract. Documentation validation remains available separately through <span class="tt">just docs-check</span>. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs all run <span class="tt">just ci</span>; the two Ubuntu jobs also run <span class="tt">just build-parallel</span>. The Ubuntu compiler jobs use the pinned pkgx ccache package with a compiler-specific persistent cache. Sanitizer builds use Release semantics with sanitizer-provided <span class="tt">-O1 -g</span> flags, while coverage uses Release semantics with coverage-provided <span class="tt">-O0 -g</span> flags; no duplicate full-suite Debug job is needed. Windows continues to compile with native MSVC; the locked Python environment supplies <span class="tt">clang-format</span> only as a source formatter. Install the developer tools with Homebrew, use equivalent system packages, or let pkgx supply the Unix environment ephemerally; pkgx remains optional. For example:</p>
 <div class="fragment"><div class="line">just python-sync</div>
 <div class="line">pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.0 +ninja-build.org +python.org just check</div>
 </div><!-- fragment --><p>All configure paths require CMake 4.4.0 or newer. The Justfile owns the tested 4.4.0 toolchain pin: pkgx-backed recipes remain reproducible at that version, while direct configure paths accept newer compatible CMake releases. CI is pkgx-first; because pkgx does not currently publish its CMake and Ninja packages for Windows, that job uses the exact Justfile pins available as PyPI wheels through <span class="tt">uv tool install --no-build</span>.</p>
@@ -381,20 +403,8 @@ Project Layout</h2>
 <li>src - Source files</li>
 <li>tests - Unit tests</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="run"></a>
-Run</h2>
-<p>The supported build produces <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> and <span class="tt">initialize</span> in <span class="tt">out/build/reference/src</span>. Run the primary <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> executable through Just and pass its arguments after the recipe name:</p>
-<div class="fragment"><div class="line">just run --help</div>
-</div><!-- fragment --><p>For troubleshooting, the equivalent direct command is <span class="tt">./out/build/reference/src/cdt --help</span>.</p>
-<p>Use <span class="tt">--no-output</span> for batch, debugging, or scripted runs that should print results without writing checkpoint or final triangulation files:</p>
-<div class="fragment"><div class="line">just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --no-output</div>
-</div><!-- fragment --><p>With output enabled, every generated <span class="tt">.off</span> triangulation is accompanied by a <span class="tt">.off.meta</span> provenance manifest containing the effective seed, configuration, version/toolchain identity, transition-trace fingerprint, and payload checksum. Checkpoint files are validated snapshots, not resumable simulation states; see <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a> for the replay and persistence contract. Same-seed generation replays the random inputs, while exact transition replay requires an identical starting manifold; CDT++ does not alter its spherical construction to force CGAL to reproduce one of several valid cospherical tetrahedralizations.</p>
-<ul>
-<li><span class="tt">cdt-viewer</span> is currently disabled and will be restored as an opt-in v1.0.0 target by <a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a></li>
-<li><span class="tt">initialize</span> is used by <a href="https://www.comet.ml/">CometML</a> to run <a class="el" href="#optimizing-parameters" title="Optimizing Parameters">parameter optimization</a>parameter optimization</li>
-</ul>
-<h1 class="doxsection"><a class="anchor" id="usage"></a>
-Usage</h1>
+<h1 class="doxsection"><a class="anchor" id="command-line-reference"></a>
+Command-line reference</h1>
 <p>CDT-plusplus uses <a href="https://www.boost.org/doc/libs/1_85_0/doc/html/program_options/tutorial.html">program_options</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
 <div class="fragment"><div class="line">./out/build/reference/src/cdt --help</div>
 <div class="line">Causal Dynamical Triangulations in C++ using CGAL.</div>
@@ -453,7 +463,7 @@ Usage</h1>
 <h1 class="doxsection"><a class="anchor" id="documentation"></a>
 Documentation</h1>
 <p>Online documentation is at <a href="https://adamgetchell.org/CDT-plusplus/">https://adamgetchell.org/CDT-plusplus/</a>.</p>
-<p>The scientific transition, proposal-ratio, geometry-delta, counter, and precision contracts are recorded in <a class="el" href="md_docs_2metropolis-hastings.html" title="Metropolis-Hastings transition contract"><span class="tt">docs/metropolis-hastings.md</span></a>. The literature-backed contracts, exact deltas, inverse relationships, and failure-atomicity rules for the complete 2+1D move set are recorded in <a class="el" href="md_docs_2ergodic-moves.html" title="2+1D CDT ergodic move audit"><span class="tt">docs/ergodic-moves.md</span></a>. Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream policy are recorded in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a>. The repository-wide scientific bibliography is maintained in <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>.</p>
+<p>The scientific transition, proposal-ratio, geometry-delta, counter, and precision contracts are recorded in <a class="el" href="md_docs_2metropolis-hastings.html" title="Metropolis-Hastings transition contract"><span class="tt">docs/metropolis-hastings.md</span></a>. The cross-language schema, exact-versus-numerical comparison policy, and raw archival records are documented in <a class="el" href="dir_6e133a56364528c326e124d8bed524d8.html" title="/home/runner/work/CDT-plusplus/CDT-plusplus/reference/README.md"><span class="tt">reference/README.md</span></a>. The literature-backed contracts, exact deltas, inverse relationships, and failure-atomicity rules for the complete 2+1D move set are recorded in <a class="el" href="md_docs_2ergodic-moves.html" title="2+1D CDT ergodic move audit"><span class="tt">docs/ergodic-moves.md</span></a>. Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream policy are recorded in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a>. The repository-wide scientific bibliography is maintained in <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>.</p>
 <p>Validate the generated API documentation without modifying the worktree:</p>
 <div class="fragment"><div class="line">just docs-check</div>
 </div><!-- fragment --><p>To generate the same publishable output used by the documentation workflow, run <span class="tt">just docs</span>; it writes <span class="tt">docs/html/</span> only after strict generation succeeds. Both recipes require the pinned Doxygen and Graphviz versions and use pkgx ephemerally when matching local tools are unavailable. <span class="tt">USE_MATHJAX</span> allows <a href="https://www.mathjax.org">MathJax</a> to render LaTeX formulae, and <span class="tt">HAVE_DOT</span> enables <a href="https://www.graphviz.org">GraphViz</a> diagrams. Documentation validation is intentionally separate from the cross-platform <span class="tt">just ci</span> contract. The documentation workflow runs <span class="tt">just docs</span> on Ubuntu and publishes its output to the <span class="tt">gh-pages</span> branch.</p>

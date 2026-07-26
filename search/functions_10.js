@@ -1,7 +1,7 @@
 var searchData=
 [
   ['s3_5fbulk_5faction_0',['s3_bulk_action',['../_s3_action_8hpp.html#a012baecf35a6488515d5fc6120e05a35',1,'cdt::s3_action']]],
-  ['s3_5fbulk_5faction_5falpha_5fminus_5fone_1',['s3_bulk_action_alpha_minus_one',['../_s3_action_8hpp.html#ad2c6d14a2d2851d9acf542c61cd55c97',1,'cdt::s3_action']]],
+  ['s3_5fbulk_5faction_5falpha_5fminus_5fone_5fimaginary_5fcoefficient_1',['s3_bulk_action_alpha_minus_one_imaginary_coefficient',['../_s3_action_8hpp.html#a54e6292feeda5f6b450706ee27460c95',1,'cdt::s3_action']]],
   ['s3_5fbulk_5faction_5falpha_5fone_2',['s3_bulk_action_alpha_one',['../_s3_action_8hpp.html#a76a42f6a59fb835e296c9fd8228cca6d',1,'cdt::s3_action']]],
   ['same_5fconfiguration_5fvalue_3',['same_configuration_value',['../_ergodic__moves__3_8hpp.html#a5228d8c991337acee2c56ab2c487f614',1,'cdt::ergodic_moves::detail']]],
   ['seed_4',['seed',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a63c5e51431c3da71f1220797f84dc1a1',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::seed()'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#ae84ef2d57ce7797d96b401df52c91c58',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::seed()'],['../classcdt_1_1_random.html#af50ccdc9a889cdde7265c9fc9d6acb55',1,'cdt::Random::seed()']]],

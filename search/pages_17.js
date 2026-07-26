@@ -13,10 +13,12 @@ var searchData=
   ['this_20software_10',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]],
   ['thread_20limit_11',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]],
   ['three_20dimensional_20cdt_202001_12',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
-  ['to_20cite_20this_20software_13',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]],
-  ['todo_20list_14',['Todo List',['../todo.html',1,'']]],
-  ['topology_20and_20local_20moves_15',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]],
-  ['transition_20contract_16',['Metropolis-Hastings transition contract',['../md_docs_2metropolis-hastings.html',1,'']]],
-  ['triangulations_17',['CGAL triangulations',['../md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations',1,'']]],
-  ['triangulations_20theory_18',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
+  ['three_20dimensional_20delaunay_20complexity_13',['Three-dimensional Delaunay complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity',1,'']]],
+  ['to_20cite_20this_20software_14',['How to Cite This Software',['../md__r_e_f_e_r_e_n_c_e_s.html#how-to-cite-this-software',1,'']]],
+  ['todo_20list_15',['Todo List',['../todo.html',1,'']]],
+  ['tolerances_16',['Quantity-specific tolerances',['../md_docs_2metropolis-hastings.html#quantity-specific-tolerances',1,'']]],
+  ['topology_20and_20local_20moves_17',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]],
+  ['transition_20contract_18',['Metropolis-Hastings transition contract',['../md_docs_2metropolis-hastings.html',1,'']]],
+  ['triangulations_19',['CGAL triangulations',['../md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations',1,'']]],
+  ['triangulations_20theory_20',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
 ];

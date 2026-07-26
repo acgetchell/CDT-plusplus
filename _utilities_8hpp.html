@@ -210,11 +210,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:a545b058cace5fe60a724783a15c7708a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create console and file loggers.  <br /></td></tr>
 <tr class="memitem:a245d2afc2bba1fcfc8826ca55e14a930" id="r_a245d2afc2bba1fcfc8826ca55e14a930"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a245d2afc2bba1fcfc8826ca55e14a930">cdt::utilities::current_date_time</a> (std::chrono::system_clock::time_point const timestamp=std::chrono::system_clock::now())</td></tr>
 <tr class="memdesc:a245d2afc2bba1fcfc8826ca55e14a930"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current date and time.  <br /></td></tr>
+<tr class="memitem:ae315bbebd36063351d1750110db2c81a" id="r_ae315bbebd36063351d1750110db2c81a"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ae315bbebd36063351d1750110db2c81a">cdt::utilities::delaunay_tetrahedron_upper_bound</a> (std::uint64_t const vertices) noexcept -&gt; std::optional&lt; std::uint64_t &gt;</td></tr>
+<tr class="memdesc:ae315bbebd36063351d1750110db2c81a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the rigorous finite 3D Delaunay tetrahedron upper bound.  <br /></td></tr>
 <tr class="memitem:ad5ed37eb0d81864fc32dd1d495580385" id="r_ad5ed37eb0d81864fc32dd1d495580385"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:ad5ed37eb0d81864fc32dd1d495580385 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ad5ed37eb0d81864fc32dd1d495580385">cdt::utilities::die_roll</a> (Generator &amp;generator)</td></tr>
 <tr class="memdesc:ad5ed37eb0d81864fc32dd1d495580385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Roll a die using a caller-supplied <span class="tt">std::uniform_random_bit_generator</span>.  <br /></td></tr>
-<tr class="memitem:a0ec2619f4f5d734415aaa64904a3337c" id="r_a0ec2619f4f5d734415aaa64904a3337c"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a0ec2619f4f5d734415aaa64904a3337c">cdt::utilities::expected_points_per_timeslice</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_dimension, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_simplices, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_timeslices)</td></tr>
-<tr class="memdesc:a0ec2619f4f5d734415aaa64904a3337c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate expected # of points per simplex.  <br /></td></tr>
+<tr class="memitem:accce4b92c636929b62a0b25b986296da" id="r_accce4b92c636929b62a0b25b986296da"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#accce4b92c636929b62a0b25b986296da">cdt::utilities::expected_points_per_timeslice</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const t_dimension, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_simplices, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> t_number_of_timeslices, double const initial_radius=1.0, double const foliation_spacing=1.0)</td></tr>
+<tr class="memdesc:accce4b92c636929b62a0b25b986296da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimate the base population for the layered spherical generator.  <br /></td></tr>
 <tr class="memitem:ab3ba3ffb9de832dcd10a5e4a063c4849" id="r_ab3ba3ffb9de832dcd10a5e4a063c4849"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ab3ba3ffb9de832dcd10a5e4a063c4849">cdt::utilities::detail::fingerprint_records</a> (std::vector&lt; std::string &gt; const &amp;records) -&gt; std::uint64_t</td></tr>
 <tr class="memitem:a80bd90ee2763a87de162e8a810625275" id="r_a80bd90ee2763a87de162e8a810625275"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator&gt; </td></tr>
 <tr class="memitem:a80bd90ee2763a87de162e8a810625275 template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a80bd90ee2763a87de162e8a810625275">cdt::utilities::generate_probability</a> (Generator &amp;generator)</td></tr>
@@ -231,6 +233,8 @@ Functions</h2></td></tr>
 <tr class="memitem:abe9a943cedf4a6341615f062976ee11b" id="r_abe9a943cedf4a6341615f062976ee11b"><td class="memTemplParams" colspan="2">template&lt;std::uniform_random_bit_generator Generator, std::integral IntegerType&gt; </td></tr>
 <tr class="memitem:abe9a943cedf4a6341615f062976ee11b template"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#abe9a943cedf4a6341615f062976ee11b">cdt::utilities::generate_random_timeslice</a> (Generator &amp;generator, IntegerType t_max_timeslice) -&gt; decltype(auto)</td></tr>
 <tr class="memdesc:abe9a943cedf4a6341615f062976ee11b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random timeslice.  <br /></td></tr>
+<tr class="memitem:aa150a78a2019fe371be59e1e1a1bc18b" id="r_aa150a78a2019fe371be59e1e1a1bc18b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa150a78a2019fe371be59e1e1a1bc18b">cdt::utilities::generated_input_vertex_count</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const points_per_timeslice, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const timeslices, double const initial_radius, double const foliation_spacing) -&gt; std::uint64_t</td></tr>
+<tr class="memdesc:aa150a78a2019fe371be59e1e1a1bc18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the exact number of vertices generated on spherical layers.  <br /></td></tr>
 <tr class="memitem:aeebcc88b7bd276a9b386168e176d39ff" id="r_aeebcc88b7bd276a9b386168e176d39ff"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aeebcc88b7bd276a9b386168e176d39ff">cdt::utilities::generated_population_bounds</a> (<a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const dimension, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const simplices, <a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const timeslices, double const initial_radius, double const foliation_spacing) -&gt; <a class="el" href="structcdt_1_1utilities_1_1_generated__population__bounds.html">Generated_population_bounds</a></td></tr>
 <tr class="memdesc:aeebcc88b7bd276a9b386168e176d39ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the generated point count and its upper bound.  <br /></td></tr>
 <tr class="memitem:a9ba23fe14ad32b2d761f146d75dfee57" id="r_a9ba23fe14ad32b2d761f146d75dfee57"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a9ba23fe14ad32b2d761f146d75dfee57">cdt::utilities::gmpzf_to_double</a> (<a class="el" href="namespacecdt.html#a85c2b08e6a75f76bfeeaa1c18edffa33">Gmpzf</a> const &amp;t_value) -&gt; double</td></tr>
@@ -577,7 +581,7 @@ template&lt;typename TriangulationType&gt; </div>
 </ol>
 <p>If an exception is thrown, then the default global console logger is used. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01845">1845</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01988">1988</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -620,6 +624,43 @@ template&lt;typename TriangulationType&gt; </div>
 
 </div>
 </div>
+<a id="ae315bbebd36063351d1750110db2c81a" name="ae315bbebd36063351d1750110db2c81a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae315bbebd36063351d1750110db2c81a">&#9670;&#160;</a></span>delaunay_tetrahedron_upper_bound()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::utilities::delaunay_tetrahedron_upper_bound </td>
+          <td>(</td>
+          <td class="paramtype">std::uint64_t const</td>          <td class="paramname"><span class="paramname"><em>vertices</em></span></td><td>)</td>
+          <td> -&gt; std::optional&lt; std::uint64_t &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the rigorous finite 3D Delaunay tetrahedron upper bound. </p>
+<p>Evaluates \((n^2-3n-2)/2=n(n-3)/2-1\) without overflowing. <span class="tt">std::nullopt</span> means that the exact bound exceeds <span class="tt">uint64_t</span>; it never means that the triangulation itself has that many tetrahedra. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertices</td><td>Number \(n\) of finite input vertices </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The exact bound, or <span class="tt">std::nullopt</span> when it exceeds <span class="tt">uint64_t</span> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity" title="Three-dimensional Delaunay complexity">Cheng, Dey, and Shewchuk, Chapter 4</a>Cheng, Dey, and Shewchuk, Chapter 4 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01785">1785</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ad5ed37eb0d81864fc32dd1d495580385" name="ad5ed37eb0d81864fc32dd1d495580385"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5ed37eb0d81864fc32dd1d495580385">&#9670;&#160;</a></span>die_roll()</h2>
 
@@ -651,8 +692,8 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 
 </div>
 </div>
-<a id="a0ec2619f4f5d734415aaa64904a3337c" name="a0ec2619f4f5d734415aaa64904a3337c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ec2619f4f5d734415aaa64904a3337c">&#9670;&#160;</a></span>expected_points_per_timeslice()</h2>
+<a id="accce4b92c636929b62a0b25b986296da" name="accce4b92c636929b62a0b25b986296da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accce4b92c636929b62a0b25b986296da">&#9670;&#160;</a></span>expected_points_per_timeslice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -673,7 +714,17 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td>          <td class="paramname"><span class="paramname"><em>t_number_of_timeslices</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a></td>          <td class="paramname"><span class="paramname"><em>t_number_of_timeslices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double const</td>          <td class="paramname"><span class="paramname"><em>initial_radius</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1.0</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double const</td>          <td class="paramname"><span class="paramname"><em>foliation_spacing</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1.0</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -683,19 +734,28 @@ template&lt;std::uniform_random_bit_generator Generator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate expected # of points per simplex. </p>
-<p>Usually, there are less vertices than simplices. Here, we throw away a number of simplices that aren't correctly foliated. The exact formula is given by Dwyer: <a href="http://link.springer.com/article/10.1007/BF02574694">http://link.springer.com/article/10.1007/BF02574694</a></p>
+<p>Estimate the base population for the layered spherical generator. </p>
+<p>The estimator is monotone in the requested simplex count. It takes the upper envelope of the historical piecewise schedules, thereby preserving their established scale without their downward jumps at 1,000, 10,000, and 100,000 requested simplices. This is a construction heuristic for CDT++'s nested cospherical inputs, with a 25% population margin to keep boundary layers populated. It is not Dwyer's distribution-specific expectation or an exact topology oracle. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#random-voronoi-and-delaunay-expected-complexity" title="Random Voronoi and Delaunay expected complexity">Dwyer's expected-complexity result</a>Dwyer's expected-complexity result</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_dimension</td><td>Number of dimensions </td></tr>
-    <tr><td class="paramname">t_number_of_simplices</td><td>Number of desired simplices </td></tr>
-    <tr><td class="paramname">t_number_of_timeslices</td><td>Number of desired timeslices </td></tr>
+    <tr><td class="paramname">t_number_of_simplices</td><td>Desired post-repair tetrahedron count </td></tr>
+    <tr><td class="paramname">t_number_of_timeslices</td><td>Number of spherical layers </td></tr>
+    <tr><td class="paramname">initial_radius</td><td>Radius of the first layer </td></tr>
+    <tr><td class="paramname">foliation_spacing</td><td>Distance between successive layers </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The number of points per timeslice to obtain the desired number of simplices </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Estimated base population parameter \(p\) </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if the dimension is not three or a count, radius, or spacing is not positive and finite </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if the requested estimate or generated vertex population is not representable </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01731">1731</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01825">1825</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -930,6 +990,66 @@ template&lt;std::uniform_random_bit_generator Generator, std::integral IntegerTy
 
 </div>
 </div>
+<a id="aa150a78a2019fe371be59e1e1a1bc18b" name="aa150a78a2019fe371be59e1e1a1bc18b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa150a78a2019fe371be59e1e1a1bc18b">&#9670;&#160;</a></span>generated_input_vertex_count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::utilities::generated_input_vertex_count </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>points_per_timeslice</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a> const</td>          <td class="paramname"><span class="paramname"><em>timeslices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double const</td>          <td class="paramname"><span class="paramname"><em>initial_radius</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double const</td>          <td class="paramname"><span class="paramname"><em>foliation_spacing</em></span>&#160;) -&gt; std::uint64_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the exact number of vertices generated on spherical layers. </p>
+<p>For base population \(p\), initial radius \(r_0\), spacing \(\Delta r\), and \(T\) layers, this evaluates \(\sum_{i=0}^{T-1}\lfloor p(r_0+i\Delta r)\rfloor\) using the same long-double product and truncation boundary as <span class="tt">make_foliated_ball()</span>. Every per-layer conversion and the total are checked before narrowing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">points_per_timeslice</td><td>Base population \(p\) for the first layer </td></tr>
+    <tr><td class="paramname">timeslices</td><td>Number of spherical layers \(T\) </td></tr>
+    <tr><td class="paramname">initial_radius</td><td>Radius \(r_0\) of the first layer </td></tr>
+    <tr><td class="paramname">foliation_spacing</td><td>Radius increment \(\Delta r\) per layer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Exact number of vertices supplied to CGAL </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if a count, radius, or spacing is not positive and finite </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if a layer or the accumulated vertex count cannot be represented by <span class="tt">uint64_t</span> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01734">1734</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
 <a id="aeebcc88b7bd276a9b386168e176d39ff" name="aeebcc88b7bd276a9b386168e176d39ff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeebcc88b7bd276a9b386168e176d39ff">&#9670;&#160;</a></span>generated_population_bounds()</h2>
 
@@ -983,9 +1103,16 @@ template&lt;std::uniform_random_bit_generator Generator, std::integral IntegerTy
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Points per timeslice and the last-layer point count </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Base population, last-layer point expression, exact input-vertex count, and representable finite 3D Delaunay tetrahedron bound </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if the dimension is not three or a count, radius, or spacing is not positive and finite </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if the requested estimate or generated vertex population is not representable </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01795">1795</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01930">1930</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1022,7 +1149,7 @@ template&lt;std::uniform_random_bit_generator Generator, std::integral IntegerTy
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The double conversion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01817">1817</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01960">1960</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1619,7 +1746,7 @@ template&lt;typename Point&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the point </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01890">1890</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l02033">2033</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -1874,7 +2001,7 @@ template&lt;typename TriangulationType&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the Topology </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l01900">1900</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l02043">2043</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
