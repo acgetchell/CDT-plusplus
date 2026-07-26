@@ -813,25 +813,57 @@ SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
       THEN("The results are correct.")
       { REQUIRE_EQ(expected_points_per_timeslice(3, 2, 2), 2); }
     }
-    WHEN("We request 500 simplices on 4 timeslices.")
+    WHEN("We request increasing populations across the former thresholds.")
     {
-      THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 500, 4), 50); }
+      THEN("The estimator is monotone and has no downward threshold jumps.")
+      {
+        for (auto const threshold : {999, 9'999, 99'999})
+        {
+          auto const before = expected_points_per_timeslice(3, threshold, 4);
+          auto const after = expected_points_per_timeslice(3, threshold + 1, 4);
+          CHECK_LE(before, after);
+        }
+      }
     }
-    WHEN("We request 5000 simplices on 8 timeslices.")
+    WHEN("We request established benchmark and integration populations.")
     {
-      THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 5000, 8), 125); }
+      THEN("The monotone envelope preserves their historical scale.")
+      {
+        CHECK_EQ(expected_points_per_timeslice(3, 640, 4), 80);
+        CHECK_EQ(expected_points_per_timeslice(3, 6'400, 7), 228);
+      }
     }
-    WHEN("We request 64,000 simplices on 16 timeslices.")
+    WHEN("The exact layered input population is calculated.")
     {
-      THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 64000, 16), 600); }
+      THEN("Every truncated layer contributes to the checked total.")
+      {
+        CHECK_EQ(generated_input_vertex_count(10, 4, 1.0, 1.0), 100);
+        CHECK_EQ(generated_input_vertex_count(10, 3, 0.5, 0.25), 22);
+      }
     }
-    WHEN("We request 640,000 simplices on 64 timeslices.")
+    WHEN("The rigorous 3D Delaunay upper bound is evaluated.")
     {
-      THEN("The results are correct.")
-      { REQUIRE_EQ(expected_points_per_timeslice(3, 640000, 64), 1000); }
+      THEN("Small exact values and unrepresentable large values are explicit.")
+      {
+        REQUIRE(delaunay_tetrahedron_upper_bound(4).has_value());
+        CHECK_EQ(*delaunay_tetrahedron_upper_bound(4), 1);
+        REQUIRE(delaunay_tetrahedron_upper_bound(5).has_value());
+        CHECK_EQ(*delaunay_tetrahedron_upper_bound(5), 4);
+        CHECK_FALSE(delaunay_tetrahedron_upper_bound(
+                        std::numeric_limits<std::uint64_t>::max())
+                        .has_value());
+      }
+    }
+    WHEN("Population provenance is requested.")
+    {
+      auto const bounds = generated_population_bounds(3, 640, 4, 1.0, 1.0);
+      THEN("The exact input and rigorous safety bound are recorded.")
+      {
+        CHECK_EQ(bounds.input_vertices,
+                 generated_input_vertex_count(bounds.points_per_timeslice, 4,
+                                              1.0, 1.0));
+        CHECK(bounds.tetrahedra_upper_bound.has_value());
+      }
     }
     WHEN("We specify 4 dimensions")
     {

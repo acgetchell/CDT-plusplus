@@ -98,6 +98,43 @@ triangulation. CDT++ tests validity and point/label preservation but does not
 promise identical fresh topology across toolchains; see
 [Reproducible random runs](reproducibility.md).
 
+## Spherical population estimator
+
+For base population `p`, initial radius `r0`, spacing `dr`, and `T` layers, the
+number of vertices supplied to CGAL is evaluated exactly and overflow-safely:
+
+```text
+V_input(p) = sum(i = 0..T-1, floor(p * (r0 + i * dr))).
+```
+
+`expected_points_per_timeslice()` is a monotone construction heuristic, not an
+exact topology oracle. It takes the upper envelope of the historical `0.4`,
+`0.2`, `0.15`, and `0.1` schedules. This preserves their established scale
+while replacing each downward threshold jump with a plateau, then adds a 25%
+population margin to reduce loss of the inner or outer layer during causal
+repair. A small construction floor remains for tiny requests. The selected
+population and exact input count are deterministic; the post-repair simplex
+count is not assigned a numerical tolerance because randomized cospherical
+tetrahedralization is explicitly implementation-specific.
+
+[Dwyer's expected-linear-complexity
+result](../REFERENCES.md#random-voronoi-and-delaunay-expected-complexity)
+applies to independent uniformly distributed points in the interior of a ball.
+CDT++ instead places points on nested cospherical layers and removes causally
+invalid vertices, so that result is background rather than a hard bound or a
+direct calibration. Cheng, Dey, and Shewchuk
+[document the separate three-dimensional worst-case safety
+bound](../REFERENCES.md#three-dimensional-delaunay-complexity):
+
+```text
+N3 <= (n^2 - 3n - 2) / 2
+```
+
+CDT++ evaluates it without integer overflow and reports it as unrepresentable when it
+exceeds `uint64_t`. It is not used as a preallocation target or expected
+result. The reference protocol records randomized construction values with a
+band; exact topology is reserved for the deterministic minimal fixtures.
+
 ## Mutation and lifetime rules
 
 CGAL documents that every triangulation modification invalidates iterators.

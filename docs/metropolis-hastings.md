@@ -99,6 +99,40 @@ round-to-nearest with ties to an even significand (`MPFR_RNDN`). Conversion to
 `long double` occurs only for diagnostic output; an acceptance draw is compared
 directly with the MPFR probability.
 
+### Action conventions
+
+`s3_bulk_action()` returns the real generalized action for its validated
+physical domain `alpha > 1/2`. `s3_bulk_action_alpha_one()` retains the
+historical real expression with published three-decimal coefficients.
+`s3_bulk_action_alpha_minus_one_imaginary_coefficient()` is deliberately named
+differently: the expression at `alpha = -1` is purely imaginary, while this
+real-valued API returns the coefficient of `i`. It neither returns a complex
+number nor silently labels that coefficient as a Wick-rotated action.
+
+The reference fixtures use nonzero couplings and independently evaluate
+
+```text
+min(1, q(T | T') / q(T' | T) * exp(S(T) - S(T')))
+```
+
+for an interior probability, its inverse and clamp, an explicit rejection, and
+a delta whose positive MPFR probability lies below `long double` range.
+
+### Quantity-specific tolerances
+
+Combinatorial fields and deterministic decisions are exact. The published
+cross-language protocol in
+[`reference/fixtures/v1/protocol.json`](../reference/fixtures/v1/protocol.json)
+names separate absolute and relative tolerances for coordinates, closed-form
+actions, and probabilities. Randomized post-repair simplex counts are
+implementation-specific rather than covered by a generic percentage.
+
+The generalized `alpha = 1` expression is not expected to equal the rounded
+historical formula to a generic percentage. Its test derives an absolute bound
+from the difference between each exact and three-decimal coefficient,
+multiplied by the actual `(3,1)+(1,3)` and `(2,2)` simplex counts, then adds the
+separate libm-to-MPFR conversion bound.
+
 ## References
 
 Bibliographic metadata for

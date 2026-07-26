@@ -14,6 +14,7 @@
 
 #include <doctest/doctest.h>
 
+#include <cmath>
 #include <limits>
 #include <numbers>
 #include <type_traits>
@@ -31,6 +32,25 @@ static_assert(std::is_nothrow_destructible_v<mpfr_values::Value>);
 // test translation unit.
 namespace
 {
+  // The independent oracle uses the platform libm before comparison with
+  // 256-bit MPFR. Bound that conversion/transcendental boundary in units of
+  // binary64 epsilon; the rounded-coefficient comparison adds its separate
+  // analytic coefficient bound below.
+  inline constexpr long double ACTION_ABSOLUTE_TOLERANCE =
+      64.0L * std::numeric_limits<double>::epsilon();
+  inline constexpr long double ACTION_RELATIVE_TOLERANCE =
+      64.0L * std::numeric_limits<double>::epsilon();
+
+  void check_action_close(long double const actual, long double const expected,
+                          long double const absolute_tolerance,
+                          long double const relative_tolerance)
+  {
+    auto const error = std::abs(actual - expected);
+    auto const bound =
+        absolute_tolerance + relative_tolerance * std::abs(expected);
+    CHECK_LE(error, bound);
+  }
+
   [[nodiscard]] auto alpha_minus_one_reference(Int_precision const n1_tl,
                                                Int_precision const n3_31_13,
                                                Int_precision const n3_22,
@@ -88,6 +108,27 @@ namespace
 
     return 2.0L * std::numbers::pi_v<long double> * k * sqrt_alpha * n1 +
            n31 * three_one + n22 * two_two;
+  }
+
+  [[nodiscard]] auto rounded_alpha_one_error_bound(Int_precision const n3_31_13,
+                                                   Int_precision const n3_22,
+                                                   long double const   k,
+                                                   long double const   lambda)
+      -> long double
+  {
+    auto const exact_three_one =
+        -3.0L * k * std::asinh(1.0L / std::sqrt(15.0L)) -
+        3.0L * k * std::acos(3.0L / 5.0L) - lambda / 6.0L;
+    auto const rounded_three_one = -3.548L * k - 0.167L * lambda;
+    auto const exact_two_two =
+        2.0L * k * std::asinh(2.0L * std::sqrt(6.0L) / 5.0L) -
+        4.0L * k * std::acos(-1.0L / 5.0L) - lambda * std::sqrt(6.0L) / 12.0L;
+    auto const rounded_two_two = -5.355L * k - 0.204L * lambda;
+
+    return static_cast<long double>(n3_31_13) *
+               std::abs(exact_three_one - rounded_three_one) +
+           static_cast<long double>(n3_22) *
+               std::abs(exact_two_two - rounded_two_two);
   }
 }  // namespace
 
@@ -157,16 +198,20 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
     CHECK_EQ(universe.min_time(), 1);
     WHEN("The alpha=-1 Bulk Action is calculated.")
     {
-      auto Bulk_action = s3_bulk_action_alpha_minus_one(
+      auto Bulk_action = s3_bulk_action_alpha_minus_one_imaginary_coefficient(
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
-      THEN("The action matches the independent closed-form calculation.")
+      THEN(
+          "The imaginary coefficient matches the independent closed-form "
+          "calculation.")
       {
-        spdlog::debug("s3_bulk_action_alpha_minus_one() = {}\n",
-                      Bulk_action.to_double());
+        spdlog::debug(
+            "s3_bulk_action_alpha_minus_one_imaginary_coefficient() = {}\n",
+            Bulk_action.to_double());
         auto const expected = alpha_minus_one_reference(
             universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
-        CHECK(mpfr_values::to_long_double(Bulk_action) ==
-              doctest::Approx(expected).epsilon(1e-12));
+        check_action_close(mpfr_values::to_long_double(Bulk_action), expected,
+                           ACTION_ABSOLUTE_TOLERANCE,
+                           ACTION_RELATIVE_TOLERANCE);
       }
     }
     WHEN("The alpha=1 Bulk Action is calculated.")
@@ -179,8 +224,9 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
                       Bulk_action.to_double());
         auto const expected = alpha_one_reference(
             universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
-        CHECK(mpfr_values::to_long_double(Bulk_action) ==
-              doctest::Approx(expected).epsilon(1e-12));
+        check_action_close(mpfr_values::to_long_double(Bulk_action), expected,
+                           ACTION_ABSOLUTE_TOLERANCE,
+                           ACTION_RELATIVE_TOLERANCE);
       }
     }
     WHEN("The generalized Bulk Action is calculated.")
@@ -196,8 +242,9 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
         auto const expected =
             generalized_reference(universe.N1_TL(), universe.N3_31_13(),
                                   universe.N3_22(), Alpha, K, Lambda);
-        CHECK(mpfr_values::to_long_double(Bulk_action) ==
-              doctest::Approx(expected).epsilon(1e-12));
+        check_action_close(mpfr_values::to_long_double(Bulk_action), expected,
+                           ACTION_ABSOLUTE_TOLERANCE,
+                           ACTION_RELATIVE_TOLERANCE);
       }
     }
     WHEN(
@@ -210,16 +257,22 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
                                         universe.N3_22(), parameters);
       auto Bulk_action_one = s3_bulk_action_alpha_one(
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
-      THEN(
-          "s3_bulk_action(alpha=1) == s3_bulk_action_alpha_one() within "
-          "tolerances.")
+      THEN("Their difference is bounded by the published-coefficient rounding.")
       {
         spdlog::debug("s3_bulk_action() = {}\n", Bulk_action.to_double());
         spdlog::debug("s3_bulk_action_alpha_one() = {}\n",
                       Bulk_action_one.to_double());
-        REQUIRE(mpfr_values::to_double(Bulk_action_one) ==
-                doctest::Approx(mpfr_values::to_double(Bulk_action))
-                    .epsilon(TOLERANCE));
+        auto const actual_difference =
+            std::abs(mpfr_values::to_long_double(Bulk_action_one) -
+                     mpfr_values::to_long_double(Bulk_action));
+        auto const coefficient_bound = rounded_alpha_one_error_bound(
+            universe.N3_31_13(), universe.N3_22(), K, Lambda);
+        auto const conversion_bound =
+            ACTION_ABSOLUTE_TOLERANCE +
+            ACTION_RELATIVE_TOLERANCE *
+                std::max(std::abs(mpfr_values::to_long_double(Bulk_action_one)),
+                         std::abs(mpfr_values::to_long_double(Bulk_action)));
+        CHECK_LE(actual_difference, coefficient_bound + conversion_bound);
       }
     }
   }
@@ -268,6 +321,16 @@ SCENARIO("Bulk action rejects invalid physical parameters" *
             "Alpha in 3D must be greater than 1/2.", std::domain_error);
       }
     }
+    WHEN("Alpha is immediately below the lower domain boundary.")
+    {
+      THEN("Physical-parameter construction rejects it with a domain error.")
+      {
+        CHECK_THROWS_WITH_AS(static_cast<void>(make_physical_parameters(
+                                 std::nextafter(0.5L, 0.0L), 1.1L, 0.1L)),
+                             "Alpha in 3D must be greater than 1/2.",
+                             std::domain_error);
+      }
+    }
     WHEN("Alpha is not finite.")
     {
       THEN("Physical-parameter construction rejects it as invalid input.")
@@ -275,6 +338,14 @@ SCENARIO("Bulk action rejects invalid physical parameters" *
         CHECK_THROWS_WITH_AS(
             static_cast<void>(make_physical_parameters(
                 std::numeric_limits<long double>::quiet_NaN(), 1.1L, 0.1L)),
+            "Physical parameters must be finite.", std::invalid_argument);
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(make_physical_parameters(
+                std::numeric_limits<long double>::infinity(), 1.1L, 0.1L)),
+            "Physical parameters must be finite.", std::invalid_argument);
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(make_physical_parameters(
+                -std::numeric_limits<long double>::infinity(), 1.1L, 0.1L)),
             "Physical parameters must be finite.", std::invalid_argument);
       }
     }

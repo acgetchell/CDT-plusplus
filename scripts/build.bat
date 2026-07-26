@@ -6,11 +6,21 @@ FOR %%I IN ("%SCRIPT_DIR%..") DO SET "REPO_ROOT=%%~fI"
 IF NOT "%~2"=="" GOTO PRESET_USAGE
 SET "PRESET=%~1"
 IF NOT DEFINED PRESET SET "PRESET=reference"
-IF /I "%PRESET%"=="reference" GOTO PRESET_READY
-IF /I "%PRESET%"=="parallel" GOTO PRESET_READY
+IF /I "%PRESET%"=="reference" (
+  SET "PRESET=reference"
+  GOTO PRESET_READY
+)
+IF /I "%PRESET%"=="parallel" (
+  SET "PRESET=parallel"
+  GOTO PRESET_READY
+)
+IF /I "%PRESET%"=="debug" (
+  SET "PRESET=debug"
+  GOTO PRESET_READY
+)
 
 :PRESET_USAGE
-echo Usage: %~nx0 [reference^|parallel] 1>&2
+echo Usage: %~nx0 [reference^|parallel^|debug] 1>&2
 EXIT /B 2
 
 :PRESET_READY
@@ -38,6 +48,11 @@ CD /D "%REPO_ROOT%" || EXIT /B 1
 CALL :PREPARE_CMAKE_CACHE || EXIT /B 1
 cmake --preset "%PRESET%" -S . || EXIT /B 1
 cmake --build --preset "%PRESET%" --parallel 2 || EXIT /B 1
+IF /I "%PRESET%"=="debug" (
+  ctest --preset debug-cli || EXIT /B 1
+  echo Debug-compatible CLI integration tests passed; assertion-incompatible paths were excluded.
+  EXIT /B 0
+)
 ctest --preset "%PRESET%-smoke" || EXIT /B 1
 EXIT /B 0
 

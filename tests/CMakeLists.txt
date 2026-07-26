@@ -143,6 +143,20 @@ target_link_libraries(
           spdlog::spdlog_header_only
           CGAL::CGAL)
 
+# Emit the versioned, language-neutral raw C++ oracle consumed by the
+# repository-owned issue #94 fixture package. This is intentionally a manual
+# artifact generator rather than a performance or correctness test.
+add_executable(CDT_reference_fixture Reference_fixture.cpp)
+target_compile_features(CDT_reference_fixture PRIVATE cxx_std_23)
+target_link_libraries(
+  CDT_reference_fixture
+  PRIVATE project_options
+          project_warnings
+          date::date-tz
+          fmt::fmt-header-only
+          spdlog::spdlog_header_only
+          CGAL::CGAL)
+
 if(ENABLE_PARALLEL_TRIANGULATION)
   add_test(NAME cdt-parallel-triangulation
            COMMAND $<TARGET_FILE:CDT_parallel_triangulation_test>)

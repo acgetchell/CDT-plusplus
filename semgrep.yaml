@@ -42,6 +42,67 @@ rules:
                 ...
                 runs-on: windows-latest
                 ...
+  - id: cdt.github-actions.external-action-sha-pinned
+    languages:
+      - regex
+    severity: WARNING
+    message: >-
+      Pin external GitHub Actions to a full 40-character commit SHA and
+      container actions to a sha256 digest.
+    metadata:
+      category: security
+      rationale: "Moving action and container tags can change workflow behavior without review."
+    paths:
+      include:
+        - "/.github/actions/**/*.yaml"
+        - "/.github/actions/**/*.yml"
+        - "/.github/workflows/**/*.yaml"
+        - "/.github/workflows/**/*.yml"
+        - "/tests/semgrep/.github/**/*.yaml"
+        - "/tests/semgrep/.github/**/*.yml"
+    pattern-either:
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@(?![a-fA-F0-9]{40}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*docker://(?![^\s#]+@sha256:[a-fA-F0-9]{64}(?:\s+#|$))[^\s#]+'  # yamllint disable-line rule:line-length
+  - id: cdt.github-actions.external-action-approved-allowlist
+    languages:
+      - regex
+    severity: WARNING
+    message: >-
+      Use only approved external GitHub Actions, or update the repository
+      allowlist deliberately.
+    metadata:
+      category: security
+      rationale: "A small allowlist keeps workflow supply-chain review explicit."
+    paths:
+      include:
+        - "/.github/actions/**/*.yaml"
+        - "/.github/actions/**/*.yml"
+        - "/.github/workflows/**/*.yaml"
+        - "/.github/workflows/**/*.yml"
+        - "/tests/semgrep/.github/**/*.yaml"
+        - "/tests/semgrep/.github/**/*.yml"
+    patterns:
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*(?!\./)(?!docker://)(?!(?:actions/(?:cache|checkout|setup-python|upload-artifact)|astral-sh/setup-uv|codecov/codecov-action|DenverCoder1/doxygen-github-pages-action|github/codeql-action/(?:analyze|init)|ilammy/msvc-dev-cmd|JamesIves/github-pages-deploy-action|lukka/run-vcpkg|pkgxdev/setup|taiki-e/(?:cache-cargo-install-action|install-action))@)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@'  # yamllint disable-line rule:line-length
+  - id: cdt.github-actions.external-action-version-comment
+    languages:
+      - regex
+    severity: WARNING
+    message: "Keep a readable version comment next to external GitHub Action SHA pins."
+    metadata:
+      category: maintainability
+      rationale: >-
+        Version comments make automated dependency updates and human review
+        manageable.
+    paths:
+      include:
+        - "/.github/actions/**/*.yaml"
+        - "/.github/actions/**/*.yml"
+        - "/.github/workflows/**/*.yaml"
+        - "/.github/workflows/**/*.yml"
+        - "/tests/semgrep/.github/**/*.yaml"
+        - "/tests/semgrep/.github/**/*.yml"
+    patterns:
+      - pattern-regex: '(?m)^\s*(?:-[ \t]+)?uses:\s*(?!\./)(?!docker://)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@[a-fA-F0-9]{40}(?![ \t]+#[ \t]+v[0-9]+(?:\.[0-9]+){1,2}(?:[-+][0-9A-Za-z.-]+)?[ \t]*$)[^\r\n]*$'  # yamllint disable-line rule:line-length
   - id: cdt.cpp.no-crtp-inheritance
     languages:
       - cpp
@@ -176,6 +237,8 @@ rules:
         - "/include/Ergodic_moves_3.hpp"
         - "/include/Move_tracker.hpp"
         - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/tests/semgrep/formatted_output.cpp"
     pattern-either:
       - pattern: spdlog::trace(...)
       - pattern: spdlog::debug(...)
@@ -328,6 +391,8 @@ rules:
         - "/tests/*_test.cpp"
         - "/tests/**/*_test.cpp"
         - "/tests/semgrep/**/*.cpp"
+      exclude:
+        - "/tests/semgrep/formatted_output.cpp"
     pattern-either:
       - pattern: fmt::print(...)
       - pattern: std::cout << $VALUE;
@@ -336,6 +401,33 @@ rules:
           - metavariable-regex:
               metavariable: $METHOD
               regex: ^print(?:_|$)
+  - id: cdt.cpp.use-fmt-print-for-console-output
+    languages:
+      - cpp
+    severity: ERROR
+    message: >-
+      Use fmt::print for console output. Keep stream insertion for serialization
+      contracts, and use fmt::streamed only when a third-party type has no
+      native formatter.
+    metadata:
+      category: maintainability
+      rationale: >-
+        Typed format strings keep output construction explicit and avoid
+        mutable iostream formatting state across CLI, fixture, and benchmark
+        producers.
+    paths:
+      include:
+        - "/include/**/*.hpp"
+        - "/src/**/*.cpp"
+        - "/tests/*_test.cpp"
+        - "/tests/**/*_test.cpp"
+        - "/tests/*_benchmark.cpp"
+        - "/tests/Reference_fixture.cpp"
+        - "/tests/semgrep/formatted_output.cpp"
+    pattern-either:
+      - pattern: std::cout << $VALUE;
+      - pattern: std::cerr << $VALUE;
+      - pattern: std::clog << $VALUE;
   - id: cdt.cpp.test-temp-paths-are-unique
     languages:
       - cpp

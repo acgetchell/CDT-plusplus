@@ -26,6 +26,7 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
   - [Maintenance status](#maintenance-status)
   - [Introduction](#introduction)
     - [Regression-oracle scope](#regression-oracle-scope)
+  - [Usage](#usage)
   - [Roadmap](#roadmap)
   - [Quickstart](#quickstart)
     - [Current reference-suite status](#current-reference-suite-status)
@@ -35,8 +36,7 @@ set, and the final release contract tracked by [issue #90](https://github.com/ac
     - [vcpkg maintenance](#vcpkg-maintenance)
   - [Build](#build)
     - [Project Layout](#project-layout)
-    - [Run](#run)
-  - [Usage](#usage)
+  - [Command-line reference](#command-line-reference)
   - [Documentation](#documentation)
   - [Citing CDT++](#citing-cdt)
   - [Testing](#testing)
@@ -86,12 +86,54 @@ and time labels. Its inputs, detected bad vertex, final initialization state, ce
 are the first comparison fixture for `causal-triangulations`; exact Monte Carlo trajectories are not required to
 match.
 
+The versioned, language-neutral fixtures, canonical C++ results, run
+manifests, raw outputs, and Rust consumption rules are published in the
+[`reference/`](reference/README.md) package.
+
 After building, run that fixture directly with:
 
 ```bash
 ./out/build/reference/tests/CDT_unit_tests \
   --test-case='*Detecting and fixing problems with vertices and cells*'
 ```
+
+## Usage
+
+The supported build produces `cdt` and `initialize` in
+`out/build/reference/src`. Run the primary simulation through Just and pass its
+arguments after the recipe name:
+
+```bash
+just run --help
+```
+
+For troubleshooting, the equivalent direct command is
+`./out/build/reference/src/cdt --help`.
+
+Use `--no-output` for batch, debugging, or scripted runs that should print
+results without writing checkpoint or final triangulation files:
+
+```bash
+just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --seed 92 --no-output
+```
+
+With output enabled, every generated `.off` triangulation is accompanied by a
+`.off.meta` provenance manifest containing the effective seed, configuration,
+version/toolchain identity, transition-trace fingerprint, and payload checksum.
+Checkpoint files are validated snapshots, not resumable simulation states; see
+[`docs/reproducibility.md`](docs/reproducibility.md) for the replay and
+persistence contract. Same-seed generation replays the random inputs, while
+exact transition replay requires an identical starting manifold; CDT++ does
+not alter its spherical construction to force CGAL to reproduce one of several
+valid cospherical tetrahedralizations.
+
+- `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0
+  target by [#98](https://github.com/acgetchell/CDT-plusplus/issues/98).
+- `initialize` is used by [CometML] to run
+  [parameter optimization](#optimizing-parameters).
+
+See the [command-line reference](#command-line-reference) for every option.
+Build and dependency instructions begin at [Quickstart](#quickstart).
 
 ## Roadmap
 
@@ -130,14 +172,41 @@ From a fresh checkout, the primary supported headless build, dependency bootstra
 just build
 ```
 
-The `build` recipe uses the pkgx launcher on Unix when pkgx is available, then delegates to `scripts/build.sh`. Its
+The `build` recipe uses the Release configuration and the pkgx launcher on Unix when pkgx is available, then delegates
+to `scripts/build.sh` on Unix or `scripts/build.bat` on Windows. Its
 first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
 bootstraps vcpkg, installs the manifest dependencies, builds in `out/build/reference`, and runs the supported CTest
 smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and
 CMake/Ninja outputs, so an unchanged build is a no-op apart from configuration and tests.
 
+For a production build with CDT++ assertions enabled, use the focused Debug
+workflow:
+
+```bash
+just build-debug
+```
+
+The Debug build preset compiles the `cdt` and `initialize` production targets,
+then the `debug-cli` test preset runs the 21 Debug-compatible CTest entries
+labeled `integration`. It defines `CGAL_NDEBUG` because supported move paths
+deliberately traverse invalid intermediate triangulations, while leaving
+CDT++'s own assertions enabled. The `cdt` and `cdt-no-output` simulation tests
+and the doctest unit suite are excluded because those paths trip project
+invariant assertions on the intermediate state. Release remains the canonical
+complete test configuration.
+
+On Unix, compiler caching is optional. The pkgx launcher supplies the repository-pinned ccache binary when
+`CDT_COMPILER_CACHE=ccache`; leaving the variable unset or setting it to `off` preserves the uncached build:
+
+```bash
+CDT_COMPILER_CACHE=ccache just build
+```
+
+Compiler caching covers project compilation; vcpkg binary caching remains responsible for reusing compiled
+third-party packages.
+
 The optional [pkgx](https://pkgx.sh/) entry point supplies the complete Unix developer-tool environment ephemerally
-and invokes the same build contract directly, without requiring Just:
+and invokes the same build contract directly:
 
 ```bash
 ./scripts/pkgx-build.sh
@@ -183,7 +252,7 @@ The smallest pkgx-assisted host setup is:
 
 - Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
 - pkgx
-- Just when invoking the recipes directly; `scripts/pkgx-build.sh` does not require it
+- Just, used by the recipes and `scripts/pkgx-build.sh` to resolve the repository's tool-version pins
 - Python 3.12 for native dependency bootstrap, and uv when checking or running the Python support scripts
 - Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
 
@@ -212,6 +281,7 @@ The repository-root [Justfile](Justfile) provides the same small command vocabul
 
 ```bash
 just check                 # Fast, non-mutating local checks
+just build-debug           # Build Debug targets and run compatible CLI integration tests
 just build-parallel        # Build and test the opt-in CGAL/oneTBB configuration
 just codeql-prepare        # Configure dependencies before CodeQL tracing
 just codeql-build          # Build production targets for CodeQL extraction
@@ -238,7 +308,11 @@ fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset p
 check and the supported build/test contract. Documentation validation remains available separately through
 `just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
 AppleClang, and Windows MSVC jobs all run `just ci`; the two Ubuntu jobs also
-run `just build-parallel`. Windows continues to compile with native MSVC; the
+run `just build-parallel`. The Ubuntu compiler jobs use the pinned pkgx ccache
+package with a compiler-specific persistent cache. Sanitizer builds use Release
+semantics with sanitizer-provided `-O1 -g` flags, while coverage uses Release
+semantics with coverage-provided `-O0 -g` flags; no duplicate full-suite Debug
+job is needed. Windows continues to compile with native MSVC; the
 locked Python environment supplies `clang-format` only as a source formatter.
 Install the developer tools with Homebrew, use equivalent system packages, or
 let pkgx supply the Unix environment ephemerally; pkgx remains optional. For
@@ -318,39 +392,7 @@ The project is similar to [PitchFork Layout], as follows:
 - src - Source files
 - tests - Unit tests
 
-### Run
-
-The supported build produces `cdt` and `initialize` in `out/build/reference/src`. Run the primary `cdt`
-executable through Just and pass its arguments after the recipe name:
-
-```bash
-just run --help
-```
-
-For troubleshooting, the equivalent direct command is `./out/build/reference/src/cdt --help`.
-
-Use `--no-output` for batch, debugging, or scripted runs that should print results without writing checkpoint or final
-triangulation files:
-
-```bash
-just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --no-output
-```
-
-With output enabled, every generated `.off` triangulation is accompanied by a
-`.off.meta` provenance manifest containing the effective seed, configuration,
-version/toolchain identity, transition-trace fingerprint, and payload checksum.
-Checkpoint files are validated snapshots, not resumable simulation states; see
-[`docs/reproducibility.md`](docs/reproducibility.md) for the replay and
-persistence contract. Same-seed generation replays the random inputs, while
-exact transition replay requires an identical starting manifold; CDT++ does
-not alter its spherical construction to force CGAL to reproduce one of several
-valid cospherical tetrahedralizations.
-
-- `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0 target by
-  [#98](https://github.com/acgetchell/CDT-plusplus/issues/98)
-- `initialize` is used by [CometML] to run [parameter optimization](#optimizing-parameters)
-
-## Usage
+## Command-line reference
 
 CDT-plusplus uses [program_options] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
@@ -432,6 +474,9 @@ Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 The scientific transition, proposal-ratio, geometry-delta, counter, and
 precision contracts are recorded in
 [`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
+The cross-language schema, exact-versus-numerical comparison policy, and raw
+archival records are documented in
+[`reference/README.md`](reference/README.md).
 The literature-backed contracts, exact deltas, inverse relationships, and
 failure-atomicity rules for the complete 2+1D move set are recorded in
 [`docs/ergodic-moves.md`](docs/ergodic-moves.md).

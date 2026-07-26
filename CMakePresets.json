@@ -48,7 +48,7 @@
       },
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast",
         "ENABLE_CACHE": false,
         "ENABLE_TESTING": true
@@ -61,7 +61,7 @@
       "inherits": "common",
       "binaryDir": "${sourceDir}/out/build/reference",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Release",
         "ENABLE_CACHE": false,
         "ENABLE_TESTING": true
       }
@@ -79,9 +79,12 @@
     {
       "name": "debug",
       "displayName": "Local debug build",
-      "description": "Configure an optional debug build for interactive diagnostics",
+      "description": "Configure an optional debug build with CDT++ assertions enabled and CGAL checks disabled",
       "inherits": "common",
+      "binaryDir": "${sourceDir}/out/build/debug",
       "cacheVariables": {
+        "BUILD_TESTING": true,
+        "CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE": true,
         "CMAKE_BUILD_TYPE": "Debug",
         "ENABLE_CACHE": false,
         "ENABLE_TESTING": true
@@ -132,6 +135,15 @@
       "name": "parallel",
       "displayName": "Build the supported CGAL/oneTBB targets",
       "configurePreset": "parallel"
+    },
+    {
+      "name": "debug",
+      "displayName": "Build production targets with CDT++ assertions enabled",
+      "configurePreset": "debug",
+      "targets": [
+        "cdt",
+        "initialize"
+      ]
     }
   ],
   "testPresets": [
@@ -153,6 +165,27 @@
       "displayName": "Run the CGAL/oneTBB invariant and stress suite",
       "description": "Run the complete suite with the parallel TDS plus the replayable stress contract",
       "configurePreset": "parallel",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "debug-cli",
+      "displayName": "Run CLI integration tests with CDT++ assertions",
+      "description": "Run only the Debug CLI tests; unit fixtures that trip CDT++ assertions on deliberately invalid intermediate states are excluded",
+      "configurePreset": "debug",
+      "filter": {
+        "exclude": {
+          "label": "^debug-incompatible$"
+        },
+        "include": {
+          "label": "^integration$"
+        }
+      },
       "output": {
         "outputOnFailure": true
       },

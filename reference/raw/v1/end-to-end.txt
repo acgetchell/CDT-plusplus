@@ -1,0 +1,51 @@
+Topology is spherical
+Dimensionality: 2+1
+Initial radius: 1
+Foliation spacing: 1
+Number of desired simplices: 2
+Number of desired timeslices: 2
+Number of passes: 1
+Checkpoint every 1 passes.
+Effective random seed: 92
+Maximum Delaunay threads: 1
+=== Parameters ===
+Alpha: 1
+K: 0
+Lambda: 1
+cdt started at 2026-07-25.06:42:33UTC
+
+Generating universe ...
+Triangulation has 6 vertices and 14 edges and 16 faces and 7 simplices.
+Manifold has 6 vertices and 14 edges and 16 faces and 7 simplices.
+There are 0 (3,1) simplices and 3 (2,2) simplices and 4 (1,3) simplices.
+There are 7 timelike edges and 7 spacelike edges.
+Timeslice 1 has 0 spacelike faces.
+Timeslice 2 has 4 spacelike faces.
+Starting Metropolis-Hastings algorithm in 2+1 dimensions ...
+Effective random seed: 92 (stream 1).
+Making random moves ...
+=== Pass 1 ===
+=== Move Results ===
+There were 7 proposed moves with 0 accepted moves and 7 rejected moves.
+There were 7 candidate construction attempts with 0 successful candidates and 7 failed candidates.
+(2,3) moves: 0 proposed (0 accepted and 0 rejected); candidate construction: 0 attempted (0 succeeded and 0 failed).
+(3,2) moves: 1 proposed (0 accepted and 1 rejected); candidate construction: 1 attempted (0 succeeded and 1 failed).
+(2,6) moves: 3 proposed (0 accepted and 3 rejected); candidate construction: 3 attempted (0 succeeded and 3 failed).
+(6,2) moves: 2 proposed (0 accepted and 2 rejected); candidate construction: 2 attempted (0 succeeded and 2 failed).
+(4,4) moves: 1 proposed (0 accepted and 1 rejected); candidate construction: 1 attempted (0 succeeded and 1 failed).
+=== Run results ===
+=== Move Results ===
+There were 7 proposed moves with 0 accepted moves and 7 rejected moves.
+There were 7 candidate construction attempts with 0 successful candidates and 7 failed candidates.
+(2,3) moves: 0 proposed (0 accepted and 0 rejected); candidate construction: 0 attempted (0 succeeded and 0 failed).
+(3,2) moves: 1 proposed (0 accepted and 1 rejected); candidate construction: 1 attempted (0 succeeded and 1 failed).
+(2,6) moves: 3 proposed (0 accepted and 3 rejected); candidate construction: 3 attempted (0 succeeded and 3 failed).
+(6,2) moves: 2 proposed (0 accepted and 2 rejected); candidate construction: 2 attempted (0 succeeded and 2 failed).
+(4,4) moves: 1 proposed (0 accepted and 1 rejected); candidate construction: 1 attempted (0 succeeded and 1 failed).
+=== Run Results ===
+Running time is 0.00011801719665527344 seconds.
+Manifold has 6 vertices and 14 edges and 16 faces and 7 simplices.
+There are 0 (3,1) simplices and 3 (2,2) simplices and 4 (1,3) simplices.
+There are 7 timelike edges and 7 spacelike edges.
+Timeslice 1 has 0 spacelike faces.
+Timeslice 2 has 4 spacelike faces.

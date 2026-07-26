@@ -8,6 +8,7 @@ Copyright © 2022 Adam Getchell
 /// @author Adam Getchell
 
 #include <CGAL/draw_triangulation_3.h>
+#include <fmt/ostream.h>
 #include <spdlog/spdlog.h>
 
 #include <boost/program_options.hpp>
@@ -52,7 +53,7 @@ try
 
   if (args.count("help"))
   {
-    std::cout << description << "\n";
+    fmt::print("{}\n", fmt::streamed(description));
     return EXIT_SUCCESS;
   }
 

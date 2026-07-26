@@ -15,6 +15,7 @@ cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.0"
 ninja_version := "1.13.2"
 ninja_windows_wheel_version := "1.13.0"
+ccache_version := "4.13.6"
 doxygen_version := "1.17.0"
 graphviz_version := "15.1.0"
 zizmor_version := "1.28.0"
@@ -22,6 +23,7 @@ primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_cgal_benchmark.exe" } else { "out/build/reference/tests/CDT_cgal_benchmark" }
 parallel_cgal_benchmark_binary := if os_family() == "windows" { "out/build/parallel/tests/CDT_cgal_benchmark.exe" } else { "out/build/parallel/tests/CDT_cgal_benchmark" }
+reference_fixture_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_reference_fixture.exe" } else { "out/build/reference/tests/CDT_reference_fixture" }
 
 # Build the supported configuration through the repository build script.
 [group('workflows')]
@@ -33,14 +35,19 @@ build:
 build-parallel:
     {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat parallel'" } else { "just _build-parallel-unix" } }}
 
+# Build production targets in Debug mode and run the supported CLI integration tests.
+[group('workflows')]
+build-debug:
+    {{ if os_family() == "windows" { "cmd.exe //d //c 'scripts\\build.bat debug'" } else { "just _build-debug-unix" } }}
+
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check semgrep semgrep-test
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
 [group('workflows')]
-ci: check _pinact-check build
+ci: check _pinact-check reference-generated-check
     @echo "CI validation complete."
 
 # Configure dependencies before CodeQL begins tracing the C++ build.
@@ -102,6 +109,38 @@ benchmark-cgal-parallel threads='1 2 4' simplices='640' repetitions='5' moves='5
         "${thread_count}" {{ quote(warmups) }}
     done
 
+# Print the raw deterministic C++ oracle for the versioned reference package.
+[group('workflows')]
+reference-fixtures: build
+    {{ reference_fixture_binary }}
+
+# Regenerate every raw reference artifact and manifest from one clean commit.
+[group('workflows')]
+reference-regenerate: _sync-python-dev
+    uv run --no-sync python scripts/generate_reference_fixtures.py --check-clean
+    just build
+    just build-parallel
+    uv run --no-sync python scripts/generate_reference_fixtures.py
+    just reference-check
+    just reference-archive-check
+
+# Validate schemas, exact topology, numerical oracles, and provenance.
+[group('workflows')]
+reference-check: _sync-python-dev
+    uv run --no-sync python scripts/validate_reference_fixtures.py
+
+# Require one clean source revision before an archival tag or publication.
+[group('workflows')]
+reference-archive-check: _sync-python-dev
+    uv run --no-sync python scripts/validate_reference_fixtures.py \
+        --provenance-only
+
+# Rebuild the C++ fixture producer and compare its canonical scientific payload.
+[group('workflows')]
+reference-generated-check: build _sync-python-dev
+    uv run --no-sync python scripts/validate_reference_fixtures.py \
+        --generated-only --fixture-binary {{ quote(reference_fixture_binary) }}
+
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]
 fix: _format-fix python-fix
@@ -159,10 +198,14 @@ semgrep: _sync-python-dev
     set -euo pipefail
     state_dir="$(mktemp -d "${TMPDIR:-/tmp}/cdt-semgrep-state.XXXXXX")"
     trap 'rm -rf "$state_dir"' EXIT
-    SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
+    SEMGREP_ENABLE_VERSION_CHECK=0 SEMGREP_LOG_FILE="$state_dir/semgrep.log" SEMGREP_SEND_METRICS=off \
         SEMGREP_SETTINGS_FILE="$state_dir/settings.yml" SEMGREP_VERSION_CACHE_PATH="$state_dir/version-cache" \
         uv run --no-sync semgrep scan --error --strict --timeout 120 --no-git-ignore \
-            --config semgrep.yaml --exclude tests/semgrep .github include src tests
+            --config semgrep.yaml \
+            --exclude .cache --exclude .venv --exclude venv \
+            --exclude 'build*' --exclude 'cmake-build*' --exclude cov-int --exclude coverage \
+            --exclude html --exclude out --exclude Testing --exclude vcpkg_installed \
+            --exclude tests/semgrep .
 
 # Test repository-owned Semgrep rules against annotated positive and negative fixtures.
 [group('workflows')]
@@ -310,6 +353,15 @@ _build-parallel-unix:
       exec ./scripts/pkgx-build.sh --preset parallel
     fi
     exec ./scripts/build.sh parallel
+
+[private]
+_build-debug-unix:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec ./scripts/pkgx-build.sh --preset debug
+    fi
+    exec ./scripts/build.sh debug
 
 [private]
 _codeql-phase phase:

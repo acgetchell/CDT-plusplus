@@ -314,6 +314,10 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
                          cdt::RandomSeed{92}),
             std::domain_error);
         CHECK_THROWS_AS(
+            Metropolis_3(std::nextafter(0.5L, 0.0L), K, Lambda, passes,
+                         output_every_n_passes, true, cdt::RandomSeed{92}),
+            std::domain_error);
+        CHECK_THROWS_AS(
             Metropolis_3(std::numeric_limits<long double>::infinity(), K,
                          Lambda, passes, output_every_n_passes, true,
                          cdt::RandomSeed{92}),
@@ -356,6 +360,69 @@ SCENARIO("Metropolis-Hastings proposal and acceptance ratios" *
             current, proposed, move_tracker::MoveType::TWO_THREE);
         CHECK(mpfr_values::to_long_double(probability) ==
               doctest::Approx(0.4L));
+      }
+    }
+  }
+
+  GIVEN("A nonzero-action (2,3) fixture with alpha=1, k=0, and lambda=1.")
+  {
+    Metropolis_3 nonzero_action_strategy(1.0L, 0.0L, 1.0L, 1, 1, false,
+                                         cdt::RandomSeed{94});
+    Geometry_3   current;
+    current.N3_22 = 4;
+    Geometry_3 proposed;
+    proposed.N1_TL              = 10;
+    proposed.N3_22              = 5;
+
+    auto const volume_delta     = std::sqrt(6.0L) / 12.0L;
+    auto const expected_forward = 0.4L * std::exp(volume_delta);
+
+    WHEN("The forward probability is evaluated independently.")
+    {
+      auto const actual = nonzero_action_strategy.acceptance_probability(
+          current, proposed, move_tracker::MoveType::TWO_THREE);
+
+      THEN("The Hastings factor and action exponential both contribute.")
+      {
+        CHECK_LT(expected_forward, 1.0L);
+        CHECK(mpfr_values::to_long_double(actual) ==
+              doctest::Approx(expected_forward).epsilon(1.0e-15L));
+      }
+    }
+
+    WHEN("The inverse probability is evaluated.")
+    {
+      auto const actual = nonzero_action_strategy.acceptance_probability(
+          proposed, current, move_tracker::MoveType::THREE_TWO);
+      auto const unclamped = 2.5L * std::exp(-volume_delta);
+
+      THEN("The reverse proposal and action factors invert and clamp at one.")
+      {
+        CHECK_GT(unclamped, 1.0L);
+        CHECK_EQ(mpfr_values::to_long_double(actual), 1.0L);
+      }
+    }
+  }
+
+  GIVEN("A numerically extreme nonzero-action delta.")
+  {
+    Metropolis_3 extreme_action_strategy(1.0L, 0.0L, 1.0e6L, 1, 1, false,
+                                         cdt::RandomSeed{94});
+    Geometry_3   current;
+    current.N1_SL = 1;
+    current.N3_22 = 1'000;
+    Geometry_3 proposed;
+    proposed.N1_SL = 1;
+
+    WHEN("A symmetric (4,4) proposal removes the negative volume action.")
+    {
+      auto const actual = extreme_action_strategy.acceptance_probability(
+          current, proposed, move_tracker::MoveType::FOUR_FOUR);
+
+      THEN("MPFR preserves a positive probability below long-double range.")
+      {
+        CHECK_GT(mpfr_sgn(actual.fr()), 0);
+        CHECK_EQ(mpfr_values::to_long_double(actual), 0.0L);
       }
     }
   }
@@ -460,15 +527,42 @@ SCENARIO("Metropolis proposal domains match the sampled raw sites" *
         ++selections.at(static_cast<std::size_t>(*selected));
       }
 
-      THEN("All sites remain within a conservative uniformity envelope.")
+      THEN("A predeclared Pearson statistic does not reject uniformity.")
       {
-        constexpr auto expected  = draws / sites.size();
-        constexpr auto tolerance = expected / 10;
+        static_assert(sites.size() == 5,
+                      "critical_value assumes sites.size() - 1 == 4");
+        constexpr auto expected = static_cast<long double>(draws) /
+                                  static_cast<long double>(sites.size());
+        long double    chi_squared{};
         for (auto const selected : selections)
         {
-          CHECK_GE(selected, expected - tolerance);
-          CHECK_LE(selected, expected + tolerance);
+          auto const residual = static_cast<long double>(selected) - expected;
+          chi_squared += residual * residual / expected;
         }
+        // chi-square(4) 0.999 quantile; the false-positive rate is 0.1%.
+        constexpr auto critical_value = 18.46682695290317L;
+        CAPTURE(chi_squared);
+        CHECK_LT(chi_squared, critical_value);
+      }
+    }
+  }
+
+  GIVEN("Empty and singleton raw-site domains.")
+  {
+    std::mt19937_64                    generator{94};
+    std::array<Int_precision, 0> const empty{};
+    std::array<Int_precision, 1> const singleton{7};
+
+    THEN("Boundary behavior is deterministic and separate from the GOF test.")
+    {
+      CHECK_FALSE(
+          ergodic_moves::detail::random_element(empty, generator).has_value());
+      for (auto draw = 0; draw < 32; ++draw)
+      {
+        auto const selected =
+            ergodic_moves::detail::random_element(singleton, generator);
+        REQUIRE(selected.has_value());
+        CHECK_EQ(*selected, 7);
       }
     }
   }

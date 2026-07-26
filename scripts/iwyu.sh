@@ -13,5 +13,5 @@ repo_root="$(cd -- "${script_dir}/.." && pwd)"
 build_dir="${repo_root}/build"
 
 rm -rf -- "${build_dir}"
-cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=TRUE -S "${repo_root}" -B "${build_dir}"
+cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=TRUE -S "${repo_root}" -B "${build_dir}"
 cmake --build "${build_dir}"

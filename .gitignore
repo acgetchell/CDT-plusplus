@@ -45,6 +45,7 @@ grid_d
 output*
 errors
 *.off
+!reference/raw/**/*.off
 *.dat
 slurm-*.out
 

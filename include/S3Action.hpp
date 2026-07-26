@@ -81,10 +81,12 @@ namespace cdt::s3_action
       return {k, lambda};
     }
   }  // namespace detail
-  /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
+  /// @brief Calculates the coefficient of \f$i\f$ in the
+  /// \f$\alpha=-1\f$ S3 bulk action.
   ///
-  /// This result is i* the action for Euclidean dynamically triangulated
-  /// gravity in three dimensions.
+  /// The Lorentzian expression at \f$\alpha=-1\f$ is purely imaginary. This
+  /// real-valued API returns its coefficient of \f$i\f$; it does not return a
+  /// complex number or a Wick-rotated Euclidean action.
   /// The formula is:
   ///
   /// \f[S^{(3)}(\alpha=-1)=-2\pi ik N_1^{TL}+N_3^{(3,1)}\left(2.673ik+0.118i
@@ -98,8 +100,10 @@ namespace cdt::s3_action
   /// @param k_value \f$k=\frac{1}{8\pi G_{Newton}}\f$
   /// @param lambda_value \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
   ///                   Cosmological constant
-  /// @returns \f$S^{(3)}(\alpha=-1)\f$ as a 256-bit MPFR value
-  [[nodiscard]] inline auto s3_bulk_action_alpha_minus_one(
+  /// @returns The real coefficient \f$S^{(3)}(\alpha=-1)/i\f$ as a 256-bit
+  /// MPFR value
+  [[nodiscard]] inline auto
+  s3_bulk_action_alpha_minus_one_imaginary_coefficient(
       Int_precision const n1_tl_count, Int_precision const n3_31_13_count,
       Int_precision const n3_22_count, long double const k_value,
       long double const lambda_value) -> mpfr_values::Value
@@ -143,7 +147,7 @@ namespace cdt::s3_action
     auto const total = mpfr_values::add(r11, r12);     // total = r11+r12
 
     return total;
-  }  // s3_bulk_action_alpha_minus_one()
+  }  // s3_bulk_action_alpha_minus_one_imaginary_coefficient()
 
   /// @brief Calculates S3 bulk action for \f$\alpha\f$=1.
   ///

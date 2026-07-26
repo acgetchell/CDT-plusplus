@@ -7,6 +7,7 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "${script_dir}/.." && pwd)"
 cmake_version="$(just --justfile "${repo_root}/Justfile" --evaluate cmake_version)"
 ninja_version="$(just --justfile "${repo_root}/Justfile" --evaluate ninja_version)"
+ccache_version="$(just --justfile "${repo_root}/Justfile" --evaluate ccache_version)"
 
 pkgx_tools=(
   +git-scm.org@2.55.0
@@ -26,27 +27,46 @@ if [[ -n "${CDT_PKGX_COMPILER_PACKAGE:-}" ]]; then
   pkgx_tools+=("+${CDT_PKGX_COMPILER_PACKAGE}")
 fi
 
+pkgx_launcher=(pkgx "${pkgx_tools[@]}" --)
+case "${CDT_COMPILER_CACHE:-}" in
+  "" | off) ;;
+  ccache)
+    pkgx_launcher=(
+      pkgx
+      "+ccache.dev@${ccache_version}"
+      --
+      "${pkgx_launcher[@]}"
+    )
+    ;;
+  *)
+    printf 'Unsupported CDT_COMPILER_CACHE=%s; expected ccache, off, or an empty value.\n' \
+      "${CDT_COMPILER_CACHE}" >&2
+    exit 2
+    ;;
+esac
+
 cd -- "${repo_root}"
 
 if [[ "${1:-}" == "--codeql" ]]; then
   shift
-  exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/codeql-build.sh" "$@"
+  exec "${pkgx_launcher[@]}" "${script_dir}/codeql-build.sh" "$@"
 fi
 
 if [[ "${1:-}" == "--preset" ]]; then
-  if [[ "$#" -ne 2 ]] || [[ "$2" != "reference" && "$2" != "parallel" ]]; then
-    printf 'Usage: %s [--preset reference|parallel] [--codeql prepare|build]\n' \
+  if [[ "$#" -ne 2 ]] ||
+     [[ "$2" != "reference" && "$2" != "parallel" && "$2" != "debug" ]]; then
+    printf 'Usage: %s [--preset reference|parallel|debug] [--codeql prepare|build]\n' \
       "$0" >&2
     exit 2
   fi
   preset="$2"
-  exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/build.sh" "${preset}"
+  exec "${pkgx_launcher[@]}" "${script_dir}/build.sh" "${preset}"
 fi
 
 if [[ "$#" -ne 0 ]]; then
-  printf 'Usage: %s [--preset reference|parallel] [--codeql prepare|build]\n' \
+  printf 'Usage: %s [--preset reference|parallel|debug] [--codeql prepare|build]\n' \
     "$0" >&2
   exit 2
 fi
 
-exec pkgx "${pkgx_tools[@]}" -- "${script_dir}/build.sh" reference
+exec "${pkgx_launcher[@]}" "${script_dir}/build.sh" reference

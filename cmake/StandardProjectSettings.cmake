@@ -2,21 +2,20 @@
 # conflicts with CGAL_SetupFlags.cmake.
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES
-      "Release" "Debug" "RelWithDebInfo"
+      "Release" "Debug"
       CACHE STRING "" FORCE)
 elseif(NOT CMAKE_BUILD_TYPE)
   # Set a default build type for single-config generators when none was specified.
-  message(STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
+  message(STATUS "Setting build type to 'Release' as none was specified.")
   set(CMAKE_BUILD_TYPE
-      RelWithDebInfo
+      Release
       CACHE STRING "Choose the type of build." FORCE)
   # Set the possible values of build type for cmake-gui, ccmake
   set_property(
     CACHE CMAKE_BUILD_TYPE
     PROPERTY STRINGS
              "Debug"
-             "Release"
-             "RelWithDebInfo")
+             "Release")
 endif()
 
 # Compile commands for ClangTidy et. al

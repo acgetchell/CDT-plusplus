@@ -13,6 +13,6 @@ module load cmake/4.4.0
 module load gcc/13.3.0
 module load autoconf-archive/2022.02.11
 rm -rf -- "${build_dir}"
-cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S "${repo_root}" -B "${build_dir}"
+cmake -D CMAKE_BUILD_TYPE=Release -D ENABLE_TESTING:BOOL=TRUE -S "${repo_root}" -B "${build_dir}"
 cmake --build "${build_dir}"
 ctest --test-dir "${build_dir}" --no-tests=error --output-on-failure -j2

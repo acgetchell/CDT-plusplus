@@ -1,0 +1,23 @@
+---
+name: Action policy fixtures
+description: Exercise action policy rules for local composite actions.
+runs:
+  using: composite
+  steps:
+    - name: Allowed pinned action
+      # ok: cdt.github-actions.external-action-sha-pinned
+      # ok: cdt.github-actions.external-action-approved-allowlist
+      # ok: cdt.github-actions.external-action-version-comment
+      uses: taiki-e/install-action@7572810d7dd469b651bb7793945692cf78da5dd7  # v2.85.0
+
+    - name: Moving tag action
+      # ruleid: cdt.github-actions.external-action-sha-pinned
+      uses: taiki-e/install-action@v2
+
+    - name: Unapproved external action
+      # ruleid: cdt.github-actions.external-action-approved-allowlist
+      uses: unapproved/composite-action@2222222222222222222222222222222222222222  # v2.0.0
+
+    - name: Missing readable version comment
+      # ruleid: cdt.github-actions.external-action-version-comment
+      uses: taiki-e/install-action@7572810d7dd469b651bb7793945692cf78da5dd7

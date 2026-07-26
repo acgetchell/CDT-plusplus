@@ -52,7 +52,7 @@ add_test(
     "-DEXPECTED_THREADS=1"
     "-DTEST_ARGUMENTS=-s;-n127;-t4;-a0.6;-k1.1;-l0.1;-p1;--seed;92"
     -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
-set_tests_properties(cdt PROPERTIES LABELS "integration;persistence")
+set_tests_properties(cdt PROPERTIES LABELS "integration;persistence;debug-incompatible")
 
 add_test(
   NAME cdt-no-output
@@ -62,7 +62,7 @@ add_test(
     -DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/cdt-no-output
     -DTEST_THREADS=${cdt_cli_explicit_threads}
     -P ${PROJECT_SOURCE_DIR}/cmake/RunCdtNoOutputTest.cmake)
-set_tests_properties(cdt-no-output PROPERTIES LABELS "integration")
+set_tests_properties(cdt-no-output PROPERTIES LABELS "integration;debug-incompatible")
 
 add_cli_failure_test(cdt-triangle-inequalities cdt "Triangle inequalities violated" -s -n64 -t3 -a0.4
                      -k1.1 -l0.1 --seed 92)
@@ -80,7 +80,8 @@ add_cli_failure_test(cdt-checkpoint-zero cdt "Checkpoint interval must be positi
                      -l0.1 -c0 --seed 92)
 add_cli_failure_test(cdt-radius-zero cdt "Initial radius must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -i0 --seed 92)
 add_cli_failure_test(cdt-spacing-zero cdt "Foliation spacing must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1 -f0 --seed 92)
-add_cli_failure_test(cdt-empty-population cdt "would create an empty triangulation" -s -n3 -t2 -a0.6 -k1.1 -l0.1 --seed 92)
+add_cli_failure_test(cdt-empty-population cdt "Initial radius is too small to populate the first timeslice." -s -n64
+                     -t3 -i0.1 -a0.6 -k1.1 -l0.1 --seed 92)
 add_cli_failure_test(cdt-integer-narrowing cdt "exceeds the supported integer range" -s -n2147483648 -t3 -a0.6
                      -k1.1 -l0.1 --seed 92)
 add_cli_failure_test(cdt-threads-zero cdt "Thread count must be positive." -s -n64 -t3 -a0.6 -k1.1 -l0.1

@@ -31,24 +31,32 @@ jobs:
             compiler_package: gnu.org/gcc@16
             cc: gcc
             cxx: g++
+            compiler_cache: ccache
+            compiler_cache_key: gcc-16
             run_parallel_contract: true
           - name: Ubuntu Clang
             os: ubuntu-latest
             compiler_package: llvm.org@22
             cc: clang
             cxx: clang++
+            compiler_cache: ccache
+            compiler_cache_key: clang-22
             run_parallel_contract: true
           - name: macOS AppleClang
             os: macos-latest
             compiler_package: ""
             cc: clang
             cxx: clang++
+            compiler_cache: ""
+            compiler_cache_key: none
             run_parallel_contract: false
           - name: Windows MSVC
             os: windows-latest
             compiler_package: ""
             cc: cl
             cxx: cl
+            compiler_cache: ""
+            compiler_cache_key: none
             run_parallel_contract: false
 
     steps:
@@ -81,6 +89,7 @@ jobs:
         run: |
           {
             echo "cmake=$(just --evaluate cmake_version)"
+            echo "ccache=$(just --evaluate ccache_version)"
             echo "llvm=$(just --evaluate llvm_version)"
             echo "ninja=$(just --evaluate ninja_version)"
             echo "ninja-windows-wheel=$(just --evaluate ninja_windows_wheel_version)"
@@ -153,9 +162,23 @@ jobs:
         with:
           vcpkgDirectory: ${{ github.workspace }}/.cache/vcpkg
 
+      - name: Restore compiler cache
+        if: matrix.compiler_cache != ''
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: .cache/ccache
+          key: ccache-v1-${{ runner.os }}-${{ matrix.compiler_cache_key }}-${{ github.sha }}
+          restore-keys: |
+            ccache-v1-${{ runner.os }}-${{ matrix.compiler_cache_key }}-
+
       - name: Run the canonical local CI contract
         env:
+          CCACHE_BASEDIR: ${{ github.workspace }}
+          CCACHE_COMPILERCHECK: content
+          CCACHE_DIR: ${{ github.workspace }}/.cache/ccache
+          CCACHE_MAXSIZE: 1G
           CC: ${{ matrix.cc }}
+          CDT_COMPILER_CACHE: ${{ matrix.compiler_cache }}
           CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
           CXX: ${{ matrix.cxx }}
         run: just ci
@@ -163,10 +186,24 @@ jobs:
       - name: Run the opt-in CGAL/oneTBB contract
         if: matrix.run_parallel_contract
         env:
+          CCACHE_BASEDIR: ${{ github.workspace }}
+          CCACHE_COMPILERCHECK: content
+          CCACHE_DIR: ${{ github.workspace }}/.cache/ccache
+          CCACHE_MAXSIZE: 1G
           CC: ${{ matrix.cc }}
+          CDT_COMPILER_CACHE: ${{ matrix.compiler_cache }}
           CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
           CXX: ${{ matrix.cxx }}
         run: just build-parallel
+
+      - name: Report compiler cache statistics
+        if: ${{ always() && matrix.compiler_cache != '' }}
+        env:
+          CCACHE_DIR: ${{ github.workspace }}/.cache/ccache
+          CCACHE_VERSION: ${{ steps.tool-versions.outputs.ccache }}
+        run: >-
+          pkgx "+ccache.dev@${CCACHE_VERSION}" --
+          ccache --show-stats
 
   build:
     name: build

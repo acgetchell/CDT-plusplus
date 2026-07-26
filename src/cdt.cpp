@@ -11,6 +11,7 @@
 /// https://github.com/ucdavis/CDT.
 
 #include <CGAL/Real_timer.h>
+#include <fmt/ostream.h>
 
 #include <boost/program_options.hpp>
 #if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
@@ -120,7 +121,7 @@ try
 
   if (args.count("help"))
   {
-    cout << description << "\n";
+    fmt::print("{}\n", fmt::streamed(description));
     return EXIT_SUCCESS;
   }
 

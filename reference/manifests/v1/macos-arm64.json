@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "run_id": "cdt-reference-v1-macos-arm64-20260725",
+  "recorded_at_utc": "2026-07-25T06:21:48Z",
+  "implementation": {
+    "name": "CDT-plusplus",
+    "version": "1.0.0-rc2",
+    "source_revision": "49dbce290ee9cc9c0430893e11caa84cbaeaffee-dirty",
+    "note": "The dirty marker denotes the issue #94 fixture implementation under review; regenerate from the resulting clean commit before archival tagging."
+  },
+  "toolchain": {
+    "compiler": "AppleClang 21.0.0.21000101",
+    "cxx_standard": 23,
+    "standard_library": "libc++-210106",
+    "cmake": "4.4.0",
+    "cgal": "6.2-I-900",
+    "mpfr": "4.2.2"
+  },
+  "build": {
+    "profile": "RelWithDebInfo",
+    "preset": "reference",
+    "parallel_triangulation": false
+  },
+  "host": {
+    "operating_system": "Darwin",
+    "architecture": "arm64",
+    "logical_threads": 16
+  },
+  "thread_count": 1,
+  "seeds": {
+    "causal_construction": null,
+    "move_23_32": 10623,
+    "move_26_62": 10626,
+    "move_44": 10644,
+    "bounded_end_to_end_root": 92
+  },
+  "fixture_version": 1,
+  "commands": [
+    {
+      "id": "canonical-fixture",
+      "artifacts": [
+        "reference/raw/v1/cpp-reference.json"
+      ],
+      "command_line": [
+        "out/build/reference/tests/CDT_reference_fixture"
+      ]
+    },
+    {
+      "id": "bounded-end-to-end",
+      "artifacts": [
+        "reference/raw/v1/end-to-end.txt"
+      ],
+      "command_line": [
+        "out/build/reference/src/cdt",
+        "-s",
+        "-n2",
+        "-t2",
+        "-a1",
+        "-k0",
+        "-l1",
+        "-p1",
+        "-c1",
+        "--seed",
+        "92",
+        "--threads",
+        "1",
+        "--no-output"
+      ]
+    },
+    {
+      "id": "persistence-roundtrip",
+      "artifacts": [
+        "reference/raw/v1/persistence-v1.off",
+        "reference/raw/v1/persistence-v1.off.meta"
+      ],
+      "command_line": [
+        "out/build/reference/src/initialize",
+        "-s",
+        "-n2",
+        "-t2",
+        "-o",
+        "--seed",
+        "92",
+        "--threads",
+        "1"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "reference/raw/v1/cpp-reference.json",
+      "media_type": "application/json",
+      "sha256": "96c6890de3acd930956fcd1a97637d25d3bd73a14a2bbfc04f37f10153269cf4"
+    },
+    {
+      "path": "reference/raw/v1/end-to-end.txt",
+      "media_type": "text/plain",
+      "sha256": "d7e24bfe101c20a3a35f53fee189dfda31bae2c029f3d98776fd8ad8cf16b3ea"
+    },
+    {
+      "path": "reference/raw/v1/persistence-v1.off",
+      "media_type": "text/plain",
+      "sha256": "7ed6e0b85f7d31948605bcc9489e036468dc3fafb5e3dc7933ea8fcbbc95b35a"
+    },
+    {
+      "path": "reference/raw/v1/persistence-v1.off.meta",
+      "media_type": "text/plain",
+      "sha256": "da63ba1b0956c5aedbe602a3de625868f433cc23734e29a2ba23f5de50edcbc5"
+    },
+    {
+      "path": "reference/fixtures/v1/protocol.json",
+      "media_type": "application/json",
+      "sha256": "d0d7bc91c35e3a1ee36e7fb18412d6bdb1b0dcd23f9579912e16f5913b5f13aa"
+    },
+    {
+      "path": "reference/schema/fixture-v1.schema.json",
+      "media_type": "application/schema+json",
+      "sha256": "ac574dd4821562d54e6ea0f46087cec0461bd01e091c04d364c9511e901e4215"
+    },
+    {
+      "path": "reference/schema/result-v1.schema.json",
+      "media_type": "application/schema+json",
+      "sha256": "8b7074b44cc98a70bae3612a748ecef24d05f16229343ba4505b0d453bf02977"
+    },
+    {
+      "path": "reference/schema/run-manifest-v1.schema.json",
+      "media_type": "application/schema+json",
+      "sha256": "38c95bc5b0b2cadf726d9cba29eb820dec8ebb584e4adf8a86b2ac2c6151fd38"
+    }
+  ],
+  "verification": {
+    "targeted_unit_tests": {
+      "status": "passed",
+      "command": [
+        "out/build/reference/tests/CDT_unit_tests",
+        "--test-case=*Metropolis-Hastings proposal and acceptance ratios*,*Metropolis proposal domains match the sampled raw sites*,*Calculate the bulk action on S3 triangulations*,*Bulk action rejects invalid physical parameters*,*Expected points per timeslice*"
+      ]
+    },
+    "reference_smoke": {
+      "status": "passed",
+      "command": [
+        "ctest",
+        "--preset",
+        "reference-smoke",
+        "--output-on-failure"
+      ]
+    },
+    "reference_validator": {
+      "status": "passed",
+      "command": [
+        "just",
+        "reference-check"
+      ]
+    },
+    "address_and_undefined_behavior_sanitizers": {
+      "status": "base revision passed; current issue #94 diff requires PR CI",
+      "command": [
+        "just",
+        "sanitize",
+        "asan"
+      ],
+      "base_revision": "49dbce290ee9cc9c0430893e11caa84cbaeaffee",
+      "base_run": "https://github.com/acgetchell/CDT-plusplus/actions/runs/30146661161",
+      "reason": "The repository's combined ASan/UBSan preset is deliberately supported on Linux only; the linked main-branch run passed, and the unpushed issue #94 diff cannot truthfully be marked covered until its PR workflow runs."
+    }
+  }
+}
