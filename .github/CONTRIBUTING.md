@@ -2,7 +2,7 @@
 
 Thank you for helping improve CDT++.
 
-CDT++ v1.0.0-rc2 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
+CDT++ v1.0.0-rc3 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
 archived. The project
 is maintained as a scientific reference implementation and regression oracle for
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations), its supported Rust successor. The

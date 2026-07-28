@@ -19,7 +19,7 @@ made; the rest of the workflow is identical:
 ```bash
 # The Git tag has a leading v; metadata versions do not.
 # For the stable release, use TAG=v1.0.0.
-TAG=v1.0.0-rc2
+TAG=v1.0.0-rc3
 VERSION="${TAG#v}"
 
 RELEASE_FLAGS=()
@@ -28,8 +28,8 @@ if [[ "$VERSION" == *-rc* ]]; then
 fi
 ```
 
-A release-candidate tag such as `v1.0.0-rc2` uses `1.0.0-rc2` for product,
-vcpkg, Doxygen, and citation metadata, and the PEP 440 spelling `1.0.0rc2` for
+A release-candidate tag such as `v1.0.0-rc3` uses `1.0.0-rc3` for product,
+vcpkg, Doxygen, and citation metadata, and the PEP 440 spelling `1.0.0rc3` for
 Python metadata. A stable tag such as `v1.0.0` uses `1.0.0` everywhere else.
 
 The changelog workflow requires the pinned `git-cliff` version declared by the
@@ -70,8 +70,9 @@ Edit the following synchronized metadata:
 - `CITATION.cff`: `version` and `date-released`.
 - `README.md`, `REFERENCES.md`, and `.github/CONTRIBUTING.md`: active release
   references and release-facing prose.
+- `docs/RELEASING.md`: current release command examples.
 
-For `v1.0.0-rc2`, synchronize the versions in the repository before generating
+For `v1.0.0-rc3`, synchronize the versions in the repository before generating
 the changelog.
 Set `CITATION.cff`'s `date-released` to the actual release date and review the
 other fields rather than rewriting unchanged metadata:
@@ -85,7 +86,8 @@ ${EDITOR:-vi} \
   CITATION.cff \
   README.md \
   REFERENCES.md \
-  .github/CONTRIBUTING.md
+  .github/CONTRIBUTING.md \
+  docs/RELEASING.md
 
 uv lock
 just changelog-unreleased "$TAG"
@@ -130,7 +132,8 @@ git add \
   CHANGELOG.md \
   README.md \
   REFERENCES.md \
-  .github/CONTRIBUTING.md
+  .github/CONTRIBUTING.md \
+  docs/RELEASING.md
 
 git diff --cached --check
 git diff --cached --stat
@@ -164,7 +167,7 @@ Return to `main`, update it to the merge commit, and repeat the release gates
 against the exact commit that will be tagged:
 
 ```bash
-TAG=v1.0.0-rc2
+TAG=v1.0.0-rc3
 
 git switch main
 git pull --ff-only
@@ -222,7 +225,7 @@ Stop if this preflight fails. Enabling Zenodo after publication does not
 reliably import an earlier GitHub release.
 
 ```bash
-TAG=v1.0.0-rc2
+TAG=v1.0.0-rc3
 RELEASE_FLAGS=(--prerelease)
 
 gh release create "$TAG" \
