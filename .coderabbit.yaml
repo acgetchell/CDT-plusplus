@@ -13,6 +13,7 @@ reviews:
   auto_title_placeholder: '@coderabbitai'
   review_status: true
   commit_status: true
+  fail_commit_status: true
   poem: true
   collapse_walkthrough: false
   sequence_diagrams: true
