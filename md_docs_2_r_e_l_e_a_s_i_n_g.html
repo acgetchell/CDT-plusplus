@@ -35,7 +35,7 @@ mermaid.initialize({ startOnLoad: true, theme: theme });
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc2</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -118,14 +118,14 @@ Conventions</h1>
 <p>Run the commands from the repository root. Set <span class="tt">TAG</span> for the release being made; the rest of the workflow is identical:</p>
 <div class="fragment"><div class="line"># The Git tag has a leading v; metadata versions do not.</div>
 <div class="line"># For the stable release, use TAG=v1.0.0.</div>
-<div class="line">TAG=v1.0.0-rc2</div>
+<div class="line">TAG=v1.0.0-rc3</div>
 <div class="line">VERSION=&quot;${TAG#v}&quot;</div>
 <div class="line"> </div>
 <div class="line">RELEASE_FLAGS=()</div>
 <div class="line">if [[ &quot;$VERSION&quot; == *-rc* ]]; then</div>
 <div class="line">  RELEASE_FLAGS+=(--prerelease)</div>
 <div class="line">fi</div>
-</div><!-- fragment --><p>A release-candidate tag such as <span class="tt">v1.0.0-rc2</span> uses <span class="tt">1.0.0-rc2</span> for product, vcpkg, Doxygen, and citation metadata, and the PEP 440 spelling <span class="tt">1.0.0rc2</span> for Python metadata. A stable tag such as <span class="tt">v1.0.0</span> uses <span class="tt">1.0.0</span> everywhere else.</p>
+</div><!-- fragment --><p>A release-candidate tag such as <span class="tt">v1.0.0-rc3</span> uses <span class="tt">1.0.0-rc3</span> for product, vcpkg, Doxygen, and citation metadata, and the PEP 440 spelling <span class="tt">1.0.0rc3</span> for Python metadata. A stable tag such as <span class="tt">v1.0.0</span> uses <span class="tt">1.0.0</span> everywhere else.</p>
 <p>The changelog workflow requires the pinned <span class="tt">git-cliff</span> version declared by the Justfile. Check or install it with:</p>
 <div class="fragment"><div class="line">git-cliff --version</div>
 <div class="line">cargo install git-cliff --version &quot;$(just --evaluate git_cliff_version)&quot; --locked</div>
@@ -149,8 +149,9 @@ Update release metadata</h2>
 <li><span class="tt">docs/Doxyfile</span>: <span class="tt">PROJECT_NUMBER</span>.</li>
 <li><span class="tt">CITATION.cff</span>: <span class="tt">version</span> and <span class="tt">date-released</span>.</li>
 <li><span class="tt">README.md</span>, <span class="tt">REFERENCES.md</span>, and <span class="tt">.github/CONTRIBUTING.md</span>: active release references and release-facing prose.</li>
+<li><span class="tt">docs/RELEASING.md</span>: current release command examples.</li>
 </ul>
-<p>For <span class="tt">v1.0.0-rc2</span>, synchronize the versions in the repository before generating the changelog. Set <span class="tt">CITATION.cff</span>'s <span class="tt">date-released</span> to the actual release date and review the other fields rather than rewriting unchanged metadata:</p>
+<p>For <span class="tt">v1.0.0-rc3</span>, synchronize the versions in the repository before generating the changelog. Set <span class="tt">CITATION.cff</span>'s <span class="tt">date-released</span> to the actual release date and review the other fields rather than rewriting unchanged metadata:</p>
 <div class="fragment"><div class="line">${EDITOR:-vi} \</div>
 <div class="line">  CMakeLists.txt \</div>
 <div class="line">  vcpkg.json \</div>
@@ -159,7 +160,8 @@ Update release metadata</h2>
 <div class="line">  CITATION.cff \</div>
 <div class="line">  README.md \</div>
 <div class="line">  REFERENCES.md \</div>
-<div class="line">  .github/CONTRIBUTING.md</div>
+<div class="line">  .github/CONTRIBUTING.md \</div>
+<div class="line">  docs/RELEASING.md</div>
 <div class="line"> </div>
 <div class="line">uv lock</div>
 <div class="line">just changelog-unreleased &quot;$TAG&quot;</div>
@@ -186,7 +188,8 @@ Validate the release branch</h2>
 <div class="line">  CHANGELOG.md \</div>
 <div class="line">  README.md \</div>
 <div class="line">  REFERENCES.md \</div>
-<div class="line">  .github/CONTRIBUTING.md</div>
+<div class="line">  .github/CONTRIBUTING.md \</div>
+<div class="line">  docs/RELEASING.md</div>
 <div class="line"> </div>
 <div class="line">git diff --cached --check</div>
 <div class="line">git diff --cached --stat</div>
@@ -206,7 +209,7 @@ Validate the release branch</h2>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="step-2-tag-the-merged-release"></a>
 Step 2: Tag the merged release</h1>
 <p>Return to <span class="tt"><a class="el" href="cdt_8cpp.html#a64c2f249c4e8b558ad4e231a6fa52245" title="The main path of the CDT++ program.">main</a></span>, update it to the merge commit, and repeat the release gates against the exact commit that will be tagged:</p>
-<div class="fragment"><div class="line">TAG=v1.0.0-rc2</div>
+<div class="fragment"><div class="line">TAG=v1.0.0-rc3</div>
 <div class="line"> </div>
 <div class="line">git switch main</div>
 <div class="line">git pull --ff-only</div>
@@ -241,7 +244,7 @@ Step 3: Publish and verify the release</h1>
 <div class="line">)&quot;</div>
 <div class="line">test &quot;$ZENODO_HOOK_COUNT&quot; -eq 1</div>
 </div><!-- fragment --><p>Stop if this preflight fails. Enabling Zenodo after publication does not reliably import an earlier GitHub release.</p>
-<div class="fragment"><div class="line">TAG=v1.0.0-rc2</div>
+<div class="fragment"><div class="line">TAG=v1.0.0-rc3</div>
 <div class="line">RELEASE_FLAGS=(--prerelease)</div>
 <div class="line"> </div>
 <div class="line">gh release create &quot;$TAG&quot; \</div>
