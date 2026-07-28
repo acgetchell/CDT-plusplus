@@ -1,0 +1,54 @@
+---
+name: Dependabot review and auto-merge
+
+"on":
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  review-and-enable-auto-merge:
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.repository == 'acgetchell/CDT-plusplus'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request CodeRabbit review
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          marker="<!-- coderabbit-review-request:${PR_HEAD_SHA} -->"
+          comments="$(
+            gh api --paginate \
+              "repos/${REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --jq '.[] | select(.user.login == "github-actions[bot]") | .body'
+          )"
+          if grep -Fxq -- "$marker" <<< "$comments"; then
+            echo "CodeRabbit review already requested for ${PR_HEAD_SHA}."
+            exit 0
+          fi
+          body="$(printf '@coderabbitai review\n\n%s' "$marker")"
+          gh pr comment "$PR_URL" --body "$body"
+
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash --match-head-commit "$PR_HEAD_SHA" "$PR_URL"
