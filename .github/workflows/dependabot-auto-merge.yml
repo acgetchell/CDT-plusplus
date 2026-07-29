@@ -15,7 +15,6 @@ concurrency:
 
 permissions:
   contents: write
-  issues: write
   pull-requests: write
 
 jobs:
@@ -27,24 +26,38 @@ jobs:
     steps:
       - name: Request CodeRabbit review
         env:
-          GH_TOKEN: ${{ github.token }}
+          # Dependabot-triggered workflows receive Dependabot secrets.
+          GH_TOKEN: ${{ secrets.CODERABBIT_REVIEW_TOKEN }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
           REPOSITORY: ${{ github.repository }}
         run: |
+          if [[ -z "$GH_TOKEN" ]]; then
+            echo "::error::CODERABBIT_REVIEW_TOKEN is not configured."
+            exit 1
+          fi
+
+          token_owner="$(gh api user --jq '.login')"
+          if [[ "$token_owner" != "acgetchell" ]]; then
+            echo "::error::CODERABBIT_REVIEW_TOKEN must belong to acgetchell."
+            exit 1
+          fi
+
           marker="<!-- coderabbit-review-request:${PR_HEAD_SHA} -->"
           comments="$(
             gh api --paginate \
               "repos/${REPOSITORY}/issues/${PR_NUMBER}/comments" \
-              --jq '.[] | select(.user.login == "github-actions[bot]") | .body'
+              --jq '.[] | select(.user.login == "acgetchell") | .body'
           )"
           if grep -Fxq -- "$marker" <<< "$comments"; then
             echo "CodeRabbit review already requested for ${PR_HEAD_SHA}."
             exit 0
           fi
           body="$(printf '@coderabbitai review\n\n%s' "$marker")"
-          gh pr comment "$PR_URL" --body "$body"
+          gh api \
+            --method POST \
+            "repos/${REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --raw-field body="$body"
 
       - name: Enable auto-merge
         env:
