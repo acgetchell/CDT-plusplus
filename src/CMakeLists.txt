@@ -66,8 +66,21 @@ set_tests_properties(cdt-no-output PROPERTIES LABELS "integration;debug-incompat
 
 add_cli_failure_test(cdt-triangle-inequalities cdt "Triangle inequalities violated" -s -n64 -t3 -a0.4
                      -k1.1 -l0.1 --seed 92)
-add_cli_failure_test(cdt-dimensionality cdt "Only three-dimensional triangulations are supported." -s -n64 -t3
-                     -d4 -a0.4 -k1.1 -l0.1 --seed 92)
+add_cli_failure_test(cdt-dimensionality cdt "Only three- or four-dimensional triangulations are supported." -s
+                     -n64 -t3 -d5 -a0.4 -k1.1 -l0.1 --seed 92)
+add_cli_failure_test(cdt-d4-missing-couplings cdt "4D runs require explicit --kappa0, --kappa4, and --Delta." -s
+                     -n64 -t3 -d4 -a0.4 -k1.1 -l0.1 --seed 92)
+add_test(
+  NAME cdt-d4
+  COMMAND
+    $<TARGET_FILE:cdt> -s -n64 -t3 -d4 --kappa0 1.0 --kappa4 0.2
+    --Delta 0.1 --target-n4 64 --volume-epsilon 0.001 --seed 11 -p10
+    --run-id ctest-d4 --output-dir
+    "${CMAKE_CURRENT_BINARY_DIR}/cdt-d4-output")
+set_tests_properties(
+  cdt-d4
+  PROPERTIES LABELS "integration;4d" PASS_REGULAR_EXPRESSION
+             "Structured output written to .*ctest-d4")
 add_cli_failure_test(cdt-toroidal cdt "Toroidal triangulations are not yet supported." -e -n64 -t3 -a0.6 -k1.1
                      -l0.1 --seed 92)
 add_cli_failure_test(cdt-alpha-negative cdt "Alpha in 3D must be greater than 1/2." -s -n64 -t3 -a-0.6 -k1.1

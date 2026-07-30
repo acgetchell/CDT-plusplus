@@ -4,24 +4,35 @@ add_executable(
   Apply_move_test.cpp
   Bistellar_flip_test.cpp
   CGAL_integration_test.cpp
+  Checkpoint_4_test.cpp
+  Detailed_balance_test.cpp
   Ergodic_moves_3_audit_test.cpp
   Ergodic_moves_3_test.cpp
+  Ergodic_moves_4_test.cpp
   Foliated_triangulation_test.cpp
+  Foliated_triangulation_4_test.cpp
   Function_ref_test.cpp
   Geometry_test.cpp
+  Geometry_4_test.cpp
   Manifold_test.cpp
+  Manifold_4_test.cpp
   Metropolis_test.cpp
+  Metropolis_4_test.cpp
   Move_always_test.cpp
   Move_command_test.cpp
   Move_outcome_test.cpp
   Move_run_test.cpp
   Move_tracker_test.cpp
+  Observables_4_test.cpp
+  Phase_analysis_test.cpp
   Random_test.cpp
   Runtime_config_test.cpp
   S3Action_test.cpp
+  S4Action_test.cpp
   Settings_test.cpp
   Tetrahedron_test.cpp
   Torus_test.cpp
+  Time_reversal_4_test.cpp
   Utilities_test.cpp
   Vertex_test.cpp)
 # Activate C++23 features
@@ -76,23 +87,32 @@ target_link_libraries(
 set(
   cdt_supported_headers
   Apply_move.hpp
+  Detailed_balance_4.hpp
   Ergodic_moves_3.hpp
+  Ergodic_moves_4.hpp
   Foliated_triangulation.hpp
+  Foliated_triangulation_4.hpp
   Formatters.hpp
   Geometry.hpp
   Manifold.hpp
   Metropolis.hpp
+  Metropolis_4.hpp
+  Move_catalog_4.hpp
   Move_always.hpp
   Move_command.hpp
   Move_outcome.hpp
   Move_run.hpp
   Move_strategy.hpp
   Move_tracker.hpp
+  Observables_4.hpp
+  Phase_analysis.hpp
   Mpfr_value.hpp
   Random.hpp
   Runtime_config.hpp
   S3Action.hpp
+  S4Action.hpp
   Settings.hpp
+  Simulation_output.hpp
   Triangulation_traits.hpp
   Utilities.hpp)
 set(cdt_header_contract_sources)

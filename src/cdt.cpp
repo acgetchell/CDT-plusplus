@@ -11,6 +11,7 @@
 /// https://github.com/ucdavis/CDT.
 
 #include <CGAL/Real_timer.h>
+#include <fmt/format.h>
 #include <fmt/ostream.h>
 
 #include <boost/program_options.hpp>
@@ -19,8 +20,13 @@
 #include <oneapi/tbb/global_control.h>
 #endif
 
+#include <cmath>
 #include <cstdint>
+#include <filesystem>
 #include <Metropolis.hpp>
+#include <Simulation_output.hpp>
+#include <string>
+#include <string_view>
 #include <utility>
 
 #include "Runtime_config.hpp"
@@ -51,9 +57,14 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [--no-output]
             [--seed SEED]
             [--threads THREADS]
-            -k K
-            --alpha ALPHA
-            --lambda LAMBDA
+            [-k K]
+            [--alpha ALPHA]
+            [--lambda LAMBDA]
+            [--kappa0 KAPPA0]
+            [--kappa4 KAPPA4]
+            [--Delta DELTA]
+            [--target-n4 TARGET]
+            [--volume-epsilon EPSILON]
             [-p PASSES]
             [-c CHECKPOINT]
 
@@ -82,10 +93,20 @@ try
   long double             alpha{};
   long double             k{};
   long double             lambda{};
+  long double             kappa_0{};
+  long double             kappa_4{};
+  long double             Delta{};
+  long double             volume_epsilon{};
   long long               passes{};
   long long               checkpoint{};
   std::uint64_t           seed{};
   long long               threads{};
+  long long               target_N4{};
+  long long               thermalization{};
+  long long               measurement_interval{};
+  std::string             chain_id;
+  std::string             run_id;
+  std::string             output_dir;
 
   po::options_description description(intro);
   description.add_options()("help,h", "Show this message")(
@@ -106,11 +127,34 @@ try
       "Root random seed (default: operating-system entropy)")(
       "threads", po::value<long long>(&threads)->default_value(1),
       "Maximum worker threads for supported Delaunay operations")(
-      "alpha,a", po::value<long double>(&alpha)->required(),
+      "alpha,a", po::value<long double>(&alpha),
       "Negative squared geodesic length of 1-d timelike edges")(
-      "k,k", po::value<long double>(&k)->required(), "K = 1/(8*pi*G_newton)")(
-      "lambda,l", po::value<long double>(&lambda)->required(),
+      "k,k", po::value<long double>(&k), "K = 1/(8*pi*G_newton)")(
+      "lambda,l", po::value<long double>(&lambda),
       "K * Cosmological constant")(
+      "kappa0", po::value<long double>(&kappa_0),
+      "4D bare inverse Newton coupling")(
+      "kappa4", po::value<long double>(&kappa_4),
+      "4D bare cosmological coupling")(
+      "Delta", po::value<long double>(&Delta), "4D asymmetry coupling")(
+      "target-n4", po::value<long long>(&target_N4)->default_value(0),
+      "4D fixed-volume target")(
+      "volume-epsilon",
+      po::value<long double>(&volume_epsilon)->default_value(0.0L),
+      "Quadratic fixed-volume strength")(
+      "thermalization",
+      po::value<long long>(&thermalization)->default_value(0),
+      "4D thermalization steps discarded before measurements")(
+      "measurement-interval",
+      po::value<long long>(&measurement_interval)->default_value(1),
+      "4D measurement interval")(
+      "chain-id", po::value<std::string>(&chain_id)->default_value("chain-0"),
+      "Independent chain identifier")(
+      "run-id", po::value<std::string>(&run_id)->default_value("run"),
+      "Structured output run ID")(
+      "output-dir",
+      po::value<std::string>(&output_dir)->default_value("results"),
+      "Structured output root directory")(
       "passes,p", po::value<long long>(&passes)->default_value(100),
       "Number of passes")("checkpoint,c",
                           po::value<long long>(&checkpoint)->default_value(10),
@@ -143,6 +187,177 @@ try
 
   auto root_random =
       args.count("seed") != 0 ? cdt::Random{seed} : cdt::Random{};
+
+  if (dimensions != 3 && dimensions != 4)
+  {
+    throw invalid_argument(
+        "Only three- or four-dimensional triangulations are supported.");
+  }
+
+  if (dimensions == 4)
+  {
+    auto const spherical = args.count("spherical") != 0;
+    auto const toroidal  = args.count("toroidal") != 0;
+    if (spherical == toroidal)
+    {
+      throw invalid_argument(
+          "Specify exactly one topology: --spherical or --toroidal.");
+    }
+    if (toroidal)
+    {
+      throw invalid_argument("Toroidal triangulations are not yet supported.");
+    }
+    if (!args.count("kappa0") || !args.count("kappa4") ||
+        !args.count("Delta"))
+    {
+      throw invalid_argument(
+          "4D runs require explicit --kappa0, --kappa4, and --Delta.");
+    }
+    if (!std::isfinite(kappa_0))
+    {
+      throw invalid_argument("Kappa0 must be finite.");
+    }
+    if (!std::isfinite(kappa_4))
+    {
+      throw invalid_argument("Kappa4 must be finite.");
+    }
+    if (!std::isfinite(Delta))
+    {
+      throw invalid_argument("Delta must be finite.");
+    }
+    if (!std::isfinite(volume_epsilon) || volume_epsilon < 0.0L)
+    {
+      throw invalid_argument(
+          "Volume epsilon must be finite and non-negative.");
+    }
+
+    auto const checked_int = [](char const* name, long long const value) {
+      if (!std::in_range<Int_precision>(value))
+      {
+        throw out_of_range(std::string{name} +
+                           " exceeds the supported integer range.");
+      }
+      return static_cast<Int_precision>(value);
+    };
+    auto const checked_simplices =
+        checked_int("Number of simplices", simplices);
+    auto const checked_timeslices =
+        checked_int("Number of timeslices", timeslices);
+    auto const checked_passes = checked_int("Passes", passes);
+    auto const checked_checkpoint =
+        checked_int("Checkpoint interval", checkpoint);
+    auto const checked_target = checked_int("Target N4", target_N4);
+    auto const checked_thermalization =
+        checked_int("Thermalization steps", thermalization);
+    auto const checked_measurement_interval =
+        checked_int("Measurement interval", measurement_interval);
+
+    if (checked_simplices < 2 || checked_timeslices < 2)
+    {
+      throw invalid_argument(
+          "Simplices and timeslices must each be at least 2.");
+    }
+    if (checked_passes <= 0)
+    {
+      throw invalid_argument("Passes must be positive.");
+    }
+    if (checked_checkpoint <= 0)
+    {
+      throw invalid_argument("Checkpoint interval must be positive.");
+    }
+    if (checked_target < 0)
+    {
+      throw invalid_argument("Target N4 must be non-negative.");
+    }
+    if (checked_thermalization < 0)
+    {
+      throw invalid_argument("Thermalization steps must be non-negative.");
+    }
+    if (checked_measurement_interval <= 0)
+    {
+      throw invalid_argument("Measurement interval must be positive.");
+    }
+
+    fmt::print("Topology is spherical\n");
+    fmt::print("Dimensionality: 3+1\n");
+    fmt::print("Number of desired simplices: {}\n", checked_simplices);
+    fmt::print("Number of desired timeslices: {}\n", checked_timeslices);
+    fmt::print("Number of passes: {}\n", checked_passes);
+    fmt::print("Checkpoint every {} passes.\n", checked_checkpoint);
+    fmt::print("Effective random seed: {}\n", root_random.seed());
+    fmt::print("=== Parameters ===\n");
+    fmt::print("kappa_0: {}\n", kappa_0);
+    fmt::print("kappa_4: {}\n", kappa_4);
+    fmt::print("Delta: {}\n", Delta);
+
+    Timer timer;
+    timer.start();
+    fmt::print("cdt started at {}\n", utilities::current_date_time());
+
+    auto universe =
+        four_d::FoliatedTriangulation4::periodic_seed(checked_timeslices);
+    auto const fixed_target =
+        checked_target > 0 ? checked_target : checked_simplices;
+    four_d::Metropolis4Config config;
+    config.seed = root_random.seed().value();
+    config.chain_id = chain_id;
+    config.thermalization_steps = checked_thermalization;
+    config.measurement_interval = checked_measurement_interval;
+    config.checkpoint_interval = checked_checkpoint;
+    config.couplings = four_d::S4Couplings{kappa_0,
+                                           kappa_4,
+                                           Delta,
+                                           fixed_target,
+                                           volume_epsilon};
+
+    four_d::Metropolis4 run(config);
+    auto result = run.run(std::move(universe), checked_passes);
+    if (!result.triangulation.is_valid())
+    {
+      throw runtime_error("4D result is invalid!\n");
+    }
+
+    auto const write_files = !args.count("no-output");
+    if (write_files)
+    {
+      auto const run_dir = std::filesystem::path(output_dir) / run_id;
+      run.save_checkpoint(run_dir / "checkpoint", result.triangulation,
+                          checked_passes);
+      four_d::output::RunManifest manifest;
+      manifest.run_id = run_id;
+      manifest.git_commit = std::string(cdt::SOURCE_REVISION);
+      manifest.build_type = std::string(cdt::BUILD_CONFIGURATION);
+      manifest.compiler =
+          fmt::format("{} {}", cdt::BUILD_COMPILER_ID,
+                      cdt::BUILD_COMPILER_VERSION);
+      four_d::output::write_run_directory(output_dir, manifest, config,
+                                          result);
+    }
+
+    timer.stop();
+    fmt::print("=== 4D Run Results ===\n");
+    fmt::print("Running time is {} seconds.\n", timer.time());
+    if (write_files)
+    {
+      fmt::print("Structured output written to {}/{}\n", output_dir, run_id);
+    }
+    else
+    {
+      fmt::print("Structured output disabled.\n");
+    }
+    auto const report = result.triangulation.validate();
+    fmt::print("Standard CDT candidate: {}\n",
+               report.valid() && report.standard_cdt_candidate ? "true"
+                                                               : "false");
+    return EXIT_SUCCESS;
+  }
+
+  if (!args.count("alpha") || !args.count("k") || !args.count("lambda"))
+  {
+    throw invalid_argument(
+        "3D runs require explicit --alpha, -k, and --lambda.");
+  }
+
   auto const triangulation_config = runtime_config::make_triangulation(
       args.count("spherical") != 0, args.count("toroidal") != 0, simplices,
       timeslices, dimensions, initial_radius, foliation_spacing,
