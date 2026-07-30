@@ -13,7 +13,7 @@
 
 ## Maintenance status
 
-CDT++ v1.0.0-rc2 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
+CDT++ v1.0.0-rc3 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
 archived. It is
 maintained as an independent scientific reference and regression oracle for
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. New C++
@@ -243,7 +243,7 @@ replayable stress contract.
 ## Setup
 
 This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. macOS with
-AppleClang is the primary v1.0.0-rc2 validation target; the remaining compiler and platform matrix will be recorded as
+AppleClang is the primary v1.0.0-rc3 validation target; the remaining compiler and platform matrix will be recorded as
 it is verified.
 
 ### Prerequisites
@@ -503,7 +503,7 @@ branch.
 If CDT++ contributes to published work, cite the software using
 [`CITATION.cff`](CITATION.cff) and cite the scientific methods relevant to the
 work from [`REFERENCES.md`](REFERENCES.md). The software citation records the
-current declared release, `1.0.0-rc2`. Advance its version and release date
+current declared release, `1.0.0-rc3`. Advance its version and release date
 together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for
 subsequent releases.
 

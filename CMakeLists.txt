@@ -31,7 +31,7 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 # CMake project versions are numeric, so keep the release-candidate suffix in
 # the product version used by executables and release metadata.
-set(CDT_VERSION_SUFFIX "-rc2")
+set(CDT_VERSION_SUFFIX "-rc3")
 set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
 set(CDT_SOURCE_REVISION "unknown")
 find_package(Git QUIET)
