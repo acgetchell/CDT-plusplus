@@ -30,6 +30,7 @@ concept EnumIntegerConvertible =
     requires(Value value) { move_tracker::as_integer(value); };
 
 static_assert(EnumIntegerConvertible<MoveType>);
+static_assert(EnumIntegerConvertible<MoveType4D>);
 static_assert(!EnumIntegerConvertible<int>);
 
 SCENARIO("MoveTracker special members" * doctest::test_suite("move_tracker"))
@@ -113,6 +114,33 @@ SCENARIO("Integer to move type conversion" *
     CHECK_FALSE(
         move_from_index(std::numeric_limits<std::size_t>::max()).has_value());
   }
+}
+
+SCENARIO("4D move conversion and inverse pairs" *
+         doctest::test_suite("move_tracker"))
+{
+  CHECK_EQ(move_from_index_4d(0), MoveType4D::TWO_FOUR);
+  CHECK_EQ(move_from_index_4d(1), MoveType4D::FOUR_TWO);
+  CHECK_EQ(move_from_index_4d(2), MoveType4D::THREE_THREE);
+  CHECK_EQ(move_from_index_4d(3), MoveType4D::FOUR_SIX);
+  CHECK_EQ(move_from_index_4d(4), MoveType4D::SIX_FOUR);
+  CHECK_EQ(move_from_index_4d(5), MoveType4D::TWO_EIGHT);
+  CHECK_EQ(move_from_index_4d(6), MoveType4D::EIGHT_TWO);
+  CHECK_FALSE(move_from_index_4d(7).has_value());
+
+  CHECK_EQ(as_move_4d(-1), MoveType4D::NO_MOVE);
+  CHECK_EQ(as_move_4d(6), MoveType4D::EIGHT_TWO);
+  CHECK_EQ(as_move_4d(7), MoveType4D::NO_MOVE);
+
+  CHECK_EQ(reverse_move(MoveType4D::TWO_FOUR), MoveType4D::FOUR_TWO);
+  CHECK_EQ(reverse_move(MoveType4D::FOUR_TWO), MoveType4D::TWO_FOUR);
+  CHECK_EQ(reverse_move(MoveType4D::THREE_THREE),
+           MoveType4D::THREE_THREE);
+  CHECK_EQ(reverse_move(MoveType4D::FOUR_SIX), MoveType4D::SIX_FOUR);
+  CHECK_EQ(reverse_move(MoveType4D::SIX_FOUR), MoveType4D::FOUR_SIX);
+  CHECK_EQ(reverse_move(MoveType4D::TWO_EIGHT), MoveType4D::EIGHT_TWO);
+  CHECK_EQ(reverse_move(MoveType4D::EIGHT_TWO), MoveType4D::TWO_EIGHT);
+  CHECK_EQ(reverse_move(MoveType4D::NO_MOVE), MoveType4D::NO_MOVE);
 }
 
 SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
