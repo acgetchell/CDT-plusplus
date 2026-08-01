@@ -255,6 +255,53 @@ SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
   }
 }
 
+SCENARIO("Canonical incidence records distinguish degree-equivalent graphs" *
+         doctest::test_suite("utilities"))
+{
+  GIVEN("A bipartite cycle and two components with the same node degrees")
+  {
+    std::vector<std::string> const vertex_bases(4, "v:coincident:0");
+    std::vector<std::string> const cell_bases(4, "c:0");
+    std::vector<std::vector<std::size_t>> const cycle{
+        {0, 1},
+        {1, 2},
+        {2, 3},
+        {3, 0}
+    };
+    std::vector<std::vector<std::size_t>> const reordered_cycle{
+        {0, 2},
+        {1, 3},
+        {1, 2},
+        {0, 3}
+    };
+    std::vector<std::vector<std::size_t>> const two_components{
+        {0, 1},
+        {0, 1},
+        {2, 3},
+        {2, 3}
+    };
+
+    WHEN("Their complete bipartite incidence is canonicalized")
+    {
+      auto const cycle_records =
+          utilities::detail::canonical_bipartite_incidence_records(
+              vertex_bases, cell_bases, cycle);
+      auto const reordered_records =
+          utilities::detail::canonical_bipartite_incidence_records(
+              vertex_bases, cell_bases, reordered_cycle);
+      auto const component_records =
+          utilities::detail::canonical_bipartite_incidence_records(
+              vertex_bases, cell_bases, two_components);
+
+      THEN("Ordering changes preserve identity but connectivity changes do not")
+      {
+        CHECK(cycle_records == reordered_records);
+        CHECK(cycle_records != component_records);
+      }
+    }
+  }
+}
+
 SCENARIO("Reading and writing Delaunay triangulations to files" *
          doctest::test_suite("utilities"))
 {

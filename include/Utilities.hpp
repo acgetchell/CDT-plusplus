@@ -35,6 +35,7 @@
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 #include <vector>
 #include <version>
 // H. Hinnant date and time library
@@ -232,8 +233,9 @@ namespace cdt::utilities
                          points[3]);
     }
 
-    [[nodiscard]] inline auto canonical_colors(
-        std::vector<std::string> const& signatures) -> std::vector<std::size_t>
+    template <typename Signature>
+    [[nodiscard]] auto canonical_colors(
+        std::vector<Signature> const& signatures) -> std::vector<std::size_t>
     {
       auto ordered = signatures;
       std::ranges::sort(ordered);
@@ -250,18 +252,133 @@ namespace cdt::utilities
       return colors;
     }
 
-    [[nodiscard]] inline auto refined_signature(
-        std::size_t const        self_color,
-        std::vector<std::size_t> neighboring_colors) -> std::string
+    [[nodiscard]] inline auto refine_incidence_colors(
+        std::vector<std::vector<std::size_t>> const& adjacency,
+        std::vector<std::size_t> colors) -> std::vector<std::size_t>
     {
-      std::ranges::sort(neighboring_colors);
-      auto signature = fmt::format("self={}:neighbors=", self_color);
-      for (auto const color : neighboring_colors)
+      for (std::size_t iteration = 0; iteration < adjacency.size(); ++iteration)
       {
-        signature.append(std::to_string(color));
-        signature.push_back(';');
+        std::vector<std::vector<std::size_t>> signatures;
+        signatures.reserve(adjacency.size());
+        for (std::size_t node = 0; node < adjacency.size(); ++node)
+        {
+          std::vector<std::size_t> neighboring_colors;
+          neighboring_colors.reserve(adjacency[node].size());
+          for (auto const neighbor : adjacency[node])
+          {
+            neighboring_colors.push_back(colors.at(neighbor));
+          }
+          std::ranges::sort(neighboring_colors);
+
+          std::vector<std::size_t> signature;
+          signature.reserve(neighboring_colors.size() + 1);
+          signature.push_back(colors[node]);
+          signature.insert(signature.end(), neighboring_colors.begin(),
+                           neighboring_colors.end());
+          signatures.push_back(std::move(signature));
+        }
+
+        auto refined = canonical_colors(signatures);
+        if (refined == colors) { break; }
+        colors = std::move(refined);
       }
-      return signature;
+      return colors;
+    }
+
+    [[nodiscard]] inline auto incidence_records_for_coloring(
+        std::vector<std::string> const&              bases,
+        std::vector<std::vector<std::size_t>> const& adjacency,
+        std::vector<std::size_t> const& colors) -> std::vector<std::string>
+    {
+      std::vector<std::size_t> nodes_by_color(colors.size());
+      for (std::size_t node = 0; node < colors.size(); ++node)
+      {
+        nodes_by_color.at(colors[node]) = node;
+      }
+
+      std::vector<std::string> records;
+      records.reserve(bases.size());
+      for (auto const node : nodes_by_color)
+      {
+        std::vector<std::size_t> neighboring_colors;
+        neighboring_colors.reserve(adjacency[node].size());
+        for (auto const neighbor : adjacency[node])
+        {
+          neighboring_colors.push_back(colors.at(neighbor));
+        }
+        std::ranges::sort(neighboring_colors);
+
+        auto record =
+            fmt::format("{}:{}:neighbors=", bases[node].size(), bases[node]);
+        for (auto const color : neighboring_colors)
+        {
+          record.append(std::to_string(color));
+          record.push_back(';');
+        }
+        records.push_back(std::move(record));
+      }
+      return records;
+    }
+
+    [[nodiscard]] inline auto canonical_incidence_search(
+        std::vector<std::string> const&              bases,
+        std::vector<std::vector<std::size_t>> const& adjacency,
+        std::vector<std::size_t> colors) -> std::vector<std::string>
+    {
+      colors = refine_incidence_colors(adjacency, std::move(colors));
+
+      std::vector<std::size_t> color_counts(colors.size());
+      for (auto const color : colors) { ++color_counts.at(color); }
+      auto const ambiguous = std::ranges::find_if(
+          color_counts, [](std::size_t const count) { return count > 1; });
+      if (ambiguous == color_counts.end())
+      {
+        return incidence_records_for_coloring(bases, adjacency, colors);
+      }
+
+      auto const ambiguous_color =
+          static_cast<std::size_t>(ambiguous - color_counts.begin());
+      auto const individualized_color = *std::ranges::max_element(colors) + 1;
+      std::optional<std::vector<std::string>> best;
+      for (std::size_t node = 0; node < colors.size(); ++node)
+      {
+        if (colors[node] != ambiguous_color) { continue; }
+        auto individualized  = colors;
+        individualized[node] = individualized_color;
+        auto candidate = canonical_incidence_search(bases, adjacency,
+                                                    std::move(individualized));
+        if (!best || candidate < *best) { best = std::move(candidate); }
+      }
+      return std::move(*best);
+    }
+
+    [[nodiscard]] inline auto canonical_bipartite_incidence_records(
+        std::vector<std::string> const&              vertex_bases,
+        std::vector<std::string> const&              cell_bases,
+        std::vector<std::vector<std::size_t>> const& cell_vertices)
+        -> std::vector<std::string>
+    {
+      if (cell_bases.size() != cell_vertices.size())
+      {
+        throw std::invalid_argument{
+            "Cell bases and incidence records must have equal sizes"};
+      }
+
+      auto bases = vertex_bases;
+      bases.insert(bases.end(), cell_bases.begin(), cell_bases.end());
+      std::vector<std::vector<std::size_t>> adjacency(bases.size());
+      for (std::size_t cell = 0; cell < cell_vertices.size(); ++cell)
+      {
+        auto const cell_node = vertex_bases.size() + cell;
+        for (auto const vertex : cell_vertices[cell])
+        {
+          adjacency.at(vertex).push_back(cell_node);
+          adjacency[cell_node].push_back(vertex);
+        }
+      }
+      if (bases.empty()) { return {}; }
+      return canonical_incidence_search(bases, adjacency,
+                                        canonical_colors(bases));
     }
 
     template <typename TriangulationType>
@@ -328,82 +445,20 @@ namespace cdt::utilities
 
       std::vector<std::string> cell_bases;
       cell_bases.reserve(cells.size());
-      std::vector<std::array<std::size_t, 4>> cell_vertices(cells.size());
-      std::vector<std::vector<std::size_t>>   vertex_cells(vertices.size());
+      std::vector<std::vector<std::size_t>> cell_vertices(cells.size());
       for (std::size_t cell_index = 0; cell_index < cells.size(); ++cell_index)
       {
         cell_bases.emplace_back(fmt::format("c:{}", cells[cell_index]->info()));
+        cell_vertices[cell_index].reserve(4);
         for (std::size_t local_index = 0; local_index < 4; ++local_index)
         {
           auto const vertex_index = vertex_indices.at(
               cells[cell_index]->vertex(static_cast<int>(local_index)));
-          cell_vertices[cell_index][local_index] = vertex_index;
-          vertex_cells[vertex_index].push_back(cell_index);
+          cell_vertices[cell_index].push_back(vertex_index);
         }
       }
-
-      auto                     vertex_colors = canonical_colors(vertex_bases);
-      auto                     cell_colors   = canonical_colors(cell_bases);
-      std::vector<std::string> vertex_signatures;
-      std::vector<std::string> cell_signatures;
-      auto const               entity_count = vertices.size() + cells.size();
-      for (std::size_t iteration = 0; iteration < entity_count; ++iteration)
-      {
-        vertex_signatures.clear();
-        vertex_signatures.reserve(vertices.size());
-        for (std::size_t vertex_index = 0; vertex_index < vertices.size();
-             ++vertex_index)
-        {
-          std::vector<std::size_t> neighboring_colors;
-          neighboring_colors.reserve(vertex_cells[vertex_index].size());
-          for (auto const cell_index : vertex_cells[vertex_index])
-          {
-            neighboring_colors.push_back(cell_colors[cell_index]);
-          }
-          vertex_signatures.emplace_back(refined_signature(
-              vertex_colors[vertex_index], std::move(neighboring_colors)));
-        }
-
-        cell_signatures.clear();
-        cell_signatures.reserve(cells.size());
-        for (std::size_t cell_index = 0; cell_index < cells.size();
-             ++cell_index)
-        {
-          std::vector<std::size_t> neighboring_colors;
-          neighboring_colors.reserve(cell_vertices[cell_index].size());
-          for (auto const vertex_index : cell_vertices[cell_index])
-          {
-            neighboring_colors.push_back(vertex_colors[vertex_index]);
-          }
-          cell_signatures.emplace_back(refined_signature(
-              cell_colors[cell_index], std::move(neighboring_colors)));
-        }
-
-        auto refined_vertex_colors = canonical_colors(vertex_signatures);
-        auto refined_cell_colors   = canonical_colors(cell_signatures);
-        if (refined_vertex_colors == vertex_colors &&
-            refined_cell_colors == cell_colors)
-        {
-          break;
-        }
-        vertex_colors = std::move(refined_vertex_colors);
-        cell_colors   = std::move(refined_cell_colors);
-      }
-
-      std::vector<std::string> records;
-      records.reserve(vertices.size() + cells.size());
-      for (std::size_t index = 0; index < vertices.size(); ++index)
-      {
-        records.emplace_back(fmt::format("{}:{}", vertex_bases[index],
-                                         vertex_signatures[index]));
-      }
-      for (std::size_t index = 0; index < cells.size(); ++index)
-      {
-        records.emplace_back(
-            fmt::format("{}:{}", cell_bases[index], cell_signatures[index]));
-      }
-      std::ranges::sort(records);
-      return records;
+      return canonical_bipartite_incidence_records(vertex_bases, cell_bases,
+                                                   cell_vertices);
     }
 
     [[nodiscard]] inline auto fingerprint_records(
