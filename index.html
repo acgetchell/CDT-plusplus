@@ -367,6 +367,7 @@ Developer workflow</h2>
 <div class="line">just changelog-unreleased vX.Y.Z # Generate a pending release changelog</div>
 <div class="line">just tag-check vX.Y.Z      # Preview and validate an annotated release tag</div>
 <div class="line">just update-actions        # Update and repin Actions with pinact, then validate</div>
+<div class="line">just sync-vcpkg-tool-pins  # Sync the vcpkg tool release and Windows hashes</div>
 <div class="line">just python-sync           # Install the locked Python development environment</div>
 <div class="line">just python-check          # Check Python formatting, lint, and types</div>
 <div class="line">just python-fix            # Apply safe Ruff fixes and formatting</div>
@@ -378,13 +379,15 @@ Developer workflow</h2>
 <h2 class="doxsection"><a class="anchor" id="vcpkg-maintenance"></a>
 vcpkg maintenance</h2>
 <p><span class="tt">vcpkg.json</span> is the dependency source of truth. Its <span class="tt">builtin-baseline</span> pins the official <a href="https://github.com/microsoft/vcpkg"><span class="tt">microsoft/vcpkg</span></a> registry commit used locally and in CI. The repository-local <span class="tt">.cache/vcpkg</span> checkout is disposable tool/cache infrastructure and must not be edited or committed. The native build entry points delegate checkout provenance, baseline, and executable-integrity validation directly to <span class="tt">scripts/bootstrap_vcpkg.py</span>, whose cross-platform fixtures run under <span class="tt">just check</span>.</p>
-<p>To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, review the manifest diff, and then rerun the complete build:</p>
+<p>To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, synchronize the independently reviewed tool pins, review both diffs, and then rerun the complete build:</p>
 <div class="fragment"><div class="line">python3 scripts/bootstrap_vcpkg.py</div>
 <div class="line">export VCPKG_ROOT=&quot;$PWD/.cache/vcpkg&quot;</div>
 <div class="line">&quot;$VCPKG_ROOT/vcpkg&quot; x-update-baseline</div>
+<div class="line">just sync-vcpkg-tool-pins</div>
 <div class="line">./scripts/build.sh</div>
-</div><!-- fragment --><p>On Windows, invoke the same implementation with <span class="tt">python.exe scripts\bootstrap_vcpkg.py</span>; <span class="tt">scripts\build.bat</span> and <span class="tt">scripts\fast-build.bat</span> already do this directly.</p>
-<p>CI uses <span class="tt">lukka/run-vcpkg</span>, which derives the vcpkg checkout commit from the same manifest baseline and supplies a binary cache. No separately maintained repository variable is required.</p>
+</div><!-- fragment --><p><span class="tt">just sync-vcpkg-tool-pins</span> reads the new manifest baseline, fetches that exact upstream commit's tool metadata, downloads the official Windows amd64 and arm64 release assets, and atomically updates the release and SHA-256 pins in <span class="tt">scripts/bootstrap_vcpkg.py</span>. It leaves the existing pins unchanged if any input cannot be fetched or validated, and only writes when the rendered release and hash assignments differ from the bootstrap source.</p>
+<p>On Windows, invoke the synchronizer with <span class="tt">python.exe scripts\sync_vcpkg_tool_pins.py</span>; <span class="tt">scripts\build.bat</span> and <span class="tt">scripts\fast-build.bat</span> already invoke the bootstrap implementation directly.</p>
+<p>CI uses <span class="tt">lukka/run-vcpkg</span>, which derives the vcpkg checkout commit from the same manifest baseline and supplies a binary cache. No separately maintained checkout SHA is required; the bootstrap script retains an independent tool release and Windows executable hashes as a supply-chain review gate.</p>
 <p>CodeQL keeps third-party implementation findings out of CDT++ results through a two-phase manual build. <span class="tt">just codeql-prepare</span> configures the project, installs manifest dependencies before CodeQL starts tracing, and uses a build directory under the host temporary directory so installed headers are outside the checkout. After CodeQL initialization, <span class="tt">just codeql-build</span> compiles only the <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> and <span class="tt">initialize</span> production targets with tests disabled. The regular <span class="tt">just build</span> and <span class="tt">just ci</span> contracts continue to build and run the complete test suite.</p>
 <h1 class="doxsection"><a class="anchor" id="build"></a>
 Build</h1>
