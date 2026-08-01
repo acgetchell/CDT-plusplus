@@ -252,12 +252,26 @@ namespace cdt::utilities
       return colors;
     }
 
+    inline constexpr std::size_t CANONICAL_INCIDENCE_WORK_BUDGET{100'000};
+
+    inline void consume_canonical_incidence_work(std::size_t& budget)
+    {
+      if (budget == 0)
+      {
+        throw std::runtime_error{
+            "Canonical incidence search exceeded its work budget"};
+      }
+      --budget;
+    }
+
     [[nodiscard]] inline auto refine_incidence_colors(
         std::vector<std::vector<std::size_t>> const& adjacency,
-        std::vector<std::size_t> colors) -> std::vector<std::size_t>
+        std::vector<std::size_t> colors, std::size_t& budget)
+        -> std::vector<std::size_t>
     {
       for (std::size_t iteration = 0; iteration < adjacency.size(); ++iteration)
       {
+        consume_canonical_incidence_work(budget);
         std::vector<std::vector<std::size_t>> signatures;
         signatures.reserve(adjacency.size());
         for (std::size_t node = 0; node < adjacency.size(); ++node)
@@ -285,6 +299,8 @@ namespace cdt::utilities
       return colors;
     }
 
+    /// @pre `colors` is a permutation of `[0, colors.size())`, assigning every
+    /// node a unique, valid color index.
     [[nodiscard]] inline auto incidence_records_for_coloring(
         std::vector<std::string> const&              bases,
         std::vector<std::vector<std::size_t>> const& adjacency,
@@ -323,9 +339,11 @@ namespace cdt::utilities
     [[nodiscard]] inline auto canonical_incidence_search(
         std::vector<std::string> const&              bases,
         std::vector<std::vector<std::size_t>> const& adjacency,
-        std::vector<std::size_t> colors) -> std::vector<std::string>
+        std::vector<std::size_t> colors, std::size_t& budget)
+        -> std::vector<std::string>
     {
-      colors = refine_incidence_colors(adjacency, std::move(colors));
+      consume_canonical_incidence_work(budget);
+      colors = refine_incidence_colors(adjacency, std::move(colors), budget);
 
       std::vector<std::size_t> color_counts(colors.size());
       for (auto const color : colors) { ++color_counts.at(color); }
@@ -345,8 +363,8 @@ namespace cdt::utilities
         if (colors[node] != ambiguous_color) { continue; }
         auto individualized  = colors;
         individualized[node] = individualized_color;
-        auto candidate = canonical_incidence_search(bases, adjacency,
-                                                    std::move(individualized));
+        auto candidate       = canonical_incidence_search(
+            bases, adjacency, std::move(individualized), budget);
         if (!best || candidate < *best) { best = std::move(candidate); }
       }
       return std::move(*best);
@@ -363,9 +381,21 @@ namespace cdt::utilities
         throw std::invalid_argument{
             "Cell bases and incidence records must have equal sizes"};
       }
+      for (auto const& incident_vertices : cell_vertices)
+      {
+        for (auto const vertex : incident_vertices)
+        {
+          if (vertex >= vertex_bases.size())
+          {
+            throw std::invalid_argument{
+                "Cell incidence records must reference known vertices"};
+          }
+        }
+      }
 
       auto bases = vertex_bases;
       bases.insert(bases.end(), cell_bases.begin(), cell_bases.end());
+      if (bases.empty()) { return {}; }
       std::vector<std::vector<std::size_t>> adjacency(bases.size());
       for (std::size_t cell = 0; cell < cell_vertices.size(); ++cell)
       {
@@ -376,9 +406,9 @@ namespace cdt::utilities
           adjacency[cell_node].push_back(vertex);
         }
       }
-      if (bases.empty()) { return {}; }
+      auto budget = CANONICAL_INCIDENCE_WORK_BUDGET;
       return canonical_incidence_search(bases, adjacency,
-                                        canonical_colors(bases));
+                                        canonical_colors(bases), budget);
     }
 
     template <typename TriangulationType>

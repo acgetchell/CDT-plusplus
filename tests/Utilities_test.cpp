@@ -293,10 +293,68 @@ SCENARIO("Canonical incidence records distinguish degree-equivalent graphs" *
           utilities::detail::canonical_bipartite_incidence_records(
               vertex_bases, cell_bases, two_components);
 
-      THEN("Ordering changes preserve identity but connectivity changes do not")
+      THEN("Reordered equivalent edges produce identical records")
+      { CHECK(cycle_records == reordered_records); }
+
+      THEN("A degree-equivalent connectivity change produces different records")
+      { CHECK(cycle_records != component_records); }
+    }
+
+    WHEN("The cell bases and incidence records have unequal sizes")
+    {
+      std::vector<std::vector<std::size_t>> const mismatched_incidence{
+          {0, 1}
+      };
+
+      THEN("Canonicalization rejects the inconsistent input")
       {
-        CHECK(cycle_records == reordered_records);
-        CHECK(cycle_records != component_records);
+        CHECK_THROWS_AS(
+            static_cast<void>(
+                utilities::detail::canonical_bipartite_incidence_records(
+                    vertex_bases, cell_bases, mismatched_incidence)),
+            std::invalid_argument);
+      }
+    }
+
+    WHEN("A cell incidence record references a non-vertex node")
+    {
+      auto invalid_indices            = cycle;
+      invalid_indices.front().front() = vertex_bases.size();
+
+      THEN("Canonicalization rejects the invalid vertex index")
+      {
+        CHECK_THROWS_AS(
+            static_cast<void>(
+                utilities::detail::canonical_bipartite_incidence_records(
+                    vertex_bases, cell_bases, invalid_indices)),
+            std::invalid_argument);
+      }
+    }
+
+    WHEN("Only one canonical search work unit remains")
+    {
+      std::vector<std::string> const ambiguous_bases{"node", "node"};
+      std::vector<std::vector<std::size_t>> const adjacency{{1}, {0}};
+      std::vector<std::size_t> const              colors{0, 0};
+      std::size_t                                 budget{1};
+
+      THEN("Refinement reports budget exhaustion")
+      {
+        CHECK_THROWS_WITH_AS(
+            static_cast<void>(utilities::detail::canonical_incidence_search(
+                ambiguous_bases, adjacency, colors, budget)),
+            "Canonical incidence search exceeded its work budget",
+            std::runtime_error);
+      }
+    }
+
+    WHEN("No vertices or cells are supplied")
+    {
+      THEN("Canonicalization returns no records")
+      {
+        CHECK(
+            utilities::detail::canonical_bipartite_incidence_records({}, {}, {})
+                .empty());
       }
     }
   }
