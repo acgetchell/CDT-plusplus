@@ -28,6 +28,8 @@ namespace cdt::four_d::phase
   inline constexpr long double collapse_peak_ratio = 0.70L;
   inline constexpr long double alternating_ratio_limit = 0.30L;
   inline constexpr long double cos3_correlation_limit = 0.85L;
+  inline constexpr long double finite_collapse_error_sentinel =
+      std::numeric_limits<long double>::max() / 4.0L;
 
   enum class Verdict
   {
@@ -200,35 +202,43 @@ namespace cdt::four_d::phase
     return std::sqrt(variance / total);
   }
 
-  [[nodiscard]] inline auto fit_power_law_exponent(
+  [[nodiscard]] inline auto positive_log_log_samples(
       std::vector<std::pair<long double, long double>> const& samples)
-      -> long double
+      -> std::vector<std::pair<long double, long double>>
   {
-    std::vector<std::pair<long double, long double>> positive_samples;
-    positive_samples.reserve(samples.size());
+    std::vector<std::pair<long double, long double>> result;
+    result.reserve(samples.size());
     for (auto const& sample : samples)
     {
       if (sample.first > 0.0L && sample.second > 0.0L)
       {
-        positive_samples.push_back(sample);
+        result.emplace_back(std::log(sample.first), std::log(sample.second));
       }
     }
+    return result;
+  }
+
+  [[nodiscard]] inline auto fit_power_law_exponent(
+      std::vector<std::pair<long double, long double>> const& samples)
+      -> long double
+  {
+    auto const positive_samples = positive_log_log_samples(samples);
     if (positive_samples.size() < 2) { return 0.0L; }
     auto mean_x = 0.0L;
     auto mean_y = 0.0L;
-    for (auto const& [x, y] : positive_samples)
+    for (auto const& [log_x, log_y] : positive_samples)
     {
-      mean_x += std::log(x);
-      mean_y += std::log(y);
+      mean_x += log_x;
+      mean_y += log_y;
     }
     mean_x /= static_cast<long double>(positive_samples.size());
     mean_y /= static_cast<long double>(positive_samples.size());
     auto numerator = 0.0L;
     auto denominator = 0.0L;
-    for (auto const& [x, y] : positive_samples)
+    for (auto const& [log_x, log_y] : positive_samples)
     {
-      auto const lx = std::log(x) - mean_x;
-      auto const ly = std::log(y) - mean_y;
+      auto const lx = log_x - mean_x;
+      auto const ly = log_y - mean_y;
       numerator += lx * ly;
       denominator += lx * lx;
     }
@@ -239,35 +249,29 @@ namespace cdt::four_d::phase
       std::vector<std::pair<long double, long double>> const& samples,
       long double const exponent) -> long double
   {
-    std::vector<std::pair<long double, long double>> positive_samples;
-    positive_samples.reserve(samples.size());
-    for (auto const& sample : samples)
+    auto const positive_samples = positive_log_log_samples(samples);
+    if (positive_samples.size() < 2 || !std::isfinite(exponent))
     {
-      if (sample.first > 0.0L && sample.second > 0.0L)
-      {
-        positive_samples.push_back(sample);
-      }
-    }
-    if (positive_samples.size() < 2)
-    {
-      return std::numeric_limits<long double>::infinity();
+      return finite_collapse_error_sentinel;
     }
 
     auto intercept = 0.0L;
-    for (auto const& [x, y] : positive_samples)
+    for (auto const& [log_x, log_y] : positive_samples)
     {
-      intercept += std::log(y) - exponent * std::log(x);
+      intercept += log_y - exponent * log_x;
     }
     intercept /= static_cast<long double>(positive_samples.size());
 
     auto residual = 0.0L;
-    for (auto const& [x, y] : positive_samples)
+    for (auto const& [log_x, log_y] : positive_samples)
     {
-      auto const difference =
-          std::log(y) - (intercept + exponent * std::log(x));
+      auto const difference = log_y - (intercept + exponent * log_x);
       residual += difference * difference;
     }
-    return residual;
+    return std::isfinite(residual) &&
+                   residual < finite_collapse_error_sentinel
+               ? residual
+               : finite_collapse_error_sentinel;
   }
 
   [[nodiscard]] inline auto analyze_finite_size_scaling(

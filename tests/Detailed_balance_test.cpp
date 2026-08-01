@@ -35,7 +35,7 @@ TEST_CASE("4D detailed-balance acceptance ingredients are finite")
   auto const probability = acceptance_probability(
       triangulation, proposal->triangulation, move_tracker::MoveType4D::TWO_EIGHT,
       couplings);
-  CHECK(std::isfinite(static_cast<double>(probability)));
+  CHECK(std::isfinite(probability));
   CHECK_GE(probability, 0.0L);
   CHECK_LE(probability, 1.0L);
 }
@@ -53,9 +53,22 @@ TEST_CASE("4D detailed-balance verifier reports capped enumeration")
 {
   auto triangulation = FoliatedTriangulation4::periodic_seed(3);
   S4Couplings couplings{1.0L, 0.2L, 0.1L, 36, 0.001L};
-  auto report = verify_detailed_balance(triangulation, couplings, 1, 1.0e-10L, 1);
+  auto report =
+      verify_detailed_balance(triangulation, couplings, 1, 1.0e-10L, 1);
   CHECK_FALSE(report.passed);
   CHECK_FALSE(report.errors.empty());
+  CHECK(report.edges.empty());
+}
+
+TEST_CASE("4D detailed-balance verifier rejects nonpositive depth")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(3);
+  S4Couplings couplings{1.0L, 0.2L, 0.1L, 36, 0.001L};
+  auto report = verify_detailed_balance(triangulation, couplings, 0);
+  CHECK_FALSE(report.passed);
+  REQUIRE_FALSE(report.errors.empty());
+  CHECK_EQ(report.errors.front(),
+           "Detailed-balance enumeration max_depth must be positive.");
 }
 
 TEST_CASE("4D detailed-balance verifier rejects non-finite weights")

@@ -201,6 +201,12 @@ namespace cdt::runtime_config
     {}
 
    public:
+    Simulation4D(Simulation4D const&)                        = default;
+    Simulation4D(Simulation4D&&) noexcept                    = default;
+    auto operator=(Simulation4D const&) -> Simulation4D&     = default;
+    auto operator=(Simulation4D&&) noexcept -> Simulation4D& = default;
+    ~Simulation4D()                                          = default;
+
     [[nodiscard]] auto simplices() const noexcept -> Int_precision
     { return m_simplices; }
 
@@ -281,18 +287,6 @@ namespace cdt::runtime_config
       }
 #endif
       return static_cast<std::size_t>(value);
-    }
-
-    inline void validate_path_component(std::string_view const name,
-                                        std::string_view const value)
-    {
-      if (value.empty() || value == "." || value == ".." ||
-          value.find_first_of("/\\") != std::string_view::npos ||
-          std::filesystem::path{std::string{value}}.is_absolute())
-      {
-        throw std::invalid_argument(std::string{name} +
-                                    " must be a single path component.");
-      }
     }
 
     [[nodiscard]] inline auto select_topology(bool const spherical,
@@ -518,8 +512,8 @@ namespace cdt::runtime_config
       throw std::invalid_argument("Volume epsilon must be non-negative.");
     }
 
-    detail::validate_path_component("run_id", run_id);
-    detail::validate_path_component("chain_id", chain_id);
+    cdt::utilities::validate_path_component("run_id", run_id);
+    cdt::utilities::validate_path_component("chain_id", chain_id);
     auto const fixed_target =
         checked_target > 0 ? checked_target : checked_simplices;
     auto const sweep_size = std::max<Int_precision>(1, checked_simplices);

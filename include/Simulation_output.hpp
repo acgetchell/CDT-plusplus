@@ -22,6 +22,7 @@
 
 #include "Metropolis_4.hpp"
 #include "Phase_analysis.hpp"
+#include "Utilities.hpp"
 
 namespace cdt::four_d::output
 {
@@ -54,22 +55,24 @@ namespace cdt::four_d::output
         case '\n': escaped += "\\n"; break;
         case '\r': escaped += "\\r"; break;
         case '\t': escaped += "\\t"; break;
-        default: escaped += character; break;
+        default:
+          if (static_cast<unsigned char>(character) < 0x20U)
+          {
+            auto const byte =
+                static_cast<unsigned>(static_cast<unsigned char>(character));
+            auto constexpr hex = std::string_view{"0123456789ABCDEF"};
+            escaped += "\\u00";
+            escaped += hex[(byte >> 4U) & 0xFU];
+            escaped += hex[byte & 0xFU];
+          }
+          else
+          {
+            escaped += character;
+          }
+          break;
       }
     }
     return escaped;
-  }
-
-  inline void validate_path_component(std::string_view const name,
-                                      std::string_view const value)
-  {
-    if (value.empty() || value == "." || value == ".." ||
-        value.find_first_of("/\\") != std::string_view::npos ||
-        std::filesystem::path{std::string{value}}.is_absolute())
-    {
-      throw std::invalid_argument(std::string{name} +
-                                  " must be a single path component.");
-    }
   }
 
   [[nodiscard]] inline auto open_output_file(std::filesystem::path const& path)
@@ -112,7 +115,7 @@ namespace cdt::four_d::output
                                   Metropolis4Config const& config,
                                   Metropolis4Result const& result)
   {
-    validate_path_component("run_id", manifest.run_id);
+    cdt::utilities::validate_path_component("run_id", manifest.run_id);
     auto const run_dir = root / manifest.run_id;
     std::filesystem::create_directories(run_dir / "checkpoint");
 

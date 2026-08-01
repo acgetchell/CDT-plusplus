@@ -10,11 +10,20 @@
 
 #include <cmath>
 #include <cstdint>
+#include <optional>
 
 #include "Settings.hpp"
 
 namespace cdt::four_d
 {
+  struct S4ClassResolvedCounts
+  {
+    Int_precision spatial_tetrahedra{0};
+    Int_precision timelike_edges{0};
+    Int_precision mixed_triangles{0};
+    Int_precision timelike_tetrahedra{0};
+  };
+
   struct S4Counts
   {
     Int_precision N0{0};
@@ -26,11 +35,7 @@ namespace cdt::four_d
     Int_precision N32{0};
     Int_precision N23{0};
     Int_precision N14{0};
-    bool          class_resolved_proposals{false};
-    Int_precision spatial_tetrahedra{0};
-    Int_precision timelike_edges{0};
-    Int_precision mixed_triangles{0};
-    Int_precision timelike_tetrahedra{0};
+    std::optional<S4ClassResolvedCounts> class_resolved;
   };
 
   struct S4Couplings

@@ -96,6 +96,18 @@ namespace cdt::utilities
     FINAL_TRIANGULATION
   };
 
+  inline void validate_path_component(std::string_view const name,
+                                      std::string_view const value)
+  {
+    if (value.empty() || value == "." || value == ".." ||
+        value.find_first_of("/\\") != std::string_view::npos ||
+        std::filesystem::path{std::string{value}}.is_absolute())
+    {
+      throw std::invalid_argument(std::string{name} +
+                                  " must be a single path component.");
+    }
+  }
+
   /// @brief Provenance recorded next to every stochastic triangulation.
   /// @details Checkpoints are deliberately snapshots rather than resumable
   /// simulation states: the payload does not serialize mutable RNG state.

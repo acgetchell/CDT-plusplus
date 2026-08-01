@@ -60,7 +60,20 @@ namespace cdt::four_d
     if (forward_q == 0.0L || reverse_q == 0.0L) { return 0.0L; }
     auto const delta =
         S4_action_difference(before.counts(), after.counts(), couplings);
-    return std::min(1.0L, std::exp(-delta) * reverse_q / forward_q);
+    if (!std::isfinite(delta))
+    {
+      return std::numeric_limits<long double>::quiet_NaN();
+    }
+    auto const log_ratio = -delta + std::log(reverse_q) - std::log(forward_q);
+    if (!std::isfinite(log_ratio))
+    {
+      return std::numeric_limits<long double>::quiet_NaN();
+    }
+    if (log_ratio >= 0.0L) { return 1.0L; }
+    auto const probability = std::exp(log_ratio);
+    return std::isfinite(probability)
+               ? probability
+               : std::numeric_limits<long double>::quiet_NaN();
   }
 
   [[nodiscard]] inline auto boltzmann_weight(
@@ -84,6 +97,13 @@ namespace cdt::four_d
       -> DetailedBalanceReport4D
   {
     DetailedBalanceReport4D report;
+    if (max_depth <= 0)
+    {
+      report.passed = false;
+      report.errors.emplace_back(
+          "Detailed-balance enumeration max_depth must be positive.");
+      return report;
+    }
     if (max_states == 0)
     {
       report.passed = false;
@@ -127,6 +147,7 @@ namespace cdt::four_d
         }
       }
     }
+    if (cap_reached) { return report; }
 
     for (auto const& [from_hash, from_state] : states)
     {

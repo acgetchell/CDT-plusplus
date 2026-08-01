@@ -182,17 +182,20 @@ namespace cdt::four_d
   [[nodiscard]] inline auto proposal_inventory_from_counts(S4Counts const& counts)
       -> ProposalInventory4D
   {
-    if (counts.class_resolved_proposals)
+    if (counts.class_resolved)
     {
+      auto const& class_counts = *counts.class_resolved;
       return ProposalInventory4D{
-          counts.spatial_tetrahedra,
-          counts.timelike_edges,
-          counts.mixed_triangles,
-          counts.timelike_tetrahedra,
+          class_counts.spatial_tetrahedra,
+          class_counts.timelike_edges,
+          class_counts.mixed_triangles,
+          class_counts.timelike_tetrahedra,
           counts.N0,
           counts.N32,
           counts.N23};
     }
+    // Abstract count-only states have no local class inventory. Their proposal
+    // multiplicities deliberately fall back to aggregate simplex counts.
     return ProposalInventory4D{
         counts.N3,
         counts.N1,

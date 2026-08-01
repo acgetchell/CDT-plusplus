@@ -84,6 +84,14 @@ TEST_CASE("Synthetic C_dS profiles pass finite-size scaling")
   CHECK_GE(scaling.collapse_error, 0.0L);
 }
 
+TEST_CASE("Finite-size scaling collapse error remains finite for sparse samples")
+{
+  auto scaling = analyze_finite_size_scaling(
+      std::vector<std::pair<long double, Profile>>{{1.0L, Profile{}}});
+  CHECK_FALSE(scaling.passed);
+  CHECK(std::isfinite(scaling.collapse_error));
+}
+
 TEST_CASE("Full C_dS candidate gate requires profile shape and finite-size scaling")
 {
   auto profiles = build_synthetic_c_ds_profiles();
@@ -109,7 +117,13 @@ TEST_CASE("Covariance produces a regularized effective-action kernel")
 TEST_CASE("Profile statistics reject mismatched dimensions")
 {
   std::vector<Profile> profiles{Profile{1.0L, 2.0L}, Profile{1.0L}};
-  CHECK_THROWS_AS(mean(profiles), std::invalid_argument);
-  CHECK_THROWS_AS(covariance(profiles, Profile{1.0L, 2.0L}),
+  CHECK_THROWS_AS(([&profiles] {
+                    [[maybe_unused]] auto const result = mean(profiles);
+                  }()),
+                  std::invalid_argument);
+  CHECK_THROWS_AS(([&profiles] {
+                    [[maybe_unused]] auto const result =
+                        covariance(profiles, Profile{1.0L, 2.0L});
+                  }()),
                   std::invalid_argument);
 }

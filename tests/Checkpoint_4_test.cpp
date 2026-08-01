@@ -7,6 +7,8 @@
 #include <fstream>
 #include <stdexcept>
 #include <string>
+#include <system_error>
+#include <utility>
 
 using namespace cdt::four_d;
 
@@ -16,7 +18,20 @@ namespace
   {
     std::filesystem::path path;
 
-    ~TempDirectory() { std::filesystem::remove_all(path); }
+    explicit TempDirectory(std::filesystem::path directory)
+        : path{std::move(directory)}
+    {}
+
+    TempDirectory(TempDirectory const&)                        = delete;
+    auto operator=(TempDirectory const&) -> TempDirectory&     = delete;
+    TempDirectory(TempDirectory&&) noexcept                    = default;
+    auto operator=(TempDirectory&&) noexcept -> TempDirectory& = default;
+
+    ~TempDirectory()
+    {
+      std::error_code error;
+      std::filesystem::remove_all(path, error);
+    }
   };
 
   auto make_temp_directory() -> TempDirectory

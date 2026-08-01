@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <limits>
 #include <map>
 #include <optional>
 #include <random>
@@ -106,22 +107,38 @@ namespace cdt::four_d
       auto const after_action =
           S4_bulk_action(proposal.triangulation.counts(), m_config.couplings);
       auto const delta_action = after_action - before_action;
-      auto const ratio =
-          static_cast<long double>(proposal.reverse_candidates) /
-          static_cast<long double>(proposal.forward_candidates);
-      auto const probability = std::exp(-delta_action) * ratio;
-      return std::min(1.0L, probability);
+      if (!std::isfinite(delta_action) || proposal.forward_candidates <= 0 ||
+          proposal.reverse_candidates <= 0)
+      {
+        return std::numeric_limits<long double>::quiet_NaN();
+      }
+      auto const log_probability =
+          -delta_action +
+          std::log(static_cast<long double>(proposal.reverse_candidates)) -
+          std::log(static_cast<long double>(proposal.forward_candidates));
+      if (!std::isfinite(log_probability))
+      {
+        return std::numeric_limits<long double>::quiet_NaN();
+      }
+      if (log_probability >= 0.0L) { return 1.0L; }
+      auto const probability = std::exp(log_probability);
+      return std::isfinite(probability)
+                 ? probability
+                 : std::numeric_limits<long double>::quiet_NaN();
     }
 
     static void write_counts(std::ostream& stream, S4Counts const& counts)
     {
+      auto const has_class_resolved = counts.class_resolved.has_value();
+      auto const class_counts =
+          counts.class_resolved.value_or(S4ClassResolvedCounts{});
       stream << counts.N0 << ' ' << counts.N1 << ' ' << counts.N2 << ' '
              << counts.N3 << ' ' << counts.N4 << ' ' << counts.N41 << ' '
              << counts.N32 << ' ' << counts.N23 << ' ' << counts.N14 << ' '
-             << counts.class_resolved_proposals << ' '
-             << counts.spatial_tetrahedra << ' ' << counts.timelike_edges
-             << ' ' << counts.mixed_triangles << ' '
-             << counts.timelike_tetrahedra << '\n';
+             << has_class_resolved << ' ' << class_counts.spatial_tetrahedra
+             << ' ' << class_counts.timelike_edges << ' '
+             << class_counts.mixed_triangles << ' '
+             << class_counts.timelike_tetrahedra << '\n';
     }
 
     static auto read_counts(std::istream& stream) -> S4Counts
@@ -129,13 +146,16 @@ namespace cdt::four_d
       S4Counts counts;
       stream >> counts.N0 >> counts.N1 >> counts.N2 >> counts.N3 >>
           counts.N4 >> counts.N41 >> counts.N32 >> counts.N23 >> counts.N14;
-      stream >> counts.class_resolved_proposals >>
-          counts.spatial_tetrahedra >> counts.timelike_edges >>
-          counts.mixed_triangles >> counts.timelike_tetrahedra;
+      bool has_class_resolved{false};
+      S4ClassResolvedCounts class_counts;
+      stream >> has_class_resolved >> class_counts.spatial_tetrahedra >>
+          class_counts.timelike_edges >> class_counts.mixed_triangles >>
+          class_counts.timelike_tetrahedra;
       if (!stream)
       {
         throw std::runtime_error{"Malformed checkpoint counts."};
       }
+      if (has_class_resolved) { counts.class_resolved = class_counts; }
       return counts;
     }
 

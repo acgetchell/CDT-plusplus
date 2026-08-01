@@ -68,6 +68,11 @@ namespace cdt::four_d
     return static_cast<Int_precision>(type);
   }
 
+  /// @brief Abstract combinatorial 3+1D CDT triangulation state.
+  ///
+  /// Count-only states intentionally keep no local simplex complex. Topology
+  /// accessors therefore use the declared closed-S3 flag for those abstract
+  /// states, and derive Euler/connectivity data only when simplices are present.
   class FoliatedTriangulation4
   {
    public:
@@ -266,15 +271,11 @@ namespace cdt::four_d
       counts.N1 = static_cast<Int_precision>(edges.size());
       counts.N2 = static_cast<Int_precision>(triangles.size());
       counts.N3 = static_cast<Int_precision>(tetrahedra.size());
-      counts.class_resolved_proposals = true;
-      counts.spatial_tetrahedra =
-          static_cast<Int_precision>(spatial_tetrahedra.size());
-      counts.timelike_edges =
-          static_cast<Int_precision>(timelike_edges.size());
-      counts.mixed_triangles =
-          static_cast<Int_precision>(mixed_triangles.size());
-      counts.timelike_tetrahedra =
-          static_cast<Int_precision>(timelike_tetrahedra.size());
+      counts.class_resolved = S4ClassResolvedCounts{
+          static_cast<Int_precision>(spatial_tetrahedra.size()),
+          static_cast<Int_precision>(timelike_edges.size()),
+          static_cast<Int_precision>(mixed_triangles.size()),
+          static_cast<Int_precision>(timelike_tetrahedra.size())};
       return counts;
     }
 
@@ -473,7 +474,7 @@ namespace cdt::four_d
       auto const eulers = derived_slice_euler_characteristics();
       return std::ranges::all_of(eulers, [](auto const chi) {
         return chi == 0;
-      }) && (m_closed_s3_slices || spatial_slices_are_connected());
+      }) && (!m_closed_s3_slices || spatial_slices_are_connected());
     }
 
     void add_count_delta(S4Counts const& delta)
@@ -487,11 +488,7 @@ namespace cdt::four_d
       m_counts.N32 += delta.N32;
       m_counts.N23 += delta.N23;
       m_counts.N14 += delta.N14;
-      m_counts.class_resolved_proposals = false;
-      m_counts.spatial_tetrahedra = 0;
-      m_counts.timelike_edges = 0;
-      m_counts.mixed_triangles = 0;
-      m_counts.timelike_tetrahedra = 0;
+      m_counts.class_resolved.reset();
       m_proposal_inventory = proposal_inventory_from_counts(m_counts);
     }
 
@@ -517,6 +514,8 @@ namespace cdt::four_d
       }
       if (delta > 0)
       {
+        // Abstract proposals currently carry no local slice label. Slice zero
+        // is the deterministic reservoir until moves become slice-resolved.
         m_spatial_profile.front() += delta;
         return true;
       }
@@ -634,6 +633,10 @@ namespace cdt::four_d
       result.m_simplices = std::move(simplices);
       result.m_three_three_forward = three_three_forward;
       result.rebuild_vertex_time_cache();
+      if (!result.m_vertices.empty() || !result.m_simplices.empty())
+      {
+        result.m_counts = result.recompute_counts_from_complex();
+      }
       result.m_proposal_inventory =
           proposal_inventory_from_counts(result.m_counts);
       return result;
@@ -671,11 +674,7 @@ namespace cdt::four_d
       result.m_vertices.clear();
       result.m_simplices.clear();
       result.m_vertex_times.clear();
-      result.m_counts.class_resolved_proposals = false;
-      result.m_counts.spatial_tetrahedra = 0;
-      result.m_counts.timelike_edges = 0;
-      result.m_counts.mixed_triangles = 0;
-      result.m_counts.timelike_tetrahedra = 0;
+      result.m_counts.class_resolved.reset();
       result.m_proposal_inventory =
           proposal_inventory_from_counts(result.m_counts);
       return result;
@@ -1022,7 +1021,7 @@ namespace cdt::four_d
         }
       }
 
-      if (!m_closed_s3_slices && !simplex_neighbor_graph_connected())
+      if (m_closed_s3_slices && !simplex_neighbor_graph_connected())
       {
         report.errors.emplace_back("Simplex neighbor graph is disconnected.");
       }
@@ -1097,10 +1096,20 @@ namespace cdt::four_d
       stream << m_counts.N0 << ',' << m_counts.N1 << ',' << m_counts.N2 << ','
              << m_counts.N3 << ',' << m_counts.N4 << ',' << m_counts.N41
              << ',' << m_counts.N32 << ',' << m_counts.N23 << ','
-             << m_counts.N14 << ";C=" << m_counts.class_resolved_proposals
-             << ',' << m_counts.spatial_tetrahedra << ','
-             << m_counts.timelike_edges << ',' << m_counts.mixed_triangles
-             << ',' << m_counts.timelike_tetrahedra << ";V=";
+             << m_counts.N14 << ";C=" << m_counts.class_resolved.has_value();
+      if (m_counts.class_resolved)
+      {
+        auto const& class_counts = *m_counts.class_resolved;
+        stream << ',' << class_counts.spatial_tetrahedra << ','
+               << class_counts.timelike_edges << ','
+               << class_counts.mixed_triangles << ','
+               << class_counts.timelike_tetrahedra;
+      }
+      else
+      {
+        stream << ",0,0,0,0";
+      }
+      stream << ";V=";
       for (auto const volume : m_spatial_profile) { stream << volume << ','; }
       return stream.str();
     }

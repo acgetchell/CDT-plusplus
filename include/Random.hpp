@@ -143,6 +143,9 @@ namespace cdt
     [[nodiscard]] auto stream() const noexcept -> RandomStream
     { return m_stream; }
 
+    /// @returns Serialized checkpoint state for resuming this exact stream.
+    /// @details This state captures the progressed engine only. The recorded
+    /// seed() and stream() remain construction provenance for fresh restarts.
     [[nodiscard]] auto engine_state() const -> std::string
     {
       std::ostringstream output;
@@ -150,6 +153,9 @@ namespace cdt
       return output.str();
     }
 
+    /// @brief Restore a serialized checkpoint engine state.
+    /// @details Only m_engine is updated. seed(), stream(), and split() still
+    /// describe or create streams from the original construction provenance.
     void set_engine_state(std::string const& state)
     {
       std::istringstream input(state);

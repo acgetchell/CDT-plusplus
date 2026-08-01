@@ -1,9 +1,37 @@
 #include "Foliated_triangulation_4.hpp"
 
+#include <algorithm>
+#include <array>
+#include <string>
+#include <string_view>
+
 #include <doctest/doctest.h>
 
 using namespace cdt::four_d;
 namespace move_tracker = cdt::move_tracker;
+
+namespace
+{
+  [[nodiscard]] auto has_error(ValidationReport const& report,
+                               std::string_view const error) -> bool
+  {
+    return std::ranges::any_of(
+        report.errors, [error](std::string const& candidate) {
+          return candidate == error;
+        });
+  }
+
+  [[nodiscard]] auto isolated_simplex(
+      SimplexId const id, std::array<VertexId, 5> vertices,
+      SimplexType4D const type = SimplexType4D::FOUR_ONE) -> Simplex4D
+  {
+    Simplex4D simplex;
+    simplex.id = id;
+    simplex.vertices = vertices;
+    simplex.type = type;
+    return simplex;
+  }
+}
 
 TEST_CASE("Abstract 4D periodic seed validates")
 {
@@ -83,44 +111,104 @@ TEST_CASE("4D time reversal maps profiles and vertex times cyclically")
 TEST_CASE("4D candidate validation is independent from the initializer")
 {
   auto seeded = FoliatedTriangulation4::periodic_seed(3);
-  auto from_counts = FoliatedTriangulation4::from_counts_for_validation(
-      seeded.timeslices(), seeded.counts(), seeded.spatial_volume_profile());
 
-  CHECK(from_counts.is_valid());
-  CHECK_EQ(from_counts.spatial_topology(), "S3");
-  CHECK_EQ(from_counts.spacetime_topology(), "S3xS1");
-  CHECK_EQ(from_counts.proposal_inventory().spatial_tetrahedra,
-           seeded.proposal_inventory().spatial_tetrahedra);
-  CHECK_EQ(from_counts.proposal_inventory().mixed_triangles,
-           seeded.proposal_inventory().mixed_triangles);
+  SUBCASE("count-only states preserve closed periodic S3 metadata")
+  {
+    auto from_counts = FoliatedTriangulation4::from_counts_for_validation(
+        seeded.timeslices(), seeded.counts(), seeded.spatial_volume_profile());
 
-  auto clamped = FoliatedTriangulation4::from_counts_for_validation(
-      -7, seeded.counts(), {});
-  CHECK_EQ(clamped.timeslices(), 2);
-  CHECK_EQ(clamped.spatial_volume_profile().size(), 2);
+    CHECK(from_counts.is_valid());
+    CHECK_EQ(from_counts.spatial_topology(), "S3");
+    CHECK_EQ(from_counts.spacetime_topology(), "S3xS1");
+    CHECK_EQ(from_counts.proposal_inventory().spatial_tetrahedra,
+             seeded.proposal_inventory().spatial_tetrahedra);
+    CHECK_EQ(from_counts.proposal_inventory().mixed_triangles,
+             seeded.proposal_inventory().mixed_triangles);
+  }
 
-  auto counts = S4Counts{1, 2, 3, 4, 5, 1, 2, 1, 1};
-  auto abstract = FoliatedTriangulation4::from_counts_for_validation(
-      2, counts, FoliatedTriangulation4::Profile{1, 1});
-  auto const inventory = abstract.proposal_inventory();
-  CHECK_EQ(inventory.spatial_tetrahedra, 4);
-  CHECK_EQ(inventory.timelike_edges, 2);
-  CHECK_EQ(inventory.mixed_triangles, 3);
-  CHECK_EQ(inventory.timelike_tetrahedra, 4);
-  CHECK_EQ(inventory.vertices, 1);
-  CHECK_EQ(inventory.three_two_simplices, 2);
-  CHECK_EQ(inventory.two_three_simplices, 1);
+  SUBCASE("count-only constructor clamps timeslices")
+  {
+    auto clamped = FoliatedTriangulation4::from_counts_for_validation(
+        -7, seeded.counts(), {});
+    CHECK_EQ(clamped.timeslices(), 2);
+    CHECK_EQ(clamped.spatial_volume_profile().size(), 2);
+  }
 
-  counts.class_resolved_proposals = true;
-  counts.spatial_tetrahedra = 7;
-  counts.timelike_edges = 8;
-  counts.mixed_triangles = 9;
-  counts.timelike_tetrahedra = 10;
-  auto exact = FoliatedTriangulation4::from_counts_for_validation(
-      2, counts, FoliatedTriangulation4::Profile{1, 1});
-  auto const exact_inventory = exact.proposal_inventory();
-  CHECK_EQ(exact_inventory.spatial_tetrahedra, 7);
-  CHECK_EQ(exact_inventory.timelike_edges, 8);
-  CHECK_EQ(exact_inventory.mixed_triangles, 9);
-  CHECK_EQ(exact_inventory.timelike_tetrahedra, 10);
+  SUBCASE("abstract proposal inventories use aggregate fallback counts")
+  {
+    auto counts = S4Counts{1, 2, 3, 4, 5, 1, 2, 1, 1};
+    auto abstract = FoliatedTriangulation4::from_counts_for_validation(
+        2, counts, FoliatedTriangulation4::Profile{1, 1});
+    auto const inventory = abstract.proposal_inventory();
+    CHECK_EQ(inventory.spatial_tetrahedra, 4);
+    CHECK_EQ(inventory.timelike_edges, 2);
+    CHECK_EQ(inventory.mixed_triangles, 3);
+    CHECK_EQ(inventory.timelike_tetrahedra, 4);
+    CHECK_EQ(inventory.vertices, 1);
+    CHECK_EQ(inventory.three_two_simplices, 2);
+    CHECK_EQ(inventory.two_three_simplices, 1);
+  }
+
+  SUBCASE("complex-derived proposal inventories use class-resolved counts")
+  {
+    auto counts = S4Counts{1, 2, 3, 4, 5, 1, 2, 1, 1};
+    counts.class_resolved = S4ClassResolvedCounts{7, 8, 9, 10};
+    auto exact = FoliatedTriangulation4::from_counts_for_validation(
+        2, counts, FoliatedTriangulation4::Profile{1, 1});
+    auto const exact_inventory = exact.proposal_inventory();
+    CHECK_EQ(exact_inventory.spatial_tetrahedra, 7);
+    CHECK_EQ(exact_inventory.timelike_edges, 8);
+    CHECK_EQ(exact_inventory.mixed_triangles, 9);
+    CHECK_EQ(exact_inventory.timelike_tetrahedra, 10);
+  }
+
+  SUBCASE("negative spatial profile is reported")
+  {
+    auto invalid = FoliatedTriangulation4::from_counts_for_validation(
+        2, seeded.counts(), FoliatedTriangulation4::Profile{-1, 1});
+    auto const report = invalid.validate();
+    CHECK_FALSE(report.valid());
+    CHECK(has_error(report, "Spatial profile contains negative volume."));
+  }
+
+  SUBCASE("vertex-time cache errors are reported")
+  {
+    auto invalid = FoliatedTriangulation4::from_checkpoint_state(
+        2, S4Counts{}, FoliatedTriangulation4::Profile{0, 0},
+        FoliatedTriangulation4::VertexContainer{
+            Vertex4D{1, 0}, Vertex4D{1, 1}},
+        {}, true);
+    auto const report = invalid.validate();
+    CHECK_FALSE(report.valid());
+    CHECK(has_error(report, "Vertex-time cache does not match vertices."));
+    CHECK(has_error(report, "Vertex-time cache is stale."));
+  }
+
+  SUBCASE("disconnected restored complexes are rejected")
+  {
+    auto invalid = FoliatedTriangulation4::from_checkpoint_state(
+        2, S4Counts{999, 0, 0, 0, 999, 0, 0, 0, 0},
+        FoliatedTriangulation4::Profile{2, 0},
+        FoliatedTriangulation4::VertexContainer{
+            Vertex4D{1, 0},  Vertex4D{2, 0},  Vertex4D{3, 0},
+            Vertex4D{4, 0},  Vertex4D{5, 1},  Vertex4D{6, 0},
+            Vertex4D{7, 0},  Vertex4D{8, 0},  Vertex4D{9, 0},
+            Vertex4D{10, 1}},
+        FoliatedTriangulation4::SimplexContainer{
+            isolated_simplex(1, std::array<VertexId, 5>{1, 2, 3, 4, 5}),
+            isolated_simplex(2, std::array<VertexId, 5>{6, 7, 8, 9, 10})},
+        true);
+    auto const counts = invalid.counts();
+    CHECK_EQ(counts.N0, 10);
+    CHECK_EQ(counts.N4, 2);
+    CHECK_EQ(counts.N41, 2);
+    REQUIRE(counts.class_resolved.has_value());
+    CHECK_EQ(invalid.proposal_inventory().spatial_tetrahedra, 2);
+
+    auto const report = invalid.validate();
+    CHECK_FALSE(report.valid());
+    CHECK(has_error(report, "Simplex neighbor graph is disconnected."));
+    CHECK(has_error(
+        report, "Spatial slices are not validated as connected S3 slices."));
+  }
 }

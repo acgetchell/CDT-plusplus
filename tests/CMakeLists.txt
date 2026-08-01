@@ -30,6 +30,7 @@ add_executable(
   S3Action_test.cpp
   S4Action_test.cpp
   Settings_test.cpp
+  Simulation_output_test.cpp
   Tetrahedron_test.cpp
   Torus_test.cpp
   Time_reversal_4_test.cpp
