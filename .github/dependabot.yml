@@ -31,6 +31,9 @@ updates:
       interval: "weekly"
     cooldown:
       default-days: 7
+      # vcpkg updates are atomic baseline snapshots; do not delay them.
+      exclude:
+        - "*"
     open-pull-requests-limit: 10
     groups:
       dependencies:
