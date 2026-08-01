@@ -298,6 +298,7 @@ just release-check         # Validate release metadata and citation fields
 just changelog-unreleased vX.Y.Z # Generate a pending release changelog
 just tag-check vX.Y.Z      # Preview and validate an annotated release tag
 just update-actions        # Update and repin Actions with pinact, then validate
+just sync-vcpkg-tool-pins  # Sync the vcpkg tool release and Windows hashes
 just python-sync           # Install the locked Python development environment
 just python-check          # Check Python formatting, lint, and types
 just python-fix            # Apply safe Ruff fixes and formatting
@@ -344,21 +345,28 @@ actionlint uses its pinned upstream version, and zizmor uses its pinned PyPI whe
 The native build entry points delegate checkout provenance, baseline, and executable-integrity validation directly
 to `scripts/bootstrap_vcpkg.py`, whose cross-platform fixtures run under `just check`.
 
-To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, review the
-manifest diff, and then rerun the complete build:
+To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, synchronize
+the independently reviewed tool pins, review both diffs, and then rerun the complete build:
 
 ```bash
 python3 scripts/bootstrap_vcpkg.py
 export VCPKG_ROOT="$PWD/.cache/vcpkg"
 "$VCPKG_ROOT/vcpkg" x-update-baseline
+just sync-vcpkg-tool-pins
 ./scripts/build.sh
 ```
+
+`just sync-vcpkg-tool-pins` reads the new manifest baseline, fetches that exact upstream commit's tool metadata,
+downloads the official Windows amd64 and arm64 release assets, and atomically updates the release and SHA-256 pins in
+`scripts/bootstrap_vcpkg.py`. It leaves the existing pins unchanged if any input cannot be fetched or validated, and
+is a no-op when the baseline still uses the currently pinned tool release.
 
 On Windows, invoke the same implementation with `python.exe scripts\bootstrap_vcpkg.py`; `scripts\build.bat` and
 `scripts\fast-build.bat` already do this directly.
 
 CI uses `lukka/run-vcpkg`, which derives the vcpkg checkout commit from the same manifest baseline and supplies a
-binary cache. No separately maintained repository variable is required.
+binary cache. No separately maintained checkout SHA is required; the bootstrap script retains an independent tool
+release and Windows executable hashes as a supply-chain review gate.
 
 CodeQL keeps third-party implementation findings out of CDT++ results through a two-phase manual build.
 `just codeql-prepare` configures the project, installs manifest dependencies before CodeQL starts tracing, and uses a
