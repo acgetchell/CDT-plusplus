@@ -277,6 +277,7 @@ python-entrypoint-test: _sync-python-dev
     uv run --no-sync cdt-optimize-initialize --help >/dev/null
     uv run --no-sync cdt-mnist-experiment --help >/dev/null
     uv run --no-sync cdt-tag-release --help >/dev/null
+    uv run --no-sync python scripts/sync_vcpkg_tool_pins.py --help >/dev/null
 
 # Synchronize the lightweight Python development environment from the lockfile.
 [group('workflows')]
@@ -305,6 +306,11 @@ update-actions:
     just _yaml-check
     just _action-lint
     just _zizmor
+
+# Synchronize the trusted vcpkg tool release and Windows hashes with the manifest baseline.
+[group('workflows')]
+sync-vcpkg-tool-pins: _sync-python-dev
+    uv run --no-sync python scripts/sync_vcpkg_tool_pins.py
 
 [default]
 [private]

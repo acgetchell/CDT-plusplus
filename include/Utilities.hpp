@@ -35,6 +35,7 @@
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 #include <vector>
 #include <version>
 // H. Hinnant date and time library
@@ -145,7 +146,7 @@ namespace cdt::utilities
   namespace detail
   {
     inline constexpr std::string_view CAUSAL_INFO_HEADER{
-        "cdt-plusplus-causal-info-v1"};
+        "cdt-plusplus-causal-info-v2"};
 
     struct Payload_integrity
     {
@@ -221,7 +222,7 @@ namespace cdt::utilities
                          CGAL::to_double(point.z()));
     }
 
-    [[nodiscard]] inline auto cell_key(auto const& cell) -> std::string
+    [[nodiscard]] inline auto point_cell_key(auto const& cell) -> std::string
     {
       std::array points{point_key(cell->vertex(0)->point()),
                         point_key(cell->vertex(1)->point()),
@@ -230,6 +231,184 @@ namespace cdt::utilities
       std::ranges::sort(points);
       return fmt::format("{};{};{};{}", points[0], points[1], points[2],
                          points[3]);
+    }
+
+    template <typename Signature>
+    [[nodiscard]] auto canonical_colors(
+        std::vector<Signature> const& signatures) -> std::vector<std::size_t>
+    {
+      auto ordered = signatures;
+      std::ranges::sort(ordered);
+      ordered.erase(std::unique(ordered.begin(), ordered.end()), ordered.end());
+
+      std::vector<std::size_t> colors;
+      colors.reserve(signatures.size());
+      for (auto const& signature : signatures)
+      {
+        colors.push_back(static_cast<std::size_t>(
+            std::lower_bound(ordered.begin(), ordered.end(), signature) -
+            ordered.begin()));
+      }
+      return colors;
+    }
+
+    inline constexpr std::size_t CANONICAL_INCIDENCE_WORK_BUDGET{100'000};
+
+    inline void consume_canonical_incidence_work(std::size_t& budget)
+    {
+      if (budget == 0)
+      {
+        throw std::runtime_error{
+            "Canonical incidence search exceeded its work budget"};
+      }
+      --budget;
+    }
+
+    [[nodiscard]] inline auto refine_incidence_colors(
+        std::vector<std::vector<std::size_t>> const& adjacency,
+        std::vector<std::size_t> colors, std::size_t& budget)
+        -> std::vector<std::size_t>
+    {
+      for (std::size_t iteration = 0; iteration < adjacency.size(); ++iteration)
+      {
+        consume_canonical_incidence_work(budget);
+        std::vector<std::vector<std::size_t>> signatures;
+        signatures.reserve(adjacency.size());
+        for (std::size_t node = 0; node < adjacency.size(); ++node)
+        {
+          std::vector<std::size_t> neighboring_colors;
+          neighboring_colors.reserve(adjacency[node].size());
+          for (auto const neighbor : adjacency[node])
+          {
+            neighboring_colors.push_back(colors.at(neighbor));
+          }
+          std::ranges::sort(neighboring_colors);
+
+          std::vector<std::size_t> signature;
+          signature.reserve(neighboring_colors.size() + 1);
+          signature.push_back(colors[node]);
+          signature.insert(signature.end(), neighboring_colors.begin(),
+                           neighboring_colors.end());
+          signatures.push_back(std::move(signature));
+        }
+
+        auto refined = canonical_colors(signatures);
+        if (refined == colors) { break; }
+        colors = std::move(refined);
+      }
+      return colors;
+    }
+
+    /// @pre `colors` is a permutation of `[0, colors.size())`, assigning every
+    /// node a unique, valid color index.
+    [[nodiscard]] inline auto incidence_records_for_coloring(
+        std::vector<std::string> const&              bases,
+        std::vector<std::vector<std::size_t>> const& adjacency,
+        std::vector<std::size_t> const& colors) -> std::vector<std::string>
+    {
+      std::vector<std::size_t> nodes_by_color(colors.size());
+      for (std::size_t node = 0; node < colors.size(); ++node)
+      {
+        nodes_by_color.at(colors[node]) = node;
+      }
+
+      std::vector<std::string> records;
+      records.reserve(bases.size());
+      for (auto const node : nodes_by_color)
+      {
+        std::vector<std::size_t> neighboring_colors;
+        neighboring_colors.reserve(adjacency[node].size());
+        for (auto const neighbor : adjacency[node])
+        {
+          neighboring_colors.push_back(colors.at(neighbor));
+        }
+        std::ranges::sort(neighboring_colors);
+
+        auto record =
+            fmt::format("{}:{}:neighbors=", bases[node].size(), bases[node]);
+        for (auto const color : neighboring_colors)
+        {
+          record.append(std::to_string(color));
+          record.push_back(';');
+        }
+        records.push_back(std::move(record));
+      }
+      return records;
+    }
+
+    [[nodiscard]] inline auto canonical_incidence_search(
+        std::vector<std::string> const&              bases,
+        std::vector<std::vector<std::size_t>> const& adjacency,
+        std::vector<std::size_t> colors, std::size_t& budget)
+        -> std::vector<std::string>
+    {
+      consume_canonical_incidence_work(budget);
+      colors = refine_incidence_colors(adjacency, std::move(colors), budget);
+
+      std::vector<std::size_t> color_counts(colors.size());
+      for (auto const color : colors) { ++color_counts.at(color); }
+      auto const ambiguous = std::ranges::find_if(
+          color_counts, [](std::size_t const count) { return count > 1; });
+      if (ambiguous == color_counts.end())
+      {
+        return incidence_records_for_coloring(bases, adjacency, colors);
+      }
+
+      auto const ambiguous_color =
+          static_cast<std::size_t>(ambiguous - color_counts.begin());
+      auto const individualized_color = *std::ranges::max_element(colors) + 1;
+      std::optional<std::vector<std::string>> best;
+      for (std::size_t node = 0; node < colors.size(); ++node)
+      {
+        if (colors[node] != ambiguous_color) { continue; }
+        auto individualized  = colors;
+        individualized[node] = individualized_color;
+        auto candidate       = canonical_incidence_search(
+            bases, adjacency, std::move(individualized), budget);
+        if (!best || candidate < *best) { best = std::move(candidate); }
+      }
+      return std::move(*best);
+    }
+
+    [[nodiscard]] inline auto canonical_bipartite_incidence_records(
+        std::vector<std::string> const&              vertex_bases,
+        std::vector<std::string> const&              cell_bases,
+        std::vector<std::vector<std::size_t>> const& cell_vertices)
+        -> std::vector<std::string>
+    {
+      if (cell_bases.size() != cell_vertices.size())
+      {
+        throw std::invalid_argument{
+            "Cell bases and incidence records must have equal sizes"};
+      }
+      for (auto const& incident_vertices : cell_vertices)
+      {
+        for (auto const vertex : incident_vertices)
+        {
+          if (vertex >= vertex_bases.size())
+          {
+            throw std::invalid_argument{
+                "Cell incidence records must reference known vertices"};
+          }
+        }
+      }
+
+      auto bases = vertex_bases;
+      bases.insert(bases.end(), cell_bases.begin(), cell_bases.end());
+      if (bases.empty()) { return {}; }
+      std::vector<std::vector<std::size_t>> adjacency(bases.size());
+      for (std::size_t cell = 0; cell < cell_vertices.size(); ++cell)
+      {
+        auto const cell_node = vertex_bases.size() + cell;
+        for (auto const vertex : cell_vertices[cell])
+        {
+          adjacency.at(vertex).push_back(cell_node);
+          adjacency[cell_node].push_back(vertex);
+        }
+      }
+      auto budget = CANONICAL_INCIDENCE_WORK_BUDGET;
+      return canonical_incidence_search(bases, adjacency,
+                                        canonical_colors(bases), budget);
     }
 
     template <typename TriangulationType>
@@ -255,6 +434,61 @@ namespace cdt::utilities
       }
       std::ranges::sort(records);
       return records;
+    }
+
+    template <typename TriangulationType>
+    [[nodiscard]] auto has_coincident_vertices(
+        TriangulationType const& triangulation) -> bool
+    {
+      std::map<std::string, std::size_t> point_counts;
+      for (auto const vertex : triangulation.finite_vertex_handles())
+      {
+        if (++point_counts[point_key(vertex->point())] > 1) { return true; }
+      }
+      return false;
+    }
+
+    template <typename TriangulationType>
+    [[nodiscard]] auto incidence_topology_records(
+        TriangulationType const& triangulation) -> std::vector<std::string>
+    {
+      auto const finite_vertices = triangulation.finite_vertex_handles();
+      using Vertex_handle =
+          std::remove_cvref_t<decltype(*finite_vertices.begin())>;
+      std::vector<Vertex_handle> vertices(finite_vertices.begin(),
+                                          finite_vertices.end());
+
+      auto const finite_cells = triangulation.finite_cell_handles();
+      using Cell_handle = std::remove_cvref_t<decltype(*finite_cells.begin())>;
+      std::vector<Cell_handle> cells(finite_cells.begin(), finite_cells.end());
+
+      std::map<Vertex_handle, std::size_t> vertex_indices;
+      std::vector<std::string>             vertex_bases;
+      vertex_bases.reserve(vertices.size());
+      for (std::size_t index = 0; index < vertices.size(); ++index)
+      {
+        vertex_indices.emplace(vertices[index], index);
+        vertex_bases.emplace_back(
+            fmt::format("v:{}:{}", point_key(vertices[index]->point()),
+                        vertices[index]->info()));
+      }
+
+      std::vector<std::string> cell_bases;
+      cell_bases.reserve(cells.size());
+      std::vector<std::vector<std::size_t>> cell_vertices(cells.size());
+      for (std::size_t cell_index = 0; cell_index < cells.size(); ++cell_index)
+      {
+        cell_bases.emplace_back(fmt::format("c:{}", cells[cell_index]->info()));
+        cell_vertices[cell_index].reserve(4);
+        for (std::size_t local_index = 0; local_index < 4; ++local_index)
+        {
+          auto const vertex_index = vertex_indices.at(
+              cells[cell_index]->vertex(static_cast<int>(local_index)));
+          cell_vertices[cell_index].push_back(vertex_index);
+        }
+      }
+      return canonical_bipartite_incidence_records(vertex_bases, cell_bases,
+                                                   cell_vertices);
     }
 
     [[nodiscard]] inline auto fingerprint_records(
@@ -283,6 +517,13 @@ namespace cdt::utilities
     [[nodiscard]] auto canonical_topology_fingerprint(
         TriangulationType const& triangulation) -> std::uint64_t
     {
+      // topology.fnv1a64 uses different record schemes in these branches, so
+      // coincident-coordinate and point-keyed digests are not comparable.
+      if (has_coincident_vertices(triangulation))
+      {
+        return fingerprint_records(incidence_topology_records(triangulation));
+      }
+
       auto records = vertex_records(triangulation);
       records.reserve(
           static_cast<std::size_t>(triangulation.number_of_vertices() +
@@ -290,7 +531,7 @@ namespace cdt::utilities
       for (auto const cell : triangulation.finite_cell_handles())
       {
         records.emplace_back(
-            fmt::format("c:{}:{}", cell_key(cell), cell->info()));
+            fmt::format("c:{}:{}", point_cell_key(cell), cell->info()));
       }
       std::ranges::sort(records);
       return fingerprint_records(records);
@@ -302,25 +543,29 @@ namespace cdt::utilities
     {
       if constexpr (HAS_CAUSAL_INFO<TriangulationType>)
       {
+        // CGAL writes and recreates vertices and cells in container order.
+        // Persist those payload indices because distinct TDS vertices may be
+        // geometrically coincident after topological moves.
         std::vector<std::string> vertices;
         vertices.reserve(
             static_cast<std::size_t>(triangulation.number_of_vertices()));
+        std::uint64_t vertex_index{};
         for (auto const vertex : triangulation.finite_vertex_handles())
         {
           vertices.emplace_back(
-              fmt::format("{}|{}", point_key(vertex->point()), vertex->info()));
+              fmt::format("{}|{}", vertex_index, vertex->info()));
+          ++vertex_index;
         }
-        std::ranges::sort(vertices);
 
         std::vector<std::string> cells;
         cells.reserve(
             static_cast<std::size_t>(triangulation.number_of_finite_cells()));
+        std::uint64_t cell_index{};
         for (auto const cell : triangulation.finite_cell_handles())
         {
-          cells.emplace_back(
-              fmt::format("{}|{}", cell_key(cell), cell->info()));
+          cells.emplace_back(fmt::format("{}|{}", cell_index, cell->info()));
+          ++cell_index;
         }
-        std::ranges::sort(cells);
 
         output << '\n' << CAUSAL_INFO_HEADER << '\n';
         output << "vertices=" << vertices.size() << '\n';
@@ -525,6 +770,48 @@ namespace cdt::utilities
                             path);
     }
 
+    [[nodiscard]] inline auto read_indexed_info(
+        std::istream& input, std::string_view const prefix,
+        std::uint64_t const count, std::filesystem::path const& path)
+        -> std::vector<Int_precision>
+    {
+      std::vector<std::optional<Int_precision>> indexed(
+          static_cast<std::size_t>(count));
+      std::string line;
+      for (std::uint64_t record_index = 0; record_index < count; ++record_index)
+      {
+        if (!std::getline(input, line))
+        {
+          throw std::filesystem::filesystem_error(
+              "Truncated causal triangulation metadata", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        auto const [key, value] = parse_record(line, prefix, path);
+        auto const index        = parse_unsigned(key, 10, path);
+        if (index >= count || indexed[static_cast<std::size_t>(index)])
+        {
+          throw std::filesystem::filesystem_error(
+              "Duplicate or out-of-range causal metadata index", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        indexed[static_cast<std::size_t>(index)] = value;
+      }
+
+      std::vector<Int_precision> values;
+      values.reserve(indexed.size());
+      for (auto const& value : indexed)
+      {
+        if (!value)
+        {
+          throw std::filesystem::filesystem_error(
+              "Missing causal metadata index", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        values.push_back(*value);
+      }
+      return values;
+    }
+
     template <typename TriangulationType>
     void read_causal_info(std::istream& input, TriangulationType& triangulation,
                           std::filesystem::path const& path)
@@ -552,23 +839,8 @@ namespace cdt::utilities
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
 
-      std::map<std::string, Int_precision> vertex_info;
-      for (std::uint64_t index = 0; index < vertex_count; ++index)
-      {
-        if (!std::getline(input, line))
-        {
-          throw std::filesystem::filesystem_error(
-              "Truncated causal vertex metadata", path,
-              std::make_error_code(std::errc::illegal_byte_sequence));
-        }
-        auto [key, value] = parse_record(line, "v=", path);
-        if (!vertex_info.emplace(std::move(key), value).second)
-        {
-          throw std::filesystem::filesystem_error(
-              "Duplicate causal vertex metadata", path,
-              std::make_error_code(std::errc::illegal_byte_sequence));
-        }
-      }
+      auto const vertex_info =
+          read_indexed_info(input, "v=", vertex_count, path);
 
       if (!std::getline(input, line))
       {
@@ -585,53 +857,19 @@ namespace cdt::utilities
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
 
-      std::map<std::string, Int_precision> cell_info;
-      for (std::uint64_t index = 0; index < cell_count; ++index)
-      {
-        if (!std::getline(input, line))
-        {
-          throw std::filesystem::filesystem_error(
-              "Truncated causal cell metadata", path,
-              std::make_error_code(std::errc::illegal_byte_sequence));
-        }
-        auto [key, value] = parse_record(line, "c=", path);
-        if (!cell_info.emplace(std::move(key), value).second)
-        {
-          throw std::filesystem::filesystem_error(
-              "Duplicate causal cell metadata", path,
-              std::make_error_code(std::errc::illegal_byte_sequence));
-        }
-      }
+      auto const  cell_info = read_indexed_info(input, "c=", cell_count, path);
 
+      std::size_t vertex_index{};
       for (auto const vertex : triangulation.finite_vertex_handles())
       {
-        auto const found = vertex_info.find(point_key(vertex->point()));
-        if (found == vertex_info.end())
-        {
-          throw std::filesystem::filesystem_error(
-              "Causal vertex metadata does not match triangulation", path,
-              std::make_error_code(std::errc::illegal_byte_sequence));
-        }
-        vertex->info() = found->second;
-        vertex_info.erase(found);
+        vertex->info() = vertex_info.at(vertex_index);
+        ++vertex_index;
       }
+      std::size_t cell_index{};
       for (auto const cell : triangulation.finite_cell_handles())
       {
-        auto const found = cell_info.find(cell_key(cell));
-        if (found == cell_info.end())
-        {
-          throw std::filesystem::filesystem_error(
-              "Causal cell metadata does not match triangulation", path,
-              std::make_error_code(std::errc::illegal_byte_sequence));
-        }
-        cell->info() = found->second;
-        cell_info.erase(found);
-      }
-      if (!vertex_info.empty() || !cell_info.empty())
-      {
-        throw std::filesystem::filesystem_error(
-            "Causal metadata contains records outside the triangulation", path,
-            std::make_error_code(std::errc::illegal_byte_sequence));
+        cell->info() = cell_info.at(cell_index);
+        ++cell_index;
       }
     }
 
