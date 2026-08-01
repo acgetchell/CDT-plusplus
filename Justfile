@@ -166,7 +166,7 @@ clang-tidy:
       +gnu.org/autoconf@2.73.0 \
       +gnu.org/autoconf-archive@2024.10.16 \
       +gnu.org/automake@1.18.1 \
-      +gnu.org/libtool@2.6.2 \
+      +gnu.org/libtool@2.5.4 \
       +gnu.org/texinfo@7.3.0 \
       +freedesktop.org/pkg-config@0.29.2 \
       -- ./scripts/clang-tidy.sh

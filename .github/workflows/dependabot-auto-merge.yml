@@ -68,6 +68,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPOSITORY: ${{ github.repository }}
         run: |
+          set -euo pipefail
+
           while true; do
             current_head_sha="$(
               gh api "repos/${REPOSITORY}/pulls/${PR_NUMBER}" --jq '.head.sha'
