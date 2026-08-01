@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping, Sequence
 
-VCPKG_TOOL_RELEASE = "2026-07-13"
+VCPKG_TOOL_RELEASE = "2026-07-27"
 OFFICIAL_ORIGINS = frozenset(
     {
         "https://github.com/microsoft/vcpkg",
@@ -26,8 +26,8 @@ OFFICIAL_ORIGINS = frozenset(
     }
 )
 WINDOWS_TOOL_SHA256 = {
-    "amd64": "67958c6a13a35130ff8035bef33097ffe3376a6708577a826cfa41fa592db611",
-    "arm64": "8d87ed438db65b0015f624693612cb79d8c35908348c194984c23b63a2da0211",
+    "amd64": "13b8175e99a884c5ad34249218754b45541a1a63f216e92603aee57a285ac741",
+    "arm64": "5e8d7acd0f3049411ad1eacd3af2a946014ed430c27010e384ee1289a8e98cbc",
 }
 
 
