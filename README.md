@@ -320,11 +320,11 @@ example:
 
 ```bash
 just python-sync
-pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.0 +ninja-build.org +python.org just check
+pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.1 +ninja-build.org +python.org just check
 ```
 
 All configure paths require CMake 4.4.0 or newer. The Justfile owns the tested
-4.4.0 toolchain pin: pkgx-backed recipes remain reproducible at that version,
+4.4.1 toolchain pin: pkgx-backed recipes remain reproducible at that version,
 while direct configure paths accept newer compatible CMake releases. CI is
 pkgx-first; because pkgx does not currently publish its CMake and Ninja packages
 for Windows, that job uses the exact Justfile pins available as PyPI wheels
@@ -376,7 +376,7 @@ followed by the `reference-smoke` test preset; products and tests are isolated u
 `scripts\fast-build.bat` configures the same reference tree and builds only the primary `cdt` target. All entry points
 preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes. Direct script
 invocations must expose CMake 4.4.0 or newer on `PATH`; the canonical pkgx-backed `just` recipes select the tested
-4.4.0 toolchain automatically.
+4.4.1 toolchain automatically.
 
 ### Project Layout
 

@@ -5,14 +5,14 @@ set minimum-version := "1.57.0"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 just_version := "1.57.0"
-uv_version := "0.11.32"
+uv_version := "0.12.0"
 git_cliff_version := "2.13.1"
 actionlint_version := "1.7.12"
-pinact_version := "4.1.0"
+pinact_version := "4.1.1"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 llvm_version := "22"
 cmake_minimum_version := "4.4.0"
-cmake_version := "4.4.0"
+cmake_version := "4.4.1"
 ninja_version := "1.13.2"
 ninja_windows_wheel_version := "1.13.0"
 ccache_version := "4.13.6"
