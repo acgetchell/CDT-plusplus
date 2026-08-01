@@ -328,6 +328,126 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
                  utilities::detail::canonical_topology_fingerprint(annotated));
       }
     }
+    WHEN("Distinct causal vertices occupy the same geometric point")
+    {
+      TemporaryDirectory const directory;
+      auto const               filename  = directory.file("coincident.off");
+      auto                     annotated = manifold.delaunay_snapshot();
+      auto const               vertices  = annotated.finite_vertex_handles();
+      auto                     first     = vertices.begin();
+      auto                     second    = std::next(first);
+      REQUIRE(second != vertices.end());
+      (*second)->set_point((*first)->point());
+
+      Int_precision vertex_info{10};
+      for (auto const vertex : annotated.finite_vertex_handles())
+      {
+        vertex->info() = vertex_info++;
+      }
+      Int_precision cell_info{31};
+      for (auto const cell : annotated.finite_cell_handles())
+      {
+        cell->info() = cell_info++;
+      }
+
+      write_file(filename, annotated);
+      auto const restored = read_file<Delaunay_t<3>>(filename);
+
+      THEN("payload indices preserve distinct causal identities")
+      {
+        CHECK_EQ(utilities::detail::canonical_topology_fingerprint(restored),
+                 utilities::detail::canonical_topology_fingerprint(annotated));
+
+        auto original_vertex = annotated.finite_vertex_handles().begin();
+        auto restored_vertex = restored.finite_vertex_handles().begin();
+        for (; original_vertex != annotated.finite_vertex_handles().end();
+             ++original_vertex, ++restored_vertex)
+        {
+          REQUIRE(restored_vertex != restored.finite_vertex_handles().end());
+          CHECK_EQ((*restored_vertex)->info(), (*original_vertex)->info());
+        }
+        CHECK(restored_vertex == restored.finite_vertex_handles().end());
+
+        auto original_cell = annotated.finite_cell_handles().begin();
+        auto restored_cell = restored.finite_cell_handles().begin();
+        for (; original_cell != annotated.finite_cell_handles().end();
+             ++original_cell, ++restored_cell)
+        {
+          REQUIRE(restored_cell != restored.finite_cell_handles().end());
+          CHECK_EQ((*restored_cell)->info(), (*original_cell)->info());
+        }
+        CHECK(restored_cell == restored.finite_cell_handles().end());
+      }
+    }
+    WHEN(
+        "Coincident vertices exchange causal labels across distinct cell stars")
+    {
+      auto triangulation_with_interior = manifold.delaunay_snapshot();
+      triangulation_with_interior.insert(Point_t<3>(0.25, 0.25, 0.25));
+
+      Delaunay_t<3>::Cell_handle first_cell;
+      Delaunay_t<3>::Cell_handle second_cell;
+      for (auto const cell : triangulation_with_interior.finite_cell_handles())
+      {
+        for (int index = 0; index < 4; ++index)
+        {
+          auto const neighbor = cell->neighbor(index);
+          if (!triangulation_with_interior.is_infinite(neighbor))
+          {
+            first_cell  = cell;
+            second_cell = neighbor;
+            break;
+          }
+        }
+        if (first_cell != Delaunay_t<3>::Cell_handle{}) { break; }
+      }
+      REQUIRE(first_cell != Delaunay_t<3>::Cell_handle{});
+      REQUIRE(second_cell != Delaunay_t<3>::Cell_handle{});
+
+      auto unique_vertex = [](Delaunay_t<3>::Cell_handle const cell,
+                              Delaunay_t<3>::Cell_handle const other) {
+        for (int cell_index = 0; cell_index < 4; ++cell_index)
+        {
+          auto const candidate = cell->vertex(cell_index);
+          bool       shared{};
+          for (int other_index = 0; other_index < 4; ++other_index)
+          {
+            shared = shared || candidate == other->vertex(other_index);
+          }
+          if (!shared) { return candidate; }
+        }
+        return Delaunay_t<3>::Vertex_handle{};
+      };
+      auto const first_vertex  = unique_vertex(first_cell, second_cell);
+      auto const second_vertex = unique_vertex(second_cell, first_cell);
+      REQUIRE(first_vertex != Delaunay_t<3>::Vertex_handle{});
+      REQUIRE(second_vertex != Delaunay_t<3>::Vertex_handle{});
+      REQUIRE(first_vertex != second_vertex);
+      second_vertex->set_point(first_vertex->point());
+
+      Int_precision vertex_info{10};
+      for (auto const vertex :
+           triangulation_with_interior.finite_vertex_handles())
+      {
+        vertex->info() = vertex_info++;
+      }
+      Int_precision cell_info{31};
+      for (auto const cell : triangulation_with_interior.finite_cell_handles())
+      {
+        cell->info() = cell_info++;
+      }
+
+      auto const fingerprint_before =
+          utilities::detail::canonical_topology_fingerprint(
+              triangulation_with_interior);
+      std::swap(first_vertex->info(), second_vertex->info());
+      auto const fingerprint_after =
+          utilities::detail::canonical_topology_fingerprint(
+              triangulation_with_interior);
+
+      THEN("the topology fingerprint detects the changed incidence")
+      { CHECK_NE(fingerprint_before, fingerprint_after); }
+    }
     WHEN("A stochastic artifact is written with reproducibility metadata")
     {
       TemporaryDirectory const directory;

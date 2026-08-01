@@ -90,14 +90,14 @@ manifest. The manifest records:
 - a canonical placement fingerprint derived from sorted finite vertices and
   their timeslices;
 - a canonical topology fingerprint derived from sorted vertices, causal
-  metadata, and finite cells;
+  metadata, and finite-cell incidence;
 - the CDT++ version, compiler, build configuration, standard library,
   operating system, architecture, C++ standard, and CGAL version;
 - the payload byte count and FNV-1a corruption checksum.
 
 The triangulation remains a CGAL-readable payload; provenance is in the sidecar
 rather than prepended to the CGAL stream. Because CGAL's native triangulation
-stream omits `info()` fields, CDT++ appends a versioned, canonically ordered
+stream omits `info()` fields, CDT++ appends a versioned, payload-indexed
 causal-data trailer that preserves every finite vertex timeslice and cell type.
 Legacy streams without this trailer remain topology-readable. Before
 publication, CDT++ serializes with round-trip floating-point precision to a
