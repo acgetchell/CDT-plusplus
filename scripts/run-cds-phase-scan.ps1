@@ -15,7 +15,13 @@ param(
 $ErrorActionPreference = "Stop"
 
 cmake --build $BuildDir
+if ($LASTEXITCODE -ne 0) {
+  throw "cmake build failed with exit code $LASTEXITCODE."
+}
 ctest --test-dir $BuildDir --output-on-failure
+if ($LASTEXITCODE -ne 0) {
+  throw "ctest failed with exit code $LASTEXITCODE."
+}
 
 $candidateExecutables = @(
   (Join-Path $BuildDir "src/cdt.exe"),
@@ -31,12 +37,24 @@ if (-not $cdt) {
 
 foreach ($point in $CouplingPoints) {
   $parts = $point.Split(",")
+  if ($parts.Count -lt 3) {
+    throw "Coupling point '$point' must contain kappa0,kappa4,Delta."
+  }
   $kappa0 = $parts[0]
   $kappa4 = $parts[1]
   $delta = $parts[2]
   foreach ($target in $TargetVolumes) {
     foreach ($chain in 1..$Chains) {
-      $seed = $BaseSeed + $chain
+      $seedText = "$BaseSeed|$point|$target|$chain"
+      $sha256 = [System.Security.Cryptography.SHA256]::Create()
+      try {
+        $seedBytes = $sha256.ComputeHash(
+          [System.Text.Encoding]::UTF8.GetBytes($seedText))
+      }
+      finally {
+        $sha256.Dispose()
+      }
+      $seed = [BitConverter]::ToUInt32($seedBytes, 0)
       $runId = "cds-k0_$kappa0-k4_$kappa4-d_$delta-n4_$target-chain_$chain"
       & $cdt `
         --spherical `
@@ -55,6 +73,9 @@ foreach ($point in $CouplingPoints) {
         --chain-id "chain-$chain" `
         --run-id $runId `
         --output-dir $ResultsDir
+      if ($LASTEXITCODE -ne 0) {
+        throw "cdt failed for $runId with exit code $LASTEXITCODE."
+      }
     }
   }
 }

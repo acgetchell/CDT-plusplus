@@ -13,6 +13,8 @@
 #include <cstddef>
 #include <limits>
 #include <numeric>
+#include <optional>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -22,6 +24,10 @@
 namespace cdt::four_d::phase
 {
   using Profile = std::vector<long double>;
+
+  inline constexpr long double collapse_peak_ratio = 0.70L;
+  inline constexpr long double alternating_ratio_limit = 0.30L;
+  inline constexpr long double cos3_correlation_limit = 0.85L;
 
   enum class Verdict
   {
@@ -107,6 +113,10 @@ namespace cdt::four_d::phase
     Profile result(profiles.front().size(), 0.0L);
     for (auto const& profile : profiles)
     {
+      if (profile.size() != result.size())
+      {
+        throw std::invalid_argument{"mean: profiles must have equal size."};
+      }
       for (std::size_t index = 0; index < result.size(); ++index)
       {
         result[index] += profile[index];
@@ -128,6 +138,11 @@ namespace cdt::four_d::phase
     if (profiles.size() < 2) { return result; }
     for (auto const& profile : profiles)
     {
+      if (profile.size() != profile_mean.size())
+      {
+        throw std::invalid_argument{
+            "covariance: profiles must match the mean size."};
+      }
       for (std::size_t i = 0; i < profile_mean.size(); ++i)
       {
         for (std::size_t j = 0; j < profile_mean.size(); ++j)
@@ -220,6 +235,41 @@ namespace cdt::four_d::phase
     return denominator == 0.0L ? 0.0L : numerator / denominator;
   }
 
+  [[nodiscard]] inline auto log_log_residual(
+      std::vector<std::pair<long double, long double>> const& samples,
+      long double const exponent) -> long double
+  {
+    std::vector<std::pair<long double, long double>> positive_samples;
+    positive_samples.reserve(samples.size());
+    for (auto const& sample : samples)
+    {
+      if (sample.first > 0.0L && sample.second > 0.0L)
+      {
+        positive_samples.push_back(sample);
+      }
+    }
+    if (positive_samples.size() < 2)
+    {
+      return std::numeric_limits<long double>::infinity();
+    }
+
+    auto intercept = 0.0L;
+    for (auto const& [x, y] : positive_samples)
+    {
+      intercept += std::log(y) - exponent * std::log(x);
+    }
+    intercept /= static_cast<long double>(positive_samples.size());
+
+    auto residual = 0.0L;
+    for (auto const& [x, y] : positive_samples)
+    {
+      auto const difference =
+          std::log(y) - (intercept + exponent * std::log(x));
+      residual += difference * difference;
+    }
+    return residual;
+  }
+
   [[nodiscard]] inline auto analyze_finite_size_scaling(
       std::vector<std::pair<long double, Profile>> profiles_by_volume)
       -> FiniteSizeScalingReport
@@ -238,6 +288,9 @@ namespace cdt::four_d::phase
         fit_power_law_exponent(peaks),
         0.0L,
         false};
+    report.collapse_error =
+        log_log_residual(widths, report.width_exponent) +
+        log_log_residual(peaks, report.peak_exponent);
     report.passed = std::abs(report.width_exponent - 0.25L) < 0.08L &&
                     std::abs(report.peak_exponent - 0.75L) < 0.08L;
     return report;
@@ -289,6 +342,27 @@ namespace cdt::four_d::phase
     return result;
   }
 
+  [[nodiscard]] inline auto classify_profile_shape(Profile const& profile,
+                                                   long double const total)
+      -> std::optional<Verdict>
+  {
+    if (total == 0.0L) { return Verdict::thermalization_failed; }
+
+    auto const peak = *std::ranges::max_element(profile) / total;
+    if (peak > collapse_peak_ratio) { return Verdict::collapsed_like; }
+
+    auto alternating = 0.0L;
+    for (std::size_t index = 0; index < profile.size(); ++index)
+    {
+      alternating += (index % 2 == 0 ? 1.0L : -1.0L) * profile[index];
+    }
+    if (std::abs(alternating / total) > alternating_ratio_limit)
+    {
+      return Verdict::c_b_like;
+    }
+    return std::nullopt;
+  }
+
   [[nodiscard]] inline auto diagnose_c_ds_finite_size(
       std::vector<std::pair<long double, Profile>> profiles_by_volume,
       std::size_t const effective_sample_count) -> CdsValidationReport
@@ -307,26 +381,9 @@ namespace cdt::four_d::phase
       auto profile = centered(original_profile);
       auto const total =
           std::accumulate(profile.begin(), profile.end(), 0.0L);
-      if (total == 0.0L)
+      if (auto const verdict = classify_profile_shape(profile, total))
       {
-        report.verdict = Verdict::thermalization_failed;
-        return report;
-      }
-      auto const peak = *std::ranges::max_element(profile) / total;
-      if (peak > 0.70L)
-      {
-        report.verdict = Verdict::collapsed_like;
-        return report;
-      }
-
-      auto alternating = 0.0L;
-      for (std::size_t index = 0; index < profile.size(); ++index)
-      {
-        alternating += (index % 2 == 0 ? 1.0L : -1.0L) * profile[index];
-      }
-      if (std::abs(alternating / total) > 0.30L)
-      {
-        report.verdict = Verdict::c_b_like;
+        report.verdict = *verdict;
         return report;
       }
 
@@ -339,7 +396,8 @@ namespace cdt::four_d::phase
 
     report.scaling = analyze_finite_size_scaling(std::move(profiles_by_volume));
     report.verdict = report.scaling.passed &&
-                             report.minimum_profile_correlation > 0.85L
+                             report.minimum_profile_correlation >
+                                 cos3_correlation_limit
                          ? Verdict::c_ds_supported
                          : Verdict::no_phase_classification;
     return report;
@@ -384,43 +442,27 @@ namespace cdt::four_d::phase
     auto const total =
         std::accumulate(diagnostics.mean_profile.begin(),
                         diagnostics.mean_profile.end(), 0.0L);
-    if (total == 0.0L)
+    if (auto const verdict =
+            classify_profile_shape(diagnostics.mean_profile, total))
     {
-      diagnostics.verdict = Verdict::thermalization_failed;
-      return diagnostics;
-    }
-    auto const peak =
-        *std::ranges::max_element(diagnostics.mean_profile) / total;
-    if (peak > 0.70L)
-    {
-      diagnostics.verdict = Verdict::collapsed_like;
-      return diagnostics;
-    }
-
-    auto alternating = 0.0L;
-    for (std::size_t index = 0; index < diagnostics.mean_profile.size();
-         ++index)
-    {
-      alternating += (index % 2 == 0 ? 1.0L : -1.0L) *
-                     diagnostics.mean_profile[index];
-    }
-    if (std::abs(alternating / total) > 0.30L)
-    {
-      diagnostics.verdict = Verdict::c_b_like;
+      diagnostics.verdict = *verdict;
       return diagnostics;
     }
 
     auto const reference = cos3_reference(diagnostics.mean_profile.size());
     auto const cos3_corr =
         profile_correlation(diagnostics.mean_profile, reference);
+    // These are heuristic profile-shape scores derived from the cos^3
+    // correlation, not formal likelihood, AIC, or BIC statistics.
     diagnostics.held_out_likelihood = cos3_corr;
     diagnostics.aic = -2.0L * cos3_corr + 2.0L * 4.0L;
     diagnostics.bic =
         -2.0L * cos3_corr +
         std::log(static_cast<long double>(diagnostics.mean_profile.size())) *
             4.0L;
-    diagnostics.verdict = cos3_corr > 0.85L ? Verdict::c_ds_supported
-                                            : Verdict::no_phase_classification;
+    diagnostics.verdict = cos3_corr > cos3_correlation_limit
+                              ? Verdict::c_ds_supported
+                              : Verdict::no_phase_classification;
     return diagnostics;
   }
 }  // namespace cdt::four_d::phase

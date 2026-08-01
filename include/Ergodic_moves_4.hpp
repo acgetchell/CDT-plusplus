@@ -9,6 +9,7 @@
 #define CDT_PLUSPLUS_ERGODIC_MOVES_4_HPP
 
 #include <expected>
+#include <utility>
 #include <string>
 
 #include "Foliated_triangulation_4.hpp"
@@ -30,10 +31,14 @@ namespace cdt::four_d::moves
                                   move_tracker::MoveType4D const move)
       -> ExpectedMove
   {
-    auto candidate          = before;
     auto const forward      = before.candidate_multiplicity(move);
     auto const reverse_move = move_tracker::reverse_move(move);
-    if (forward <= 0 || !candidate.apply_move(move))
+    if (forward <= 0)
+    {
+      return std::unexpected("4D move is not applicable.");
+    }
+    auto candidate = before;
+    if (!candidate.apply_move(move))
     {
       return std::unexpected("4D move is not applicable.");
     }
@@ -56,7 +61,7 @@ namespace cdt::four_d::moves
         after_counts.N23 - before_counts.N23,
         after_counts.N14 - before_counts.N14};
 
-    return MoveApplication{candidate, move, delta, forward, reverse};
+    return MoveApplication{std::move(candidate), move, delta, forward, reverse};
   }
 
   [[nodiscard]] inline auto do_24_move(FoliatedTriangulation4 const& before)

@@ -26,6 +26,11 @@ namespace cdt::four_d
     Int_precision N32{0};
     Int_precision N23{0};
     Int_precision N14{0};
+    bool          class_resolved_proposals{false};
+    Int_precision spatial_tetrahedra{0};
+    Int_precision timelike_edges{0};
+    Int_precision mixed_triangles{0};
+    Int_precision timelike_tetrahedra{0};
   };
 
   struct S4Couplings

@@ -16,13 +16,17 @@
 #include <filesystem>
 #include <fstream>
 #include <map>
+#include <optional>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "Ergodic_moves_4.hpp"
+#include "Random.hpp"
 #include "Utilities.hpp"
 
 namespace cdt::four_d
@@ -52,6 +56,7 @@ namespace cdt::four_d
     Int_precision thermalization_steps{0};
     Int_precision measurement_interval{1};
     Int_precision checkpoint_interval{0};
+    std::filesystem::path checkpoint_directory;
   };
 
   struct Metropolis4Result
@@ -66,12 +71,24 @@ namespace cdt::four_d
   class Metropolis4
   {
     Metropolis4Config m_config;
-    pcg64             m_rng;
+    cdt::Random       m_rng;
+
+    [[nodiscard]] static auto transition_stream_for_chain(
+        std::string const& chain_id) -> cdt::RandomStream
+    {
+      auto value = 14695981039346656037ULL ^
+                   cdt::random_streams::transitions.value();
+      for (auto const character : chain_id)
+      {
+        value ^= static_cast<unsigned char>(character);
+        value *= 1099511628211ULL;
+      }
+      return cdt::RandomStream{value};
+    }
 
     [[nodiscard]] auto propose_move() -> move_tracker::MoveType4D
     {
-      std::uniform_int_distribution<int> distribution(0, 6);
-      return move_tracker::as_move_4d(distribution(m_rng));
+      return move_tracker::generate_random_move_4(m_rng);
     }
 
     [[nodiscard]] auto draw_probability() -> long double
@@ -100,7 +117,11 @@ namespace cdt::four_d
     {
       stream << counts.N0 << ' ' << counts.N1 << ' ' << counts.N2 << ' '
              << counts.N3 << ' ' << counts.N4 << ' ' << counts.N41 << ' '
-             << counts.N32 << ' ' << counts.N23 << ' ' << counts.N14 << '\n';
+             << counts.N32 << ' ' << counts.N23 << ' ' << counts.N14 << ' '
+             << counts.class_resolved_proposals << ' '
+             << counts.spatial_tetrahedra << ' ' << counts.timelike_edges
+             << ' ' << counts.mixed_triangles << ' '
+             << counts.timelike_tetrahedra << '\n';
     }
 
     static auto read_counts(std::istream& stream) -> S4Counts
@@ -108,7 +129,25 @@ namespace cdt::four_d
       S4Counts counts;
       stream >> counts.N0 >> counts.N1 >> counts.N2 >> counts.N3 >>
           counts.N4 >> counts.N41 >> counts.N32 >> counts.N23 >> counts.N14;
+      stream >> counts.class_resolved_proposals >>
+          counts.spatial_tetrahedra >> counts.timelike_edges >>
+          counts.mixed_triangles >> counts.timelike_tetrahedra;
+      if (!stream)
+      {
+        throw std::runtime_error{"Malformed checkpoint counts."};
+      }
       return counts;
+    }
+
+    static void require_label(std::istream& stream, std::string_view expected)
+    {
+      std::string label;
+      stream >> label;
+      if (!stream || label != expected)
+      {
+        throw std::runtime_error{"Malformed checkpoint: expected " +
+                                 std::string{expected} + "."};
+      }
     }
 
    public:
@@ -116,7 +155,8 @@ namespace cdt::four_d
 
     explicit Metropolis4(Metropolis4Config config)
         : m_config{std::move(config)}
-        , m_rng{m_config.seed}
+        , m_rng{cdt::RandomSeed{m_config.seed},
+                transition_stream_for_chain(m_config.chain_id)}
     {}
 
     [[nodiscard]] auto config() const -> Metropolis4Config const&
@@ -126,15 +166,12 @@ namespace cdt::four_d
 
     [[nodiscard]] auto rng_state() const -> std::string
     {
-      std::ostringstream stream;
-      stream << m_rng;
-      return stream.str();
+      return m_rng.engine_state();
     }
 
     void set_rng_state(std::string const& state)
     {
-      std::istringstream stream(state);
-      stream >> m_rng;
+      m_rng.set_engine_state(state);
     }
 
     [[nodiscard]] auto run(FoliatedTriangulation4 initial,
@@ -179,6 +216,13 @@ namespace cdt::four_d
               result.triangulation.is_valid(),
               result.triangulation.spatial_volume_profile()});
         }
+        if (m_config.checkpoint_interval > 0 &&
+            !m_config.checkpoint_directory.empty() &&
+            step % m_config.checkpoint_interval == 0)
+        {
+          save_checkpoint(m_config.checkpoint_directory,
+                          result.triangulation, step);
+        }
       }
 
       return result;
@@ -189,7 +233,14 @@ namespace cdt::four_d
                          Int_precision const step) const
     {
       std::filesystem::create_directories(directory);
-      std::ofstream file(directory / "state.txt");
+      auto const target = directory / "state.txt";
+      auto const temporary = directory / "state.txt.tmp";
+      std::ofstream file(temporary);
+      if (!file)
+      {
+        throw std::runtime_error{"Failed to open checkpoint: " +
+                                 temporary.string()};
+      }
       file << "step " << step << '\n';
       file << "timeslices " << triangulation.timeslices() << '\n';
       file << "counts ";
@@ -198,30 +249,113 @@ namespace cdt::four_d
       file << "profile " << profile.size();
       for (auto const value : profile) { file << ' ' << value; }
       file << '\n';
+      file << "three_three_forward " << triangulation.three_three_forward()
+           << '\n';
+      file << "vertices " << triangulation.vertices().size() << '\n';
+      for (auto const& vertex : triangulation.vertices())
+      {
+        file << "vertex " << vertex.id << ' ' << vertex.time << '\n';
+      }
+      file << "simplices " << triangulation.simplices().size() << '\n';
+      for (auto const& simplex : triangulation.simplices())
+      {
+        file << "simplex " << simplex.id << ' '
+             << static_cast<int>(simplex.type);
+        for (auto const vertex : simplex.vertices) { file << ' ' << vertex; }
+        for (auto const& neighbor : simplex.neighbors)
+        {
+          file << ' ' << neighbor.value_or(SimplexId{0});
+        }
+        file << '\n';
+      }
       file << "rng " << rng_state() << '\n';
+      file.close();
+      if (!file)
+      {
+        throw std::runtime_error{"Failed to write checkpoint: " +
+                                 temporary.string()};
+      }
+      std::filesystem::remove(target);
+      std::filesystem::rename(temporary, target);
     }
 
     [[nodiscard]] auto load_checkpoint(
         std::filesystem::path const& directory) -> std::pair<FoliatedTriangulation4, Int_precision>
     {
-      std::ifstream file(directory / "state.txt");
-      std::string   label;
+      auto const path = directory / "state.txt";
+      std::ifstream file(path);
+      if (!file)
+      {
+        throw std::runtime_error{"Failed to open checkpoint: " +
+                                 path.string()};
+      }
       Int_precision step{0};
       Int_precision timeslices{0};
-      file >> label >> step;
-      file >> label >> timeslices;
-      file >> label;
+      require_label(file, "step");
+      file >> step;
+      require_label(file, "timeslices");
+      file >> timeslices;
+      require_label(file, "counts");
       auto counts = read_counts(file);
       std::size_t profile_size{0};
-      file >> label >> profile_size;
+      require_label(file, "profile");
+      file >> profile_size;
       FoliatedTriangulation4::Profile profile(profile_size);
       for (auto& value : profile) { file >> value; }
-      file >> label;
+      if (!file)
+      {
+        throw std::runtime_error{"Malformed checkpoint profile."};
+      }
+      require_label(file, "three_three_forward");
+      bool three_three_forward{true};
+      file >> three_three_forward;
+      require_label(file, "vertices");
+      std::size_t vertex_count{0};
+      file >> vertex_count;
+      FoliatedTriangulation4::VertexContainer vertices;
+      vertices.reserve(vertex_count);
+      for (std::size_t index = 0; index < vertex_count; ++index)
+      {
+        require_label(file, "vertex");
+        Vertex4D vertex;
+        file >> vertex.id >> vertex.time;
+        vertices.push_back(vertex);
+      }
+      require_label(file, "simplices");
+      std::size_t simplex_count{0};
+      file >> simplex_count;
+      FoliatedTriangulation4::SimplexContainer simplices;
+      simplices.reserve(simplex_count);
+      for (std::size_t index = 0; index < simplex_count; ++index)
+      {
+        require_label(file, "simplex");
+        Simplex4D simplex;
+        auto type = 0;
+        file >> simplex.id >> type;
+        simplex.type = static_cast<SimplexType4D>(type);
+        for (auto& vertex : simplex.vertices) { file >> vertex; }
+        for (auto& neighbor : simplex.neighbors)
+        {
+          SimplexId neighbor_id{0};
+          file >> neighbor_id;
+          neighbor = neighbor_id == 0 ? std::optional<SimplexId>{}
+                                      : std::optional<SimplexId>{neighbor_id};
+        }
+        simplices.push_back(simplex);
+      }
+      require_label(file, "rng");
       std::string state;
       std::getline(file, state);
       if (!state.empty() && state.front() == ' ') { state.erase(state.begin()); }
       set_rng_state(state);
-      return {FoliatedTriangulation4{timeslices, counts, profile}, step};
+      if (!file && state.empty())
+      {
+        throw std::runtime_error{"Malformed checkpoint rng state."};
+      }
+      return {FoliatedTriangulation4::from_checkpoint_state(
+                  timeslices, counts, std::move(profile), std::move(vertices),
+                  std::move(simplices), three_three_forward),
+              step};
     }
   };
 }  // namespace cdt::four_d

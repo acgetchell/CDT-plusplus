@@ -182,6 +182,17 @@ namespace cdt::four_d
   [[nodiscard]] inline auto proposal_inventory_from_counts(S4Counts const& counts)
       -> ProposalInventory4D
   {
+    if (counts.class_resolved_proposals)
+    {
+      return ProposalInventory4D{
+          counts.spatial_tetrahedra,
+          counts.timelike_edges,
+          counts.mixed_triangles,
+          counts.timelike_tetrahedra,
+          counts.N0,
+          counts.N32,
+          counts.N23};
+    }
     return ProposalInventory4D{
         counts.N3,
         counts.N1,

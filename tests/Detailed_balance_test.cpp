@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 #include <doctest/doctest.h>
 
@@ -27,15 +28,13 @@ TEST_CASE("4D proposal ratio is reversible on a small triangulation")
 TEST_CASE("4D detailed-balance acceptance ingredients are finite")
 {
   auto triangulation = FoliatedTriangulation4::periodic_seed(3);
-  auto proposal = moves::apply(triangulation, move_tracker::MoveType4D::TWO_EIGHT);
+  auto proposal =
+      moves::apply(triangulation, move_tracker::MoveType4D::TWO_EIGHT);
   REQUIRE(proposal);
   S4Couplings couplings{1.0L, 0.2L, 0.1L, 36, 0.001L};
-  auto const delta_action =
-      S4_action_difference(triangulation.counts(),
-                           proposal->triangulation.counts(), couplings);
-  auto const ratio = static_cast<long double>(proposal->reverse_candidates) /
-                     static_cast<long double>(proposal->forward_candidates);
-  auto const probability = std::min(1.0L, std::exp(-delta_action) * ratio);
+  auto const probability = acceptance_probability(
+      triangulation, proposal->triangulation, move_tracker::MoveType4D::TWO_EIGHT,
+      couplings);
   CHECK(std::isfinite(static_cast<double>(probability)));
   CHECK_GE(probability, 0.0L);
   CHECK_LE(probability, 1.0L);
@@ -48,4 +47,23 @@ TEST_CASE("4D detailed balance holds on a small enumerable ensemble")
   auto report = verify_detailed_balance(triangulation, couplings, 1);
   CHECK(report.passed);
   CHECK_FALSE(report.edges.empty());
+}
+
+TEST_CASE("4D detailed-balance verifier reports capped enumeration")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(3);
+  S4Couplings couplings{1.0L, 0.2L, 0.1L, 36, 0.001L};
+  auto report = verify_detailed_balance(triangulation, couplings, 1, 1.0e-10L, 1);
+  CHECK_FALSE(report.passed);
+  CHECK_FALSE(report.errors.empty());
+}
+
+TEST_CASE("4D detailed-balance verifier rejects non-finite weights")
+{
+  auto triangulation = FoliatedTriangulation4::periodic_seed(3);
+  S4Couplings couplings{
+      std::numeric_limits<long double>::infinity(), 0.2L, 0.1L, 36, 0.001L};
+  auto report = verify_detailed_balance(triangulation, couplings, 1);
+  CHECK_FALSE(report.passed);
+  CHECK_FALSE(report.errors.empty());
 }

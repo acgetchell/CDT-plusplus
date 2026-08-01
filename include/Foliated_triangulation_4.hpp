@@ -16,6 +16,7 @@
 #include <map>
 #include <numeric>
 #include <optional>
+#include <queue>
 #include <set>
 #include <sstream>
 #include <string>
@@ -79,6 +80,7 @@ namespace cdt::four_d
     bool             m_periodic{true};
     VertexContainer  m_vertices;
     SimplexContainer m_simplices;
+    std::unordered_map<VertexId, Int_precision> m_vertex_times;
     S4Counts         m_counts;
     ProposalInventory4D m_proposal_inventory;
     Profile          m_spatial_profile;
@@ -87,9 +89,17 @@ namespace cdt::four_d
 
     [[nodiscard]] auto vertex_time(VertexId const id) const -> Int_precision
     {
-      auto const it = std::ranges::find_if(
-          m_vertices, [&](auto const& vertex) { return vertex.id == id; });
-      return it == m_vertices.end() ? -1 : it->time;
+      auto const it = m_vertex_times.find(id);
+      return it == m_vertex_times.end() ? -1 : it->second;
+    }
+
+    void rebuild_vertex_time_cache()
+    {
+      m_vertex_times.clear();
+      for (auto const& vertex : m_vertices)
+      {
+        m_vertex_times[vertex.id] = vertex.time;
+      }
     }
 
     [[nodiscard]] auto are_adjacent_times(Int_precision const a,
@@ -184,8 +194,12 @@ namespace cdt::four_d
       counts.N4 = static_cast<Int_precision>(m_simplices.size());
 
       std::set<std::array<VertexId, 2>> edges;
+      std::set<std::array<VertexId, 2>> timelike_edges;
       std::set<std::array<VertexId, 3>> triangles;
+      std::set<std::array<VertexId, 3>> mixed_triangles;
       std::set<std::array<VertexId, 4>> tetrahedra;
+      std::set<std::array<VertexId, 4>> spatial_tetrahedra;
+      std::set<std::array<VertexId, 4>> timelike_tetrahedra;
 
       for (auto const& simplex : m_simplices)
       {
@@ -205,6 +219,10 @@ namespace cdt::four_d
                                    simplex.vertices[static_cast<size_t>(j)]};
             std::ranges::sort(edge);
             edges.insert(edge);
+            if (vertex_time(edge[0]) != vertex_time(edge[1]))
+            {
+              timelike_edges.insert(edge);
+            }
           }
         }
         for (auto i = 0; i < 5; ++i)
@@ -219,18 +237,44 @@ namespace cdt::four_d
                              simplex.vertices[static_cast<size_t>(k)]};
               std::ranges::sort(triangle);
               triangles.insert(triangle);
+              std::set<Int_precision> times;
+              for (auto const vertex : triangle)
+              {
+                times.insert(vertex_time(vertex));
+              }
+              if (times.size() > 1) { mixed_triangles.insert(triangle); }
             }
           }
         }
         for (auto omitted = 0; omitted < 5; ++omitted)
         {
-          tetrahedra.insert(facet_vertices(simplex, omitted));
+          auto const facet = facet_vertices(simplex, omitted);
+          tetrahedra.insert(facet);
+          std::set<Int_precision> times;
+          for (auto const vertex : facet) { times.insert(vertex_time(vertex)); }
+          if (times.size() == 1)
+          {
+            spatial_tetrahedra.insert(facet);
+          }
+          else
+          {
+            timelike_tetrahedra.insert(facet);
+          }
         }
       }
 
       counts.N1 = static_cast<Int_precision>(edges.size());
       counts.N2 = static_cast<Int_precision>(triangles.size());
       counts.N3 = static_cast<Int_precision>(tetrahedra.size());
+      counts.class_resolved_proposals = true;
+      counts.spatial_tetrahedra =
+          static_cast<Int_precision>(spatial_tetrahedra.size());
+      counts.timelike_edges =
+          static_cast<Int_precision>(timelike_edges.size());
+      counts.mixed_triangles =
+          static_cast<Int_precision>(mixed_triangles.size());
+      counts.timelike_tetrahedra =
+          static_cast<Int_precision>(timelike_tetrahedra.size());
       return counts;
     }
 
@@ -260,6 +304,178 @@ namespace cdt::four_d
       return profile;
     }
 
+    [[nodiscard]] auto spacelike_facets_by_slice() const
+        -> std::vector<std::set<std::array<VertexId, 4>>>
+    {
+      std::vector<std::set<std::array<VertexId, 4>>> facets(
+          static_cast<std::size_t>(m_timeslices));
+      std::set<std::array<VertexId, 4>> seen;
+      for (auto const& simplex : m_simplices)
+      {
+        for (auto omitted = 0; omitted < 5; ++omitted)
+        {
+          auto const facet = facet_vertices(simplex, omitted);
+          if (!seen.insert(facet).second) { continue; }
+          std::set<Int_precision> times;
+          for (auto const vertex : facet) { times.insert(vertex_time(vertex)); }
+          if (times.size() != 1) { continue; }
+          auto const time = *times.begin();
+          if (time >= 0 && time < m_timeslices)
+          {
+            facets[static_cast<std::size_t>(time)].insert(facet);
+          }
+        }
+      }
+      return facets;
+    }
+
+    [[nodiscard]] auto derived_slice_euler_characteristics() const -> Profile
+    {
+      if (m_simplices.empty())
+      {
+        return Profile(static_cast<std::size_t>(m_timeslices),
+                       m_closed_s3_slices ? static_cast<Int_precision>(0)
+                                          : static_cast<Int_precision>(1));
+      }
+
+      Profile result(static_cast<std::size_t>(m_timeslices), 0);
+      auto const facets_by_slice = spacelike_facets_by_slice();
+      for (std::size_t slice = 0; slice < facets_by_slice.size(); ++slice)
+      {
+        std::set<VertexId> vertices;
+        std::set<std::array<VertexId, 2>> edges;
+        std::set<std::array<VertexId, 3>> triangles;
+        for (auto const& facet : facets_by_slice[slice])
+        {
+          for (auto const vertex : facet) { vertices.insert(vertex); }
+          for (auto i = 0; i < 4; ++i)
+          {
+            for (auto j = i + 1; j < 4; ++j)
+            {
+              auto edge =
+                  std::array{facet[static_cast<std::size_t>(i)],
+                             facet[static_cast<std::size_t>(j)]};
+              std::ranges::sort(edge);
+              edges.insert(edge);
+            }
+          }
+          for (auto i = 0; i < 4; ++i)
+          {
+            for (auto j = i + 1; j < 4; ++j)
+            {
+              for (auto k = j + 1; k < 4; ++k)
+              {
+                auto triangle =
+                    std::array{facet[static_cast<std::size_t>(i)],
+                               facet[static_cast<std::size_t>(j)],
+                               facet[static_cast<std::size_t>(k)]};
+                std::ranges::sort(triangle);
+                triangles.insert(triangle);
+              }
+            }
+          }
+        }
+        result[slice] = static_cast<Int_precision>(vertices.size()) -
+                        static_cast<Int_precision>(edges.size()) +
+                        static_cast<Int_precision>(triangles.size()) -
+                        static_cast<Int_precision>(
+                            facets_by_slice[slice].size());
+      }
+      return result;
+    }
+
+    [[nodiscard]] auto spatial_slices_are_connected() const -> bool
+    {
+      if (m_simplices.empty()) { return m_closed_s3_slices; }
+      auto const facets_by_slice = spacelike_facets_by_slice();
+      for (auto const& facets : facets_by_slice)
+      {
+        if (facets.empty()) { continue; }
+        std::map<std::array<VertexId, 3>,
+                 std::vector<std::array<VertexId, 4>>>
+            triangle_to_facets;
+        for (auto const& facet : facets)
+        {
+          for (auto omitted = 0; omitted < 4; ++omitted)
+          {
+            std::array<VertexId, 3> triangle{};
+            auto out = 0;
+            for (auto index = 0; index < 4; ++index)
+            {
+              if (index == omitted) { continue; }
+              triangle[static_cast<std::size_t>(out++)] =
+                  facet[static_cast<std::size_t>(index)];
+            }
+            std::ranges::sort(triangle);
+            triangle_to_facets[triangle].push_back(facet);
+          }
+        }
+
+        std::set<std::array<VertexId, 4>> visited;
+        std::queue<std::array<VertexId, 4>> frontier;
+        frontier.push(*facets.begin());
+        visited.insert(*facets.begin());
+        while (!frontier.empty())
+        {
+          auto const facet = frontier.front();
+          frontier.pop();
+          for (auto omitted = 0; omitted < 4; ++omitted)
+          {
+            std::array<VertexId, 3> triangle{};
+            auto out = 0;
+            for (auto index = 0; index < 4; ++index)
+            {
+              if (index == omitted) { continue; }
+              triangle[static_cast<std::size_t>(out++)] =
+                  facet[static_cast<std::size_t>(index)];
+            }
+            std::ranges::sort(triangle);
+            for (auto const& neighbor : triangle_to_facets[triangle])
+            {
+              if (visited.insert(neighbor).second) { frontier.push(neighbor); }
+            }
+          }
+        }
+        if (visited.size() != facets.size()) { return false; }
+      }
+      return true;
+    }
+
+    [[nodiscard]] auto simplex_neighbor_graph_connected() const -> bool
+    {
+      if (m_simplices.empty()) { return true; }
+      std::unordered_map<SimplexId, Simplex4D const*> simplex_by_id;
+      for (auto const& simplex : m_simplices)
+      {
+        simplex_by_id.emplace(simplex.id, &simplex);
+      }
+      std::set<SimplexId> visited;
+      std::queue<SimplexId> frontier;
+      frontier.push(m_simplices.front().id);
+      visited.insert(m_simplices.front().id);
+      while (!frontier.empty())
+      {
+        auto const current = frontier.front();
+        frontier.pop();
+        auto const current_it = simplex_by_id.find(current);
+        if (current_it == simplex_by_id.end()) { continue; }
+        for (auto const& neighbor : current_it->second->neighbors)
+        {
+          if (!neighbor) { continue; }
+          if (visited.insert(*neighbor).second) { frontier.push(*neighbor); }
+        }
+      }
+      return visited.size() == m_simplices.size();
+    }
+
+    [[nodiscard]] auto topology_matches_closed_s3_slices() const -> bool
+    {
+      auto const eulers = derived_slice_euler_characteristics();
+      return std::ranges::all_of(eulers, [](auto const chi) {
+        return chi == 0;
+      }) && (m_closed_s3_slices || spatial_slices_are_connected());
+    }
+
     void add_count_delta(S4Counts const& delta)
     {
       m_counts.N0 += delta.N0;
@@ -271,7 +487,43 @@ namespace cdt::four_d
       m_counts.N32 += delta.N32;
       m_counts.N23 += delta.N23;
       m_counts.N14 += delta.N14;
+      m_counts.class_resolved_proposals = false;
+      m_counts.spatial_tetrahedra = 0;
+      m_counts.timelike_edges = 0;
+      m_counts.mixed_triangles = 0;
+      m_counts.timelike_tetrahedra = 0;
       m_proposal_inventory = proposal_inventory_from_counts(m_counts);
+    }
+
+    [[nodiscard]] static auto spatial_profile_delta(
+        move_tracker::MoveType4D const move) -> Int_precision
+    {
+      using move_tracker::MoveType4D;
+      switch (move)
+      {
+        case MoveType4D::TWO_EIGHT: return 1;
+        case MoveType4D::EIGHT_TWO: return -1;
+        default: return 0;
+      }
+    }
+
+    [[nodiscard]] auto apply_spatial_profile_delta(
+        Int_precision const delta) -> bool
+    {
+      if (delta == 0) { return true; }
+      if (m_spatial_profile.size() != static_cast<std::size_t>(m_timeslices))
+      {
+        return false;
+      }
+      if (delta > 0)
+      {
+        m_spatial_profile.front() += delta;
+        return true;
+      }
+      auto remaining = -delta;
+      if (m_spatial_profile.front() < remaining) { return false; }
+      m_spatial_profile.front() -= remaining;
+      return true;
     }
 
     [[nodiscard]] auto can_apply(S4Counts const& delta) const -> bool
@@ -290,7 +542,9 @@ namespace cdt::four_d
 
     void add_vertex(VertexId& next_vertex, Int_precision const time)
     {
-      m_vertices.push_back(Vertex4D{next_vertex++, time});
+      m_vertices.push_back(Vertex4D{next_vertex, time});
+      m_vertex_times[next_vertex] = time;
+      ++next_vertex;
     }
 
     void add_boundary_component(VertexId& next_vertex, SimplexId& next_simplex,
@@ -350,7 +604,7 @@ namespace cdt::four_d
 
     FoliatedTriangulation4(Int_precision const timeslices, S4Counts counts,
                            Profile profile)
-        : m_timeslices{timeslices}
+        : m_timeslices{std::max<Int_precision>(2, timeslices)}
         , m_periodic{true}
         , m_counts{counts}
         , m_proposal_inventory{proposal_inventory_from_counts(m_counts)}
@@ -370,6 +624,21 @@ namespace cdt::four_d
       return FoliatedTriangulation4{timeslices, counts, std::move(profile)};
     }
 
+    [[nodiscard]] static auto from_checkpoint_state(
+        Int_precision const timeslices, S4Counts counts, Profile profile,
+        VertexContainer vertices, SimplexContainer simplices,
+        bool const three_three_forward) -> FoliatedTriangulation4
+    {
+      FoliatedTriangulation4 result{timeslices, counts, std::move(profile)};
+      result.m_vertices = std::move(vertices);
+      result.m_simplices = std::move(simplices);
+      result.m_three_three_forward = three_three_forward;
+      result.rebuild_vertex_time_cache();
+      result.m_proposal_inventory =
+          proposal_inventory_from_counts(result.m_counts);
+      return result;
+    }
+
     [[nodiscard]] static auto periodic_seed(Int_precision const timeslices)
         -> FoliatedTriangulation4
     {
@@ -378,6 +647,7 @@ namespace cdt::four_d
       result.m_periodic   = true;
       result.m_vertices.clear();
       result.m_simplices.clear();
+      result.m_vertex_times.clear();
 
       VertexId  next_vertex  = 1;
       SimplexId next_simplex = 1;
@@ -395,6 +665,19 @@ namespace cdt::four_d
           proposal_inventory_from_counts(result.m_counts);
       result.m_spatial_profile = result.recompute_spatial_profile();
       result.m_closed_s3_slices = true;
+      // The production 4D runner evolves abstract count/profile states. Keep
+      // the generated complex as an initializer only, so later moves cannot
+      // expose stale vertex or simplex topology.
+      result.m_vertices.clear();
+      result.m_simplices.clear();
+      result.m_vertex_times.clear();
+      result.m_counts.class_resolved_proposals = false;
+      result.m_counts.spatial_tetrahedra = 0;
+      result.m_counts.timelike_edges = 0;
+      result.m_counts.mixed_triangles = 0;
+      result.m_counts.timelike_tetrahedra = 0;
+      result.m_proposal_inventory =
+          proposal_inventory_from_counts(result.m_counts);
       return result;
     }
 
@@ -422,14 +705,19 @@ namespace cdt::four_d
       return m_proposal_inventory;
     }
 
+    [[nodiscard]] auto three_three_forward() const -> bool
+    {
+      return m_three_three_forward;
+    }
+
     [[nodiscard]] auto has_closed_s3_slices() const -> bool
     {
-      return m_closed_s3_slices;
+      return m_closed_s3_slices && topology_matches_closed_s3_slices();
     }
 
     [[nodiscard]] auto spatial_topology() const -> std::string_view
     {
-      return "S3";
+      return has_closed_s3_slices() ? "S3" : "non-S3";
     }
 
     [[nodiscard]] auto spacetime_topology() const -> std::string_view
@@ -440,10 +728,7 @@ namespace cdt::four_d
     [[nodiscard]] auto slice_euler_characteristics() const
         -> std::vector<Int_precision>
     {
-      return std::vector<Int_precision>(
-          static_cast<std::size_t>(m_timeslices),
-          m_closed_s3_slices ? static_cast<Int_precision>(0)
-                             : static_cast<Int_precision>(1));
+      return derived_slice_euler_characteristics();
     }
 
     [[nodiscard]] auto spatial_volume_profile() const -> Profile
@@ -592,6 +877,14 @@ namespace cdt::four_d
       }
       if (!is_applicable(move) || !can_apply(delta)) { return false; }
       add_count_delta(delta);
+      m_vertices.clear();
+      m_simplices.clear();
+      m_vertex_times.clear();
+      if (!apply_spatial_profile_delta(spatial_profile_delta(move)))
+      {
+        *this = before;
+        return false;
+      }
       if (move == move_tracker::MoveType4D::THREE_THREE)
       {
         m_three_three_forward = !m_three_three_forward;
@@ -631,6 +924,11 @@ namespace cdt::four_d
       {
         report.errors.emplace_back("Spatial slices are not marked as closed S3.");
       }
+      if (!topology_matches_closed_s3_slices())
+      {
+        report.errors.emplace_back(
+            "Spatial slices are not validated as connected S3 slices.");
+      }
       for (auto const chi : slice_euler_characteristics())
       {
         if (chi != 0)
@@ -643,6 +941,25 @@ namespace cdt::four_d
       if (m_spatial_profile.size() != static_cast<std::size_t>(m_timeslices))
       {
         report.errors.emplace_back("Spatial profile does not match timeslice count.");
+      }
+      if (std::ranges::any_of(m_spatial_profile, [](auto const volume) {
+            return volume < 0;
+          }))
+      {
+        report.errors.emplace_back("Spatial profile contains negative volume.");
+      }
+      if (m_vertex_times.size() != m_vertices.size())
+      {
+        report.errors.emplace_back("Vertex-time cache does not match vertices.");
+      }
+      for (auto const& vertex : m_vertices)
+      {
+        auto const cached = m_vertex_times.find(vertex.id);
+        if (cached == m_vertex_times.end() || cached->second != vertex.time)
+        {
+          report.errors.emplace_back("Vertex-time cache is stale.");
+          break;
+        }
       }
       if (m_proposal_inventory.spatial_tetrahedra < 0 ||
           m_proposal_inventory.timelike_edges < 0 ||
@@ -705,6 +1022,11 @@ namespace cdt::four_d
         }
       }
 
+      if (!m_closed_s3_slices && !simplex_neighbor_graph_connected())
+      {
+        report.errors.emplace_back("Simplex neighbor graph is disconnected.");
+      }
+
       if (m_periodic)
       {
         for (auto const& [_, incidence] : facet_incidence)
@@ -730,6 +1052,7 @@ namespace cdt::four_d
       {
         vertex.time = (m_timeslices - vertex.time) % m_timeslices;
       }
+      reversed.rebuild_vertex_time_cache();
       for (auto& simplex : reversed.m_simplices)
       {
         switch (simplex.type)
@@ -752,19 +1075,32 @@ namespace cdt::four_d
       std::swap(reversed.m_counts.N32, reversed.m_counts.N23);
       reversed.m_proposal_inventory =
           proposal_inventory_from_counts(reversed.m_counts);
-      std::reverse(reversed.m_spatial_profile.begin(),
-                   reversed.m_spatial_profile.end());
+      if (m_spatial_profile.size() == static_cast<std::size_t>(m_timeslices))
+      {
+        Profile mapped(m_spatial_profile.size(), 0);
+        auto const slices = static_cast<std::size_t>(m_timeslices);
+        for (std::size_t index = 0; index < slices; ++index)
+        {
+          mapped[(slices - index) % slices] = m_spatial_profile[index];
+        }
+        reversed.m_spatial_profile = std::move(mapped);
+      }
+      reversed.m_three_three_forward = !m_three_three_forward;
       return reversed;
     }
 
     [[nodiscard]] auto canonical_hash() const -> std::string
     {
       std::ostringstream stream;
-      stream << "T=" << m_timeslices << ";P=" << m_periodic << ";";
+      stream << "T=" << m_timeslices << ";P=" << m_periodic
+             << ";F=" << m_three_three_forward << ";";
       stream << m_counts.N0 << ',' << m_counts.N1 << ',' << m_counts.N2 << ','
              << m_counts.N3 << ',' << m_counts.N4 << ',' << m_counts.N41
              << ',' << m_counts.N32 << ',' << m_counts.N23 << ','
-             << m_counts.N14 << ";V=";
+             << m_counts.N14 << ";C=" << m_counts.class_resolved_proposals
+             << ',' << m_counts.spatial_tetrahedra << ','
+             << m_counts.timelike_edges << ',' << m_counts.mixed_triangles
+             << ',' << m_counts.timelike_tetrahedra << ";V=";
       for (auto const volume : m_spatial_profile) { stream << volume << ','; }
       return stream.str();
     }

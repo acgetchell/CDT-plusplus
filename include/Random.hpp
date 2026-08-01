@@ -12,9 +12,13 @@
 
 #include <concepts>
 #include <cstdint>
+#include <istream>
 #include <limits>
 #include <ostream>
 #include <random>
+#include <sstream>
+#include <stdexcept>
+#include <string>
 
 #include "pcg_random.hpp"
 
@@ -138,6 +142,23 @@ namespace cdt
     /// @returns The PCG stream selector used by this engine.
     [[nodiscard]] auto stream() const noexcept -> RandomStream
     { return m_stream; }
+
+    [[nodiscard]] auto engine_state() const -> std::string
+    {
+      std::ostringstream output;
+      output << m_engine;
+      return output.str();
+    }
+
+    void set_engine_state(std::string const& state)
+    {
+      std::istringstream input(state);
+      input >> m_engine;
+      if (!input)
+      {
+        throw std::runtime_error{"Invalid random engine state."};
+      }
+    }
 
     /// @brief Create a fresh reproducible stream from the same root seed.
     [[nodiscard]] auto split(RandomStream const stream) const -> Random

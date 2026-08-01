@@ -13,25 +13,40 @@ PASSES="${PASSES:-2000}"
 VOLUME_EPSILON="${VOLUME_EPSILON:-0.001}"
 BASE_SEED="${BASE_SEED:-1000}"
 
+set -f
+
 cmake --build "${BUILD_DIR}"
 ctest --test-dir "${BUILD_DIR}" --output-on-failure
 
-CDT_EXE="${BUILD_DIR}/src/cdt"
-if [[ ! -x "${CDT_EXE}" && -x "${BUILD_DIR}/src/Debug/cdt" ]]; then
-  CDT_EXE="${BUILD_DIR}/src/Debug/cdt"
-fi
-if [[ ! -x "${CDT_EXE}" && -x "${BUILD_DIR}/src/Release/cdt" ]]; then
-  CDT_EXE="${BUILD_DIR}/src/Release/cdt"
-fi
-if [[ ! -x "${CDT_EXE}" && -x "${BUILD_DIR}/src/RelWithDebInfo/cdt" ]]; then
-  CDT_EXE="${BUILD_DIR}/src/RelWithDebInfo/cdt"
+CDT_EXE=""
+for candidate in \
+  "${BUILD_DIR}/src/cdt" \
+  "${BUILD_DIR}/src/cdt.exe" \
+  "${BUILD_DIR}/src/Debug/cdt" \
+  "${BUILD_DIR}/src/Debug/cdt.exe" \
+  "${BUILD_DIR}/src/Release/cdt" \
+  "${BUILD_DIR}/src/Release/cdt.exe" \
+  "${BUILD_DIR}/src/RelWithDebInfo/cdt" \
+  "${BUILD_DIR}/src/RelWithDebInfo/cdt.exe"; do
+  if [[ -x "${candidate}" ]]; then
+    CDT_EXE="${candidate}"
+    break
+  fi
+done
+if [[ -z "${CDT_EXE}" ]]; then
+  echo "Could not find cdt executable under ${BUILD_DIR}." >&2
+  exit 1
 fi
 
 for point in ${COUPLING_POINTS}; do
   IFS=',' read -r KAPPA0 KAPPA4 DELTA <<< "${point}"
+  if [[ -z "${KAPPA0}" || -z "${KAPPA4}" || -z "${DELTA}" ]]; then
+    echo "Coupling point '${point}' must contain kappa0,kappa4,Delta." >&2
+    exit 1
+  fi
   for target in ${TARGET_VOLUMES}; do
     for chain in $(seq 1 "${CHAINS}"); do
-      seed=$((BASE_SEED + chain))
+      seed="$(printf '%s' "${BASE_SEED}|${point}|${target}|${chain}" | cksum | awk '{print $1}')"
       run_id="cds-k0_${KAPPA0}-k4_${KAPPA4}-d_${DELTA}-n4_${target}-chain_${chain}"
       "${CDT_EXE}" \
         --spherical \

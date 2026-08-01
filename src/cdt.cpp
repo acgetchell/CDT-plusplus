@@ -57,6 +57,11 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
             [--no-output]
             [--seed SEED]
             [--threads THREADS]
+            [--thermalization STEPS]
+            [--measurement-interval STEPS]
+            [--chain-id CHAIN]
+            [--run-id RUN]
+            [--output-dir DIR]
             [-k K]
             [--alpha ALPHA]
             [--lambda LAMBDA]
@@ -196,155 +201,91 @@ try
 
   if (dimensions == 4)
   {
-    auto const spherical = args.count("spherical") != 0;
-    auto const toroidal  = args.count("toroidal") != 0;
-    if (spherical == toroidal)
-    {
-      throw invalid_argument(
-          "Specify exactly one topology: --spherical or --toroidal.");
-    }
-    if (toroidal)
-    {
-      throw invalid_argument("Toroidal triangulations are not yet supported.");
-    }
     if (!args.count("kappa0") || !args.count("kappa4") ||
         !args.count("Delta"))
     {
       throw invalid_argument(
           "4D runs require explicit --kappa0, --kappa4, and --Delta.");
     }
-    if (!std::isfinite(kappa_0))
-    {
-      throw invalid_argument("Kappa0 must be finite.");
-    }
-    if (!std::isfinite(kappa_4))
-    {
-      throw invalid_argument("Kappa4 must be finite.");
-    }
-    if (!std::isfinite(Delta))
-    {
-      throw invalid_argument("Delta must be finite.");
-    }
-    if (!std::isfinite(volume_epsilon) || volume_epsilon < 0.0L)
-    {
-      throw invalid_argument(
-          "Volume epsilon must be finite and non-negative.");
-    }
-
-    auto const checked_int = [](char const* name, long long const value) {
-      if (!std::in_range<Int_precision>(value))
-      {
-        throw out_of_range(std::string{name} +
-                           " exceeds the supported integer range.");
-      }
-      return static_cast<Int_precision>(value);
-    };
-    auto const checked_simplices =
-        checked_int("Number of simplices", simplices);
-    auto const checked_timeslices =
-        checked_int("Number of timeslices", timeslices);
-    auto const checked_passes = checked_int("Passes", passes);
-    auto const checked_checkpoint =
-        checked_int("Checkpoint interval", checkpoint);
-    auto const checked_target = checked_int("Target N4", target_N4);
-    auto const checked_thermalization =
-        checked_int("Thermalization steps", thermalization);
-    auto const checked_measurement_interval =
-        checked_int("Measurement interval", measurement_interval);
-
-    if (checked_simplices < 2 || checked_timeslices < 2)
-    {
-      throw invalid_argument(
-          "Simplices and timeslices must each be at least 2.");
-    }
-    if (checked_passes <= 0)
-    {
-      throw invalid_argument("Passes must be positive.");
-    }
-    if (checked_checkpoint <= 0)
-    {
-      throw invalid_argument("Checkpoint interval must be positive.");
-    }
-    if (checked_target < 0)
-    {
-      throw invalid_argument("Target N4 must be non-negative.");
-    }
-    if (checked_thermalization < 0)
-    {
-      throw invalid_argument("Thermalization steps must be non-negative.");
-    }
-    if (checked_measurement_interval <= 0)
-    {
-      throw invalid_argument("Measurement interval must be positive.");
-    }
+    auto const write_files = !args.count("no-output");
+    auto const config = runtime_config::make_4d_simulation(
+        args.count("spherical") != 0, args.count("toroidal") != 0,
+        simplices, timeslices, dimensions, kappa_0, kappa_4, Delta,
+        target_N4, volume_epsilon, passes, checkpoint, thermalization,
+        measurement_interval, root_random.seed(), chain_id, run_id,
+        std::filesystem::path{output_dir}, threads, write_files);
 
     fmt::print("Topology is spherical\n");
     fmt::print("Dimensionality: 3+1\n");
-    fmt::print("Number of desired simplices: {}\n", checked_simplices);
-    fmt::print("Number of desired timeslices: {}\n", checked_timeslices);
-    fmt::print("Number of passes: {}\n", checked_passes);
-    fmt::print("Checkpoint every {} passes.\n", checked_checkpoint);
+    fmt::print("Number of desired simplices: {}\n", config.simplices());
+    fmt::print("Number of desired timeslices: {}\n", config.timeslices());
+    fmt::print("Number of passes: {}\n", config.passes());
+    fmt::print("4D sweep size: {} move attempts.\n", config.sweep_size());
+    fmt::print("Total 4D move attempts: {}\n", config.steps());
+    fmt::print("Checkpoint every {} move attempts.\n",
+               config.checkpoint_steps());
     fmt::print("Effective random seed: {}\n", root_random.seed());
     fmt::print("=== Parameters ===\n");
-    fmt::print("kappa_0: {}\n", kappa_0);
-    fmt::print("kappa_4: {}\n", kappa_4);
-    fmt::print("Delta: {}\n", Delta);
+    fmt::print("kappa_0: {}\n", config.metropolis().couplings.kappa_0);
+    fmt::print("kappa_4: {}\n", config.metropolis().couplings.kappa_4);
+    fmt::print("Delta: {}\n", config.metropolis().couplings.Delta);
 
     Timer timer;
     timer.start();
     fmt::print("cdt started at {}\n", utilities::current_date_time());
 
     auto universe =
-        four_d::FoliatedTriangulation4::periodic_seed(checked_timeslices);
-    auto const fixed_target =
-        checked_target > 0 ? checked_target : checked_simplices;
-    four_d::Metropolis4Config config;
-    config.seed = root_random.seed().value();
-    config.chain_id = chain_id;
-    config.thermalization_steps = checked_thermalization;
-    config.measurement_interval = checked_measurement_interval;
-    config.checkpoint_interval = checked_checkpoint;
-    config.couplings = four_d::S4Couplings{kappa_0,
-                                           kappa_4,
-                                           Delta,
-                                           fixed_target,
-                                           volume_epsilon};
+        four_d::FoliatedTriangulation4::periodic_seed(config.timeslices());
 
-    four_d::Metropolis4 run(config);
-    auto result = run.run(std::move(universe), checked_passes);
+    four_d::Metropolis4 run(config.metropolis());
+    auto result = run.run(std::move(universe), config.steps());
     if (!result.triangulation.is_valid())
     {
       throw runtime_error("4D result is invalid!\n");
     }
 
-    auto const write_files = !args.count("no-output");
-    if (write_files)
+    if (config.write_files())
     {
-      auto const run_dir = std::filesystem::path(output_dir) / run_id;
+      auto const run_dir = config.output_dir() / config.run_id();
       run.save_checkpoint(run_dir / "checkpoint", result.triangulation,
-                          checked_passes);
+                          config.steps());
       four_d::output::RunManifest manifest;
-      manifest.run_id = run_id;
+      manifest.run_id = config.run_id();
       manifest.git_commit = std::string(cdt::SOURCE_REVISION);
       manifest.build_type = std::string(cdt::BUILD_CONFIGURATION);
       manifest.compiler =
           fmt::format("{} {}", cdt::BUILD_COMPILER_ID,
                       cdt::BUILD_COMPILER_VERSION);
-      four_d::output::write_run_directory(output_dir, manifest, config,
-                                          result);
+      four_d::output::write_run_directory(config.output_dir(), manifest,
+                                          config.metropolis(), result);
     }
 
     timer.stop();
     fmt::print("=== 4D Run Results ===\n");
     fmt::print("Running time is {} seconds.\n", timer.time());
-    if (write_files)
+    if (config.write_files())
     {
-      fmt::print("Structured output written to {}/{}\n", output_dir, run_id);
+      fmt::print("Structured output written to {}/{}\n",
+                 config.output_dir().string(), config.run_id());
     }
     else
     {
       fmt::print("Structured output disabled.\n");
     }
+    Int_precision attempted{0};
+    Int_precision accepted{0};
+    Int_precision invalid{0};
+    for (auto const& stat : result.move_stats)
+    {
+      attempted += stat.attempted;
+      accepted += stat.accepted;
+      invalid += stat.invalid;
+    }
+    fmt::print("Move attempts: {}\n", attempted);
+    fmt::print("Accepted moves: {}\n", accepted);
+    fmt::print("Invalid proposals: {}\n", invalid);
+    fmt::print("Final N4: {}\n", result.triangulation.counts().N4);
+    fmt::print("Measurements: {}\n", result.measurements.size());
     auto const report = result.triangulation.validate();
     fmt::print("Standard CDT candidate: {}\n",
                report.valid() && report.standard_cdt_candidate ? "true"

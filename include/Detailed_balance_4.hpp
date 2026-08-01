@@ -10,6 +10,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
+#include <limits>
 #include <map>
 #include <queue>
 #include <string>
@@ -68,12 +70,28 @@ namespace cdt::four_d
     return std::exp(-S4_bulk_action(triangulation.counts(), couplings));
   }
 
+  [[nodiscard]] inline auto log_boltzmann_weight(
+      FoliatedTriangulation4 const& triangulation,
+      S4Couplings const& couplings) -> long double
+  {
+    return -S4_bulk_action(triangulation.counts(), couplings);
+  }
+
   [[nodiscard]] inline auto verify_detailed_balance(
       FoliatedTriangulation4 const& seed, S4Couplings const& couplings,
-      int const max_depth, long double const tolerance = 1.0e-10L)
+      int const max_depth, long double const tolerance = 1.0e-10L,
+      std::size_t const max_states = 1024)
       -> DetailedBalanceReport4D
   {
     DetailedBalanceReport4D report;
+    if (max_states == 0)
+    {
+      report.passed = false;
+      report.errors.emplace_back(
+          "Detailed-balance enumeration max_states must be positive.");
+      return report;
+    }
+
     std::map<std::string, FoliatedTriangulation4> states;
     std::map<std::string, int>                    depths;
     std::queue<std::pair<FoliatedTriangulation4, int>> frontier;
@@ -82,7 +100,8 @@ namespace cdt::four_d
     depths.emplace(seed.canonical_hash(), 0);
     frontier.emplace(seed, 0);
 
-    while (!frontier.empty())
+    auto cap_reached = false;
+    while (!frontier.empty() && !cap_reached)
     {
       auto [state, depth] = frontier.front();
       frontier.pop();
@@ -94,6 +113,14 @@ namespace cdt::four_d
         auto const hash = moved->triangulation.canonical_hash();
         if (!states.contains(hash))
         {
+          if (states.size() >= max_states)
+          {
+            report.passed = false;
+            report.errors.emplace_back(
+                "Detailed-balance enumeration reached max_states.");
+            cap_reached = true;
+            break;
+          }
           states.emplace(hash, moved->triangulation);
           depths.emplace(hash, depth + 1);
           frontier.emplace(moved->triangulation, depth + 1);
@@ -126,22 +153,70 @@ namespace cdt::four_d
           continue;
         }
 
-        auto const lhs = boltzmann_weight(from_state, couplings) *
-                         proposal_probability(from_state, descriptor.move) *
-                         acceptance_probability(from_state, to_state,
-                                                descriptor.move, couplings);
-        auto const rhs = boltzmann_weight(to_state, couplings) *
-                         proposal_probability(to_state, descriptor.inverse) *
-                         acceptance_probability(to_state, from_state,
-                                                descriptor.inverse, couplings);
-        auto const residual = std::abs(lhs - rhs);
-        auto const scale = std::max({std::abs(lhs), std::abs(rhs), 1.0L});
-        report.edges.push_back(DetailedBalanceEdge4D{
-            from_hash, to_hash, descriptor.move, lhs, rhs, residual});
-        if (residual / scale > tolerance)
+        auto const forward_q =
+            proposal_probability(from_state, descriptor.move);
+        auto const reverse_q =
+            proposal_probability(to_state, descriptor.inverse);
+        auto const forward_acceptance =
+            acceptance_probability(from_state, to_state, descriptor.move,
+                                   couplings);
+        auto const reverse_acceptance =
+            acceptance_probability(to_state, from_state, descriptor.inverse,
+                                   couplings);
+        auto const from_log_weight = log_boltzmann_weight(from_state, couplings);
+        auto const to_log_weight = log_boltzmann_weight(to_state, couplings);
+        auto const min_log =
+            std::log(std::numeric_limits<long double>::min());
+        auto const max_log =
+            std::log(std::numeric_limits<long double>::max());
+        if (!std::isfinite(from_log_weight) ||
+            !std::isfinite(to_log_weight) || from_log_weight <= min_log ||
+            to_log_weight <= min_log || from_log_weight >= max_log ||
+            to_log_weight >= max_log || forward_q <= 0.0L ||
+            reverse_q <= 0.0L || forward_acceptance <= 0.0L ||
+            reverse_acceptance <= 0.0L ||
+            !std::isfinite(forward_acceptance) ||
+            !std::isfinite(reverse_acceptance))
         {
           report.passed = false;
-          report.errors.emplace_back("Detailed-balance residual exceeds tolerance.");
+          report.errors.emplace_back(
+              "Detailed-balance transition has non-finite or underflowed "
+              "weight.");
+          continue;
+        }
+
+        // Both sides use the same Metropolis-Hastings acceptance rule as the
+        // sampler, so this check is an algebraic detailed-balance identity
+        // evaluated in log space to avoid overflow and silent underflow.
+        auto const log_lhs = from_log_weight + std::log(forward_q) +
+                             std::log(forward_acceptance);
+        auto const log_rhs = to_log_weight + std::log(reverse_q) +
+                             std::log(reverse_acceptance);
+        if (!std::isfinite(log_lhs) || !std::isfinite(log_rhs))
+        {
+          report.passed = false;
+          report.errors.emplace_back(
+              "Detailed-balance transition has non-finite log weight.");
+          continue;
+        }
+        if (log_lhs <= min_log || log_rhs <= min_log || log_lhs >= max_log ||
+            log_rhs >= max_log)
+        {
+          report.passed = false;
+          report.errors.emplace_back(
+              "Detailed-balance transition weight cannot be represented "
+              "without underflow or overflow.");
+          continue;
+        }
+        auto const residual = std::abs(log_lhs - log_rhs);
+        report.edges.push_back(DetailedBalanceEdge4D{
+            from_hash, to_hash, descriptor.move, std::exp(log_lhs),
+            std::exp(log_rhs), residual});
+        if (residual > tolerance)
+        {
+          report.passed = false;
+          report.errors.emplace_back(
+              "Detailed-balance log residual exceeds tolerance.");
         }
       }
     }

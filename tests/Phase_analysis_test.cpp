@@ -1,10 +1,30 @@
 #include "Phase_analysis.hpp"
 
 #include <cmath>
+#include <stdexcept>
 
 #include <doctest/doctest.h>
 
 using namespace cdt::four_d::phase;
+
+namespace
+{
+  auto build_synthetic_c_ds_profiles()
+      -> std::vector<std::pair<long double, Profile>>
+  {
+    std::vector<std::pair<long double, Profile>> profiles;
+    for (auto const volume : {8000.0L, 16000.0L, 32000.0L, 64000.0L})
+    {
+      auto const width = static_cast<std::size_t>(
+          std::llround(4.0L * std::pow(volume, 0.25L)));
+      auto profile = cos3_reference(width | static_cast<std::size_t>(1));
+      auto const amplitude = std::pow(volume, 0.75L);
+      for (auto& value : profile) { value = 1.0L + amplitude * value; }
+      profiles.emplace_back(volume, profile);
+    }
+    return profiles;
+  }
+}
 
 TEST_CASE("Synthetic cos cubed profiles are classified conservatively as C-like")
 {
@@ -55,35 +75,18 @@ TEST_CASE("Too few profiles are insufficient effective samples")
 
 TEST_CASE("Synthetic C_dS profiles pass finite-size scaling")
 {
-  std::vector<std::pair<long double, Profile>> profiles;
-  for (auto const volume : {8000.0L, 16000.0L, 32000.0L, 64000.0L})
-  {
-    auto const width = static_cast<std::size_t>(
-        std::llround(4.0L * std::pow(volume, 0.25L)));
-    auto profile = cos3_reference(width | static_cast<std::size_t>(1));
-    auto const amplitude = std::pow(volume, 0.75L);
-    for (auto& value : profile) { value = 1.0L + amplitude * value; }
-    profiles.emplace_back(volume, profile);
-  }
+  auto profiles = build_synthetic_c_ds_profiles();
 
   auto scaling = analyze_finite_size_scaling(profiles);
   CHECK(scaling.passed);
   CHECK(scaling.width_exponent == doctest::Approx(0.25L).epsilon(0.10));
   CHECK(scaling.peak_exponent == doctest::Approx(0.75L).epsilon(0.10));
+  CHECK_GE(scaling.collapse_error, 0.0L);
 }
 
 TEST_CASE("Full C_dS candidate gate requires profile shape and finite-size scaling")
 {
-  std::vector<std::pair<long double, Profile>> profiles;
-  for (auto const volume : {8000.0L, 16000.0L, 32000.0L, 64000.0L})
-  {
-    auto const width = static_cast<std::size_t>(
-        std::llround(4.0L * std::pow(volume, 0.25L)));
-    auto profile = cos3_reference(width | static_cast<std::size_t>(1));
-    auto const amplitude = std::pow(volume, 0.75L);
-    for (auto& value : profile) { value = 1.0L + amplitude * value; }
-    profiles.emplace_back(volume, profile);
-  }
+  auto profiles = build_synthetic_c_ds_profiles();
 
   auto validation = diagnose_c_ds_finite_size(profiles, profiles.size());
   CHECK_EQ(validation.verdict, Verdict::c_ds_supported);
@@ -101,4 +104,12 @@ TEST_CASE("Covariance produces a regularized effective-action kernel")
   REQUIRE_EQ(kernel.covariance.size(), 3);
   REQUIRE_EQ(kernel.inverse_covariance_diagonal_regularized.size(), 3);
   CHECK_GT(kernel.inverse_covariance_diagonal_regularized[1][1], 0.0L);
+}
+
+TEST_CASE("Profile statistics reject mismatched dimensions")
+{
+  std::vector<Profile> profiles{Profile{1.0L, 2.0L}, Profile{1.0L}};
+  CHECK_THROWS_AS(mean(profiles), std::invalid_argument);
+  CHECK_THROWS_AS(covariance(profiles, Profile{1.0L, 2.0L}),
+                  std::invalid_argument);
 }

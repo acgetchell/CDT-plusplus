@@ -70,6 +70,12 @@ add_cli_failure_test(cdt-dimensionality cdt "Only three- or four-dimensional tri
                      -n64 -t3 -d5 -a0.4 -k1.1 -l0.1 --seed 92)
 add_cli_failure_test(cdt-d4-missing-couplings cdt "4D runs require explicit --kappa0, --kappa4, and --Delta." -s
                      -n64 -t3 -d4 -a0.4 -k1.1 -l0.1 --seed 92)
+add_cli_failure_test(cdt-d4-invalid-run-id cdt "run_id must be a single path component." -s -n64 -t3 -d4
+                     --kappa0 1.0 --kappa4 0.2 --Delta 0.1 --run-id bad/path --seed 92)
+add_test(
+  NAME cdt-d4-clean
+  COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_CURRENT_BINARY_DIR}/cdt-d4-output")
+set_tests_properties(cdt-d4-clean PROPERTIES FIXTURES_SETUP cdt_d4_clean)
 add_test(
   NAME cdt-d4
   COMMAND
@@ -79,8 +85,16 @@ add_test(
     "${CMAKE_CURRENT_BINARY_DIR}/cdt-d4-output")
 set_tests_properties(
   cdt-d4
-  PROPERTIES LABELS "integration;4d" PASS_REGULAR_EXPRESSION
+  PROPERTIES FIXTURES_REQUIRED cdt_d4_clean LABELS "integration;4d" PASS_REGULAR_EXPRESSION
              "Structured output written to .*ctest-d4")
+add_test(
+  NAME cdt-d4-artifacts
+  COMMAND
+    ${CMAKE_COMMAND} -E cat
+    "${CMAKE_CURRENT_BINARY_DIR}/cdt-d4-output/ctest-d4/manifest.json"
+    "${CMAKE_CURRENT_BINARY_DIR}/cdt-d4-output/ctest-d4/summary.json"
+    "${CMAKE_CURRENT_BINARY_DIR}/cdt-d4-output/ctest-d4/checkpoint/state.txt")
+set_tests_properties(cdt-d4-artifacts PROPERTIES DEPENDS cdt-d4 LABELS "integration;4d")
 add_cli_failure_test(cdt-toroidal cdt "Toroidal triangulations are not yet supported." -e -n64 -t3 -a0.6 -k1.1
                      -l0.1 --seed 92)
 add_cli_failure_test(cdt-alpha-negative cdt "Alpha in 3D must be greater than 1/2." -s -n64 -t3 -a-0.6 -k1.1
