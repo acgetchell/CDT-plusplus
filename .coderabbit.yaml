@@ -12,6 +12,7 @@ reviews:
   high_level_summary_placeholder: '@coderabbitai summary'
   auto_title_placeholder: '@coderabbitai'
   review_status: true
+  review_progress: false
   commit_status: true
   fail_commit_status: true
   poem: true

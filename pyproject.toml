@@ -13,7 +13,7 @@ cdt-optimize-initialize = "scripts.optimize_initialize:main"
 cdt-tag-release = "scripts.tag_release:main"
 
 [build-system]
-requires = ["uv_build>=0.11.29,<0.12"]
+requires = ["uv_build>=0.12.1,<0.13"]
 build-backend = "uv_build"
 
 [tool.uv]
@@ -51,9 +51,9 @@ dev = [
   "clang-format==22.1.8",
   "jsonschema==4.25.1",
   "pyyaml==6.0.3",
-  "ruff==0.16.0",
-  "semgrep==1.171.0",
-  "ty==0.0.63",
+  "ruff==0.16.1",
+  "semgrep==1.172.0",
+  "ty==0.0.65",
   "yamllint==1.38.0",
 ]
 experiments = [

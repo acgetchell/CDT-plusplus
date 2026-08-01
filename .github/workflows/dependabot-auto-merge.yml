@@ -59,9 +59,50 @@ jobs:
             "repos/${REPOSITORY}/issues/${PR_NUMBER}/comments" \
             --raw-field body="$body"
 
-      - name: Enable auto-merge
+      - name: Wait for CodeRabbit approval
+        id: coderabbit-approval
+        timeout-minutes: 60
         env:
           GH_TOKEN: ${{ github.token }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          while true; do
+            current_head_sha="$(
+              gh api "repos/${REPOSITORY}/pulls/${PR_NUMBER}" --jq '.head.sha'
+            )"
+            if [[ "$current_head_sha" != "$PR_HEAD_SHA" ]]; then
+              echo "::error::PR head changed while waiting for CodeRabbit approval."
+              exit 1
+            fi
+
+            review_state="$(
+              gh api --paginate \
+                "repos/${REPOSITORY}/pulls/${PR_NUMBER}/reviews?per_page=100" |
+                jq --raw-output --slurp --arg sha "$PR_HEAD_SHA" '[.[][] | select(
+                  .user.login == "coderabbitai[bot]" and
+                  .commit_id == $sha
+                )] | last | .state // empty'
+            )"
+            if [[ "$review_state" == "APPROVED" ]]; then
+              echo "approved_head_sha=${PR_HEAD_SHA}" >> "$GITHUB_OUTPUT"
+              break
+            fi
+
+            sleep 15
+          done
+
+      - name: Wait for required checks
+        timeout-minutes: 60
+        env:
+          GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr merge --auto --squash --match-head-commit "$PR_HEAD_SHA" "$PR_URL"
+        run: gh pr checks --required --watch --fail-fast "$PR_URL"
+
+      - name: Squash approved PR head
+        env:
+          APPROVED_HEAD_SHA: ${{ steps.coderabbit-approval.outputs.approved_head_sha }}
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --squash --match-head-commit "$APPROVED_HEAD_SHA" "$PR_URL"
