@@ -335,9 +335,11 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       auto                     annotated = manifold.delaunay_snapshot();
       auto const               vertices  = annotated.finite_vertex_handles();
       auto                     first     = vertices.begin();
-      auto                     second    = std::next(first);
+      REQUIRE(first != vertices.end());
+      auto second = std::next(first);
       REQUIRE(second != vertices.end());
       (*second)->set_point((*first)->point());
+      REQUIRE((*second)->point() == (*first)->point());
 
       Int_precision vertex_info{10};
       for (auto const vertex : annotated.finite_vertex_handles())
@@ -353,11 +355,14 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       write_file(filename, annotated);
       auto const restored = read_file<Delaunay_t<3>>(filename);
 
-      THEN("payload indices preserve distinct causal identities")
+      THEN("The topology fingerprint remains stable across the round trip")
       {
         CHECK_EQ(utilities::detail::canonical_topology_fingerprint(restored),
                  utilities::detail::canonical_topology_fingerprint(annotated));
+      }
 
+      THEN("Payload indices preserve all vertex and cell metadata")
+      {
         auto original_vertex = annotated.finite_vertex_handles().begin();
         auto restored_vertex = restored.finite_vertex_handles().begin();
         for (; original_vertex != annotated.finite_vertex_handles().end();

@@ -90,6 +90,35 @@ class SyncVcpkgToolPinsTests(unittest.TestCase):
 
             self.assertEqual(bootstrap.read_text(encoding="utf-8"), self.original_bootstrap)
 
+    def test_sync_preserves_crlf_and_unrelated_bytes(self) -> None:
+        """A CRLF bootstrap retains its line endings and unrelated source."""
+        amd64 = b"amd64 executable"
+        arm64 = b"arm64 executable"
+
+        def download(url: str) -> bytes:
+            if url == sync_vcpkg_tool_pins.METADATA_URL.format(baseline=self.baseline):
+                return f"VCPKG_TOOL_RELEASE_TAG={self.release}\n".encode()
+            return arm64 if url.endswith("/vcpkg-arm64.exe") else amd64
+
+        original = self.original_bootstrap.replace("\n", "\r\n").encode()
+        expected = (
+            f'VCPKG_TOOL_RELEASE = "{self.release}"\r\n'
+            'UNCHANGED = "preserve me"\r\n'
+            "WINDOWS_TOOL_SHA256 = {\r\n"
+            f'    "amd64": "{hashlib.sha256(amd64).hexdigest()}",\r\n'
+            f'    "arm64": "{hashlib.sha256(arm64).hexdigest()}",\r\n'
+            "}\r\n"
+        ).encode()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repository_root = Path(temp_dir)
+            bootstrap = self._make_repository(repository_root)
+            bootstrap.write_bytes(original)
+
+            sync_vcpkg_tool_pins.sync_vcpkg_tool_pins(repository_root, download=download)
+
+            self.assertEqual(bootstrap.read_bytes(), expected)
+
     def test_invalid_metadata_preserves_existing_pins(self) -> None:
         """Malformed upstream metadata is rejected before any source update."""
         with tempfile.TemporaryDirectory() as temp_dir:

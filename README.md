@@ -359,10 +359,10 @@ just sync-vcpkg-tool-pins
 `just sync-vcpkg-tool-pins` reads the new manifest baseline, fetches that exact upstream commit's tool metadata,
 downloads the official Windows amd64 and arm64 release assets, and atomically updates the release and SHA-256 pins in
 `scripts/bootstrap_vcpkg.py`. It leaves the existing pins unchanged if any input cannot be fetched or validated, and
-is a no-op when the baseline still uses the currently pinned tool release.
+only writes when the rendered release and hash assignments differ from the bootstrap source.
 
-On Windows, invoke the same implementation with `python.exe scripts\bootstrap_vcpkg.py`; `scripts\build.bat` and
-`scripts\fast-build.bat` already do this directly.
+On Windows, invoke the synchronizer with `python.exe scripts\sync_vcpkg_tool_pins.py`; `scripts\build.bat` and
+`scripts\fast-build.bat` already invoke the bootstrap implementation directly.
 
 CI uses `lukka/run-vcpkg`, which derives the vcpkg checkout commit from the same manifest baseline and supplies a
 binary cache. No separately maintained checkout SHA is required; the bootstrap script retains an independent tool

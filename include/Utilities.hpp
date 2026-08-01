@@ -251,11 +251,11 @@ namespace cdt::utilities
     }
 
     [[nodiscard]] inline auto refined_signature(
-        std::string const& base, std::size_t const self_color,
+        std::size_t const        self_color,
         std::vector<std::size_t> neighboring_colors) -> std::string
     {
       std::ranges::sort(neighboring_colors);
-      auto signature = fmt::format("{}:self={}:neighbors=", base, self_color);
+      auto signature = fmt::format("self={}:neighbors=", self_color);
       for (auto const color : neighboring_colors)
       {
         signature.append(std::to_string(color));
@@ -361,8 +361,7 @@ namespace cdt::utilities
             neighboring_colors.push_back(cell_colors[cell_index]);
           }
           vertex_signatures.emplace_back(refined_signature(
-              vertex_bases[vertex_index], vertex_colors[vertex_index],
-              std::move(neighboring_colors)));
+              vertex_colors[vertex_index], std::move(neighboring_colors)));
         }
 
         cell_signatures.clear();
@@ -376,9 +375,8 @@ namespace cdt::utilities
           {
             neighboring_colors.push_back(vertex_colors[vertex_index]);
           }
-          cell_signatures.emplace_back(
-              refined_signature(cell_bases[cell_index], cell_colors[cell_index],
-                                std::move(neighboring_colors)));
+          cell_signatures.emplace_back(refined_signature(
+              cell_colors[cell_index], std::move(neighboring_colors)));
         }
 
         auto refined_vertex_colors = canonical_colors(vertex_signatures);
@@ -392,10 +390,20 @@ namespace cdt::utilities
         cell_colors   = std::move(refined_cell_colors);
       }
 
-      vertex_signatures.insert(vertex_signatures.end(), cell_signatures.begin(),
-                               cell_signatures.end());
-      std::ranges::sort(vertex_signatures);
-      return vertex_signatures;
+      std::vector<std::string> records;
+      records.reserve(vertices.size() + cells.size());
+      for (std::size_t index = 0; index < vertices.size(); ++index)
+      {
+        records.emplace_back(fmt::format("{}:{}", vertex_bases[index],
+                                         vertex_signatures[index]));
+      }
+      for (std::size_t index = 0; index < cells.size(); ++index)
+      {
+        records.emplace_back(
+            fmt::format("{}:{}", cell_bases[index], cell_signatures[index]));
+      }
+      std::ranges::sort(records);
+      return records;
     }
 
     [[nodiscard]] inline auto fingerprint_records(
@@ -424,6 +432,8 @@ namespace cdt::utilities
     [[nodiscard]] auto canonical_topology_fingerprint(
         TriangulationType const& triangulation) -> std::uint64_t
     {
+      // topology.fnv1a64 uses different record schemes in these branches, so
+      // coincident-coordinate and point-keyed digests are not comparable.
       if (has_coincident_vertices(triangulation))
       {
         return fingerprint_records(incidence_topology_records(triangulation));
@@ -767,13 +777,13 @@ namespace cdt::utilities
       std::size_t vertex_index{};
       for (auto const vertex : triangulation.finite_vertex_handles())
       {
-        vertex->info() = vertex_info[vertex_index];
+        vertex->info() = vertex_info.at(vertex_index);
         ++vertex_index;
       }
       std::size_t cell_index{};
       for (auto const cell : triangulation.finite_cell_handles())
       {
-        cell->info() = cell_info[cell_index];
+        cell->info() = cell_info.at(cell_index);
         ++cell_index;
       }
     }

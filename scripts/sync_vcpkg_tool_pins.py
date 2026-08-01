@@ -117,10 +117,15 @@ def _assignment_nodes(source: str) -> dict[str, ast.Assign]:
 
 def _render_bootstrap(source: str, pins: ToolPins) -> str:
     """Render both trusted pin assignments while preserving unrelated source."""
+    line_ending_match = re.search(r"\r\n|\n|\r", source)
+    line_ending = line_ending_match.group(0) if line_ending_match is not None else "\n"
     replacements = {
-        "VCPKG_TOOL_RELEASE": f'VCPKG_TOOL_RELEASE = "{pins.release}"\n',
+        "VCPKG_TOOL_RELEASE": f'VCPKG_TOOL_RELEASE = "{pins.release}"{line_ending}',
         "WINDOWS_TOOL_SHA256": (
-            f'WINDOWS_TOOL_SHA256 = {{\n    "amd64": "{pins.windows_sha256["amd64"]}",\n    "arm64": "{pins.windows_sha256["arm64"]}",\n}}\n'
+            f"WINDOWS_TOOL_SHA256 = {{{line_ending}"
+            f'    "amd64": "{pins.windows_sha256["amd64"]}",{line_ending}'
+            f'    "arm64": "{pins.windows_sha256["arm64"]}",{line_ending}'
+            f"}}{line_ending}"
         ),
     }
     lines = source.splitlines(keepends=True)
@@ -166,7 +171,8 @@ def sync_vcpkg_tool_pins(repository_root: Path, *, download: Callable[[str], byt
     pins = _collect_pins(baseline, download)
     bootstrap = repository_root / "scripts" / "bootstrap_vcpkg.py"
     try:
-        original = bootstrap.read_text(encoding="utf-8")
+        with bootstrap.open("r", encoding="utf-8", newline="") as source:
+            original = source.read()
     except OSError as error:
         message = f"Unable to read {bootstrap}: {error}"
         raise PinSyncError(message) from error

@@ -99,7 +99,9 @@ The triangulation remains a CGAL-readable payload; provenance is in the sidecar
 rather than prepended to the CGAL stream. Because CGAL's native triangulation
 stream omits `info()` fields, CDT++ appends a versioned, payload-indexed
 causal-data trailer that preserves every finite vertex timeslice and cell type.
-Legacy streams without this trailer remain topology-readable. Before
+Payloads using the older `cdt-plusplus-causal-info-v1` trailer are rejected
+entirely by `read_causal_info` rather than loaded with their causal metadata
+discarded. Legacy streams without a trailer remain topology-readable. Before
 publication, CDT++ serializes with round-trip floating-point precision to a
 temporary file, flushes and closes it, parses the complete CGAL stream and
 causal trailer, rejects any other trailing data, validates its triangulation
