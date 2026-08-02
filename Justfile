@@ -5,7 +5,7 @@ set minimum-version := "1.57.0"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 just_version := "1.57.0"
-uv_version := "0.12.0"
+uv_version := "0.12.1"
 git_cliff_version := "2.13.1"
 actionlint_version := "1.7.12"
 pinact_version := "4.1.1"
@@ -277,6 +277,7 @@ python-entrypoint-test: _sync-python-dev
     uv run --no-sync cdt-optimize-initialize --help >/dev/null
     uv run --no-sync cdt-mnist-experiment --help >/dev/null
     uv run --no-sync cdt-tag-release --help >/dev/null
+    uv run --no-sync python scripts/sync_vcpkg_tool_pins.py --help >/dev/null
 
 # Synchronize the lightweight Python development environment from the lockfile.
 [group('workflows')]
@@ -305,6 +306,11 @@ update-actions:
     just _yaml-check
     just _action-lint
     just _zizmor
+
+# Synchronize the trusted vcpkg tool release and Windows hashes with the manifest baseline.
+[group('workflows')]
+sync-vcpkg-tool-pins: _sync-python-dev
+    uv run --no-sync python scripts/sync_vcpkg_tool_pins.py
 
 [default]
 [private]
