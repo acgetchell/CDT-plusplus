@@ -97,12 +97,19 @@ namespace cdt::utilities
     FINAL_TRIANGULATION
   };
 
+  /// @brief Reject values that are unsafe to append with `operator/`.
+  /// @details A drive-qualified value such as "C:" is neither absolute nor
+  /// separator-bearing, yet `operator/` discards the left operand whenever the
+  /// right operand carries a root name. Rejecting root names keeps composed
+  /// output and checkpoint paths anchored under their intended directory.
   inline void validate_path_component(std::string_view const name,
                                       std::string_view const value)
   {
+    auto const candidate = std::filesystem::path{std::string{value}};
     if (value.empty() || value == "." || value == ".." ||
         value.find_first_of("/\\") != std::string_view::npos ||
-        std::filesystem::path{std::string{value}}.is_absolute())
+        candidate.is_absolute() || candidate.has_root_name() ||
+        candidate.has_root_directory())
     {
       throw std::invalid_argument(std::string{name} +
                                   " must be a single path component.");

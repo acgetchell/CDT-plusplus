@@ -142,6 +142,14 @@ TEST_CASE("4D run output rejects invalid run ids")
       write_run_directory(directory.path, output_manifest("../outside"), config,
                           result),
       std::invalid_argument);
+
+#ifdef _WIN32
+  // "C:" is neither absolute nor separator-bearing, but its root name would
+  // make operator/ discard the output root and escape the run directory.
+  CHECK_THROWS_AS(write_run_directory(directory.path, output_manifest("C:"),
+                                      config, result),
+                  std::invalid_argument);
+#endif
 }
 
 TEST_CASE("4D run output rejects mismatched action and volume traces")
