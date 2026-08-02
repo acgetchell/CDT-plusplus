@@ -3,7 +3,7 @@
 This guide documents the release flow for CDT++ release candidates and the
 final `v1.0.0` release: prepare a dedicated release pull request, merge it,
 create an annotated tag with reviewed release notes, and create the GitHub
-release. The final stable release also includes the Zenodo archival handoff
+release. The final stable release also includes the Zenodo deposit handoff
 tracked by [issue #96].
 
 CDT++ is not published to a package registry. The GitHub release and its
@@ -279,14 +279,16 @@ jq -e 'select(
 )' <<<"$ZENODO_DELIVERY"
 ```
 
-For an intentionally archived release candidate, verify the Zenodo record and
-DOI without treating it as the final archival handoff. For a stable release,
+For a release candidate intentionally deposited with Zenodo, verify the record
+and DOI without treating it as the final stable handoff. For a stable release,
 complete the Zenodo handoff tracked in [issue #96]: confirm that Zenodo received
 the release, verify its version, date, title, authors, license, repository URL,
 and files, and record the final DOI according to the archival plan. If the DOI
 was unavailable before tagging, update `CITATION.cff` in a focused follow-up
-pull request rather than rewriting the tag. Complete repository archival only
-after the GitHub release and Zenodo record are correct.
+pull request rather than rewriting the tag. A Zenodo deposit does not make the
+GitHub repository read-only. Repository archival is a separate lifecycle action
+that requires an explicit maintainer decision; if it is approved later, perform
+it only after the GitHub release and Zenodo record are correct.
 
 ## Step 4: Clean up
 

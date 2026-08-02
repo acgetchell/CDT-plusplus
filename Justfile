@@ -6,6 +6,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 just_version := "1.57.0"
 uv_version := "0.12.1"
+python_version := "3.14.6"
 git_cliff_version := "2.13.1"
 actionlint_version := "1.7.12"
 pinact_version := "4.1.1"
@@ -47,7 +48,7 @@ check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespac
 
 # Run the comprehensive pre-commit/pre-push validation gate.
 [group('workflows')]
-ci: check _pinact-check reference-generated-check
+ci: check _pinact-check reference-generated-check python-package-check
     @echo "CI validation complete."
 
 # Configure dependencies before CodeQL begins tracing the C++ build.
@@ -161,7 +162,7 @@ clang-tidy:
       "+llvm.org@{{ llvm_version }}" \
       "+cmake.org@{{ cmake_version }}" \
       "+ninja-build.org@{{ ninja_version }}" \
-      +python.org@3.11.15 \
+      "+python.org@{{ python_version }}" \
       +gnu.org/m4@1.4.21 \
       +gnu.org/autoconf@2.73.0 \
       +gnu.org/autoconf-archive@2024.10.16 \
@@ -248,6 +249,47 @@ sanitize kind:
 [group('workflows')]
 python-check: python-format-check python-lint python-typecheck python-support-test python-entrypoint-test
     @echo "Python source checks complete."
+
+# Install and exercise the heavyweight PyTorch/Comet surface without networked services or datasets.
+[group('workflows')]
+python-experiment-check: _sync-python-experiments
+    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -c "import comet_ml; import torch; import torchvision; print(comet_ml.__version__, torch.__version__, torchvision.__version__)"
+    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_comet_pytorch
+    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_mnist_training
+
+# Build both Python artifacts and exercise every installed entry point outside the checkout.
+[group('workflows')]
+python-package-check: _sync-python-dev
+    #!/usr/bin/env bash
+    set -euo pipefail
+    artifact_directory="$(mktemp -d "${TMPDIR:-/tmp}/cdt-python-artifacts.XXXXXX")"
+    consumer_directory="$(mktemp -d "${TMPDIR:-/tmp}/cdt-python-consumer.XXXXXX")"
+    cleanup() {
+      rm -rf "$artifact_directory" "$consumer_directory"
+    }
+    trap cleanup EXIT
+
+    uv build --out-dir "$artifact_directory"
+    wheel="$(find "$artifact_directory" -maxdepth 1 -name '*.whl' -print -quit)"
+    [[ -n "$wheel" ]] || { echo "uv build did not produce a wheel." >&2; exit 1; }
+    uv venv --python 3.14 "$consumer_directory/.venv"
+    uv pip install --python "$consumer_directory/.venv" --no-build "$wheel"
+
+    if [[ -x "$consumer_directory/.venv/bin/python" ]]; then
+      python="$consumer_directory/.venv/bin/python"
+      scripts_directory="$consumer_directory/.venv/bin"
+    else
+      python="$consumer_directory/.venv/Scripts/python.exe"
+      scripts_directory="$consumer_directory/.venv/Scripts"
+    fi
+    (
+      cd "$consumer_directory"
+      "$python" -c "import scripts"
+      "$scripts_directory/cdt-bootstrap-vcpkg" --help >/dev/null
+      "$scripts_directory/cdt-optimize-initialize" --help >/dev/null
+      "$scripts_directory/cdt-mnist-experiment" --help >/dev/null
+      "$scripts_directory/cdt-tag-release" --help >/dev/null
+    )
 
 # Apply Ruff lint fixes and formatting to Python source.
 [group('workflows')]

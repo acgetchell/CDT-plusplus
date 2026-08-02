@@ -13,12 +13,15 @@
 
 ## Maintenance status
 
-CDT++ v1.0.0-rc3 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
-archived. It is
-maintained as an independent scientific reference and regression oracle for
+CDT++ v1.0.0-rc3 is the current C++23 release candidate. The repository remains maintained as an independent
+scientific reference and regression oracle for
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. New C++
 work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move
-set, and the final release contract tracked by [issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90).
+set, and work approved in project issues. The v1.0.0 release contract remains tracked by
+[issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90); making the GitHub repository read-only is a
+separate future lifecycle decision rather than an automatic consequence of that release. Optional Python research
+tooling is maintained by [issue #143](https://github.com/acgetchell/CDT-plusplus/issues/143) without making Python a
+scientific oracle.
 
 ## Table of contents
 
@@ -253,7 +256,7 @@ The smallest pkgx-assisted host setup is:
 - Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
 - pkgx
 - Just, used by the recipes and `scripts/pkgx-build.sh` to resolve the repository's tool-version pins
-- Python 3.12 for native dependency bootstrap, and uv when checking or running the Python support scripts
+- Python 3.14 for native dependency bootstrap, and uv when checking or running the Python support scripts
 - Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
 
 The pkgx build and documentation launchers supply their required tools ephemerally, including Git, Bash, CMake,
@@ -592,7 +595,7 @@ separate branch-coverage rate.
 
 ### Static Analysis
 
-Python 3.12 is selected by [`.python-version`](.python-version), uv locks the environment in `uv.lock`, Ruff owns
+Python 3.14 is selected by [`.python-version`](.python-version), uv locks the environment in `uv.lock`, Ruff owns
 Python formatting and linting, and ty owns static type checking. Run `just python-sync` once and then use
 `just python-check` or `just python-fix`; both commands are also part of the repository-wide validation recipes.
 
@@ -615,24 +618,52 @@ CGAL/TBB path and its parallel contract; ThreadSanitizer exercises the default s
 
 ## Optimizing Parameters
 
-[CometML] is used to record [Experiments] conducted by the `cdt-optimize-initialize` command;
-`cdt-mnist-experiment` runs the existing TensorFlow MNIST experiment. Both commands are registered in
-`pyproject.toml`, while their optional, heavyweight dependencies remain outside the normal development environment.
-Synchronize them from the same uv lockfile when working on the experiment scripts:
+[CometML] can mirror [Experiments] conducted by `cdt-optimize-initialize` and `cdt-mnist-experiment`. Each command
+writes configurations, seeds, metrics, plots or checkpoints, artifact digests, and provenance to its requested local
+output directory; Comet is an optional indexed or hosted view and is never the only copy. Preserve that directory
+with its retained inputs, source checkout, and `uv.lock` as the reproduction bundle. Both commands are registered in
+`pyproject.toml`, while their heavyweight dependencies remain outside the normal development environment. The
+default development group contains no PyTorch, TorchVision, Matplotlib, or Comet packages.
+
+The retained MNIST command is a small PyTorch portability example, not a CDT scientific oracle. It preserves the
+historical dense-network shape and requests deterministic PyTorch CPU algorithms for replay within the same supported
+software and hardware environment; bitwise identity across PyTorch releases, platforms, or processor architectures
+is not guaranteed. It does not implement 4D CDT or supply results for prospective Praxis research. The lockfile
+selects PyTorch 2.13 and TorchVision 0.28 regular-CPython 3.14 wheels from PyTorch's explicit CPU index; CUDA, ROCm,
+free-threaded Python, and accelerator CI are outside the supported baseline. Comet 3.58 is locked from its universal
+wheel.
+
+Synchronize and verify the optional group separately from ordinary source and C++ checks:
 
 ```bash
 just python-sync-experiments
+just python-experiment-check
 uv run --no-sync cdt-optimize-initialize
 uv run --no-sync cdt-mnist-experiment
 ```
 
-Run these commands from the repository root. Set `COMET_API_KEY` before starting the parameter optimization; use
-`--repository-root` when invoking it from another directory. The optimizer uses seed `92` by default for every
-parameter pair so stochastic inputs and provenance can be compared; pass `--seed SEED` to select and record another
-root seed. Fresh CGAL triangulations are subject to the limits in the
-[reproducibility contract](docs/reproducibility.md). The experiment results are then available in Comet.
-Migration of these legacy scripts to Python 3.14, PyTorch, and the current Comet API is tracked by
-[#104](https://github.com/acgetchell/CDT-plusplus/issues/104).
+Run these commands from the repository root. The initializer optimizer writes one directory per parameter pair under
+`out/experiments/initialize`; use `--output-directory` to retain the record elsewhere and `--repository-root` when
+invoking it from another directory. Each invocation requires a nonexistent output path and publishes that directory
+only after the complete sweep succeeds, so select a new path for every retained run. It uses seed `92` by default for
+every parameter pair so stochastic inputs and provenance can be compared; pass `--seed SEED` to select and record
+another root seed. Each record identifies the initializer by path, size, and SHA-256 digest and records the source
+commit, worktree status, and SHA-256 digest of any tracked source changes. Fresh CGAL triangulations are subject to
+the limits in the [reproducibility contract](docs/reproducibility.md).
+
+The MNIST example retains downloaded inputs under `out/experiments/data` and writes `configuration.json`,
+`checkpoint.pt`, and a `run.json` manifest containing size and SHA-256 records for its artifacts under
+`out/experiments/mnist`. Preserve both directories together; use `--data-directory`, `--output-directory`, and
+`--seed` for an explicit layout, or `--no-download` to require already-local inputs. As with the optimizer, every run
+requires a nonexistent output path and becomes visible there only after all local and offline-Comet artifacts close
+successfully. Tests use synthetic tensors and never download the dataset.
+
+Comet is disabled by default for both commands. Pass `--comet offline` to create an uploadable local Comet archive,
+or set `COMET_API_KEY` and pass `--comet online` to mirror the run to the hosted service. The PyTorch command starts
+Comet before importing Torch, enables graph and loss logging, watches weights and gradients, explicitly logs declared
+parameters and metrics, and mirrors the final checkpoint with Comet's current `start()`, `watch()`, and `log_model()`
+APIs. The migration and its relationship to possible future 4D work are tracked by
+[#143](https://github.com/acgetchell/CDT-plusplus/issues/143).
 
 ## Visualization
 

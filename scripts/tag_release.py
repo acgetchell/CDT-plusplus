@@ -1,7 +1,5 @@
 """Create a CDT++ annotated release tag from ``CHANGELOG.md``."""
 
-from __future__ import annotations
-
 import argparse
 import re
 import subprocess

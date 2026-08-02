@@ -1,7 +1,5 @@
 """Generate a deterministic release changelog with git-cliff."""
 
-from __future__ import annotations
-
 import argparse
 import json
 import os

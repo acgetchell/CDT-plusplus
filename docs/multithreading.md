@@ -1,6 +1,6 @@
 # Multithreaded CGAL contract
 
-CDT++ retains one bounded multithreaded capability for the archived C++
+CDT++ retains one bounded multithreaded capability for the maintained C++
 reference: CGAL may use oneTBB for bulk 3D Delaunay insertion and range
 removal. The deterministic `reference` configuration remains the canonical
 single-threaded correctness oracle. Enabling the parallel configuration does

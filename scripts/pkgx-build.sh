@@ -8,12 +8,13 @@ repo_root="$(cd -- "${script_dir}/.." && pwd)"
 cmake_version="$(just --justfile "${repo_root}/Justfile" --evaluate cmake_version)"
 ninja_version="$(just --justfile "${repo_root}/Justfile" --evaluate ninja_version)"
 ccache_version="$(just --justfile "${repo_root}/Justfile" --evaluate ccache_version)"
+python_version="$(just --justfile "${repo_root}/Justfile" --evaluate python_version)"
 
 pkgx_tools=(
   +git-scm.org@2.55.0
   "+cmake.org@${cmake_version}"
   "+ninja-build.org@${ninja_version}"
-  +python.org@3.11.15
+  "+python.org@${python_version}"
   +gnu.org/m4@1.4.21
   +gnu.org/autoconf@2.73.0
   +gnu.org/autoconf-archive@2024.10.16

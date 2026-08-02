@@ -1,7 +1,5 @@
 """Import-safety tests for optional experiment scripts."""
 
-from __future__ import annotations
-
 import builtins
 import importlib.util
 import unittest
@@ -13,7 +11,7 @@ class ExperimentImportTests(unittest.TestCase):
 
     def test_experiment_scripts_import_without_running_experiments(self) -> None:
         """Importing either script needs no ML, plotting, Comet, or subprocess work."""
-        optional_modules = {"comet_ml", "matplotlib", "numpy", "tensorflow"}
+        optional_modules = {"comet_ml", "matplotlib", "numpy", "torch", "torchvision"}
         real_import = builtins.__import__
 
         def guarded_import(

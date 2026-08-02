@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Validate CDT++ release metadata and version synchronization."""
 
-from __future__ import annotations
-
 import argparse
 import json
 import re

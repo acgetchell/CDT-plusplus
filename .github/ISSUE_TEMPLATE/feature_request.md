@@ -9,8 +9,10 @@ assignees: ''
 
 ## Problem
 
-Describe the problem this request would solve. CDT++ is approaching its final archival release; new development may
-belong in the supported [causal-triangulations](https://github.com/acgetchell/causal-triangulations) successor.
+Describe the problem this request would solve. CDT++ remains a maintained C++ reference implementation, while broad
+new development may belong in the supported
+[causal-triangulations](https://github.com/acgetchell/causal-triangulations) successor. Explain why this repository is
+the right ownership boundary.
 
 ## Proposed solution
 

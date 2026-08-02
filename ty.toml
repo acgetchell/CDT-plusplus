@@ -2,7 +2,7 @@
 include = ["src"]
 
 [environment]
-python-version = "3.12"
+python-version = "3.14"
 
 [analysis]
 # Experiment dependencies are lockfile-managed but omitted from the lightweight
@@ -13,8 +13,10 @@ allowed-unresolved-imports = [
   "matplotlib.**",
   "numpy",
   "numpy.**",
-  "tensorflow",
-  "tensorflow.**",
+  "torch",
+  "torch.**",
+  "torchvision",
+  "torchvision.**",
 ]
 
 [terminal]

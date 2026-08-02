@@ -3,7 +3,7 @@ name = "cdt-plusplus-scripts"
 # PEP 440 spelling of the CDT++ v1.0.0-rc3 release.
 version = "1.0.0rc3"
 description = "Python support and experiment scripts for CDT++"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.14,<3.15"
 dependencies = []
 
 [project.scripts]
@@ -27,12 +27,22 @@ no-build-package = [
   "pyyaml",
   "ruff",
   "semgrep",
-  "tensorflow",
+  "torch",
+  "torchvision",
   "ty",
   "uv-build",
   "yamllint",
 ]
 package = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
 
 [tool.uv.build-backend]
 module-name = "scripts"
@@ -43,6 +53,7 @@ source-exclude = [
   "scripts/generate_changelog.py",
   "scripts/release_check.py",
   "scripts/semgrep_fixture_config.py",
+  "scripts/experiment_tests/**",
   "scripts/tests/**",
 ]
 
@@ -60,13 +71,14 @@ experiments = [
   "comet-ml>=3.58.3,<4",
   "matplotlib>=3.10,<4",
   "numpy>=2,<3",
-  "tensorflow>=2.21,<2.22",
+  "torch>=2.13,<2.14",
+  "torchvision>=0.28,<0.29",
 ]
 
 [tool.ruff]
 line-length = 160
 src = ["scripts"]
-target-version = "py312"
+target-version = "py314"
 
 [tool.ruff.lint]
 select = [
@@ -148,6 +160,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"scripts/experiment_tests/test_*.py" = [
+  "PT009", # The optional experiment suite intentionally uses unittest.
+  "PT027", # The optional experiment suite intentionally uses unittest.
+]
 "scripts/tests/test_*.py" = [
   "PT009", # The dependency-free support-script suite intentionally uses unittest.
   "PT027", # The dependency-free support-script suite intentionally uses unittest.

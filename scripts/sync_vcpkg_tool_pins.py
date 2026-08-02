@@ -1,7 +1,5 @@
 """Synchronize trusted vcpkg tool pins with the manifest's exact baseline."""
 
-from __future__ import annotations
-
 import argparse
 import ast
 import hashlib

@@ -1,20 +1,23 @@
 """Tests for the portable initializer optimization support script."""
 
-from __future__ import annotations
-
 import argparse
+import hashlib
+import json
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
 from scripts.optimize_initialize import (
     PARAMETER_PAIRS,
+    _experiment_provenance,
     _initializer_binary,
     _initializer_command,
     _parse_args,
     _parse_initializer_output,
     _parse_seed,
     _run_parameter_sweep,
+    _SweepServices,
 )
 
 
@@ -39,6 +42,10 @@ class OptimizeInitializeTests(unittest.TestCase):
     def test_initializer_seed_defaults_to_replay_value(self) -> None:
         """The sweep is reproducible without additional seed configuration."""
         self.assertEqual(_parse_args([]).seed, 92)
+
+    def test_comet_is_an_optional_mirror(self) -> None:
+        """Local artifacts remain the default experiment destination."""
+        self.assertEqual(_parse_args([]).comet, "disabled")
 
     def test_initializer_seed_rejects_values_outside_uint64(self) -> None:
         """Invalid seeds fail before any online experiment is created."""
@@ -97,15 +104,28 @@ Timeslice 2 has 24 spacelike faces.
 Final number of simplices: 12000"""
         )
         plotter = Mock()
+        plotter.savefig.side_effect = lambda path: path.write_bytes(b"figure")
+        provenance = {"initializer": {"sha256": "initializer-digest"}}
 
-        with patch("builtins.print"):
-            _run_parameter_sweep(
-                Path("initialize"),
-                92,
-                experiment_factory,
-                initializer_runner,
-                plotter,
-            )
+        with TemporaryDirectory() as temporary_directory, patch("builtins.print"):
+            output_directory = Path(temporary_directory) / "run"
+            services = _SweepServices(experiment_factory=experiment_factory, initializer_runner=initializer_runner, plotter=plotter)
+            _run_parameter_sweep(Path("initialize"), 92, output_directory, provenance, services)
+
+            run_directory = output_directory / "radius-1-spacing-1"
+            configuration_path = run_directory / "configuration.json"
+            figure_path = run_directory / "volume-profile.png"
+            run_path = run_directory / "run.json"
+            stdout_path = run_directory / "stdout.txt"
+            self.assertEqual(stdout_path.read_text(encoding="utf-8"), initializer_runner.return_value)
+            run_record = json.loads(run_path.read_text(encoding="utf-8"))
+            self.assertEqual(run_record["provenance"], provenance)
+            for name, path in (("configuration", configuration_path), ("figure", figure_path), ("stdout", stdout_path)):
+                with self.subTest(artifact=name):
+                    record = run_record["artifacts"][name]
+                    self.assertEqual(record["path"], path.name)
+                    self.assertEqual(record["bytes"], path.stat().st_size)
+                    self.assertEqual(record["sha256"], hashlib.sha256(path.read_bytes()).hexdigest())
 
         for experiment, (initial_radius, foliation_spacing) in zip(experiments, PARAMETER_PAIRS, strict=True):
             experiment.log_parameters.assert_called_once_with(
@@ -126,10 +146,68 @@ Final number of simplices: 12000"""
         experiment = Mock()
         initializer_runner = Mock(side_effect=RuntimeError("initializer failed"))
 
-        with patch("builtins.print"), self.assertRaisesRegex(RuntimeError, "initializer failed"):
-            _run_parameter_sweep(Path("initialize"), 92, Mock(return_value=experiment), initializer_runner, Mock())
+        with TemporaryDirectory() as temporary_directory, patch("builtins.print"), self.assertRaisesRegex(RuntimeError, "initializer failed"):
+            root = Path(temporary_directory)
+            output_directory = root / "run"
+            services = _SweepServices(
+                experiment_factory=Mock(return_value=experiment),
+                initializer_runner=initializer_runner,
+                plotter=Mock(),
+            )
+            _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
+
+        self.assertFalse(output_directory.exists())
+        self.assertEqual(list(root.glob(".run.incomplete-*")), [])
 
         experiment.end.assert_called_once_with()
+
+    def test_parameter_sweep_preserves_an_existing_run(self) -> None:
+        """A replay must use a new output path instead of mixing generations."""
+        with TemporaryDirectory() as temporary_directory:
+            output_directory = Path(temporary_directory) / "run"
+            output_directory.mkdir()
+            sentinel = output_directory / "run.json"
+            sentinel.write_text("previous\n", encoding="utf-8")
+            experiment_factory = Mock()
+            services = _SweepServices(experiment_factory=experiment_factory, initializer_runner=Mock(), plotter=Mock())
+
+            with self.assertRaisesRegex(ValueError, "already exists"):
+                _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
+
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "previous\n")
+            experiment_factory.assert_not_called()
+
+    def test_experiment_provenance_hashes_the_binary_and_records_source_state(self) -> None:
+        """The canonical record identifies the executable even after it is rebuilt."""
+        with TemporaryDirectory() as temporary_directory:
+            repository_root = Path(temporary_directory)
+            initialize_binary = repository_root / "out" / "build" / "reference" / "src" / "initialize"
+            initialize_binary.parent.mkdir(parents=True)
+            initialize_binary.write_bytes(b"exact executable")
+
+            with patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", " M README.md\n", b"tracked diff"]):
+                provenance = _experiment_provenance(repository_root, initialize_binary)
+
+            initializer = provenance["initializer"]
+            repository = provenance["repository"]
+            if not isinstance(initializer, dict) or not isinstance(repository, dict):
+                self.fail("provenance sections must be JSON objects")
+            self.assertEqual(
+                initializer,
+                {
+                    "bytes": len(b"exact executable"),
+                    "path": "out/build/reference/src/initialize",
+                    "sha256": hashlib.sha256(b"exact executable").hexdigest(),
+                },
+            )
+            self.assertEqual(
+                repository,
+                {
+                    "commit": "abc123",
+                    "dirty": True,
+                    "tracked_diff_sha256": hashlib.sha256(b"tracked diff").hexdigest(),
+                },
+            )
 
 
 if __name__ == "__main__":
