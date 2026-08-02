@@ -36,7 +36,9 @@ namespace cdt
     {}
 
     [[nodiscard]] constexpr auto value() const noexcept -> std::uint64_t
-    { return m_value; }
+    {
+      return m_value;
+    }
 
     [[nodiscard]] auto operator==(RandomSeed const&) const noexcept
         -> bool = default;
@@ -54,7 +56,9 @@ namespace cdt
     {}
 
     [[nodiscard]] constexpr auto value() const noexcept -> std::uint64_t
-    { return m_value; }
+    {
+      return m_value;
+    }
 
     [[nodiscard]] auto operator==(RandomStream const&) const noexcept
         -> bool = default;
@@ -62,19 +66,27 @@ namespace cdt
 
   [[nodiscard]] constexpr auto format_as(RandomSeed const seed) noexcept
       -> std::uint64_t
-  { return seed.value(); }
+  {
+    return seed.value();
+  }
 
   [[nodiscard]] constexpr auto format_as(RandomStream const stream) noexcept
       -> std::uint64_t
-  { return stream.value(); }
+  {
+    return stream.value();
+  }
 
   inline auto operator<<(std::ostream& output, RandomSeed const seed)
       -> std::ostream&
-  { return output << seed.value(); }
+  {
+    return output << seed.value();
+  }
 
   inline auto operator<<(std::ostream& output, RandomStream const stream)
       -> std::ostream&
-  { return output << stream.value(); }
+  {
+    return output << stream.value();
+  }
 
   namespace random_streams
   {
@@ -129,10 +141,14 @@ namespace cdt
     {}
 
     [[nodiscard]] static constexpr auto min() noexcept -> result_type
-    { return pcg64::min(); }
+    {
+      return pcg64::min();
+    }
 
     [[nodiscard]] static constexpr auto max() noexcept -> result_type
-    { return pcg64::max(); }
+    {
+      return pcg64::max();
+    }
 
     [[nodiscard]] auto operator()() -> result_type { return m_engine(); }
 
@@ -141,7 +157,9 @@ namespace cdt
 
     /// @returns The PCG stream selector used by this engine.
     [[nodiscard]] auto stream() const noexcept -> RandomStream
-    { return m_stream; }
+    {
+      return m_stream;
+    }
 
     /// @returns Serialized checkpoint state for resuming this exact stream.
     /// @details This state captures the progressed engine only. The recorded
@@ -159,16 +177,21 @@ namespace cdt
     void set_engine_state(std::string const& state)
     {
       std::istringstream input(state);
-      input >> m_engine;
-      if (!input)
+      auto               restored = m_engine;
+      input >> restored;
+      input >> std::ws;
+      if (!input || !input.eof())
       {
         throw std::runtime_error{"Invalid random engine state."};
       }
+      m_engine = restored;
     }
 
     /// @brief Create a fresh reproducible stream from the same root seed.
     [[nodiscard]] auto split(RandomStream const stream) const -> Random
-    { return Random{m_seed, stream}; }
+    {
+      return Random{m_seed, stream};
+    }
   };
 
   static_assert(std::uniform_random_bit_generator<Random>);

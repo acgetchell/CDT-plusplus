@@ -1,9 +1,10 @@
 #include "Phase_analysis.hpp"
 
-#include <cmath>
-#include <stdexcept>
-
 #include <doctest/doctest.h>
+
+#include <cmath>
+#include <limits>
+#include <stdexcept>
 
 using namespace cdt::four_d::phase;
 
@@ -17,19 +18,20 @@ namespace
     {
       auto const width = static_cast<std::size_t>(
           std::llround(4.0L * std::pow(volume, 0.25L)));
-      auto profile = cos3_reference(width | static_cast<std::size_t>(1));
+      auto       profile = cos3_reference(width | static_cast<std::size_t>(1));
       auto const amplitude = std::pow(volume, 0.75L);
       for (auto& value : profile) { value = 1.0L + amplitude * value; }
       profiles.emplace_back(volume, profile);
     }
     return profiles;
   }
-}
+}  // namespace
 
-TEST_CASE("Synthetic cos cubed profiles are classified conservatively as C-like")
+TEST_CASE(
+    "Synthetic cos cubed profiles are classified conservatively as C-like")
 {
   std::vector<Profile> profiles;
-  auto base = cos3_reference(21);
+  auto                 base = cos3_reference(21);
   for (auto sample = 0; sample < 5; ++sample)
   {
     auto profile = base;
@@ -65,11 +67,10 @@ TEST_CASE("Alternating-slice profiles are classified as C_b-like")
   CHECK_EQ(diagnostics.verdict, Verdict::c_b_like);
 }
 
-
 TEST_CASE("Too few profiles are insufficient effective samples")
 {
   std::vector<Profile> profiles(2, Profile(9, 1.0L));
-  auto diagnostics = diagnose(profiles);
+  auto                 diagnostics = diagnose(profiles);
   CHECK_EQ(diagnostics.verdict, Verdict::insufficient_effective_samples);
 }
 
@@ -77,24 +78,43 @@ TEST_CASE("Synthetic C_dS profiles pass finite-size scaling")
 {
   auto profiles = build_synthetic_c_ds_profiles();
 
-  auto scaling = analyze_finite_size_scaling(profiles);
+  auto scaling  = analyze_finite_size_scaling(profiles);
   CHECK(scaling.passed);
   CHECK(scaling.width_exponent == doctest::Approx(0.25L).epsilon(0.10));
   CHECK(scaling.peak_exponent == doctest::Approx(0.75L).epsilon(0.10));
   CHECK_GE(scaling.collapse_error, 0.0L);
 }
 
-TEST_CASE("Finite-size scaling collapse error remains finite for sparse samples")
+TEST_CASE(
+    "Finite-size scaling collapse error remains finite for sparse samples")
 {
-  auto scaling = analyze_finite_size_scaling(
-      std::vector<std::pair<long double, Profile>>{{1.0L, Profile{}}});
+  std::vector<std::pair<long double, Profile>> profiles{
+      {1.0L, Profile{}}
+  };
+
+  auto scaling = analyze_finite_size_scaling(profiles);
+
   CHECK_FALSE(scaling.passed);
   CHECK(std::isfinite(scaling.collapse_error));
 }
 
-TEST_CASE("Full C_dS candidate gate requires profile shape and finite-size scaling")
+TEST_CASE("Finite-size scaling ignores non-finite log-log samples")
 {
   auto profiles = build_synthetic_c_ds_profiles();
+  profiles.emplace_back(std::numeric_limits<long double>::infinity(),
+                        Profile{1.0L, 2.0L, 1.0L});
+
+  auto scaling = analyze_finite_size_scaling(profiles);
+
+  CHECK(std::isfinite(scaling.width_exponent));
+  CHECK(std::isfinite(scaling.peak_exponent));
+  CHECK(std::isfinite(scaling.collapse_error));
+}
+
+TEST_CASE(
+    "Full C_dS candidate gate requires profile shape and finite-size scaling")
+{
+  auto profiles   = build_synthetic_c_ds_profiles();
 
   auto validation = diagnose_c_ds_finite_size(profiles, profiles.size());
   CHECK_EQ(validation.verdict, Verdict::c_ds_supported);
@@ -107,7 +127,8 @@ TEST_CASE("Covariance produces a regularized effective-action kernel")
   std::vector<Profile> profiles{
       Profile{1.0L, 2.0L, 1.0L},
       Profile{1.0L, 3.0L, 1.0L},
-      Profile{1.0L, 4.0L, 1.0L}};
+      Profile{1.0L, 4.0L, 1.0L}
+  };
   auto kernel = effective_action_kernel(profiles);
   REQUIRE_EQ(kernel.covariance.size(), 3);
   REQUIRE_EQ(kernel.inverse_covariance_diagonal_regularized.size(), 3);
@@ -116,11 +137,13 @@ TEST_CASE("Covariance produces a regularized effective-action kernel")
 
 TEST_CASE("Profile statistics reject mismatched dimensions")
 {
-  std::vector<Profile> profiles{Profile{1.0L, 2.0L}, Profile{1.0L}};
-  CHECK_THROWS_AS(([&profiles] {
-                    [[maybe_unused]] auto const result = mean(profiles);
-                  }()),
-                  std::invalid_argument);
+  std::vector<Profile> profiles{
+      Profile{1.0L, 2.0L},
+      Profile{1.0L}
+  };
+  CHECK_THROWS_AS(
+      ([&profiles] { [[maybe_unused]] auto const result = mean(profiles); }()),
+      std::invalid_argument);
   CHECK_THROWS_AS(([&profiles] {
                     [[maybe_unused]] auto const result =
                         covariance(profiles, Profile{1.0L, 2.0L});

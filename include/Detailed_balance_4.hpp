@@ -33,13 +33,13 @@ namespace cdt::four_d
 
   struct DetailedBalanceReport4D
   {
-    bool                             passed{true};
+    bool                               passed{true};
     std::vector<DetailedBalanceEdge4D> edges;
-    std::vector<std::string>        errors;
+    std::vector<std::string>           errors;
   };
 
   [[nodiscard]] inline auto proposal_probability(
-      FoliatedTriangulation4 const& triangulation,
+      FoliatedTriangulation4 const&  triangulation,
       move_tracker::MoveType4D const move) -> long double
   {
     auto const multiplicity = triangulation.candidate_multiplicity(move);
@@ -49,12 +49,11 @@ namespace cdt::four_d
   }
 
   [[nodiscard]] inline auto acceptance_probability(
-      FoliatedTriangulation4 const& before,
-      FoliatedTriangulation4 const& after,
-      move_tracker::MoveType4D const move,
-      S4Couplings const& couplings) -> long double
+      FoliatedTriangulation4 const& before, FoliatedTriangulation4 const& after,
+      move_tracker::MoveType4D const move, S4Couplings const& couplings)
+      -> long double
   {
-    auto const reverse = move_tracker::reverse_move(move);
+    auto const reverse   = move_tracker::reverse_move(move);
     auto const forward_q = proposal_probability(before, move);
     auto const reverse_q = proposal_probability(after, reverse);
     if (forward_q == 0.0L || reverse_q == 0.0L) { return 0.0L; }
@@ -72,20 +71,20 @@ namespace cdt::four_d
     if (log_ratio >= 0.0L) { return 1.0L; }
     auto const probability = std::exp(log_ratio);
     return std::isfinite(probability)
-               ? probability
-               : std::numeric_limits<long double>::quiet_NaN();
+             ? probability
+             : std::numeric_limits<long double>::quiet_NaN();
   }
 
   [[nodiscard]] inline auto boltzmann_weight(
-      FoliatedTriangulation4 const& triangulation,
-      S4Couplings const& couplings) -> long double
+      FoliatedTriangulation4 const& triangulation, S4Couplings const& couplings)
+      -> long double
   {
     return std::exp(-S4_bulk_action(triangulation.counts(), couplings));
   }
 
   [[nodiscard]] inline auto log_boltzmann_weight(
-      FoliatedTriangulation4 const& triangulation,
-      S4Couplings const& couplings) -> long double
+      FoliatedTriangulation4 const& triangulation, S4Couplings const& couplings)
+      -> long double
   {
     return -S4_bulk_action(triangulation.counts(), couplings);
   }
@@ -93,8 +92,7 @@ namespace cdt::four_d
   [[nodiscard]] inline auto verify_detailed_balance(
       FoliatedTriangulation4 const& seed, S4Couplings const& couplings,
       int const max_depth, long double const tolerance = 1.0e-10L,
-      std::size_t const max_states = 1024)
-      -> DetailedBalanceReport4D
+      std::size_t const max_states = 1024) -> DetailedBalanceReport4D
   {
     DetailedBalanceReport4D report;
     if (max_depth <= 0)
@@ -112,8 +110,8 @@ namespace cdt::four_d
       return report;
     }
 
-    std::map<std::string, FoliatedTriangulation4> states;
-    std::map<std::string, int>                    depths;
+    std::map<std::string, FoliatedTriangulation4>      states;
+    std::map<std::string, int>                         depths;
     std::queue<std::pair<FoliatedTriangulation4, int>> frontier;
 
     states.emplace(seed.canonical_hash(), seed);
@@ -158,15 +156,16 @@ namespace cdt::four_d
         auto moved = moves::apply(from_state, descriptor.move);
         if (!moved) { continue; }
         auto const to_hash = moved->triangulation.canonical_hash();
-        auto const to_it = states.find(to_hash);
+        auto const to_it   = states.find(to_hash);
         if (to_it == states.end())
         {
           report.passed = false;
-          report.errors.emplace_back("Reachable transition escaped enumeration depth.");
+          report.errors.emplace_back(
+              "Reachable transition escaped enumeration depth.");
           continue;
         }
         auto const& to_state = to_it->second;
-        auto reverse = moves::apply(to_state, descriptor.inverse);
+        auto        reverse  = moves::apply(to_state, descriptor.inverse);
         if (!reverse || reverse->triangulation.canonical_hash() != from_hash)
         {
           report.passed = false;
@@ -178,24 +177,20 @@ namespace cdt::four_d
             proposal_probability(from_state, descriptor.move);
         auto const reverse_q =
             proposal_probability(to_state, descriptor.inverse);
-        auto const forward_acceptance =
-            acceptance_probability(from_state, to_state, descriptor.move,
-                                   couplings);
-        auto const reverse_acceptance =
-            acceptance_probability(to_state, from_state, descriptor.inverse,
-                                   couplings);
-        auto const from_log_weight = log_boltzmann_weight(from_state, couplings);
+        auto const forward_acceptance = acceptance_probability(
+            from_state, to_state, descriptor.move, couplings);
+        auto const reverse_acceptance = acceptance_probability(
+            to_state, from_state, descriptor.inverse, couplings);
+        auto const from_log_weight =
+            log_boltzmann_weight(from_state, couplings);
         auto const to_log_weight = log_boltzmann_weight(to_state, couplings);
-        auto const min_log =
-            std::log(std::numeric_limits<long double>::min());
-        auto const max_log =
-            std::log(std::numeric_limits<long double>::max());
-        if (!std::isfinite(from_log_weight) ||
-            !std::isfinite(to_log_weight) || from_log_weight <= min_log ||
-            to_log_weight <= min_log || from_log_weight >= max_log ||
-            to_log_weight >= max_log || forward_q <= 0.0L ||
-            reverse_q <= 0.0L || forward_acceptance <= 0.0L ||
-            reverse_acceptance <= 0.0L ||
+        auto const min_log = std::log(std::numeric_limits<long double>::min());
+        auto const max_log = std::log(std::numeric_limits<long double>::max());
+        if (!std::isfinite(from_log_weight) || !std::isfinite(to_log_weight) ||
+            from_log_weight <= min_log || to_log_weight <= min_log ||
+            from_log_weight >= max_log || to_log_weight >= max_log ||
+            forward_q <= 0.0L || reverse_q <= 0.0L ||
+            forward_acceptance <= 0.0L || reverse_acceptance <= 0.0L ||
             !std::isfinite(forward_acceptance) ||
             !std::isfinite(reverse_acceptance))
         {
@@ -211,8 +206,8 @@ namespace cdt::four_d
         // evaluated in log space to avoid overflow and silent underflow.
         auto const log_lhs = from_log_weight + std::log(forward_q) +
                              std::log(forward_acceptance);
-        auto const log_rhs = to_log_weight + std::log(reverse_q) +
-                             std::log(reverse_acceptance);
+        auto const log_rhs =
+            to_log_weight + std::log(reverse_q) + std::log(reverse_acceptance);
         if (!std::isfinite(log_lhs) || !std::isfinite(log_rhs))
         {
           report.passed = false;

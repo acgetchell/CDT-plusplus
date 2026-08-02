@@ -139,3 +139,13 @@ SCENARIO("Initialization point generation replays from its named stream" *
 
   REQUIRE_EQ(first_vertices, replay_vertices);
 }
+
+TEST_CASE("Random engine state rejects trailing non-whitespace")
+{
+  cdt::Random generator{cdt::RandomSeed{92}, cdt::random_streams::transitions};
+  auto const  state = generator.engine_state();
+
+  CHECK_THROWS_AS(generator.set_engine_state(state + " trailing"),
+                  std::runtime_error);
+  CHECK_NOTHROW(generator.set_engine_state(state + " \t\n"));
+}

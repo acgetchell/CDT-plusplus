@@ -60,15 +60,12 @@ namespace cdt::four_d::output
           {
             auto const byte =
                 static_cast<unsigned>(static_cast<unsigned char>(character));
-            auto constexpr hex = std::string_view{"0123456789ABCDEF"};
+            constexpr auto hex = std::string_view{"0123456789ABCDEF"};
             escaped += "\\u00";
             escaped += hex[(byte >> 4U) & 0xFU];
             escaped += hex[byte & 0xFU];
           }
-          else
-          {
-            escaped += character;
-          }
+          else { escaped += character; }
           break;
       }
     }
@@ -87,13 +84,14 @@ namespace cdt::four_d::output
     return file;
   }
 
-  inline void ensure_wrote(std::ostream const& file,
+  inline void ensure_wrote(std::ofstream&               file,
                            std::filesystem::path const& path)
   {
+    file.flush();
+    file.close();
     if (!file)
     {
-      throw std::runtime_error("Failed to write output file: " +
-                               path.string());
+      throw std::runtime_error("Failed to write output file: " + path.string());
     }
   }
 
@@ -111,9 +109,9 @@ namespace cdt::four_d::output
   }
 
   inline void write_run_directory(std::filesystem::path const& root,
-                                  RunManifest const& manifest,
-                                  Metropolis4Config const& config,
-                                  Metropolis4Result const& result)
+                                  RunManifest const&           manifest,
+                                  Metropolis4Config const&     config,
+                                  Metropolis4Result const&     result)
   {
     cdt::utilities::validate_path_component("run_id", manifest.run_id);
     auto const run_dir = root / manifest.run_id;
@@ -121,7 +119,7 @@ namespace cdt::four_d::output
 
     {
       auto const path = run_dir / "manifest.json";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       file << "{\n";
       file << "  \"version\": 1,\n";
       file << "  \"run_id\": \"" << json_escape(manifest.run_id) << "\",\n";
@@ -129,34 +127,33 @@ namespace cdt::four_d::output
            << "\",\n";
       file << "  \"build_type\": \"" << json_escape(manifest.build_type)
            << "\",\n";
-      file << "  \"compiler\": \"" << json_escape(manifest.compiler)
-           << "\",\n";
+      file << "  \"compiler\": \"" << json_escape(manifest.compiler) << "\",\n";
       file << "  \"seed\": " << config.seed << ",\n";
-      file << "  \"chain_id\": \"" << json_escape(config.chain_id)
-           << "\",\n";
+      file << "  \"chain_id\": \"" << json_escape(config.chain_id) << "\",\n";
       file << "  \"kappa_0\": " << config.couplings.kappa_0 << ",\n";
       file << "  \"kappa_4\": " << config.couplings.kappa_4 << ",\n";
       file << "  \"Delta\": " << config.couplings.Delta << ",\n";
       file << "  \"target_N4\": " << config.couplings.target_N4 << ",\n";
-      file << "  \"volume_epsilon\": "
-           << config.couplings.volume_epsilon << ",\n";
+      file << "  \"volume_epsilon\": " << config.couplings.volume_epsilon
+           << ",\n";
       file << "  \"timeslices\": " << result.triangulation.timeslices()
            << ",\n";
-      file << "  \"thermalization_steps\": "
-           << config.thermalization_steps << ",\n";
-      file << "  \"measurement_interval\": "
-           << config.measurement_interval << "\n";
+      file << "  \"thermalization_steps\": " << config.thermalization_steps
+           << ",\n";
+      file << "  \"measurement_interval\": " << config.measurement_interval
+           << "\n";
       file << "}\n";
       ensure_wrote(file, path);
     }
 
     {
       auto const path = run_dir / "measurements.jsonl";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       for (auto const& measurement : result.measurements)
       {
-        file << "{\"step\":" << measurement.step << ",\"action\":"
-             << measurement.action << ",\"N4\":" << measurement.counts.N4
+        file << "{\"step\":" << measurement.step
+             << ",\"action\":" << measurement.action
+             << ",\"N4\":" << measurement.counts.N4
              << ",\"max_vertex_order\":" << measurement.max_vertex_order
              << ",\"valid\":" << (measurement.valid ? "true" : "false")
              << "}\n";
@@ -166,7 +163,7 @@ namespace cdt::four_d::output
 
     {
       auto const path = run_dir / "spatial_volume.csv";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       file << "timeslice,N3\n";
       auto const profile = result.triangulation.spatial_volume_profile();
       for (std::size_t index = 0; index < profile.size(); ++index)
@@ -178,7 +175,7 @@ namespace cdt::four_d::output
 
     {
       auto const path = run_dir / "spatial_volume_profiles.csv";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       file << "step,timeslice,N3\n";
       for (auto const& measurement : result.measurements)
       {
@@ -194,7 +191,7 @@ namespace cdt::four_d::output
 
     {
       auto const path = run_dir / "simplex_counts.csv";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       write_counts_csv_header(file);
       for (auto const& measurement : result.measurements)
       {
@@ -209,16 +206,15 @@ namespace cdt::four_d::output
 
     {
       auto const path = run_dir / "move_statistics.csv";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       file << "move,attempted,accepted,invalid\n";
       for (std::size_t index = 0; index < result.move_stats.size(); ++index)
       {
-        auto const& stat = result.move_stats[index];
-        auto const descriptor =
-            move_descriptor_4d(move_tracker::as_move_4d(
-                static_cast<int>(index)));
-        file << descriptor.name << ',' << stat.attempted << ','
-             << stat.accepted << ',' << stat.invalid << '\n';
+        auto const& stat       = result.move_stats[index];
+        auto const  descriptor = move_descriptor_4d(
+            move_tracker::as_move_4d(static_cast<int>(index)));
+        file << descriptor.name << ',' << stat.attempted << ',' << stat.accepted
+             << ',' << stat.invalid << '\n';
       }
       ensure_wrote(file, path);
     }
@@ -230,7 +226,7 @@ namespace cdt::four_d::output
             "Action and volume traces have different lengths.");
       }
       auto const path = run_dir / "action_trace.csv";
-      auto file = open_output_file(path);
+      auto       file = open_output_file(path);
       file << "step,action,N4\n";
       for (std::size_t index = 0; index < result.action_trace.size(); ++index)
       {
@@ -254,11 +250,12 @@ namespace cdt::four_d::output
     if (!measured_profiles.empty())
     {
       auto const profile_mean = phase::mean(measured_profiles);
-      auto const covariance = phase::covariance(measured_profiles, profile_mean);
+      auto const covariance =
+          phase::covariance(measured_profiles, profile_mean);
       auto const kernel = phase::effective_action_kernel(measured_profiles);
 
       auto const covariance_path = run_dir / "covariance.csv";
-      auto covariance_file = open_output_file(covariance_path);
+      auto       covariance_file = open_output_file(covariance_path);
       for (auto const& row : covariance)
       {
         for (std::size_t index = 0; index < row.size(); ++index)
@@ -270,7 +267,7 @@ namespace cdt::four_d::output
       ensure_wrote(covariance_file, covariance_path);
 
       auto const effective_path = run_dir / "effective_action.csv";
-      auto effective_file = open_output_file(effective_path);
+      auto       effective_file = open_output_file(effective_path);
       for (auto const& row : kernel.inverse_covariance_diagonal_regularized)
       {
         for (std::size_t index = 0; index < row.size(); ++index)
@@ -283,16 +280,16 @@ namespace cdt::four_d::output
     }
 
     {
-      auto const path = run_dir / "summary.json";
-      auto file = open_output_file(path);
-      auto const    counts = result.triangulation.counts();
-      auto const    report = result.triangulation.validate();
-      auto const diagnostics = measured_profiles.empty()
-                                   ? phase::Diagnostics{}
-                                   : phase::diagnose(std::move(measured_profiles));
+      auto const path   = run_dir / "summary.json";
+      auto       file   = open_output_file(path);
+      auto const counts = result.triangulation.counts();
+      auto const report = result.triangulation.validate();
+      auto const diagnostics =
+          measured_profiles.empty()
+              ? phase::Diagnostics{}
+              : phase::diagnose(std::move(measured_profiles));
       file << "{\n";
-      file << "  \"chain_id\": \"" << json_escape(config.chain_id)
-           << "\",\n";
+      file << "  \"chain_id\": \"" << json_escape(config.chain_id) << "\",\n";
       file << "  \"N0\": " << counts.N0 << ",\n";
       file << "  \"N1\": " << counts.N1 << ",\n";
       file << "  \"N2\": " << counts.N2 << ",\n";
@@ -302,22 +299,21 @@ namespace cdt::four_d::output
       file << "  \"N32\": " << counts.N32 << ",\n";
       file << "  \"N23\": " << counts.N23 << ",\n";
       file << "  \"N14\": " << counts.N14 << ",\n";
-      file << "  \"action\": "
-           << S4_bulk_action(counts, config.couplings) << ",\n";
+      file << "  \"action\": " << S4_bulk_action(counts, config.couplings)
+           << ",\n";
       file << "  \"maximum_vertex_order\": "
            << result.triangulation.max_vertex_order() << ",\n";
-      file << "  \"valid\": " << (report.valid() ? "true" : "false")
-           << ",\n";
+      file << "  \"valid\": " << (report.valid() ? "true" : "false") << ",\n";
       file << "  \"standard_cdt_candidate\": "
            << (report.valid() && report.standard_cdt_candidate ? "true"
                                                                : "false")
            << ",\n";
-      file << "  \"phase_verdict\": \""
-           << phase::to_string(diagnostics.verdict) << "\",\n";
-      file << "  \"autocorrelation_time\": "
-           << diagnostics.autocorrelation_time << ",\n";
-      file << "  \"held_out_likelihood\": "
-           << diagnostics.held_out_likelihood << ",\n";
+      file << "  \"phase_verdict\": \"" << phase::to_string(diagnostics.verdict)
+           << "\",\n";
+      file << "  \"autocorrelation_time\": " << diagnostics.autocorrelation_time
+           << ",\n";
+      file << "  \"held_out_likelihood\": " << diagnostics.held_out_likelihood
+           << ",\n";
       file << "  \"aic\": " << diagnostics.aic << ",\n";
       file << "  \"bic\": " << diagnostics.bic << "\n";
       file << "}\n";

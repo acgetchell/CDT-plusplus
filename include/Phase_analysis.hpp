@@ -23,11 +23,11 @@
 
 namespace cdt::four_d::phase
 {
-  using Profile = std::vector<long double>;
+  using Profile                                    = std::vector<long double>;
 
   inline constexpr long double collapse_peak_ratio = 0.70L;
   inline constexpr long double alternating_ratio_limit = 0.30L;
-  inline constexpr long double cos3_correlation_limit = 0.85L;
+  inline constexpr long double cos3_correlation_limit  = 0.85L;
   inline constexpr long double finite_collapse_error_sentinel =
       std::numeric_limits<long double>::max() / 4.0L;
 
@@ -62,12 +62,12 @@ namespace cdt::four_d::phase
 
   struct Diagnostics
   {
-    Verdict verdict{Verdict::no_phase_classification};
-    long double autocorrelation_time{1.0L};
-    long double held_out_likelihood{0.0L};
-    long double aic{0.0L};
-    long double bic{0.0L};
-    Profile mean_profile;
+    Verdict              verdict{Verdict::no_phase_classification};
+    long double          autocorrelation_time{1.0L};
+    long double          held_out_likelihood{0.0L};
+    long double          aic{0.0L};
+    long double          bic{0.0L};
+    Profile              mean_profile;
     std::vector<Profile> covariance;
   };
 
@@ -87,23 +87,22 @@ namespace cdt::four_d::phase
 
   struct CdsValidationReport
   {
-    Verdict verdict{Verdict::no_phase_classification};
-    FiniteSizeScalingReport scaling;
+    Verdict                  verdict{Verdict::no_phase_classification};
+    FiniteSizeScalingReport  scaling;
     std::vector<long double> profile_correlations;
-    long double minimum_profile_correlation{0.0L};
+    long double              minimum_profile_correlation{0.0L};
   };
 
   [[nodiscard]] inline auto centered(Profile profile) -> Profile
   {
     if (profile.empty()) { return profile; }
-    auto const peak = static_cast<std::size_t>(std::distance(
-        profile.begin(), std::ranges::max_element(profile)));
+    auto const peak = static_cast<std::size_t>(
+        std::distance(profile.begin(), std::ranges::max_element(profile)));
     auto const center_index = profile.size() / 2;
     std::rotate(profile.begin(),
-                profile.begin() +
-                    static_cast<std::ptrdiff_t>((peak + profile.size() -
-                                                 center_index) %
-                                                profile.size()),
+                profile.begin() + static_cast<std::ptrdiff_t>(
+                                      (peak + profile.size() - center_index) %
+                                      profile.size()),
                 profile.end());
     return profile;
   }
@@ -132,7 +131,7 @@ namespace cdt::four_d::phase
   }
 
   [[nodiscard]] inline auto covariance(std::vector<Profile> const& profiles,
-                                       Profile const& profile_mean)
+                                       Profile const&              profile_mean)
       -> std::vector<Profile>
   {
     std::vector<Profile> result(profile_mean.size(),
@@ -166,26 +165,21 @@ namespace cdt::four_d::phase
       std::vector<Profile> const& profiles) -> EffectiveActionEstimate
   {
     auto const profile_mean = mean(profiles);
-    auto cov = covariance(profiles, profile_mean);
-    auto inverse = cov;
+    auto       cov          = covariance(profiles, profile_mean);
+    auto       inverse      = cov;
     for (std::size_t i = 0; i < cov.size(); ++i)
     {
-      for (std::size_t j = 0; j < cov.size(); ++j)
-      {
-        inverse[i][j] = 0.0L;
-      }
+      for (std::size_t j = 0; j < cov.size(); ++j) { inverse[i][j] = 0.0L; }
       auto const regularized = cov[i][i] + 1.0e-9L;
-      inverse[i][i] = 1.0L / regularized;
+      inverse[i][i]          = 1.0L / regularized;
     }
     return EffectiveActionEstimate{cov, inverse};
   }
 
-  [[nodiscard]] inline auto profile_width(Profile const& profile)
-      -> long double
+  [[nodiscard]] inline auto profile_width(Profile const& profile) -> long double
   {
     if (profile.empty()) { return 0.0L; }
-    auto const total =
-        std::accumulate(profile.begin(), profile.end(), 0.0L);
+    auto const total = std::accumulate(profile.begin(), profile.end(), 0.0L);
     if (total == 0.0L) { return 0.0L; }
     auto center = 0.0L;
     for (std::size_t index = 0; index < profile.size(); ++index)
@@ -210,7 +204,8 @@ namespace cdt::four_d::phase
     result.reserve(samples.size());
     for (auto const& sample : samples)
     {
-      if (sample.first > 0.0L && sample.second > 0.0L)
+      if (std::isfinite(sample.first) && std::isfinite(sample.second) &&
+          sample.first > 0.0L && sample.second > 0.0L)
       {
         result.emplace_back(std::log(sample.first), std::log(sample.second));
       }
@@ -233,7 +228,7 @@ namespace cdt::four_d::phase
     }
     mean_x /= static_cast<long double>(positive_samples.size());
     mean_y /= static_cast<long double>(positive_samples.size());
-    auto numerator = 0.0L;
+    auto numerator   = 0.0L;
     auto denominator = 0.0L;
     for (auto const& [log_x, log_y] : positive_samples)
     {
@@ -268,10 +263,9 @@ namespace cdt::four_d::phase
       auto const difference = log_y - (intercept + exponent * log_x);
       residual += difference * difference;
     }
-    return std::isfinite(residual) &&
-                   residual < finite_collapse_error_sentinel
-               ? residual
-               : finite_collapse_error_sentinel;
+    return std::isfinite(residual) && residual < finite_collapse_error_sentinel
+             ? residual
+             : finite_collapse_error_sentinel;
   }
 
   [[nodiscard]] inline auto analyze_finite_size_scaling(
@@ -287,14 +281,11 @@ namespace cdt::four_d::phase
       widths.emplace_back(volume, std::max(1.0L, profile_width(profile)));
       peaks.emplace_back(volume, *std::ranges::max_element(profile));
     }
-    auto report = FiniteSizeScalingReport{
-        fit_power_law_exponent(widths),
-        fit_power_law_exponent(peaks),
-        0.0L,
-        false};
-    report.collapse_error =
-        log_log_residual(widths, report.width_exponent) +
-        log_log_residual(peaks, report.peak_exponent);
+    auto report =
+        FiniteSizeScalingReport{fit_power_law_exponent(widths),
+                                fit_power_law_exponent(peaks), 0.0L, false};
+    report.collapse_error = log_log_residual(widths, report.width_exponent) +
+                            log_log_residual(peaks, report.peak_exponent);
     report.passed = std::abs(report.width_exponent - 0.25L) < 0.08L &&
                     std::abs(report.peak_exponent - 0.75L) < 0.08L;
     return report;
@@ -305,12 +296,10 @@ namespace cdt::four_d::phase
       -> long double
   {
     if (lhs.size() != rhs.size() || lhs.empty()) { return 0.0L; }
-    auto const lhs_mean =
-        std::accumulate(lhs.begin(), lhs.end(), 0.0L) /
-        static_cast<long double>(lhs.size());
-    auto const rhs_mean =
-        std::accumulate(rhs.begin(), rhs.end(), 0.0L) /
-        static_cast<long double>(rhs.size());
+    auto const lhs_mean = std::accumulate(lhs.begin(), lhs.end(), 0.0L) /
+                          static_cast<long double>(lhs.size());
+    auto const rhs_mean = std::accumulate(rhs.begin(), rhs.end(), 0.0L) /
+                          static_cast<long double>(rhs.size());
 
     auto numerator = 0.0L;
     auto lhs_norm  = 0.0L;
@@ -331,7 +320,7 @@ namespace cdt::four_d::phase
   {
     Profile result(size, 0.0L);
     if (size == 0) { return result; }
-    auto const pi = 3.141592653589793238462643383279502884L;
+    auto const pi           = 3.141592653589793238462643383279502884L;
     auto const center_index = static_cast<long double>(size / 2);
     auto const width = std::max(1.0L, static_cast<long double>(size) / pi);
     for (std::size_t index = 0; index < size; ++index)
@@ -339,14 +328,14 @@ namespace cdt::four_d::phase
       auto const x = (static_cast<long double>(index) - center_index) / width;
       if (std::abs(x) < pi / 2.0L)
       {
-        auto const c = std::cos(x);
+        auto const c  = std::cos(x);
         result[index] = c * c * c;
       }
     }
     return result;
   }
 
-  [[nodiscard]] inline auto classify_profile_shape(Profile const& profile,
+  [[nodiscard]] inline auto classify_profile_shape(Profile const&    profile,
                                                    long double const total)
       -> std::optional<Verdict>
   {
@@ -382,9 +371,8 @@ namespace cdt::four_d::phase
         std::numeric_limits<long double>::infinity();
     for (auto const& [_, original_profile] : profiles_by_volume)
     {
-      auto profile = centered(original_profile);
-      auto const total =
-          std::accumulate(profile.begin(), profile.end(), 0.0L);
+      auto       profile = centered(original_profile);
+      auto const total = std::accumulate(profile.begin(), profile.end(), 0.0L);
       if (auto const verdict = classify_profile_shape(profile, total))
       {
         report.verdict = *verdict;
@@ -399,11 +387,11 @@ namespace cdt::four_d::phase
     }
 
     report.scaling = analyze_finite_size_scaling(std::move(profiles_by_volume));
-    report.verdict = report.scaling.passed &&
-                             report.minimum_profile_correlation >
-                                 cos3_correlation_limit
-                         ? Verdict::c_ds_supported
-                         : Verdict::no_phase_classification;
+    report.verdict =
+        report.scaling.passed &&
+                report.minimum_profile_correlation > cos3_correlation_limit
+            ? Verdict::c_ds_supported
+            : Verdict::no_phase_classification;
     return report;
   }
 
@@ -411,10 +399,9 @@ namespace cdt::four_d::phase
       std::vector<long double> const& series) -> long double
   {
     if (series.size() < 3) { return 1.0L; }
-    auto const average =
-        std::accumulate(series.begin(), series.end(), 0.0L) /
-        static_cast<long double>(series.size());
-    auto numerator = 0.0L;
+    auto const average = std::accumulate(series.begin(), series.end(), 0.0L) /
+                         static_cast<long double>(series.size());
+    auto numerator   = 0.0L;
     auto denominator = 0.0L;
     for (std::size_t index = 1; index < series.size(); ++index)
     {
@@ -441,11 +428,10 @@ namespace cdt::four_d::phase
 
     for (auto& profile : profiles) { profile = centered(std::move(profile)); }
     diagnostics.mean_profile = mean(profiles);
-    diagnostics.covariance = covariance(profiles, diagnostics.mean_profile);
+    diagnostics.covariance   = covariance(profiles, diagnostics.mean_profile);
 
-    auto const total =
-        std::accumulate(diagnostics.mean_profile.begin(),
-                        diagnostics.mean_profile.end(), 0.0L);
+    auto const total         = std::accumulate(diagnostics.mean_profile.begin(),
+                                               diagnostics.mean_profile.end(), 0.0L);
     if (auto const verdict =
             classify_profile_shape(diagnostics.mean_profile, total))
     {
@@ -459,14 +445,14 @@ namespace cdt::four_d::phase
     // These are heuristic profile-shape scores derived from the cos^3
     // correlation, not formal likelihood, AIC, or BIC statistics.
     diagnostics.held_out_likelihood = cos3_corr;
-    diagnostics.aic = -2.0L * cos3_corr + 2.0L * 4.0L;
+    diagnostics.aic                 = -2.0L * cos3_corr + 2.0L * 4.0L;
     diagnostics.bic =
         -2.0L * cos3_corr +
         std::log(static_cast<long double>(diagnostics.mean_profile.size())) *
             4.0L;
     diagnostics.verdict = cos3_corr > cos3_correlation_limit
-                              ? Verdict::c_ds_supported
-                              : Verdict::no_phase_classification;
+                            ? Verdict::c_ds_supported
+                            : Verdict::no_phase_classification;
     return diagnostics;
   }
 }  // namespace cdt::four_d::phase

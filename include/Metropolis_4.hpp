@@ -41,44 +41,44 @@ namespace cdt::four_d
 
   struct Metropolis4Measurement
   {
-    Int_precision step{0};
-    S4Counts      counts;
-    long double   action{0.0L};
-    Int_precision max_vertex_order{0};
-    bool          valid{false};
+    Int_precision                   step{0};
+    S4Counts                        counts;
+    long double                     action{0.0L};
+    Int_precision                   max_vertex_order{0};
+    bool                            valid{false};
     FoliatedTriangulation4::Profile spatial_profile;
   };
 
   struct Metropolis4Config
   {
-    S4Couplings   couplings;
-    std::uint64_t seed{1};
-    std::string   chain_id{"chain-0"};
-    Int_precision thermalization_steps{0};
-    Int_precision measurement_interval{1};
-    Int_precision checkpoint_interval{0};
+    S4Couplings           couplings;
+    std::uint64_t         seed{1};
+    std::string           chain_id{"chain-0"};
+    Int_precision         thermalization_steps{0};
+    Int_precision         measurement_interval{1};
+    Int_precision         checkpoint_interval{0};
     std::filesystem::path checkpoint_directory;
   };
 
   struct Metropolis4Result
   {
-    FoliatedTriangulation4 triangulation;
-    std::vector<long double> action_trace;
-    std::vector<Int_precision> volume_trace;
-    std::vector<Metropolis4Measurement> measurements;
+    FoliatedTriangulation4                                 triangulation;
+    std::vector<long double>                               action_trace;
+    std::vector<Int_precision>                             volume_trace;
+    std::vector<Metropolis4Measurement>                    measurements;
     std::array<MoveStat, move_tracker::NUMBER_OF_4D_MOVES> move_stats{};
   };
 
   class Metropolis4
   {
-    Metropolis4Config m_config;
-    cdt::Random       m_rng;
+    Metropolis4Config         m_config;
+    cdt::Random               m_rng;
 
     [[nodiscard]] static auto transition_stream_for_chain(
         std::string const& chain_id) -> cdt::RandomStream
     {
-      auto value = 14695981039346656037ULL ^
-                   cdt::random_streams::transitions.value();
+      auto value =
+          14695981039346656037ULL ^ cdt::random_streams::transitions.value();
       for (auto const character : chain_id)
       {
         value ^= static_cast<unsigned char>(character);
@@ -123,8 +123,8 @@ namespace cdt::four_d
       if (log_probability >= 0.0L) { return 1.0L; }
       auto const probability = std::exp(log_probability);
       return std::isfinite(probability)
-                 ? probability
-                 : std::numeric_limits<long double>::quiet_NaN();
+               ? probability
+               : std::numeric_limits<long double>::quiet_NaN();
     }
 
     static void write_counts(std::ostream& stream, S4Counts const& counts)
@@ -144,17 +144,14 @@ namespace cdt::four_d
     static auto read_counts(std::istream& stream) -> S4Counts
     {
       S4Counts counts;
-      stream >> counts.N0 >> counts.N1 >> counts.N2 >> counts.N3 >>
-          counts.N4 >> counts.N41 >> counts.N32 >> counts.N23 >> counts.N14;
-      bool has_class_resolved{false};
+      stream >> counts.N0 >> counts.N1 >> counts.N2 >> counts.N3 >> counts.N4 >>
+          counts.N41 >> counts.N32 >> counts.N23 >> counts.N14;
+      bool                  has_class_resolved{false};
       S4ClassResolvedCounts class_counts;
       stream >> has_class_resolved >> class_counts.spatial_tetrahedra >>
           class_counts.timelike_edges >> class_counts.mixed_triangles >>
           class_counts.timelike_tetrahedra;
-      if (!stream)
-      {
-        throw std::runtime_error{"Malformed checkpoint counts."};
-      }
+      if (!stream) { throw std::runtime_error{"Malformed checkpoint counts."}; }
       if (has_class_resolved) { counts.class_resolved = class_counts; }
       return counts;
     }
@@ -208,10 +205,7 @@ namespace cdt::four_d
         ++result.move_stats[move_index].attempted;
 
         auto proposal = moves::apply(result.triangulation, move);
-        if (!proposal)
-        {
-          ++result.move_stats[move_index].invalid;
-        }
+        if (!proposal) { ++result.move_stats[move_index].invalid; }
         else if (draw_probability() <=
                  acceptance_probability(result.triangulation, proposal.value()))
         {
@@ -229,9 +223,7 @@ namespace cdt::four_d
             step % m_config.measurement_interval == 0)
         {
           result.measurements.push_back(Metropolis4Measurement{
-              step,
-              result.triangulation.counts(),
-              action,
+              step, result.triangulation.counts(), action,
               result.triangulation.max_vertex_order(),
               result.triangulation.is_valid(),
               result.triangulation.spatial_volume_profile()});
@@ -240,21 +232,21 @@ namespace cdt::four_d
             !m_config.checkpoint_directory.empty() &&
             step % m_config.checkpoint_interval == 0)
         {
-          save_checkpoint(m_config.checkpoint_directory,
-                          result.triangulation, step);
+          save_checkpoint(m_config.checkpoint_directory, result.triangulation,
+                          step);
         }
       }
 
       return result;
     }
 
-    void save_checkpoint(std::filesystem::path const& directory,
+    void save_checkpoint(std::filesystem::path const&  directory,
                          FoliatedTriangulation4 const& triangulation,
-                         Int_precision const step) const
+                         Int_precision const           step) const
     {
       std::filesystem::create_directories(directory);
-      auto const target = directory / "state.txt";
-      auto const temporary = directory / "state.txt.tmp";
+      auto const    target    = directory / "state.txt";
+      auto const    temporary = directory / "state.txt.tmp";
       std::ofstream file(temporary);
       if (!file)
       {
@@ -295,19 +287,17 @@ namespace cdt::four_d
         throw std::runtime_error{"Failed to write checkpoint: " +
                                  temporary.string()};
       }
-      std::filesystem::remove(target);
-      std::filesystem::rename(temporary, target);
+      cdt::utilities::detail::replace_file(temporary, target);
     }
 
-    [[nodiscard]] auto load_checkpoint(
-        std::filesystem::path const& directory) -> std::pair<FoliatedTriangulation4, Int_precision>
+    [[nodiscard]] auto load_checkpoint(std::filesystem::path const& directory)
+        -> std::pair<FoliatedTriangulation4, Int_precision>
     {
-      auto const path = directory / "state.txt";
+      auto const    path = directory / "state.txt";
       std::ifstream file(path);
       if (!file)
       {
-        throw std::runtime_error{"Failed to open checkpoint: " +
-                                 path.string()};
+        throw std::runtime_error{"Failed to open checkpoint: " + path.string()};
       }
       Int_precision step{0};
       Int_precision timeslices{0};
@@ -316,16 +306,13 @@ namespace cdt::four_d
       require_label(file, "timeslices");
       file >> timeslices;
       require_label(file, "counts");
-      auto counts = read_counts(file);
+      auto        counts = read_counts(file);
       std::size_t profile_size{0};
       require_label(file, "profile");
       file >> profile_size;
       FoliatedTriangulation4::Profile profile(profile_size);
       for (auto& value : profile) { file >> value; }
-      if (!file)
-      {
-        throw std::runtime_error{"Malformed checkpoint profile."};
-      }
+      if (!file) { throw std::runtime_error{"Malformed checkpoint profile."}; }
       require_label(file, "three_three_forward");
       bool three_three_forward{true};
       file >> three_three_forward;
@@ -350,7 +337,7 @@ namespace cdt::four_d
       {
         require_label(file, "simplex");
         Simplex4D simplex;
-        auto type = 0;
+        auto      type = 0;
         file >> simplex.id >> type;
         simplex.type = static_cast<SimplexType4D>(type);
         for (auto& vertex : simplex.vertices) { file >> vertex; }
@@ -366,7 +353,10 @@ namespace cdt::four_d
       require_label(file, "rng");
       std::string state;
       std::getline(file, state);
-      if (!state.empty() && state.front() == ' ') { state.erase(state.begin()); }
+      if (!state.empty() && state.front() == ' ')
+      {
+        state.erase(state.begin());
+      }
       set_rng_state(state);
       if (!file && state.empty())
       {
