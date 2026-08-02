@@ -5,6 +5,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "saturday"
+      time: "03:00"
+      timezone: "America/Los_Angeles"
     cooldown:
       default-days: 7
     open-pull-requests-limit: 10
@@ -17,6 +20,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "saturday"
+      time: "04:00"
+      timezone: "America/Los_Angeles"
     cooldown:
       default-days: 7
     open-pull-requests-limit: 10
@@ -29,6 +35,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "saturday"
+      time: "05:00"
+      timezone: "America/Los_Angeles"
     cooldown:
       default-days: 7
       # vcpkg updates are atomic baseline snapshots; do not delay them.
