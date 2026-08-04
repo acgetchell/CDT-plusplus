@@ -13,10 +13,16 @@ from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, Protocol
+from typing import TYPE_CHECKING, Literal, Protocol, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterator, Mapping, Sequence
+    from types import ModuleType
+
+    from torch import Tensor
+    from torch.nn import CrossEntropyLoss, Module
+    from torch.optim import Optimizer
+    from torch.utils.data import DataLoader
 
 MIN_TORCH_SEED = -(1 << 63)
 MAX_TORCH_SEED = (1 << 64) - 1
@@ -140,14 +146,23 @@ def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
 
 def _config_from_args(args: argparse.Namespace) -> _RunConfig:
     """Convert parsed arguments into the immutable run configuration."""
+    data_directory = args.data_directory.resolve()
+    output_directory = args.output_directory.resolve()
+    dataset_directory = (data_directory / "MNIST").resolve()
+    if data_directory.is_relative_to(output_directory):
+        message = "MNIST data directory must not be inside the output directory."
+        raise ValueError(message)
+    if output_directory.is_relative_to(dataset_directory):
+        message = "MNIST output directory must not be inside the retained MNIST dataset directory."
+        raise ValueError(message)
     return _RunConfig(
         batch_size=args.batch_size,
         comet_mode=args.comet,
-        data_directory=args.data_directory.resolve(),
+        data_directory=data_directory,
         download=args.download,
         epochs=args.epochs,
         learning_rate=args.learning_rate,
-        output_directory=args.output_directory.resolve(),
+        output_directory=output_directory,
         seed=args.seed,
     )
 
@@ -227,8 +242,10 @@ def _dataset_manifest(dataset_root: Path) -> list[dict[str, object]]:
             "path": path.relative_to(dataset_root).as_posix(),
             "sha256": _sha256(path),
         }
-        for path in sorted(dataset_root.rglob("*"))
-        if path.is_file()
+        for path in sorted(
+            (path for path in dataset_root.rglob("*") if path.is_file()),
+            key=lambda path: path.relative_to(dataset_root).as_posix(),
+        )
     ]
 
 
@@ -275,10 +292,14 @@ def _start_comet(config: _RunConfig, artifact_directory: Path) -> _CometRun:
 
     from comet_ml.integration.pytorch import log_model, watch  # noqa: PLC0415
 
-    return _CometRun(experiment=experiment, log_model=log_model, watch=watch)
+    return _CometRun(
+        experiment=cast("_Experiment", experiment),
+        log_model=cast("_LogModel", log_model),
+        watch=cast("_Watch", watch),
+    )
 
 
-def _build_model(torch_module: Any) -> Any:
+def _build_model(torch_module: ModuleType) -> Module:
     """Build the historical dense MNIST architecture with PyTorch."""
     return torch_module.nn.Sequential(
         torch_module.nn.Flatten(),
@@ -289,7 +310,12 @@ def _build_model(torch_module: Any) -> Any:
     )
 
 
-def _train_epoch(model: Any, data_loader: Any, loss_function: Any, optimizer: Any) -> float:
+def _train_epoch(
+    model: Module,
+    data_loader: DataLoader[tuple[Tensor, ...]],
+    loss_function: CrossEntropyLoss,
+    optimizer: Optimizer,
+) -> float:
     """Train one deterministic CPU epoch and return mean loss."""
     model.train()
     total_loss = 0.0
@@ -306,7 +332,12 @@ def _train_epoch(model: Any, data_loader: Any, loss_function: Any, optimizer: An
     return total_loss / total_examples
 
 
-def _evaluate(torch_module: Any, model: Any, data_loader: Any, loss_function: Any) -> tuple[float, float]:
+def _evaluate(
+    torch_module: ModuleType,
+    model: Module,
+    data_loader: DataLoader[tuple[Tensor, ...]],
+    loss_function: CrossEntropyLoss,
+) -> tuple[float, float]:
     """Evaluate mean loss and accuracy on the deterministic CPU baseline."""
     model.eval()
     total_loss = 0.0
@@ -323,23 +354,26 @@ def _evaluate(torch_module: Any, model: Any, data_loader: Any, loss_function: An
     return total_loss / total_examples, correct / total_examples
 
 
-def _run_experiment(config: _RunConfig) -> None:
+def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the staged experiment lifecycle together.
     """Train PyTorch on MNIST and retain a complete local run record."""
     with _staged_run_directory(config.output_directory) as artifact_directory:
-        _write_json(artifact_directory / "configuration.json", _configuration_payload(config))
+        configuration_path = artifact_directory / "configuration.json"
 
         comet_run = _start_comet(config, artifact_directory) if config.comet_mode != "disabled" else None
         try:
             import torch  # noqa: PLC0415
-            import torchvision  # noqa: PLC0415
             from torchvision import datasets, transforms  # noqa: PLC0415
 
             torch.manual_seed(config.seed)
             torch.use_deterministic_algorithms(mode=True)
             generator = torch.Generator().manual_seed(config.seed)
             transform = transforms.ToTensor()
-            training_data = datasets.MNIST(root=config.data_directory, train=True, download=config.download, transform=transform)
-            test_data = datasets.MNIST(root=config.data_directory, train=False, download=config.download, transform=transform)
+            try:
+                training_data = datasets.MNIST(root=config.data_directory, train=True, download=config.download, transform=transform)
+                test_data = datasets.MNIST(root=config.data_directory, train=False, download=config.download, transform=transform)
+            except RuntimeError as error:
+                message = f"MNIST data is unavailable or incomplete at {config.data_directory}: {error}"
+                raise ValueError(message) from error
             training_loader = torch.utils.data.DataLoader(
                 training_data,
                 batch_size=config.batch_size,
@@ -352,8 +386,7 @@ def _run_experiment(config: _RunConfig) -> None:
             model = _build_model(torch)
             loss_function = torch.nn.CrossEntropyLoss()
             optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate)
-            configuration = _configuration_payload(config, torch_version=torch.__version__, torchvision_version=torchvision.__version__)
-            configuration_path = artifact_directory / "configuration.json"
+            configuration = _configuration_payload(config, torch_version=torch.__version__, torchvision_version=version("torchvision"))
             _write_json(configuration_path, configuration)
 
             if comet_run is not None:
@@ -408,8 +441,8 @@ def _run_experiment(config: _RunConfig) -> None:
 
 def main(argv: Sequence[str] | None = None) -> int:
     """Run the MNIST experiment from an installed uv entry point."""
-    config = _config_from_args(_parse_args(sys.argv[1:] if argv is None else argv))
     try:
+        config = _config_from_args(_parse_args(sys.argv[1:] if argv is None else argv))
         _run_experiment(config)
     except ModuleNotFoundError as error:
         print(

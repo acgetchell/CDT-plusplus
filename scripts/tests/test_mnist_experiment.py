@@ -2,6 +2,8 @@
 
 import argparse
 import unittest
+from contextlib import redirect_stderr
+from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -14,6 +16,7 @@ from scripts.mnist_experiment import (
     _positive_float,
     _positive_int,
     _staged_run_directory,
+    main,
 )
 
 
@@ -32,6 +35,51 @@ class MnistExperimentTests(unittest.TestCase):
     def test_no_download_requires_existing_local_inputs(self) -> None:
         """A caller can prohibit network-backed dataset acquisition."""
         self.assertFalse(_config_from_args(_parse_args(["--no-download"])).download)
+
+    def test_data_and_output_paths_must_not_overlap_retained_inputs(self) -> None:
+        """Invalid path containment fails before creating or importing anything."""
+        with TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            cases = (
+                (root / "output" / "data", root / "output", "data directory must not be inside the output directory"),
+                (root / "data", root / "data" / "MNIST" / "runs" / "run", "output directory must not be inside the retained MNIST dataset directory"),
+            )
+            for data_directory, output_directory, expected_message in cases:
+                with self.subTest(data_directory=data_directory, output_directory=output_directory):
+                    stderr = StringIO()
+                    with redirect_stderr(stderr):
+                        status = main(
+                            [
+                                "--data-directory",
+                                str(data_directory),
+                                "--output-directory",
+                                str(output_directory),
+                            ]
+                        )
+
+                    self.assertEqual(status, 2)
+                    self.assertIn(expected_message, stderr.getvalue())
+                    self.assertEqual(list(root.iterdir()), [])
+
+    def test_output_may_be_inside_data_directory_outside_retained_inputs(self) -> None:
+        """Run artifacts may share a parent with, but cannot enter, MNIST inputs."""
+        with TemporaryDirectory() as temporary_directory:
+            data_directory = Path(temporary_directory) / "data"
+            output_directory = data_directory / "runs" / "run"
+
+            config = _config_from_args(
+                _parse_args(
+                    [
+                        "--data-directory",
+                        str(data_directory),
+                        "--output-directory",
+                        str(output_directory),
+                    ]
+                )
+            )
+
+            self.assertEqual(config.data_directory, data_directory.resolve())
+            self.assertEqual(config.output_directory, output_directory.resolve())
 
     def test_training_counts_must_be_positive_and_finite(self) -> None:
         """Invalid hyperparameters fail before Torch or Comet is imported."""
@@ -70,7 +118,7 @@ class MnistExperimentTests(unittest.TestCase):
                 raise RuntimeError(message)
 
             self.assertFalse(output_directory.exists())
-            self.assertEqual(list(root.glob(".run.incomplete-*")), [])
+            self.assertEqual(list(root.iterdir()), [])
 
     def test_existing_run_is_never_overwritten(self) -> None:
         """A caller must choose a new output path for every generation."""

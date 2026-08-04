@@ -13,6 +13,11 @@ updates:
     open-pull-requests-limit: 10
     groups:
       github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      github-actions-security:
+        applies-to: security-updates
         patterns:
           - "*"
 
@@ -28,6 +33,11 @@ updates:
     open-pull-requests-limit: 10
     groups:
       dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      python-security:
+        applies-to: security-updates
         patterns:
           - "*"
 
@@ -46,5 +56,6 @@ updates:
     open-pull-requests-limit: 10
     groups:
       dependencies:
+        applies-to: version-updates
         patterns:
           - "*"

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from subprocess import check_output as qx
-from typing import TYPE_CHECKING, Literal, Protocol
+from typing import TYPE_CHECKING, Literal, Protocol, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator, Mapping, Sequence
@@ -21,6 +21,10 @@ if TYPE_CHECKING:
 MAX_RANDOM_SEED = (1 << 64) - 1
 PACKAGE_NAME = "cdt-plusplus-scripts"
 PARAMETER_PAIRS = tuple((initial_radius, spacing) for initial_radius in range(1, 4) for spacing in (1.0, 1.5, 2.0))
+
+
+class OutputDirectoryExistsError(ValueError):
+    """The requested canonical output directory already exists."""
 
 
 class _Experiment(Protocol):
@@ -255,7 +259,7 @@ def _staged_run_directory(output_directory: Path) -> Iterator[Path]:
     """Publish one complete sweep without mixing it with an older generation."""
     if os.path.lexists(output_directory):
         message = f"Output directory already exists: {output_directory}; choose a new --output-directory."
-        raise ValueError(message)
+        raise OutputDirectoryExistsError(message)
 
     output_directory.parent.mkdir(parents=True, exist_ok=True)
     staging_directory = Path(
@@ -409,7 +413,10 @@ def _run_experiments(config: _SweepConfig) -> None:
                 log_git_patch=False,
                 name="cdt-optimize-initialize",
             )
-            return comet_ml.start(api_key=config.api_key, experiment_config=experiment_config, mode="create", project_name="cdt-plusplus")
+            return cast(
+                "_Experiment",
+                comet_ml.start(api_key=config.api_key, experiment_config=experiment_config, mode="create", project_name="cdt-plusplus"),
+            )
         offline_directory = artifact_directory / "comet"
         offline_directory.mkdir(parents=True, exist_ok=True)
         experiment_config = comet_ml.ExperimentConfig(
@@ -420,18 +427,21 @@ def _run_experiments(config: _SweepConfig) -> None:
             name="cdt-optimize-initialize",
             offline_directory=str(offline_directory),
         )
-        return comet_ml.start(
-            experiment_config=experiment_config,
-            mode="create",
-            online=False,
-            project_name="cdt-plusplus",
+        return cast(
+            "_Experiment",
+            comet_ml.start(
+                experiment_config=experiment_config,
+                mode="create",
+                online=False,
+                project_name="cdt-plusplus",
+            ),
         )
 
     def initializer_runner(command: list[str]) -> str:
         # The executable and numeric parameters are repository-controlled.
         return qx(command, text=True)  # noqa: S603
 
-    services = _SweepServices(experiment_factory=experiment_factory, initializer_runner=initializer_runner, plotter=plt)
+    services = _SweepServices(experiment_factory=experiment_factory, initializer_runner=initializer_runner, plotter=cast("_Plotter", plt))
     provenance = _experiment_provenance(config.repository_root, config.initialize_binary)
     _run_parameter_sweep(config.initialize_binary, config.seed, config.output_directory, provenance, services)
 
@@ -467,7 +477,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 2
-    except ValueError as error:
+    except OutputDirectoryExistsError as error:
         print(str(error), file=sys.stderr)
         return 2
 

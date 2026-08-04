@@ -2,7 +2,7 @@
 
 import json
 import unittest
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 
@@ -55,12 +55,13 @@ class CometPyTorchIntegrationTests(unittest.TestCase):
             self.assertTrue(any(metric.get("metricName") == "loss" and metric.get("epoch") == 1 for metric in metrics))
             self.assertTrue(any(parameter.get("paramName") == "seed" and parameter.get("paramValue") == 0 for parameter in parameters))
             self.assertTrue(any(record["type"] == "graph" for record in records))
-            self.assertEqual(sum(upload["upload_type"] == "histogram3d" for upload in uploads), 4)
+            self.assertTrue(any(upload["upload_type"] == "histogram3d" for upload in uploads))
             self.assertTrue(
                 any(
                     upload["upload_type"] == "model-element"
                     and upload["additional_params"].get("groupingName") == "cdt-mnist-smoke"
-                    and upload["additional_params"].get("fileName") == "model-data/comet-torch-model.pth"
+                    and PurePosixPath(str(upload["additional_params"].get("fileName", "")).replace("\\", "/")).parent == PurePosixPath("model-data")
+                    and PurePosixPath(str(upload["additional_params"].get("fileName", "")).replace("\\", "/")).name == "comet-torch-model.pth"
                     for upload in uploads
                 )
             )

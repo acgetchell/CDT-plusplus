@@ -1,16 +1,17 @@
 # Justfile for the CDT++ maintenance workflow.
 # Usage: just <recipe> or just --list
 
-set minimum-version := "1.57.0"
+set minimum-version := "1.58.0"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-just_version := "1.57.0"
+just_version := "1.58.0"
 uv_version := "0.12.1"
 python_version := "3.14.6"
 git_cliff_version := "2.13.1"
 actionlint_version := "1.7.12"
 pinact_version := "4.1.1"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
+typos_version := "1.49.0"
 llvm_version := "22"
 cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.1"
@@ -43,7 +44,7 @@ build-debug:
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test spell-check
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
@@ -231,6 +232,11 @@ semgrep-test: _sync-python-dev
             uv run --no-sync semgrep scan --test --strict --config "$config_path" "$fixture"
     done < <(find tests/semgrep -type f ! -name '*.fixed' -print0)
 
+# Check repository text and identifiers for common spelling mistakes.
+[group('workflows')]
+spell-check: _ensure-typos
+    typos
+
 # Build and exercise one supported Linux sanitizer configuration.
 [group('workflows')]
 sanitize kind:
@@ -250,9 +256,10 @@ sanitize kind:
 python-check: python-format-check python-lint python-typecheck python-support-test python-entrypoint-test
     @echo "Python source checks complete."
 
-# Install and exercise the heavyweight PyTorch/Comet surface without networked services or datasets.
+# Install, type-check, and exercise the heavyweight PyTorch/Comet surface without networked services or datasets.
 [group('workflows')]
 python-experiment-check: _sync-python-experiments
+    uv run --no-sync ty check scripts/mnist_experiment.py scripts/optimize_initialize.py scripts/experiment_tests/*.py --error all
     MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -c "import comet_ml; import torch; import torchvision; print(comet_ml.__version__, torch.__version__, torchvision.__version__)"
     MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_comet_pytorch
     MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_mnist_training
@@ -272,7 +279,7 @@ python-package-check: _sync-python-dev
     uv build --out-dir "$artifact_directory"
     wheel="$(find "$artifact_directory" -maxdepth 1 -name '*.whl' -print -quit)"
     [[ -n "$wheel" ]] || { echo "uv build did not produce a wheel." >&2; exit 1; }
-    uv venv --python 3.14 "$consumer_directory/.venv"
+    uv venv --python {{ python_version }} "$consumer_directory/.venv"
     uv pip install --python "$consumer_directory/.venv" --no-build "$wheel"
 
     if [[ -x "$consumer_directory/.venv/bin/python" ]]; then
@@ -457,6 +464,21 @@ _ensure-git-cliff:
     actual_version="$(git-cliff --version)"
     if [[ "$actual_version" != "git-cliff {{ git_cliff_version }}" ]]; then
       echo "git-cliff {{ git_cliff_version }} is required; found $actual_version." >&2
+      exit 1
+    fi
+
+[private]
+_ensure-typos:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v typos >/dev/null || {
+      echo "typos-cli {{ typos_version }} is required." >&2
+      echo "Install it with: cargo install typos-cli --version {{ typos_version }} --locked" >&2
+      exit 1
+    }
+    actual_version="$(typos --version | awk '{print $2}')"
+    if [[ "$actual_version" != "{{ typos_version }}" ]]; then
+      echo "typos-cli {{ typos_version }} is required; found $actual_version." >&2
       exit 1
     fi
 

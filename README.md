@@ -305,10 +305,11 @@ just sync-vcpkg-tool-pins  # Sync the vcpkg tool release and Windows hashes
 just python-sync           # Install the locked Python development environment
 just python-check          # Check Python formatting, lint, and types
 just python-fix            # Apply safe Ruff fixes and formatting
+just spell-check           # Check repository text and identifiers for typos
 ```
 
-`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, release metadata and citation
-fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
+`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, spelling, release metadata and
+citation fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
 check and the supported build/test contract. Documentation validation remains available separately through
 `just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
 AppleClang, and Windows MSVC jobs all run `just ci`; the two Ubuntu jobs also
@@ -324,7 +325,7 @@ example:
 
 ```bash
 just python-sync
-pkgx +just.systems@1.57.0 +git-scm.org +cmake.org@4.4.1 +ninja-build.org +python.org just check
+pkgx +just.systems@1.58.0 +git-scm.org +cmake.org@4.4.1 +ninja-build.org +python.org just check
 ```
 
 All configure paths require CMake 4.4.0 or newer. The Justfile owns the tested

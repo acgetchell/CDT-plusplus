@@ -1,0 +1,9 @@
+# Configuration for typos-cli (https://github.com/crate-ci/typos)
+
+[files]
+# Encapsulated PostScript stores text as drawing commands rather than prose.
+extend-exclude = ["docs/images/*.eps"]
+
+[default.extend-identifiers]
+# Doxygen prose uses this conventional plural acronym.
+PNGs = "PNGs"

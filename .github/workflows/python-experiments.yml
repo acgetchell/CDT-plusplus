@@ -80,5 +80,5 @@ jobs:
         with:
           version: ${{ steps.tool-versions.outputs.uv }}
 
-      - name: Resolve wheels and run offline experiment tests
+      - name: Resolve wheels, type-check, and run offline experiment tests
         run: just python-experiment-check

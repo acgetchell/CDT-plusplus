@@ -137,9 +137,11 @@ Final number of simplices: 12000"""
                     "foliation_spacing": foliation_spacing,
                 }
             )
+            experiment.log_figure.assert_called_once_with(figure_name="Volume per Timeslice", figure=plotter)
             experiment.end.assert_called_once_with()
 
         initializer_runner.assert_any_call(["initialize", "-s", "-n", "12000", "-t", "12", "-i", "3", "-f", "2.0", "--seed", "92"])
+        self.assertEqual(plotter.clf.call_count, len(PARAMETER_PAIRS))
 
     def test_parameter_sweep_ends_experiment_when_initializer_fails(self) -> None:
         """A failed initializer cannot leave its Comet experiment open."""
@@ -184,8 +186,13 @@ Final number of simplices: 12000"""
             initialize_binary = repository_root / "out" / "build" / "reference" / "src" / "initialize"
             initialize_binary.parent.mkdir(parents=True)
             initialize_binary.write_bytes(b"exact executable")
+            git_binary = repository_root / "git"
+            git_binary.write_bytes(b"git executable")
 
-            with patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", " M README.md\n", b"tracked diff"]):
+            with (
+                patch("scripts.optimize_initialize.shutil.which", return_value=str(git_binary)),
+                patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", " M README.md\n", b"tracked diff"]),
+            ):
                 provenance = _experiment_provenance(repository_root, initialize_binary)
 
             initializer = provenance["initializer"]
