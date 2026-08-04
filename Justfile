@@ -285,17 +285,19 @@ python-package-check: _sync-python-dev
     if [[ -x "$consumer_directory/.venv/bin/python" ]]; then
       python="$consumer_directory/.venv/bin/python"
       scripts_directory="$consumer_directory/.venv/bin"
+      executable_suffix=""
     else
       python="$consumer_directory/.venv/Scripts/python.exe"
       scripts_directory="$consumer_directory/.venv/Scripts"
+      executable_suffix=".exe"
     fi
     (
       cd "$consumer_directory"
       "$python" -c "import scripts"
-      "$scripts_directory/cdt-bootstrap-vcpkg" --help >/dev/null
-      "$scripts_directory/cdt-optimize-initialize" --help >/dev/null
-      "$scripts_directory/cdt-mnist-experiment" --help >/dev/null
-      "$scripts_directory/cdt-tag-release" --help >/dev/null
+      "$scripts_directory/cdt-bootstrap-vcpkg$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-optimize-initialize$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-mnist-experiment$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-tag-release$executable_suffix" --help >/dev/null
     )
 
 # Apply Ruff lint fixes and formatting to Python source.

@@ -148,7 +148,7 @@ Final number of simplices: 12000"""
         experiment = Mock()
         initializer_runner = Mock(side_effect=RuntimeError("initializer failed"))
 
-        with TemporaryDirectory() as temporary_directory, patch("builtins.print"), self.assertRaisesRegex(RuntimeError, "initializer failed"):
+        with TemporaryDirectory() as temporary_directory, patch("builtins.print"):
             root = Path(temporary_directory)
             output_directory = root / "run"
             services = _SweepServices(
@@ -156,10 +156,12 @@ Final number of simplices: 12000"""
                 initializer_runner=initializer_runner,
                 plotter=Mock(),
             )
-            _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
 
-        self.assertFalse(output_directory.exists())
-        self.assertEqual(list(root.glob(".run.incomplete-*")), [])
+            with self.assertRaisesRegex(RuntimeError, "initializer failed"):
+                _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
+
+            self.assertFalse(output_directory.exists())
+            self.assertEqual(list(root.glob(".run.incomplete-*")), [])
 
         experiment.end.assert_called_once_with()
 

@@ -235,13 +235,12 @@ Windows development.
 ### Current reference-suite status
 
 With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform
-`just build` command runs all 24 CTest entries through `scripts/build.sh` on Unix and `scripts/build.bat` on Windows:
-one unit-test launcher containing 103 doctest scenarios and 23 CLI integration tests. The same `reference-smoke` preset
-is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting
-another doctest suite. The parallel-enabled AddressSanitizer and `parallel`
-configurations add one launcher containing five scenarios, for 25 CTest
-entries including the
-replayable stress contract.
+`just build` command runs all 127 CTest registrations through `scripts/build.sh` on Unix and `scripts/build.bat` on
+Windows: 104 doctest scenarios from the unit-test executable and 23 CLI integration tests. The same `reference-smoke`
+preset is the supported local and CI contract; there are no overlapping focused registrations that can pass while
+omitting another doctest suite. The current `parallel` preset also registers 127 tests: 103 ordinary doctest scenarios,
+one parallel launcher containing five scenarios, and the same 23 CLI integration tests. The parallel-enabled
+AddressSanitizer configuration exercises the same replayable stress contract.
 
 ## Setup
 

@@ -51,10 +51,10 @@ scope can be agreed upon.
    ```
 
    `just check` is the fast, non-mutating source and tooling gate, including the repository-owned Semgrep policy and
-   its fixtures. `just ci` adds the supported build and complete 24-entry CTest suite: all 103 doctest unit scenarios
-   and 23 CLI integration tests. `just build-parallel` builds the distinct CGAL/oneTBB configuration and runs the same
-   scientific suite plus the
-   replayable parallel stress launcher, for 25 entries. When changing C++ behavior, also run
+   its fixtures. `just ci` adds the supported build and complete 127-entry CTest suite: 104 doctest unit scenarios and
+   23 CLI integration tests. `just build-parallel` builds the distinct CGAL/oneTBB configuration and runs its
+   127-entry suite: 103 ordinary doctest scenarios, one replayable parallel stress launcher containing five scenarios,
+   and the same 23 CLI integration tests. When changing C++ behavior, also run
    `just clang-tidy` with the pinned LLVM 22 toolchain and review its advisory diagnostics.
    GitHub Actions runs `just ci` in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs. The two
    Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract. Sanitizer and coverage

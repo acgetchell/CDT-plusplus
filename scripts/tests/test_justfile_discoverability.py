@@ -11,6 +11,7 @@ from typing import Any, cast
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW_VERSION_LOOKUP = re.compile(r"\bjust --evaluate ([a-z][a-z0-9_-]*)")
+UV_INVOCATION = re.compile(r"(?<![\w-])uvx?(?=\s)")
 
 
 def _run_just(*args: str) -> subprocess.CompletedProcess[str]:
@@ -42,6 +43,35 @@ def _just_recipes() -> dict[str, dict[str, Any]]:
 def _dependency_names(recipe: dict[str, Any]) -> set[str]:
     """Return the direct recipe dependencies recorded by Just."""
     return {dependency["recipe"] for dependency in recipe["dependencies"]}
+
+
+def _body_fragments(value: Any) -> list[str]:
+    """Return every literal string fragment from a parsed recipe body value."""
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        return [fragment for item in value for fragment in _body_fragments(item)]
+    return []
+
+
+def _recipe_invokes_uv(recipe: dict[str, Any]) -> bool:
+    """Return whether a parsed recipe body directly invokes uv or uvx."""
+    return any(UV_INVOCATION.search("".join(_body_fragments(line))) for line in recipe["body"])
+
+
+def _recipe_reaches(recipes: dict[str, dict[str, Any]], recipe_name: str, target: str) -> bool:
+    """Return whether a recipe reaches a target through its dependency graph."""
+    pending = list(_dependency_names(recipes[recipe_name]))
+    visited: set[str] = set()
+    while pending:
+        dependency = pending.pop()
+        if dependency == target:
+            return True
+        if dependency in visited:
+            continue
+        visited.add(dependency)
+        pending.extend(_dependency_names(recipes[dependency]))
+    return False
 
 
 class JustfileDiscoverabilityTests(unittest.TestCase):
@@ -113,22 +143,14 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
             with self.subTest(recipe=name):
                 self.assertIn("_ensure-uv", _dependency_names(recipes[name]))
 
-        dev_recipes = (
-            "python-entrypoint-test",
-            "python-fix",
-            "python-format-check",
-            "python-lint",
-            "python-package-check",
-            "python-support-test",
-            "python-sync",
-            "python-typecheck",
-        )
-        for name in dev_recipes:
+        uv_consumers = {name for name, recipe in recipes.items() if name != "_ensure-uv" and _recipe_invokes_uv(recipe)}
+        self.assertTrue(uv_consumers)
+        for name in sorted(uv_consumers):
             with self.subTest(recipe=name):
-                self.assertIn("_sync-python-dev", _dependency_names(recipes[name]))
-        for name in ("python-experiment-check", "python-sync-experiments"):
-            with self.subTest(recipe=name):
-                self.assertIn("_sync-python-experiments", _dependency_names(recipes[name]))
+                self.assertTrue(
+                    _recipe_reaches(recipes, name, "_ensure-uv"),
+                    f"uv-backed recipe {name!r} does not reach _ensure-uv",
+                )
 
     def test_workflow_tool_lookups_resolve_from_just(self) -> None:
         """GitHub Actions should resolve shared tool pins through Just assignments."""
