@@ -247,6 +247,7 @@ sanitize kind:
         "+llvm.org@{{ llvm_version }}" \
         "+cmake.org@{{ cmake_version }}" \
         "+ninja-build.org@{{ ninja_version }}" \
+        "+python.org@{{ python_version }}" \
         -- ./scripts/sanitizer.sh "{{ kind }}"
     fi
     exec ./scripts/sanitizer.sh "{{ kind }}"

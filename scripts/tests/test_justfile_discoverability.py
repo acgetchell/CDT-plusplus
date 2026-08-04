@@ -45,7 +45,7 @@ def _dependency_names(recipe: dict[str, Any]) -> set[str]:
     return {dependency["recipe"] for dependency in recipe["dependencies"]}
 
 
-def _body_fragments(value: Any) -> list[str]:
+def _body_fragments(value: object) -> list[str]:
     """Return every literal string fragment from a parsed recipe body value."""
     if isinstance(value, str):
         return [value]
