@@ -2,29 +2,30 @@
 
 import argparse
 import hashlib
-import json
 import os
 import re
 import shutil
 import sys
-import tempfile
-from contextlib import contextmanager
 from dataclasses import dataclass
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from subprocess import check_output as qx
 from typing import TYPE_CHECKING, Literal, Protocol, cast
 
+from scripts.experiment_artifacts import (
+    PACKAGE_NAME,
+    OutputDirectoryExistsError,
+    _artifact_record,
+    _sha256,
+    _staged_run_directory,
+    _write_json,
+)
+
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator, Mapping, Sequence
+    from collections.abc import Callable, Mapping, Sequence
 
 MAX_RANDOM_SEED = (1 << 64) - 1
-PACKAGE_NAME = "cdt-plusplus-scripts"
 PARAMETER_PAIRS = tuple((initial_radius, spacing) for initial_radius in range(1, 4) for spacing in (1.0, 1.5, 2.0))
-
-
-class OutputDirectoryExistsError(ValueError):
-    """The requested canonical output directory already exists."""
 
 
 class _Experiment(Protocol):
@@ -199,24 +200,6 @@ def _initializer_command(
     ]
 
 
-def _sha256(path: Path) -> str:
-    """Hash one local experiment input or artifact."""
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def _artifact_record(path: Path, root: Path) -> dict[str, object]:
-    """Describe one canonical artifact by stable relative path and digest."""
-    return {
-        "bytes": path.stat().st_size,
-        "path": path.relative_to(root).as_posix(),
-        "sha256": _sha256(path),
-    }
-
-
 def _experiment_provenance(repository_root: Path, initialize_binary: Path) -> dict[str, object]:
     """Identify the exact executable, source state, and Python script used."""
     resolved_root = repository_root.resolve()
@@ -254,26 +237,14 @@ def _experiment_provenance(repository_root: Path, initialize_binary: Path) -> di
     }
 
 
-@contextmanager
-def _staged_run_directory(output_directory: Path) -> Iterator[Path]:
-    """Publish one complete sweep without mixing it with an older generation."""
-    if os.path.lexists(output_directory):
-        message = f"Output directory already exists: {output_directory}; choose a new --output-directory."
-        raise OutputDirectoryExistsError(message)
-
-    output_directory.parent.mkdir(parents=True, exist_ok=True)
-    staging_directory = Path(
-        tempfile.mkdtemp(
-            dir=output_directory.parent,
-            prefix=f".{output_directory.name}.incomplete-",
-        )
-    )
+def _mirror_to_comet(action: str, operation: Callable[..., object], /, *args: object, **kwargs: object) -> bool:
+    """Attempt one optional Comet operation without invalidating local output."""
     try:
-        yield staging_directory
-        staging_directory.rename(output_directory)
-    except BaseException:
-        shutil.rmtree(staging_directory, ignore_errors=True)
-        raise
+        operation(*args, **kwargs)
+    except Exception as error:  # noqa: BLE001 - The optional mirror cannot invalidate canonical local artifacts.
+        print(f"Comet mirror failed while {action}: {error}", file=sys.stderr)
+        return False
+    return True
 
 
 def _run_parameter_sweep(
@@ -282,11 +253,17 @@ def _run_parameter_sweep(
     output_directory: Path,
     provenance: Mapping[str, object],
     services: _SweepServices,
-) -> None:
+) -> bool:
     """Run the parameter sweep through injected initializer and Comet boundaries."""
+    mirror_succeeded = True
     with _staged_run_directory(output_directory) as staged_output_directory:
         for initial_radius, foliation_spacing in PARAMETER_PAIRS:
-            experiment = services.experiment_factory(staged_output_directory)
+            try:
+                experiment = services.experiment_factory(staged_output_directory)
+            except Exception as error:  # noqa: BLE001 - The optional mirror cannot invalidate canonical local artifacts.
+                print(f"Comet mirror failed while starting the experiment: {error}", file=sys.stderr)
+                mirror_succeeded = False
+                experiment = None
             try:
                 hyper_params = {"simplices": 12000, "foliations": 12, "seed": seed}
                 parameters = {
@@ -295,7 +272,7 @@ def _run_parameter_sweep(
                     "foliation_spacing": foliation_spacing,
                 }
                 if experiment is not None:
-                    experiment.log_parameters(parameters)
+                    mirror_succeeded &= _mirror_to_comet("logging parameters", experiment.log_parameters, parameters)
 
                 command = _initializer_command(
                     initialize_binary,
@@ -335,14 +312,14 @@ def _run_parameter_sweep(
                 target_simplices = hyper_params["simplices"]
                 score = ((final_simplices - target_simplices) / target_simplices) * 100
                 if experiment is not None:
-                    experiment.log_metric("Error %", score)
-                    experiment.log_other("Min Timeslice", result[1])
-                    experiment.log_other("Max Timeslice", result[2])
+                    mirror_succeeded &= _mirror_to_comet("logging the error metric", experiment.log_metric, "Error %", score)
+                    mirror_succeeded &= _mirror_to_comet("logging the minimum timeslice", experiment.log_other, "Min Timeslice", result[1])
+                    mirror_succeeded &= _mirror_to_comet("logging the maximum timeslice", experiment.log_other, "Max Timeslice", result[2])
 
                 timeslices = [timeslice for timeslice, _ in graph]
                 volumes = [volume for _, volume in graph]
                 figure_path = run_directory / "volume-profile.png"
-                _write_volume_profile(timeslices, volumes, figure_path, services, experiment)
+                mirror_succeeded &= _write_volume_profile(timeslices, volumes, figure_path, services, experiment)
 
                 _write_json(
                     run_directory / "run.json",
@@ -365,7 +342,8 @@ def _run_parameter_sweep(
                 )
             finally:
                 if experiment is not None:
-                    experiment.end()
+                    mirror_succeeded &= _mirror_to_comet("ending the experiment", experiment.end)
+    return mirror_succeeded
 
 
 def _write_volume_profile(
@@ -374,8 +352,9 @@ def _write_volume_profile(
     figure_path: Path,
     services: _SweepServices,
     experiment: _Experiment | None,
-) -> None:
+) -> bool:
     """Write and optionally mirror one parameter pair's volume profile."""
+    mirror_succeeded = True
     try:
         services.plotter.plot(timeslices, volumes)
         services.plotter.xlabel("Timeslice")
@@ -384,18 +363,18 @@ def _write_volume_profile(
         services.plotter.grid(visible=True)
         services.plotter.savefig(figure_path)
         if experiment is not None:
-            experiment.log_figure(figure_name="Volume per Timeslice", figure=services.plotter)
+            mirror_succeeded = _mirror_to_comet(
+                "logging the volume profile",
+                experiment.log_figure,
+                figure_name="Volume per Timeslice",
+                figure=services.plotter,
+            )
     finally:
         services.plotter.clf()
+    return mirror_succeeded
 
 
-def _write_json(path: Path, payload: Mapping[str, object]) -> None:
-    """Write one deterministic canonical local experiment artifact."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(f"{json.dumps(payload, allow_nan=False, indent=2, sort_keys=True)}\n", encoding="utf-8")
-
-
-def _run_experiments(config: _SweepConfig) -> None:
+def _run_experiments(config: _SweepConfig) -> bool:
     """Run the local-first parameter sweep with an optional Comet mirror."""
     import matplotlib.pyplot as plt  # noqa: PLC0415
 
@@ -443,7 +422,7 @@ def _run_experiments(config: _SweepConfig) -> None:
 
     services = _SweepServices(experiment_factory=experiment_factory, initializer_runner=initializer_runner, plotter=cast("_Plotter", plt))
     provenance = _experiment_provenance(config.repository_root, config.initialize_binary)
-    _run_parameter_sweep(config.initialize_binary, config.seed, config.output_directory, provenance, services)
+    return _run_parameter_sweep(config.initialize_binary, config.seed, config.output_directory, provenance, services)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -470,7 +449,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             repository_root=repository_root,
             seed=args.seed,
         )
-        _run_experiments(config)
+        mirror_succeeded = _run_experiments(config)
     except ModuleNotFoundError as error:
         print(
             f"Missing experiment dependency {error.name!r}; run `just python-sync-experiments`, then retry with `uv run --no-sync cdt-optimize-initialize`.",
@@ -483,7 +462,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     print(f"All done with parameter optimization; canonical local artifacts: {output_directory}")
     if args.comet != "disabled":
-        print("The run was also mirrored to Comet.")
+        if mirror_succeeded:
+            print("The run was also mirrored to Comet.")
+        else:
+            print("Comet mirroring was incomplete; canonical local artifacts were retained.", file=sys.stderr)
     return 0
 
 

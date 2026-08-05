@@ -6,16 +6,19 @@ from contextlib import redirect_stderr
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import Mock, patch
 
 from scripts.mnist_experiment import (
     MAX_TORCH_SEED,
     MIN_TORCH_SEED,
     _config_from_args,
+    _mirror_to_comet,
     _parse_args,
     _parse_seed,
     _positive_float,
     _positive_int,
     _staged_run_directory,
+    _start_optional_comet,
     main,
 )
 
@@ -97,6 +100,29 @@ class MnistExperimentTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(argparse.ArgumentTypeError):
                 _parse_seed(value)
 
+    def test_comet_start_failure_does_not_block_the_local_run(self) -> None:
+        """An unavailable optional service is reported and then omitted."""
+        config = _config_from_args(_parse_args(["--comet", "offline"]))
+        stderr = StringIO()
+        with (
+            patch("scripts.mnist_experiment._start_comet", side_effect=RuntimeError("Comet unavailable")),
+            redirect_stderr(stderr),
+        ):
+            comet_run = _start_optional_comet(config, config.output_directory)
+
+        self.assertIsNone(comet_run)
+        self.assertIn("Comet mirror failed while starting the experiment", stderr.getvalue())
+
+    def test_comet_operation_failure_does_not_escape(self) -> None:
+        """A late optional mirror failure cannot replace a local exception."""
+        operation = Mock(side_effect=RuntimeError("Comet unavailable"))
+        stderr = StringIO()
+        with redirect_stderr(stderr):
+            _mirror_to_comet("ending the experiment", operation)
+
+        operation.assert_called_once_with()
+        self.assertIn("Comet mirror failed while ending the experiment", stderr.getvalue())
+
     def test_completed_run_directory_is_published_once(self) -> None:
         """A successful generation appears only after its contents are complete."""
         with TemporaryDirectory() as temporary_directory:
@@ -132,6 +158,12 @@ class MnistExperimentTests(unittest.TestCase):
                 self.fail("existing output directory was opened for replacement")
 
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "previous\n")
+
+    def test_unrelated_value_errors_propagate_from_the_experiment(self) -> None:
+        """Serialization defects are not reported as configuration failures."""
+        message = "configuration is not JSON serializable"
+        with patch("scripts.mnist_experiment._run_experiment", side_effect=ValueError(message)), self.assertRaisesRegex(ValueError, message):
+            main([])
 
 
 if __name__ == "__main__":

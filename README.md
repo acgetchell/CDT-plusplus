@@ -521,10 +521,10 @@ subsequent releases.
 ## Testing
 
 Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
-executes all 24 CTest entries: one unit-test launcher containing 103 doctest scenarios and 23 executable integration
-tests covering normal CLI use and invalid-boundary rejection. The parallel-enabled AddressSanitizer and `parallel`
-configurations add one launcher containing five scenarios labeled `unit`,
-`parallel`, and `configuration`, for 25 CTest entries. Every process-level test is labeled
+executes all 127 CTest entries: 104 doctest scenarios and 23 executable integration tests covering normal CLI use and
+invalid-boundary rejection. The parallel-enabled AddressSanitizer and `parallel` configurations register 103 ordinary
+doctest scenarios, one launcher containing five scenarios labeled `unit`, `parallel`, and `configuration`, and the same
+23 integration tests, for 127 CTest entries. Every process-level test is labeled
 `integration`, and invalid-input tests also carry the `cli-boundary`
 subcategory. Run `just ci` for the complete
 local validation gate.
@@ -655,8 +655,9 @@ The MNIST example retains downloaded inputs under `out/experiments/data` and wri
 `checkpoint.pt`, and a `run.json` manifest containing size and SHA-256 records for its artifacts under
 `out/experiments/mnist`. Preserve both directories together; use `--data-directory`, `--output-directory`, and
 `--seed` for an explicit layout, or `--no-download` to require already-local inputs. As with the optimizer, every run
-requires a nonexistent output path and becomes visible there only after all local and offline-Comet artifacts close
-successfully. Tests use synthetic tensors and never download the dataset.
+requires a nonexistent output path and becomes visible there only after its canonical local artifacts are complete.
+Optional Comet failures are reported without invalidating that local record. Tests use synthetic tensors and never
+download the dataset.
 
 Comet is disabled by default for both commands. Pass `--comet offline` to create an uploadable local Comet archive,
 or set `COMET_API_KEY` and pass `--comet online` to mirror the run to the hosted service. The PyTorch command starts

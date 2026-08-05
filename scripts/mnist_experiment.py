@@ -1,22 +1,26 @@
 """Run the CDT++ CPU-portable PyTorch MNIST experiment."""
 
 import argparse
-import hashlib
-import json
 import math
 import os
 import platform
-import shutil
 import sys
-import tempfile
-from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal, Protocol, cast
 
+from scripts.experiment_artifacts import (
+    PACKAGE_NAME,
+    OutputDirectoryExistsError,
+    _artifact_record,
+    _sha256,
+    _staged_run_directory,
+    _write_json,
+)
+
 if TYPE_CHECKING:
-    from collections.abc import Iterator, Mapping, Sequence
+    from collections.abc import Callable, Mapping, Sequence
     from types import ModuleType
 
     from torch import Tensor
@@ -26,7 +30,10 @@ if TYPE_CHECKING:
 
 MIN_TORCH_SEED = -(1 << 63)
 MAX_TORCH_SEED = (1 << 64) - 1
-PACKAGE_NAME = "cdt-plusplus-scripts"
+
+
+class ExperimentConfigurationError(ValueError):
+    """The requested MNIST experiment configuration cannot be run."""
 
 
 @dataclass(frozen=True)
@@ -82,6 +89,25 @@ class _CometRun:
     experiment: _Experiment
     log_model: _LogModel
     watch: _Watch
+
+
+def _mirror_to_comet(action: str, operation: Callable[..., object], /, *args: object, **kwargs: object) -> None:
+    """Attempt one optional Comet operation without invalidating local output."""
+    try:
+        operation(*args, **kwargs)
+    except Exception as error:  # noqa: BLE001 - The optional mirror cannot invalidate canonical local artifacts.
+        print(f"Comet mirror failed while {action}: {error}", file=sys.stderr)
+
+
+def _start_optional_comet(config: _RunConfig, artifact_directory: Path) -> _CometRun | None:
+    """Start the optional Comet mirror without making it a local-run dependency."""
+    try:
+        return _start_comet(config, artifact_directory)
+    except ExperimentConfigurationError, ModuleNotFoundError:
+        raise
+    except Exception as error:  # noqa: BLE001 - The optional mirror cannot invalidate canonical local artifacts.
+        print(f"Comet mirror failed while starting the experiment: {error}", file=sys.stderr)
+        return None
 
 
 def _positive_int(value: str) -> int:
@@ -151,10 +177,10 @@ def _config_from_args(args: argparse.Namespace) -> _RunConfig:
     dataset_directory = (data_directory / "MNIST").resolve()
     if data_directory.is_relative_to(output_directory):
         message = "MNIST data directory must not be inside the output directory."
-        raise ValueError(message)
+        raise ExperimentConfigurationError(message)
     if output_directory.is_relative_to(dataset_directory):
         message = "MNIST output directory must not be inside the retained MNIST dataset directory."
-        raise ValueError(message)
+        raise ExperimentConfigurationError(message)
     return _RunConfig(
         batch_size=args.batch_size,
         comet_mode=args.comet,
@@ -188,52 +214,6 @@ def _configuration_payload(config: _RunConfig, *, torch_version: str | None = No
     return payload
 
 
-def _write_json(path: Path, payload: Mapping[str, object]) -> None:
-    """Write a deterministic local JSON artifact."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(f"{json.dumps(payload, allow_nan=False, indent=2, sort_keys=True)}\n", encoding="utf-8")
-
-
-def _sha256(path: Path) -> str:
-    """Hash one local input file for the reproducibility record."""
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def _artifact_record(path: Path, root: Path) -> dict[str, object]:
-    """Describe one canonical artifact by stable relative path and digest."""
-    return {
-        "bytes": path.stat().st_size,
-        "path": path.relative_to(root).as_posix(),
-        "sha256": _sha256(path),
-    }
-
-
-@contextmanager
-def _staged_run_directory(output_directory: Path) -> Iterator[Path]:
-    """Publish one complete run without mixing it with an older generation."""
-    if os.path.lexists(output_directory):
-        message = f"Output directory already exists: {output_directory}; choose a new --output-directory."
-        raise ValueError(message)
-
-    output_directory.parent.mkdir(parents=True, exist_ok=True)
-    staging_directory = Path(
-        tempfile.mkdtemp(
-            dir=output_directory.parent,
-            prefix=f".{output_directory.name}.incomplete-",
-        )
-    )
-    try:
-        yield staging_directory
-        staging_directory.rename(output_directory)
-    except BaseException:
-        shutil.rmtree(staging_directory, ignore_errors=True)
-        raise
-
-
 def _dataset_manifest(dataset_root: Path) -> list[dict[str, object]]:
     """Describe every retained local MNIST input file."""
     return [
@@ -251,13 +231,16 @@ def _dataset_manifest(dataset_root: Path) -> list[dict[str, object]]:
 
 def _start_comet(config: _RunConfig, artifact_directory: Path) -> _CometRun:
     """Start Comet before importing PyTorch so automatic logging can attach."""
-    import comet_ml  # noqa: PLC0415
-
+    api_key = None
     if config.comet_mode == "online":
         api_key = os.environ.get("COMET_API_KEY")
         if not api_key:
             message = "COMET_API_KEY is required when --comet online is selected."
-            raise ValueError(message)
+            raise ExperimentConfigurationError(message)
+
+    import comet_ml  # noqa: PLC0415
+
+    if config.comet_mode == "online":
         experiment_config = comet_ml.ExperimentConfig(
             auto_histogram_gradient_logging=True,
             auto_histogram_weight_logging=True,
@@ -359,7 +342,7 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
     with _staged_run_directory(config.output_directory) as artifact_directory:
         configuration_path = artifact_directory / "configuration.json"
 
-        comet_run = _start_comet(config, artifact_directory) if config.comet_mode != "disabled" else None
+        comet_run = _start_optional_comet(config, artifact_directory) if config.comet_mode != "disabled" else None
         try:
             import torch  # noqa: PLC0415
             from torchvision import datasets, transforms  # noqa: PLC0415
@@ -373,7 +356,7 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
                 test_data = datasets.MNIST(root=config.data_directory, train=False, download=config.download, transform=transform)
             except RuntimeError as error:
                 message = f"MNIST data is unavailable or incomplete at {config.data_directory}: {error}"
-                raise ValueError(message) from error
+                raise ExperimentConfigurationError(message) from error
             training_loader = torch.utils.data.DataLoader(
                 training_data,
                 batch_size=config.batch_size,
@@ -390,22 +373,22 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
             _write_json(configuration_path, configuration)
 
             if comet_run is not None:
-                comet_run.experiment.log_parameters(configuration)
-                comet_run.watch(model)
+                _mirror_to_comet("logging parameters", comet_run.experiment.log_parameters, configuration)
+                _mirror_to_comet("watching the model", comet_run.watch, model)
 
             training_metrics: list[dict[str, object]] = []
             for epoch in range(1, config.epochs + 1):
                 training_loss = _train_epoch(model, training_loader, loss_function, optimizer)
                 training_metrics.append({"epoch": epoch, "loss": training_loss})
                 if comet_run is not None:
-                    comet_run.experiment.log_metric("train_loss", training_loss, epoch=epoch)
+                    _mirror_to_comet("logging training loss", comet_run.experiment.log_metric, "train_loss", training_loss, epoch=epoch)
                 print(f"Epoch {epoch}/{config.epochs}: loss={training_loss:.6f}")
 
             test_loss, test_accuracy = _evaluate(torch, model, test_loader, loss_function)
             evaluation = {"accuracy": test_accuracy, "loss": test_loss}
             if comet_run is not None:
-                comet_run.experiment.log_metric("test_loss", test_loss)
-                comet_run.experiment.log_metric("test_accuracy", test_accuracy)
+                _mirror_to_comet("logging test loss", comet_run.experiment.log_metric, "test_loss", test_loss)
+                _mirror_to_comet("logging test accuracy", comet_run.experiment.log_metric, "test_accuracy", test_accuracy)
 
             checkpoint = {
                 "configuration": configuration,
@@ -417,7 +400,7 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
             checkpoint_path = artifact_directory / "checkpoint.pt"
             torch.save(checkpoint, checkpoint_path)
             if comet_run is not None:
-                comet_run.log_model(comet_run.experiment, checkpoint, model_name="cdt-mnist")
+                _mirror_to_comet("logging the checkpoint", comet_run.log_model, comet_run.experiment, checkpoint, model_name="cdt-mnist")
 
             dataset_root = config.data_directory / "MNIST"
             run_record = {
@@ -433,7 +416,7 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
             _write_json(artifact_directory / "run.json", run_record)
         finally:
             if comet_run is not None:
-                comet_run.experiment.end()
+                _mirror_to_comet("ending the experiment", comet_run.experiment.end)
 
     print(f"Test loss={test_loss:.6f}, accuracy={test_accuracy:.4%}")
     print(f"Canonical local artifacts: {config.output_directory}")
@@ -450,7 +433,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 2
-    except ValueError as error:
+    except (ExperimentConfigurationError, OutputDirectoryExistsError) as error:
         print(str(error), file=sys.stderr)
         return 2
     return 0

@@ -1,16 +1,43 @@
 """Offline integration test for Comet's current PyTorch API."""
 
 import json
+import os
 import unittest
 from pathlib import Path, PurePosixPath
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 from zipfile import ZipFile
 
-from scripts.mnist_experiment import _build_model, _RunConfig, _start_comet
+from scripts.mnist_experiment import ExperimentConfigurationError, _build_model, _config_from_args, _parse_args, _RunConfig, _start_comet
 
 
 class CometPyTorchIntegrationTests(unittest.TestCase):
     """Exercise start, watch, explicit logging, and checkpoint logging offline."""
+
+    def test_online_comet_requires_an_api_key_before_starting(self) -> None:
+        """Online mirroring rejects missing credentials without contacting Comet."""
+        with TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            config = _config_from_args(
+                _parse_args(
+                    [
+                        "--comet",
+                        "online",
+                        "--data-directory",
+                        str(root / "data"),
+                        "--output-directory",
+                        str(root / "run"),
+                    ]
+                )
+            )
+            with (
+                patch.dict(os.environ, {}, clear=True),
+                patch("comet_ml.start") as start,
+                self.assertRaisesRegex(ExperimentConfigurationError, "COMET_API_KEY"),
+            ):
+                _start_comet(config, config.output_directory)
+
+            start.assert_not_called()
 
     def test_offline_comet_run_records_a_pytorch_checkpoint(self) -> None:
         """The integration needs neither credentials nor hosted services."""

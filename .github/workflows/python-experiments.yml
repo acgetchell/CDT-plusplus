@@ -11,6 +11,7 @@ name: Python experiments
       - .python-version
       - Justfile
       - pyproject.toml
+      - scripts/experiment_artifacts.py
       - scripts/experiment_tests/**
       - scripts/mnist_experiment.py
       - scripts/optimize_initialize.py
@@ -25,6 +26,7 @@ name: Python experiments
       - .python-version
       - Justfile
       - pyproject.toml
+      - scripts/experiment_artifacts.py
       - scripts/experiment_tests/**
       - scripts/mnist_experiment.py
       - scripts/optimize_initialize.py

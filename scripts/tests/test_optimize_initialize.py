@@ -4,10 +4,13 @@ import argparse
 import hashlib
 import json
 import unittest
+from contextlib import redirect_stderr, redirect_stdout
+from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
+from scripts.experiment_artifacts import _staging_directory_prefix
 from scripts.optimize_initialize import (
     PARAMETER_PAIRS,
     _experiment_provenance,
@@ -18,6 +21,7 @@ from scripts.optimize_initialize import (
     _parse_seed,
     _run_parameter_sweep,
     _SweepServices,
+    main,
 )
 
 
@@ -110,7 +114,7 @@ Final number of simplices: 12000"""
         with TemporaryDirectory() as temporary_directory, patch("builtins.print"):
             output_directory = Path(temporary_directory) / "run"
             services = _SweepServices(experiment_factory=experiment_factory, initializer_runner=initializer_runner, plotter=plotter)
-            _run_parameter_sweep(Path("initialize"), 92, output_directory, provenance, services)
+            mirror_succeeded = _run_parameter_sweep(Path("initialize"), 92, output_directory, provenance, services)
 
             run_directory = output_directory / "radius-1-spacing-1"
             configuration_path = run_directory / "configuration.json"
@@ -126,6 +130,9 @@ Final number of simplices: 12000"""
                     self.assertEqual(record["path"], path.name)
                     self.assertEqual(record["bytes"], path.stat().st_size)
                     self.assertEqual(record["sha256"], hashlib.sha256(path.read_bytes()).hexdigest())
+            run_directories = {path for path in output_directory.glob("radius-*-spacing-*") if path.is_dir()}
+            self.assertEqual(len(run_directories), len(PARAMETER_PAIRS))
+            self.assertTrue(mirror_succeeded)
 
         for experiment, (initial_radius, foliation_spacing) in zip(experiments, PARAMETER_PAIRS, strict=True):
             experiment.log_parameters.assert_called_once_with(
@@ -161,9 +168,105 @@ Final number of simplices: 12000"""
                 _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
 
             self.assertFalse(output_directory.exists())
-            self.assertEqual(list(root.glob(".run.incomplete-*")), [])
+            self.assertEqual(list(root.glob(f"{_staging_directory_prefix(output_directory)}*")), [])
 
         experiment.end.assert_called_once_with()
+
+    def test_comet_mirror_failures_do_not_interrupt_the_canonical_sweep(self) -> None:
+        """Every optional Comet operation may fail without discarding local output."""
+        experiment = Mock()
+        for operation in (
+            experiment.log_parameters,
+            experiment.log_metric,
+            experiment.log_other,
+            experiment.log_figure,
+            experiment.end,
+        ):
+            operation.side_effect = RuntimeError("Comet unavailable")
+        initializer_runner = Mock(
+            return_value="""Timeslice 1 has 12 spacelike faces.
+Timeslice 2 has 24 spacelike faces.
+Final number of simplices: 12000"""
+        )
+        plotter = Mock()
+        plotter.savefig.side_effect = lambda path: path.write_bytes(b"figure")
+
+        with TemporaryDirectory() as temporary_directory, patch("builtins.print"):
+            output_directory = Path(temporary_directory) / "run"
+            services = _SweepServices(
+                experiment_factory=Mock(return_value=experiment),
+                initializer_runner=initializer_runner,
+                plotter=plotter,
+            )
+            mirror_succeeded = _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
+
+            run_directories = {path for path in output_directory.glob("radius-*-spacing-*") if path.is_dir()}
+            self.assertEqual(len(run_directories), len(PARAMETER_PAIRS))
+            self.assertFalse(mirror_succeeded)
+
+        self.assertEqual(experiment.log_parameters.call_count, len(PARAMETER_PAIRS))
+        self.assertEqual(experiment.log_metric.call_count, len(PARAMETER_PAIRS))
+        self.assertEqual(experiment.log_other.call_count, 2 * len(PARAMETER_PAIRS))
+        self.assertEqual(experiment.log_figure.call_count, len(PARAMETER_PAIRS))
+        self.assertEqual(experiment.end.call_count, len(PARAMETER_PAIRS))
+        self.assertEqual(plotter.clf.call_count, len(PARAMETER_PAIRS))
+
+    def test_comet_start_failures_do_not_interrupt_the_canonical_sweep(self) -> None:
+        """A failed optional mirror start cannot discard local parameter runs."""
+        initializer_runner = Mock(
+            return_value="""Timeslice 1 has 12 spacelike faces.
+Timeslice 2 has 24 spacelike faces.
+Final number of simplices: 12000"""
+        )
+        plotter = Mock()
+        plotter.savefig.side_effect = lambda path: path.write_bytes(b"figure")
+        experiment_factory = Mock(side_effect=RuntimeError("Comet unavailable"))
+
+        with TemporaryDirectory() as temporary_directory, patch("builtins.print"):
+            output_directory = Path(temporary_directory) / "run"
+            services = _SweepServices(
+                experiment_factory=experiment_factory,
+                initializer_runner=initializer_runner,
+                plotter=plotter,
+            )
+            mirror_succeeded = _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
+
+            run_directories = {path for path in output_directory.glob("radius-*-spacing-*") if path.is_dir()}
+            self.assertEqual(len(run_directories), len(PARAMETER_PAIRS))
+            self.assertFalse(mirror_succeeded)
+
+        self.assertEqual(experiment_factory.call_count, len(PARAMETER_PAIRS))
+
+    def test_main_reports_an_incomplete_comet_mirror_truthfully(self) -> None:
+        """A retained local run is not described as successfully mirrored."""
+        with TemporaryDirectory() as temporary_directory:
+            repository_root = Path(temporary_directory)
+            initialize_binary = _initializer_binary(repository_root)
+            initialize_binary.parent.mkdir(parents=True)
+            initialize_binary.write_bytes(b"initializer")
+            output_directory = repository_root / "run"
+            stdout = StringIO()
+            stderr = StringIO()
+
+            with (
+                patch("scripts.optimize_initialize._run_experiments", return_value=False),
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                status = main(
+                    [
+                        "--comet",
+                        "offline",
+                        "--output-directory",
+                        str(output_directory),
+                        "--repository-root",
+                        str(repository_root),
+                    ]
+                )
+
+            self.assertEqual(status, 0)
+            self.assertNotIn("also mirrored to Comet", stdout.getvalue())
+            self.assertIn("Comet mirroring was incomplete", stderr.getvalue())
 
     def test_parameter_sweep_preserves_an_existing_run(self) -> None:
         """A replay must use a new output path instead of mixing generations."""
@@ -191,32 +294,34 @@ Final number of simplices: 12000"""
             git_binary = repository_root / "git"
             git_binary.write_bytes(b"git executable")
 
-            with (
-                patch("scripts.optimize_initialize.shutil.which", return_value=str(git_binary)),
-                patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", " M README.md\n", b"tracked diff"]),
-            ):
-                provenance = _experiment_provenance(repository_root, initialize_binary)
+            for status, dirty in ((" M README.md\n", True), ("", False)):
+                with (
+                    self.subTest(dirty=dirty),
+                    patch("scripts.optimize_initialize.shutil.which", return_value=str(git_binary)),
+                    patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", status, b"tracked diff"]),
+                ):
+                    provenance = _experiment_provenance(repository_root, initialize_binary)
 
-            initializer = provenance["initializer"]
-            repository = provenance["repository"]
-            if not isinstance(initializer, dict) or not isinstance(repository, dict):
-                self.fail("provenance sections must be JSON objects")
-            self.assertEqual(
-                initializer,
-                {
-                    "bytes": len(b"exact executable"),
-                    "path": "out/build/reference/src/initialize",
-                    "sha256": hashlib.sha256(b"exact executable").hexdigest(),
-                },
-            )
-            self.assertEqual(
-                repository,
-                {
-                    "commit": "abc123",
-                    "dirty": True,
-                    "tracked_diff_sha256": hashlib.sha256(b"tracked diff").hexdigest(),
-                },
-            )
+                initializer = provenance["initializer"]
+                repository = provenance["repository"]
+                if not isinstance(initializer, dict) or not isinstance(repository, dict):
+                    self.fail("provenance sections must be JSON objects")
+                self.assertEqual(
+                    initializer,
+                    {
+                        "bytes": len(b"exact executable"),
+                        "path": "out/build/reference/src/initialize",
+                        "sha256": hashlib.sha256(b"exact executable").hexdigest(),
+                    },
+                )
+                self.assertEqual(
+                    repository,
+                    {
+                        "commit": "abc123",
+                        "dirty": dirty,
+                        "tracked_diff_sha256": hashlib.sha256(b"tracked diff").hexdigest(),
+                    },
+                )
 
 
 if __name__ == "__main__":
