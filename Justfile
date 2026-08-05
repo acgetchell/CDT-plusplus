@@ -278,8 +278,9 @@ python-package-check: _sync-python-dev
     trap cleanup EXIT
 
     uv build --out-dir "$artifact_directory"
-    wheel="$(find "$artifact_directory" -maxdepth 1 -name '*.whl' -print -quit)"
-    [[ -n "$wheel" ]] || { echo "uv build did not produce a wheel." >&2; exit 1; }
+    wheels=("$artifact_directory"/*.whl)
+    [[ -f "${wheels[0]}" ]] || { echo "uv build did not produce a wheel." >&2; exit 1; }
+    wheel="${wheels[0]}"
     uv venv --python {{ python_version }} "$consumer_directory/.venv"
     uv pip install --python "$consumer_directory/.venv" --no-build "$wheel"
 
