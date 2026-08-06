@@ -86,8 +86,8 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
         self.assertIn("check", result.stdout)
         self.assertNotIn("Checks complete.", result.stdout)
 
-    def test_default_gates_include_core_checks_and_exclude_opt_in_experiments(self) -> None:
-        """Default validation stays comprehensive without installing heavyweight experiments."""
+    def test_default_gates_include_core_checks(self) -> None:
+        """Default validation includes the lightweight Python and reference surfaces."""
         recipes = _just_recipes()
         check_dependencies = _dependency_names(recipes["check"])
         ci_dependencies = _dependency_names(recipes["ci"])
@@ -105,7 +105,6 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
             <= check_dependencies
         )
         self.assertTrue({"check", "python-package-check", "reference-generated-check"} <= ci_dependencies)
-        self.assertNotIn("python-experiment-check", check_dependencies | ci_dependencies)
 
     def test_public_recipes_have_one_group_and_a_description(self) -> None:
         """Every listed recipe should explain its purpose in one stable section."""
@@ -139,7 +138,7 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
     def test_uv_backed_recipes_reuse_pinned_guards(self) -> None:
         """Every uv consumer should reach the repository's exact-version guard."""
         recipes = _just_recipes()
-        for name in ("_sync-python-dev", "_sync-python-experiments", "_zizmor"):
+        for name in ("_sync-python-dev", "_zizmor"):
             with self.subTest(recipe=name):
                 self.assertIn("_ensure-uv", _dependency_names(recipes[name]))
 

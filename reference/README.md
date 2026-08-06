@@ -60,6 +60,18 @@ They therefore test proposal preparation, action delta, Hastings factor, and
 commit/reject behavior without requiring the C++ and Rust implementations to
 share an RNG engine, allocation order, or container iteration order.
 
+## Local comparison harness
+
+The repository's [`cdt-compare`](../docs/comparison-harness.md) command copies
+this protocol, the canonical C++ result, the v1 result schema, and a selected
+run manifest into a local bundle before launching independent C++ and Rust
+producers. It anchors the live C++ payload to the committed result, retains both
+raw process records, anchors any live C++ transition observations to this
+protocol, and applies only the exact and named numerical rules declared here.
+`just comparison-analyze PATH` requires the complete canonical artifact
+inventory, verifies every retained digest, and reproduces the machine-readable
+summary without rerunning either implementation.
+
 ## Regeneration
 
 `reference-fixtures` is a quick diagnostic that builds and prints only

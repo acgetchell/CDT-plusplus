@@ -1,4 +1,4 @@
-"""Shared local-artifact helpers for CDT++ experiments."""
+"""Shared local-artifact helpers for CDT++ Python workflows."""
 
 import hashlib
 import json

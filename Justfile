@@ -143,6 +143,18 @@ reference-generated-check: build _sync-python-dev
     uv run --no-sync python scripts/validate_reference_fixtures.py \
         --generated-only --fixture-binary {{ quote(reference_fixture_binary) }}
 
+# Run one local CDT++/Rust comparison and retain its complete offline bundle.
+[group('workflows')]
+comparison-run rust output: build _sync-python-dev
+    uv run --no-sync cdt-compare run \
+        --rust {{ quote(rust) }} \
+        --output-directory {{ quote(output) }}
+
+# Rebuild a comparison summary entirely from its retained raw artifacts.
+[group('workflows')]
+comparison-analyze bundle: _sync-python-dev
+    uv run --no-sync cdt-compare analyze {{ quote(bundle) }}
+
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]
 fix: _format-fix python-fix
@@ -257,14 +269,6 @@ sanitize kind:
 python-check: python-format-check python-lint python-typecheck python-support-test python-entrypoint-test
     @echo "Python source checks complete."
 
-# Install, type-check, and exercise the heavyweight PyTorch/Comet surface without networked services or datasets.
-[group('workflows')]
-python-experiment-check: _sync-python-experiments
-    uv run --no-sync ty check scripts/mnist_experiment.py scripts/optimize_initialize.py scripts/experiment_tests/*.py --error all
-    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -c "import comet_ml; import torch; import torchvision; print(comet_ml.__version__, torch.__version__, torchvision.__version__)"
-    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_comet_pytorch
-    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_mnist_training
-
 # Build both Python artifacts and exercise every installed entry point outside the checkout.
 [group('workflows')]
 python-package-check: _sync-python-dev
@@ -297,8 +301,8 @@ python-package-check: _sync-python-dev
       cd "$consumer_directory"
       "$python" -c "import scripts"
       "$scripts_directory/cdt-bootstrap-vcpkg$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-compare$executable_suffix" --help >/dev/null
       "$scripts_directory/cdt-optimize-initialize$executable_suffix" --help >/dev/null
-      "$scripts_directory/cdt-mnist-experiment$executable_suffix" --help >/dev/null
       "$scripts_directory/cdt-tag-release$executable_suffix" --help >/dev/null
     )
 
@@ -323,12 +327,12 @@ python-lint: _sync-python-dev
 python-support-test: _sync-python-dev
     uv run --no-sync python -m unittest discover -s scripts/tests -p 'test_*.py'
 
-# Smoke-test installed entry points without loading optional experiment dependencies.
+# Smoke-test every installed Python entry point.
 [group('workflows')]
 python-entrypoint-test: _sync-python-dev
     uv run --no-sync cdt-bootstrap-vcpkg --help >/dev/null
+    uv run --no-sync cdt-compare --help >/dev/null
     uv run --no-sync cdt-optimize-initialize --help >/dev/null
-    uv run --no-sync cdt-mnist-experiment --help >/dev/null
     uv run --no-sync cdt-tag-release --help >/dev/null
     uv run --no-sync python scripts/sync_vcpkg_tool_pins.py --help >/dev/null
 
@@ -336,11 +340,6 @@ python-entrypoint-test: _sync-python-dev
 [group('workflows')]
 python-sync: _sync-python-dev
     @echo "Python development environment synchronized."
-
-# Synchronize dependencies required by the optional experiment scripts.
-[group('workflows')]
-python-sync-experiments: _sync-python-experiments
-    @echo "Python experiment environment synchronized."
 
 # Type-check Python support code with ty.
 [group('workflows')]
@@ -501,11 +500,6 @@ _ensure-uv:
 _sync-python-dev: _ensure-uv
     uv sync --locked --no-build --no-install-project --group dev
     uv sync --locked --only-install-project --inexact --group dev
-
-[private]
-_sync-python-experiments: _ensure-uv
-    uv sync --locked --no-build --no-install-project --group dev --group experiments
-    uv sync --locked --only-install-project --inexact --group dev --group experiments
 
 [private]
 _format-check: _sync-python-dev
