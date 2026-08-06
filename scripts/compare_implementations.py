@@ -350,9 +350,21 @@ def _generic_result_schema(
     fixture_schema: Mapping[str, Any],
 ) -> dict[str, Any]:
     """Reuse #94 domain definitions with language-neutral provenance."""
-    definitions = dict(result_schema["$defs"])
-    definitions["site"] = fixture_schema["$defs"]["site"]
-    definitions["transitionObservation"] = fixture_schema["$defs"]["transition"]
+
+    def required_definition(schema: Mapping[str, Any], schema_name: str, definition_name: str | None = None) -> Any:
+        qualified_name = f"{schema_name}.$defs"
+        if definition_name is not None:
+            qualified_name = f"{qualified_name}.{definition_name}"
+        try:
+            schema_definitions = schema["$defs"]
+            return dict(schema_definitions) if definition_name is None else schema_definitions[definition_name]
+        except (KeyError, TypeError, ValueError) as error:
+            message = f"comparison schema is missing required definition: {qualified_name}"
+            raise ValueError(message) from error
+
+    definitions = required_definition(result_schema, "result_schema")
+    definitions["site"] = required_definition(fixture_schema, "fixture_schema", "site")
+    definitions["transitionObservation"] = required_definition(fixture_schema, "fixture_schema", "transition")
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",

@@ -1,6 +1,7 @@
 """Tests for the local CDT++/Rust comparison harness."""
 
 import copy
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -19,6 +20,7 @@ from scripts.compare_implementations import (
     ProcessSpec,
     _compare_results,
     _expanded_arguments,
+    _generic_result_schema,
     reanalyze_comparison,
     run_comparison,
 )
@@ -26,7 +28,6 @@ from scripts.experiment_artifacts import OutputDirectoryExistsError, staging_dir
 from scripts.validate_reference_fixtures import load_json
 
 ROOT = Path(__file__).resolve().parents[2]
-REFERENCE_RESULT = ROOT / "reference" / "raw" / "v1" / "cpp-reference.json"
 
 
 def _sources() -> dict[str, Path]:
@@ -45,7 +46,7 @@ def _emitter(name: str, mutation: str = "") -> ProcessSpec:
     """Build a dependency-free structured-result producer command."""
     code = (
         "import json; from pathlib import Path; "
-        f"payload=json.loads(Path({str(REFERENCE_RESULT)!r}).read_text()); "
+        f"payload=json.loads(Path({str(DEFAULT_REFERENCE_RESULT)!r}).read_text()); "
         f"payload['implementation']['name']={name!r}; "
         f"{mutation}"
         "print(json.dumps(payload, allow_nan=False))"
@@ -66,8 +67,10 @@ class ComparisonHarnessTests(unittest.TestCase):
         bundle = Path("comparison")
         expanded = _expanded_arguments(("--fixture", "{protocol}", "--schema={result_schema}", "literal"), bundle)
         self.assertEqual(expanded[0], "--fixture")
-        self.assertEqual(Path(expanded[1]).name, "protocol.json")
-        self.assertTrue(expanded[2].endswith("inputs/result-v1.schema.json"))
+        self.assertEqual(Path(expanded[1]), (bundle / "inputs" / "protocol.json").resolve())
+        option, separator, schema_path = expanded[2].partition("=")
+        self.assertEqual((option, separator), ("--schema", "="))
+        self.assertEqual(Path(schema_path), (bundle / "inputs" / "result-v1.schema.json").resolve())
         self.assertEqual(expanded[3], "literal")
 
     def test_run_retains_complete_artifacts_and_reanalysis_is_deterministic(self) -> None:
@@ -108,6 +111,31 @@ class ComparisonHarnessTests(unittest.TestCase):
             self.assertIn("analysis_ns", manifest["timing"])
             self.assertEqual(set(manifest["timing"]["process_ns"]), {"cpp", "rust"})
             self.assertNotIn("COMET_API_KEY", manifest["processes"]["rust"]["environment"])
+
+    def test_producer_environment_excludes_credentials_and_retains_allowed_variables(self) -> None:
+        """Producer environments retain allowed runtime values without credentials."""
+        credential = "credential-sentinel-do-not-forward"
+        allowed_value = "allowed-lang-sentinel"
+        mutation = "import os; payload['schema']='cdt-comparison-result-v1'; payload['implementation']['environment_probe']=dict(os.environ); "
+        with TemporaryDirectory() as temporary_directory:
+            bundle = Path(temporary_directory) / "comparison"
+            with patch.dict(os.environ, {"COMET_API_KEY": credential, "LANG": allowed_value}):
+                summary = run_comparison(bundle, _emitter("cpp"), _emitter("rust", mutation), _sources(), 10)
+            producer_result = load_json(bundle / "raw" / "rust" / "stdout.txt")
+            process_path = bundle / "raw" / "rust" / "process.json"
+            process = load_json(process_path)
+            process_text = process_path.read_text(encoding="utf-8")
+
+        probe = cast("dict[str, str]", producer_result["implementation"]["environment_probe"])
+        environment = cast("dict[str, str]", process["environment"])
+        self.assertEqual(summary["status"], "passed")
+        self.assertEqual(probe["LANG"], allowed_value)
+        self.assertNotIn("COMET_API_KEY", probe)
+        self.assertNotIn(credential, probe.values())
+        self.assertEqual(environment["LANG"], allowed_value)
+        self.assertNotIn("COMET_API_KEY", environment)
+        self.assertNotIn("COMET_API_KEY", process_text)
+        self.assertNotIn(credential, process_text)
 
     def test_exact_failure_names_fixture_rule_values_and_raw_artifact(self) -> None:
         """Exact topology failures contain every field required for investigation."""
@@ -174,9 +202,12 @@ class ComparisonHarnessTests(unittest.TestCase):
 
     def test_named_tolerance_accepts_roundoff_and_rejects_a_material_delta(self) -> None:
         """Numerical comparisons use the protocol quantity, not a global percent."""
-        cpp = load_json(REFERENCE_RESULT)
+        cpp = load_json(DEFAULT_REFERENCE_RESULT)
         protocol = load_json(DEFAULT_PROTOCOL)
-        for delta, expected_failures in ((1e-15, 0), (1e-3, 1)):
+        tolerance = protocol["tolerances"]["regge_action_closed_form"]
+        expected_value = cpp["actions"][0]["value"]
+        threshold = tolerance["absolute"] + tolerance["relative"] * abs(expected_value)
+        for delta, expected_failures in ((threshold * 0.9, 0), (threshold * 1.1, 1)):
             with self.subTest(delta=delta):
                 rust = copy.deepcopy(cpp)
                 rust["actions"][0]["value"] += delta
@@ -269,6 +300,17 @@ class ComparisonHarnessTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "not a canonical relative path"):
                 reanalyze_comparison(bundle)
 
+    def test_reanalysis_rejects_a_tampered_artifact(self) -> None:
+        """Editing a retained artifact cannot produce a forged passing summary."""
+        with TemporaryDirectory() as temporary_directory:
+            bundle = Path(temporary_directory) / "comparison"
+            run_comparison(bundle, _emitter("cpp"), _emitter("rust"), _sources(), 10)
+            stdout_path = bundle / "raw" / "rust" / "stdout.txt"
+            stdout_path.write_text(f"{stdout_path.read_text(encoding='utf-8')} ", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "digest does not match"):
+                reanalyze_comparison(bundle)
+
     def test_internal_failure_does_not_publish_a_partial_bundle(self) -> None:
         """A failed analysis cleans staging and leaves the requested path retryable."""
         with TemporaryDirectory() as temporary_directory:
@@ -312,6 +354,24 @@ class ComparisonHarnessTests(unittest.TestCase):
                 run_comparison(bundle, _emitter("cpp"), _emitter("rust"), sources, 10)
 
             self.assertFalse(bundle.exists())
+
+    def test_generic_result_schema_names_missing_definitions(self) -> None:
+        """Malformed schema inputs identify the required definition that is absent."""
+        result_schema = load_json(DEFAULT_RESULT_SCHEMA)
+        fixture_schema = load_json(DEFAULT_FIXTURE_SCHEMA)
+        cases: list[tuple[dict[str, Any], dict[str, Any], str]] = []
+        for schema_name, definition_name in (("fixture_schema", "site"), ("fixture_schema", "transition")):
+            incomplete_fixture = copy.deepcopy(fixture_schema)
+            incomplete_fixture["$defs"].pop(definition_name)
+            cases.append((result_schema, incomplete_fixture, f"{schema_name}.$defs.{definition_name}"))
+        incomplete_result = copy.deepcopy(result_schema)
+        incomplete_result.pop("$defs")
+        cases.append((incomplete_result, fixture_schema, "result_schema.$defs"))
+
+        for candidate_result, candidate_fixture, missing_name in cases:
+            with self.subTest(missing_definition=missing_name), self.assertRaises(ValueError) as context:
+                _generic_result_schema(candidate_result, candidate_fixture)
+            self.assertIn(missing_name, str(context.exception))
 
 
 if __name__ == "__main__":

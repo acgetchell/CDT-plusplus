@@ -105,6 +105,8 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
             <= check_dependencies
         )
         self.assertTrue({"check", "python-package-check", "reference-generated-check"} <= ci_dependencies)
+        self.assertNotIn("python-experiment-check", recipes)
+        self.assertNotIn("_sync-python-experiments", recipes)
 
     def test_public_recipes_have_one_group_and_a_description(self) -> None:
         """Every listed recipe should explain its purpose in one stable section."""
