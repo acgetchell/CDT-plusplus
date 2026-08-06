@@ -8,16 +8,17 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
+from scripts.experiment_artifacts import OutputDirectoryExistsError, staged_run_directory
 from scripts.mnist_experiment import (
     MAX_TORCH_SEED,
     MIN_TORCH_SEED,
+    ExperimentConfigurationError,
     _config_from_args,
     _mirror_to_comet,
     _parse_args,
     _parse_seed,
     _positive_float,
     _positive_int,
-    _staged_run_directory,
     _start_optional_comet,
     main,
 )
@@ -113,6 +114,30 @@ class MnistExperimentTests(unittest.TestCase):
         self.assertIsNone(comet_run)
         self.assertIn("Comet mirror failed while starting the experiment", stderr.getvalue())
 
+    def test_missing_comet_dependency_propagates_from_optional_start(self) -> None:
+        """A missing requested dependency remains a CLI setup failure."""
+        config = _config_from_args(_parse_args(["--comet", "offline"]))
+        error = ModuleNotFoundError("No module named 'comet_ml'", name="comet_ml")
+        with (
+            patch("scripts.mnist_experiment._start_comet", side_effect=error),
+            self.assertRaises(ModuleNotFoundError) as raised,
+        ):
+            _start_optional_comet(config, config.output_directory)
+
+        self.assertIs(raised.exception, error)
+
+    def test_comet_configuration_error_propagates_from_optional_start(self) -> None:
+        """An invalid online configuration remains a caller-facing error."""
+        config = _config_from_args(_parse_args(["--comet", "online"]))
+        error = ExperimentConfigurationError("COMET_API_KEY is required")
+        with (
+            patch("scripts.mnist_experiment._start_comet", side_effect=error),
+            self.assertRaises(ExperimentConfigurationError) as raised,
+        ):
+            _start_optional_comet(config, config.output_directory)
+
+        self.assertIs(raised.exception, error)
+
     def test_comet_operation_failure_does_not_escape(self) -> None:
         """A late optional mirror failure cannot replace a local exception."""
         operation = Mock(side_effect=RuntimeError("Comet unavailable"))
@@ -127,7 +152,7 @@ class MnistExperimentTests(unittest.TestCase):
         """A successful generation appears only after its contents are complete."""
         with TemporaryDirectory() as temporary_directory:
             output_directory = Path(temporary_directory) / "run"
-            with _staged_run_directory(output_directory) as staging_directory:
+            with staged_run_directory(output_directory) as staging_directory:
                 (staging_directory / "run.json").write_text("complete\n", encoding="utf-8")
                 self.assertFalse(output_directory.exists())
 
@@ -139,7 +164,7 @@ class MnistExperimentTests(unittest.TestCase):
             root = Path(temporary_directory)
             output_directory = root / "run"
             message = "training failed"
-            with self.assertRaisesRegex(RuntimeError, message), _staged_run_directory(output_directory) as staging_directory:
+            with self.assertRaisesRegex(RuntimeError, message), staged_run_directory(output_directory) as staging_directory:
                 (staging_directory / "configuration.json").write_text("partial\n", encoding="utf-8")
                 raise RuntimeError(message)
 
@@ -154,7 +179,7 @@ class MnistExperimentTests(unittest.TestCase):
             sentinel = output_directory / "run.json"
             sentinel.write_text("previous\n", encoding="utf-8")
 
-            with self.assertRaisesRegex(ValueError, "already exists"), _staged_run_directory(output_directory):
+            with self.assertRaisesRegex(OutputDirectoryExistsError, "already exists"), staged_run_directory(output_directory):
                 self.fail("existing output directory was opened for replacement")
 
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "previous\n")

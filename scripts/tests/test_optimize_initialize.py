@@ -10,7 +10,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
-from scripts.experiment_artifacts import _staging_directory_prefix
+from scripts.experiment_artifacts import staging_directory_prefix
 from scripts.optimize_initialize import (
     PARAMETER_PAIRS,
     _experiment_provenance,
@@ -168,7 +168,7 @@ Final number of simplices: 12000"""
                 _run_parameter_sweep(Path("initialize"), 92, output_directory, {}, services)
 
             self.assertFalse(output_directory.exists())
-            self.assertEqual(list(root.glob(f"{_staging_directory_prefix(output_directory)}*")), [])
+            self.assertEqual(list(root.glob(f"{staging_directory_prefix(output_directory)}*")), [])
 
         experiment.end.assert_called_once_with()
 

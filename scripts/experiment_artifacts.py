@@ -19,7 +19,7 @@ class OutputDirectoryExistsError(ValueError):
     """The requested canonical output directory already exists."""
 
 
-def _sha256(path: Path) -> str:
+def sha256(path: Path) -> str:
     """Hash one local experiment input or artifact."""
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -28,28 +28,28 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _artifact_record(path: Path, root: Path) -> dict[str, object]:
+def artifact_record(path: Path, root: Path) -> dict[str, object]:
     """Describe one canonical artifact by stable relative path and digest."""
     return {
         "bytes": path.stat().st_size,
         "path": path.relative_to(root).as_posix(),
-        "sha256": _sha256(path),
+        "sha256": sha256(path),
     }
 
 
-def _write_json(path: Path, payload: Mapping[str, object]) -> None:
+def write_json(path: Path, payload: Mapping[str, object]) -> None:
     """Write one deterministic canonical local experiment artifact."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(f"{json.dumps(payload, allow_nan=False, indent=2, sort_keys=True)}\n", encoding="utf-8")
 
 
-def _staging_directory_prefix(output_directory: Path) -> str:
+def staging_directory_prefix(output_directory: Path) -> str:
     """Return the temporary-directory prefix for one staged run."""
     return f".{output_directory.name}.incomplete-"
 
 
 @contextmanager
-def _staged_run_directory(output_directory: Path) -> Iterator[Path]:
+def staged_run_directory(output_directory: Path) -> Iterator[Path]:
     """Publish one complete run without mixing it with an older generation."""
     if os.path.lexists(output_directory):
         message = f"Output directory already exists: {output_directory}; choose a new --output-directory."
@@ -59,7 +59,7 @@ def _staged_run_directory(output_directory: Path) -> Iterator[Path]:
     staging_directory = Path(
         tempfile.mkdtemp(
             dir=output_directory.parent,
-            prefix=_staging_directory_prefix(output_directory),
+            prefix=staging_directory_prefix(output_directory),
         )
     )
     try:

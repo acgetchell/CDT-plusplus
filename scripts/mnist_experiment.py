@@ -13,10 +13,10 @@ from typing import TYPE_CHECKING, Literal, Protocol, cast
 from scripts.experiment_artifacts import (
     PACKAGE_NAME,
     OutputDirectoryExistsError,
-    _artifact_record,
-    _sha256,
-    _staged_run_directory,
-    _write_json,
+    artifact_record,
+    sha256,
+    staged_run_directory,
+    write_json,
 )
 
 if TYPE_CHECKING:
@@ -206,7 +206,7 @@ def _configuration_payload(config: _RunConfig, *, torch_version: str | None = No
         payload["package_version"] = "uninstalled"
     payload["platform"] = platform.platform()
     payload["python"] = platform.python_version()
-    payload["script_sha256"] = _sha256(Path(__file__))
+    payload["script_sha256"] = sha256(Path(__file__))
     if torch_version is not None:
         payload["torch"] = torch_version
     if torchvision_version is not None:
@@ -220,7 +220,7 @@ def _dataset_manifest(dataset_root: Path) -> list[dict[str, object]]:
         {
             "bytes": path.stat().st_size,
             "path": path.relative_to(dataset_root).as_posix(),
-            "sha256": _sha256(path),
+            "sha256": sha256(path),
         }
         for path in sorted(
             (path for path in dataset_root.rglob("*") if path.is_file()),
@@ -339,7 +339,7 @@ def _evaluate(
 
 def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the staged experiment lifecycle together.
     """Train PyTorch on MNIST and retain a complete local run record."""
-    with _staged_run_directory(config.output_directory) as artifact_directory:
+    with staged_run_directory(config.output_directory) as artifact_directory:
         configuration_path = artifact_directory / "configuration.json"
 
         comet_run = _start_optional_comet(config, artifact_directory) if config.comet_mode != "disabled" else None
@@ -370,7 +370,7 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
             loss_function = torch.nn.CrossEntropyLoss()
             optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate)
             configuration = _configuration_payload(config, torch_version=torch.__version__, torchvision_version=version("torchvision"))
-            _write_json(configuration_path, configuration)
+            write_json(configuration_path, configuration)
 
             if comet_run is not None:
                 _mirror_to_comet("logging parameters", comet_run.experiment.log_parameters, configuration)
@@ -405,15 +405,15 @@ def _run_experiment(config: _RunConfig) -> None:  # noqa: PLR0915 - Keep the sta
             dataset_root = config.data_directory / "MNIST"
             run_record = {
                 "artifacts": {
-                    "checkpoint": _artifact_record(checkpoint_path, artifact_directory),
-                    "configuration": _artifact_record(configuration_path, artifact_directory),
+                    "checkpoint": artifact_record(checkpoint_path, artifact_directory),
+                    "configuration": artifact_record(configuration_path, artifact_directory),
                 },
                 "configuration": configuration,
                 "dataset_files": _dataset_manifest(dataset_root),
                 "evaluation": evaluation,
                 "training_metrics": training_metrics,
             }
-            _write_json(artifact_directory / "run.json", run_record)
+            write_json(artifact_directory / "run.json", run_record)
         finally:
             if comet_run is not None:
                 _mirror_to_comet("ending the experiment", comet_run.experiment.end)

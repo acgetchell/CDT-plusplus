@@ -15,10 +15,10 @@ from typing import TYPE_CHECKING, Literal, Protocol, cast
 from scripts.experiment_artifacts import (
     PACKAGE_NAME,
     OutputDirectoryExistsError,
-    _artifact_record,
-    _sha256,
-    _staged_run_directory,
-    _write_json,
+    artifact_record,
+    sha256,
+    staged_run_directory,
+    write_json,
 )
 
 if TYPE_CHECKING:
@@ -222,7 +222,7 @@ def _experiment_provenance(repository_root: Path, initialize_binary: Path) -> di
         "initializer": {
             "bytes": resolved_binary.stat().st_size,
             "path": resolved_binary.relative_to(resolved_root).as_posix(),
-            "sha256": _sha256(resolved_binary),
+            "sha256": sha256(resolved_binary),
         },
         "repository": {
             "commit": commit,
@@ -232,7 +232,7 @@ def _experiment_provenance(repository_root: Path, initialize_binary: Path) -> di
         "script": {
             "package": PACKAGE_NAME,
             "package_version": package_version,
-            "sha256": _sha256(Path(__file__)),
+            "sha256": sha256(Path(__file__)),
         },
     }
 
@@ -256,7 +256,7 @@ def _run_parameter_sweep(
 ) -> bool:
     """Run the parameter sweep through injected initializer and Comet boundaries."""
     mirror_succeeded = True
-    with _staged_run_directory(output_directory) as staged_output_directory:
+    with staged_run_directory(output_directory) as staged_output_directory:
         for initial_radius, foliation_spacing in PARAMETER_PAIRS:
             try:
                 experiment = services.experiment_factory(staged_output_directory)
@@ -284,7 +284,7 @@ def _run_parameter_sweep(
                 run_directory = staged_output_directory / f"radius-{initial_radius}-spacing-{foliation_spacing:g}"
                 run_directory.mkdir(parents=True, exist_ok=True)
                 configuration_path = run_directory / "configuration.json"
-                _write_json(
+                write_json(
                     configuration_path,
                     {
                         "command": command,
@@ -321,13 +321,13 @@ def _run_parameter_sweep(
                 figure_path = run_directory / "volume-profile.png"
                 mirror_succeeded &= _write_volume_profile(timeslices, volumes, figure_path, services, experiment)
 
-                _write_json(
+                write_json(
                     run_directory / "run.json",
                     {
                         "artifacts": {
-                            "configuration": _artifact_record(configuration_path, run_directory),
-                            "figure": _artifact_record(figure_path, run_directory),
-                            "stdout": _artifact_record(stdout_path, run_directory),
+                            "configuration": artifact_record(configuration_path, run_directory),
+                            "figure": artifact_record(figure_path, run_directory),
+                            "stdout": artifact_record(stdout_path, run_directory),
                         },
                         "metrics": {
                             "error_percent": score,
