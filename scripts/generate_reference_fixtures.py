@@ -1,7 +1,5 @@
 """Regenerate every CDT++ reference artifact from one clean source commit."""
 
-from __future__ import annotations
-
 import argparse
 import hashlib
 import json

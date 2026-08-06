@@ -50,7 +50,7 @@ def build_fixture_config(fixture_path: Path, source_config_path: Path) -> str:
     return "rules:\n" + "".join(rule_chunks[rule_id] for rule_id in annotation_ids)
 
 
-def parse_args(argv: "Sequence[str]") -> argparse.Namespace:
+def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("fixture", type=Path)
@@ -59,7 +59,7 @@ def parse_args(argv: "Sequence[str]") -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: "Sequence[str] | None" = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """Write the selected rules beside the mirrored fixture path."""
     args = parse_args(sys.argv[1:] if argv is None else argv)
     try:

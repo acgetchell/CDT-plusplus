@@ -1,7 +1,5 @@
 """Secure subprocess helpers for repository support scripts."""
 
-from __future__ import annotations
-
 import shutil
 import subprocess
 from typing import TYPE_CHECKING

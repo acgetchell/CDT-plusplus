@@ -1,15 +1,17 @@
 # Justfile for the CDT++ maintenance workflow.
 # Usage: just <recipe> or just --list
 
-set minimum-version := "1.57.0"
+set minimum-version := "1.58.0"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-just_version := "1.57.0"
+just_version := "1.58.0"
 uv_version := "0.12.1"
+python_version := "3.14.6"
 git_cliff_version := "2.13.1"
 actionlint_version := "1.7.12"
 pinact_version := "4.1.1"
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
+typos_version := "1.49.0"
 llvm_version := "22"
 cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.1"
@@ -42,12 +44,12 @@ build-debug:
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test spell-check
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
 [group('workflows')]
-ci: check _pinact-check reference-generated-check
+ci: check _pinact-check reference-generated-check python-package-check
     @echo "CI validation complete."
 
 # Configure dependencies before CodeQL begins tracing the C++ build.
@@ -161,7 +163,7 @@ clang-tidy:
       "+llvm.org@{{ llvm_version }}" \
       "+cmake.org@{{ cmake_version }}" \
       "+ninja-build.org@{{ ninja_version }}" \
-      +python.org@3.11.15 \
+      "+python.org@{{ python_version }}" \
       +gnu.org/m4@1.4.21 \
       +gnu.org/autoconf@2.73.0 \
       +gnu.org/autoconf-archive@2024.10.16 \
@@ -230,6 +232,11 @@ semgrep-test: _sync-python-dev
             uv run --no-sync semgrep scan --test --strict --config "$config_path" "$fixture"
     done < <(find tests/semgrep -type f ! -name '*.fixed' -print0)
 
+# Check repository text and identifiers for common spelling mistakes.
+[group('workflows')]
+spell-check: _ensure-typos
+    typos
+
 # Build and exercise one supported Linux sanitizer configuration.
 [group('workflows')]
 sanitize kind:
@@ -240,6 +247,7 @@ sanitize kind:
         "+llvm.org@{{ llvm_version }}" \
         "+cmake.org@{{ cmake_version }}" \
         "+ninja-build.org@{{ ninja_version }}" \
+        "+python.org@{{ python_version }}" \
         -- ./scripts/sanitizer.sh "{{ kind }}"
     fi
     exec ./scripts/sanitizer.sh "{{ kind }}"
@@ -248,6 +256,51 @@ sanitize kind:
 [group('workflows')]
 python-check: python-format-check python-lint python-typecheck python-support-test python-entrypoint-test
     @echo "Python source checks complete."
+
+# Install, type-check, and exercise the heavyweight PyTorch/Comet surface without networked services or datasets.
+[group('workflows')]
+python-experiment-check: _sync-python-experiments
+    uv run --no-sync ty check scripts/mnist_experiment.py scripts/optimize_initialize.py scripts/experiment_tests/*.py --error all
+    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -c "import comet_ml; import torch; import torchvision; print(comet_ml.__version__, torch.__version__, torchvision.__version__)"
+    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_comet_pytorch
+    MPLCONFIGDIR="${TMPDIR:-/tmp}/cdt-matplotlib-cache" uv run --no-sync python -m unittest scripts.experiment_tests.test_mnist_training
+
+# Build both Python artifacts and exercise every installed entry point outside the checkout.
+[group('workflows')]
+python-package-check: _sync-python-dev
+    #!/usr/bin/env bash
+    set -euo pipefail
+    artifact_directory="$(mktemp -d "${TMPDIR:-/tmp}/cdt-python-artifacts.XXXXXX")"
+    consumer_directory="$(mktemp -d "${TMPDIR:-/tmp}/cdt-python-consumer.XXXXXX")"
+    cleanup() {
+      rm -rf "$artifact_directory" "$consumer_directory"
+    }
+    trap cleanup EXIT
+
+    uv build --out-dir "$artifact_directory"
+    wheels=("$artifact_directory"/*.whl)
+    [[ -f "${wheels[0]}" ]] || { echo "uv build did not produce a wheel." >&2; exit 1; }
+    wheel="${wheels[0]}"
+    uv venv --python {{ python_version }} "$consumer_directory/.venv"
+    uv pip install --python "$consumer_directory/.venv" --no-build "$wheel"
+
+    if [[ -x "$consumer_directory/.venv/bin/python" ]]; then
+      python="$consumer_directory/.venv/bin/python"
+      scripts_directory="$consumer_directory/.venv/bin"
+      executable_suffix=""
+    else
+      python="$consumer_directory/.venv/Scripts/python.exe"
+      scripts_directory="$consumer_directory/.venv/Scripts"
+      executable_suffix=".exe"
+    fi
+    (
+      cd "$consumer_directory"
+      "$python" -c "import scripts"
+      "$scripts_directory/cdt-bootstrap-vcpkg$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-optimize-initialize$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-mnist-experiment$executable_suffix" --help >/dev/null
+      "$scripts_directory/cdt-tag-release$executable_suffix" --help >/dev/null
+    )
 
 # Apply Ruff lint fixes and formatting to Python source.
 [group('workflows')]
@@ -415,6 +468,21 @@ _ensure-git-cliff:
     actual_version="$(git-cliff --version)"
     if [[ "$actual_version" != "git-cliff {{ git_cliff_version }}" ]]; then
       echo "git-cliff {{ git_cliff_version }} is required; found $actual_version." >&2
+      exit 1
+    fi
+
+[private]
+_ensure-typos:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v typos >/dev/null || {
+      echo "typos-cli {{ typos_version }} is required." >&2
+      echo "Install it with: cargo install typos-cli --version {{ typos_version }} --locked" >&2
+      exit 1
+    }
+    actual_version="$(typos --version | awk '{print $2}')"
+    if [[ "$actual_version" != "{{ typos_version }}" ]]; then
+      echo "typos-cli {{ typos_version }} is required; found $actual_version." >&2
       exit 1
     fi
 

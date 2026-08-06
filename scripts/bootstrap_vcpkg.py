@@ -1,7 +1,5 @@
 """Bootstrap and validate the repository-pinned vcpkg checkout."""
 
-from __future__ import annotations
-
 import argparse
 import hashlib
 import json

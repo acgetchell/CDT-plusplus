@@ -236,7 +236,7 @@ SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
         CHECK(manifold.is_correct());
       }
     }
-    AND_WHEN("Vertices in an owning snapshot are mis-labelled.")
+    AND_WHEN("Vertices in an owning snapshot are assigned invalid labels.")
     {
       auto snapshot = manifold.delaunay_snapshot();
       for (auto const& vertex :

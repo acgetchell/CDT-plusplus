@@ -1,29 +1,31 @@
-# Contributing during maintenance mode
+# Contributing to CDT++
 
 Thank you for helping improve CDT++.
 
-CDT++ v1.0.0-rc3 is the release candidate for the final C++23 release, v1.0.0, after which this repository will be
-archived. The project
-is maintained as a scientific reference implementation and regression oracle for
+CDT++ v1.0.0-rc3 is the current C++23 release candidate. The project remains maintained as a scientific reference
+implementation and regression oracle for
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations), its supported Rust successor. The
-maintenance and archival scope is tracked by
-[issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90).
+v1.0.0 release scope is tracked by [issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90). Archiving the
+GitHub repository or making it read-only is a separate future maintainer decision, not settled policy for immediately
+after v1.0.0.
 
 ## Accepted work
 
-Until archival, contributions should be limited to:
+Contributions should be limited to:
 
 - correctness fixes, especially for causal invariants, bistellar moves, and scientific results;
 - deterministic tests, reproducibility improvements, and cross-implementation validation;
 - documentation, build, CI, portability, dependency, and release-readiness fixes;
 - work already approved in a project issue or release milestone, including
   [Qt restoration #98](https://github.com/acgetchell/CDT-plusplus/issues/98) and
-  [domain invariant work #101](https://github.com/acgetchell/CDT-plusplus/issues/101); and
-- changes required to complete the v1.0.0 release and Zenodo archival handoff.
+  [domain invariant work #101](https://github.com/acgetchell/CDT-plusplus/issues/101) and
+  [Python experiment modernization #143](https://github.com/acgetchell/CDT-plusplus/issues/143); and
+- changes required to complete the v1.0.0 release and Zenodo deposit.
 
-New simulation features, 3+1D/4D development, and unrelated C++ expansion are out of scope. Propose ongoing feature
-development in the Rust successor instead. If a change is not already tracked, open an issue before investing in a
-substantial implementation so its maintenance value and scope can be agreed upon.
+New simulation features, 3+1D/4D development, and unrelated C++ expansion remain out of scope unless a project issue
+explicitly approves them. Potential future 4D research does not authorize implementation by itself. If a change is
+not already tracked, open an issue before investing in a substantial implementation so its maintenance value and
+scope can be agreed upon.
 
 ## Contribution workflow
 
@@ -49,10 +51,10 @@ substantial implementation so its maintenance value and scope can be agreed upon
    ```
 
    `just check` is the fast, non-mutating source and tooling gate, including the repository-owned Semgrep policy and
-   its fixtures. `just ci` adds the supported build and complete 24-entry CTest suite: all 103 doctest unit scenarios
-   and 23 CLI integration tests. `just build-parallel` builds the distinct CGAL/oneTBB configuration and runs the same
-   scientific suite plus the
-   replayable parallel stress launcher, for 25 entries. When changing C++ behavior, also run
+   its fixtures. `just ci` adds the supported build and complete 127-entry CTest suite: 104 doctest unit scenarios and
+   23 CLI integration tests. `just build-parallel` builds the distinct CGAL/oneTBB configuration and runs its
+   127-entry suite: 103 ordinary doctest scenarios, one replayable parallel stress launcher containing five scenarios,
+   and the same 23 CLI integration tests. When changing C++ behavior, also run
    `just clang-tidy` with the pinned LLVM 22 toolchain and review its advisory diagnostics.
    GitHub Actions runs `just ci` in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs. The two
    Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract. Sanitizer and coverage
@@ -93,14 +95,13 @@ Project source files belong in `src`, public or shared headers in `include`, and
 CMake targets, presets, CTest registrations, Just recipes, and pinned vcpkg manifest rather than introducing parallel
 build paths.
 
-## Release and archival
+## Release and repository lifecycle
 
-Release candidates, the final tag, and the archival handoff follow the
-[`docs/RELEASING.md`](../docs/RELEASING.md) runbook. The final v1.0.0 release will be tagged from `main` and archived
-through [Zenodo]. Release metadata and the archival handoff are tracked by
-[issue #96](https://github.com/acgetchell/CDT-plusplus/issues/96). After archival, the repository will be read-only and
-will no longer accept issues or pull requests. Further development should occur in
-[causal-triangulations](https://github.com/acgetchell/causal-triangulations) or in an independent fork.
+Release candidates, the final tag, and the Zenodo deposit follow the
+[`docs/RELEASING.md`](../docs/RELEASING.md) runbook. The final v1.0.0 release will be tagged from `main`; release
+metadata and the Zenodo handoff are tracked by [issue #96](https://github.com/acgetchell/CDT-plusplus/issues/96).
+Making the GitHub repository read-only would require a separate explicit maintainer decision. Until then, issues and
+pull requests remain governed by the scoped contribution policy above.
 
 Contributors retain credit through the repository history and resulting project citation metadata.
 

@@ -1,7 +1,5 @@
 """Regression tests for the cross-language reference-package validator."""
 
-from __future__ import annotations
-
 import copy
 import tempfile
 import unittest

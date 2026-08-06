@@ -1,7 +1,5 @@
 """Tests for deterministic changelog generation."""
 
-from __future__ import annotations
-
 import subprocess
 import tempfile
 import unittest

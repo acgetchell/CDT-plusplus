@@ -1,7 +1,5 @@
 """Tests for cross-platform vcpkg checkout validation."""
 
-from __future__ import annotations
-
 import hashlib
 import shutil
 import subprocess

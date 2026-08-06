@@ -619,7 +619,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         auto candidate = triangulation.delaunay_snapshot();
         CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(candidate));
       }
-      AND_WHEN("Vertices in an owning snapshot are mis-labelled.")
+      AND_WHEN("Vertices in an owning snapshot are assigned invalid labels.")
       {
         auto candidate      = triangulation.delaunay_snapshot();
         auto break_vertices = [](Vertex_handle_t<3> const& vertex) {
@@ -648,7 +648,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           }
         }
       }
-      AND_WHEN("Cells in an owning snapshot are mis-labelled.")
+      AND_WHEN("Cells in an owning snapshot are assigned invalid labels.")
       {
         auto candidate   = triangulation.delaunay_snapshot();
         auto break_cells = [](Cell_handle_t<3> const& cell) {

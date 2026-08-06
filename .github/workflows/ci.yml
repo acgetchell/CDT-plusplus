@@ -93,8 +93,14 @@ jobs:
             echo "llvm=$(just --evaluate llvm_version)"
             echo "ninja=$(just --evaluate ninja_version)"
             echo "ninja-windows-wheel=$(just --evaluate ninja_windows_wheel_version)"
+            echo "typos=$(just --evaluate typos_version)"
             echo "uv=$(just --evaluate uv_version)"
           } >> "$GITHUB_OUTPUT"
+
+      - name: Set up typos
+        uses: taiki-e/install-action@6a1bd70eaac3c8bdf093356838d7ee09fda951cf  # v2.85.5
+        with:
+          tool: typos@${{ steps.tool-versions.outputs.typos }}
 
       - name: Set up canonical CI environment with pkgx
         if: runner.os != 'Windows'
