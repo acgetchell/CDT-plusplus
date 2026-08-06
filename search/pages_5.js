@@ -23,5 +23,6 @@ var searchData=
   ['and_20verify_20the_20release_20',['Step 3: Publish and verify the release',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-3-publish-and-verify-the-release',1,'']]],
   ['api_20boundary_21',['C++ API boundary',['../md_docs_2api-boundary.html',1,'']]],
   ['arithmetic_20policy_22',['Kernel and exact-arithmetic policy',['../md_docs_2cgal-integration.html#kernel-and-exact-arithmetic-policy',1,'']]],
-  ['audit_23',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
+  ['artifact_20layout_23',['Artifact layout',['../md_docs_2comparison-harness.html#artifact-layout',1,'']]],
+  ['audit_24',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
 ];

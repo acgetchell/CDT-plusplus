@@ -22,10 +22,12 @@ var searchData=
   ['releasing_20cdt_19',['Releasing CDT++',['../md_docs_2_r_e_l_e_a_s_i_n_g.html',1,'']]],
   ['reproducible_20performance_20baseline_20',['Reproducible performance baseline',['../md_docs_2cgal-integration.html#reproducible-performance-baseline',1,'']]],
   ['reproducible_20random_20runs_21',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['request_22',['Step 1: Prepare the release pull request',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-1-prepare-the-release-pull-request',1,'']]],
-  ['roadmap_23',['Roadmap',['../index.html#roadmap',1,'']]],
-  ['rules_24',['Mutation and lifetime rules',['../md_docs_2cgal-integration.html#mutation-and-lifetime-rules',1,'']]],
-  ['runs_25',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['runtime_20thread_20limit_26',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]],
-  ['rust_20consumption_27',['Rust consumption',['../dir_6e133a56364528c326e124d8bed524d8.html#rust-consumption',1,'']]]
+  ['reproduction_22',['Offline reproduction',['../md_docs_2comparison-harness.html#offline-reproduction',1,'']]],
+  ['request_23',['Step 1: Prepare the release pull request',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-1-prepare-the-release-pull-request',1,'']]],
+  ['roadmap_24',['Roadmap',['../index.html#roadmap',1,'']]],
+  ['rules_25',['Mutation and lifetime rules',['../md_docs_2cgal-integration.html#mutation-and-lifetime-rules',1,'']]],
+  ['runs_26',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
+  ['runtime_20thread_20limit_27',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]],
+  ['rust_20comparison_20harness_28',['Offline C++/Rust comparison harness',['../md_docs_2comparison-harness.html',1,'']]],
+  ['rust_20consumption_29',['Rust consumption',['../dir_6e133a56364528c326e124d8bed524d8.html#rust-consumption',1,'']]]
 ];

@@ -34,8 +34,9 @@ var searchData=
   ['apply_5fmove_2ehpp_31',['Apply_move.hpp',['../_apply__move_8hpp.html',1,'']]],
   ['apply_5frandom_5fmove_32',['apply_random_move',['../classcdt_1_1_move_command.html#a560aea056adc42da33589dbc83a1a0b1',1,'cdt::MoveCommand']]],
   ['arithmetic_20policy_33',['Kernel and exact-arithmetic policy',['../md_docs_2cgal-integration.html#kernel-and-exact-arithmetic-policy',1,'']]],
-  ['as_5finteger_34',['as_integer',['../_move__tracker_8hpp.html#aa2b8d0eb3835b7852180843f4f00dfe1',1,'cdt::move_tracker']]],
-  ['attempt_5ftransition_35',['attempt_transition',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#afb2498e1f88fc8de2da4ea96a2e83fc2',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
-  ['attempted_36',['attempted',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad9aa1df77b3fbecd204bc240ff068395',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::attempted()'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a5abab47a1328003a04f584333f4cb2b6',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::attempted()'],['../classcdt_1_1_move_command.html#a20b11c2e1750abccbed42d13f5f0e737',1,'cdt::MoveCommand::attempted()']]],
-  ['audit_37',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
+  ['artifact_20layout_34',['Artifact layout',['../md_docs_2comparison-harness.html#artifact-layout',1,'']]],
+  ['as_5finteger_35',['as_integer',['../_move__tracker_8hpp.html#aa2b8d0eb3835b7852180843f4f00dfe1',1,'cdt::move_tracker']]],
+  ['attempt_5ftransition_36',['attempt_transition',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#afb2498e1f88fc8de2da4ea96a2e83fc2',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;']]],
+  ['attempted_37',['attempted',['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad9aa1df77b3fbecd204bc240ff068395',1,'cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;::attempted()'],['../classcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a5abab47a1328003a04f584333f4cb2b6',1,'cdt::MoveStrategy&lt; MoveStrategyKind::MOVE_ALWAYS, ManifoldType &gt;::attempted()'],['../classcdt_1_1_move_command.html#a20b11c2e1750abccbed42d13f5f0e737',1,'cdt::MoveCommand::attempted()']]],
+  ['audit_38',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]]
 ];
