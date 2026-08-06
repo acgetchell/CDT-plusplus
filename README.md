@@ -19,9 +19,9 @@ scientific reference and regression oracle for
 work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move
 set, and work approved in project issues. The v1.0.0 release contract remains tracked by
 [issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90); making the GitHub repository read-only is a
-separate future lifecycle decision rather than an automatic consequence of that release. Optional Python research
-tooling is maintained by [issue #143](https://github.com/acgetchell/CDT-plusplus/issues/143) without making Python a
-scientific oracle.
+separate future lifecycle decision rather than an automatic consequence of that release. The local Python
+comparison harness orchestrates independent C++ and Rust executables and analyzes their declared outputs; it is not a
+second scientific implementation.
 
 ## Table of contents
 
@@ -45,7 +45,7 @@ scientific oracle.
   - [Testing](#testing)
     - [Static Analysis](#static-analysis)
     - [Sanitizers](#sanitizers)
-  - [Optimizing Parameters](#optimizing-parameters)
+  - [Offline Comparison](#offline-comparison)
   - [Visualization](#visualization)
   - [Contributing](#contributing)
   - [Issues](#issues)
@@ -73,7 +73,7 @@ inputs, sanitizer boundary, and matched scaling protocol are recorded in the
 [multithreaded CGAL contract](docs/multithreading.md).
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
-[CometML] provides experiment tracking for the optional Python workflows.
+Python and JSON Schema provide the local, offline cross-implementation comparison boundary.
 
 ### Regression-oracle scope
 
@@ -132,8 +132,8 @@ valid cospherical tetrahedralizations.
 
 - `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0
   target by [#98](https://github.com/acgetchell/CDT-plusplus/issues/98).
-- `initialize` is used by [CometML] to run
-  [parameter optimization](#optimizing-parameters).
+- `initialize` is also used by the dependency-free local parameter sweep described under
+  [offline comparison](#offline-comparison).
 
 See the [command-line reference](#command-line-reference) for every option.
 Build and dependency instructions begin at [Quickstart](#quickstart).
@@ -304,6 +304,8 @@ just sync-vcpkg-tool-pins  # Sync the vcpkg tool release and Windows hashes
 just python-sync           # Install the locked Python development environment
 just python-check          # Check Python formatting, lint, and types
 just python-fix            # Apply safe Ruff fixes and formatting
+just comparison-run /path/to/rust-fixture out/comparisons/run-1 # Run and retain one comparison
+just comparison-analyze out/comparisons/run-1 # Reanalyze without executing C++ or Rust
 just spell-check           # Check repository text and identifiers for typos
 ```
 
@@ -616,55 +618,40 @@ repository-owned Linux driver and CMake presets. Run one locally with `just sani
 remains experimental because third-party dependencies are not instrumented. AddressSanitizer enables the optional
 CGAL/TBB path and its parallel contract; ThreadSanitizer exercises the default sequential configuration.
 
-## Optimizing Parameters
+## Offline Comparison
 
-[CometML] can mirror [Experiments] conducted by `cdt-optimize-initialize` and `cdt-mnist-experiment`. Each command
-writes configurations, seeds, metrics, plots or checkpoints, artifact digests, and provenance to its requested local
-output directory; Comet is an optional indexed or hosted view and is never the only copy. Preserve that directory
-with its retained inputs, source checkout, and `uv.lock` as the reproduction bundle. Both commands are registered in
-`pyproject.toml`, while their heavyweight dependencies remain outside the normal development environment. The
-default development group contains no PyTorch, TorchVision, Matplotlib, or Comet packages.
+The [`cdt-compare`](docs/comparison-harness.md) command launches explicit CDT++ and `causal-triangulations`
+commands without a shell. Both receive copied versions of the #94 protocol, result schema, and reference manifest.
+The harness retains exact stdout, stderr, exit status, executable digest, command, working directory, process time,
+and host provenance. It first anchors the live C++ output to #94's committed canonical result, then compares exact
+fields and named tolerance-based fields with Rust. Any live C++ transition observations are independently anchored
+to the committed #94 protocol before becoming the Rust reference. It classifies
+implementation-specific and unsupported fields without interpreting either implementation as ground truth.
 
-The retained MNIST command is a small PyTorch portability example, not a CDT scientific oracle. It preserves the
-historical dense-network shape and requests deterministic PyTorch CPU algorithms for replay within the same supported
-software and hardware environment; bitwise identity across PyTorch releases, platforms, or processor architectures
-is not guaranteed. It does not implement 4D CDT or supply results for prospective Praxis research. The lockfile
-selects PyTorch 2.13 and TorchVision 0.28 regular-CPython 3.14 wheels from PyTorch's explicit CPU index; CUDA, ROCm,
-free-threaded Python, and accelerator CI are outside the supported baseline. Comet 3.58 is locked from its universal
-wheel.
-
-Synchronize and verify the optional group separately from ordinary source and C++ checks:
+After building CDT++ and a compatible Rust fixture producer, run one bounded comparison and retain it locally:
 
 ```bash
-just python-sync-experiments
-just python-experiment-check
-uv run --no-sync cdt-optimize-initialize
-uv run --no-sync cdt-mnist-experiment
+just comparison-run /absolute/path/to/causal-triangulations-fixture out/comparisons/run-1
 ```
 
-Run these commands from the repository root. The initializer optimizer writes one directory per parameter pair under
-`out/experiments/initialize`; use `--output-directory` to retain the record elsewhere and `--repository-root` when
-invoking it from another directory. Each invocation requires a nonexistent output path and publishes that directory
-only after the complete sweep succeeds, so select a new path for every retained run. It uses seed `92` by default for
-every parameter pair so stochastic inputs and provenance can be compared; pass `--seed SEED` to select and record
-another root seed. Each record identifies the initializer by path, size, and SHA-256 digest and records the source
-commit, worktree status, and SHA-256 digest of any tracked source changes. Fresh CGAL triangulations are subject to
-the limits in the [reproducibility contract](docs/reproducibility.md).
+Reproduce `summary.json` entirely from the stored raw artifacts, without running either executable:
 
-The MNIST example retains downloaded inputs under `out/experiments/data` and writes `configuration.json`,
-`checkpoint.pt`, and a `run.json` manifest containing size and SHA-256 records for its artifacts under
-`out/experiments/mnist`. Preserve both directories together; use `--data-directory`, `--output-directory`, and
-`--seed` for an explicit layout, or `--no-download` to require already-local inputs. As with the optimizer, every run
-requires a nonexistent output path and becomes visible there only after its canonical local artifacts are complete.
-Optional Comet failures are reported without invalidating that local record. Tests use synthetic tensors and never
-download the dataset.
+```bash
+just comparison-analyze out/comparisons/run-1
+```
 
-Comet is disabled by default for both commands. Pass `--comet offline` to create an uploadable local Comet archive,
-or set `COMET_API_KEY` and pass `--comet online` to mirror the run to the hosted service. The PyTorch command starts
-Comet before importing Torch, enables graph and loss logging, watches weights and gradients, explicitly logs declared
-parameters and metrics, and mirrors the final checkpoint with Comet's current `start()`, `watch()`, and `log_model()`
-APIs. The migration and its relationship to possible future 4D work are tracked by
-[#143](https://github.com/acgetchell/CDT-plusplus/issues/143).
+The bundle under `out/comparisons/run-1` is canonical and is published atomically only after analysis and manifest
+creation finish. Preserve its `inputs/`, `raw/`, `manifest.json`, and `summary.json` together. Python validates the
+complete artifact inventory and its digests, validates schemas, constructs commands, classifies comparisons, and
+renders a small text table; it does not implement topology, action, move-legality, or acceptance rules. See the
+[comparison-harness contract](docs/comparison-harness.md) for producer configuration, placeholders, artifact layout,
+failure records, and the C++ reference/Rust result boundary.
+
+The retained `cdt-optimize-initialize` command is also entirely local and dependency-free. It writes one directory
+per parameter pair under `out/experiments/initialize`, including configuration JSON, raw stdout, a tab-separated
+volume profile, metrics, artifact digests, and source/executable provenance. Each invocation requires a nonexistent
+output path. Seed `92` is the default; use `--seed` and `--output-directory` for another replayable record. Fresh CGAL
+triangulations remain subject to the [reproducibility contract](docs/reproducibility.md).
 
 ## Visualization
 
@@ -732,8 +719,6 @@ Optional:
 [date]: https://howardhinnant.github.io/date/date.html
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
-[CometML]: https://www.comet.ml/
-[Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [vcpkg]: https://github.com/Microsoft/vcpkg
 [C++]: https://isocpp.org/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs

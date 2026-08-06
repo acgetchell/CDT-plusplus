@@ -19,7 +19,7 @@ Contributions should be limited to:
 - work already approved in a project issue or release milestone, including
   [Qt restoration #98](https://github.com/acgetchell/CDT-plusplus/issues/98) and
   [domain invariant work #101](https://github.com/acgetchell/CDT-plusplus/issues/101) and
-  [Python experiment modernization #143](https://github.com/acgetchell/CDT-plusplus/issues/143); and
+  [offline C++/Rust comparison #104](https://github.com/acgetchell/CDT-plusplus/issues/104); and
 - changes required to complete the v1.0.0 release and Zenodo deposit.
 
 New simulation features, 3+1D/4D development, and unrelated C++ expansion remain out of scope unless a project issue

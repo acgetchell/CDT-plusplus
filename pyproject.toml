@@ -2,13 +2,13 @@
 name = "cdt-plusplus-scripts"
 # PEP 440 spelling of the CDT++ v1.0.0-rc3 release.
 version = "1.0.0rc3"
-description = "Python support and experiment scripts for CDT++"
+description = "Python support and offline comparison scripts for CDT++"
 requires-python = ">=3.14,<3.15"
-dependencies = []
+dependencies = ["jsonschema==4.25.1"]
 
 [project.scripts]
 cdt-bootstrap-vcpkg = "scripts.bootstrap_vcpkg:main"
-cdt-mnist-experiment = "scripts.mnist_experiment:main"
+cdt-compare = "scripts.compare_implementations:main"
 cdt-optimize-initialize = "scripts.optimize_initialize:main"
 cdt-tag-release = "scripts.tag_release:main"
 
@@ -20,29 +20,15 @@ build-backend = "uv_build"
 default-groups = ["dev"]
 no-build-package = [
   "clang-format",
-  "comet-ml",
   "jsonschema",
-  "matplotlib",
-  "numpy",
   "pyyaml",
   "ruff",
   "semgrep",
-  "torch",
-  "torchvision",
   "ty",
   "uv-build",
   "yamllint",
 ]
 package = true
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
-
-[tool.uv.sources]
-torch = { index = "pytorch-cpu" }
-torchvision = { index = "pytorch-cpu" }
 
 [tool.uv.build-backend]
 module-name = "scripts"
@@ -53,26 +39,17 @@ source-exclude = [
   "scripts/generate_changelog.py",
   "scripts/release_check.py",
   "scripts/semgrep_fixture_config.py",
-  "scripts/experiment_tests/**",
   "scripts/tests/**",
 ]
 
 [dependency-groups]
 dev = [
   "clang-format==22.1.8",
-  "jsonschema==4.25.1",
   "pyyaml==6.0.3",
   "ruff==0.16.1",
   "semgrep==1.172.0",
   "ty==0.0.65",
   "yamllint==1.38.0",
-]
-experiments = [
-  "comet-ml>=3.58.3,<4",
-  "matplotlib>=3.10,<4",
-  "numpy>=2,<3",
-  "torch>=2.13,<2.14",
-  "torchvision>=0.28,<0.29",
 ]
 
 [tool.ruff]
@@ -160,10 +137,6 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"scripts/experiment_tests/test_*.py" = [
-  "PT009", # The optional experiment suite intentionally uses unittest.
-  "PT027", # The optional experiment suite intentionally uses unittest.
-]
 "scripts/tests/test_*.py" = [
   "PT009", # The dependency-free support-script suite intentionally uses unittest.
   "PT027", # The dependency-free support-script suite intentionally uses unittest.
