@@ -16,6 +16,10 @@
 
 #include <fmt/format.h>
 
+#if defined(__unix__) || defined(__APPLE__)
+#include <sys/resource.h>
+#endif
+
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -24,6 +28,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
+#include <filesystem>
 #include <functional>
 #include <gsl/narrow>
 #include <iterator>
@@ -130,6 +135,24 @@ namespace
   [[nodiscard]] auto checksum_component(std::integral auto const value)
       -> std::uint64_t
   { return gsl::narrow<std::uint64_t>(value); }
+
+  [[nodiscard]] auto peak_resident_bytes() -> std::uint64_t
+  {
+#if defined(__unix__) || defined(__APPLE__)
+    rusage usage{};
+    if (getrusage(RUSAGE_SELF, &usage) != 0)
+    {
+      throw std::runtime_error{"Cannot read peak resident memory."};
+    }
+#if defined(__APPLE__)
+    return static_cast<std::uint64_t>(usage.ru_maxrss);
+#else
+    return static_cast<std::uint64_t>(usage.ru_maxrss) * 1024U;
+#endif
+#else
+    return 0;
+#endif
+  }
 }  // namespace
 
 auto main(int const argc, char const* const argv[]) -> int
@@ -300,6 +323,8 @@ try
       cdt::BUILD_SYSTEM_NAME, cdt::BUILD_SYSTEM_PROCESSOR,
       cdt::utilities::detail::standard_library_name(),
       std::thread::hardware_concurrency(), CGAL_VERSION_STR);
+  fmt::print("dependency.cgal_exact_nt_backend={}\n",
+             CDT_CGAL_EXACT_NT_BACKEND);
 #if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
     CDT_ENABLE_PARALLEL_TRIANGULATION
   fmt::print("dependency.tbb_version={}\n", TBB_VERSION_STRING);
@@ -322,12 +347,14 @@ try
       "moves_per_repetition={}\n"
       "final_vertices={}\n"
       "final_cells={}\n"
+      "binary.bytes={}\n"
       "sample.unit=nanoseconds\n"
       "checksum={}\n",
       CDT_ENABLE_PARALLEL_TRIANGULATION, thread_count, active_threads, seed,
       cdt::random_streams::initialization, cdt::random_streams::transitions,
       simplices, timeslices, input.size(), warmups, repetitions, move_count,
-      final_vertices, final_cells, checksum);
+      final_vertices, final_cells, std::filesystem::file_size(argv[0]),
+      checksum);
   bulk_insert.print("bulk_insert");
   foliation_repair.print("foliation_repair");
   cache_rebuild.print("cache_rebuild");
@@ -335,6 +362,7 @@ try
   snapshot_copy.print("snapshot_copy");
   vertex_removal.print("vertex_removal");
   move_workload.print("move_workload");
+  fmt::print("process.peak_resident_bytes={}\n", peak_resident_bytes());
   return 0;
 }
 catch (std::exception const& error)

@@ -1,0 +1,5 @@
+set(CGAL_DISABLE_GMP ON CACHE BOOL "Use CGAL without GMP and MPFR" FORCE)
+set(CGAL_CMAKE_EXACT_NT_BACKEND
+    BOOST_BACKEND
+    CACHE STRING "CGAL exact-number backend" FORCE)
+_find_package(${ARGS})

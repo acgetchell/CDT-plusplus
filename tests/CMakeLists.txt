@@ -134,6 +134,9 @@ target_link_libraries(
 # `just benchmark-cgal` or `just benchmark-cgal-parallel`.
 add_executable(CDT_cgal_benchmark CGAL_benchmark.cpp)
 target_compile_features(CDT_cgal_benchmark PRIVATE cxx_std_23)
+target_compile_definitions(
+  CDT_cgal_benchmark
+  PRIVATE CDT_CGAL_EXACT_NT_BACKEND="${CGAL_CMAKE_EXACT_NT_BACKEND}")
 target_link_libraries(
   CDT_cgal_benchmark
   PRIVATE project_options
@@ -142,6 +145,22 @@ target_link_libraries(
           fmt::fmt-header-only
           spdlog::spdlog_header_only
           CGAL::CGAL)
+
+# Register a one-operation issue #140 MPFR-oracle correctness smoke. Performance
+# measurements remain opt-in through `just benchmark-arithmetic`.
+add_executable(CDT_arithmetic_backend_benchmark
+               Arithmetic_backend_benchmark.cpp)
+target_compile_features(CDT_arithmetic_backend_benchmark PRIVATE cxx_std_23)
+target_link_libraries(
+  CDT_arithmetic_backend_benchmark
+  PRIVATE project_options
+          project_warnings
+          fmt::fmt-header-only
+          CGAL::CGAL)
+add_test(NAME arithmetic-backend-correctness
+         COMMAND $<TARGET_FILE:CDT_arithmetic_backend_benchmark> 1 1)
+set_tests_properties(arithmetic-backend-correctness
+                     PROPERTIES LABELS "scientific" TIMEOUT 30)
 
 # Emit the versioned, language-neutral raw C++ oracle consumed by the
 # repository-owned issue #94 fixture package. This is intentionally a manual
