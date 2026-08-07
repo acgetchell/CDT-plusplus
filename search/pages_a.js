@@ -5,5 +5,6 @@ var searchData=
   ['flips_20and_20cdt_20admissibility_2',['Checked flips and CDT admissibility',['../md_docs_2cgal-integration.html#checked-flips-and-cdt-admissibility',1,'']]],
   ['foundational_20causal_20dynamical_20triangulations_20theory_3',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]],
   ['framework_4',['Original CDT framework',['../md__r_e_f_e_r_e_n_c_e_s.html#original-cdt-framework',1,'']]],
-  ['framework_202001_5',['CDT framework (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'']]]
+  ['framework_202001_5',['CDT framework (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'']]],
+  ['free_20arithmetic_20evaluation_6',['GMP/MPFR-free arithmetic evaluation',['../md_docs_2arithmetic-backend-evaluation.html',1,'']]]
 ];

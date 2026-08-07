@@ -32,5 +32,6 @@ var searchData=
   ['foundational_20causal_20dynamical_20triangulations_20theory_29',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]],
   ['four_5ffour_5fmoves_30',['four_four_moves',['../classcdt_1_1move__tracker_1_1_move_tracker.html#aa94353aee583c6d40e128840c9911c44',1,'cdt::move_tracker::MoveTracker::four_four_moves() -&gt; auto &amp;'],['../classcdt_1_1move__tracker_1_1_move_tracker.html#a030eba16e40bee262b6a949a11078547',1,'cdt::move_tracker::MoveTracker::four_four_moves() const']]],
   ['framework_31',['Original CDT framework',['../md__r_e_f_e_r_e_n_c_e_s.html#original-cdt-framework',1,'']]],
-  ['framework_202001_32',['CDT framework (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'']]]
+  ['framework_202001_32',['CDT framework (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001',1,'']]],
+  ['free_20arithmetic_20evaluation_33',['GMP/MPFR-free arithmetic evaluation',['../md_docs_2arithmetic-backend-evaluation.html',1,'']]]
 ];

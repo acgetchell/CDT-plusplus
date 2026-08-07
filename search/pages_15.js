@@ -24,10 +24,13 @@ var searchData=
   ['reproducible_20random_20runs_21',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
   ['reproduction_22',['Offline reproduction',['../md_docs_2comparison-harness.html#offline-reproduction',1,'']]],
   ['request_23',['Step 1: Prepare the release pull request',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-1-prepare-the-release-pull-request',1,'']]],
-  ['roadmap_24',['Roadmap',['../index.html#roadmap',1,'']]],
-  ['rules_25',['Mutation and lifetime rules',['../md_docs_2cgal-integration.html#mutation-and-lifetime-rules',1,'']]],
-  ['runs_26',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
-  ['runtime_20thread_20limit_27',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]],
-  ['rust_20comparison_20harness_28',['Offline C++/Rust comparison harness',['../md_docs_2comparison-harness.html',1,'']]],
-  ['rust_20consumption_29',['Rust consumption',['../dir_6e133a56364528c326e124d8bed524d8.html#rust-consumption',1,'']]]
+  ['required_20contracts_24',['Required contracts',['../md_docs_2arithmetic-backend-evaluation.html#required-contracts',1,'']]],
+  ['results_25',['results',['../md_docs_2arithmetic-backend-evaluation.html#correctness-results',1,'Correctness results'],['../md_docs_2arithmetic-backend-evaluation.html#performance-results',1,'Performance results']]],
+  ['roadmap_26',['Roadmap',['../index.html#roadmap',1,'']]],
+  ['rollback_20gates_27',['Migration and rollback gates',['../md_docs_2arithmetic-backend-evaluation.html#migration-and-rollback-gates',1,'']]],
+  ['rules_28',['Mutation and lifetime rules',['../md_docs_2cgal-integration.html#mutation-and-lifetime-rules',1,'']]],
+  ['runs_29',['Reproducible random runs',['../md_docs_2reproducibility.html',1,'']]],
+  ['runtime_20thread_20limit_30',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]],
+  ['rust_20comparison_20harness_31',['Offline C++/Rust comparison harness',['../md_docs_2comparison-harness.html',1,'']]],
+  ['rust_20consumption_32',['Rust consumption',['../dir_6e133a56364528c326e124d8bed524d8.html#rust-consumption',1,'']]]
 ];

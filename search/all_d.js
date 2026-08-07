@@ -12,7 +12,7 @@ var searchData=
   ['int_5fprecision_9',['Int_precision',['../namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd',1,'cdt']]],
   ['integration_20contract_10',['CGAL 6.2 integration contract',['../md_docs_2cgal-integration.html',1,'']]],
   ['introduction_11',['Introduction',['../index.html#introduction',1,'']]],
-  ['inventory_12',['Production usage inventory',['../md_docs_2cgal-integration.html#production-usage-inventory',1,'']]],
+  ['inventory_12',['inventory',['../md_docs_2arithmetic-backend-evaluation.html#production-inventory',1,'Production inventory'],['../md_docs_2cgal-integration.html#production-usage-inventory',1,'Production usage inventory']]],
   ['is_5f32_5fmovable_13',['is_32_movable',['../_ergodic__moves__3_8hpp.html#a01e655238b70c6a7fc15727e565306de',1,'cdt::ergodic_moves::detail']]],
   ['is_5f62_5fmovable_14',['is_62_movable',['../_ergodic__moves__3_8hpp.html#aaddce5936520c2eafeaa28f5981663bb',1,'cdt::ergodic_moves::detail']]],
   ['is_5fcell_5ftype_5fcorrect_15',['is_cell_type_correct',['../_foliated__triangulation_8hpp.html#acfa08c0c1cdfc670072fdea16a3f0e08',1,'cdt::foliated_triangulations']]],
