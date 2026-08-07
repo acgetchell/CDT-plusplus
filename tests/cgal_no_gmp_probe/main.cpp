@@ -2,6 +2,9 @@
 #include <CGAL/enum.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include <doctest/doctest.h>
+
 #include <array>
 
 #if !defined(CGAL_DISABLE_GMP)
@@ -12,17 +15,23 @@
 #error "The no-GMP probe unexpectedly enabled GMP or MPFR."
 #endif
 
-auto main() -> int
+namespace
 {
-  using Kernel           = CGAL::Exact_predicates_inexact_constructions_kernel;
-  using Point            = Kernel::Point_3;
-  using Delaunay         = CGAL::Delaunay_triangulation_3<Kernel>;
+  using Kernel   = CGAL::Exact_predicates_inexact_constructions_kernel;
+  using Point    = Kernel::Point_3;
+  using Delaunay = CGAL::Delaunay_triangulation_3<Kernel>;
+}  // namespace
 
+TEST_CASE("CGAL Boost predicates preserve a near-degenerate orientation")
+{
   auto const orientation = CGAL::orientation(
       Point{0.0, 0.0, 0.0}, Point{1.0, 0.0, 0.0}, Point{0.0, 1.0, 0.0},
       Point{1.0e-150, 1.0e-150, 1.0e-300});
-  if (orientation != CGAL::POSITIVE) { return 1; }
+  CHECK_EQ(orientation, CGAL::POSITIVE);
+}
 
+TEST_CASE("CGAL Boost predicates produce a valid cospherical triangulation")
+{
   auto const cospherical = std::array{
       Point{ 1.0,  0.0,  0.0},
       Point{-1.0,  0.0,  0.0},
@@ -32,8 +41,6 @@ auto main() -> int
       Point{ 0.0,  0.0, -1.0},
   };
   auto const triangulation = Delaunay{cospherical.begin(), cospherical.end()};
-  return triangulation.is_valid() &&
-                 triangulation.number_of_vertices() == cospherical.size()
-           ? 0
-           : 2;
+  CHECK(triangulation.is_valid());
+  CHECK_EQ(triangulation.number_of_vertices(), cospherical.size());
 }

@@ -114,6 +114,10 @@ namespace
     return value;
   }
 
+  [[nodiscard]] auto same_floating_value(double const left, double const right)
+      -> bool
+  { return !std::isunordered(left, right) && !std::islessgreater(left, right); }
+
   [[nodiscard]] auto boost_action(Action_fixture const& fixture) -> Boost_value
   {
     using mp::acos;
@@ -322,9 +326,10 @@ try
     throw std::runtime_error{
         "A candidate backend collapsed the sub-double action distinction."};
   }
-  if (cdt::mpfr_values::to_double(mpfr_current) !=
-          cdt::mpfr_values::to_double(mpfr_proposed) ||
-      boost_current.convert_to<double>() != boost_proposed.convert_to<double>())
+  if (!same_floating_value(cdt::mpfr_values::to_double(mpfr_current),
+                           cdt::mpfr_values::to_double(mpfr_proposed)) ||
+      !same_floating_value(boost_current.convert_to<double>(),
+                           boost_proposed.convert_to<double>()))
   {
     throw std::runtime_error{
         "The action-distinction fixture no longer isolates a sub-double delta."};
