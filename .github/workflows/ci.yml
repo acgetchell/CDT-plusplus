@@ -21,6 +21,8 @@ jobs:
   platform:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    env:
+      VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/.cache/vcpkg-binary-cache,readwrite
 
     strategy:
       fail-fast: false
@@ -34,6 +36,7 @@ jobs:
             compiler_cache: ccache
             compiler_cache_key: gcc-16
             run_parallel_contract: true
+            vcpkg_cache_key: gcc-16
           - name: Ubuntu Clang
             os: ubuntu-latest
             compiler_package: llvm.org@22
@@ -42,6 +45,7 @@ jobs:
             compiler_cache: ccache
             compiler_cache_key: clang-22
             run_parallel_contract: true
+            vcpkg_cache_key: clang-22
           - name: macOS AppleClang
             os: macos-latest
             compiler_package: ""
@@ -50,6 +54,7 @@ jobs:
             compiler_cache: ""
             compiler_cache_key: none
             run_parallel_contract: false
+            vcpkg_cache_key: appleclang
           - name: Windows MSVC
             os: windows-latest
             compiler_package: ""
@@ -58,6 +63,7 @@ jobs:
             compiler_cache: ""
             compiler_cache_key: none
             run_parallel_contract: false
+            vcpkg_cache_key: msvc
 
     steps:
       - name: Disable Git autocrlf on Windows
@@ -163,11 +169,10 @@ jobs:
         shell: pwsh
         run: Add-Content -Path $env:GITHUB_ENV -Value 'VCPKG_DEFAULT_TRIPLET=x64-windows'
 
-      - name: Restore artifacts or set up vcpkg
-        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+      - name: Set up cached vcpkg
+        uses: ./.github/actions/setup-vcpkg
         with:
-          vcpkgDirectory: ${{ github.workspace }}/.cache/vcpkg
-          vcpkgJsonGlob: vcpkg.json
+          cache-key: ${{ matrix.vcpkg_cache_key }}
 
       - name: Restore compiler cache
         if: matrix.compiler_cache != ''

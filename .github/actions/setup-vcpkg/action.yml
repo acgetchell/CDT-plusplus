@@ -1,0 +1,41 @@
+---
+name: Set up cached vcpkg
+description: Bootstrap the pinned vcpkg checkout and restore its binary and source caches.
+
+inputs:
+  cache-key:
+    description: Stable compiler-family key used to separate incompatible binary archives.
+    required: true
+  vcpkg-directory:
+    description: Directory containing the pinned vcpkg checkout.
+    default: ${{ github.workspace }}/.cache/vcpkg
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare vcpkg binary cache
+      shell: bash
+      run: mkdir -p "$GITHUB_WORKSPACE/.cache/vcpkg-binary-cache"
+
+    - name: Set up pinned vcpkg
+      uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+      with:
+        vcpkgDirectory: ${{ inputs.vcpkg-directory }}
+        vcpkgJsonGlob: vcpkg.json
+
+    - name: Restore vcpkg binary archives
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+      with:
+        path: ${{ github.workspace }}/.cache/vcpkg-binary-cache
+        key: vcpkg-binary-v1-${{ runner.os }}-${{ inputs.cache-key }}-${{ hashFiles('vcpkg.json', 'Justfile') }}
+        restore-keys: |
+          vcpkg-binary-v1-${{ runner.os }}-${{ inputs.cache-key }}-
+
+    - name: Restore vcpkg source archives
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+      with:
+        path: ${{ inputs.vcpkg-directory }}/downloads
+        key: vcpkg-assets-v1-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          vcpkg-assets-v1-${{ runner.os }}-

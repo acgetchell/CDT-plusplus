@@ -52,6 +52,7 @@ jobs:
       MSAN_OPTIONS: ${{ inputs.msan_options }}
       TSAN_OPTIONS: ${{ inputs.tsan_options }}
       UBSAN_OPTIONS: ${{ inputs.ubsan_options }}
+      VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/.cache/vcpkg-binary-cache,readwrite
 
     steps:
       - name: Check out repository
@@ -74,10 +75,10 @@ jobs:
       - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
 
-      - name: Restore artifacts or set up vcpkg
-        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+      - name: Set up cached vcpkg
+        uses: ./.github/actions/setup-vcpkg
         with:
-          vcpkgJsonGlob: vcpkg.json
+          cache-key: clang-22
 
       - name: Build and exercise sanitizer configuration
         env:

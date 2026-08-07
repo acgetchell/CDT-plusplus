@@ -376,9 +376,10 @@ only writes when the rendered release and hash assignments differ from the boots
 On Windows, invoke the synchronizer with `python.exe scripts\sync_vcpkg_tool_pins.py`; `scripts\build.bat` and
 `scripts\fast-build.bat` already invoke the bootstrap implementation directly.
 
-CI uses `lukka/run-vcpkg`, which derives the vcpkg checkout commit from the same manifest baseline and supplies a
-binary cache. No separately maintained checkout SHA is required; the bootstrap script retains an independent tool
-release and Windows executable hashes as a supply-chain review gate.
+CI uses the repository's cached-vcpkg action, which derives the vcpkg checkout commit from the same manifest baseline,
+stores compiler-specific binary archives through `actions/cache`, and separately caches downloaded source archives.
+No separately maintained checkout SHA is required; the bootstrap script retains an independent tool release and
+Windows executable hashes as a supply-chain review gate.
 
 CodeQL keeps third-party implementation findings out of CDT++ results through a two-phase manual build.
 `just codeql-prepare` configures the project, installs manifest dependencies before CodeQL starts tracing, and uses a
