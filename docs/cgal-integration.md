@@ -70,14 +70,19 @@ future kernel change. There is no reproduced construction defect that
 justifies the runtime, memory, persistence, and semantic cost of moving to an
 exact-constructions kernel.
 
-GMP and MPFR are retained. CGAL's `Gmpzf` is part of the existing exact-number
-surface, and CDT action and Metropolis calculations directly use
-`CGAL::Gmpfr` at 256-bit precision. The pinned CGAL port supplies and links
-GMP/MPFR through `CGAL::CGAL`. Boost.Multiprecision is present through CGAL,
-but replacing these production types would be a numerical and persistence
-migration, not a dependency-only cleanup. No such migration is proposed
-without adversarial equivalence tests and compile-time, runtime, and peak-memory
-measurements from the benchmark protocol below.
+GMP and MPFR remain in the current production build. CDT action and Metropolis
+calculations directly use `CGAL::Gmpfr` at 256-bit precision, and the pinned
+vcpkg CGAL port supplies GMP/MPFR through `CGAL::CGAL`.
+
+The completed
+[GMP/MPFR-free arithmetic evaluation](arithmetic-backend-evaluation.md) finds
+CGAL's Boost exact-predicate backend and a native 256-bit Boost action value
+locally viable, but defers a separately scoped migration until upstream vcpkg
+can omit GMP/MPFR and the remaining clean-cache, platform, sanitizer, and
+simulation gates pass. The evaluation includes adversarial equivalence tests,
+an evaluation-only no-GMP vcpkg port probe, and compile-time, runtime,
+binary-size, and peak-memory measurements. This document therefore continues
+to describe the shipped GMP/MPFR configuration.
 
 ## Metadata, insertion, and duplicate points
 

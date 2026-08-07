@@ -167,6 +167,7 @@ jobs:
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
         with:
           vcpkgDirectory: ${{ github.workspace }}/.cache/vcpkg
+          vcpkgJsonGlob: vcpkg.json
 
       - name: Restore compiler cache
         if: matrix.compiler_cache != ''

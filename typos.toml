@@ -2,7 +2,7 @@
 
 [files]
 # Encapsulated PostScript stores text as drawing commands rather than prose.
-extend-exclude = ["docs/images/*.eps"]
+extend-exclude = ["docs/images/*.eps", "tests/cgal_no_gmp_probe/overlay-ports/**"]
 
 [default.extend-identifiers]
 # Doxygen prose uses this conventional plural acronym.

@@ -75,6 +75,8 @@ jobs:
       - name: Restore artifacts or set up vcpkg
         if: matrix.language == 'c-cpp'
         uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2  # v11.6
+        with:
+          vcpkgJsonGlob: vcpkg.json
 
       - name: Prepare C++ dependencies outside CodeQL tracing
         if: matrix.language == 'c-cpp'

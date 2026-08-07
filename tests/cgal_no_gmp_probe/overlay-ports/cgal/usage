@@ -1,0 +1,7 @@
+The package cgal provides CMake targets:
+
+    find_package(CGAL CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE CGAL::CGAL)
+
+The default gmp feature uses GMP and MPFR. Disable default features to use
+CGAL's Boost.Multiprecision exact-number backend instead.

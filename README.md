@@ -68,6 +68,9 @@ The supported C++ namespace and per-header contract are recorded in the
 The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and
 upgrade policies are recorded in the
 [CGAL 6.2 integration contract](docs/cgal-integration.md).
+The evidence and migration gates for replacing GMP/MPFR with
+Boost.Multiprecision are recorded in the
+[arithmetic backend evaluation](docs/arithmetic-backend-evaluation.md).
 The opt-in operations, ownership and synchronization rules, replayable stress
 inputs, sanitizer boundary, and matched scaling protocol are recorded in the
 [multithreaded CGAL contract](docs/multithreading.md).
@@ -234,12 +237,16 @@ Windows development.
 
 ### Current reference-suite status
 
-With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform
-`just build` command runs all 127 CTest registrations through `scripts/build.sh` on Unix and `scripts/build.bat` on
-Windows: 104 doctest scenarios from the unit-test executable and 23 CLI integration tests. The same `reference-smoke`
-preset is the supported local and CI contract; there are no overlapping focused registrations that can pass while
-omitting another doctest suite. The current `parallel` preset also registers 127 tests: 103 ordinary doctest scenarios,
-one parallel launcher containing five scenarios, and the same 23 CLI integration tests. The parallel-enabled
+With the pinned baseline, the reference configuration and build succeed on
+macOS with AppleClang. The cross-platform `just build` command runs all 128
+CTest registrations through `scripts/build.sh` on Unix and `scripts/build.bat`
+on Windows: 104 doctest scenarios, 23 CLI integration tests, and one
+arithmetic-backend correctness test. The same `reference-smoke` preset is the
+supported local and CI contract; there are no overlapping focused
+registrations that can pass while omitting another doctest suite. The current
+`parallel` preset also registers 128 tests: 103 ordinary doctest scenarios, one
+parallel launcher containing five scenarios, the same 23 CLI integration
+tests, and the arithmetic correctness test. The parallel-enabled
 AddressSanitizer configuration exercises the same replayable stress contract.
 
 ## Setup
@@ -522,14 +529,17 @@ subsequent releases.
 
 ## Testing
 
-Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat` on Windows, builds the test target, and
-executes all 127 CTest entries: 104 doctest scenarios and 23 executable integration tests covering normal CLI use and
-invalid-boundary rejection. The parallel-enabled AddressSanitizer and `parallel` configurations register 103 ordinary
-doctest scenarios, one launcher containing five scenarios labeled `unit`, `parallel`, and `configuration`, and the same
-23 integration tests, for 127 CTest entries. Every process-level test is labeled
-`integration`, and invalid-input tests also carry the `cli-boundary`
-subcategory. Run `just ci` for the complete
-local validation gate.
+Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat`
+on Windows, builds the test target, and executes all 128 CTest entries: 104
+doctest scenarios, 23 executable integration tests covering normal CLI use and
+invalid-boundary rejection, and one arithmetic-backend correctness test
+labeled `scientific`. The parallel-enabled AddressSanitizer and `parallel`
+configurations register 103 ordinary doctest scenarios, one launcher
+containing five scenarios labeled `unit`, `parallel`, and `configuration`, the
+same 23 integration tests, and the arithmetic test, for 128 CTest entries.
+Every process-level test is labeled `integration`, and invalid-input tests also
+carry the `cli-boundary` subcategory. Run `just ci` for the complete local
+validation gate.
 
 `just check` also runs the repository-owned Semgrep policy and its annotated
 fixtures. Use `just semgrep-test` while changing the rules and `just semgrep` to
