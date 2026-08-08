@@ -632,11 +632,15 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
 
     WHEN("Two always-accepted candidates are executed sequentially.")
     {
-      REQUIRE(strategy.attempt_transition(
-          manifold, move_tracker::MoveType::TWO_SIX, 0.0L));
+      REQUIRE(strategy
+                  .attempt_transition(manifold, move_tracker::MoveType::TWO_SIX,
+                                      0.0L)
+                  .accepted());
       auto const after_first = manifold.geometry();
-      REQUIRE(strategy.attempt_transition(
-          manifold, move_tracker::MoveType::TWO_SIX, 0.0L));
+      REQUIRE(strategy
+                  .attempt_transition(manifold, move_tracker::MoveType::TWO_SIX,
+                                      0.0L)
+                  .accepted());
 
       THEN("The second candidate starts from the first committed state.")
       {
@@ -663,11 +667,12 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
 
     WHEN("The impossible proposal is attempted.")
     {
-      auto const accepted = strategy.attempt_transition(
+      auto const transition = strategy.attempt_transition(
           manifold, move_tracker::MoveType::SIX_TWO, 0.0L);
       THEN("It is an explicit rejected self-transition.")
       {
-        CHECK_FALSE(accepted);
+        CHECK_FALSE(transition.accepted());
+        CHECK_FALSE(transition.successful());
         CHECK_EQ(manifold.delaunay_snapshot(), before);
         CHECK_EQ(strategy.proposed().total(), 1);
         CHECK_EQ(strategy.accepted().total(), 0);
@@ -675,6 +680,95 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
         CHECK_EQ(strategy.attempted().total(), 1);
         CHECK_EQ(strategy.succeeded().total(), 0);
         CHECK_EQ(strategy.failed().total(), 1);
+      }
+    }
+  }
+
+  GIVEN("A strategy initialized from a valid manifold.")
+  {
+    auto         manifold = minimal_26_manifold();
+    auto const   before   = manifold.delaunay_snapshot();
+    Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{31});
+    strategy.initialize(manifold);
+    auto const geometry_before = strategy.geometry();
+    auto const trace_before    = strategy.transition_trace();
+
+    WHEN("A caller supplies an invalid acceptance trial.")
+    {
+      constexpr std::array invalid_trials{
+          -std::numeric_limits<long double>::epsilon(),
+          1.0L + std::numeric_limits<long double>::epsilon(),
+          std::numeric_limits<long double>::infinity(),
+          std::numeric_limits<long double>::quiet_NaN()};
+
+      for (auto const invalid_trial : invalid_trials)
+      {
+        CAPTURE(invalid_trial);
+        CHECK_THROWS_AS(
+            static_cast<void>(strategy.attempt_transition(
+                manifold, move_tracker::MoveType::TWO_SIX, invalid_trial)),
+            std::invalid_argument);
+      }
+
+      THEN("The canonical state and all run statistics remain unchanged.")
+      {
+        CHECK_EQ(manifold.delaunay_snapshot(), before);
+        CHECK_EQ(strategy.geometry().N3, geometry_before.N3);
+        CHECK_EQ(strategy.geometry().N3_31, geometry_before.N3_31);
+        CHECK_EQ(strategy.geometry().N3_13, geometry_before.N3_13);
+        CHECK_EQ(strategy.geometry().N3_31_13, geometry_before.N3_31_13);
+        CHECK_EQ(strategy.geometry().N3_22, geometry_before.N3_22);
+        CHECK_EQ(strategy.geometry().N2, geometry_before.N2);
+        CHECK_EQ(strategy.geometry().N1, geometry_before.N1);
+        CHECK_EQ(strategy.geometry().N1_TL, geometry_before.N1_TL);
+        CHECK_EQ(strategy.geometry().N1_SL, geometry_before.N1_SL);
+        CHECK_EQ(strategy.geometry().N0, geometry_before.N0);
+        CHECK_EQ(strategy.proposed().total(), 0);
+        CHECK_EQ(strategy.accepted().total(), 0);
+        CHECK_EQ(strategy.rejected().total(), 0);
+        CHECK_EQ(strategy.attempted().total(), 0);
+        CHECK_EQ(strategy.succeeded().total(), 0);
+        CHECK_EQ(strategy.failed().total(), 0);
+        CHECK_EQ(strategy.transition_count(), 0);
+        CHECK_EQ(strategy.transition_trace(), trace_before);
+      }
+    }
+  }
+
+  GIVEN("Equivalent manifolds and strategies using the same random stream.")
+  {
+    auto         first_state  = minimal_26_manifold();
+    auto         replay_state = first_state;
+    Metropolis_3 first(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{37});
+    Metropolis_3 replay(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{37});
+
+    WHEN("Random one-step transitions are replayed.")
+    {
+      for (auto attempt = 0; attempt < 10; ++attempt)
+      {
+        auto const succeeded_before = first.succeeded().total();
+        auto const accepted_before  = first.accepted().total();
+        auto const transition       = first.attempt_transition(first_state);
+        auto const replayed         = replay.attempt_transition(replay_state);
+
+        CAPTURE(attempt);
+        CHECK_EQ(transition.move(), replayed.move());
+        CHECK_EQ(transition.outcome(), replayed.outcome());
+        CHECK_EQ(first.proposed().total(), attempt + 1);
+        CHECK_EQ(first.attempted().total(), attempt + 1);
+        CHECK_EQ(first.succeeded().total(),
+                 succeeded_before + (transition.successful() ? 1 : 0));
+        CHECK_EQ(first.accepted().total(),
+                 accepted_before + (transition.accepted() ? 1 : 0));
+        if (transition.accepted()) { CHECK(transition.successful()); }
+        CHECK_EQ(first_state.delaunay_snapshot(),
+                 replay_state.delaunay_snapshot());
+      }
+
+      THEN("The complete transition trace is reproducible.")
+      {
+        CHECK_EQ(first.transition_trace(), replay.transition_trace());
+        CHECK_EQ(first.transition_count(), replay.transition_count());
       }
     }
   }
@@ -854,6 +948,7 @@ SCENARIO("Metropolis provenance is derived from the actual run" *
         .k                   = 2.0L,
         .lambda              = 3.0L,
         .configured_passes   = 100,
+        .configured_attempts = 10,
         .checkpoint_interval = 50};
     constexpr auto seed              = cdt::RandomSeed{92};
     constexpr auto transition_stream = cdt::RandomStream{17};
@@ -875,11 +970,13 @@ SCENARIO("Metropolis provenance is derived from the actual run" *
         REQUIRE(metadata.k);
         REQUIRE(metadata.lambda);
         REQUIRE(metadata.configured_passes);
+        REQUIRE(metadata.configured_attempts);
         REQUIRE(metadata.checkpoint_interval);
         CHECK_EQ(*metadata.alpha, 0.6L);
         CHECK_EQ(*metadata.k, 1.1L);
         CHECK_EQ(*metadata.lambda, 0.1L);
         CHECK_EQ(*metadata.configured_passes, 2);
+        CHECK_EQ(*metadata.configured_attempts, 10);
         CHECK_EQ(*metadata.checkpoint_interval, 1);
       }
     }

@@ -11,6 +11,7 @@
 #include "Move_tracker.hpp"
 
 #include <doctest/doctest.h>
+#include <fmt/format.h>
 
 #include <concepts>
 #include <limits>
@@ -113,6 +114,17 @@ SCENARIO("Integer to move type conversion" *
     CHECK_FALSE(
         move_from_index(std::numeric_limits<std::size_t>::max()).has_value());
   }
+}
+
+SCENARIO("Move types have stable tuple formatting" *
+         doctest::test_suite("move_tracker"))
+{
+  CHECK_EQ(fmt::format("{}", MoveType::TWO_THREE), "(2,3)");
+  CHECK_EQ(fmt::format("{}", MoveType::THREE_TWO), "(3,2)");
+  CHECK_EQ(fmt::format("{}", MoveType::TWO_SIX), "(2,6)");
+  CHECK_EQ(fmt::format("{}", MoveType::SIX_TWO), "(6,2)");
+  CHECK_EQ(fmt::format("{}", MoveType::FOUR_FOUR), "(4,4)");
+  CHECK_EQ(format_as(static_cast<MoveType>(-1)), "unknown");
 }
 
 SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))

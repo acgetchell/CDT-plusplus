@@ -91,6 +91,14 @@ candidate can still be rejected by Metropolis-Hastings. `failed` means the raw
 site was inapplicable or candidate construction violated an invariant; every
 failure is therefore also a rejection.
 
+The one-argument `attempt_transition()` overload samples and resolves one
+transition from the strategy-owned stream. Its `MetropolisTransition` report
+names the move and exposes both `successful()` and `accepted()`, so an
+individual decision does not have to be inferred from these aggregate
+counters. The `attempt_transition(move, trial)` overload returns the same
+report while accepting deterministic inputs for focused tests and controlled
+experiments.
+
 ## Numerical policy
 
 The action, action difference, exponential, proposal ratio, and acceptance
@@ -122,7 +130,7 @@ a delta whose positive MPFR probability lies below `long double` range.
 
 Combinatorial fields and deterministic decisions are exact. The published
 cross-language protocol in
-[`reference/fixtures/v1/protocol.json`](../reference/fixtures/v1/protocol.json)
+[`reference/fixtures/v1/protocol.json`](https://github.com/acgetchell/CDT-plusplus/blob/main/reference/fixtures/v1/protocol.json)
 names separate absolute and relative tolerances for coordinates, closed-form
 actions, and probabilities. Randomized post-repair simplex counts are
 implementation-specific rather than covered by a generic percentage.

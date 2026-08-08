@@ -570,6 +570,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       metadata.k                   = 1.1L;
       metadata.lambda              = 0.1L;
       metadata.configured_passes   = 10;
+      metadata.configured_attempts = 17;
       metadata.checkpoint_interval = 2;
       metadata.completed_passes    = 4;
       metadata.max_threads         = 4;
@@ -603,6 +604,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK_NE(contents.find("desired.simplices=64"), std::string::npos);
         CHECK_NE(contents.find("alpha=0.6"), std::string::npos);
         CHECK_NE(contents.find("completed_passes=4"), std::string::npos);
+        CHECK_NE(contents.find("configured_attempts=17"), std::string::npos);
         CHECK_NE(contents.find("parallel.max_threads=4"), std::string::npos);
         CHECK_NE(contents.find("transition_trace.fnv1a64=0000000000001234"),
                  std::string::npos);
@@ -858,6 +860,24 @@ SCENARIO("File serialization reports complete failures" *
           CHECK(
               std::string_view{error.what()}.contains("invalid thread limit"));
         }
+      }
+    }
+
+    WHEN("An explicit transition plan has no attempts.")
+    {
+      auto const filename = directory.file("invalid-configured-attempts.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.completed_passes    = 2;
+      metadata.configured_attempts = 1;
+      write_file(filename, triangulation, metadata);
+      replace_metadata_field(metadata_filename(filename), "configured_attempts",
+                             "0");
+
+      THEN("The impossible execution plan is rejected.")
+      {
+        CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
+                        std::filesystem::filesystem_error);
       }
     }
 

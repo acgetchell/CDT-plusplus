@@ -17,12 +17,12 @@
 #ifndef INCLUDE_METROPOLIS_HPP_
 #define INCLUDE_METROPOLIS_HPP_
 
+#include <cmath>
 #include <cstdint>
 #include <expected>
 #include <optional>
-#include <random>
 #include <stdexcept>
-#include <string>
+#include <utility>
 
 // CDT headers
 #include "Ergodic_moves_3.hpp"
@@ -127,6 +127,9 @@ namespace cdt
     /// @param passes Number of passes of ergodic moves on triangulation.
     /// @param checkpoint Print/write output for every n=checkpoint passes.
     /// @param write_files Whether checkpoints may write triangulation files.
+    /// @throws std::invalid_argument If a coupling is non-finite or either
+    /// cadence value is nonpositive.
+    /// @throws std::domain_error If `alpha` is not greater than 1/2.
     [[maybe_unused]] MoveStrategy(long double const alpha, long double const k,
                                   long double const   lambda,
                                   Int_precision const passes,
@@ -145,6 +148,18 @@ namespace cdt
     /// @details Seed, transition-stream, action, and cadence provenance are
     /// derived from the actual constructor arguments. Caller metadata supplies
     /// initialization and requested-state context only.
+    /// @param alpha Timelike edge length.
+    /// @param k Normalized Newton constant.
+    /// @param lambda Normalized cosmological constant.
+    /// @param passes Number of passes to execute.
+    /// @param checkpoint Interval between checkpoint events.
+    /// @param write_files Whether checkpoint events may write files.
+    /// @param random Transition random-number stream owned by this strategy.
+    /// @param reproducibility Optional initialization and requested-state
+    /// provenance to merge with the effective run configuration.
+    /// @throws std::invalid_argument If a coupling is non-finite or either
+    /// cadence value is nonpositive.
+    /// @throws std::domain_error If `alpha` is not greater than 1/2.
     [[maybe_unused]] MoveStrategy(
         long double const alpha, long double const k, long double const lambda,
         Int_precision const passes, Int_precision const checkpoint,
@@ -178,6 +193,16 @@ namespace cdt
     }
 
     /// @brief Construct a replayable run with an explicit RNG seed.
+    /// @param alpha Timelike edge length.
+    /// @param k Normalized Newton constant.
+    /// @param lambda Normalized cosmological constant.
+    /// @param passes Number of passes to execute.
+    /// @param checkpoint Interval between checkpoint events.
+    /// @param write_files Whether checkpoint events may write files.
+    /// @param seed Root seed for the transition stream.
+    /// @throws std::invalid_argument If a coupling is non-finite or either
+    /// cadence value is nonpositive.
+    /// @throws std::domain_error If `alpha` is not greater than 1/2.
     MoveStrategy(long double const alpha, long double const k,
                  long double const lambda, Int_precision const passes,
                  Int_precision const checkpoint, bool const write_files,
@@ -232,6 +257,11 @@ namespace cdt
     { return m_run_statistics.transition_count; }
 
     /// @brief Materialize output provenance for the supplied canonical state.
+    /// @param manifold Canonical state represented by the output artifact.
+    /// @param artifact Kind of artifact being described.
+    /// @param completed_passes Number of passes completed before output.
+    /// @returns Provenance populated from the effective run configuration and
+    /// the supplied state.
     [[nodiscard]] auto reproducibility_metadata(
         ManifoldType const& manifold, utilities::ArtifactKind const artifact,
         Int_precision const completed_passes) const
@@ -270,7 +300,8 @@ namespace cdt
         -> Geometry<ManifoldType::dimension> const&
     { return m_run_statistics.geometry; }
 
-    /// @returns The inverse Pachner move
+    /// @param move Pachner move whose inverse is requested.
+    /// @returns The inverse move, or an empty optional for an unknown value.
     [[nodiscard]] static constexpr auto reverse_move(
         move_tracker::MoveType const move) noexcept
         -> std::optional<move_tracker::MoveType>
@@ -287,7 +318,9 @@ namespace cdt
       return std::nullopt;
     }
 
-    /// @returns The number of raw sites from which a move type is proposed
+    /// @param geometry Geometry whose proposal sites are counted.
+    /// @param move Move type whose raw proposal domain is requested.
+    /// @returns The number of raw sites from which the move is proposed.
     [[nodiscard]] static constexpr auto proposal_site_count(
         Geometry<ManifoldType::dimension> const& geometry,
         move_tracker::MoveType const             move) noexcept -> Int_precision
@@ -308,6 +341,10 @@ namespace cdt
     /// @details Move types are uniform. A raw site is then uniform within its
     /// type-specific domain. Inapplicable sites remain explicit
     /// self-transitions.
+    /// @param geometry Geometry defining the raw proposal sites.
+    /// @param move Move type selected uniformly before the site selection.
+    /// @returns Probability of selecting one particular raw proposal site, or
+    /// zero when the move has no proposal sites.
     [[nodiscard]] static auto proposal_probability(
         Geometry<ManifoldType::dimension> const& geometry,
         move_tracker::MoveType const             move) -> mpfr_values::Value
@@ -324,6 +361,13 @@ namespace cdt
     /// @brief Calculate the Hastings reverse-to-forward proposal ratio
     /// @see [Metropolis-Hastings
     /// algorithm](../REFERENCES.md#metropolis-hastings-algorithm)
+    /// @param current Geometry before applying the proposed move.
+    /// @param proposed Geometry after applying the proposed move.
+    /// @param move Forward move type.
+    /// @returns Reverse proposal probability divided by the forward proposal
+    /// probability.
+    /// @throws std::invalid_argument If move has no recognized inverse.
+    /// @throws std::logic_error If either proposal probability is zero.
     [[nodiscard]] static auto hastings_ratio(
         Geometry<ManifoldType::dimension> const& current,
         Geometry<ManifoldType::dimension> const& proposed,
@@ -347,6 +391,9 @@ namespace cdt
     /// @brief Calculate the action factor \f$e^{S(T)-S(T')}\f$
     /// @see [Three-dimensional CDT
     /// action](../REFERENCES.md#three-dimensional-cdt-2001)
+    /// @param current Geometry before applying the proposed move.
+    /// @param proposed Geometry after applying the proposed move.
+    /// @returns Exponential of the current action minus the proposed action.
     [[nodiscard]] auto action_ratio(
         Geometry<ManifoldType::dimension> const& current,
         Geometry<ManifoldType::dimension> const& proposed) const
@@ -360,7 +407,12 @@ namespace cdt
           mpfr_values::subtract(current_action, proposed_action));
     }
 
+    /// @param current Geometry before applying the proposed move.
+    /// @param proposed Geometry after applying the proposed move.
+    /// @param move Forward move type.
     /// @returns \f$\min(1, q(T|T')/q(T'|T)e^{S(T)-S(T')})\f$
+    /// @throws std::invalid_argument If move has no recognized inverse.
+    /// @throws std::logic_error If either proposal probability is zero.
     [[nodiscard]] auto acceptance_probability(
         Geometry<ManifoldType::dimension> const& current,
         Geometry<ManifoldType::dimension> const& proposed,
@@ -422,11 +474,12 @@ namespace cdt
       return metadata;
     }
 
-    auto attempt_transition(ManifoldType&                current,
+    auto resolve_transition(ManifoldType&                current,
                             CommandResults&              command_results,
                             RunStatistics&               statistics,
                             move_tracker::MoveType const move,
-                            long double const            trial_value) -> bool
+                            long double const            trial_value)
+        -> ergodic_moves::MoveOutcome
     {
       if (!std::isfinite(trial_value) || trial_value < 0.0L ||
           trial_value > 1.0L)
@@ -443,9 +496,9 @@ namespace cdt
       {
         ++command_results.failed[move];
         ++statistics.rejected[move];
-        record_transition(statistics, move,
-                          ergodic_moves::outcome_from(candidate.error()));
-        return false;
+        auto const outcome = ergodic_moves::outcome_from(candidate.error());
+        record_transition(statistics, move, outcome);
+        return outcome;
       }
       if (!ergodic_moves::detail::check_move(current, *candidate, move))
       {
@@ -453,7 +506,7 @@ namespace cdt
         ++statistics.rejected[move];
         record_transition(statistics, move,
                           ergodic_moves::MoveOutcome::EXECUTION_FAILED);
-        return false;
+        return ergodic_moves::MoveOutcome::EXECUTION_FAILED;
       }
 
       ++command_results.succeeded[move];
@@ -466,13 +519,24 @@ namespace cdt
         ++statistics.accepted[move];
         record_transition(statistics, move,
                           ergodic_moves::MoveOutcome::METROPOLIS_ACCEPTED);
-        return true;
+        return ergodic_moves::MoveOutcome::METROPOLIS_ACCEPTED;
       }
 
       ++statistics.rejected[move];
       record_transition(statistics, move,
                         ergodic_moves::MoveOutcome::METROPOLIS_REJECTED);
-      return false;
+      return ergodic_moves::MoveOutcome::METROPOLIS_REJECTED;
+    }
+
+    [[nodiscard]] auto sample_transition(ManifoldType&   current,
+                                         CommandResults& command_results,
+                                         RunStatistics&  statistics)
+        -> ergodic_moves::MetropolisTransition
+    {
+      auto const move = move_tracker::generate_random_move_3(m_generator);
+      auto const trial_value = utilities::generate_probability(m_generator);
+      return {move, resolve_transition(current, command_results, statistics,
+                                       move, trial_value)};
     }
 
     [[nodiscard]] auto execute_pass(ManifoldType        current,
@@ -480,14 +544,11 @@ namespace cdt
                                     Int_precision const attempts) -> PassResult
     {
       auto command_results = CommandResults{};
-      std::uniform_real_distribution<long double> acceptance_draw{0.0L, 1.0L};
       for (auto move_attempt = Int_precision{0}; move_attempt < attempts;
            ++move_attempt)
       {
-        auto const move = move_tracker::generate_random_move_3(m_generator);
-        static_cast<void>(attempt_transition(current, command_results,
-                                             statistics, move,
-                                             acceptance_draw(m_generator)));
+        static_cast<void>(
+            sample_transition(current, command_results, statistics));
       }
       return {.manifold        = std::move(current),
               .command_results = std::move(command_results),
@@ -560,27 +621,50 @@ namespace cdt
     }
 
    public:
-    /// @brief Attempt and immediately resolve one Markov transition
+    /// @brief Resolve one caller-selected Markov transition.
     /// @param current Canonical state, updated only after a successful MH
     /// accept
     /// @param move Uniformly selected move type
     /// @param trial_value Uniform draw in [0,1], injectable for focused tests
-    /// @returns True only when a valid candidate is accepted and committed
+    /// @returns The selected move kind and its final transition outcome.
+    /// @throws std::invalid_argument if @p trial_value is not finite or lies
+    /// outside the closed interval [0,1]. In that case @p current and the run
+    /// statistics remain unchanged.
     [[nodiscard]] auto attempt_transition(ManifoldType&                current,
                                           move_tracker::MoveType const move,
-                                          long double const trial_value) -> bool
+                                          long double const trial_value)
+        -> ergodic_moves::MetropolisTransition
     {
-      return attempt_transition(current, m_command_results, m_run_statistics,
-                                move, trial_value);
+      return {move, resolve_transition(current, m_command_results,
+                                       m_run_statistics, move, trial_value)};
     }
 
+    /// @brief Sample and immediately resolve one Markov transition.
+    /// @details The owned transition stream supplies the move kind, acceptance
+    /// trial, and candidate-site draws. The report distinguishes candidate
+    /// success from Metropolis-Hastings acceptance.
+    /// @param current Canonical state, updated only when the sampled candidate
+    /// is accepted.
+    /// @returns The sampled move kind and its final transition outcome.
+    [[nodiscard]] auto attempt_transition(ManifoldType& current)
+        -> ergodic_moves::MetropolisTransition
+    { return sample_transition(current, m_command_results, m_run_statistics); }
+
     /// @brief Initialize the cached action geometry from the canonical manifold
+    /// @param manifold Canonical state whose geometry becomes the cache.
     void initialize(ManifoldType const& manifold)
     { m_run_statistics.geometry = manifold.geometry(); }
 
     /// @brief Execute a fresh run while continuing the owned random stream.
-    /// @details Counters, transition statistics, and checkpoint events are
-    /// replaced only after the invocation completes.
+    /// @details The input remains unchanged. Counters, transition statistics,
+    /// and checkpoint events are replaced only after the invocation completes.
+    /// If an exception escapes, the owned random stream may already have
+    /// advanced even though those published results remain unchanged.
+    /// @param t_manifold Initial canonical state for the run.
+    /// @returns Canonical state after all configured passes complete.
+    /// @throws std::filesystem::filesystem_error if checkpoint output is
+    /// enabled and persistence fails; also propagates failures from move
+    /// generation and validation.
     [[nodiscard]] auto operator()(ManifoldType const& t_manifold)
         -> ManifoldType
     {
@@ -625,6 +709,7 @@ namespace cdt
     { print_results(m_command_results, m_run_statistics); }
   };  // Metropolis
 
+  /// Metropolis-Hastings move strategy for the supported 3D manifold.
   using Metropolis_3 =
       MoveStrategy<MoveStrategyKind::METROPOLIS, manifolds::Manifold_3>;
 }  // namespace cdt

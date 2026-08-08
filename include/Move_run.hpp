@@ -26,8 +26,8 @@ namespace cdt
   /// @brief Reasons raw move-run cadence cannot become a domain value.
   enum class MoveRunCadenceError
   {
-    NONPOSITIVE_PASSES,
-    NONPOSITIVE_CHECKPOINT
+    NONPOSITIVE_PASSES,     ///< The requested pass count is not positive.
+    NONPOSITIVE_CHECKPOINT  ///< The checkpoint interval is not positive.
   };
 
   /// @brief Positive pass count and checkpoint interval for a move run.

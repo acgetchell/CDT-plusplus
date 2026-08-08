@@ -19,6 +19,7 @@
 
 namespace cdt::mpfr_values
 {
+  /// @brief Owning arbitrary-precision floating-point value used by CDT++.
   using Value                         = CGAL::Gmpfr;
 
   /// MPFR round-to-nearest with ties to an even significand.
@@ -31,11 +32,15 @@ namespace cdt::mpfr_values
   static_assert(std::is_nothrow_destructible_v<Value>,
                 "MPFR values must release their resources without throwing.");
 
+  /// @brief Precision in bits assigned to values created by this namespace.
   inline constexpr auto precision =
       static_cast<Value::Precision_type>(PRECISION);
 
+  /// @return An exact zero at the project precision.
   [[nodiscard]] inline auto zero() -> Value { return Value{0, precision}; }
 
+  /// @param value Signed integer to represent exactly.
+  /// @return `value` converted at the project precision.
   [[nodiscard]] inline auto from_integer(long const value) -> Value
   {
     auto result = zero();
@@ -43,6 +48,8 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Binary floating-point value to convert.
+  /// @return `value` rounded to the project precision.
   [[nodiscard]] inline auto from_long_double(long double const value) -> Value
   {
     auto result = zero();
@@ -50,6 +57,10 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Null-terminated base-10 representation.
+  /// @return The parsed value at the project precision.
+  /// @throws std::invalid_argument if `value` is null or is not a valid MPFR
+  /// decimal representation.
   [[nodiscard]] inline auto from_decimal(char const* value) -> Value
   {
     if (value == nullptr)
@@ -64,6 +75,7 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @return The MPFR constant pi rounded to the project precision.
   [[nodiscard]] inline auto pi() -> Value
   {
     auto result = zero();
@@ -71,6 +83,9 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param left Left operand.
+  /// @param right Right operand.
+  /// @return `left + right` rounded according to rounding_mode.
   [[nodiscard]] inline auto add(Value const& left, Value const& right) -> Value
   {
     auto result = zero();
@@ -78,6 +93,9 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param left Left operand.
+  /// @param right Right operand.
+  /// @return `left - right` rounded according to rounding_mode.
   [[nodiscard]] inline auto subtract(Value const& left, Value const& right)
       -> Value
   {
@@ -86,6 +104,9 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param left Left operand.
+  /// @param right Right operand.
+  /// @return `left * right` rounded according to rounding_mode.
   [[nodiscard]] inline auto multiply(Value const& left, Value const& right)
       -> Value
   {
@@ -94,6 +115,9 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param numerator Dividend.
+  /// @param denominator Divisor.
+  /// @return `numerator / denominator` with MPFR exceptional-value semantics.
   [[nodiscard]] inline auto divide(Value const& numerator,
                                    Value const& denominator) -> Value
   {
@@ -102,6 +126,8 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Input value.
+  /// @return The MPFR square root of `value`.
   [[nodiscard]] inline auto square_root(Value const& value) -> Value
   {
     auto result = zero();
@@ -109,6 +135,8 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Input value.
+  /// @return The MPFR inverse hyperbolic sine of `value`.
   [[nodiscard]] inline auto inverse_hyperbolic_sine(Value const& value) -> Value
   {
     auto result = zero();
@@ -116,6 +144,8 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Input value in the MPFR arccosine domain.
+  /// @return The MPFR arccosine of `value` in radians.
   [[nodiscard]] inline auto arc_cosine(Value const& value) -> Value
   {
     auto result = zero();
@@ -123,6 +153,8 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Input value.
+  /// @return The additive inverse of `value`.
   [[nodiscard]] inline auto negate(Value const& value) -> Value
   {
     auto result = zero();
@@ -130,6 +162,8 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value Input value.
+  /// @return The MPFR exponential of `value`.
   [[nodiscard]] inline auto exponential(Value const& value) -> Value
   {
     auto result = zero();
@@ -137,9 +171,13 @@ namespace cdt::mpfr_values
     return result;
   }
 
+  /// @param value MPFR value to narrow.
+  /// @return The nearest representable `double` under rounding_mode.
   [[nodiscard]] inline auto to_double(Value const& value) -> double
   { return mpfr_get_d(value.fr(), rounding_mode); }
 
+  /// @param value MPFR value to narrow.
+  /// @return The nearest representable `long double` under rounding_mode.
   [[nodiscard]] inline auto to_long_double(Value const& value) -> long double
   { return mpfr_get_ld(value.fr(), rounding_mode); }
 }  // namespace cdt::mpfr_values

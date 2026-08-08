@@ -18,12 +18,14 @@
 #include <optional>
 #include <random>
 #include <span>
+#include <string_view>
 #include <type_traits>
 
 #include "Settings.hpp"
 
 namespace cdt::move_tracker
 {
+  /// Number of supported Pachner move kinds in three dimensions.
   inline constexpr std::size_t NUMBER_OF_3D_MOVES = 5;
 
   /**
@@ -31,12 +33,30 @@ namespace cdt::move_tracker
    */
   enum class [[nodiscard("This contains data!")]] MoveType
   {
-    TWO_THREE = 0,
-    THREE_TWO = 1,
-    TWO_SIX   = 2,
-    SIX_TWO   = 3,
-    FOUR_FOUR = 4
+    TWO_THREE = 0,  ///< Replace two tetrahedra with three.
+    THREE_TWO = 1,  ///< Replace three tetrahedra with two.
+    TWO_SIX   = 2,  ///< Replace two tetrahedra with six.
+    SIX_TWO   = 3,  ///< Replace six tetrahedra with two.
+    FOUR_FOUR = 4   ///< Exchange a causal four-tetrahedron diamond.
   };
+
+  /// @brief Enable direct formatting through fmt/spdlog.
+  /// @param move Pachner move kind.
+  /// @return Stable tuple notation for the move.
+  [[nodiscard]] constexpr auto format_as(MoveType const move) noexcept
+      -> std::string_view
+  {
+    using enum MoveType;
+    switch (move)
+    {
+      case TWO_THREE: return "(2,3)";
+      case THREE_TWO: return "(3,2)";
+      case TWO_SIX: return "(2,6)";
+      case SIX_TWO: return "(6,2)";
+      case FOUR_FOUR: return "(4,4)";
+    }
+    return "unknown";
+  }
 
   /**
    * \brief Convert enum to integer
@@ -68,7 +88,10 @@ namespace cdt::move_tracker
     return moves[move_choice];
   }  // move_from_index
 
-  /// Generate a uniformly distributed 3D ergodic move from caller-owned RNG.
+  /// @brief Generate a uniformly distributed 3D move from caller-owned RNG.
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param generator Generator whose state advances during sampling.
+  /// @return One uniformly sampled MoveType.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto generate_random_move_3(Generator& generator)
       -> MoveType

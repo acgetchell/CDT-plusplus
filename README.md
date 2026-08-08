@@ -68,6 +68,10 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Doxygen] provides automated document generation.
 The supported C++ namespace and per-header contract are recorded in the
 [C++ API boundary](docs/api-boundary.md).
+The compiled [C++ API quickstart](docs/cpp-api-quickstart.md) demonstrates
+validated construction, ten reported Metropolis proposals with separate
+candidate-success and acceptance results, aggregate accounting, and a verified
+persistence round trip.
 The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and
 upgrade policies are recorded in the
 [CGAL 6.2 integration contract](docs/cgal-integration.md).
@@ -84,13 +88,13 @@ Python and JSON Schema provide the local, offline cross-implementation compariso
 ### Regression-oracle scope
 
 The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in
-[`include/Foliated_triangulation.hpp`](include/Foliated_triangulation.hpp). `find_invalid_timevalue_cells` classifies
+[`include/Foliated_triangulation.hpp`](https://github.com/acgetchell/CDT-plusplus/blob/main/include/Foliated_triangulation.hpp). `find_invalid_timevalue_cells` classifies
 cells from stored vertex time labels, `has_valid_timevalues` provides the predicate, `find_bad_vertex` selects a vertex
 responsible for an acausal local configuration, and `fix_timevalues` removes offending vertices through CGAL so the
 cavity is retriangulated until the foliation contract is satisfied.
 
 The deterministic doctest scenario **"Detecting and fixing problems with vertices and cells"** in
-[`tests/Foliated_triangulation_test.cpp`](tests/Foliated_triangulation_test.cpp) exercises this path with fixed points
+[`tests/Foliated_triangulation_test.cpp`](https://github.com/acgetchell/CDT-plusplus/blob/main/tests/Foliated_triangulation_test.cpp) exercises this path with fixed points
 and time labels. Its inputs, detected bad vertex, final initialization state, cell counts, and causal classification
 are the first comparison fixture for `causal-triangulations`; exact Monte Carlo trajectories are not required to
 match.
@@ -241,15 +245,17 @@ Windows development.
 ### Current reference-suite status
 
 With the pinned baseline, the reference configuration and build succeed on
-macOS with AppleClang. The cross-platform `just build` command runs all 128
+macOS with AppleClang. The cross-platform `just build` command runs all 131
 CTest registrations through `scripts/build.sh` on Unix and `scripts/build.bat`
-on Windows: 104 doctest scenarios, 23 CLI integration tests, and one
-arithmetic-backend correctness test. The same `reference-smoke` preset is the
+on Windows: 106 doctest scenarios, 23 CLI integration tests, one compiled C++
+API example, and one arithmetic-backend correctness test. The same
+`reference-smoke` preset is the
 supported local and CI contract; there are no overlapping focused
 registrations that can pass while omitting another doctest suite. The current
-`parallel` preset also registers 128 tests: 103 ordinary doctest scenarios, one
+`parallel` preset also registers 129 tests: 103 ordinary doctest scenarios, one
 parallel launcher containing five scenarios, the same 23 CLI integration
-tests, and the arithmetic correctness test. The parallel-enabled
+tests, the C++ API example, and the arithmetic correctness test. The
+parallel-enabled
 AddressSanitizer configuration exercises the same replayable stress contract.
 
 ## Setup
@@ -266,7 +272,7 @@ The smallest pkgx-assisted host setup is:
 - pkgx
 - Just, used by the recipes and `scripts/pkgx-build.sh` to resolve the repository's tool-version pins
 - Python 3.14 for native dependency bootstrap, and uv when checking or running the Python support scripts
-- Doxygen 1.17.0 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
+- Doxygen 1.16.1 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
 
 The pkgx build and documentation launchers supply their required tools ephemerally, including Git, Bash, CMake,
 Ninja, Python, Doxygen, Graphviz, M4, Autoconf, Autoconf Archive, Automake, GNU Libtool, Texinfo, and pkg-config. If
@@ -289,7 +295,7 @@ development environment.
 
 ### Developer workflow
 
-The repository-root [Justfile](Justfile) provides the same small command vocabulary used by the related projects:
+The repository-root `Justfile` provides the same small command vocabulary used by the related projects:
 
 ```bash
 just check                 # Fast, non-mutating local checks
@@ -346,7 +352,7 @@ pkgx-first; because pkgx does not currently publish its CMake and Ninja packages
 for Windows, that job uses the exact Justfile pins available as PyPI wheels
 through `uv tool install --no-build`.
 
-[pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](.pinact.yaml) to retain immutable action
+[pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](https://github.com/acgetchell/CDT-plusplus/blob/main/.pinact.yaml) to retain immutable action
 SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact,
 Go, or a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass. Direct third-party
 Python dependencies install only from locked wheels. The uv environment provides `clang-format` and `yamllint`;
@@ -501,6 +507,9 @@ links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).
 
 Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 
+The compiled [C++ API quickstart](docs/cpp-api-quickstart.md) is the canonical
+end-to-end public API example and is embedded verbatim in the generated site.
+
 The scientific transition, proposal-ratio, geometry-delta, counter, and
 precision contracts are recorded in
 [`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
@@ -522,8 +531,11 @@ just docs-check
 ```
 
 To generate the same publishable output used by the documentation workflow, run `just docs`; it writes `docs/html/`
-only after strict generation succeeds. Both recipes require the pinned Doxygen and Graphviz versions and use pkgx
-ephemerally when matching local tools are unavailable. `USE_MATHJAX` allows [MathJax] to render LaTeX formulae, and
+only after strict generation and generated-site validation succeed. Both recipes require Doxygen 1.16.1 and Graphviz
+15.1.0 and use pkgx ephemerally when matching local tools are unavailable. Doxygen 1.16.1 is the archival pin because
+1.17.0 duplicates linked labels, emits broken alphabetical-index fragments for this repository, and injects an unused
+Mermaid CDN dependency. `scripts/validate_generated_site.py` preserves that bounded workaround by checking the actual
+HTML, local links and fragments, duplicate IDs and link labels, and required assets. `USE_MATHJAX` allows [MathJax] to render LaTeX formulae, and
 `HAVE_DOT` enables [GraphViz] diagrams. Documentation validation is intentionally separate from the cross-platform
 `just ci` contract. The documentation workflow runs `just docs` on Ubuntu and publishes its output to the `gh-pages`
 branch.
@@ -531,7 +543,7 @@ branch.
 ## Citing CDT++
 
 If CDT++ contributes to published work, cite the software using
-[`CITATION.cff`](CITATION.cff) and cite the scientific methods relevant to the
+[`CITATION.cff`](https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff) and cite the scientific methods relevant to the
 work from [`REFERENCES.md`](REFERENCES.md). The software citation records the
 current declared release, `1.0.0-rc3`. Advance its version and release date
 together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for
@@ -540,13 +552,15 @@ subsequent releases.
 ## Testing
 
 Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat`
-on Windows, builds the test target, and executes all 128 CTest entries: 104
+on Windows, builds the test target, and executes all 131 CTest entries: 106
 doctest scenarios, 23 executable integration tests covering normal CLI use and
-invalid-boundary rejection, and one arithmetic-backend correctness test
+invalid-boundary rejection, one compiled C++ API example, and one
+arithmetic-backend correctness test
 labeled `scientific`. The parallel-enabled AddressSanitizer and `parallel`
 configurations register 103 ordinary doctest scenarios, one launcher
 containing five scenarios labeled `unit`, `parallel`, and `configuration`, the
-same 23 integration tests, and the arithmetic test, for 128 CTest entries.
+same 23 integration tests, the C++ API example, and the arithmetic test, for 129
+CTest entries.
 Every process-level test is labeled `integration`, and invalid-input tests also
 carry the `cli-boundary` subcategory. Run `just ci` for the complete local
 validation gate.
@@ -617,7 +631,7 @@ separate branch-coverage rate.
 
 ### Static Analysis
 
-Python 3.14 is selected by [`.python-version`](.python-version), uv locks the environment in `uv.lock`, Ruff owns
+Python 3.14 is selected by [`.python-version`](https://github.com/acgetchell/CDT-plusplus/blob/main/.python-version), uv locks the environment in `uv.lock`, Ruff owns
 Python formatting and linting, and ty owns static type checking. Run `just python-sync` once and then use
 `just python-check` or `just python-fix`; both commands are also part of the repository-wide validation recipes.
 
@@ -709,13 +723,11 @@ Optional:
 
 ## Issues
 
-- [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
-- [vcpkg] has issues with `fontconfig:arm64-osx` [#40623].
-- [vcpkg] fails to build [gmp] on Linux (which breaks CI) [#45336]
+Current work and known limitations are tracked in the
+[CDT++ GitHub issue tracker](https://github.com/acgetchell/CDT-plusplus/issues).
+The README does not duplicate a hardcoded issue list because tracker state
+changes independently of repository releases.
 
-[#45336]: https://github.com/microsoft/vcpkg/issues/45336
-[#40623]: https://github.com/microsoft/vcpkg/issues/40623
-[#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [CDT]: REFERENCES.md#cdt-framework-2001
 [CGAL]: REFERENCES.md#cgal-triangulations
 [CMake]: https://www.cmake.org
@@ -743,7 +755,7 @@ Optional:
 [C++]: https://isocpp.org/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [PCG]: REFERENCES.md#pcg-random-number-generators
-[TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
+[TestU01]: https://simul.iro.umontreal.ca/testu01/
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md
 [GitHub Actions]: https://github.com/features/actions

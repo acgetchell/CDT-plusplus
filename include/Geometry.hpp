@@ -109,6 +109,7 @@ namespace cdt
     }  // swap
   };  // struct Geometry<3>
 
+  /// Three-dimensional simplex-count geometry.
   using Geometry_3 = Geometry<3>;
 }  // namespace cdt
 

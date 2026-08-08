@@ -75,15 +75,21 @@ namespace cdt::manifolds
     Manifold()                                         = default;
 
     /// @brief Default copy ctor
+    /// @param other Manifold to copy.
     Manifold(Manifold const& other)                    = default;
 
     /// @brief Default copy assignment
+    /// @param other Manifold to copy.
+    /// @returns This manifold after replacement.
     auto operator=(Manifold const& other) -> Manifold& = default;
 
     /// @brief Default move ctor
+    /// @param other Manifold whose state is transferred.
     Manifold(Manifold&& other) noexcept                = default;
 
     /// @brief Default move assignment
+    /// @param other Manifold whose state is transferred.
+    /// @returns This manifold after replacement.
     auto operator=(Manifold&& other) noexcept -> Manifold&
     {
       if (this != &other) { swap(other, *this); }
@@ -115,6 +121,11 @@ namespace cdt::manifolds
     /// advanced during construction
     /// @param t_initial_radius Radius of the first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
+    /// @throws std::invalid_argument if the counts or geometry are invalid, the
+    /// generated points are not unique, or construction produces no vertices.
+    /// @throws std::out_of_range if a layer population cannot be represented.
+    /// @note The caller-owned @p generator may have advanced if construction
+    /// fails after sampling begins.
     Manifold(Int_precision const t_desired_simplices,
              Int_precision const t_desired_timeslices, cdt::Random& generator,
              double const t_initial_radius    = INITIAL_RADIUS,
@@ -132,6 +143,9 @@ namespace cdt::manifolds
     /// during construction
     /// @param t_initial_radius Radius of the first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
+    /// @throws std::invalid_argument if the counts or geometry are invalid, the
+    /// generated points are not unique, or construction produces no vertices.
+    /// @throws std::out_of_range if a layer population cannot be represented.
     Manifold(Int_precision const t_desired_simplices,
              Int_precision const t_desired_timeslices, cdt::Random&& generator,
              double const t_initial_radius    = INITIAL_RADIUS,
@@ -141,10 +155,13 @@ namespace cdt::manifolds
     {}
 
     /// @brief Construct manifold from Causal_vertices
-    /// Pass-by-value-then-move.
     /// @param causal_vertices Causal_vertices to place into the Manifold
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
+    /// @pre @p t_initial_radius and @p t_foliation_spacing are finite and
+    /// positive.
+    /// @throws std::invalid_argument if @p causal_vertices is empty or contains
+    /// duplicate geometric points.
     explicit Manifold(Causal_vertices_t<3> const& causal_vertices,
                       double const t_initial_radius    = INITIAL_RADIUS,
                       double const t_foliation_spacing = FOLIATION_SPACING)
@@ -158,6 +175,8 @@ namespace cdt::manifolds
     /// @details The source remains unchanged. The returned triangulation caches
     /// and geometry are constructed together, so failure cannot publish a
     /// partially updated state.
+    /// @returns A rebuilt manifold with mutually consistent topology and
+    /// geometry caches.
     [[nodiscard]] auto updated() const -> Manifold
     {
 #ifndef NDEBUG
@@ -213,11 +232,11 @@ namespace cdt::manifolds
     [[nodiscard]] auto dimensionality() const
     { return m_triangulation.dimension(); }
 
-    /// @brief Initial radius of the first timeslice
+    /// @returns Initial radius of the first timeslice.
     [[nodiscard]] auto initial_radius() const
     { return m_triangulation.initial_radius(); }
 
-    /// @brief Radial separation between timeslices
+    /// @returns Radial separation between timeslices.
     [[nodiscard]] auto foliation_spacing() const
     { return m_triangulation.foliation_spacing(); }
 
@@ -246,7 +265,8 @@ namespace cdt::manifolds
     /// @returns Number of 2D faces in geometry data structure
     [[nodiscard]] auto N2() const { return m_geometry.N2; }
 
-    /// @returns Number of spacelike faces on a timeslice
+    /// @param timevalue Timeslice whose faces are counted.
+    /// @returns Number of spacelike faces on the requested timeslice.
     [[nodiscard]] auto spacelike_face_count(
         Int_precision const timevalue) const noexcept -> std::size_t
     { return m_triangulation.spacelike_face_count(timevalue); }
@@ -349,6 +369,7 @@ namespace cdt::manifolds
     }  // print_details
   };
 
+  /// Three-dimensional spherical CDT manifold.
   using Manifold_3 = Manifold<3>;
 
 }  // namespace cdt::manifolds

@@ -20,8 +20,8 @@ namespace cdt
    */
   enum class MoveStrategyKind
   {
-    MOVE_ALWAYS,
-    METROPOLIS
+    MOVE_ALWAYS,  ///< Execute every applicable proposal.
+    METROPOLIS    ///< Apply Metropolis-Hastings acceptance.
   };
 
   /**
