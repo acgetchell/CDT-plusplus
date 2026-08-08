@@ -1,0 +1,140 @@
+{
+  "$schema": "../../schema/render-manifest-v1.schema.json",
+  "schema_version": 1,
+  "artifact": "../../../docs/images/S3-7-27528-I1-R1.png",
+  "fixture": {
+    "path": "../../fixtures/v1/S3-7-27528-I1-R1-seed30.off",
+    "metadata_path": "../../fixtures/v1/S3-7-27528-I1-R1-seed30.off.meta",
+    "sha256": "9d86a6e5bd410ea206663c0e3bb633162695768135243016043a34c8634d605b",
+    "provenance": {
+      "producer": "initialize",
+      "producer_command": "./out/build/reference/src/initialize --spherical --simplices 5110 --timeslices 7 --init 1 --foliate 1 --output --seed 30 --threads 1",
+      "source_revision": "8f765ee90d873e51ba2c15bd51a7e85a6558c1fa",
+      "topology": "spherical",
+      "dimension": 3,
+      "desired_simplices": 5110,
+      "timeslices": 7,
+      "initial_radius": 1.0,
+      "foliation_spacing": 1.0,
+      "seed": 30,
+      "threads": 1,
+      "fresh_topology_replay_supported": false,
+      "note": "Seed 30 was chosen empirically, and this tracked run matched the legacy hero's 27,528-simplex count. The checked-in OFF payload is canonical because CGAL may choose another valid triangulation from the same random inputs."
+    },
+    "expected_topology": {
+      "vertices": 4940,
+      "edges": 33746,
+      "faces": 56335,
+      "simplices": 27528,
+      "minimum_timeslice": 1,
+      "maximum_timeslice": 7
+    }
+  },
+  "renderer": {
+    "name": "cdt-viewer",
+    "cgal_version": "6.2-I-900",
+    "qt_version": "6.11.1",
+    "vcpkg_baseline": "9e593bb18ea69cc5095e012465dcd675a822ed0d",
+    "cmake_version": "4.4.1",
+    "ninja_version": "1.13.2",
+    "canonical_platform": "macOS 26.6.1 arm64",
+    "canonical_toolchain": "Xcode 26.6 / AppleClang 21.0.0.21000101 / libc++-210106",
+    "graphics_api": "OpenGL 4.1 core profile (CGAL macOS mapping from the 4.3 request)"
+  },
+  "render": {
+    "output_format": "png",
+    "width": 735,
+    "height": 690,
+    "transparent_background": true,
+    "oversampling": 1.0,
+    "expand_frustum": false,
+    "geometry": {
+      "vertices": true,
+      "edges": true,
+      "faces": true,
+      "vertex_scope": "convex_hull",
+      "edge_scope": "screen_space_face_boundaries"
+    },
+    "camera": {
+      "projection": "perspective",
+      "position": [
+        12.9,
+        -15.3,
+        10.5
+      ],
+      "target": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "up": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "vertical_field_of_view_radians": 0.7853981633974483
+    },
+    "style": {
+      "flat_shading": true,
+      "point_size": 1.0,
+      "line_width": 1.0,
+      "edge_color_difference_threshold": 24,
+      "background_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "point_rgba": [
+        200,
+        60,
+        60,
+        255
+      ],
+      "edge_rgba": [
+        0,
+        0,
+        0,
+        255
+      ],
+      "face_palette": [
+        [13, 145, 4],
+        [118, 18, 108],
+        [21, 21, 54],
+        [114, 79, 86],
+        [20, 103, 16],
+        [151, 111, 116],
+        [26, 3, 113],
+        [255, 78, 255],
+        [131, 0, 38],
+        [41, 175, 3],
+        [112, 59, 79],
+        [31, 87, 25],
+        [85, 24, 59],
+        [98, 111, 88],
+        [128, 255, 186],
+        [122, 127, 46],
+        [35, 6, 50],
+        [69, 43, 255],
+        [153, 62, 25],
+        [143, 66, 44],
+        [198, 166, 125],
+        [37, 114, 80],
+        [113, 59, 61],
+        [149, 255, 239],
+        [90, 76, 91],
+        [73, 107, 49],
+        [50, 160, 180],
+        [200, 190, 50],
+        [190, 100, 35],
+        [35, 100, 190]
+      ]
+    }
+  },
+  "comparison": {
+    "canonical_sha256": "aea0b1c19408746f88261a2367718bc09fe1e05c62efb195350583182445c695",
+    "minimum_file_bytes": 20000,
+    "minimum_foreground_pixels": 50000,
+    "portable_policy": "Exact PNG identity is required only on the canonical renderer/toolchain. Other environments must pass fixture integrity, topology, dimensions, and foreground-pixel smoke checks."
+  }
+}

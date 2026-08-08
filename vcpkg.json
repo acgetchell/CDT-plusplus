@@ -13,5 +13,18 @@
     "spdlog",
     "tbb",
     "cgal"
-  ]
+  ],
+  "features": {
+    "viewer": {
+      "description": "Build the archival CGAL Qt renderer; CGAL's qt feature owns the Qt and Eigen dependency boundary.",
+      "dependencies": [
+        {
+          "name": "cgal",
+          "features": [
+            "qt"
+          ]
+        }
+      ]
+    }
+  }
 }

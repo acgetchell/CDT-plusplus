@@ -141,6 +141,11 @@ does not override CGAL's non-unique cospherical tetrahedralization. Exact
 transition replay is conditional on supplying an identical starting manifold;
 it is not checkpoint resume.
 
+The tracked OFF fixture used by the archival renderer is therefore the canonical rendering input. Its recorded seed
+and producer command reproduce stochastic inputs but are provenance, not a promise that fresh CGAL construction will
+produce the same topology. The neighboring metadata manifest, render manifest, and image policy are specified in the
+[viewer contract](viewer.md).
+
 Payload parsing is supported for the repository's declared build matrix and
 pinned dependency set. Exact PCG prefixes replay on the same supported
 toolchain; transition traces replay when the starting manifold is identical.

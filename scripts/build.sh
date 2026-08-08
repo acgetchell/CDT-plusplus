@@ -5,18 +5,22 @@ set -euo pipefail
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "${script_dir}/.." && pwd)"
 if [[ "$#" -gt 1 ]]; then
-  printf 'Usage: %s [reference|parallel|debug]\n' "$0" >&2
+  printf 'Usage: %s [reference|parallel|debug|viewer]\n' "$0" >&2
   exit 2
 fi
 preset="${1:-reference}"
 case "${preset}" in
-  reference | parallel | debug) ;;
+  reference | parallel | debug | viewer) ;;
   *)
-    printf 'Unsupported build preset %s; expected reference, parallel, or debug.\n' \
+    printf 'Unsupported build preset %s; expected reference, parallel, debug, or viewer.\n' \
       "${preset}" >&2
     exit 2
     ;;
 esac
+if [[ "${preset}" == "viewer" && "$(uname -s)" != "Darwin" ]]; then
+  printf 'The archival viewer preset is supported only on macOS.\n' >&2
+  exit 2
+fi
 build_dir="${repo_root}/out/build/${preset}"
 compiler_cache="${CDT_COMPILER_CACHE:-}"
 cache_arguments=(-D ENABLE_CACHE:BOOL=OFF)

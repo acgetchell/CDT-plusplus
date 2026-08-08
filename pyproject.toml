@@ -40,6 +40,7 @@ source-exclude = [
   "scripts/release_check.py",
   "scripts/semgrep_fixture_config.py",
   "scripts/tests/**",
+  "scripts/validate_viewer_artifacts.py",
 ]
 
 [dependency-groups]

@@ -25,7 +25,10 @@ python_version := "3.14.6"
 reference_fixture_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_reference_fixture.exe" } else { "out/build/reference/tests/CDT_reference_fixture" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 typos_version := "1.49.0"
-uv_version := "0.12.2"
+uv_version := "0.12.3"
+viewer_binary := "out/build/viewer/src/cdt-viewer"
+viewer_image := "docs/images/S3-7-27528-I1-R1.png"
+viewer_manifest := "viewer/manifests/v1/hero.json"
 zizmor_version := "1.28.0"
 
 [private]
@@ -79,6 +82,15 @@ _build-unix:
       exec ./scripts/pkgx-build.sh
     fi
     exec ./scripts/build.sh
+
+[private]
+_build-viewer-unix:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v pkgx >/dev/null; then
+      exec ./scripts/pkgx-build.sh --preset viewer
+    fi
+    exec ./scripts/build.sh viewer
 
 [private]
 _cmake-check:
@@ -294,7 +306,7 @@ changelog-unreleased version: _ensure-git-cliff _sync-python-dev
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test spell-check
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test spell-check viewer-check
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
@@ -396,6 +408,22 @@ python-entrypoint-test: _sync-python-dev
     uv run --no-sync cdt-tag-release --help >/dev/null
     uv run --no-sync python scripts/sync_vcpkg_tool_pins.py --help >/dev/null
 
+# Build the opt-in macOS CGAL/Qt viewer and run its noninteractive render smoke test.
+[group('workflows')]
+viewer-build:
+    {{ if os_family() == "windows" { "cmd.exe //d //c \"echo The archival viewer is supported only on macOS. 1>&2 & exit /b 2\"" } else { "just _build-viewer-unix" } }}
+
+# Validate the tracked viewer fixture, render manifest, and canonical hero image.
+[group('workflows')]
+viewer-check: _sync-python-dev
+    uv run --no-sync python scripts/validate_viewer_artifacts.py
+
+# Regenerate the README hero image from the tracked fixture and render manifest.
+[group('workflows')]
+viewer-render: viewer-build
+    {{ viewer_binary }} --manifest {{ quote(viewer_manifest) }} --output {{ quote(viewer_image) }}
+    just viewer-check
+
 # Apply Ruff lint fixes and formatting to Python source.
 [group('workflows')]
 python-fix: _sync-python-dev
@@ -443,6 +471,7 @@ python-package-check: _sync-python-dev
     (
       cd "$consumer_directory"
       "$python" -c "import scripts"
+      "$python" -c "import importlib.util, sys; sys.exit('repository-only viewer validator leaked into wheel') if importlib.util.find_spec('scripts.validate_viewer_artifacts') is not None else None"
       "$scripts_directory/cdt-bootstrap-vcpkg$executable_suffix" --help >/dev/null
       "$scripts_directory/cdt-compare$executable_suffix" --help >/dev/null
       "$scripts_directory/cdt-optimize-initialize$executable_suffix" --help >/dev/null

@@ -22,6 +22,57 @@ target_link_libraries(
           CGAL::CGAL)
 target_compile_features(cdt PRIVATE cxx_std_23)
 
+if(ENABLE_VIEWER)
+  add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
+  target_link_libraries(
+    cdt-viewer
+    PRIVATE project_options
+            project_warnings
+            Boost::program_options
+            fmt::fmt-header-only
+            CGAL::CGAL_Basic_viewer
+            Qt6::Core
+            Qt6::Gui
+            Qt6::OpenGLWidgets
+            Qt6::Widgets)
+  target_compile_features(cdt-viewer PRIVATE cxx_std_23)
+
+  if(ENABLE_TESTING)
+    set(viewer_manifest "${PROJECT_SOURCE_DIR}/viewer/manifests/v1/hero.json")
+    add_test(
+      NAME cdt-viewer-smoke
+      COMMAND
+        $<TARGET_FILE:cdt-viewer>
+        --manifest=${viewer_manifest}
+        --output=${CMAKE_CURRENT_BINARY_DIR}/cdt-viewer-smoke.png)
+    set_tests_properties(cdt-viewer-smoke PROPERTIES LABELS "integration;viewer"
+                                                   TIMEOUT 120)
+
+    set(viewer_integer_overflow_manifest
+        "${CMAKE_CURRENT_BINARY_DIR}/cdt-viewer-integer-overflow.json")
+    file(READ "${viewer_manifest}" viewer_manifest_contents)
+    string(
+      REPLACE "\"vertices\": 4940" "\"vertices\": 18446744073709551616"
+              viewer_integer_overflow_contents "${viewer_manifest_contents}")
+    if(viewer_integer_overflow_contents STREQUAL viewer_manifest_contents)
+      message(FATAL_ERROR "Could not create the viewer integer-overflow fixture")
+    endif()
+    file(WRITE "${viewer_integer_overflow_manifest}"
+         "${viewer_integer_overflow_contents}")
+    add_test(
+      NAME cdt-viewer-integer-overflow
+      COMMAND
+        ${CMAKE_COMMAND} "-DTEST_EXECUTABLE=$<TARGET_FILE:cdt-viewer>"
+        "-DTEST_ARGUMENTS=--manifest=${viewer_integer_overflow_manifest}"
+        "-DEXPECTED_REGEX=must fit the requested integer type"
+        -P ${PROJECT_SOURCE_DIR}/cmake/ExpectCommandFailure.cmake)
+    set_tests_properties(
+      cdt-viewer-integer-overflow PROPERTIES LABELS
+                                              "integration;viewer;cli-boundary"
+                                              TIMEOUT 30)
+  endif()
+endif()
+
 #
 # Tests    ##
 #
