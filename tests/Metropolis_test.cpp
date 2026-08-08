@@ -741,7 +741,8 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
     auto const   before   = manifold.delaunay_snapshot();
     Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{37});
     strategy.initialize(manifold);
-    auto const unknown = static_cast<move_tracker::MoveType>(255);
+    auto const unknown      = static_cast<move_tracker::MoveType>(255);
+    auto const trace_before = strategy.transition_trace();
 
     WHEN("The unsupported move is submitted through the public API.")
     {
@@ -763,6 +764,7 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
         CHECK_EQ(strategy.succeeded().total(), 0);
         CHECK_EQ(strategy.failed().total(), 0);
         CHECK_EQ(strategy.transition_count(), 0);
+        CHECK_EQ(strategy.transition_trace(), trace_before);
       }
     }
   }
