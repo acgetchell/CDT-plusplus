@@ -1404,7 +1404,7 @@ namespace cdt::ergodic_moves
   /// @tparam Generator Uniform random bit generator type.
   /// @param t_manifold Source manifold, which remains unchanged.
   /// @param generator Caller-owned generator advanced by site sampling and
-  /// replacement-point construction.
+  /// ordering incident-edge flip paths.
   /// @return Proposed manifold, or a structured reason the site was rejected.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_62_move(Manifold const& t_manifold,

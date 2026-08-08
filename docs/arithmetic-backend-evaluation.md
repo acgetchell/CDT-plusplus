@@ -105,7 +105,7 @@ The default preserves current behavior; a Boost-only consumer uses:
 When the feature is absent, a vcpkg CMake wrapper sets
 `CGAL_DISABLE_GMP=ON` and `CGAL_CMAKE_EXACT_NT_BACKEND=BOOST_BACKEND`. The
 candidate port and standalone consumer live under
-[`tests/cgal_no_gmp_probe`](https://github.com/acgetchell/CDT-plusplus/tree/main/tests/cgal_no_gmp_probe). They are a one-time
+[`tests/cgal_no_gmp_probe`](https://github.com/acgetchell/CDT-plusplus/tree/16d1c769afc67e06f07639f6fd9de8136974e282/tests/cgal_no_gmp_probe). They are a one-time
 evaluation fixture, not a production overlay or root-CI dependency contract;
 shipping a downstream fork would recreate the maintenance burden this work is
 meant to remove.

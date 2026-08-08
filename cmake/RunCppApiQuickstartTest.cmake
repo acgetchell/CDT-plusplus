@@ -6,6 +6,8 @@ if(NOT DEFINED TEST_OUTPUT OR TEST_OUTPUT STREQUAL "")
   message(FATAL_ERROR "TEST_OUTPUT must name the quickstart payload")
 endif()
 
+file(REMOVE "${TEST_OUTPUT}" "${TEST_OUTPUT}.meta")
+
 execute_process(
   COMMAND "${TEST_EXECUTABLE}" "${TEST_OUTPUT}"
   RESULT_VARIABLE run_result

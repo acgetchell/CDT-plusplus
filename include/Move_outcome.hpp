@@ -118,7 +118,8 @@ namespace cdt::ergodic_moves
     [[nodiscard]] constexpr auto successful() const noexcept -> bool
     {
       return m_outcome == MoveOutcome::METROPOLIS_ACCEPTED ||
-             m_outcome == MoveOutcome::METROPOLIS_REJECTED;
+             m_outcome == MoveOutcome::METROPOLIS_REJECTED ||
+             m_outcome == MoveOutcome::SUCCEEDED;
     }
 
     /// @returns Whether Metropolis-Hastings accepted and committed the move.

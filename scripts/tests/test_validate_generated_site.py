@@ -48,6 +48,49 @@ class GeneratedSiteValidationTests(unittest.TestCase):
 
         self.assertEqual(page_count, len(validate_generated_site.REQUIRED_TARGETS))
 
+    def test_missing_required_page_is_rejected(self) -> None:
+        """Every archival page must be present even when nothing links to it."""
+        site = self._valid_site()
+        (site / "md_docs_2viewer.html").unlink()
+
+        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "missing required page"):
+            validate_generated_site.validate(site)
+
+    def test_missing_required_asset_is_rejected(self) -> None:
+        """Every archival asset must be present even when another check also references it."""
+        site = self._valid_site()
+        (site / "clipboard.js").unlink()
+
+        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "missing required asset"):
+            validate_generated_site.validate(site)
+
+    def test_missing_dark_mode_styling_is_rejected(self) -> None:
+        """The generated stylesheet must preserve automatic dark-mode styling."""
+        site = self._valid_site()
+        (site / "doxygen.css").write_text("/* generated test asset */\n", encoding="utf-8")
+
+        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "missing automatic dark-mode styling"):
+            validate_generated_site.validate(site)
+
+    def test_missing_graphviz_output_is_rejected(self) -> None:
+        """The generated site must contain at least one Graphviz SVG."""
+        site = self._valid_site()
+        (site / "graph.svg").unlink()
+
+        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "no generated Graphviz SVG was found"):
+            validate_generated_site.validate(site)
+
+    def test_local_reference_escaping_site_is_rejected(self) -> None:
+        """Local references cannot leave the self-contained site root."""
+        site = self._valid_site()
+        (site / "index.html").write_text(
+            (site / "index.html").read_text(encoding="utf-8") + '<a href="../outside.html">escape</a>',
+            encoding="utf-8",
+        )
+
+        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "local reference escapes the site"):
+            validate_generated_site.validate(site)
+
     def test_missing_local_page_and_fragment_are_rejected(self) -> None:
         """Every generated local page and fragment reference must resolve."""
         for reference, diagnostic in (
@@ -143,11 +186,11 @@ class GeneratedSiteValidationTests(unittest.TestCase):
         root = Path(self.enterContext(tempfile.TemporaryDirectory()))
         warning_log = root / "warnings.log"
         warning_log.write_text(
-            "include/Public.hpp:1: warning: Member run (function) of namespace cdt is not documented.\n",
+            "include/Public.hpp:1: warning: Member detail (function) of namespace cdt is not documented.\n",
             encoding="utf-8",
         )
 
-        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "Public.hpp.*run"):
+        with self.assertRaisesRegex(validate_generated_site.GeneratedSiteError, "Public.hpp.*detail"):
             validate_generated_site.validate_warning_log(warning_log)
 
     def test_public_parameter_warning_is_rejected(self) -> None:

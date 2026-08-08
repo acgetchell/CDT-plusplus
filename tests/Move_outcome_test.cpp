@@ -110,6 +110,8 @@ static_assert(MetropolisTransition{MoveType::TWO_THREE,
 static_assert(MetropolisTransition{MoveType::TWO_THREE,
                                    MoveOutcome::METROPOLIS_REJECTED}
                   .successful());
+static_assert(MetropolisTransition{MoveType::TWO_THREE, MoveOutcome::SUCCEEDED}
+                  .successful());
 static_assert(!MetropolisTransition{MoveType::TWO_THREE,
                                     MoveOutcome::INAPPLICABLE}
                    .successful());

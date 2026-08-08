@@ -10,7 +10,7 @@ legality, or acceptance decisions.
 Each producer writes exactly one UTF-8 JSON object to standard output and may
 write diagnostics to standard error. The committed CDT++
 `cdt-reference-raw-v1` document is validated directly against
-[`result-v1.schema.json`](https://github.com/acgetchell/CDT-plusplus/blob/main/reference/schema/result-v1.schema.json).
+[`result-v1.schema.json`](https://github.com/acgetchell/CDT-plusplus/blob/16d1c769afc67e06f07639f6fd9de8136974e282/reference/schema/result-v1.schema.json).
 Every bundle copies that canonical result, and the harness checks the live
 CDT++ payload against it before using the live C++ payload as the reference for
 the Rust comparison. When live C++ output includes transition observations,

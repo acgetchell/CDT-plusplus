@@ -487,6 +487,14 @@ namespace cdt
         throw std::invalid_argument("MH trial value must lie in [0, 1].");
       }
 
+      if (!reverse_move(move))
+      {
+        return ergodic_moves::outcome_from(
+            ergodic_moves::MoveError{
+                .category       = ergodic_moves::MoveFailure::UNKNOWN_MOVE,
+                .requested_move = move});
+      }
+
       statistics.geometry = current.geometry();
       ++statistics.proposed[move];
       ++command_results.attempted[move];
@@ -622,6 +630,8 @@ namespace cdt
 
    public:
     /// @brief Resolve one caller-selected Markov transition.
+    /// @details An unsupported move value returns an execution-failed report
+    /// without mutating @p current or the run statistics.
     /// @param current Canonical state, updated only after a successful MH
     /// accept
     /// @param move Uniformly selected move type

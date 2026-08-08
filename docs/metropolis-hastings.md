@@ -130,7 +130,7 @@ a delta whose positive MPFR probability lies below `long double` range.
 
 Combinatorial fields and deterministic decisions are exact. The published
 cross-language protocol in
-[`reference/fixtures/v1/protocol.json`](https://github.com/acgetchell/CDT-plusplus/blob/main/reference/fixtures/v1/protocol.json)
+[`reference/fixtures/v1/protocol.json`](https://github.com/acgetchell/CDT-plusplus/blob/16d1c769afc67e06f07639f6fd9de8136974e282/reference/fixtures/v1/protocol.json)
 names separate absolute and relative tolerances for coordinates, closed-form
 actions, and probabilities. Randomized post-repair simplex counts are
 implementation-specific rather than covered by a generic percentage.

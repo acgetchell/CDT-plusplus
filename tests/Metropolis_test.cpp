@@ -735,6 +735,37 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
     }
   }
 
+  GIVEN("An unsupported move value and an initialized strategy.")
+  {
+    auto         manifold = minimal_26_manifold();
+    auto const   before   = manifold.delaunay_snapshot();
+    Metropolis_3 strategy(Alpha, 0.0L, 0.0L, 1, 1, false, cdt::RandomSeed{37});
+    strategy.initialize(manifold);
+    auto const unknown = static_cast<move_tracker::MoveType>(255);
+
+    WHEN("The unsupported move is submitted through the public API.")
+    {
+      auto const transition = strategy.attempt_transition(manifold, unknown, 0.0L);
+
+      THEN("It is rejected before state or accounting is mutated.")
+      {
+        CHECK_EQ(transition.move(), unknown);
+        CHECK_EQ(transition.outcome(),
+                 ergodic_moves::MoveOutcome::EXECUTION_FAILED);
+        CHECK_FALSE(transition.successful());
+        CHECK_FALSE(transition.accepted());
+        CHECK_EQ(manifold.delaunay_snapshot(), before);
+        CHECK_EQ(strategy.proposed().total(), 0);
+        CHECK_EQ(strategy.accepted().total(), 0);
+        CHECK_EQ(strategy.rejected().total(), 0);
+        CHECK_EQ(strategy.attempted().total(), 0);
+        CHECK_EQ(strategy.succeeded().total(), 0);
+        CHECK_EQ(strategy.failed().total(), 0);
+        CHECK_EQ(strategy.transition_count(), 0);
+      }
+    }
+  }
+
   GIVEN("Equivalent manifolds and strategies using the same random stream.")
   {
     auto         first_state  = minimal_26_manifold();
