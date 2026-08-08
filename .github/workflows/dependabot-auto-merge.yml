@@ -107,4 +107,4 @@ jobs:
           APPROVED_HEAD_SHA: ${{ steps.coderabbit-approval.outputs.approved_head_sha }}
           GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr merge --squash --match-head-commit "$APPROVED_HEAD_SHA" "$PR_URL"
+        run: gh pr merge --auto --squash --match-head-commit "$APPROVED_HEAD_SHA" "$PR_URL"
