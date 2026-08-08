@@ -117,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
 <img src="S3-7-27528-I1-R1.png" alt=""/>
 <div class="caption">
 7 timeslices 27528 simplices</div></div>
-    <h1 class="doxsection"><a class="anchor" id="maintenance-status"></a>
+    <p>This reproducible archival rendering is generated from a tracked triangulation fixture; see the <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract">viewer and visual-artifact contract</a>.</p>
+<h1 class="doxsection"><a class="anchor" id="maintenance-status"></a>
 Maintenance status</h1>
 <p>CDT++ v1.0.0-rc3 is the current C++23 release candidate. The repository remains maintained as an independent scientific reference and regression oracle for <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>, the supported Rust successor. New C++ work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move set, and work approved in project issues. The v1.0.0 release contract remains tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/90">issue #90</a>; making the GitHub repository read-only is a separate future lifecycle decision rather than an automatic consequence of that release. The local Python comparison harness orchestrates independent C++ and Rust executables and analyzes their declared outputs; it is not a second scientific implementation.</p>
 <h1 class="doxsection"><a class="anchor" id="table-of-contents"></a>
@@ -215,7 +216,7 @@ Usage</h1>
 <div class="fragment"><div class="line">just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --seed 92 --no-output</div>
 </div><!-- fragment --><p>With output enabled, every generated <span class="tt">.off</span> triangulation is accompanied by a <span class="tt">.off.meta</span> provenance manifest containing the effective seed, configuration, version/toolchain identity, transition-trace fingerprint, and payload checksum. Checkpoint files are validated snapshots, not resumable simulation states; see <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a> for the replay and persistence contract. Same-seed generation replays the random inputs, while exact transition replay requires an identical starting manifold; CDT++ does not alter its spherical construction to force CGAL to reproduce one of several valid cospherical tetrahedralizations.</p>
 <ul>
-<li><span class="tt">cdt-viewer</span> is currently disabled and will be restored as an opt-in v1.0.0 target by <a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>.</li>
+<li><span class="tt">cdt-viewer</span> is an opt-in macOS archival target. Build it with <span class="tt">just viewer-build</span>, regenerate the tracked hero image with <span class="tt">just viewer-render</span>, and see the <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract">viewer contract</a> for its narrower support boundary.</li>
 <li><span class="tt">initialize</span> is also used by the dependency-free local parameter sweep described under <a class="el" href="#offline-comparison" title="Offline Comparison">offline comparison</a>offline comparison</li>
 </ul>
 <p>.</p>
@@ -278,9 +279,9 @@ Roadmap</h1>
 </ul>
 <ul class="check">
 <li class="checked">Multithreaded logging with <a href="https://github.com/gabime/spdlog">spdlog</a></li>
-<li class="unchecked">Restore optional visualization with [Qt] (<a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>)</li>
 </ul>
 <ul class="check">
+<li class="checked">Restore optional visualization with [Qt] (<a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>)</li>
 <li class="unchecked">Initialize two masses</li>
 </ul>
 <ul class="check">
@@ -395,6 +396,7 @@ vcpkg maintenance</h2>
 <h1 class="doxsection"><a class="anchor" id="build"></a>
 Build</h1>
 <p>Run <span class="tt">just build</span> from the repository root. It delegates to <span class="tt">./scripts/build.sh</span> on Unix and <span class="tt">scripts\build.bat</span> on Windows; either platform-specific script can itself be run from any working directory for troubleshooting. If <span class="tt">VCPKG_ROOT</span> already names the clean official checkout at the manifest baseline, the script respects it; otherwise it uses the pinned disposable checkout described above. Both scripts invoke the <span class="tt">reference</span> configure and build presets followed by the <span class="tt">reference-smoke</span> test preset; products and tests are isolated under <span class="tt">out/build/reference</span>, while <span class="tt">scripts\fast-build.bat</span> configures the same reference tree and builds only the primary <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> target. All entry points preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes. Direct script invocations must expose CMake 4.4.0 or newer on <span class="tt">PATH</span>; the canonical pkgx-backed <span class="tt">just</span> recipes select the tested 4.4.1 toolchain automatically.</p>
+<p>The archival Qt viewer is deliberately outside that cross-platform headless contract. On macOS, <span class="tt">just viewer-build</span> selects the separate <span class="tt">viewer</span> preset and vcpkg feature, builds <span class="tt">cdt-viewer</span> under <span class="tt">out/build/viewer</span>, and runs its noninteractive image smoke test. Qt and Eigen are installed only in that build tree. See <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract"><span class="tt">docs/viewer.md</span></a> for regeneration, version pins, and portability rules.</p>
 <h2 class="doxsection"><a class="anchor" id="project-layout"></a>
 Project Layout</h2>
 <p>The project is similar to <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
@@ -408,6 +410,7 @@ Project Layout</h2>
 <li>scripts - Build, test, and run scripts</li>
 <li>src - Source files</li>
 <li>tests - Unit tests</li>
+<li>viewer - Versioned archival render fixtures, manifests, and schemas</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="command-line-reference"></a>
 Command-line reference</h1>
@@ -515,7 +518,7 @@ Offline Comparison</h1>
 <p>The retained <span class="tt">cdt-optimize-initialize</span> command is also entirely local and dependency-free. It writes one directory per parameter pair under <span class="tt">out/experiments/initialize</span>, including configuration JSON, raw stdout, a tab-separated volume profile, metrics, artifact digests, and source/executable provenance. Each invocation requires a nonexistent output path. Seed <span class="tt">92</span> is the default; use <span class="tt">--seed</span> and <span class="tt">--output-directory</span> for another replayable record. Fresh CGAL triangulations remain subject to the <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs">reproducibility contract</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="visualization"></a>
 Visualization</h1>
-<p>The Qt-based <span class="tt">cdt-viewer</span> target is currently disabled. Its opt-in dependency feature, deterministic smoke fixture, supported desktop matrix, and v1.0.0 restoration are tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>; Qt and Eigen are intentionally absent from the default headless build until that work is complete.</p>
+<p>The restored Qt-based <span class="tt">cdt-viewer</span> is an opt-in macOS archival renderer. Its tracked OFF fixture, render manifest, noninteractive smoke test, exact canonical-image policy, and inventory of historical visuals are documented in the <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract">viewer and visual-artifact contract</a>. The default build remains headless and does not install Qt or Eigen.</p>
 <h1 class="doxsection"><a class="anchor" id="contributing"></a>
 Contributing</h1>
 <p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>

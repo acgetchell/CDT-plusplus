@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 523;
+var viewWidth = 575;
 var viewHeight = 395;
 var sectionId = 'dynsection-1';
 </script>
@@ -59,9 +59,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Traits class for particular uses of CGAL.">
-<polygon fill="#999999" stroke="#666666" points="422.12,-386.75 304.88,-386.75 304.88,-353.25 422.12,-353.25 422.12,-386.75"/>
-<text xml:space="preserve" text-anchor="start" x="312.88" y="-373.25" font-family="Helvetica,sans-Serif" font-size="10.00">include/Triangulation</text>
-<text xml:space="preserve" text-anchor="middle" x="363.5" y="-360.5" font-family="Helvetica,sans-Serif" font-size="10.00">_traits.hpp</text>
+<polygon fill="#999999" stroke="#666666" points="440.12,-386.75 322.88,-386.75 322.88,-353.25 440.12,-353.25 440.12,-386.75"/>
+<text xml:space="preserve" text-anchor="start" x="330.88" y="-373.25" font-family="Helvetica,sans-Serif" font-size="10.00">include/Triangulation</text>
+<text xml:space="preserve" text-anchor="middle" x="381.5" y="-360.5" font-family="Helvetica,sans-Serif" font-size="10.00">_traits.hpp</text>
 </a>
 </g>
 </g>
@@ -69,8 +69,8 @@ var sectionId = 'dynsection-1';
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="_foliated__triangulation_8hpp.html" target="_top" xlink:title="Create foliated spherical triangulations.">
-<polygon fill="white" stroke="#666666" points="368.38,-317.25 186.62,-317.25 186.62,-296.5 368.38,-296.5 368.38,-317.25"/>
-<text xml:space="preserve" text-anchor="middle" x="277.5" y="-303.75" font-family="Helvetica,sans-Serif" font-size="10.00">include/Foliated_triangulation.hpp</text>
+<polygon fill="white" stroke="#666666" points="299.38,-317.25 117.62,-317.25 117.62,-296.5 299.38,-296.5 299.38,-317.25"/>
+<text xml:space="preserve" text-anchor="middle" x="208.5" y="-303.75" font-family="Helvetica,sans-Serif" font-size="10.00">include/Foliated_triangulation.hpp</text>
 </a>
 </g>
 </g>
@@ -78,17 +78,35 @@ var sectionId = 'dynsection-1';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M331.64,-346.35C317.75,-336.49 302.21,-325.44 291.35,-317.72"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="329.49,-349.12 339.67,-352.06 333.55,-343.42 329.49,-349.12"/>
+<path fill="none" stroke="#63b8ff" d="M324.91,-349C295.16,-338.5 260.04,-326.08 236.21,-317.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="323.57,-352.24 334.17,-352.28 325.9,-345.64 323.57,-352.24"/>
+</a>
+</g>
+</g>
+<!-- Node11 -->
+<g id="Node000011" class="node">
+<title>Node11</title>
+<g id="a_Node000011"><a xlink:href="_formatters_8hpp.html" target="_top" xlink:title="Formatter specializations for various types.">
+<polygon fill="white" stroke="#666666" points="445.75,-317.25 317.25,-317.25 317.25,-296.5 445.75,-296.5 445.75,-317.25"/>
+<text xml:space="preserve" text-anchor="middle" x="381.5" y="-303.75" font-family="Helvetica,sans-Serif" font-size="10.00">include/Formatters.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node11 -->
+<g id="edge10_Node000001_Node000011" class="edge">
+<title>Node1&#45;&gt;Node11</title>
+<g id="a_edge10_Node000001_Node000011"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M381.5,-341.44C381.5,-332.96 381.5,-324.17 381.5,-317.72"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="378,-341.43 381.5,-351.43 385,-341.43 378,-341.43"/>
 </a>
 </g>
 </g>
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="_formatters_8hpp.html" target="_top" xlink:title="Formatter specializations for various types.">
-<polygon fill="white" stroke="#666666" points="514.75,-317.25 386.25,-317.25 386.25,-296.5 514.75,-296.5 514.75,-317.25"/>
-<text xml:space="preserve" text-anchor="middle" x="450.5" y="-303.75" font-family="Helvetica,sans-Serif" font-size="10.00">include/Formatters.hpp</text>
+<g id="a_Node000012"><a xlink:href="cdt-viewer_8cpp.html" target="_top" xlink:title="Render versioned 3D triangulation fixtures with CGAL and Qt.">
+<polygon fill="white" stroke="#666666" points="567.38,-317.25 463.62,-317.25 463.62,-296.5 567.38,-296.5 567.38,-317.25"/>
+<text xml:space="preserve" text-anchor="middle" x="515.5" y="-303.75" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt&#45;viewer.cpp</text>
 </a>
 </g>
 </g>
@@ -96,8 +114,8 @@ var sectionId = 'dynsection-1';
 <g id="edge11_Node000001_Node000012" class="edge">
 <title>Node1&#45;&gt;Node12</title>
 <g id="a_edge11_Node000001_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M395.73,-346.35C409.78,-336.49 425.51,-325.44 436.49,-317.72"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="393.77,-343.46 387.6,-352.07 397.79,-349.18 393.77,-343.46"/>
+<path fill="none" stroke="#63b8ff" d="M427.47,-348.03C450.04,-337.74 476.15,-325.83 494.04,-317.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="426.08,-344.82 418.43,-352.15 428.99,-351.19 426.08,-344.82"/>
 </a>
 </g>
 </g>
@@ -105,8 +123,8 @@ var sectionId = 'dynsection-1';
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric scalars of the Manifold used to calculate the Regge action.">
-<polygon fill="white" stroke="#666666" points="338.75,-260.5 216.25,-260.5 216.25,-239.75 338.75,-239.75 338.75,-260.5"/>
-<text xml:space="preserve" text-anchor="middle" x="277.5" y="-247" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
+<polygon fill="white" stroke="#666666" points="269.75,-260.5 147.25,-260.5 147.25,-239.75 269.75,-239.75 269.75,-260.5"/>
+<text xml:space="preserve" text-anchor="middle" x="208.5" y="-247" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
 </a>
 </g>
 </g>
@@ -114,8 +132,8 @@ var sectionId = 'dynsection-1';
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M277.5,-284.63C277.5,-276.41 277.5,-267.43 277.5,-260.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="274,-284.57 277.5,-294.57 281,-284.57 274,-284.57"/>
+<path fill="none" stroke="#63b8ff" d="M208.5,-284.63C208.5,-276.41 208.5,-267.43 208.5,-260.83"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="205,-284.57 208.5,-294.57 212,-284.57 205,-284.57"/>
 </a>
 </g>
 </g>
@@ -123,8 +141,8 @@ var sectionId = 'dynsection-1';
 <g id="Node000004" class="node">
 <title>Node4</title>
 <g id="a_Node000004"><a xlink:href="_manifold_8hpp.html" target="_top" xlink:title="Data structures for manifolds.">
-<polygon fill="white" stroke="#666666" points="336.5,-203.75 218.5,-203.75 218.5,-183 336.5,-183 336.5,-203.75"/>
-<text xml:space="preserve" text-anchor="middle" x="277.5" y="-190.25" font-family="Helvetica,sans-Serif" font-size="10.00">include/Manifold.hpp</text>
+<polygon fill="white" stroke="#666666" points="267.5,-203.75 149.5,-203.75 149.5,-183 267.5,-183 267.5,-203.75"/>
+<text xml:space="preserve" text-anchor="middle" x="208.5" y="-190.25" font-family="Helvetica,sans-Serif" font-size="10.00">include/Manifold.hpp</text>
 </a>
 </g>
 </g>
@@ -132,8 +150,8 @@ var sectionId = 'dynsection-1';
 <g id="edge3_Node000003_Node000004" class="edge">
 <title>Node3&#45;&gt;Node4</title>
 <g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M277.5,-227.88C277.5,-219.66 277.5,-210.68 277.5,-204.08"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="274,-227.82 277.5,-237.82 281,-227.82 274,-227.82"/>
+<path fill="none" stroke="#63b8ff" d="M208.5,-227.88C208.5,-219.66 208.5,-210.68 208.5,-204.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="205,-227.82 208.5,-237.82 212,-227.82 205,-227.82"/>
 </a>
 </g>
 </g>
@@ -151,17 +169,17 @@ var sectionId = 'dynsection-1';
 <g id="edge4_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
 <g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M245.53,-177.79C225.53,-168.67 199.74,-156.9 179.09,-147.48"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="244.04,-180.96 254.59,-181.93 246.95,-174.59 244.04,-180.96"/>
+<path fill="none" stroke="#63b8ff" d="M189.94,-174.93C180.77,-166.3 169.76,-155.94 160.76,-147.48"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="187.27,-177.22 196.95,-181.52 192.07,-172.12 187.27,-177.22"/>
 </a>
 </g>
 </g>
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="cdt-viewer_8cpp.html" target="_top" xlink:title="Views 3D spacetimes.">
-<polygon fill="white" stroke="#666666" points="329.38,-140.62 225.62,-140.62 225.62,-119.88 329.38,-119.88 329.38,-140.62"/>
-<text xml:space="preserve" text-anchor="middle" x="277.5" y="-127.12" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt&#45;viewer.cpp</text>
+<g id="a_Node000010"><a xlink:href="initialize_8cpp.html" target="_top" xlink:title="Generates initial spacetimes.">
+<polygon fill="white" stroke="#666666" points="321.25,-140.62 225.75,-140.62 225.75,-119.88 321.25,-119.88 321.25,-140.62"/>
+<text xml:space="preserve" text-anchor="middle" x="273.5" y="-127.12" font-family="Helvetica,sans-Serif" font-size="10.00">src/initialize.cpp</text>
 </a>
 </g>
 </g>
@@ -169,26 +187,8 @@ var sectionId = 'dynsection-1';
 <g id="edge9_Node000004_Node000010" class="edge">
 <title>Node4&#45;&gt;Node10</title>
 <g id="a_edge9_Node000004_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M277.5,-171.11C277.5,-160.8 277.5,-148.93 277.5,-140.84"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="274,-171.04 277.5,-181.04 281,-171.04 274,-171.04"/>
-</a>
-</g>
-</g>
-<!-- Node11 -->
-<g id="Node000011" class="node">
-<title>Node11</title>
-<g id="a_Node000011"><a xlink:href="initialize_8cpp.html" target="_top" xlink:title="Generates initial spacetimes.">
-<polygon fill="white" stroke="#666666" points="443.25,-140.62 347.75,-140.62 347.75,-119.88 443.25,-119.88 443.25,-140.62"/>
-<text xml:space="preserve" text-anchor="middle" x="395.5" y="-127.12" font-family="Helvetica,sans-Serif" font-size="10.00">src/initialize.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node4&#45;&gt;Node11 -->
-<g id="edge10_Node000004_Node000011" class="edge">
-<title>Node4&#45;&gt;Node11</title>
-<g id="a_edge10_Node000004_Node000011"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M306.51,-177.35C328.36,-166.03 357.68,-150.84 376.59,-141.05"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="305.07,-174.15 297.8,-181.86 308.29,-180.37 305.07,-174.15"/>
+<path fill="none" stroke="#63b8ff" d="M227.22,-174.77C238.96,-163.73 253.66,-149.91 263.3,-140.84"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="224.93,-172.12 220.05,-181.52 229.73,-177.22 224.93,-172.12"/>
 </a>
 </g>
 </g>

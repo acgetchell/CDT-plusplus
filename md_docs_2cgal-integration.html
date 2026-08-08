@@ -152,7 +152,7 @@ Production usage inventory</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Spherical point generation  </td><td class="markdownTableBodyNone">Retained  </td><td class="markdownTableBodyNone">A caller-owned CDT random stream seeds <span class="tt">CGAL::Random</span>; the generated sequence and the limits of cospherical topology replay are documented separately.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">CGAL timers and visualization  </td><td class="markdownTableBodyNone">Removed from production  </td><td class="markdownTableBodyNone">Production code uses standard timing and has no CGAL timer dependency. Qt visualization remains separately owned by issue #98.  </td></tr>
+<td class="markdownTableBodyNone">CGAL timers and visualization  </td><td class="markdownTableBodyNone">Archival opt-in only  </td><td class="markdownTableBodyNone">Production code uses standard timing and has no CGAL timer dependency. The separate macOS-only <span class="tt">viewer</span> feature restores CGAL 6.2's Qt basic viewer without changing the default headless graph; see the <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract">viewer contract</a>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Periodic 3D and d-dimensional torus prototypes  </td><td class="markdownTableBodyNone">Excluded  </td><td class="markdownTableBodyNone">These remain under <span class="tt">cdt::experimental</span>, outside supported-header compilation and production dependency decisions. They are archival source, not supported CGAL 6.2 APIs.  </td></tr>
 </table>

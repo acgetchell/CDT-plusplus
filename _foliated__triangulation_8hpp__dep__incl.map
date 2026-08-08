@@ -1,15 +1,13 @@
 <map id="include/Foliated_triangulation.hpp" name="include/Foliated_triangulation.hpp">
-<area shape="rect" id="Node000001" title="Create foliated spherical triangulations." alt="" coords="254,5,496,33"/>
-<area shape="rect" id="Node000002" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="294,81,457,109"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="376,46,378,82,373,80,374,51"/>
-<area shape="rect" id="Node000003" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="297,157,454,184"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="377,122,378,157,373,155,374,127"/>
+<area shape="rect" id="Node000001" title="Create foliated spherical triangulations." alt="" coords="162,5,404,33"/>
+<area shape="rect" id="Node000002" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="202,81,365,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="284,46,286,81,281,80,282,51"/>
+<area shape="rect" id="Node000003" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="205,157,362,184"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="284,122,286,157,281,155,282,127"/>
 <area shape="rect" id="Node000004" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="111,232,282,277"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="331,193,245,234,243,229,335,190"/>
-<area shape="rect" id="Node000009" href="$cdt-viewer_8cpp.html" title="Views 3D spacetimes." alt="" coords="306,241,444,268"/>
-<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="377,198,378,242,373,239,374,202"/>
-<area shape="rect" id="Node000010" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="469,241,596,268"/>
-<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="414,189,510,240,505,241,414,195"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="261,193,222,234,218,230,257,197"/>
+<area shape="rect" id="Node000009" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="306,241,434,268"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="309,193,359,240,354,241,308,198"/>
 <area shape="rect" id="Node000005" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="5,325,175,353"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="155,288,109,326,105,322,159,285"/>
 <area shape="rect" id="Node000007" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="199,325,408,353"/>
