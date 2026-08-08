@@ -39,6 +39,9 @@ if(ENABLE_VIEWER)
 
   if(ENABLE_TESTING)
     set(viewer_manifest "${PROJECT_SOURCE_DIR}/viewer/manifests/v1/hero.json")
+    # CGAL's Qt viewer still creates Cocoa GUI objects for headless snapshots,
+    # so this smoke test needs a logged-in macOS GUI session. QOffscreenSurface
+    # and Qt's offscreen platform do not support Basic_viewer's snapshot path.
     add_test(
       NAME cdt-viewer-smoke
       COMMAND
@@ -49,16 +52,7 @@ if(ENABLE_VIEWER)
                                                    TIMEOUT 120)
 
     set(viewer_integer_overflow_manifest
-        "${CMAKE_CURRENT_BINARY_DIR}/cdt-viewer-integer-overflow.json")
-    file(READ "${viewer_manifest}" viewer_manifest_contents)
-    string(
-      REPLACE "\"vertices\": 4940" "\"vertices\": 18446744073709551616"
-              viewer_integer_overflow_contents "${viewer_manifest_contents}")
-    if(viewer_integer_overflow_contents STREQUAL viewer_manifest_contents)
-      message(FATAL_ERROR "Could not create the viewer integer-overflow fixture")
-    endif()
-    file(WRITE "${viewer_integer_overflow_manifest}"
-         "${viewer_integer_overflow_contents}")
+        "${PROJECT_SOURCE_DIR}/viewer/manifests/v1/invalid-integer-overflow.json")
     add_test(
       NAME cdt-viewer-integer-overflow
       COMMAND

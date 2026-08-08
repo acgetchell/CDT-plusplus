@@ -19,10 +19,10 @@
       "seed": 30,
       "threads": 1,
       "fresh_topology_replay_supported": false,
-      "note": "Seed 30 was chosen empirically, and this tracked run matched the legacy hero's 27,528-simplex count. The checked-in OFF payload is canonical because CGAL may choose another valid triangulation from the same random inputs."
+      "note": "This manifest is a C++ parser rejection fixture and deliberately exceeds the exact JSON integer range."
     },
     "expected_topology": {
-      "vertices": 4940,
+      "vertices": 18446744073709551616,
       "edges": 33746,
       "faces": 56335,
       "simplices": 27528,
@@ -57,21 +57,9 @@
     },
     "camera": {
       "projection": "perspective",
-      "position": [
-        12.9,
-        -15.3,
-        10.5
-      ],
-      "target": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "up": [
-        0.0,
-        0.0,
-        1.0
-      ],
+      "position": [12.9, -15.3, 10.5],
+      "target": [0.0, 0.0, 0.0],
+      "up": [0.0, 0.0, 1.0],
       "vertical_field_of_view_radians": 0.7853981633974483
     },
     "style": {
@@ -80,24 +68,9 @@
       "line_width": 1.0,
       "edge_color_difference_threshold": 24,
       "point_color_match_tolerance": 6,
-      "background_rgba": [
-        0,
-        0,
-        0,
-        0
-      ],
-      "point_rgba": [
-        200,
-        60,
-        60,
-        255
-      ],
-      "edge_rgba": [
-        0,
-        0,
-        0,
-        255
-      ],
+      "background_rgba": [0, 0, 0, 0],
+      "point_rgba": [200, 60, 60, 255],
+      "edge_rgba": [0, 0, 0, 255],
       "face_palette": [
         [13, 145, 4],
         [118, 18, 108],
@@ -136,6 +109,6 @@
     "canonical_sha256": "aea0b1c19408746f88261a2367718bc09fe1e05c62efb195350583182445c695",
     "minimum_file_bytes": 20000,
     "minimum_foreground_pixels": 50000,
-    "portable_policy": "Exact PNG identity is required only on the canonical renderer/toolchain. Other environments must pass fixture integrity, topology, dimensions, and foreground-pixel smoke checks."
+    "portable_policy": "This fixture must fail before rendering because its vertex count exceeds the exact JSON integer range."
   }
 }

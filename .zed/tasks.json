@@ -33,5 +33,12 @@
     "args": ["ci"],
     "cwd": "$ZED_WORKTREE_ROOT",
     "save": "all"
+  },
+  {
+    "label": "CDT++: Render Viewer",
+    "command": "just",
+    "args": ["viewer-render"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
   }
 ]

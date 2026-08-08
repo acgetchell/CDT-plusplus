@@ -246,7 +246,8 @@
         },
         "oversampling": {
           "type": "number",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 8
         },
         "expand_frustum": {
           "type": "boolean"
@@ -326,6 +327,7 @@
             "point_size",
             "line_width",
             "edge_color_difference_threshold",
+            "point_color_match_tolerance",
             "background_rgba",
             "point_rgba",
             "edge_rgba",
@@ -344,6 +346,11 @@
               "exclusiveMinimum": 0
             },
             "edge_color_difference_threshold": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 765
+            },
+            "point_color_match_tolerance": {
               "type": "integer",
               "minimum": 0,
               "maximum": 765

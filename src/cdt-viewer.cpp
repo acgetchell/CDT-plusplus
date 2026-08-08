@@ -119,6 +119,7 @@ Options)";
     float                        point_size{};
     float                        line_width{};
     int                          edge_color_difference_threshold{};
+    int                          point_color_match_tolerance{};
     bool                         flat_shading{};
     QColor                       point_color;
     QColor                       edge_color;
@@ -126,6 +127,17 @@ Options)";
     Camera_config                camera;
     std::size_t                  minimum_foreground_pixels{};
   };
+
+  [[nodiscard]] auto draws_scene_edges(Render_config const& render) noexcept
+      -> bool
+  { return render.draw_edges && render.edge_scope == "all"; }
+
+  [[nodiscard]] auto draws_screen_space_edges(
+      Render_config const& render) noexcept -> bool
+  {
+    return render.draw_edges &&
+           render.edge_scope == "screen_space_face_boundaries";
+  }
 
   struct Viewer_manifest
   {
@@ -152,14 +164,16 @@ Options)";
       glDisable(GL_DITHER);
       glDisable(GL_LINE_SMOOTH);
       glDisable(GL_MULTISAMPLE);
-      if (callback_)
+      if (callback_ && !callback_scheduled_)
       {
+        callback_scheduled_ = true;
         QTimer::singleShot(0, this, [this]() { callback_(); });
       }
     }
 
    private:
     std::function<void()> callback_;
+    bool                  callback_scheduled_{};
   };
 
   [[nodiscard]] auto require_object(QJsonObject const& parent,
@@ -232,6 +246,8 @@ Options)";
   {
     auto const number  = require_number(parent, key);
     auto const widened = static_cast<long double>(number);
+    // require_number() receives Qt's binary64 representation, so integers
+    // beyond 2^53 - 1 may already have rounded before this checked conversion.
     if (std::trunc(number) != number ||
         widened <
             static_cast<long double>(std::numeric_limits<Integer>::min()) ||
@@ -380,19 +396,53 @@ Options)";
       throw std::invalid_argument("The face palette must not be empty.");
     }
 
-    auto const width        = require_integer<int>(render, "width");
-    auto const height       = require_integer<int>(render, "height");
-    auto const point_size   = require_number(style, "point_size");
-    auto const line_width   = require_number(style, "line_width");
-    auto const oversampling = require_number(render, "oversampling");
+    auto const       width        = require_integer<int>(render, "width");
+    auto const       height       = require_integer<int>(render, "height");
+    auto const       point_size   = require_number(style, "point_size");
+    auto const       line_width   = require_number(style, "line_width");
+    auto const       oversampling = require_number(render, "oversampling");
+    constexpr double MAX_OVERSAMPLING{8.0};
     if (width <= 0 || height <= 0 || point_size <= 0.0 || line_width <= 0.0 ||
-        oversampling < 1.0 ||
         point_size > static_cast<double>(std::numeric_limits<float>::max()) ||
         line_width > static_cast<double>(std::numeric_limits<float>::max()))
     {
       throw std::invalid_argument(
           "Render dimensions and point/line sizes must be positive and "
           "representable.");
+    }
+    if (oversampling < 1.0 || oversampling > MAX_OVERSAMPLING)
+    {
+      throw std::invalid_argument(
+          "Render oversampling must be between 1 and 8.");
+    }
+
+    constexpr auto MAX_SNAPSHOT_PIXELS = std::size_t{268'435'456};
+    auto const     sampled_width =
+        std::ceil(static_cast<long double>(width) * oversampling);
+    auto const sampled_height =
+        std::ceil(static_cast<long double>(height) * oversampling);
+    if (sampled_width >
+            static_cast<long double>(std::numeric_limits<int>::max()) ||
+        sampled_height >
+            static_cast<long double>(std::numeric_limits<int>::max()) ||
+        sampled_width * sampled_height >
+            static_cast<long double>(MAX_SNAPSHOT_PIXELS))
+    {
+      throw std::invalid_argument(
+          "Render dimensions and oversampling request an impractical "
+          "framebuffer.");
+    }
+
+    auto const minimum_foreground_pixels =
+        require_integer<std::size_t>(checks, "minimum_foreground_pixels");
+    auto const width_size  = static_cast<std::size_t>(width);
+    auto const height_size = static_cast<std::size_t>(height);
+    if (width_size > std::numeric_limits<std::size_t>::max() / height_size ||
+        minimum_foreground_pixels > width_size * height_size)
+    {
+      throw std::invalid_argument(
+          "Minimum foreground pixels cannot exceed render width times "
+          "height.");
     }
     if (require_string(render, "output_format") != "png")
     {
@@ -431,6 +481,8 @@ Options)";
                      .line_width     = static_cast<float>(line_width),
                      .edge_color_difference_threshold =
                 require_integer<int>(style, "edge_color_difference_threshold"),
+                     .point_color_match_tolerance =
+                require_integer<int>(style, "point_color_match_tolerance"),
                      .flat_shading = require_bool(style, "flat_shading"),
                      .point_color  = require_color(style, "point_rgba"),
                      .edge_color   = require_color(style, "edge_rgba"),
@@ -441,8 +493,7 @@ Options)";
                              .up         = require_vector(camera, "up"),
                              .vertical_field_of_view_radians = require_number(
                                  camera, "vertical_field_of_view_radians")},
-                     .minimum_foreground_pixels = require_integer<std::size_t>(
-                checks, "minimum_foreground_pixels")}
+                     .minimum_foreground_pixels = minimum_foreground_pixels}
     };
 
     if (result.render.camera.projection != "perspective" &&
@@ -469,6 +520,12 @@ Options)";
     {
       throw std::invalid_argument(
           "Edge color-difference threshold must be from 0 through 765.");
+    }
+    if (result.render.point_color_match_tolerance < 0 ||
+        result.render.point_color_match_tolerance > 765)
+    {
+      throw std::invalid_argument(
+          "Point color-match tolerance must be from 0 through 765.");
     }
     if (result.render.camera.vertical_field_of_view_radians <= 0.0 ||
         result.render.camera.vertical_field_of_view_radians >= std::numbers::pi)
@@ -537,10 +594,15 @@ Options)";
         actual.maximum_timeslice != manifest.expected.maximum_timeslice)
     {
       throw std::invalid_argument(fmt::format(
-          "Viewer fixture topology does not match the manifest: got "
+          "Viewer fixture topology does not match the manifest: expected "
+          "V/E/F/T={}/{}/{}/{} and timeslices {}..{}; got "
           "V/E/F/T={}/{}/{}/{} and timeslices {}..{}.",
-          actual.vertices, actual.edges, actual.faces, actual.simplices,
-          actual.minimum_timeslice, actual.maximum_timeslice));
+          manifest.expected.vertices, manifest.expected.edges,
+          manifest.expected.faces, manifest.expected.simplices,
+          manifest.expected.minimum_timeslice,
+          manifest.expected.maximum_timeslice, actual.vertices, actual.edges,
+          actual.faces, actual.simplices, actual.minimum_timeslice,
+          actual.maximum_timeslice));
     }
   }
 
@@ -626,6 +688,8 @@ Options)";
   void orient_outward(
       std::array<Triangulation::Vertex_handle, 3>& vertices) noexcept
   {
+    // The archival spherical fixture is star-shaped about the origin, so its
+    // centroid's radial direction identifies the outward-facing orientation.
     auto const point = [](Triangulation::Vertex_handle const vertex) {
       auto const& value = vertex->point();
       return std::array{CGAL::to_double(value.x()), CGAL::to_double(value.y()),
@@ -657,7 +721,7 @@ Options)";
                                     : std::set<std::array<std::uint64_t, 4>>{};
     Scene_options options;
     options.ignore_all_vertices(!render.draw_vertices);
-    options.ignore_all_edges(!render.draw_edges || render.edge_scope != "all");
+    options.ignore_all_edges(!draws_scene_edges(render));
     options.ignore_all_faces(true);
     options.colored_vertex = [](Triangulation const&,
                                 Triangulation::Vertex_handle) { return true; };
@@ -710,7 +774,7 @@ Options)";
   {
     viewer.resize(render.width, render.height);
     viewer.draw_vertices(render.draw_vertices);
-    viewer.draw_edges(render.draw_edges && render.edge_scope == "all");
+    viewer.draw_edges(draws_scene_edges(render));
     viewer.draw_faces(render.draw_faces);
     viewer.size_vertices(render.point_size);
     viewer.size_edges(render.line_width);
@@ -728,22 +792,35 @@ Options)";
     viewer.redraw();
   }
 
-  [[nodiscard]] auto color_distance(QColor const& first,
-                                    QColor const& second) noexcept -> int
+  [[nodiscard]] auto color_distance(QRgb first, QRgb second) noexcept -> int
   {
-    return std::abs(first.red() - second.red()) +
-           std::abs(first.green() - second.green()) +
-           std::abs(first.blue() - second.blue());
+    return std::abs(qRed(first) - qRed(second)) +
+           std::abs(qGreen(first) - qGreen(second)) +
+           std::abs(qBlue(first) - qBlue(second));
+  }
+
+  constexpr int      RGBA_CHANNELS{4};
+
+  [[nodiscard]] auto rgba_pixel(uchar const* row, int x) noexcept -> QRgb
+  {
+    auto const offset = x * RGBA_CHANNELS;
+    return qRgba(row[offset], row[offset + 1], row[offset + 2],
+                 row[offset + 3]);
+  }
+
+  void set_rgba_pixel(uchar* row, int x, QRgb color) noexcept
+  {
+    auto const offset = x * RGBA_CHANNELS;
+    row[offset]       = static_cast<uchar>(qRed(color));
+    row[offset + 1]   = static_cast<uchar>(qGreen(color));
+    row[offset + 2]   = static_cast<uchar>(qBlue(color));
+    row[offset + 3]   = static_cast<uchar>(qAlpha(color));
   }
 
   void outline_face_boundaries(std::filesystem::path const& path,
                                Render_config const&         render)
   {
-    if (!render.draw_edges ||
-        render.edge_scope != "screen_space_face_boundaries")
-    {
-      return;
-    }
+    if (!draws_screen_space_edges(render)) { return; }
 
     QImage source(QString::fromStdString(path.string()));
     if (source.isNull())
@@ -751,63 +828,77 @@ Options)";
       throw std::runtime_error(
           "Could not reopen the rendered image for edge outlining.");
     }
-    source        = source.convertToFormat(QImage::Format_RGBA8888);
-    auto outlined = source;
+    source                = source.convertToFormat(QImage::Format_RGBA8888);
+    auto       outlined   = source;
+    auto const edge_color = render.edge_color.rgba();
 
     for (int y = 0; y < source.height(); ++y)
     {
+      auto const* source_row = source.constScanLine(y);
+      auto const* lower_source_row =
+          y + 1 < source.height() ? source.constScanLine(y + 1) : nullptr;
+      auto* outlined_row = outlined.scanLine(y);
+      auto* lower_outlined_row =
+          y + 1 < outlined.height() ? outlined.scanLine(y + 1) : nullptr;
       for (int x = 0; x < source.width(); ++x)
       {
-        auto const color = source.pixelColor(x, y);
-        if (color.alpha() == 0) { continue; }
-        auto const boundary_with = [&](int neighbor_x, int neighbor_y) {
-          if (neighbor_x >= source.width() || neighbor_y >= source.height())
-          {
-            return false;
-          }
-          auto const neighbor = source.pixelColor(neighbor_x, neighbor_y);
-          return neighbor.alpha() != 0 &&
+        auto const color = rgba_pixel(source_row, x);
+        if (qAlpha(color) == 0) { continue; }
+        auto const boundary_with = [&](QRgb neighbor) {
+          return qAlpha(neighbor) != 0 &&
                  color_distance(color, neighbor) >
                      render.edge_color_difference_threshold;
         };
-        auto const right_boundary = boundary_with(x + 1, y);
-        auto const lower_boundary = boundary_with(x, y + 1);
+        auto const right_boundary =
+            x + 1 < source.width() &&
+            boundary_with(rgba_pixel(source_row, x + 1));
+        auto const lower_boundary =
+            lower_source_row != nullptr &&
+            boundary_with(rgba_pixel(lower_source_row, x));
         if (right_boundary || lower_boundary)
         {
-          outlined.setPixelColor(x, y, render.edge_color);
+          set_rgba_pixel(outlined_row, x, edge_color);
           if (render.line_width > 1.0F)
           {
             if (right_boundary)
             {
-              outlined.setPixelColor(x + 1, y, render.edge_color);
+              set_rgba_pixel(outlined_row, x + 1, edge_color);
             }
-            if (lower_boundary)
+            if (lower_boundary && lower_outlined_row != nullptr)
             {
-              outlined.setPixelColor(x, y + 1, render.edge_color);
+              set_rgba_pixel(lower_outlined_row, x, edge_color);
             }
           }
         }
       }
     }
 
-    auto const is_point = [&render](QColor const& color) {
-      return color.alpha() != 0 &&
-             color_distance(color, render.point_color) <= 6;
+    auto const point_color = render.point_color.rgba();
+    auto const is_point    = [&render, point_color](QRgb color) {
+      return qAlpha(color) != 0 && color_distance(color, point_color) <=
+                                       render.point_color_match_tolerance;
     };
     for (int y = 0; y < source.height(); ++y)
     {
+      auto const* source_row = source.constScanLine(y);
+      auto const* upper_source_row =
+          y > 0 ? source.constScanLine(y - 1) : nullptr;
+      auto const* lower_source_row =
+          y + 1 < source.height() ? source.constScanLine(y + 1) : nullptr;
+      auto* outlined_row = outlined.scanLine(y);
       for (int x = 0; x < source.width(); ++x)
       {
-        if (!is_point(source.pixelColor(x, y))) { continue; }
-        auto const has_point_interior = x > 0 && x + 1 < source.width() &&
-                                        y > 0 && y + 1 < source.height() &&
-                                        is_point(source.pixelColor(x - 1, y)) &&
-                                        is_point(source.pixelColor(x + 1, y)) &&
-                                        is_point(source.pixelColor(x, y - 1)) &&
-                                        is_point(source.pixelColor(x, y + 1));
+        if (!is_point(rgba_pixel(source_row, x))) { continue; }
+        auto const has_point_interior =
+            x > 0 && x + 1 < source.width() && upper_source_row != nullptr &&
+            lower_source_row != nullptr &&
+            is_point(rgba_pixel(source_row, x - 1)) &&
+            is_point(rgba_pixel(source_row, x + 1)) &&
+            is_point(rgba_pixel(upper_source_row, x)) &&
+            is_point(rgba_pixel(lower_source_row, x));
         if (!has_point_interior)
         {
-          outlined.setPixelColor(x, y, render.edge_color);
+          set_rgba_pixel(outlined_row, x, edge_color);
         }
       }
     }
@@ -822,15 +913,17 @@ Options)";
                                        Render_config const& render)
       -> std::size_t
   {
-    image = image.convertToFormat(QImage::Format_RGBA8888);
+    image                  = image.convertToFormat(QImage::Format_RGBA8888);
+    auto const  background = render.background.rgba();
     std::size_t count{};
     for (int y = 0; y < image.height(); ++y)
     {
+      auto const* row = image.constScanLine(y);
       for (int x = 0; x < image.width(); ++x)
       {
-        auto const color = image.pixelColor(x, y);
-        if (render.transparent_background ? color.alpha() != 0
-                                          : color != render.background)
+        auto const color = rgba_pixel(row, x);
+        if (render.transparent_background ? qAlpha(color) != 0
+                                          : color != background)
         {
           ++count;
         }
@@ -881,11 +974,12 @@ Options)";
     char            application_name[] = "cdt-viewer";
     char*           qt_argv[]          = {application_name, nullptr};
     QApplication    application(qt_argc, qt_argv);
+    std::string     render_error;
+    QTimer          headless_watchdog;
     Artifact_viewer viewer(nullptr, scene, "CDT++ archival viewer",
-                           render.draw_vertices, render.draw_edges,
+                           render.draw_vertices, draws_scene_edges(render),
                            render.draw_faces);
 
-    std::string     render_error;
     if (!output.empty())
     {
       viewer.setAttribute(::Qt::WA_DontShowOnScreen, true);
@@ -913,7 +1007,21 @@ Options)";
               render_error = error.what();
               application.exit(EXIT_FAILURE);
             }
+            catch (...)
+            {
+              render_error = "Unknown failure while rendering the artifact.";
+              application.exit(EXIT_FAILURE);
+            }
           });
+      constexpr int HEADLESS_RENDER_TIMEOUT_MS{60'000};
+      headless_watchdog.setSingleShot(true);
+      QObject::connect(&headless_watchdog, &QTimer::timeout, &application,
+                       [&application, &render_error]() {
+                         render_error =
+                             "Headless renderer timed out before completion.";
+                         application.exit(EXIT_FAILURE);
+                       });
+      headless_watchdog.start(HEADLESS_RENDER_TIMEOUT_MS);
     }
     else
     {
@@ -923,6 +1031,7 @@ Options)";
 
     viewer.show();
     auto const status = application.exec();
+    headless_watchdog.stop();
     if (!render_error.empty()) { throw std::runtime_error(render_error); }
     return status;
   }

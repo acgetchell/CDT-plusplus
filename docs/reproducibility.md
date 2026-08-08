@@ -146,6 +146,11 @@ and producer command reproduce stochastic inputs but are provenance, not a promi
 produce the same topology. The neighboring metadata manifest, render manifest, and image policy are specified in the
 [viewer contract](viewer.md).
 
+Canonical PNG regeneration is version-locked separately from stochastic replay: `viewer/manifests/v1/hero.json`
+records the exact CGAL and Qt versions and the same vcpkg baseline pinned by `vcpkg.json`. Run `just viewer-render`
+only on the manifest's canonical macOS toolchain when updating the committed raster; other environments use the
+structural smoke policy documented by the viewer contract.
+
 Payload parsing is supported for the repository's declared build matrix and
 pinned dependency set. Exact PCG prefixes replay on the same supported
 toolchain; transition traces replay when the starting manifold is identical.

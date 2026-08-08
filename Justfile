@@ -411,7 +411,7 @@ python-entrypoint-test: _sync-python-dev
 # Build the opt-in macOS CGAL/Qt viewer and run its noninteractive render smoke test.
 [group('workflows')]
 viewer-build:
-    {{ if os_family() == "windows" { "cmd.exe //d //c \"echo The archival viewer is supported only on macOS. 1>&2 & exit /b 2\"" } else { "just _build-viewer-unix" } }}
+    {{ if os() == "macos" { "just _build-viewer-unix" } else if os() == "windows" { "cmd.exe //d //c \"echo The archival viewer is not supported on Windows. 1>&2 & exit /b 2\"" } else if os() == "linux" { "sh -c 'echo The archival viewer is not supported on Linux. 1>&2; exit 2'" } else { "sh -c 'echo The archival viewer is supported only on macOS. 1>&2; exit 2'" } }}
 
 # Validate the tracked viewer fixture, render manifest, and canonical hero image.
 [group('workflows')]

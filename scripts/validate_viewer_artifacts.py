@@ -4,8 +4,10 @@
 import argparse
 import hashlib
 import json
+import re
 import struct
 import sys
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import TYPE_CHECKING, TypeGuard
 
@@ -20,6 +22,7 @@ PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 FNV_OFFSET = 14695981039346656037
 FNV_PRIME = 1099511628211
 FNV_MASK = (1 << 64) - 1
+DECIMAL_PATTERN = re.compile(r"-?(?:0|[1-9][0-9]*)(?:[.][0-9]+)?(?:[eE][+-]?[0-9]+)?\Z")
 
 
 class ViewerArtifactError(ValueError):
@@ -57,6 +60,23 @@ def _integer(parent: JsonObject, key: str, context: str) -> int:
     return value
 
 
+def _decimal(parent: JsonObject, key: str, context: str) -> Decimal:
+    """Return one finite JSON number under the exact-decimal equality policy."""
+    value = parent.get(key)
+    if isinstance(value, bool) or not isinstance(value, int | float | Decimal):
+        message = f"{context}.{key} must be a finite number"
+        raise ViewerArtifactError(message)
+    try:
+        result = Decimal(str(value))
+    except InvalidOperation as error:
+        message = f"{context}.{key} must be a finite number"
+        raise ViewerArtifactError(message) from error
+    if not result.is_finite():
+        message = f"{context}.{key} must be a finite number"
+        raise ViewerArtifactError(message)
+    return result
+
+
 def _reject_json_constant(value: str) -> object:
     """Reject JavaScript constants that RFC 8259 excludes from JSON."""
     message = f"non-standard JSON constant {value!r} is not permitted"
@@ -66,7 +86,11 @@ def _reject_json_constant(value: str) -> object:
 def _load_object(path: Path) -> JsonObject:
     """Load a JSON object from *path*."""
     return _object(
-        json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_json_constant),
+        json.loads(
+            path.read_text(encoding="utf-8"),
+            parse_float=Decimal,
+            parse_constant=_reject_json_constant,
+        ),
         str(path),
     )
 
@@ -122,6 +146,21 @@ def _metadata_unsigned_integer(metadata: dict[str, str], key: str, path: Path) -
         raise ViewerArtifactError(message) from error
 
 
+def _metadata_decimal(metadata: dict[str, str], key: str, path: Path) -> Decimal:
+    """Parse one finite metadata decimal without binary floating-point rounding."""
+    value = metadata.get(key)
+    message = f"{path} metadata field {key!r} must be a finite decimal number"
+    if value is None or not value.isascii() or DECIMAL_PATTERN.fullmatch(value) is None:
+        raise ViewerArtifactError(message)
+    try:
+        result = Decimal(value)
+    except InvalidOperation as error:
+        raise ViewerArtifactError(message) from error
+    if not result.is_finite():
+        raise ViewerArtifactError(message)
+    return result
+
+
 def _validate_schema(manifest: JsonObject, manifest_path: Path) -> None:
     """Validate *manifest* against its repository-relative schema."""
     schema_path = (manifest_path.parent / _string(manifest, "$schema", str(manifest_path))).resolve()
@@ -133,6 +172,58 @@ def _validate_schema(manifest: JsonObject, manifest_path: Path) -> None:
         details = "; ".join(error.message for error in errors)
         message = f"{manifest_path} does not match {schema_path}: {details}"
         raise ViewerArtifactError(message)
+
+
+def _validate_expected_topology(fixture: JsonObject, metadata: dict[str, str]) -> None:
+    """Require manifest topology counts to agree with the metadata sidecar."""
+    topology = _object(fixture.get("expected_topology"), "fixture.expected_topology")
+    topology_fields = {
+        "vertices": "actual.vertices",
+        "edges": "actual.edges",
+        "faces": "actual.faces",
+        "simplices": "actual.simplices",
+        "minimum_timeslice": "actual.minimum_timeslice",
+        "maximum_timeslice": "actual.maximum_timeslice",
+    }
+    for manifest_field, metadata_field in topology_fields.items():
+        expected = _integer(topology, manifest_field, "fixture.expected_topology")
+        if metadata.get(metadata_field) != str(expected):
+            message = f"{metadata_field} does not match fixture.expected_topology.{manifest_field}"
+            raise ViewerArtifactError(message)
+
+
+def _validate_provenance(fixture: JsonObject, metadata: dict[str, str], metadata_path: Path) -> None:
+    """Require manifest provenance to agree with the metadata sidecar."""
+    provenance = _object(fixture.get("provenance"), "fixture.provenance")
+    provenance_fields = {
+        "dimension": "dimension",
+        "desired_simplices": "desired.simplices",
+        "timeslices": "desired.timeslices",
+        "seed": "random.seed",
+        "threads": "parallel.max_threads",
+    }
+    for manifest_field, metadata_field in provenance_fields.items():
+        expected = _integer(provenance, manifest_field, "fixture.provenance")
+        if metadata.get(metadata_field) != str(expected):
+            message = f"{metadata_field} does not match fixture.provenance.{manifest_field}"
+            raise ViewerArtifactError(message)
+
+    expected_topology = _string(provenance, "topology", "fixture.provenance")
+    actual_topology = metadata.get("topology")
+    if actual_topology != expected_topology:
+        message = f"topology does not match fixture.provenance.topology: expected {expected_topology!r}, got {actual_topology!r}"
+        raise ViewerArtifactError(message)
+
+    decimal_fields = {
+        "initial_radius": "initial_radius",
+        "foliation_spacing": "foliation_spacing",
+    }
+    for manifest_field, metadata_field in decimal_fields.items():
+        expected = _decimal(provenance, manifest_field, "fixture.provenance")
+        actual = _metadata_decimal(metadata, metadata_field, metadata_path)
+        if actual != expected:
+            message = f"{metadata_field} does not match fixture.provenance.{manifest_field}: expected {expected}, got {actual}"
+            raise ViewerArtifactError(message)
 
 
 def _validate_fixture(manifest: JsonObject, manifest_path: Path) -> None:
@@ -158,35 +249,8 @@ def _validate_fixture(manifest: JsonObject, manifest_path: Path) -> None:
     if metadata.get("payload.fnv1a64") != _fnv1a64(fixture_path):
         message = "viewer fixture payload.fnv1a64 does not match the OFF file"
         raise ViewerArtifactError(message)
-
-    topology = _object(fixture.get("expected_topology"), "fixture.expected_topology")
-    topology_fields = {
-        "vertices": "actual.vertices",
-        "edges": "actual.edges",
-        "faces": "actual.faces",
-        "simplices": "actual.simplices",
-        "minimum_timeslice": "actual.minimum_timeslice",
-        "maximum_timeslice": "actual.maximum_timeslice",
-    }
-    for manifest_field, metadata_field in topology_fields.items():
-        expected = _integer(topology, manifest_field, "fixture.expected_topology")
-        if metadata.get(metadata_field) != str(expected):
-            message = f"{metadata_field} does not match fixture.expected_topology.{manifest_field}"
-            raise ViewerArtifactError(message)
-
-    provenance = _object(fixture.get("provenance"), "fixture.provenance")
-    provenance_fields = {
-        "dimension": "dimension",
-        "desired_simplices": "desired.simplices",
-        "timeslices": "desired.timeslices",
-        "seed": "random.seed",
-        "threads": "parallel.max_threads",
-    }
-    for manifest_field, metadata_field in provenance_fields.items():
-        expected = _integer(provenance, manifest_field, "fixture.provenance")
-        if metadata.get(metadata_field) != str(expected):
-            message = f"{metadata_field} does not match fixture.provenance.{manifest_field}"
-            raise ViewerArtifactError(message)
+    _validate_expected_topology(fixture, metadata)
+    _validate_provenance(fixture, metadata, metadata_path)
 
 
 def _png_dimensions(path: Path) -> tuple[int, int]:
@@ -253,7 +317,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = _parse_args(sys.argv[1:] if argv is None else argv)
     try:
         image = validate(args.manifest, args.image, canonical=not args.structural_only)
-    except (OSError, ViewerArtifactError, json.JSONDecodeError, jsonschema.SchemaError) as error:
+    except (OSError, UnicodeDecodeError, ViewerArtifactError, json.JSONDecodeError, jsonschema.SchemaError) as error:
         print(f"Viewer artifact validation failed: {error}", file=sys.stderr)
         return 1
     print(f"Viewer fixture, render manifest, and image are valid: {image}")
