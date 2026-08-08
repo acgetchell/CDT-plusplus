@@ -85,6 +85,8 @@ manifest. The manifest records:
 - requested and actual topology dimensions and counts;
 - foliation parameters and, for simulations, the action parameters and pass
   cadence;
+- the optional configured-attempt count for callers using explicit one-step
+  transitions;
 - the maximum requested Delaunay thread count;
 - completed passes and the transition-trace fingerprint;
 - a canonical placement fingerprint derived from sorted finite vertices and

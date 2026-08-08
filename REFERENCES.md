@@ -3,7 +3,7 @@
 ## How to Cite This Software
 
 If CDT++ contributes to research or a project, cite it using the structured
-metadata in [`CITATION.cff`](CITATION.cff). GitHub and other citation tools can
+metadata in [`CITATION.cff`](https://github.com/acgetchell/CDT-plusplus/blob/16d1c769afc67e06f07639f6fd9de8136974e282/CITATION.cff). GitHub and other citation tools can
 generate BibTeX, APA, and additional formats from that file.
 
 Quick citation for the current declared release:

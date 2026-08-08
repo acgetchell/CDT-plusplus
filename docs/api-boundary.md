@@ -14,6 +14,12 @@ platform-required `NOMINMAX` definition are preprocessing exceptions rather
 than C++ API declarations. The formatter specializations remain in `fmt`, as
 required by that library's customization contract.
 
+The [C++ API quickstart](cpp-api-quickstart.md) is the canonical runnable
+consumer of this boundary. CMake compiles it from the same source embedded in
+the generated documentation, and CTest exercises its validated construction,
+ten explicitly reported Metropolis proposals, aggregate summary accounting,
+and persistence round trip.
+
 ## Header classification
 
 | Header | Supported surface | Internal, customization, or experimental surface |
@@ -87,3 +93,24 @@ versioned binary library. `BUILD_SHARED_LIBS` alone does not establish an ABI
 promise. The supported contract is C++23 source compatibility within the 1.0
 surface documented here; `detail` and `experimental` declarations may change
 without compatibility shims.
+
+## Generated reference policy
+
+The canonical Doxygen configuration extracts documented public and protected
+declarations while excluding private, package/internal, static, file-local,
+`detail`, and `experimental` symbols from the supported reference surface.
+Source-browser pages may still show implementation text; visibility there does
+not promote a declaration into the supported API.
+
+The canonical configuration enables documentation-error, undocumented-symbol,
+parameter, and return warnings. Because Doxygen also emits completeness warnings
+for excluded implementation namespaces and source-browser entry points, the
+repository wrapper classifies the completed warning log: only completeness noise
+for `detail`, `experimental`, and recognized `src` entry-point artifacts is
+ignored. The wrapper temporarily disables Doxygen's undifferentiated
+fail-on-warning status so it can perform that classification after generation;
+it then fails on every non-exempt warning. Malformed documentation and every
+supported-public-surface warning are fatal. `just docs-check` builds the site
+with the repository-pinned Doxygen and Graphviz versions, then validates the
+warning policy, generated local links, fragments, identifiers, rendered labels,
+and required assets without modifying the worktree.

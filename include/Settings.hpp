@@ -30,8 +30,10 @@ namespace cdt
   using Int_precision = std::int32_t;
 
 #ifdef _WIN32
+/// Cross-platform spelling of the current function signature for diagnostics.
 #define CDT_PRETTY_FUNCTION __FUNCSIG__
 #else
+/// Cross-platform spelling of the current function signature for diagnostics.
 #define CDT_PRETTY_FUNCTION __PRETTY_FUNCTION__
 #endif
 
@@ -41,8 +43,9 @@ namespace cdt
   /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
   inline constexpr Int_precision PRECISION                             = 256;
 
-  /// Default foliated triangulation spacings
+  /// Default initial radius for generated foliated triangulations.
   inline constexpr double INITIAL_RADIUS                               = 1.0;
+  /// Default distance between successive foliated timeslices.
   inline constexpr double FOLIATION_SPACING                            = 1.0;
 
   /// Sets epsilon values for floating point comparisons

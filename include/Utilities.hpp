@@ -66,10 +66,12 @@
 
 namespace cdt
 {
+  /// @brief Spatial-topology label stored by configuration and persistence
+  /// APIs.
   enum class Topology
   {
-    TOROIDAL,
-    SPHERICAL
+    TOROIDAL,  ///< Reserved for toroidal slices; construction is unsupported.
+    SPHERICAL  ///< Supported spherical spatial slices.
   };
 
   /// @brief Convert Topology to string output
@@ -90,11 +92,12 @@ namespace cdt
 
 namespace cdt::utilities
 {
+  /// @brief Persistence artifact represented by a triangulation payload.
   enum class ArtifactKind
   {
-    INITIAL_TRIANGULATION,
-    CHECKPOINT,
-    FINAL_TRIANGULATION
+    INITIAL_TRIANGULATION,  ///< Initial state before stochastic transitions.
+    CHECKPOINT,             ///< Intermediate snapshot during a move run.
+    FINAL_TRIANGULATION     ///< Final state after the configured move run.
   };
 
   /// @brief Provenance recorded next to every stochastic triangulation.
@@ -105,36 +108,41 @@ namespace cdt::utilities
   /// responsible for supplying truthful run configuration and RNG provenance.
   struct Reproducibility_metadata
   {
-    ArtifactKind      artifact{ArtifactKind::FINAL_TRIANGULATION};
-    cdt::RandomSeed   seed{};
+    ArtifactKind artifact{
+        ArtifactKind::FINAL_TRIANGULATION};  ///< Artifact role.
+    cdt::RandomSeed   seed{};  ///< Root seed for the recorded run.
     cdt::RandomStream initialization_stream{
-        cdt::random_streams::initialization};
-    cdt::RandomStream transition_stream{cdt::random_streams::transitions};
-    Topology          topology{Topology::SPHERICAL};
-    Int_precision     dimension{};
-    Int_precision     desired_simplices{};
-    Int_precision     desired_timeslices{};
-    Int_precision     actual_vertices{};
-    Int_precision     actual_edges{};
-    Int_precision     actual_faces{};
-    Int_precision     actual_simplices{};
-    Int_precision     minimum_timeslice{};
-    Int_precision     maximum_timeslice{};
-    double            initial_radius{};
-    double            foliation_spacing{};
-    std::optional<long double>   alpha;
-    std::optional<long double>   k;
-    std::optional<long double>   lambda;
-    std::optional<Int_precision> configured_passes;
-    std::optional<Int_precision> checkpoint_interval;
-    std::optional<Int_precision> completed_passes;
-    std::optional<std::uint64_t> max_threads;
-    std::optional<std::uint64_t> transition_trace;
-    std::optional<std::uint64_t> transition_count;
-    std::optional<std::uint64_t> placement_fingerprint;
-    std::optional<std::uint64_t> topology_fingerprint;
+        cdt::random_streams::initialization};  ///< Initialization stream.
+    cdt::RandomStream transition_stream{
+        cdt::random_streams::transitions};        ///< Transition stream.
+    Topology      topology{Topology::SPHERICAL};  ///< Spatial-topology label.
+    Int_precision dimension{};                    ///< Spatial dimension.
+    Int_precision desired_simplices{};            ///< Requested simplex target.
+    Int_precision desired_timeslices{};   ///< Requested timeslice count.
+    Int_precision actual_vertices{};      ///< Persisted finite vertices.
+    Int_precision actual_edges{};         ///< Persisted finite edges.
+    Int_precision actual_faces{};         ///< Persisted finite faces.
+    Int_precision actual_simplices{};     ///< Persisted finite simplices.
+    Int_precision minimum_timeslice{};    ///< Minimum persisted time label.
+    Int_precision maximum_timeslice{};    ///< Maximum persisted time label.
+    double        initial_radius{};       ///< Initial spherical radius.
+    double        foliation_spacing{};    ///< Radius increment per slice.
+    std::optional<long double>   alpha;   ///< Optional Wick-rotation parameter.
+    std::optional<long double>   k;       ///< Optional inverse Newton coupling.
+    std::optional<long double>   lambda;  ///< Optional cosmological coupling.
+    std::optional<Int_precision> configured_passes;  ///< Requested move passes.
+    std::optional<Int_precision> configured_attempts;  ///< Explicit attempts.
+    std::optional<Int_precision> checkpoint_interval;  ///< Checkpoint cadence.
+    std::optional<Int_precision> completed_passes;  ///< Passes before snapshot.
+    std::optional<std::uint64_t> max_threads;       ///< Configured concurrency.
+    std::optional<std::uint64_t> transition_trace;  ///< Ordered trace hash.
+    std::optional<std::uint64_t> transition_count;  ///< Hashed transitions.
+    std::optional<std::uint64_t> placement_fingerprint;  ///< Coordinate hash.
+    std::optional<std::uint64_t> topology_fingerprint;   ///< Incidence hash.
   };
 
+  /// @param payload Triangulation payload path.
+  /// @return Sidecar path formed by appending `.meta`.
   [[nodiscard]] inline auto metadata_filename(
       std::filesystem::path const& payload) -> std::filesystem::path
   {
@@ -637,6 +645,7 @@ namespace cdt::utilities
       append_optional("k", metadata.k);
       append_optional("lambda", metadata.lambda);
       append_optional("configured_passes", metadata.configured_passes);
+      append_optional("configured_attempts", metadata.configured_attempts);
       append_optional("checkpoint_interval", metadata.checkpoint_interval);
       append_optional("completed_passes", metadata.completed_passes);
       append_optional("parallel.max_threads", metadata.max_threads);
@@ -1112,6 +1121,13 @@ namespace cdt::utilities
       {
         throw std::filesystem::filesystem_error(
             "Persistence metadata contains an invalid run configuration", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      if (values.contains("configured_attempts") &&
+          parse_integer_field("configured_attempts") <= 0)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata contains invalid configured attempts", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
 
@@ -1661,6 +1677,10 @@ namespace cdt::utilities
     return filename;
   }  // make_filename
 
+  /// @brief Generate the conventional state-derived OFF filename.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param manifold Manifold whose geometry and foliation name the artifact.
+  /// @return Timestamped OFF path.
   template <typename ManifoldType>
   [[nodiscard]] auto make_filename(ManifoldType const& manifold)
   {
@@ -1671,6 +1691,10 @@ namespace cdt::utilities
   }  // make_filename
 
   /// @brief Generate a filename that records the effective run seed.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param manifold Manifold whose state names the artifact.
+  /// @param seed Effective root seed.
+  /// @return OFF path containing the seed.
   template <typename ManifoldType>
   [[nodiscard]] auto make_filename(ManifoldType const&   manifold,
                                    cdt::RandomSeed const seed)
@@ -1682,6 +1706,11 @@ namespace cdt::utilities
   }
 
   /// @brief Generate a checkpoint filename that records seed and pass.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param manifold Manifold whose state names the artifact.
+  /// @param seed Effective root seed.
+  /// @param completed_passes Number of completed move passes.
+  /// @return OFF path containing seed and pass count.
   template <typename ManifoldType>
   [[nodiscard]] auto make_filename(ManifoldType const&   manifold,
                                    cdt::RandomSeed const seed,
@@ -1712,10 +1741,14 @@ namespace cdt::utilities
   /// @brief Write triangulation to file
   /// @details This function writes the Delaunay triangulation in the manifold
   /// to an OFF file. http://www.geomview.org/docs/html/OFF.html#OFF Provides
-  /// strong exception-safety.
+  /// strong exception-safety for the destination file. Writes are serialized
+  /// within the process and validated before an atomic replacement.
   /// @tparam TriangulationType The type of triangulation
   /// @param filename The filename to write to
   /// @param triangulation The triangulation to write
+  /// @throws std::logic_error for a same-thread reentrant write.
+  /// @throws std::filesystem::filesystem_error if serialization, validation,
+  /// or replacement fails.
   template <typename TriangulationType>
   void write_file(std::filesystem::path const& filename,
                   TriangulationType const&     triangulation)
@@ -1723,9 +1756,20 @@ namespace cdt::utilities
     detail::write_payload(filename, triangulation, std::nullopt);
   }  // write_file
 
-  /// @brief Atomically replace a triangulation and its verifiable provenance.
+  /// @brief Replace a triangulation and its verifiable provenance atomically
+  /// per file.
   /// @details Derives payload-dependent metadata from the triangulation and
-  /// validates the complete typed manifest before either file is published.
+  /// validates both temporary files before publishing the manifest and then
+  /// the payload. The pair is not a filesystem transaction: interruption
+  /// between replacements can leave a detectable checksum mismatch, which
+  /// read_file() rejects.
+  /// @tparam TriangulationType Supported Delaunay triangulation type.
+  /// @param filename Destination OFF path.
+  /// @param triangulation Triangulation payload to serialize.
+  /// @param metadata Run configuration and stochastic provenance.
+  /// @throws std::logic_error for a same-thread reentrant write.
+  /// @throws std::filesystem::filesystem_error if serialization, validation,
+  /// or either replacement fails.
   template <typename TriangulationType>
   void write_file(std::filesystem::path const&    filename,
                   TriangulationType const&        triangulation,
@@ -1733,6 +1777,9 @@ namespace cdt::utilities
   { detail::write_payload(filename, triangulation, metadata); }
 
   /// @brief Fingerprint vertices, causal metadata, and abstract finite cells.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param manifold Manifold to fingerprint without mutation.
+  /// @return Stable topology fingerprint independent of handle identity.
   template <typename ManifoldType>
   [[nodiscard]] auto canonical_topology_fingerprint(
       ManifoldType const& manifold) -> std::uint64_t
@@ -1742,6 +1789,9 @@ namespace cdt::utilities
   }
 
   /// @brief Fingerprint finite vertex coordinates and timeslice metadata.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param manifold Manifold to fingerprint without mutation.
+  /// @return Stable placement fingerprint independent of handle identity.
   template <typename ManifoldType>
   [[nodiscard]] auto canonical_placement_fingerprint(
       ManifoldType const& manifold) -> std::uint64_t
@@ -1751,6 +1801,11 @@ namespace cdt::utilities
   }
 
   /// @brief Build provenance from a canonical manifold state.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param manifold Canonical state summarized by the metadata.
+  /// @param seed Effective root seed.
+  /// @param artifact Artifact role to record.
+  /// @return Reconciled geometry, foliation, seed, and fingerprint metadata.
   template <typename ManifoldType>
   [[nodiscard]] auto make_reproducibility_metadata(ManifoldType const& manifold,
                                                    cdt::RandomSeed const seed,
@@ -1776,6 +1831,9 @@ namespace cdt::utilities
   }
 
   /// @brief Refresh state-dependent provenance after a transition sequence.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param metadata Metadata record to update in place.
+  /// @param manifold Canonical state supplying counts and fingerprints.
   template <typename ManifoldType>
   void update_reproducibility_state(Reproducibility_metadata& metadata,
                                     ManifoldType const&       manifold)
@@ -1800,6 +1858,8 @@ namespace cdt::utilities
   /// implemented using the << operator for triangulations.
   /// @tparam ManifoldType The manifold type
   /// @param t_universe The simplicial manifold
+  /// @throws std::logic_error for a same-thread reentrant write.
+  /// @throws std::filesystem::filesystem_error if persistence fails.
   template <typename ManifoldType>
   void write_file(ManifoldType const& t_universe)
   {
@@ -1809,6 +1869,11 @@ namespace cdt::utilities
   }  // write_file
 
   /// @brief Write a triangulation with the effective seed in its filename.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param t_universe Manifold to serialize.
+  /// @param seed Effective root seed.
+  /// @throws std::logic_error for a same-thread reentrant write.
+  /// @throws std::filesystem::filesystem_error if persistence fails.
   template <typename ManifoldType>
   void write_file(ManifoldType const& t_universe, cdt::RandomSeed const seed)
   {
@@ -1819,6 +1884,12 @@ namespace cdt::utilities
   }
 
   /// @brief Write a checkpoint with its effective seed and pass in its name.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param t_universe Manifold to serialize.
+  /// @param seed Effective root seed.
+  /// @param completed_passes Number of completed move passes.
+  /// @throws std::logic_error for a same-thread reentrant write.
+  /// @throws std::filesystem::filesystem_error if persistence fails.
   template <typename ManifoldType>
   void write_file(ManifoldType const& t_universe, cdt::RandomSeed const seed,
                   Int_precision const completed_passes)
@@ -1831,6 +1902,13 @@ namespace cdt::utilities
   }
 
   /// @brief Write a named stochastic artifact and its complete provenance.
+  /// @tparam ManifoldType Supported manifold type.
+  /// @param universe Manifold to serialize.
+  /// @param metadata Complete artifact and stochastic provenance.
+  /// @throws std::invalid_argument if checkpoint metadata omits completed
+  /// passes.
+  /// @throws std::logic_error for a same-thread reentrant write.
+  /// @throws std::filesystem::filesystem_error if persistence fails.
   template <typename ManifoldType>
   void write_file(ManifoldType const&             universe,
                   Reproducibility_metadata const& metadata)
@@ -1853,6 +1931,8 @@ namespace cdt::utilities
   /// @tparam TriangulationType The type of triangulation
   /// @param filename The file to read from
   /// @returns A Delaunay triangulation
+  /// @throws std::filesystem::filesystem_error if the payload or sidecar is
+  /// missing, unreadable, malformed, or inconsistent.
   template <typename TriangulationType>
   [[nodiscard]] auto read_file(std::filesystem::path const& filename)
       -> TriangulationType
@@ -1872,6 +1952,9 @@ namespace cdt::utilities
 
   /// @brief Roll a die using a caller-supplied
   /// `std::uniform_random_bit_generator`
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param generator Generator whose state advances during sampling.
+  /// @return Uniform integer in the closed interval [1, 6].
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto die_roll(Generator& generator)
   {
@@ -1909,6 +1992,12 @@ namespace cdt::utilities
 
   /// @brief Generate random integers by calling generate_random, preserves
   /// template argument deduction
+  /// @tparam Generator Uniform random bit generator type.
+  /// @tparam IntegerType Integral result type.
+  /// @param generator Generator whose state advances during sampling.
+  /// @param t_min_value Inclusive lower bound.
+  /// @param t_max_value Inclusive upper bound.
+  /// @return Uniformly sampled integer in the requested closed interval.
   template <std::uniform_random_bit_generator Generator,
             std::integral                     IntegerType>
   [[nodiscard]] auto generate_random_int(Generator&  generator,
@@ -1921,6 +2010,11 @@ namespace cdt::utilities
   }  // generate_random_int()
 
   /// @brief Generate a random timeslice
+  /// @tparam Generator Uniform random bit generator type.
+  /// @tparam IntegerType Integral timeslice type.
+  /// @param generator Generator whose state advances during sampling.
+  /// @param t_max_timeslice Inclusive positive upper timeslice bound.
+  /// @return Uniformly sampled timeslice in [1, `t_max_timeslice`].
   template <std::uniform_random_bit_generator Generator,
             std::integral                     IntegerType>
   [[nodiscard]] auto generate_random_timeslice(Generator&  generator,
@@ -1933,6 +2027,12 @@ namespace cdt::utilities
 
   /// @brief Generate random real numbers by calling generate_random,
   /// preserves template argument deduction
+  /// @tparam Generator Uniform random bit generator type.
+  /// @tparam FloatingPointType Floating-point result type.
+  /// @param generator Generator whose state advances during sampling.
+  /// @param t_min_value Inclusive lower bound.
+  /// @param t_max_value Exclusive upper bound.
+  /// @return Uniformly sampled real value in the requested interval.
   template <std::uniform_random_bit_generator Generator,
             std::floating_point               FloatingPointType>
   [[nodiscard]] auto generate_random_real(Generator&        generator,
@@ -1945,6 +2045,9 @@ namespace cdt::utilities
   }  // generate_random_real()
 
   /// @brief Generate a probability
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param generator Generator whose state advances during sampling.
+  /// @return Uniform long-double sample in [0, 1).
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto generate_probability(Generator& generator)
   {
@@ -2141,6 +2244,7 @@ namespace cdt::utilities
     return population;
   }  // expected_points_per_timeslice
 
+  /// @brief Validated simplex-population bounds for generated triangulations.
   struct Generated_population_bounds
   {
     /// Base population used to construct the spherical layers.

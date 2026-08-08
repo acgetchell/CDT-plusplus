@@ -168,8 +168,15 @@ namespace cdt
     { return m_command_results.failed; }
 
     /// @brief Execute a fresh run while continuing the owned random stream.
-    /// @details Counters and checkpoint events are replaced only after the
-    /// invocation completes.
+    /// @details The input remains unchanged. Counters and checkpoint events are
+    /// replaced only after the invocation completes. If an exception escapes,
+    /// the owned random stream may already have advanced even though those
+    /// published results remain unchanged.
+    /// @param t_manifold Initial canonical state for the run.
+    /// @returns Canonical state after all configured passes complete.
+    /// @throws std::filesystem::filesystem_error if checkpoint output is
+    /// enabled and persistence fails; also propagates failures from move
+    /// generation and validation.
     [[nodiscard]] auto operator()(ManifoldType const& t_manifold)
         -> ManifoldType
     {
@@ -201,6 +208,7 @@ namespace cdt
     void print_results() const { print_results(m_command_results); }
   };
 
+  /// Always-accept-applicable move strategy for the supported 3D manifold.
   using MoveAlways_3 =
       MoveStrategy<MoveStrategyKind::MOVE_ALWAYS, manifolds::Manifold_3>;
 }  // namespace cdt

@@ -22,6 +22,7 @@
 
 namespace
 {
+  using cdt::ergodic_moves::MetropolisTransition;
   using cdt::ergodic_moves::MoveError;
   using cdt::ergodic_moves::MoveFailure;
   using cdt::ergodic_moves::MoveOutcome;
@@ -102,6 +103,18 @@ static_assert(static_cast<std::uint8_t>(MoveOutcome::METROPOLIS_ACCEPTED) == 1);
 static_assert(static_cast<std::uint8_t>(MoveOutcome::METROPOLIS_REJECTED) == 2);
 static_assert(static_cast<std::uint8_t>(MoveOutcome::EXECUTION_FAILED) == 3);
 static_assert(static_cast<std::uint8_t>(MoveOutcome::SUCCEEDED) == 4);
+static_assert(std::is_trivially_copyable_v<MetropolisTransition>);
+static_assert(MetropolisTransition{MoveType::TWO_THREE,
+                                   MoveOutcome::METROPOLIS_ACCEPTED}
+                  .accepted());
+static_assert(MetropolisTransition{MoveType::TWO_THREE,
+                                   MoveOutcome::METROPOLIS_REJECTED}
+                  .successful());
+static_assert(MetropolisTransition{MoveType::TWO_THREE, MoveOutcome::SUCCEEDED}
+                  .successful());
+static_assert(!MetropolisTransition{MoveType::TWO_THREE,
+                                    MoveOutcome::INAPPLICABLE}
+                   .successful());
 
 TEST_CASE("Move failures have stable diagnostics and accounting outcomes" *
           doctest::test_suite("move_outcome"))
@@ -121,6 +134,26 @@ TEST_CASE("Move failures have stable diagnostics and accounting outcomes" *
     CHECK_EQ(fmt::format("{}", error), test_case.message);
     CHECK_EQ(cdt::ergodic_moves::outcome_from(error), test_case.outcome);
   }
+}
+
+TEST_CASE("Metropolis transition reports distinguish success from acceptance" *
+          doctest::test_suite("move_outcome"))
+{
+  auto const accepted =
+      MetropolisTransition{MoveType::TWO_SIX, MoveOutcome::METROPOLIS_ACCEPTED};
+  auto const rejected = MetropolisTransition{MoveType::THREE_TWO,
+                                             MoveOutcome::METROPOLIS_REJECTED};
+  auto const failed =
+      MetropolisTransition{MoveType::FOUR_FOUR, MoveOutcome::EXECUTION_FAILED};
+
+  CHECK_EQ(accepted.move(), MoveType::TWO_SIX);
+  CHECK_EQ(accepted.outcome(), MoveOutcome::METROPOLIS_ACCEPTED);
+  CHECK(accepted.successful());
+  CHECK(accepted.accepted());
+  CHECK(rejected.successful());
+  CHECK_FALSE(rejected.accepted());
+  CHECK_FALSE(failed.successful());
+  CHECK_FALSE(failed.accepted());
 }
 
 SCENARIO("Move error equality includes failure and move identity" *

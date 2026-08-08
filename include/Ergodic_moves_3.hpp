@@ -40,14 +40,23 @@
 
 namespace cdt::ergodic_moves
 {
+  /// Three-dimensional spherical CDT manifold operated on by this move set.
   using Manifold         = manifolds::Manifold_3;
+  /// Fallible manifold transformation returned by public move functions.
   using Expected         = MoveResult<Manifold>;
+  /// Three-dimensional CGAL cell handle.
   using Cell_handle      = Cell_handle_t<3>;
+  /// Collection of three-dimensional cell handles.
   using Cell_container   = std::vector<Cell_handle>;
+  /// Three-dimensional CGAL edge descriptor.
   using Edge_handle      = Edge_handle_t<3>;
+  /// Collection of three-dimensional edge descriptors.
   using Edge_container   = std::vector<Edge_handle>;
+  /// Three-dimensional CGAL vertex handle.
   using Vertex_handle    = Vertex_handle_t<3>;
+  /// Collection of three-dimensional vertex handles.
   using Vertex_container = std::vector<Vertex_handle>;
+  /// Three-dimensional Delaunay triangulation used by move implementations.
   using Delaunay         = Delaunay_t<3>;
 
   namespace detail
@@ -679,6 +688,10 @@ namespace cdt::ergodic_moves
   /// @details Unlike do_23_move(), this samples exactly one of the N3(2,2)
   /// cells. An inapplicable selected cell is a rejected proposal rather than a
   /// reason to condition the proposal distribution on the movable subset.
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param t_manifold Source manifold, which remains unchanged.
+  /// @param generator Caller-owned generator advanced by site sampling.
+  /// @return Proposed manifold, or a structured reason the site was rejected.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_23_move(Manifold const& t_manifold,
                                             Generator& generator) -> Expected
@@ -840,6 +853,10 @@ namespace cdt::ergodic_moves
   /// @brief Propose one (3,2) site for Metropolis-Hastings.
   /// @details The raw proposal domain is the set of timelike edges. Selecting
   /// a nonflippable edge produces a self-transition.
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param t_manifold Source manifold, which remains unchanged.
+  /// @param generator Caller-owned generator advanced by site sampling.
+  /// @return Proposed manifold, or a structured reason the site was rejected.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_32_move(Manifold const& t_manifold,
                                             Generator& generator) -> Expected
@@ -1108,6 +1125,10 @@ namespace cdt::ergodic_moves
   /// @details Exactly one uniformly selected (1,3) cell is examined. An
   /// inapplicable raw site is returned as a failed proposal so Metropolis-
   /// Hastings can account for it as a self-transition.
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param t_manifold Source manifold, which remains unchanged.
+  /// @param generator Caller-owned generator advanced by site sampling.
+  /// @return Proposed manifold, or a structured reason the site was rejected.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_26_move(Manifold const& t_manifold,
                                             Generator& generator) -> Expected
@@ -1380,6 +1401,11 @@ namespace cdt::ergodic_moves
   }  // do_62_move()
 
   /// @brief Propose one vertex as a (6,2) site for Metropolis-Hastings.
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param t_manifold Source manifold, which remains unchanged.
+  /// @param generator Caller-owned generator advanced by site sampling and
+  /// ordering incident-edge flip paths.
+  /// @return Proposed manifold, or a structured reason the site was rejected.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_62_move(Manifold const& t_manifold,
                                             Generator& generator) -> Expected
@@ -1778,6 +1804,10 @@ namespace cdt::ergodic_moves
   /// @brief Propose one spacelike edge as a (4,4) site.
   /// @details Selecting an edge that is not the pivot of a causal four-cell
   /// complex is an explicit self-transition.
+  /// @tparam Generator Uniform random bit generator type.
+  /// @param t_manifold Source manifold, which remains unchanged.
+  /// @param generator Caller-owned generator advanced by site sampling.
+  /// @return Proposed manifold, or a structured reason the site was rejected.
   template <std::uniform_random_bit_generator Generator>
   [[nodiscard]] inline auto propose_44_move(Manifold const& t_manifold,
                                             Generator& generator) -> Expected

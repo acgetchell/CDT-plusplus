@@ -25,11 +25,17 @@ namespace fmt
   template <typename Kernel>
   struct formatter<CGAL::Point_3<Kernel>>
   {
-    // Format specification handling - keeping it simple for now
+    /// @brief Accept only the default point format specification.
+    /// @param ctx Format-specification parser context.
+    /// @return Iterator at the first unconsumed format character.
     constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin())
     { return ctx.begin(); }
 
-    // Format the point as a string with coordinates
+    /// @brief Format a point using its stream insertion representation.
+    /// @tparam FormatContext fmt output context type.
+    /// @param point Point to format.
+    /// @param ctx Output context.
+    /// @return Iterator following the formatted point.
     template <typename FormatContext>
     auto format(CGAL::Point_3<Kernel> const& point, FormatContext& ctx) const
         -> decltype(ctx.out())

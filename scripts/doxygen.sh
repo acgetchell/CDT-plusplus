@@ -3,15 +3,16 @@
 set -euo pipefail
 
 usage() {
-    echo "Usage: $0 <check|build> <doxygen-version> <graphviz-version>" >&2
+    echo "Usage: $0 <check|build> <doxygen-version> <graphviz-version> <python-version>" >&2
     exit 2
 }
 
-[[ $# -eq 3 ]] || usage
+[[ $# -eq 4 ]] || usage
 
 mode="$1"
 doxygen_version="$2"
 graphviz_version="$3"
+python_version="$4"
 [[ "$mode" == "check" || "$mode" == "build" ]] || usage
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -29,14 +30,22 @@ graphviz_matches() {
     [[ "$installed_version" == "$graphviz_version" ]]
 }
 
-if ! doxygen_matches || ! graphviz_matches; then
+python_matches() {
+    command -v python3 >/dev/null 2>&1 &&
+        [[ "$(python3 -c 'import platform; print(platform.python_version())')" == "$python_version" ]]
+}
+
+if ! doxygen_matches || ! graphviz_matches || ! python_matches; then
     if command -v pkgx >/dev/null 2>&1 && [[ -z "${CDT_DOXYGEN_TOOLCHAIN_ACTIVE:-}" ]]; then
         export CDT_DOXYGEN_TOOLCHAIN_ACTIVE=1
-        exec pkgx "+doxygen.nl@$doxygen_version" "+graphviz.org@$graphviz_version" -- \
-            "$0" "$mode" "$doxygen_version" "$graphviz_version"
+        exec pkgx \
+            "+doxygen.nl@$doxygen_version" \
+            "+graphviz.org@$graphviz_version" \
+            "+python.org@$python_version" \
+            -- "$0" "$mode" "$doxygen_version" "$graphviz_version" "$python_version"
     fi
 
-    echo "Doxygen $doxygen_version and Graphviz $graphviz_version are required." >&2
+    echo "Doxygen $doxygen_version, Graphviz $graphviz_version, and Python $python_version are required." >&2
     echo "Install those versions or install pkgx so the repository can provide them ephemerally." >&2
     exit 1
 fi
@@ -48,13 +57,18 @@ cleanup() {
 trap cleanup EXIT
 
 config_output="$temporary_output"
+warning_log="$temporary_output/doxygen-warnings.log"
+config_warning_log="$warning_log"
 if command -v cygpath >/dev/null 2>&1; then
     config_output="$(cygpath -m "$temporary_output")"
+    config_warning_log="$(cygpath -m "$warning_log")"
 fi
 
 {
     cat docs/Doxyfile
     printf '\nOUTPUT_DIRECTORY = "%s"\n' "$config_output"
+    printf 'WARN_AS_ERROR = NO\n'
+    printf 'WARN_LOGFILE = "%s"\n' "$config_warning_log"
 } | doxygen -
 
 generated_html="$temporary_output/html"
@@ -62,6 +76,10 @@ if [[ ! -f "$generated_html/index.html" ]]; then
     echo "Doxygen completed without generating html/index.html." >&2
     exit 1
 fi
+
+python3 scripts/validate_generated_site.py \
+    --warning-log "$warning_log" \
+    "$generated_html"
 
 if [[ "$mode" == "build" ]]; then
     published_html="$repo_root/docs/html"

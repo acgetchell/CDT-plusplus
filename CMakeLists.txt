@@ -225,6 +225,9 @@ endif()
 # Header files
 include_directories(BEFORE ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/include)
 
+# Compiled public-API example
+add_subdirectory(examples)
+
 # doctest
 if(ENABLE_TESTING)
   enable_testing()

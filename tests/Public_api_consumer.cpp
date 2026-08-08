@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <optional>
 #include <random>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 
@@ -93,6 +94,19 @@ static_assert(requires {
   {
     cdt::Metropolis_3::reverse_move(cdt::move_tracker::MoveType::TWO_THREE)
   } -> std::same_as<std::optional<cdt::move_tracker::MoveType>>;
+  {
+    cdt::move_tracker::format_as(cdt::move_tracker::MoveType::TWO_THREE)
+  } -> std::same_as<std::string_view>;
+});
+
+static_assert(requires(cdt::Metropolis_3& strategy, Manifold& manifold) {
+  {
+    strategy.attempt_transition(manifold)
+  } -> std::same_as<cdt::ergodic_moves::MetropolisTransition>;
+  {
+    strategy.attempt_transition(manifold,
+                                cdt::move_tracker::MoveType::TWO_THREE, 0.5L)
+  } -> std::same_as<cdt::ergodic_moves::MetropolisTransition>;
 });
 
 static_assert(requires(Manifold const& manifold, cdt::Random& random) {

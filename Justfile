@@ -10,7 +10,7 @@ ccache_version := "4.13.6"
 cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_cgal_benchmark.exe" } else { "out/build/reference/tests/CDT_cgal_benchmark" }
 cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.1"
-doxygen_version := "1.17.0"
+doxygen_version := "1.16.1"
 git_cliff_version := "2.13.1"
 graphviz_version := "15.1.0"
 just_version := "1.58.0"
@@ -381,12 +381,12 @@ default:
 # Generate the API documentation in docs/html for local inspection or publishing.
 [group('workflows')]
 docs:
-    ./scripts/doxygen.sh build "{{ doxygen_version }}" "{{ graphviz_version }}"
+    ./scripts/doxygen.sh build "{{ doxygen_version }}" "{{ graphviz_version }}" "{{ python_version }}"
 
 # Validate the generated API documentation without modifying the worktree.
 [group('workflows')]
 docs-check:
-    ./scripts/doxygen.sh check "{{ doxygen_version }}" "{{ graphviz_version }}"
+    ./scripts/doxygen.sh check "{{ doxygen_version }}" "{{ graphviz_version }}" "{{ python_version }}"
 
 # Apply safe automatic formatting to C++/Python source and the Justfile.
 [group('workflows')]

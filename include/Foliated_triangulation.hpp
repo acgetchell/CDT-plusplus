@@ -51,31 +51,55 @@
 
 namespace cdt
 {
+  /// @brief Delaunay triangulation type for `dimension` spatial dimensions.
+  /// @tparam dimension Compile-time triangulation dimension.
   template <int dimension>
   using Delaunay_t = typename detail::TriangulationTraits<dimension>::Delaunay;
 
+  /// @brief Cartesian point type used by a triangulation dimension.
+  /// @tparam dimension Compile-time triangulation dimension.
   template <int dimension>
   using Point_t = typename detail::TriangulationTraits<dimension>::Point;
 
+  /// @brief Point/time-label pairs used to build a causal triangulation.
+  /// @tparam dimension Compile-time point dimension.
   template <int dimension>
   using Causal_vertices_t =
       std::vector<std::pair<Point_t<dimension>, Int_precision>>;
 
+  /// @brief Mutable CGAL cell handle for a triangulation dimension.
+  /// @details A handle borrows from the triangulation that produced it. It must
+  /// not be used with a copy or after an invalidating mutation of its owner.
+  /// @tparam dimension Compile-time triangulation dimension.
   template <int dimension>
   using Cell_handle_t =
       typename detail::TriangulationTraits<dimension>::Cell_handle;
 
+  /// @brief CGAL facet descriptor for a triangulation dimension.
+  /// @details The embedded cell handle borrows from its source triangulation
+  /// and follows that triangulation's invalidation rules.
+  /// @tparam dimension Compile-time triangulation dimension.
   template <int dimension>
   using Facet_t = typename detail::TriangulationTraits<dimension>::Facet;
 
+  /// @brief CGAL edge descriptor for a triangulation dimension.
+  /// @details The embedded cell handle borrows from its source triangulation
+  /// and follows that triangulation's invalidation rules.
+  /// @tparam dimension Compile-time triangulation dimension.
   template <int dimension>
   using Edge_handle_t =
       typename detail::TriangulationTraits<dimension>::Edge_handle;
 
+  /// @brief Mutable CGAL vertex handle for a triangulation dimension.
+  /// @details A handle borrows from the triangulation that produced it. It must
+  /// not be used with a copy or after an invalidating mutation of its owner.
+  /// @tparam dimension Compile-time triangulation dimension.
   template <int dimension>
   using Vertex_handle_t =
       typename detail::TriangulationTraits<dimension>::Vertex_handle;
 
+  /// @brief CGAL random point generator on a sphere of matching dimension.
+  /// @tparam dimension Compile-time point dimension.
   template <int dimension>
   using Spherical_points_generator_t = typename detail::TriangulationTraits<
       dimension>::Spherical_points_generator;
@@ -328,28 +352,42 @@ namespace cdt
   enum class CellType
   {
     // 3D simplices
-    THREE_ONE    = 31,  // (3,1)
-    TWO_TWO      = 22,  // (2,2)
-    ONE_THREE    = 13,  // (1,3)
-    ACAUSAL      = 99,  // The vertex timevalues differ by > 1 or are all equal
-    UNCLASSIFIED = 0    // An error happened classifying cell
+    THREE_ONE = 31,  ///< Three lower-slice and one upper-slice vertices.
+    TWO_TWO   = 22,  ///< Two vertices on each adjacent slice.
+    ONE_THREE = 13,  ///< One lower-slice and three upper-slice vertices.
+    ACAUSAL   = 99,  ///< Vertex times differ by more than one or are all equal.
+    UNCLASSIFIED = 0  ///< Classification could not determine a causal type.
   };
 
   /// @brief Causal classification of an edge by its endpoint timeslices.
   enum class EdgeType
   {
-    SPACELIKE,
-    TIMELIKE
+    SPACELIKE,  ///< Both endpoints lie on the same timeslice.
+    TIMELIKE    ///< Endpoints lie on adjacent timeslices.
   };
 }  // namespace cdt
 
 namespace cdt::foliated_triangulations
 {
+  /// @namespace cdt::foliated_triangulations
+  /// @brief Supported construction, inspection, classification, and repair
+  /// operations for foliated Delaunay triangulations.
+  /// @details CGAL handles and descriptors returned by these operations borrow
+  /// from the triangulation named by the function. All handles supplied to one
+  /// operation must be valid and belong to that same triangulation. Copying a
+  /// triangulation does not transfer handle provenance, and topology mutation
+  /// may invalidate outstanding handles, iterators, circulators, and
+  /// descriptors.
+  /// @see [Multithreaded CGAL contract](../docs/multithreading.md)
+
   /// @brief Create causal vertices from vertices and timevalues
   /// @tparam dimension Dimensionality of the manifold
   /// @param vertices The vertices of the manifold
   /// @param timevalues The timevalue of each vertex
   /// @return A container of vertices that have an associated timevalue
+  /// @throws std::length_error If the spans have different lengths.
+  /// @throws std::out_of_range If a timevalue cannot be represented by
+  /// `Int_precision`.
   template <int dimension>
   [[nodiscard]] auto make_causal_vertices(
       std::span<Point_t<dimension> const> vertices,
@@ -378,7 +416,8 @@ namespace cdt::foliated_triangulations
   /// edges are 1-d simplices connecting 0-d vertices.
   /// @tparam dimension The dimensionality of the triangulation
   /// @param delaunay The triangulation
-  /// @returns Container of all the finite edges in the triangulation
+  /// @returns Borrowed finite-edge descriptors tied to @p delaunay and subject
+  /// to its mutation-invalidation rules.
   template <int dimension>
   [[nodiscard]] auto collect_edges(Delaunay_t<dimension> const& delaunay)
   {
@@ -394,11 +433,13 @@ namespace cdt::foliated_triangulations
     return init_edges;
   }  // collect_edges
 
-  /// @brief Returns the vertex containing the given point
+  /// @brief Find the vertex whose stored point equals the requested point.
   /// @tparam dimension The dimensionality of the triangulation
   /// @param delaunay The triangulation
   /// @param point The point to find the vertex for
-  /// @returns The vertex containing the given point
+  /// @returns A handle borrowing from @p delaunay, or `std::nullopt` when no
+  /// vertex stores @p point. The handle is subject to the triangulation's
+  /// mutation-invalidation rules.
   /// @see
   /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140
   template <int dimension>
@@ -421,7 +462,10 @@ namespace cdt::foliated_triangulations
   /// @param vh2 The second vertex
   /// @param vh3 The third vertex
   /// @param vh4 The fourth vertex
-  /// @returns The cell containing the vertices
+  /// @pre All four handles are valid and belong to @p delaunay.
+  /// @returns A cell handle borrowing from @p delaunay, or `std::nullopt` when
+  /// those vertices do not form a cell. The returned handle is subject to the
+  /// triangulation's mutation-invalidation rules.
   /// @see
   /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646
   template <int dimension>
@@ -451,6 +495,7 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @returns The maximum timevalue in the container
+  /// @throws std::invalid_argument If @p t_vertices is empty.
   template <int dimension, detail::ConstForwardRange Container>
   [[nodiscard]] auto find_max_timevalue(Container const& t_vertices)
       -> Int_precision
@@ -467,6 +512,7 @@ namespace cdt::foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @returns The minimum timevalue in the container
+  /// @throws std::invalid_argument If @p t_vertices is empty.
   template <int dimension, detail::ConstForwardRange Container>
   [[nodiscard]] auto find_min_timevalue(Container const& t_vertices)
       -> Int_precision
@@ -557,13 +603,16 @@ namespace cdt::foliated_triangulations
   ///
   /// \f[t=\frac{R-I+S}{S}\f]
   ///
-  /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
+  /// Where R is radius, I is the initial radius, and S is the foliation
+  /// spacing.
   ///
   /// @tparam dimension Dimensionality of the vertex
   /// @param t_vertex The vertex
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @returns The effective radius of the vertex
+  /// @pre @p t_vertex is a valid handle and both geometric parameters are
+  /// finite, with @p t_foliation_spacing greater than zero.
+  /// @returns The timeslice label implied by the vertex radius.
   template <int dimension>
   [[nodiscard]] auto expected_timevalue(
       Vertex_handle_t<dimension> const& t_vertex, double t_initial_radius,
@@ -600,7 +649,8 @@ namespace cdt::foliated_triangulations
   /// @brief Obtain all finite vertices in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The Delaunay triangulation
-  /// @returns A container of finite vertices
+  /// @returns Borrowed finite-vertex handles tied to @p t_triangulation and
+  /// subject to its mutation-invalidation rules.
   template <int dimension>
   [[nodiscard]] auto collect_vertices(
       Delaunay_t<dimension> const& t_triangulation)
@@ -637,7 +687,8 @@ namespace cdt::foliated_triangulations
   /// @brief Obtain all finite cells in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The triangulation
-  /// @returns A container of finite cells
+  /// @returns Borrowed finite-cell handles tied to @p t_triangulation and
+  /// subject to its mutation-invalidation rules.
   template <int dimension>
   [[nodiscard]] auto collect_cells(Delaunay_t<dimension> const& t_triangulation)
       -> std::vector<Cell_handle_t<dimension>>
@@ -653,8 +704,9 @@ namespace cdt::foliated_triangulations
   }  // collect_cells
 
   /// @brief Extracts vertices from cells
-  /// @param t_cells The cells from which to extract vertices
-  /// @returns All of the vertices contained in the cells
+  /// @param t_cells Valid cells that all belong to one triangulation.
+  /// @returns Borrowed handles for all vertices contained in @p t_cells. They
+  /// retain the cells' source-triangulation lifetime and invalidation rules.
   template <int dimension>
   [[nodiscard]] auto get_vertices_from_cells(
       std::vector<Cell_handle_t<dimension>> const& t_cells)
@@ -674,10 +726,11 @@ namespace cdt::foliated_triangulations
 
   /// @brief Obtain vertices with incorrect timevalues
   /// @tparam dimension Dimensionality of vertices and cells
-  /// @param t_cells Container of cells to check
+  /// @param t_cells Valid cells that all belong to one triangulation.
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @return A container of vertices with incorrect timevalues
+  /// @return Borrowed handles for vertices with incorrect timevalues, retaining
+  /// the source triangulation's lifetime and invalidation rules.
   template <int dimension>
   [[nodiscard]] auto find_incorrect_vertices(
       std::vector<Cell_handle_t<dimension>> const& t_cells,
@@ -701,7 +754,8 @@ namespace cdt::foliated_triangulations
   /// @param t_triangulation The Delaunay triangulation
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @return A container of vertices with incorrect timevalues
+  /// @return Borrowed handles for vertices with incorrect timevalues, tied to
+  /// @p t_triangulation and subject to its mutation-invalidation rules.
   template <int dimension>
   [[nodiscard]] auto find_incorrect_vertices(
       Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
@@ -716,9 +770,10 @@ namespace cdt::foliated_triangulations
   /// @details Changes vertex->info() to the correct timevalue using
   /// foliated_triangulations::expected_timevalue
   /// @tparam dimension Dimensionality of vertices and cells
-  /// @param t_cells Container of cells to check
+  /// @param t_cells Valid cells that all belong to one triangulation.
   /// @param t_initial_radius The initial radius of the radial foliation
-  /// @param t_foliation_spacing
+  /// @param t_foliation_spacing Positive finite spacing between successive
+  /// leaves.
   /// @return True if any vertex->info() was fixed
   template <int dimension>
   [[nodiscard]] auto fix_vertices(
@@ -843,7 +898,8 @@ namespace cdt::foliated_triangulations
   /// @brief Check all finite cells in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The Delaunay triangulation
-  /// @return A container of cells that are not classified correctly
+  /// @return Borrowed handles for incorrectly classified cells, tied to
+  /// @p t_triangulation and subject to its mutation-invalidation rules.
   template <int dimension>
   [[nodiscard]] auto find_incorrect_cells(
       Delaunay_t<dimension> const& t_triangulation)
@@ -859,6 +915,8 @@ namespace cdt::foliated_triangulations
   }  // find_incorrect_cells
 
   /// @brief Fix simplices with the wrong type
+  /// @details Only cell metadata is changed; the triangulation topology and
+  /// its handles are not replaced by this operation.
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_triangulation The Delaunay triangulation
   /// @return True if cells->info() was fixed
@@ -960,8 +1018,11 @@ namespace cdt::foliated_triangulations
   /// @details *Warning!* Turning on debugging info will generate gigabytes
   /// of logs.
   /// @tparam dimension The dimensionality of the simplices
-  /// @param t_facets A container of facets
-  /// @return Contiguous container with spacelike facets per timeslice
+  /// @param t_facets Facets whose cell handles are valid and belong to one
+  /// triangulation.
+  /// @return Contiguous container with spacelike facets per timeslice. The
+  /// facet descriptors borrow from the source triangulation and follow its
+  /// mutation-invalidation rules.
   template <int dimension, detail::ConstForwardRange Container>
   [[nodiscard]] auto collect_spacelike_facets(Container const& t_facets)
       -> std::vector<std::pair<Int_precision, Facet_t<dimension>>>
@@ -1020,8 +1081,11 @@ namespace cdt::foliated_triangulations
 
   /// @brief Collect spacelike facets into a container indexed by time value
   /// @tparam dimension The dimensionality of the simplices
-  /// @param t_facets A container of facets
-  /// @return Container with spacelike facets per timeslice
+  /// @param t_facets Facets whose cell handles are valid and belong to one
+  /// triangulation.
+  /// @return Container with spacelike facets per timeslice. The facet
+  /// descriptors borrow from the source triangulation and follow its
+  /// mutation-invalidation rules.
   template <int dimension, detail::ConstForwardRange Container>
   [[nodiscard]] auto volume_per_timeslice(Container const& t_facets)
       -> std::multimap<Int_precision, Facet_t<dimension>>
@@ -1044,7 +1108,9 @@ namespace cdt::foliated_triangulations
   /// fix_vertices() should be called before this function.
   /// @tparam dimension The dimensionality of the cells and triangulation
   /// @param t_triangulation The Delaunay triangulation
-  /// @return A container of invalid cells; empty means the foliation is valid
+  /// @return Borrowed handles for invalid cells, tied to @p t_triangulation and
+  /// subject to its mutation-invalidation rules; empty means the foliation is
+  /// valid.
   template <int dimension>
   [[nodiscard]] auto find_invalid_timevalue_cells(
       Delaunay_t<dimension> const& t_triangulation)
@@ -1063,6 +1129,9 @@ namespace cdt::foliated_triangulations
   }  // find_invalid_timevalue_cells
 
   /// @brief Check whether all cell timevalues form a valid foliation.
+  /// @tparam dimension Compile-time triangulation dimension.
+  /// @param triangulation Triangulation whose finite cells are classified.
+  /// @return Whether every finite cell has a supported causal classification.
   template <int dimension>
   [[nodiscard]] auto has_valid_timevalues(
       Delaunay_t<dimension> const& triangulation) -> bool
@@ -1070,8 +1139,9 @@ namespace cdt::foliated_triangulations
 
   /// @brief Find the vertex that is causing a cell's foliation to be invalid
   /// @tparam dimension Dimensionality of the cell
-  /// @param cell The cell to check
-  /// @return The offending vertex
+  /// @param cell Valid cell handle from the triangulation being repaired.
+  /// @return A borrowed handle to the offending vertex in @p cell, with the
+  /// same source-triangulation lifetime and invalidation rules.
   template <int dimension>
   [[nodiscard]] auto find_bad_vertex(Cell_handle_t<dimension> const& cell)
       -> Vertex_handle_t<dimension>
@@ -1102,7 +1172,9 @@ namespace cdt::foliated_triangulations
   }  // find_bad_vertex
 
   /// @brief Fix the vertices of a cell to be consistent with the foliation
-  ///
+  /// @details Removes selected vertices from the triangulation. A successful
+  /// repair changes its topology and may invalidate any outstanding handles,
+  /// iterators, circulators, and facet or edge descriptors.
   /// @tparam dimension Dimensionality of the triangulation
   /// @param t_triangulation The Delaunay triangulation
   /// @return True if incorrectly foliated simplices were fixed
@@ -1149,6 +1221,12 @@ namespace cdt::foliated_triangulations
   /// @param generator Caller-owned random stream whose state is maintained by
   /// the caller and advanced during this call
   /// @return A container of (vertex, timevalue) pairs
+  /// @throws std::invalid_argument If a count is less than two, a radius or
+  /// spacing is non-finite or nonpositive, or the parameters cannot populate a
+  /// triangulation.
+  /// @throws std::out_of_range If a layer population cannot be represented by
+  /// `Int_precision`.
+  /// @note Once sampling begins, an exception does not roll back @p generator.
   template <int dimension, std::uniform_random_bit_generator Generator>
   [[nodiscard]] auto make_foliated_ball(Int_precision const t_simplices,
                                         Int_precision const t_timeslices,
@@ -1241,6 +1319,11 @@ namespace cdt::foliated_triangulations
   /// grid and can safely outlive this call. Its subsequent range operations
   /// are sequential; in a TBB-enabled build, callers can attach a compatible
   /// lock grid that they own to re-enable parallel execution.
+  /// @throws std::invalid_argument If the generation parameters are invalid or
+  /// the generated point set cannot form a nonempty unique triangulation.
+  /// @throws std::out_of_range If a generated layer population cannot be
+  /// represented by `Int_precision`.
+  /// @note Once sampling begins, an exception does not roll back @p generator.
   /// @see [CGAL triangulations](../REFERENCES.md#cgal-triangulations)
   template <int dimension, std::uniform_random_bit_generator Generator>
   [[nodiscard]] auto make_triangulation(Int_precision const t_simplices,
@@ -1310,6 +1393,16 @@ namespace cdt::foliated_triangulations
   /// triangulation has validly foliated vertices and cells, and has further
   /// containers for the various sub-simplicial complexes of the
   /// triangulation.
+  /// Member functions on the same object must not be invoked concurrently.
+  /// Use owning snapshots when topology must cross an ownership or concurrency
+  /// boundary.
+  /// Supported Pachner moves preserve the triangulation-data-structure and
+  /// causal manifold invariants, but are not required to preserve CGAL's
+  /// geometric Delaunay predicate. Use is_correct() for canonical simulation
+  /// states and is_initialized() when the geometric Delaunay property is also
+  /// required.
+  /// @see [Concurrency, ownership, and handle
+  /// lifetime](../docs/multithreading.md)
   template <>
   class [[nodiscard("This contains data!")]] FoliatedTriangulation<3>  // NOLINT
   {
@@ -1458,6 +1551,7 @@ namespace cdt::foliated_triangulations
     FoliatedTriangulation()  = default;
 
     /// @brief Copy Constructor
+    /// @param other Triangulation to copy.
     FoliatedTriangulation(FoliatedTriangulation const& other)
         : FoliatedTriangulation{}
     {
@@ -1475,6 +1569,8 @@ namespace cdt::foliated_triangulations
 
     /// @brief Copy assignment operator
     /// @details Builds a complete copy before replacing the current value.
+    /// @param other Triangulation to copy.
+    /// @returns This triangulation after replacement.
     auto operator=(FoliatedTriangulation const& other) -> FoliatedTriangulation&
     {
       if (this == &other) { return *this; }
@@ -1486,9 +1582,12 @@ namespace cdt::foliated_triangulations
     /// @brief Move constructor
     /// @details The invariant-bearing Delaunay state transfers its lock owner
     /// and detaches the moved-from triangulation as one operation.
+    /// @param other Triangulation whose state is transferred.
     FoliatedTriangulation(FoliatedTriangulation&& other) noexcept = default;
 
     /// @brief Move assignment operator
+    /// @param other Triangulation whose state is transferred.
+    /// @returns This triangulation after replacement.
     auto operator=(FoliatedTriangulation&& other) noexcept
         -> FoliatedTriangulation&
     {
@@ -1535,6 +1634,8 @@ namespace cdt::foliated_triangulations
     /// @param triangulation Delaunay triangulation
     /// @param initial_radius Radius of first timeslice
     /// @param foliation_spacing Radial separation between timeslices
+    /// @pre @p initial_radius and @p foliation_spacing are finite and positive.
+    /// @throws std::invalid_argument if @p triangulation is empty.
     explicit FoliatedTriangulation(
         Delaunay triangulation, double const initial_radius = INITIAL_RADIUS,
         double const foliation_spacing = FOLIATION_SPACING)
@@ -1571,6 +1672,11 @@ namespace cdt::foliated_triangulations
     /// advanced during construction
     /// @param t_initial_radius Radius of the first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
+    /// @throws std::invalid_argument if the counts or geometry are invalid, the
+    /// generated points are not unique, or construction produces no vertices.
+    /// @throws std::out_of_range if a layer population cannot be represented.
+    /// @note The caller-owned @p generator may have advanced if construction
+    /// fails after sampling begins.
     FoliatedTriangulation(Int_precision const t_simplices,
                           Int_precision const t_timeslices,
                           cdt::Random&        generator,
@@ -1589,6 +1695,9 @@ namespace cdt::foliated_triangulations
     /// consumed during construction
     /// @param t_initial_radius Radius of the first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
+    /// @throws std::invalid_argument if the counts or geometry are invalid, the
+    /// generated points are not unique, or construction produces no vertices.
+    /// @throws std::out_of_range if a layer population cannot be represented.
     FoliatedTriangulation(Int_precision const t_simplices,
                           Int_precision const t_timeslices,
                           cdt::Random&&       generator,
@@ -1603,6 +1712,10 @@ namespace cdt::foliated_triangulations
     /// FoliatedTriangulation
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
+    /// @pre @p t_initial_radius and @p t_foliation_spacing are finite and
+    /// positive.
+    /// @throws std::invalid_argument if @p causal_vertices is empty or contains
+    /// duplicate geometric points.
     explicit FoliatedTriangulation(
         Causal_vertices_t<3> const& causal_vertices,
         double const                t_initial_radius    = INITIAL_RADIUS,
@@ -1620,7 +1733,9 @@ namespace cdt::foliated_triangulations
     [[nodiscard]] auto is_foliated() const -> bool
     { return has_valid_timevalues<3>(triangulation()); }  // is_foliated
 
-    /// @return True if the triangulation is Delaunay
+    /// @return True if CGAL's geometric Delaunay validity predicate holds.
+    /// @note This property is expected after initialization but is not a
+    /// postcondition of supported Pachner moves.
     [[nodiscard]] auto is_delaunay() const -> bool
     { return triangulation().is_valid(); }  // is_delaunay
 
@@ -1636,7 +1751,10 @@ namespace cdt::foliated_triangulations
       return has_consistent_structure() && is_tds_valid() && check_all_cells();
     }
 
-    /// @return True if the essential class invariants hold
+    /// @return True if the essential simulation-state invariants hold.
+    /// @details This deliberately checks TDS, causal, and structural
+    /// consistency without requiring the geometric Delaunay predicate, which
+    /// supported Pachner moves need not preserve.
     [[nodiscard]] auto is_correct() const -> bool
     { return is_structurally_correct(); }  // is_correct
 
@@ -1646,8 +1764,8 @@ namespace cdt::foliated_triangulations
     [[nodiscard]] auto is_correct_with_diagnostics() const -> bool
     { return is_structurally_correct() && has_consistent_derived_state(); }
 
-    /// @return True if the Foliated Triangulation has been initialized
-    /// correctly
+    /// @return True if both the simulation-state invariants and CGAL's
+    /// geometric Delaunay predicate hold.
     [[nodiscard]] auto is_initialized() const -> bool
     { return is_correct() && is_delaunay(); }  // is_initialized
 
@@ -1706,7 +1824,8 @@ namespace cdt::foliated_triangulations
     /// @return Dimensionality of triangulation data structure (int)
     [[nodiscard]] auto dimension() const { return triangulation().dimension(); }
 
-    /// @return Number of spacelike facets on a timeslice
+    /// @param timevalue Timeslice whose facets are counted.
+    /// @return Number of spacelike facets on the requested timeslice.
     [[nodiscard]] auto spacelike_face_count(
         Int_precision const timevalue) const noexcept -> std::size_t
     {
@@ -1760,7 +1879,8 @@ namespace cdt::foliated_triangulations
     ///
     /// \f[R=I+S(t-1)\f]
     ///
-    /// Where I is INITIAL_RADIUS, S is RADIAL_SEPARATION, and t is timevalue
+    /// Where I is the initial radius, S is the foliation spacing, and t is the
+    /// timevalue.
     ///
     /// @param t_vertex The vertex to check
     /// @return The expected radial distance of the vertex with that timevalue
@@ -1789,6 +1909,10 @@ namespace cdt::foliated_triangulations
     }  // check_all_vertices
 
     /// @brief Fix vertices with wrong timevalues after foliation
+    /// @details Publishes a fully rebuilt triangulation only when a change is
+    /// required. Any handles obtained from an earlier owning snapshot remain
+    /// tied to that snapshot, not to the replacement stored here.
+    /// @return Whether any vertex timevalue was changed.
     [[nodiscard]] auto fix_vertices() -> bool
     {
       Delaunay   updated{triangulation()};
@@ -1864,6 +1988,10 @@ namespace cdt::foliated_triangulations
     }  // check_all_cells
 
     /// @brief Fix all cells in the triangulation
+    /// @details Publishes a fully rebuilt triangulation only when a change is
+    /// required. Any handles obtained from an earlier owning snapshot remain
+    /// tied to that snapshot, not to the replacement stored here.
+    /// @return Whether any cell classification was changed.
     [[nodiscard]] auto fix_cells() -> bool
     {
       Delaunay   updated{triangulation()};
@@ -1936,6 +2064,7 @@ namespace cdt::foliated_triangulations
     }  // collect_faces
   };
 
+  /// Three-dimensional foliated Delaunay triangulation.
   using FoliatedTriangulation_3 = FoliatedTriangulation<3>;
 
 }  // namespace cdt::foliated_triangulations

@@ -18,6 +18,8 @@
 
 namespace cdt
 {
+  /// @brief Queue and execute requested moves against a three-dimensional
+  /// manifold while tracking attempted and successful transitions.
   template <typename ManifoldType>
     requires(ManifoldType::dimension == 3)
   class MoveCommand
@@ -60,10 +62,9 @@ namespace cdt
     /**
      * \brief MoveCommand ctor
      * \param t_manifold The manifold to perform moves on
-     * \details The manifold to perform moves upon should be copied by value
-     * into the MoveCommand to ensure moves are executed atomically and either
-     * succeed or fail and can be discarded without affecting the original
-     * manifold.
+     * \details The manifold is copied or moved by value so the caller's source
+     * is not modified. Each completed move is committed independently; a queue
+     * execution is not one transaction.
      */
     explicit MoveCommand(ManifoldType t_manifold)
         : m_manifold{std::move(t_manifold)}
@@ -71,18 +72,21 @@ namespace cdt
 
     /**
      * \brief Access the result manifold without transferring ownership
+     * \return Mutable reference valid for the lifetime of this command
      */
     [[nodiscard]] auto result() & noexcept -> ManifoldType&
     { return m_manifold; }
 
     /**
      * \brief Access the result manifold without transferring ownership
+     * \return Const reference valid for the lifetime of this command
      */
     [[nodiscard]] auto result() const& noexcept -> ManifoldType const&
     { return m_manifold; }
 
     /**
      * \brief Consume the result manifold
+     * \return Manifold moved out of this command
      */
     [[nodiscard]] auto result() && noexcept -> ManifoldType
     { return std::move(m_manifold); }
@@ -91,18 +95,21 @@ namespace cdt
 
     /**
      * \brief Attempted moves by MoveCommand
+     * \return Read-only attempted-move counters
      */
     [[nodiscard]] auto attempted() const noexcept -> Counter const&
     { return m_attempted; }
 
     /**
      * \brief Successful moves by MoveCommand
+     * \return Read-only successful-move counters
      */
     [[nodiscard]] auto succeeded() const noexcept -> Counter const&
     { return m_succeeded; }
 
     /**
      * \brief Failed moves by MoveCommand
+     * \return Read-only failed-move counters
      */
     [[nodiscard]] auto failed() const noexcept -> Counter const&
     { return m_failed; }
@@ -126,11 +133,18 @@ namespace cdt
 
     /**
      * \brief The number of moves on the queue
+     * \return Number of queued moves
      */
     [[nodiscard]] auto size() const noexcept { return m_moves.size(); }
 
     /**
      * \brief Execute all moves in the queue on the manifold
+     * \details Completed moves remain committed. If an exception escapes while
+     * attempting the current move, its attempted counter has been incremented,
+     * the move remains queued, earlier moves and their counters remain
+     * committed, and \p generator may already have advanced.
+     * \tparam Generator Uniform random bit generator type
+     * \param generator Generator advanced by stochastic move selection
      */
     template <std::uniform_random_bit_generator Generator>
     void execute(Generator& generator)
@@ -167,6 +181,11 @@ namespace cdt
     }  // execute
 
     /// @brief Apply one queued move using the caller-owned random stream.
+    /// @tparam Generator Uniform random bit generator type.
+    /// @param manifold Source manifold, which remains unchanged.
+    /// @param move Pachner move to attempt.
+    /// @param generator Generator advanced by stochastic move selection.
+    /// @return Moved manifold, or a structured failure reason.
     template <std::uniform_random_bit_generator Generator>
     [[nodiscard]] static auto apply_random_move(
         ManifoldType const& manifold, move_tracker::MoveType const move,

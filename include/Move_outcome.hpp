@@ -21,13 +21,13 @@ namespace cdt::ergodic_moves
   /// @brief Actionable reasons a raw move request cannot produce a new state.
   enum class MoveFailure : std::uint8_t
   {
-    NO_CANDIDATE,
-    INVALID_TOPOLOGY,
-    CAUSAL_INVALIDITY,
-    STALE_CANDIDATE,
-    EXECUTION_FAILURE,
-    INVARIANT_VIOLATION,
-    UNKNOWN_MOVE
+    NO_CANDIDATE,         ///< No raw proposal site is available.
+    INVALID_TOPOLOGY,     ///< The proposal site is not in the triangulation.
+    CAUSAL_INVALIDITY,    ///< The proposal violates a causal move invariant.
+    STALE_CANDIDATE,      ///< A prepared proposal no longer resolves.
+    EXECUTION_FAILURE,    ///< CGAL rejected the prepared mutation.
+    INVARIANT_VIOLATION,  ///< A post-mutation manifold check failed.
+    UNKNOWN_MOVE          ///< The requested move kind is unsupported.
   };
 
   /// @brief Typed error returned by move preparation or private execution.
@@ -35,7 +35,9 @@ namespace cdt::ergodic_moves
   /// derived at the presentation boundary rather than stored in the hot path.
   struct MoveError
   {
-    MoveFailure            category;
+    /// Structured rejection or execution-failure category.
+    MoveFailure category;
+    /// Pachner move whose proposal or execution failed.
     move_tracker::MoveType requested_move;
 
     /// @returns The structured rejection or execution-failure category.
@@ -68,7 +70,9 @@ namespace cdt::ergodic_moves
       return "The move failed for an unknown reason.";
     }
 
-    auto operator==(MoveError const&) const -> bool = default;
+    /// @param other Error to compare.
+    /// @return Whether category and requested move are equal.
+    auto operator==(MoveError const& other) const -> bool = default;
   };
 
   /// @brief Value returned by a fallible Pachner-move transformation.
@@ -78,14 +82,58 @@ namespace cdt::ergodic_moves
   /// @brief Typed state used to route proposal and execution accounting.
   enum class MoveOutcome : std::uint8_t
   {
-    INAPPLICABLE        = 0,
-    METROPOLIS_ACCEPTED = 1,
-    METROPOLIS_REJECTED = 2,
-    EXECUTION_FAILED    = 3,
-    SUCCEEDED           = 4
+    INAPPLICABLE        = 0,  ///< The sampled raw site cannot support the move.
+    METROPOLIS_ACCEPTED = 1,  ///< Metropolis-Hastings accepted the proposal.
+    METROPOLIS_REJECTED = 2,  ///< Metropolis-Hastings rejected the proposal.
+    EXECUTION_FAILED    = 3,  ///< Mutation failed after proposal preparation.
+    SUCCEEDED           = 4   ///< The requested transition completed.
+  };
+
+  /// @brief Result of one fully sampled Metropolis-Hastings transition.
+  /// @details Candidate success and Metropolis acceptance are distinct: a
+  /// valid candidate may still be rejected and leave the canonical state
+  /// unchanged.
+  class MetropolisTransition
+  {
+    move_tracker::MoveType m_move;
+    MoveOutcome            m_outcome;
+
+   public:
+    /// @param move Sampled Pachner move kind.
+    /// @param outcome Final accounting outcome for the transition.
+    constexpr MetropolisTransition(move_tracker::MoveType const move,
+                                   MoveOutcome const outcome) noexcept
+        : m_move{move}, m_outcome{outcome}
+    {}
+
+    /// @returns The sampled Pachner move kind.
+    [[nodiscard]] constexpr auto move() const noexcept -> move_tracker::MoveType
+    { return m_move; }
+
+    /// @returns The final transition-accounting outcome.
+    [[nodiscard]] constexpr auto outcome() const noexcept -> MoveOutcome
+    { return m_outcome; }
+
+    /// @returns Whether proposal construction and validation succeeded.
+    [[nodiscard]] constexpr auto successful() const noexcept -> bool
+    {
+      return m_outcome == MoveOutcome::METROPOLIS_ACCEPTED ||
+             m_outcome == MoveOutcome::METROPOLIS_REJECTED ||
+             m_outcome == MoveOutcome::SUCCEEDED;
+    }
+
+    /// @returns Whether Metropolis-Hastings accepted and committed the move.
+    [[nodiscard]] constexpr auto accepted() const noexcept -> bool
+    { return m_outcome == MoveOutcome::METROPOLIS_ACCEPTED; }
+
+    /// @param other Transition report to compare.
+    /// @return Whether move and outcome are equal.
+    auto operator==(MetropolisTransition const& other) const -> bool = default;
   };
 
   /// @brief Classify a structured move error for counter accounting.
+  /// @param error Structured move failure.
+  /// @return The counter outcome associated with `error`.
   [[nodiscard]] constexpr auto outcome_from(MoveError const error) noexcept
       -> MoveOutcome
   {
@@ -104,6 +152,8 @@ namespace cdt::ergodic_moves
   }
 
   /// @brief Enable direct formatting through fmt/spdlog.
+  /// @param error Structured move failure.
+  /// @return Stable human-readable diagnostic text.
   [[nodiscard]] constexpr auto format_as(MoveError const error) noexcept
       -> std::string_view
   { return error.message(); }

@@ -59,30 +59,43 @@ namespace cdt::runtime_config
     {}
 
    public:
-    Triangulation(Triangulation const&)                        = default;
-    Triangulation(Triangulation&&) noexcept                    = default;
-    auto operator=(Triangulation const&) -> Triangulation&     = default;
-    auto operator=(Triangulation&&) noexcept -> Triangulation& = default;
-    ~Triangulation()                                           = default;
+    /// @param other Validated configuration to copy.
+    Triangulation(Triangulation const& other)                        = default;
+    /// @param other Validated configuration to move.
+    Triangulation(Triangulation&& other) noexcept                    = default;
+    /// @param other Validated configuration to copy.
+    /// @return This configuration after assignment.
+    auto operator=(Triangulation const& other) -> Triangulation&     = default;
+    /// @param other Validated configuration to move.
+    /// @return This configuration after assignment.
+    auto operator=(Triangulation&& other) noexcept -> Triangulation& = default;
+    ~Triangulation()                                                 = default;
 
+    /// @return Validated spatial-topology label.
     [[nodiscard]] auto topology() const noexcept -> Topology
     { return m_topology; }
 
+    /// @return Requested target number of simplices.
     [[nodiscard]] auto simplices() const noexcept -> Int_precision
     { return m_simplices; }
 
+    /// @return Requested number of timeslices.
     [[nodiscard]] auto timeslices() const noexcept -> Int_precision
     { return m_timeslices; }
 
+    /// @return Validated dimensionality, currently always three.
     [[nodiscard]] auto dimensions() const noexcept -> Int_precision
     { return m_dimensions; }
 
+    /// @return Positive finite radius of the initial timeslice.
     [[nodiscard]] auto initial_radius() const noexcept -> double
     { return m_initial_radius; }
 
+    /// @return Positive finite spacing between successive timeslices.
     [[nodiscard]] auto foliation_spacing() const noexcept -> double
     { return m_foliation_spacing; }
 
+    /// @return Root random seed retained for reproducibility.
     [[nodiscard]] auto seed() const noexcept -> cdt::RandomSeed
     { return m_seed; }
 
@@ -125,28 +138,41 @@ namespace cdt::runtime_config
     {}
 
    public:
-    Simulation(Simulation const&)                        = default;
-    Simulation(Simulation&&) noexcept                    = default;
-    auto operator=(Simulation const&) -> Simulation&     = default;
-    auto operator=(Simulation&&) noexcept -> Simulation& = default;
-    ~Simulation()                                        = default;
+    /// @param other Validated simulation configuration to copy.
+    Simulation(Simulation const& other)                        = default;
+    /// @param other Validated simulation configuration to move.
+    Simulation(Simulation&& other) noexcept                    = default;
+    /// @param other Validated simulation configuration to copy.
+    /// @return This configuration after assignment.
+    auto operator=(Simulation const& other) -> Simulation&     = default;
+    /// @param other Validated simulation configuration to move.
+    /// @return This configuration after assignment.
+    auto operator=(Simulation&& other) noexcept -> Simulation& = default;
+    ~Simulation()                                              = default;
 
+    /// @return Validated triangulation configuration retained by this run.
     [[nodiscard]] auto triangulation() const noexcept -> Triangulation const&
     { return m_triangulation; }
 
+    /// @return Wick-rotation parameter, greater than 1/2.
     [[nodiscard]] auto alpha() const noexcept -> long double { return m_alpha; }
 
+    /// @return Finite inverse Newton coupling.
     [[nodiscard]] auto k() const noexcept -> long double { return m_k; }
 
+    /// @return Finite cosmological coupling.
     [[nodiscard]] auto lambda() const noexcept -> long double
     { return m_lambda; }
 
+    /// @return Positive number of configured move passes.
     [[nodiscard]] auto passes() const noexcept -> Int_precision
     { return m_passes; }
 
+    /// @return Positive checkpoint interval in move passes.
     [[nodiscard]] auto checkpoint() const noexcept -> Int_precision
     { return m_checkpoint; }
 
+    /// @return Whether the simulation should publish persistence artifacts.
     [[nodiscard]] auto write_files() const noexcept -> bool
     { return m_write_files; }
   };
@@ -255,7 +281,25 @@ namespace cdt::runtime_config
     }
   }  // namespace detail
 
-  /// Validate raw triangulation options and narrow them into project types.
+  /// @brief Validate raw triangulation options and narrow them into project
+  /// types.
+  /// @param spherical Whether spherical topology was selected.
+  /// @param toroidal Whether toroidal topology was selected; currently
+  /// rejected.
+  /// @param simplices Requested target number of simplices; must be at least
+  /// two.
+  /// @param timeslices Requested number of timeslices; must be at least two.
+  /// @param dimensions Requested dimensionality; must equal three.
+  /// @param initial_radius Positive finite radius of the first timeslice.
+  /// @param foliation_spacing Positive finite spacing between timeslices.
+  /// @param seed Root random seed to retain.
+  /// @param threads Positive maximum concurrency; serial builds require one.
+  /// @return A configuration containing only validated domain values.
+  /// @throws std::invalid_argument for conflicting/unsupported topology,
+  /// invalid dimensions or counts, non-finite/non-positive geometry, or an
+  /// unsupported serial-build thread count.
+  /// @throws std::out_of_range when a count exceeds a project type or generated
+  /// population bound.
   [[nodiscard]] inline auto make_triangulation(
       bool const spherical, bool const toroidal, long long const simplices,
       long long const timeslices, long long const dimensions,
@@ -309,7 +353,19 @@ namespace cdt::runtime_config
                          checked_threads};
   }
 
-  /// Validate the complete simulation configuration.
+  /// @brief Validate the complete simulation configuration.
+  /// @param triangulation Previously validated triangulation configuration.
+  /// @param alpha Finite Wick-rotation parameter greater than 1/2.
+  /// @param k Finite inverse Newton coupling.
+  /// @param lambda Finite cosmological coupling.
+  /// @param passes Positive number of move passes.
+  /// @param checkpoint Positive checkpoint interval in move passes.
+  /// @param write_files Whether the run should publish persistence artifacts.
+  /// @return A complete validated simulation configuration.
+  /// @throws std::invalid_argument for non-finite couplings or non-positive
+  /// cadence values.
+  /// @throws std::domain_error if `alpha` is not greater than 1/2.
+  /// @throws std::out_of_range when a cadence value exceeds Int_precision.
   [[nodiscard]] inline auto make_simulation(
       Triangulation const& triangulation, long double const alpha,
       long double const k, long double const lambda, long long const passes,

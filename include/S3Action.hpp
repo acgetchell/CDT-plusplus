@@ -30,6 +30,9 @@
 
 namespace cdt::s3_action
 {
+  /// @brief Finite physical couplings used to evaluate the Euclidean action.
+  /// @details Construct instances with make_physical_parameters() so invalid
+  /// or non-finite coupling combinations are rejected at the API boundary.
   class PhysicalParameters
   {
     long double m_alpha;
@@ -47,11 +50,21 @@ namespace cdt::s3_action
         -> PhysicalParameters;
 
    public:
+    /// @return Wick-rotation parameter, constrained to be greater than 1/2.
     [[nodiscard]] constexpr auto alpha() const noexcept { return m_alpha; }
+    /// @return Inverse Newton coupling supplied at construction.
     [[nodiscard]] constexpr auto k() const noexcept { return m_k; }
+    /// @return Cosmological coupling supplied at construction.
     [[nodiscard]] constexpr auto lambda() const noexcept { return m_lambda; }
   };
 
+  /// @brief Validate physical couplings for three-dimensional action APIs.
+  /// @param alpha Wick-rotation parameter; must be finite and greater than 1/2.
+  /// @param k Inverse Newton coupling; must be finite.
+  /// @param lambda Cosmological coupling; must be finite.
+  /// @return Validated coupling values.
+  /// @throws std::invalid_argument if any coupling is non-finite.
+  /// @throws std::domain_error if `alpha` is not greater than 1/2.
   [[nodiscard]] inline auto make_physical_parameters(long double const alpha,
                                                      long double const k,
                                                      long double const lambda)
