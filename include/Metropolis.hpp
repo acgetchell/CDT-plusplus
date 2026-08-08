@@ -489,10 +489,9 @@ namespace cdt
 
       if (!reverse_move(move))
       {
-        return ergodic_moves::outcome_from(
-            ergodic_moves::MoveError{
-                .category       = ergodic_moves::MoveFailure::UNKNOWN_MOVE,
-                .requested_move = move});
+        return ergodic_moves::outcome_from(ergodic_moves::MoveError{
+            .category       = ergodic_moves::MoveFailure::UNKNOWN_MOVE,
+            .requested_move = move});
       }
 
       statistics.geometry = current.geometry();

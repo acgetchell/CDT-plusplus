@@ -745,7 +745,8 @@ SCENARIO("Metropolis transitions are sequential and failure-aware" *
 
     WHEN("The unsupported move is submitted through the public API.")
     {
-      auto const transition = strategy.attempt_transition(manifold, unknown, 0.0L);
+      auto const transition =
+          strategy.attempt_transition(manifold, unknown, 0.0L);
 
       THEN("It is rejected before state or accounting is mutated.")
       {
