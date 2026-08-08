@@ -1,33 +1,5 @@
 <map id="cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;" name="cdt::MoveStrategy&lt; MoveStrategyKind::METROPOLIS, ManifoldType &gt;">
-<area shape="rect" id="Node000001" title="Metropolis&#45;Hastings algorithm strategy." alt="" coords="412,1319,643,1934"/>
-<area shape="rect" id="Node000002" href="$classcdt_1_1s3__action_1_1_physical_parameters.html" title=" " alt="" coords="5,967,170,1168"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,1165,185,1222,236,1294,292,1365,404,1494,399,1495,288,1369,232,1298,180,1225,147,1170"/>
-<area shape="rect" id="Node000003" href="$classcdt_1_1_move_run_cadence.html" title="Positive pass count and checkpoint interval for a move run." alt="" coords="194,975,350,1159"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="309,1156,370,1294,408,1376,403,1376,365,1296,308,1162"/>
-<area shape="rect" id="Node000004" href="$classcdt_1_1_random.html" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="373,931,498,1204"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="454,1201,469,1295,470,1303,465,1301,464,1295,452,1206"/>
-<area shape="rect" id="Node000005" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="327,567,452,707"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="365,704,356,748,348,793,346,840,352,886,357,898,364,910,369,921,363,921,359,912,352,901,347,888,341,840,343,793,351,747,363,709"/>
-<area shape="rect" id="Node000007" href="$structcdt_1_1utilities_1_1_reproducibility__metadata.html" title="Provenance recorded next to every stochastic triangulation." alt="" coords="523,911,717,1224"/>
-<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="400,704,421,817,432,862,441,885,455,895,470,899,488,902,511,911,506,913,487,907,469,904,453,900,437,889,427,864,416,818,399,709"/>
-<area shape="rect" id="Node000006" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="485,567,624,707"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="541,704,497,888,489,916,484,914,492,886,539,709"/>
-<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="577,704,594,760,606,817,616,895,611,894,601,818,589,761,577,709"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="595,1221,584,1303,579,1301,593,1226"/>
-<area shape="rect" id="Node000008" href="$structcdt_1_1_move_strategy_3_01_move_strategy_kind_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_1_1_run_statistics.html" title=" " alt="" coords="740,1003,971,1132"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="821,1130,725,1296,654,1417,650,1413,720,1294,817,1134"/>
-<area shape="rect" id="Node000009" href="$structcdt_1_1_geometry.html" title=" " alt="" coords="709,592,915,682"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="817,679,850,986,845,985,815,684"/>
-<area shape="rect" id="Node000010" href="$structcdt_1_1_geometry.html" title=" " alt="" coords="703,327,905,399"/>
-<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="805,411,808,457,813,593,807,592,803,457,804,417"/>
-<area shape="rect" id="Node000011" href="$classcdt_1_1move__tracker_1_1_move_tracker.html" title="The data and methods to track ergodic moves." alt="" coords="954,481,1101,793"/>
-<area shape="poly" id="edge12_Node000008_Node000011" title=" " alt="" coords="967,791,890,989,885,986,964,795"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="940,318,1132,408"/>
-<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="1035,405,1035,465,1030,463,1034,410"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="980,151,1091,223"/>
-<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="1037,235,1038,319,1033,318,1035,240"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="1026,5,1045,78"/>
-<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="1037,75,1038,134,1033,133,1035,80"/>
-<area shape="rect" id="Node000015" href="$classcdt_1_1_move_strategy.html" title="Select a move algorithm." alt="" coords="996,1023,1174,1112"/>
-<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="1055,1123,1024,1176,986,1225,902,1315,813,1399,724,1476,644,1540,641,1536,721,1472,809,1395,898,1311,982,1222,1019,1173,1052,1127"/>
+<area shape="rect" id="Node000001" title="Metropolis&#45;Hastings algorithm strategy." alt="" coords="5,190,236,609"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_move_strategy.html" title="Select a move algorithm." alt="" coords="31,5,210,95"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,107,123,190,118,190,120,112"/>
 </map>

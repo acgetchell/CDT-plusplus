@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['celltype_0',['CellType',['../namespacecdt.html#adf93d8feb32e02c1d83d6d731484d4df',1,'cdt']]]
+  ['artifactkind_0',['ArtifactKind',['../_utilities_8hpp.html#a46664ff29f65038f90a18f0523cfda41',1,'cdt::utilities']]]
 ];

@@ -1,16 +1,3 @@
 <map id="cdt::MoveCommand&lt; ManifoldType &gt;" name="cdt::MoveCommand&lt; ManifoldType &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="39,975,253,1310"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,432,188,521"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,519,135,958,130,959,98,522"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="70,151,187,223"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,239,94,248,85,296,83,345,91,432,86,432,78,345,80,295,89,246,96,234"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="187,5,206,78"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="186,54,170,75,152,103,141,135,136,133,148,100,166,72,188,50"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="235,151,345,223"/>
-<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="206,54,260,136,255,137,206,60"/>
-<area shape="rect" id="Node000005" href="$classcdt_1_1move__tracker_1_1_move_tracker.html" title="The data and methods to track ergodic moves." alt="" coords="230,545,377,858"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="249,855,214,961,209,958,247,860"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="216,318,407,408"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="311,405,310,528,305,528,310,410"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="296,235,309,319,303,318,296,241"/>
+<area shape="rect" id="Node000001" title="Queue and execute requested moves against a three&#45;dimensional manifold while tracking attempted and s..." alt="" coords="5,5,219,340"/>
 </map>

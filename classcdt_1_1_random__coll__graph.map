@@ -1,7 +1,3 @@
 <map id="cdt::Random" name="cdt::Random">
-<area shape="rect" id="Node000001" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="82,218,208,491"/>
-<area shape="rect" id="Node000002" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="5,5,130,145"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,142,105,202,100,202,86,147"/>
-<area shape="rect" id="Node000003" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="154,5,294,145"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,142,190,203,185,201,203,147"/>
+<area shape="rect" id="Node000001" title="A run&#45;owned PCG engine with a recorded seed and stream identifier." alt="" coords="5,5,107,256"/>
 </map>

@@ -15,31 +15,31 @@
 <polygon fill="#999999" stroke="none" points="177.38,-234.5 32.12,-234.5 32.12,0 177.38,0 177.38,-234.5"/>
 <text xml:space="preserve" text-anchor="start" x="36.12" y="-220.75" font-family="Helvetica,sans-Serif" font-size="10.00">cdt::utilities::Reproducibility</text>
 <text xml:space="preserve" text-anchor="start" x="78.5" y="-208" font-family="Helvetica,sans-Serif" font-size="10.00">_metadata</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-191.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-191.25" font-family="Helvetica,sans-Serif" font-size="10.00">actual_edges</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">actual_faces</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-157.75" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-157.75" font-family="Helvetica,sans-Serif" font-size="10.00">actual_simplices</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-141" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-141" font-family="Helvetica,sans-Serif" font-size="10.00">actual_vertices</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-124.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-124.25" font-family="Helvetica,sans-Serif" font-size="10.00">alpha</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">artifact</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.00">checkpoint_interval</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00">completed_passes</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-57.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-57.25" font-family="Helvetica,sans-Serif" font-size="10.00">configured_passes</text>
-<text xml:space="preserve" text-anchor="start" x="43.38" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">desired_simplices</text>
-<text xml:space="preserve" text-anchor="start" x="62.88" y="-23.75" font-family="Helvetica,sans-Serif" font-size="10.00">and 14 more...</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-191.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-191.25" font-family="Helvetica,sans-Serif" font-size="10.00">actual_edges</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">actual_faces</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-157.75" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-157.75" font-family="Helvetica,sans-Serif" font-size="10.00">actual_simplices</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-141" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-141" font-family="Helvetica,sans-Serif" font-size="10.00">actual_vertices</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-124.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-124.25" font-family="Helvetica,sans-Serif" font-size="10.00">alpha</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">artifact</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.00">checkpoint_interval</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00">completed_passes</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-57.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-57.25" font-family="Helvetica,sans-Serif" font-size="10.00">configured_attempts</text>
+<text xml:space="preserve" text-anchor="start" x="42.25" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">configured_passes</text>
+<text xml:space="preserve" text-anchor="start" x="60.62" y="-23.75" font-family="Helvetica,sans-Serif" font-size="10.00">and 15 more...</text>
 <text xml:space="preserve" text-anchor="start" x="103.25" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 <polygon fill="#666666" stroke="#666666" points="32.12,-203 32.12,-203 177.38,-203 177.38,-203 32.12,-203"/>
-<polygon fill="#666666" stroke="#666666" points="32.12,-18.75 32.12,-18.75 60.88,-18.75 60.88,-18.75 32.12,-18.75"/>
-<polygon fill="#666666" stroke="#666666" points="60.88,-18.75 60.88,-18.75 177.38,-18.75 177.38,-18.75 60.88,-18.75"/>
+<polygon fill="#666666" stroke="#666666" points="32.12,-18.75 32.12,-18.75 58.62,-18.75 58.62,-18.75 32.12,-18.75"/>
+<polygon fill="#666666" stroke="#666666" points="58.62,-18.75 58.62,-18.75 177.38,-18.75 177.38,-18.75 58.62,-18.75"/>
 <polygon fill="none" stroke="#666666" points="32.12,0 32.12,-234.5 177.38,-234.5 177.38,0 32.12,0"/>
 </a>
 </g>
@@ -50,8 +50,7 @@
 <g id="a_Node000002"><a xlink:href="classcdt_1_1_random_seed.html" target="_top" xlink:title="Root entropy value used to reproduce a random run.">
 <polygon fill="white" stroke="none" points="93.5,-410.5 0,-410.5 0,-306 93.5,-306 93.5,-410.5"/>
 <text xml:space="preserve" text-anchor="start" x="4" y="-396.75" font-family="Helvetica,sans-Serif" font-size="10.00">cdt::RandomSeed</text>
-<text xml:space="preserve" text-anchor="start" x="6.56" y="-380" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;</text>
-<text xml:space="preserve" text-anchor="start" x="16.88" y="-380" font-family="Helvetica,sans-Serif" font-size="10.00">m_value</text>
+<text xml:space="preserve" text-anchor="start" x="45.25" y="-380" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 <text xml:space="preserve" text-anchor="start" x="4.31" y="-363.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text xml:space="preserve" text-anchor="start" x="16.88" y="-363.25" font-family="Helvetica,sans-Serif" font-size="10.00">RandomSeed()</text>
 <text xml:space="preserve" text-anchor="start" x="4.31" y="-346.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
@@ -61,8 +60,7 @@
 <text xml:space="preserve" text-anchor="start" x="4.31" y="-313" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text xml:space="preserve" text-anchor="start" x="16.88" y="-313" font-family="Helvetica,sans-Serif" font-size="10.00">value()</text>
 <polygon fill="#666666" stroke="#666666" points="0,-391.75 0,-391.75 93.5,-391.75 93.5,-391.75 0,-391.75"/>
-<polygon fill="#666666" stroke="#666666" points="0,-375 0,-375 14.88,-375 14.88,-375 0,-375"/>
-<polygon fill="#666666" stroke="#666666" points="14.88,-375 14.88,-375 93.5,-375 93.5,-375 14.88,-375"/>
+<polygon fill="#666666" stroke="#666666" points="0,-375 0,-375 93.5,-375 93.5,-375 0,-375"/>
 <polygon fill="none" stroke="#666666" points="0,-306 0,-410.5 93.5,-410.5 93.5,-306 0,-306"/>
 </a>
 </g>
@@ -83,8 +81,7 @@
 <g id="a_Node000003"><a xlink:href="classcdt_1_1_random_stream.html" target="_top" xlink:title="PCG sequence selector derived from a root random seed.">
 <polygon fill="white" stroke="none" points="216.12,-410.5 111.38,-410.5 111.38,-306 216.12,-306 216.12,-410.5"/>
 <text xml:space="preserve" text-anchor="start" x="115.38" y="-396.75" font-family="Helvetica,sans-Serif" font-size="10.00">cdt::RandomStream</text>
-<text xml:space="preserve" text-anchor="start" x="117.94" y="-380" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;</text>
-<text xml:space="preserve" text-anchor="start" x="128.25" y="-380" font-family="Helvetica,sans-Serif" font-size="10.00">m_value</text>
+<text xml:space="preserve" text-anchor="start" x="162.25" y="-380" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 <text xml:space="preserve" text-anchor="start" x="115.69" y="-363.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text xml:space="preserve" text-anchor="start" x="128.25" y="-363.25" font-family="Helvetica,sans-Serif" font-size="10.00">RandomStream()</text>
 <text xml:space="preserve" text-anchor="start" x="115.69" y="-346.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
@@ -94,8 +91,7 @@
 <text xml:space="preserve" text-anchor="start" x="115.69" y="-313" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text xml:space="preserve" text-anchor="start" x="128.25" y="-313" font-family="Helvetica,sans-Serif" font-size="10.00">value()</text>
 <polygon fill="#666666" stroke="#666666" points="111.38,-391.75 111.38,-391.75 216.12,-391.75 216.12,-391.75 111.38,-391.75"/>
-<polygon fill="#666666" stroke="#666666" points="111.38,-375 111.38,-375 126.25,-375 126.25,-375 111.38,-375"/>
-<polygon fill="#666666" stroke="#666666" points="126.25,-375 126.25,-375 216.12,-375 216.12,-375 126.25,-375"/>
+<polygon fill="#666666" stroke="#666666" points="111.38,-375 111.38,-375 216.12,-375 216.12,-375 111.38,-375"/>
 <polygon fill="none" stroke="#666666" points="111.38,-306 111.38,-410.5 216.12,-410.5 216.12,-306 111.38,-306"/>
 </a>
 </g>

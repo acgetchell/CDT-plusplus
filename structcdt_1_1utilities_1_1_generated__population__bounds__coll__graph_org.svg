@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Validated simplex&#45;population bounds for generated triangulations.">
 <polygon fill="#999999" stroke="none" points="139.5,-117.25 0,-117.25 0,0 139.5,0 139.5,-117.25"/>
 <text xml:space="preserve" text-anchor="start" x="12.38" y="-103.5" font-family="Helvetica,sans-Serif" font-size="10.00">cdt::utilities::Generated</text>
 <text xml:space="preserve" text-anchor="start" x="21" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.00">_population_bounds</text>

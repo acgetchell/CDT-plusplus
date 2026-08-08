@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['int_5fprecision_0',['Int_precision',['../namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd',1,'cdt']]]
+  ['delaunay_0',['Delaunay',['../_ergodic__moves__3_8hpp.html#afeac4c99af5a4cb98673faccda411ad8',1,'cdt::ergodic_moves']]],
+  ['delaunay_5ft_1',['Delaunay_t',['../namespacecdt.html#a3de1b640337333982c080630a7f80d92',1,'cdt']]]
 ];

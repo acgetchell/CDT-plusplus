@@ -14,8 +14,7 @@
 <g id="a_Node000001"><a xlink:title="Root entropy value used to reproduce a random run.">
 <polygon fill="#999999" stroke="none" points="93.5,-104.5 0,-104.5 0,0 93.5,0 93.5,-104.5"/>
 <text xml:space="preserve" text-anchor="start" x="4" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.00">cdt::RandomSeed</text>
-<text xml:space="preserve" text-anchor="start" x="6.56" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;</text>
-<text xml:space="preserve" text-anchor="start" x="16.88" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00">m_value</text>
+<text xml:space="preserve" text-anchor="start" x="45.25" y="-74" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 <text xml:space="preserve" text-anchor="start" x="4.31" y="-57.25" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text xml:space="preserve" text-anchor="start" x="16.88" y="-57.25" font-family="Helvetica,sans-Serif" font-size="10.00">RandomSeed()</text>
 <text xml:space="preserve" text-anchor="start" x="4.31" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
@@ -25,8 +24,7 @@
 <text xml:space="preserve" text-anchor="start" x="4.31" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text xml:space="preserve" text-anchor="start" x="16.88" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">value()</text>
 <polygon fill="#666666" stroke="#666666" points="0,-85.75 0,-85.75 93.5,-85.75 93.5,-85.75 0,-85.75"/>
-<polygon fill="#666666" stroke="#666666" points="0,-69 0,-69 14.88,-69 14.88,-69 0,-69"/>
-<polygon fill="#666666" stroke="#666666" points="14.88,-69 14.88,-69 93.5,-69 93.5,-69 14.88,-69"/>
+<polygon fill="#666666" stroke="#666666" points="0,-69 0,-69 93.5,-69 93.5,-69 0,-69"/>
 <polygon fill="none" stroke="#666666" points="0,0 0,-104.5 93.5,-104.5 93.5,0 0,0"/>
 </a>
 </g>
