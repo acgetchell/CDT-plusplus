@@ -1,0 +1,28 @@
+[
+  {
+    "label": "CDT++: Debug initializer",
+    "adapter": "CodeLLDB",
+    "request": "launch",
+    "build": "CDT++: Build Debug",
+    "program": "$ZED_WORKTREE_ROOT/out/build/debug/src/initialize",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "args": [
+      "--spherical",
+      "--simplices",
+      "64",
+      "--timeslices",
+      "3",
+      "--seed",
+      "92"
+    ]
+  },
+  {
+    "label": "CDT++: Debug simulator CLI",
+    "adapter": "CodeLLDB",
+    "request": "launch",
+    "build": "CDT++: Build Debug",
+    "program": "$ZED_WORKTREE_ROOT/out/build/debug/src/cdt",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "args": ["--help"]
+  }
+]

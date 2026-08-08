@@ -46,6 +46,7 @@ output*
 errors
 *.off
 !reference/raw/**/*.off
+!viewer/fixtures/**/*.off
 *.dat
 slurm-*.out
 

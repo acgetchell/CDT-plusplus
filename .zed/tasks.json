@@ -1,0 +1,44 @@
+[
+  {
+    "label": "CDT++: Check",
+    "command": "just",
+    "args": ["check"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+  {
+    "label": "CDT++: Build",
+    "command": "just",
+    "args": ["build"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+  {
+    "label": "CDT++: Build Debug",
+    "command": "just",
+    "args": ["build-debug"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+  {
+    "label": "CDT++: Build Parallel",
+    "command": "just",
+    "args": ["build-parallel"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+  {
+    "label": "CDT++: CI",
+    "command": "just",
+    "args": ["ci"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+  {
+    "label": "CDT++: Render Viewer",
+    "command": "just",
+    "args": ["viewer-render"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  }
+]

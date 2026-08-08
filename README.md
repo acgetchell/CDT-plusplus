@@ -11,6 +11,9 @@
 
 ![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
 
+This reproducible archival rendering is generated from a tracked triangulation fixture; see the
+[viewer and visual-artifact contract](docs/viewer.md).
+
 ## Maintenance status
 
 CDT++ v1.0.0-rc3 is the current C++23 release candidate. The repository remains maintained as an independent
@@ -133,8 +136,8 @@ exact transition replay requires an identical starting manifold; CDT++ does
 not alter its spherical construction to force CGAL to reproduce one of several
 valid cospherical tetrahedralizations.
 
-- `cdt-viewer` is currently disabled and will be restored as an opt-in v1.0.0
-  target by [#98](https://github.com/acgetchell/CDT-plusplus/issues/98).
+- `cdt-viewer` is an opt-in macOS archival target. Build it with `just viewer-build`, regenerate the tracked hero image
+  with `just viewer-render`, and see the [viewer contract](docs/viewer.md) for its narrower support boundary.
 - `initialize` is also used by the dependency-free local parameter sweep described under
   [offline comparison](#offline-comparison).
 
@@ -162,7 +165,7 @@ Build and dependency instructions begin at [Quickstart](#quickstart).
 - [x] Use [{fmt}] library (instead of `iostream`)
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
-- [ ] Restore optional visualization with [Qt] ([#98](https://github.com/acgetchell/CDT-plusplus/issues/98))
+- [x] Restore optional visualization with [Qt] ([#98](https://github.com/acgetchell/CDT-plusplus/issues/98))
 - [ ] Initialize two masses
 - [ ] The shortest path algorithm
 - [ ] Einstein tensor
@@ -399,6 +402,11 @@ preserve a compatible CMake cache and refresh it only when the selected vcpkg to
 invocations must expose CMake 4.4.0 or newer on `PATH`; the canonical pkgx-backed `just` recipes select the tested
 4.4.1 toolchain automatically.
 
+The archival Qt viewer is deliberately outside that cross-platform headless contract. On macOS, `just viewer-build`
+selects the separate `viewer` preset and vcpkg feature, builds `cdt-viewer` under `out/build/viewer`, and runs its
+noninteractive image smoke test. Qt and Eigen are installed only in that build tree. See
+[`docs/viewer.md`](docs/viewer.md) for regeneration, version pins, and portability rules.
+
 ### Project Layout
 
 The project is similar to [PitchFork Layout], as follows:
@@ -412,6 +420,7 @@ The project is similar to [PitchFork Layout], as follows:
 - scripts - Build, test, and run scripts
 - src - Source files
 - tests - Unit tests
+- viewer - Versioned archival render fixtures, manifests, and schemas
 
 ## Command-line reference
 
@@ -666,10 +675,10 @@ triangulations remain subject to the [reproducibility contract](docs/reproducibi
 
 ## Visualization
 
-The Qt-based `cdt-viewer` target is currently disabled. Its opt-in dependency feature, deterministic smoke fixture,
-supported desktop matrix, and v1.0.0 restoration are tracked by
-[#98](https://github.com/acgetchell/CDT-plusplus/issues/98); Qt and Eigen are intentionally absent from the default
-headless build until that work is complete.
+The restored Qt-based `cdt-viewer` is an opt-in macOS archival renderer. Its tracked OFF fixture, render manifest,
+noninteractive smoke test, exact canonical-image policy, and inventory of historical visuals are documented in the
+[viewer and visual-artifact contract](docs/viewer.md). The default build remains headless and does not install Qt or
+Eigen.
 
 ## Contributing
 

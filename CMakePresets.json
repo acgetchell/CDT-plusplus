@@ -77,6 +77,22 @@
       }
     },
     {
+      "name": "viewer",
+      "displayName": "Archival CGAL/Qt viewer",
+      "description": "Configure the opt-in macOS artifact renderer without changing the headless reference build",
+      "inherits": "reference",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "binaryDir": "${sourceDir}/out/build/viewer",
+      "cacheVariables": {
+        "ENABLE_VIEWER": true,
+        "VCPKG_MANIFEST_FEATURES": "viewer"
+      }
+    },
+    {
       "name": "debug",
       "displayName": "Local debug build",
       "description": "Configure an optional debug build with CDT++ assertions enabled and CGAL checks disabled",
@@ -137,6 +153,14 @@
       "configurePreset": "parallel"
     },
     {
+      "name": "viewer",
+      "displayName": "Build the archival CGAL/Qt viewer",
+      "configurePreset": "viewer",
+      "targets": [
+        "cdt-viewer"
+      ]
+    },
+    {
       "name": "debug",
       "displayName": "Build production targets with CDT++ assertions enabled",
       "configurePreset": "debug",
@@ -171,6 +195,24 @@
       "execution": {
         "noTestsAction": "error",
         "stopOnFailure": false
+      }
+    },
+    {
+      "name": "viewer-smoke",
+      "displayName": "Render the tracked hero fixture without interaction",
+      "description": "Load and validate the versioned OFF fixture, initialize CGAL/Qt, and write a nonempty PNG",
+      "configurePreset": "viewer",
+      "filter": {
+        "include": {
+          "label": "^viewer$"
+        }
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
       }
     },
     {

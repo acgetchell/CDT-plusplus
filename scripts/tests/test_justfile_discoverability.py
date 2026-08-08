@@ -101,6 +101,7 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
                 "semgrep",
                 "semgrep-test",
                 "spell-check",
+                "viewer-check",
             }
             <= check_dependencies
         )

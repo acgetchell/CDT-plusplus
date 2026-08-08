@@ -46,7 +46,7 @@ CDT++ does not disable CGAL triangulation assertions or postconditions.
 | Checked Delaunay and TDS flips | Retained | CGAL establishes combinatorial/geometric flippability; typed applicable moves independently establish CDT causal admissibility. |
 | Persistence and fingerprints | Modernized | Use finite handle ranges while preserving canonical sorting. Native CGAL stream data remains version-coupled and is not claimed as a stable interchange format. |
 | Spherical point generation | Retained | A caller-owned CDT random stream seeds `CGAL::Random`; the generated sequence and the limits of cospherical topology replay are documented separately. |
-| CGAL timers and visualization | Removed from production | Production code uses standard timing and has no CGAL timer dependency. Qt visualization remains separately owned by issue #98. |
+| CGAL timers and visualization | Archival opt-in only | Production code uses standard timing and has no CGAL timer dependency. The separate macOS-only `viewer` feature restores CGAL 6.2's Qt basic viewer without changing the default headless graph; see the [viewer contract](viewer.md). |
 | Periodic 3D and d-dimensional torus prototypes | Excluded | These remain under `cdt::experimental`, outside supported-header compilation and production dependency decisions. They are archival source, not supported CGAL 6.2 APIs. |
 
 No production path uses a deprecated CGAL triangulation API. Canonical

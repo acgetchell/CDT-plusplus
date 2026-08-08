@@ -119,6 +119,8 @@ option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable building of tests" ON)
 option(ENABLE_PARALLEL_TRIANGULATION
        "Enable CGAL parallel Delaunay insertion and removal in production targets" OFF)
+option(ENABLE_VIEWER
+       "Build the opt-in CGAL/Qt archival viewer and artifact smoke test" OFF)
 option(ENABLE_DEPRECATION_ERRORS
        "Treat deprecated C++ and CGAL API use in project targets as an error" ON)
 
@@ -174,7 +176,18 @@ endif()
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE
     CACHE BOOL "Force CGAL to maintain CMAKE flags")
-find_package(CGAL 6.2 EXACT CONFIG REQUIRED)
+if(ENABLE_VIEWER)
+  find_package(CGAL 6.2 EXACT CONFIG REQUIRED COMPONENTS Qt6)
+  find_package(Qt6 REQUIRED COMPONENTS Core Gui OpenGLWidgets Widgets)
+  if(NOT TARGET CGAL::CGAL_Basic_viewer)
+    message(
+      FATAL_ERROR
+        "ENABLE_VIEWER requires CGAL's Qt feature and CGAL::CGAL_Basic_viewer. Use the viewer preset or install the equivalent CGAL/Qt dependencies."
+    )
+  endif()
+else()
+  find_package(CGAL 6.2 EXACT CONFIG REQUIRED)
+endif()
 
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)

@@ -29,6 +29,9 @@ if [[ -n "${CDT_PKGX_COMPILER_PACKAGE:-}" ]]; then
 fi
 
 pkgx_launcher=(pkgx "${pkgx_tools[@]}" --)
+# pkgx's libtool scripts are relocatable only when their configure-time sed
+# path is overridden. vcpkg's autoreconf-based ports inherit this value.
+export SED="${SED:-sed}"
 case "${CDT_COMPILER_CACHE:-}" in
   "" | off) ;;
   ccache)
@@ -55,8 +58,8 @@ fi
 
 if [[ "${1:-}" == "--preset" ]]; then
   if [[ "$#" -ne 2 ]] ||
-     [[ "$2" != "reference" && "$2" != "parallel" && "$2" != "debug" ]]; then
-    printf 'Usage: %s [--preset reference|parallel|debug] [--codeql prepare|build]\n' \
+     [[ "$2" != "reference" && "$2" != "parallel" && "$2" != "debug" && "$2" != "viewer" ]]; then
+    printf 'Usage: %s [--preset reference|parallel|debug|viewer] [--codeql prepare|build]\n' \
       "$0" >&2
     exit 2
   fi
@@ -65,7 +68,7 @@ if [[ "${1:-}" == "--preset" ]]; then
 fi
 
 if [[ "$#" -ne 0 ]]; then
-  printf 'Usage: %s [--preset reference|parallel|debug] [--codeql prepare|build]\n' \
+  printf 'Usage: %s [--preset reference|parallel|debug|viewer] [--codeql prepare|build]\n' \
     "$0" >&2
   exit 2
 fi
