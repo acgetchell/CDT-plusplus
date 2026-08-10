@@ -113,6 +113,18 @@ jobs:
           GCOV: gcov
         run: just coverage
 
+      - name: Validate coverage reports
+        run: |
+          if [[ ! -s build/coverage.info ]]; then
+            echo "build/coverage.info is missing or empty." >&2
+            exit 1
+          fi
+          if [[ ! -d build/coverage-html ]] ||
+             [[ -z "$(find build/coverage-html -type f -size +0c -print -quit)" ]]; then
+            echo "build/coverage-html is missing or empty." >&2
+            exit 1
+          fi
+
       - name: Preserve coverage reports
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
@@ -144,5 +156,6 @@ jobs:
           fail_ci_if_error: true
           files: build/coverage.info
           plugins: noop
+          token: ${{ secrets.CODECOV_TOKEN }}
           use_oidc: ${{ github.actor != 'dependabot[bot]' }}
           verbose: true
