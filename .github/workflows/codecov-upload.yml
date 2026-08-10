@@ -39,13 +39,17 @@ jobs:
       - name: Resolve coverage tool versions
         id: tool-versions
         run: |
-          {
-            echo "cmake=$(just --evaluate cmake_version)"
-            echo "gcc=$(just --evaluate gcc_version)"
-            echo "lcov=$(just --evaluate lcov_version)"
-            echo "lcov_sha256=$(just --evaluate lcov_sha256)"
-            echo "ninja=$(just --evaluate ninja_version)"
-          } >> "$GITHUB_OUTPUT"
+          cmake="$(just --evaluate cmake_version)"
+          gcc="$(just --evaluate gcc_version)"
+          lcov="$(just --evaluate lcov_version)"
+          lcov_sha256="$(just --evaluate lcov_sha256)"
+          ninja="$(just --evaluate ninja_version)"
+          printf '%s\n' \
+            "cmake=${cmake}" \
+            "gcc=${gcc}" \
+            "lcov=${lcov}" \
+            "lcov_sha256=${lcov_sha256}" \
+            "ninja=${ninja}" >> "$GITHUB_OUTPUT"
 
       - name: Setup
         run: |
@@ -140,5 +144,5 @@ jobs:
           fail_ci_if_error: true
           files: build/coverage.info
           plugins: noop
-          use_oidc: true
+          use_oidc: ${{ github.actor != 'dependabot[bot]' }}
           verbose: true

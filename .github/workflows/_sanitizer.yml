@@ -74,7 +74,9 @@ jobs:
 
       - name: Resolve sanitizer tool versions
         id: tool-versions
-        run: echo "llvm=$(just --evaluate llvm_version)" >> "$GITHUB_OUTPUT"
+        run: |
+          llvm="$(just --evaluate llvm_version)"
+          printf 'llvm=%s\n' "$llvm" >> "$GITHUB_OUTPUT"
 
       - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0

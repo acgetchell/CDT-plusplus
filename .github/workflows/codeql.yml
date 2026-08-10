@@ -73,7 +73,9 @@ jobs:
       - name: Resolve C++ tool versions
         if: matrix.language == 'c-cpp'
         id: tool-versions
-        run: echo "gcc=$(just --evaluate gcc_version)" >> "$GITHUB_OUTPUT"
+        run: |
+          gcc="$(just --evaluate gcc_version)"
+          printf 'gcc=%s\n' "$gcc" >> "$GITHUB_OUTPUT"
 
       - name: Set up C++ environment with pkgx
         if: matrix.language == 'c-cpp'

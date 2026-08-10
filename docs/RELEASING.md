@@ -122,10 +122,6 @@ release gates:
 - `build` covers the Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows
   MSVC `just ci` matrix, the two Ubuntu parallel contracts, and the macOS viewer
   smoke contract.
-- `CodeCov` generates the GCC/LCOV report, retains its diagnostic artifacts,
-  and requires the explicit OIDC upload to succeed.
-- `docs` runs the pinned generated-site validator without granting publication
-  permissions to pull-request code.
 - `build / AddressSanitizer + UndefinedBehaviorSanitizer` and
   `build / LeakSanitizer` exercise the stable Linux sanitizer configurations.
 - `CodeRabbit` records the required review approval.
