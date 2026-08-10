@@ -1,18 +1,11 @@
 var searchData=
 [
-  ['decision_0',['Decision',['../md_docs_2arithmetic-backend-evaluation.html#decision',1,'']]],
-  ['delaunay_20complexity_1',['Three-dimensional Delaunay complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity',1,'']]],
-  ['delaunay_20expected_20complexity_2',['Random Voronoi and Delaunay expected complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#random-voronoi-and-delaunay-expected-complexity',1,'']]],
-  ['delta_20derivations_3',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
-  ['deltas_4',['State and geometry deltas',['../md_docs_2metropolis-hastings.html#state-and-geometry-deltas',1,'']]],
-  ['dependency_20and_20compiler_20contract_5',['Supported dependency and compiler contract',['../md_docs_2cgal-integration.html#supported-dependency-and-compiler-contract',1,'']]],
-  ['derivations_6',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
-  ['determinism_20and_20correctness_7',['Determinism and correctness',['../md_docs_2multithreading.html#determinism-and-correctness',1,'']]],
-  ['developer_20workflow_8',['Developer workflow',['../index.html#developer-workflow',1,'']]],
-  ['dimensional_20cdt_202001_9',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
-  ['dimensional_20delaunay_20complexity_10',['Three-dimensional Delaunay complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity',1,'']]],
-  ['discrete_20action_11',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
-  ['documentation_12',['Documentation',['../index.html#documentation',1,'']]],
-  ['duplicate_20points_13',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
-  ['dynamical_20triangulations_20theory_14',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
+  ['backed_20configurations_0',['Sequential and TBB-backed configurations',['../md_docs_2cgal-integration.html#sequential-and-tbb-backed-configurations',1,'']]],
+  ['baseline_1',['Reproducible performance baseline',['../md_docs_2cgal-integration.html#reproducible-performance-baseline',1,'']]],
+  ['behavior_2',['Failure and ownership behavior',['../md_docs_2cpp-api-quickstart.html#failure-and-ownership-behavior',1,'']]],
+  ['boundary_3',['boundary',['../md_docs_2api-boundary.html',1,'C++ API boundary'],['../md_docs_2comparison-harness.html#scientific-boundary',1,'Scientific boundary'],['../md_docs_2multithreading.html#supported-execution-boundary',1,'Supported execution boundary']]],
+  ['build_4',['Build',['../index.html#build',1,'']]],
+  ['build_20and_20run_5',['Build and run',['../md_docs_2cpp-api-quickstart.html#build-and-run',1,'']]],
+  ['build_20and_20test_6',['Build and test',['../md_docs_2multithreading.html#build-and-test',1,'']]],
+  ['by_20move_20record_7',['Move-by-move record',['../md_docs_2ergodic-moves.html#move-by-move-record',1,'']]]
 ];

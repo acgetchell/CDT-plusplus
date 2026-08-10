@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -86,7 +86,7 @@ $(function() {
 <p>This document records the supported CGAL boundary for CDT++ 1.0. It is the audit record for issue #102 and complements the <a class="el" href="md_docs_2api-boundary.html" title="C++ API boundary">C++ API boundary</a>, the <a class="el" href="md_docs_2ergodic-moves.html" title="2+1D CDT ergodic move audit">ergodic-move contract</a>, and the <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs">reproducibility contract</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="supported-dependency-and-compiler-contract"></a>
 Supported dependency and compiler contract</h1>
-<p>The repository-owned vcpkg baseline in <span class="tt">vcpkg.json</span> is the dependency source of truth. CMake requires exactly CGAL 6.2 and treats deprecated declarations as errors by default. The baseline currently resolves CGAL 6.2 with Boost 1.91.0, GMP 6.3.0 revision 4, MPFR 4.2.2 revision 1, and oneTBB 2023.0.0. Those transitive versions are a resolution record for the pinned baseline, not independent version promises.</p>
+<p>The repository-owned vcpkg baseline in <span class="tt">vcpkg.json</span> is the dependency source of truth. CMake requires exactly CGAL 6.2 and treats deprecated declarations as errors by default. The baseline currently resolves CGAL 6.2 with Boost 1.91.0, GMP 6.3.0 revision 4, MPFR 4.2.2 revision 1, and oneTBB 2023.0.0. Those transitive versions are a resolution record for the pinned baseline, not independent version promises. The canonical bibliography records both the <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cgal-design" title="CGAL design">CGAL project design</a> and the version-specific <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations" title="CGAL triangulations">CGAL 6.2 manual</a>.</p>
 <p>The supported compiler floor is the intersection of CDT++'s C++23 library requirements and CGAL 6.2's tested platforms:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -132,6 +132,7 @@ Production usage inventory</h1>
 <h1 class="doxsection"><a class="anchor" id="kernel-and-exact-arithmetic-policy"></a>
 Kernel and exact-arithmetic policy</h1>
 <p>Production triangulation uses <span class="tt">CGAL::Exact_predicates_inexact_constructions_kernel</span> (EPICK). CDT++ relies on exact orientation and sphere-side predicates for Delaunay insertion, point location, and checked geometric flips. Coordinates, centroids, distances, and other constructed values remain floating-point approximations.</p>
+<p><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#delaunay-empty-sphere-construction" title="Delaunay empty-sphere construction">Delaunay's original empty-sphere construction</a> provides the geometric foundation. Shewchuk's <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#robust-geometric-predicates" title="Robust geometric predicates">robust-predicate work</a> records primary methodological background; CDT++ delegates predicates to CGAL's EPICK implementation rather than claiming that it reimplements those routines.</p>
 <p>That split is intentional. The scientific state is the causal combinatorial triangulation plus time and cell metadata; it is not a claim that every constructed coordinate is exact. The integration suite includes an almost coplanar orientation fixture and a co-spherical insertion fixture before any future kernel change. There is no reproduced construction defect that justifies the runtime, memory, persistence, and semantic cost of moving to an exact-constructions kernel.</p>
 <p>GMP and MPFR remain in the current production build. CDT action and Metropolis calculations directly use <span class="tt">CGAL::Gmpfr</span> at 256-bit precision, and the pinned vcpkg CGAL port supplies GMP/MPFR through <span class="tt">CGAL::CGAL</span>.</p>
 <p>The completed <a class="el" href="md_docs_2arithmetic-backend-evaluation.html" title="GMP/MPFR-free arithmetic evaluation">GMP/MPFR-free arithmetic evaluation</a> finds CGAL's Boost exact-predicate backend and a native 256-bit Boost action value locally viable, but defers a separately scoped migration until upstream vcpkg can omit GMP/MPFR and the remaining clean-cache, platform, sanitizer, and simulation gates pass. The evaluation includes adversarial equivalence tests, an evaluation-only no-GMP vcpkg port probe, and compile-time, runtime, binary-size, and peak-memory measurements. This document therefore continues to describe the shipped GMP/MPFR configuration.</p>

@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -83,7 +83,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="multithreaded-cgal-contract"></a></p>
-<p>CDT++ retains one bounded multithreaded capability for the maintained C++ reference: CGAL may use oneTBB for bulk 3D Delaunay insertion and range removal. The deterministic <span class="tt">reference</span> configuration remains the canonical single-threaded correctness oracle. Enabling the parallel configuration does not create a task runtime, parallelize Pachner moves, or make a <span class="tt">FoliatedTriangulation</span> safe for concurrent member calls.</p>
+<p>CDT++ retains one bounded multithreaded capability for the archival C++ reference: CGAL may use oneTBB for bulk 3D Delaunay insertion and range removal. The deterministic <span class="tt">reference</span> configuration remains the canonical single-threaded correctness oracle. Enabling the parallel configuration does not create a task runtime, parallelize Pachner moves, or make a <span class="tt">FoliatedTriangulation</span> safe for concurrent member calls.</p>
 <h1 class="doxsection"><a class="anchor" id="build-and-test"></a>
 Build and test</h1>
 <p>Run the supported opt-in configuration from a clean checkout with:</p>
@@ -128,7 +128,7 @@ Supported execution boundary</h1>
 </table>
 <p>Every parallel triangulation has exactly one lock-grid owner. Copies allocate and bind a new grid. Moves and swaps transfer the triangulation and owner together. A handle belongs only to the triangulation that produced it; using a handle after mutation or with a copy is unsupported.</p>
 <p>There is no public cancellation API. A supported CGAL range call runs to completion inside its owning scope. Construction and repair happen on unpublished state, so an exception destroys the complete candidate rather than publishing partial topology. Published scientific mutations continue to use private-copy validation followed by a non-throwing swap.</p>
-<p><span class="tt"><a class="el" href="classcdt_1_1_random.html" title="A run-owned PCG engine with a recorded seed and stream identifier.">cdt::Random</a></span> remains thread-confined. The current parallel operations consume no random draws inside worker tasks. Any future stochastic worker must receive a unique, stable <span class="tt">root.split(worker_stream)</span> engine; sharing one mutable engine is a data race and is unsupported.</p>
+<p><span class="tt"><a class="el" href="classcdt_1_1_random.html" title="A run-owned PCG engine with a recorded seed and stream identifier.">cdt::Random</a></span> remains thread-confined. The current parallel operations consume no random draws inside worker tasks. Any downstream stochastic worker must receive a unique, stable <span class="tt">root.split(worker_stream)</span> engine; sharing one mutable engine is a data race and is unsupported.</p>
 <h1 class="doxsection"><a class="anchor" id="determinism-and-correctness"></a>
 Determinism and correctness</h1>
 <p>The <span class="tt">reference</span> preset uses <span class="tt">CGAL::Sequential_tag</span> and remains the step-by-step oracle. The <span class="tt">parallel</span> preset must preserve TDS validity, foliation and causal classification, geometry counts, action values, move semantics, cache invariants, and persistence round trips. Those contracts are exercised by running the complete unit and integration suite under the parallel TDS.</p>

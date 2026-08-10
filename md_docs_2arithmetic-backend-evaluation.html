@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -98,7 +98,7 @@ Decision</h1>
 Required contracts</h1>
 <h2 class="doxsection"><a class="anchor" id="geometry"></a>
 Geometry</h2>
-<p>CDT++ needs exact signs for EPICK orientation and sphere-side predicates. It does not need exact constructed coordinates. CGAL's <a href="https://doc.cgal.org/latest/Triangulation_3/classTriangulationTraits__3.html"><span class="tt">TriangulationTraits_3</span></a> and <a href="https://doc.cgal.org/latest/Triangulation_3/classDelaunayTriangulationTraits__3.html"><span class="tt">DelaunayTriangulationTraits_3</span></a> identify those predicate boundaries. CGAL 6.2 supports either GMP/MPFR or Boost.Multiprecision for exact number types, as documented in its <a href="https://doc.cgal.org/latest/Manual/thirdparty.html">third-party dependency policy</a>.</p>
+<p>CDT++ needs exact signs for EPICK orientation and sphere-side predicates. It does not need exact constructed coordinates. CGAL's <a href="https://doc.cgal.org/latest/Triangulation_3/classTriangulationTraits__3.html"><span class="tt">TriangulationTraits_3</span></a> and <a href="https://doc.cgal.org/latest/Triangulation_3/classDelaunayTriangulationTraits__3.html"><span class="tt">DelaunayTriangulationTraits_3</span></a> identify those predicate boundaries. CGAL 6.2 supports either GMP/MPFR or Boost.Multiprecision for exact number types, as documented in its <a href="https://doc.cgal.org/latest/Manual/thirdparty.html">third-party dependency policy</a>. The repository bibliography also records the primary <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#robust-geometric-predicates" title="Robust geometric predicates">robust-predicate methodology</a> that motivates adaptive exactness at geometric decision boundaries; the evaluated backend remains CGAL's implementation, not a local reimplementation.</p>
 <p>For the Boost configuration, CGAL selects <span class="tt">boost::multiprecision::cpp_int</span> and <span class="tt">cpp_rational</span> for the exact fallback. The required result is the same exact predicate sign, not an identical tetrahedralization for degenerate co-spherical input. CGAL can choose among multiple valid Delaunay representatives, as already recorded in the <a class="el" href="md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points" title="Metadata, insertion, and duplicate points">CGAL integration contract</a>.</p>
 <h2 class="doxsection"><a class="anchor" id="action-and-metropolis-hastings-arithmetic"></a>
 Action and Metropolis-Hastings arithmetic</h2>

@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -85,10 +85,11 @@ $(function() {
 <div class="textblock"><p><a class="anchor" id="references-and-citations"></a></p>
 <h1 class="doxsection"><a class="anchor" id="how-to-cite-this-software"></a>
 How to Cite This Software</h1>
-<p>If CDT++ contributes to research or a project, cite it using the structured metadata in <a href="https://github.com/acgetchell/CDT-plusplus/blob/16d1c769afc67e06f07639f6fd9de8136974e282/CITATION.cff"><span class="tt">CITATION.cff</span></a>. GitHub and other citation tools can generate BibTeX, APA, and additional formats from that file.</p>
+<p>If CDT++ contributes to research or a project, cite it using the structured metadata in <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff"><span class="tt">CITATION.cff</span></a>. GitHub and other citation tools can generate BibTeX, APA, and additional formats from that file.</p>
 <p>Quick citation for the current declared release:</p>
 <div class="fragment"><div class="line">Adam Getchell. 2026. CDT-plusplus: Causal Dynamical Triangulations in C++.</div>
-<div class="line">Version 1.0.0-rc3. GitHub. https://github.com/acgetchell/CDT-plusplus</div>
+<div class="line">Version 1.0.0. GitHub. https://github.com/acgetchell/CDT-plusplus</div>
+<div class="line">Zenodo concept DOI: https://doi.org/10.5281/zenodo.21487043</div>
 </div><!-- fragment --><p>The sections below are grouped by scientific domain. Cite the entries relevant to the algorithms or results used in a given work. Source documentation links directly to the applicable entry so that provenance stays close to the implementation while complete metadata remains centralized here.</p>
 <h1 class="doxsection"><a class="anchor" id="foundational-causal-dynamical-triangulations-theory"></a>
 Foundational Causal Dynamical Triangulations Theory</h1>
@@ -102,6 +103,9 @@ Three-dimensional CDT (2001)</h3>
 <p>J. Ambjørn, J. Jurkiewicz, and R. Loll, “Nonperturbative 3D Lorentzian quantum gravity,” <em>Physical Review D</em> 64, no. 4 (2001), 044011. DOI: <a href="https://doi.org/10.1103/PhysRevD.64.044011">10.1103/PhysRevD.64.044011</a></p>
 <h1 class="doxsection"><a class="anchor" id="monte-carlo-methods"></a>
 Monte Carlo Methods</h1>
+<h2 class="doxsection"><a class="anchor" id="metropolis-algorithm"></a>
+Metropolis algorithm</h2>
+<p>N. Metropolis, A. W. Rosenbluth, M. N. Rosenbluth, A. H. Teller, and E. Teller, “Equation of state calculations by fast computing machines,” <em>The Journal of Chemical Physics</em> 21, no. 6 (1953), 1087–1092. DOI: <a href="https://doi.org/10.1063/1.1699114">10.1063/1.1699114</a></p>
 <h2 class="doxsection"><a class="anchor" id="metropolis-hastings-algorithm"></a>
 Metropolis-Hastings algorithm</h2>
 <p>W. K. Hastings, “Monte Carlo sampling methods using Markov chains and their applications,” <em>Biometrika</em> 57, no. 1 (1970), 97–109. DOI: <a href="https://doi.org/10.1093/biomet/57.1.97">10.1093/biomet/57.1.97</a></p>
@@ -117,15 +121,25 @@ Pachner moves</h2>
 <p>U. Pachner, “P.L. homeomorphic manifolds are equivalent by elementary shellings,” <em>European Journal of Combinatorics</em> 12, no. 2 (1991), 129–145. DOI: <a href="https://doi.org/10.1016/S0195-6698(13)80080-7">10.1016/S0195-6698(13)80080-7</a></p>
 <h1 class="doxsection"><a class="anchor" id="computational-geometry-and-random-number-generation"></a>
 Computational Geometry and Random-Number Generation</h1>
+<h2 class="doxsection"><a class="anchor" id="delaunay-empty-sphere-construction"></a>
+Delaunay empty-sphere construction</h2>
+<p>B. Delaunay, “Sur la sphère vide. À la mémoire de Georges Voronoï,” <em>Bulletin de l’Académie des Sciences de l’URSS. Classe des sciences mathématiques et naturelles</em>, no. 6 (1934), 793–800. <a href="https://www.mathnet.ru/eng/im4937">Primary-source scan and bibliographic record</a>.</p>
+<h2 class="doxsection"><a class="anchor" id="cgal-design"></a>
+CGAL design</h2>
+<p>E. Fogel and M. Teillaud, “The computational geometry algorithms library CGAL,” <em>ACM Communications in Computer Algebra</em> 47, no. 3/4 (2014), 85–87. DOI: <a href="https://doi.org/10.1145/2576802.2576806">10.1145/2576802.2576806</a></p>
 <h2 class="doxsection"><a class="anchor" id="cgal-triangulations"></a>
 CGAL triangulations</h2>
 <p>The CGAL Project, <em>CGAL User and Reference Manual</em>. CGAL Editorial Board, 6.2 edition (2026). <a href="https://doc.cgal.org/6.2/Manual/packages.html">https://doc.cgal.org/6.2/Manual/packages.html</a></p>
+<h2 class="doxsection"><a class="anchor" id="robust-geometric-predicates"></a>
+Robust geometric predicates</h2>
+<p>J. R. Shewchuk, “Adaptive precision floating-point arithmetic and fast robust geometric predicates,” <em>Discrete &amp; Computational Geometry</em> 18, no. 3 (1997), 305–363. DOI: <a href="https://doi.org/10.1007/PL00009321">10.1007/PL00009321</a></p>
+<p>This paper provides primary background for adaptive robust-predicate methodology. CDT++ delegates its production predicates to CGAL's EPICK kernel; it does not claim to reimplement Shewchuk's predicate code.</p>
 <h2 class="doxsection"><a class="anchor" id="random-voronoi-and-delaunay-expected-complexity"></a>
 Random Voronoi and Delaunay expected complexity</h2>
 <p>R. A. Dwyer, “Higher-dimensional Voronoi diagrams in linear expected time,” <em>Discrete &amp; Computational Geometry</em> 6 (1991), 343–367. DOI: <a href="https://doi.org/10.1007/BF02574694">10.1007/BF02574694</a></p>
 <h2 class="doxsection"><a class="anchor" id="three-dimensional-delaunay-complexity"></a>
 Three-dimensional Delaunay complexity</h2>
-<p>S.-W. Cheng, T. K. Dey, and J. R. Shewchuk, <em>Delaunay Mesh Generation</em>, Chapter 4, “Three-dimensional Delaunay triangulation.” CRC Press (2013), ISBN 978-1-58488-730-0. DOI metadata issued 2016: <a href="https://doi.org/10.1201/b12987">10.1201/b12987</a>. The authors’ <a href="https://www.cs.purdue.edu/homes/tamaldey/course/531/Delaunay%283D%29.pdf">Chapter 4 preprint</a> states the finite three-dimensional tetrahedron bound used by CDT++.</p>
+<p>S.-W. Cheng, T. K. Dey, and J. R. Shewchuk, <em>Delaunay Mesh Generation</em>, Chapter 4, “Three-dimensional Delaunay triangulation.” CRC Press (2013), ISBN 978-1-58488-730-0. DOI metadata issued 2016: <span class="tt">10.1201/b12987</span>; see the <a href="https://www.taylorfrancis.com/books/9781584887317">publisher record</a>. The authors’ <a href="https://www.cs.purdue.edu/homes/tamaldey/course/531/Delaunay%283D%29.pdf">Chapter 4 preprint</a> states the finite three-dimensional tetrahedron bound used by CDT++.</p>
 <h2 class="doxsection"><a class="anchor" id="pcg-random-number-generators"></a>
 PCG random-number generators</h2>
 <p>M. E. O’Neill, “PCG: A family of simple fast space-efficient statistically good algorithms for random number generation,” Harvey Mudd College Computer Science Department technical report HMC-CS-2014-0905 (2014). <a href="https://www.pcg-random.org/paper.html">https://www.pcg-random.org/paper.html</a> </p>

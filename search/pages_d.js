@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['independent_20delta_20derivations_0',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
-  ['insertion_20and_20duplicate_20points_1',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
-  ['integration_20contract_2',['CGAL 6.2 integration contract',['../md_docs_2cgal-integration.html',1,'']]],
-  ['introduction_3',['Introduction',['../index.html#introduction',1,'']]],
-  ['inventory_4',['inventory',['../md_docs_2arithmetic-backend-evaluation.html#production-inventory',1,'Production inventory'],['../md_docs_2cgal-integration.html#production-usage-inventory',1,'Production usage inventory'],['../md_docs_2viewer.html#visual-inventory',1,'Visual inventory']]],
-  ['issues_5',['Issues',['../index.html#issues',1,'']]]
+  ['gates_0',['Migration and rollback gates',['../md_docs_2arithmetic-backend-evaluation.html#migration-and-rollback-gates',1,'']]],
+  ['generated_20reference_20policy_1',['Generated reference policy',['../md_docs_2api-boundary.html#generated-reference-policy',1,'']]],
+  ['generation_2',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
+  ['generators_3',['PCG random-number generators',['../md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators',1,'']]],
+  ['geometric_20predicates_4',['Robust geometric predicates',['../md__r_e_f_e_r_e_n_c_e_s.html#robust-geometric-predicates',1,'']]],
+  ['geometry_5',['Geometry',['../md_docs_2arithmetic-backend-evaluation.html#geometry',1,'']]],
+  ['geometry_20and_20random_20number_20generation_6',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
+  ['geometry_20deltas_7',['State and geometry deltas',['../md_docs_2metropolis-hastings.html#state-and-geometry-deltas',1,'']]],
+  ['gmp_20mpfr_20free_20arithmetic_20evaluation_8',['GMP/MPFR-free arithmetic evaluation',['../md_docs_2arithmetic-backend-evaluation.html',1,'']]]
 ];

@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -136,7 +136,7 @@ Regeneration</h1>
 <p>The generator updates both manifests, records the exact producer command for every file under <span class="tt">raw/v1/</span>, and refreshes all SHA-256 values. The recipe then runs the offline validator and <span class="tt">reference-archive-check</span>, which requires every raw record and manifest to name the same clean Git commit. The v1 manifest templates are macOS-arm64-specific, so regeneration refuses a different host instead of publishing records under a misleading platform name.</p>
 <p>Regeneration is a review operation. Explain every exact-field change. A randomized CGAL f-vector, wall-clock sample, or benchmark checksum change is diagnostic data, not automatically a defect; deterministic minimal fixtures and transition results must remain exact.</p>
 <p>The comprehensive <span class="tt">just ci</span> gate additionally rebuilds the C++ fixture executable and compares its canonical states and actions with the committed raw record. It reuses the offline validation performed by <span class="tt">just check</span>; the generated-only step compares exact topology and metadata while applying the protocol’s named tolerances to coordinates and action values. Host, compiler, and source-revision provenance are intentionally excluded from that equality check.</p>
-<p>The committed macOS records contain a <span class="tt">-dirty</span> revision because they document the issue #94 implementation while it is under review. Regenerate them from the resulting clean commit before the archival v1.0.0 tag; the archival check will fail until that handoff is complete.</p>
+<p>The committed macOS records retain the <span class="tt">-dirty</span> revision captured during the review for issue #94. Their scientific payload remains covered by <span class="tt">just reference-check</span> and <span class="tt">just reference-generated-check</span>, but they are not the final archival provenance record. <a href="https://github.com/acgetchell/CDT-plusplus/issues/97">Issue #97</a> must first commit the release metadata, run <span class="tt">just reference-regenerate</span> from that exact clean producer commit, and then review and commit the regenerated raw artifacts and manifests. The final merged release state is tagged; its files name the preceding producer commit because an artifact commit cannot record its own hash. Both <span class="tt">just tag</span> and <span class="tt">just tag-check</span> enforce the provenance-only archival check, which intentionally fails until that handoff is complete.</p>
 <h1 class="doxsection"><a class="anchor" id="scope-limits"></a>
 Scope limits</h1>
 <p>The package does not claim exact cross-language Monte Carlo trajectories, exact fresh topology for nested cospherical CGAL inputs, a general performance study, or a calibrated phase-distribution equivalence result. The spherical population value is explicitly a monotone construction heuristic; randomized post-repair simplex counts are implementation-specific. The rigorous quadratic tetrahedron bound is retained only for safety and preflight reasoning. </p>

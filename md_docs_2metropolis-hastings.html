@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -85,7 +85,7 @@ $(function() {
 <div class="textblock"><p><a class="anchor" id="metropolis-hastings-transition-contract"></a></p>
 <p>CDT++ samples a triangulation <span class="tt">T</span> with target weight proportional to <span class="tt">exp(-S(T))</span>. For a proposed triangulation <span class="tt">T'</span>, the implemented acceptance probability is</p>
 <div class="fragment"><div class="line">min(1, exp(S(T) - S(T&#39;)) * q(T | T&#39;) / q(T&#39; | T)).</div>
-</div><!-- fragment --><p>This is the Metropolis-Hastings rule of Hastings <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm" title="Metropolis-Hastings algorithm">Hastings1970</a>. The three-dimensional causal triangulations, Regge action, and local move set follow Ambjørn, Jurkiewicz, and Loll <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001" title="Three-dimensional CDT (2001)">AmbjornJurkiewiczLoll2001-3D</a>.</p>
+</div><!-- fragment --><p>This extends the symmetric proposal rule introduced by Metropolis et al. <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-algorithm" title="Metropolis algorithm">Metropolis1953</a> with the proposal ratio from Hastings <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm" title="Metropolis-Hastings algorithm">Hastings1970</a>. The three-dimensional causal triangulations, Regge action, and local move set follow Ambjørn, Jurkiewicz, and Loll <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001" title="Three-dimensional CDT (2001)">AmbjornJurkiewiczLoll2001-3D</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="proposal-kernel"></a>
 Proposal kernel</h1>
 <p>Each transition first chooses one of the five 3D move types uniformly. It then chooses one raw site uniformly from the move-specific domain below. The move is attempted only at that site. An inapplicable site, failed construction, or invalid geometry delta is an explicit rejected self-transition.</p>
@@ -108,7 +108,7 @@ Proposal kernel</h1>
 </div><!-- fragment --><p>The factor <span class="tt">1/5</span> cancels between a move and its reverse, giving</p>
 <div class="fragment"><div class="line">q(T | T&#39;) / q(T&#39; | T) = C_m(T) / C_reverse(m)(T&#39;).</div>
 </div><!-- fragment --><p>The site definitions give a unique inverse site for each successful local retriangulation: a <span class="tt">(2,3)</span> face becomes the timelike edge used by <span class="tt">(3,2)</span>; a successful <span class="tt">(2,6)</span> move creates the vertex used by <span class="tt">(6,2)</span>; and a <span class="tt">(4,4)</span> pivot edge becomes the opposite pivot edge. Each <span class="tt">(2,6)</span> proposal examines exactly one uniformly selected <span class="tt">(1,3)</span> cell. Failed raw sites are not silently skipped, because conditioning on only the movable subset would change <span class="tt">q</span> and invalidate the count ratio above.</p>
-<p>Move-type selection, raw-site selection, internal candidate-construction ordering, and the acceptance draw all consume the same run-owned random engine. Given the same starting manifold, an explicit seed therefore replays the complete transition sequence, including the technical edge ordering used to construct a <span class="tt">(6,2)</span> candidate. Initialization uses a separate named stream derived from the same root seed, so changes in point-generation draw counts do not shift the transition sequence. The CLI, checkpoint metadata, stream ownership, and future parallel policy are documented in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs">Reproducible random runs</a>.</p>
+<p>Move-type selection, raw-site selection, internal candidate-construction ordering, and the acceptance draw all consume the same run-owned random engine. Given the same starting manifold, an explicit seed therefore replays the complete transition sequence, including the technical edge ordering used to construct a <span class="tt">(6,2)</span> candidate. Initialization uses a separate named stream derived from the same root seed, so changes in point-generation draw counts do not shift the transition sequence. The CLI, checkpoint metadata, stream ownership, and parallel stream policy are documented in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs">Reproducible random runs</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="state-and-geometry-deltas"></a>
 State and geometry deltas</h1>
 <p>Candidates are constructed off to the side and checked against the exact topology delta before the acceptance calculation. Only an accepted candidate replaces the canonical manifold. Thus every decision uses the state committed by the immediately preceding transition.</p>
@@ -149,7 +149,7 @@ Quantity-specific tolerances</h2>
 <p>The generalized <span class="tt">alpha = 1</span> expression is not expected to equal the rounded historical formula to a generic percentage. Its test derives an absolute bound from the difference between each exact and three-decimal coefficient, multiplied by the actual <span class="tt">(3,1)+(1,3)</span> and <span class="tt">(2,2)</span> simplex counts, then adds the separate libm-to-MPFR conversion bound.</p>
 <h1 class="doxsection"><a class="anchor" id="references"></a>
 References</h1>
-<p>Bibliographic metadata for <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm" title="Metropolis-Hastings algorithm">Hastings1970</a> and <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001" title="Three-dimensional CDT (2001)">AmbjornJurkiewiczLoll2001-3D</a> is maintained in the repository-wide <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>. </p>
+<p>Bibliographic metadata for <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-algorithm" title="Metropolis algorithm">Metropolis1953</a>, <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#metropolis-hastings-algorithm" title="Metropolis-Hastings algorithm">Hastings1970</a>, and <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001" title="Three-dimensional CDT (2001)">AmbjornJurkiewiczLoll2001-3D</a> is maintained in the repository-wide <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

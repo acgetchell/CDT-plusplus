@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['number_20generation_0',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
-  ['number_20generators_1',['PCG random-number generators',['../md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators',1,'']]],
-  ['numerical_20policy_2',['Numerical policy',['../md_docs_2metropolis-hastings.html#numerical-policy',1,'']]]
+  ['layout_0',['Project Layout',['../index.html#project-layout',1,'']]],
+  ['layout_1',['layout',['../md_docs_2comparison-harness.html#artifact-layout',1,'Artifact layout'],['../dir_6e133a56364528c326e124d8bed524d8.html#package-layout',1,'Package layout']]],
+  ['lifetime_20rules_2',['Mutation and lifetime rules',['../md_docs_2cgal-integration.html#mutation-and-lifetime-rules',1,'']]],
+  ['limit_3',['Runtime thread limit',['../md_docs_2multithreading.html#runtime-thread-limit',1,'']]],
+  ['limitations_4',['Release scope and limitations',['../index.html#release-scope-and-limitations',1,'']]],
+  ['limits_5',['Scope limits',['../dir_6e133a56364528c326e124d8bed524d8.html#scope-limits',1,'']]],
+  ['line_20reference_6',['Command-line reference',['../index.html#command-line-reference',1,'']]],
+  ['local_20comparison_20harness_7',['Local comparison harness',['../dir_6e133a56364528c326e124d8bed524d8.html#local-comparison-harness',1,'']]],
+  ['local_20moves_8',['Simplicial Topology and Local Moves',['../md__r_e_f_e_r_e_n_c_e_s.html#simplicial-topology-and-local-moves',1,'']]]
 ];

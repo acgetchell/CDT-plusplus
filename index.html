@@ -30,7 +30,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0-rc3</span>
+   <div id="projectname">CDT++<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Causal Dynamical Triangulations in C++</div>
   </td>
@@ -84,31 +84,33 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
 <p><b>Quantize spacetime on your laptop.</b></p>
-<p><a href="https://doi.org/10.5281/zenodo.21487043"><img src="https://badgen.net/badge/DOI/10.5281%2Fzenodo.21487043/blue" alt="DOI" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/stargazers"><img src="https://badgen.net/github/stars/acgetchell/CDT-plusplus" alt="GitHub stars" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md"><img src="https://badgen.net/github/license/acgetchell/CDT-plusplus" alt="License" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://www.adamgetchell.org/CDT-plusplus/"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/doxygen.yml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"><img src="https://codecov.io/gh/acgetchell/CDT-plusplus/branch/main/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
+<p><a href="https://doi.org/10.5281/zenodo.21487043"><img src="https://badgen.net/badge/DOI/10.5281%2Fzenodo.21487043/blue" alt="DOI" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md"><img src="https://badgen.net/github/license/acgetchell/CDT-plusplus" alt="License" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://www.adamgetchell.org/CDT-plusplus/"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/doxygen.yml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"><img src="https://codecov.io/gh/acgetchell/CDT-plusplus/branch/main/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
 <div class="image">
 <img src="S3-7-27528-I1-R1.png" alt=""/>
 <div class="caption">
 7 timeslices 27528 simplices</div></div>
     <p>This reproducible archival rendering is generated from a tracked triangulation fixture; see the <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract">viewer and visual-artifact contract</a>.</p>
-<h1 class="doxsection"><a class="anchor" id="maintenance-status"></a>
-Maintenance status</h1>
-<p>CDT++ v1.0.0-rc3 is the current C++23 release candidate. The repository remains maintained as an independent scientific reference and regression oracle for <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>, the supported Rust successor. New C++ work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move set, and work approved in project issues. The v1.0.0 release contract remains tracked by <a href="https://github.com/acgetchell/CDT-plusplus/issues/90">issue #90</a>; making the GitHub repository read-only is a separate future lifecycle decision rather than an automatic consequence of that release. The local Python comparison harness orchestrates independent C++ and Rust executables and analyzes their declared outputs; it is not a second scientific implementation.</p>
+<h1 class="doxsection"><a class="anchor" id="archival-and-maintenance-status"></a>
+Archival and maintenance status</h1>
+<p><b>CDT++ v1.0.0 is the final planned C++23 feature release.</b> This repository preserves the C++ implementation as a historical scientific reference and regression oracle. After the release and Zenodo handoff in <a href="https://github.com/acgetchell/CDT-plusplus/issues/97">issue #97</a>, it will remain maintenance-only during a stabilization window. <a href="https://github.com/acgetchell/CDT-plusplus/issues/155">Issue #155</a> will archive it only after the repository owner ends the stabilization window and determines that no release blockers remain. It does not accept new features or continued C++ development. Before archival, changes are limited to release-blocking correctness, reproducibility, security, documentation, and metadata corrections. A critical post-release defect requires a new patch release rather than changing the v1.0.0 tag.</p>
+<p>For active use, development, and new reports, go to <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>, the supported Rust successor. The local Python comparison harness in this archive only orchestrates independent C++ and Rust executables and analyzes their declared outputs; it is not a second scientific implementation. See <a class="el" href="#security-and-support" title="Security and support">Security and support</a> for the post-release reporting boundary.</p>
 <h1 class="doxsection"><a class="anchor" id="table-of-contents"></a>
 Table of contents</h1>
 <ul>
 <li><a class="el" href="#md__r_e_a_d_m_e" title="CDT-plusplus">CDT-plusplus</a><ul>
-<li><a class="el" href="#maintenance-status" title="Maintenance status">Maintenance status</a></li>
+<li><a class="el" href="#archival-and-maintenance-status" title="Archival and maintenance status">Archival and maintenance status</a></li>
 <li><a class="el" href="#introduction" title="Introduction">Introduction</a><ul>
 <li><a class="el" href="#regression-oracle-scope" title="Regression-oracle scope">Regression-oracle scope</a></li>
 </ul>
 </li>
 <li><a class="el" href="#usage" title="Usage">Usage</a></li>
-<li><a class="el" href="#roadmap" title="Roadmap">Roadmap</a></li>
+<li><a class="el" href="#release-scope-and-limitations" title="Release scope and limitations">Release scope and limitations</a></li>
 <li><a class="el" href="#quickstart" title="Quickstart">Quickstart</a><ul>
 <li><a class="el" href="#current-reference-suite-status" title="Current reference-suite status">Current reference-suite status</a></li>
 </ul>
 </li>
 <li><a class="el" href="#setup" title="Setup">Setup</a><ul>
+<li><a class="el" href="#tested-release-matrix" title="Tested release matrix">Tested release matrix</a></li>
 <li><a class="el" href="#prerequisites" title="Prerequisites">Prerequisites</a></li>
 <li><a class="el" href="#developer-workflow" title="Developer workflow">Developer workflow</a></li>
 <li><a class="el" href="#vcpkg-maintenance" title="vcpkg maintenance">vcpkg maintenance</a></li>
@@ -128,6 +130,7 @@ Table of contents</h1>
 </li>
 <li><a class="el" href="#offline-comparison" title="Offline Comparison">Offline Comparison</a></li>
 <li><a class="el" href="#visualization" title="Visualization">Visualization</a></li>
+<li><a class="el" href="#security-and-support" title="Security and support">Security and support</a></li>
 <li><a class="el" href="#contributing" title="Contributing">Contributing</a></li>
 <li><a class="el" href="#issues" title="Issues">Issues</a></li>
 </ul>
@@ -135,8 +138,8 @@ Table of contents</h1>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="introduction"></a>
 Introduction</h1>
-<p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001" title="CDT framework (2001)">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations" title="CGAL triangulations">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, and <a href="https://www.threadingbuildingblocks.org">TBB</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators" title="PCG random-number generators">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="https://simul.iro.umontreal.ca/testu01/">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. The supported C++ namespace and per-header contract are recorded in the <a class="el" href="md_docs_2api-boundary.html" title="C++ API boundary">C++ API boundary</a>. The compiled <a class="el" href="md_docs_2cpp-api-quickstart.html" title="C++ API quickstart">C++ API quickstart</a> demonstrates validated construction, ten reported Metropolis proposals with separate candidate-success and acceptance results, aggregate accounting, and a verified persistence round trip. The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and upgrade policies are recorded in the <a class="el" href="md_docs_2cgal-integration.html" title="CGAL 6.2 integration contract">CGAL 6.2 integration contract</a>. The evidence and migration gates for replacing GMP/MPFR with Boost.Multiprecision are recorded in the <a class="el" href="md_docs_2arithmetic-backend-evaluation.html" title="GMP/MPFR-free arithmetic evaluation">arithmetic backend evaluation</a>. The opt-in operations, ownership and synchronization rules, replayable stress inputs, sanitizer boundary, and matched scaling protocol are recorded in the <a class="el" href="md_docs_2multithreading.html" title="Multithreaded CGAL contract">multithreaded CGAL contract</a>. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <span class="tt">iostream</span>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. Python and JSON Schema provide the local, offline cross-implementation comparison boundary.</p>
+<p>CDT++ is the archival C++23 implementation of spherical 2+1-dimensional <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001" title="CDT framework (2001)">Causal Dynamical Triangulations</a>. The repository-wide <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a> provides the canonical bibliography for the scientific and algorithmic foundations used here.</p>
+<p>The implementation uses the <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cgal-triangulations" title="CGAL triangulations">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, and <a href="https://uxlfoundation.github.io/oneTBB/">TBB</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators" title="PCG random-number generators">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="https://doi.org/10.1145/1268776.1268777">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="https://www.doxygen.nl">Doxygen</a> provides automated document generation. The supported C++ namespace and per-header contract are recorded in the <a class="el" href="md_docs_2api-boundary.html" title="C++ API boundary">C++ API boundary</a>. The compiled <a class="el" href="md_docs_2cpp-api-quickstart.html" title="C++ API quickstart">C++ API quickstart</a> demonstrates validated construction, ten reported Metropolis proposals with separate candidate-success and acceptance results, aggregate accounting, and a verified persistence round trip. The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and upgrade policies are recorded in the <a class="el" href="md_docs_2cgal-integration.html" title="CGAL 6.2 integration contract">CGAL 6.2 integration contract</a>. The evidence and migration gates for replacing GMP/MPFR with Boost.Multiprecision are recorded in the <a class="el" href="md_docs_2arithmetic-backend-evaluation.html" title="GMP/MPFR-free arithmetic evaluation">arithmetic backend evaluation</a>. The opt-in operations, ownership and synchronization rules, replayable stress inputs, sanitizer boundary, and matched scaling protocol are recorded in the <a class="el" href="md_docs_2multithreading.html" title="Multithreaded CGAL contract">multithreaded CGAL contract</a>. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <span class="tt">iostream</span>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. Python and JSON Schema provide the local, offline cross-implementation comparison boundary.</p>
 <h2 class="doxsection"><a class="anchor" id="regression-oracle-scope"></a>
 Regression-oracle scope</h2>
 <p>The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/include/Foliated_triangulation.hpp"><span class="tt">include/Foliated_triangulation.hpp</span></a>. <span class="tt">find_invalid_timevalue_cells</span> classifies cells from stored vertex time labels, <span class="tt">has_valid_timevalues</span> provides the predicate, <span class="tt">find_bad_vertex</span> selects a vertex responsible for an acausal local configuration, and <span class="tt">fix_timevalues</span> removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract is satisfied.</p>
@@ -158,84 +161,19 @@ Usage</h1>
 <li><span class="tt">initialize</span> is also used by the dependency-free local parameter sweep described under <a class="el" href="#offline-comparison" title="Offline Comparison">offline comparison</a>.</li>
 </ul>
 <p>See the <a class="el" href="#command-line-reference" title="Command-line reference">command-line reference</a> for every option. Build and dependency instructions begin at <a class="el" href="#quickstart" title="Quickstart">Quickstart</a>.</p>
-<h1 class="doxsection"><a class="anchor" id="roadmap"></a>
-Roadmap</h1>
-<ul class="check">
-<li class="checked">Cross-platform support on Linux, macOS (x64 &amp; arm64), and Windows</li>
+<h1 class="doxsection"><a class="anchor" id="release-scope-and-limitations"></a>
+Release scope and limitations</h1>
+<p>The v1.0.0 release supports one scientific model: spherical 2+1-dimensional CDT represented by three-dimensional foliated triangulations. It includes the complete audited <span class="tt">(2,3)</span>, <span class="tt">(3,2)</span>, <span class="tt">(2,6)</span>, <span class="tt">(6,2)</span>, and <span class="tt">(4,4)</span> move set, the Regge action, Metropolis-Hastings evolution, the headless <span class="tt"><a class="el" href="namespacecdt.html" title="clang-15 does not support std::format">cdt</a></span> and <span class="tt">initialize</span> programs, deterministic reference fixtures, an offline C++/Rust comparison harness, and an opt-in macOS archival viewer.</p>
+<p>The release boundary is intentionally narrow:</p>
+<ul>
+<li>Toroidal slices, dimensions other than three, and 3+1D/4D simulations are unsupported. The retained periodic and toroidal headers are historical prototypes under <span class="tt">cdt::experimental</span>, not public v1.0.0 APIs.</li>
+<li>Requested simplex counts drive a monotone spherical population heuristic; randomized post-repair counts are not an exact topology oracle or a calibrated phase-distribution result.</li>
+<li>A seed replays PCG inputs. Fresh cospherical CGAL construction can still choose another valid tetrahedralization, so exact fresh topology and cross-toolchain trajectory identity are not promised.</li>
+<li>Checkpoints are validated snapshots, not resumable simulations. Exact transition replay requires an identical starting manifold and the recorded toolchain contract.</li>
+<li>Optional oneTBB parallelism is limited to eligible CGAL Delaunay insertion and removal. Pachner moves, Metropolis-Hastings, persistence, and access to one manifold remain sequential and externally serialized.</li>
+<li>CDT++ publishes a C++23 source boundary, not a stable binary ABI or package-registry distribution.</li>
 </ul>
-<ul class="check">
-<li class="checked">Cross-compiler support on gcc, clang, and MSVC</li>
-</ul>
-<ul class="check">
-<li class="checked">Develop with <a href="http://www.literateprogramming.com">literate programming</a> using <a href="http://www.doxygen.org">Doxygen</a></li>
-</ul>
-<ul class="check">
-<li class="checked"><a href="https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/">Efficient Pure Functional Programming in C++ Using Move Semantics</a></li>
-</ul>
-<ul class="check">
-<li class="checked">Test using <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a></li>
-</ul>
-<ul class="check">
-<li class="checked">Develop using Behavior-driven development (<a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>) with <a href="https://github.com/doctest/doctest">doctest</a></li>
-</ul>
-<ul class="check">
-<li class="checked">Continuous integration by <a href="https://github.com/features/actions">GitHub Actions</a> on the leading edge</li>
-</ul>
-<ul class="check">
-<li class="checked">3D Simplex</li>
-</ul>
-<ul class="check">
-<li class="checked">3D Spherical triangulation</li>
-</ul>
-<ul class="check">
-<li class="checked">2+1 foliation</li>
-</ul>
-<ul class="check">
-<li class="checked">S3 Bulk action</li>
-</ul>
-<ul class="check">
-<li class="checked">3D Ergodic moves</li>
-</ul>
-<ul class="check">
-<li class="checked">High-quality Random Number Generation with M.E. O'Neill's <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators" title="PCG random-number generators">PCG</a> library</li>
-</ul>
-<ul class="check">
-<li class="checked">Restore optional parallel triangulation with [TBB] (<a href="https://github.com/acgetchell/CDT-plusplus/issues/74">#74</a>)</li>
-</ul>
-<ul class="check">
-<li class="checked">Automated code analysis with <a href="https://codeql.github.com/">CodeQL</a></li>
-</ul>
-<ul class="check">
-<li class="checked">Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2022</a></li>
-</ul>
-<ul class="check">
-<li class="checked">Use <a href="https://github.com/fmtlib/fmt">{fmt}</a> library (instead of <span class="tt">iostream</span>)</li>
-</ul>
-<ul class="check">
-<li class="checked">3D Metropolis algorithm</li>
-</ul>
-<ul class="check">
-<li class="checked">Multithreaded logging with <a href="https://github.com/gabime/spdlog">spdlog</a></li>
-</ul>
-<ul class="check">
-<li class="checked">Restore optional visualization with [Qt] (<a href="https://github.com/acgetchell/CDT-plusplus/issues/98">#98</a>)</li>
-<li class="unchecked">Initialize two masses</li>
-</ul>
-<ul class="check">
-<li class="unchecked">The shortest path algorithm</li>
-</ul>
-<ul class="check">
-<li class="unchecked">Einstein tensor</li>
-</ul>
-<ul class="check">
-<li class="unchecked">Complete test coverage</li>
-</ul>
-<ul class="check">
-<li class="unchecked">Complete documentation</li>
-</ul>
-<ul class="check">
-<li class="unchecked">Quantize Spacetime!</li>
-</ul>
+<p>The detailed evidence and failure boundaries are in the <a class="el" href="md_docs_2cgal-integration.html" title="CGAL 6.2 integration contract">CGAL integration</a>, <a class="el" href="md_docs_2ergodic-moves.html" title="2+1D CDT ergodic move audit">ergodic-move</a>, <a class="el" href="md_docs_2metropolis-hastings.html" title="Metropolis-Hastings transition contract">Metropolis-Hastings</a>, <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs">reproducibility and persistence</a>, and <a class="el" href="md_docs_2multithreading.html" title="Multithreaded CGAL contract">multithreading</a> contracts.</p>
 <h1 class="doxsection"><a class="anchor" id="quickstart"></a>
 Quickstart</h1>
 <p>From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:</p>
@@ -258,7 +196,22 @@ Current reference-suite status</h2>
 <p>With the pinned baseline, the reference configuration and build succeed on macOS with AppleClang. The cross-platform <span class="tt">just build</span> command runs all 131 CTest registrations through <span class="tt">scripts/build.sh</span> on Unix and <span class="tt">scripts/build.bat</span> on Windows: 106 doctest scenarios, 23 CLI integration tests, one compiled C++ API example, and one arithmetic-backend correctness test. The same <span class="tt">reference-smoke</span> preset is the supported local and CI contract; there are no overlapping focused registrations that can pass while omitting another doctest suite. The current <span class="tt">parallel</span> preset also registers 132 tests: 106 ordinary doctest scenarios, one parallel launcher containing five scenarios, the same 23 CLI integration tests, the C++ API example, and the arithmetic correctness test. The parallel-enabled AddressSanitizer configuration exercises the same replayable stress contract.</p>
 <h1 class="doxsection"><a class="anchor" id="setup"></a>
 Setup</h1>
-<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build C++23 sources and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> manifest mode to manage C++ libraries. The v1.0.0-rc3 CI matrix exercises Ubuntu with GCC 16 and Clang 22, macOS with AppleClang, and Windows with MSVC. CMake also rejects compiler versions below the supported C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34.</p>
+<p>This project uses <a href="https://cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build C++23 sources and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> manifest mode to manage C++ libraries. The v1.0.0 release matrix is defined by <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/workflows/ci.yml"><span class="tt">.github/workflows/ci.yml</span></a> and the pinned tool versions in the <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/Justfile"><span class="tt">Justfile</span></a>.</p>
+<h2 class="doxsection"><a class="anchor" id="tested-release-matrix"></a>
+Tested release matrix</h2>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">CI cell  </th><th class="markdownTableHeadNone">Host  </th><th class="markdownTableHeadNone">Compiler  </th><th class="markdownTableHeadNone">Standard library  </th><th class="markdownTableHeadNone">Required contract  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Ubuntu GCC  </td><td class="markdownTableBodyNone"><span class="tt">ubuntu-latest</span>  </td><td class="markdownTableBodyNone">GCC 16  </td><td class="markdownTableBodyNone">libstdc++  </td><td class="markdownTableBodyNone"><span class="tt">just ci</span> and <span class="tt">just build-parallel</span>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Ubuntu Clang  </td><td class="markdownTableBodyNone"><span class="tt">ubuntu-latest</span>  </td><td class="markdownTableBodyNone">Clang 22  </td><td class="markdownTableBodyNone">libstdc++  </td><td class="markdownTableBodyNone"><span class="tt">just ci</span> and <span class="tt">just build-parallel</span>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">macOS AppleClang  </td><td class="markdownTableBodyNone"><span class="tt">macos-latest</span>  </td><td class="markdownTableBodyNone">Runner AppleClang  </td><td class="markdownTableBodyNone">libc++  </td><td class="markdownTableBodyNone"><span class="tt">just ci</span> and <span class="tt">just viewer-build</span>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Windows MSVC  </td><td class="markdownTableBodyNone"><span class="tt">windows-latest</span>, x64  </td><td class="markdownTableBodyNone">Runner MSVC  </td><td class="markdownTableBodyNone">MSVC STL  </td><td class="markdownTableBodyNone"><span class="tt">just ci</span>  </td></tr>
+</table>
+<p>Linux compiler packages are pinned by the Justfile. The native macOS and Windows compilers follow the GitHub-hosted runner images, while CMake enforces the minimum C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34. These are tested release cells, not a claim that every distribution, operating-system version, architecture, or compiler/standard-library pairing is supported.</p>
 <h2 class="doxsection"><a class="anchor" id="prerequisites"></a>
 Prerequisites</h2>
 <p>The smallest pkgx-assisted host setup is:</p>
@@ -336,7 +289,7 @@ Build</h1>
 <p>The archival Qt viewer is deliberately outside that cross-platform headless contract. On macOS, <span class="tt">just viewer-build</span> selects the separate <span class="tt">viewer</span> preset and vcpkg feature, builds <span class="tt">cdt-viewer</span> under <span class="tt">out/build/viewer</span>, and runs its noninteractive image smoke test. The macOS CI cell runs that same focused recipe after the headless contract; Qt and Eigen are installed only in the viewer build tree. See <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract"><span class="tt">docs/viewer.md</span></a> for regeneration, version pins, and portability rules.</p>
 <h2 class="doxsection"><a class="anchor" id="project-layout"></a>
 Project Layout</h2>
-<p>The project is similar to <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
+<p>The repository-owned source and generated-output boundaries are:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
 <li>out/build/reference - Ephemeral supported headless build directory</li>
@@ -351,72 +304,29 @@ Project Layout</h2>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="command-line-reference"></a>
 Command-line reference</h1>
-<p>CDT-plusplus uses <a href="https://www.boost.org/doc/libs/1_85_0/doc/html/program_options/tutorial.html">program_options</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
-<div class="fragment"><div class="line">./out/build/reference/src/cdt --help</div>
-<div class="line">Causal Dynamical Triangulations in C++ using CGAL.</div>
-<div class="line"> </div>
-<div class="line">Copyright (c) 2013-2026 Adam Getchell</div>
-<div class="line"> </div>
-<div class="line">A program that generates d-dimensional triangulated spacetimes</div>
-<div class="line">with a defined causal structure and evolves them according</div>
-<div class="line">to the Metropolis algorithm. Specify the number of passes to control</div>
-<div class="line">how much evolution is desired. Each pass attempts a number of ergodic</div>
-<div class="line">moves equal to the number of simplices in the simulation.</div>
-<div class="line"> </div>
-<div class="line">Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES</div>
-<div class="line">            [-d DIM]</div>
-<div class="line">            [--init INITIAL RADIUS]</div>
-<div class="line">            [--foliate FOLIATION SPACING]</div>
-<div class="line">            [--no-output]</div>
-<div class="line">            [--seed SEED]</div>
-<div class="line">            [--threads THREADS]</div>
-<div class="line">            -k K</div>
-<div class="line">            --alpha ALPHA</div>
-<div class="line">            --lambda LAMBDA</div>
-<div class="line">            [-p PASSES]</div>
-<div class="line">            [-c CHECKPOINT]</div>
-<div class="line"> </div>
-<div class="line">Optional arguments are in square brackets.</div>
-<div class="line"> </div>
-<div class="line">Examples:</div>
-<div class="line">./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000</div>
-<div class="line">./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000 --seed 92</div>
-<div class="line"> </div>
-<div class="line">Options:</div>
-<div class="line">  -h [ --help ]                 Show this message</div>
-<div class="line">  -v [ --version ]              Show program version</div>
-<div class="line">  -s [ --spherical ]            Spherical topology</div>
-<div class="line">  -e [ --toroidal ]             Toroidal topology</div>
-<div class="line">  -n [ --simplices ] arg        Approximate number of simplices</div>
-<div class="line">  -t [ --timeslices ] arg       Number of timeslices</div>
-<div class="line">  -d [ --dimensions ] arg (=3)  Dimensionality</div>
-<div class="line">  -i [ --init ] arg (=1)        Initial radius</div>
-<div class="line">  -f [ --foliate ] arg (=1)     Foliation spacing</div>
-<div class="line">  --no-output                   Do not write checkpoint or final triangulation</div>
-<div class="line">                                files</div>
-<div class="line">  --seed arg                    Root random seed (default: operating-system</div>
-<div class="line">                                entropy)</div>
-<div class="line">  --threads arg (=1)            Maximum worker threads for supported Delaunay</div>
-<div class="line">                                operations</div>
-<div class="line">  -a [ --alpha ] arg            Negative squared geodesic length of 1-d</div>
-<div class="line">                                timelike edges</div>
-<div class="line">  -k [ --k ] arg                K = 1/(8*pi*G_newton)</div>
-<div class="line">  -l [ --lambda ] arg           K * Cosmological constant</div>
-<div class="line">  -p [ --passes ] arg (=100)    Number of passes</div>
-<div class="line">  -c [ --checkpoint ] arg (=10) Checkpoint every n passes</div>
-</div><!-- fragment --><p><span class="tt">--threads</span> is a maximum concurrency limit for CGAL/oneTBB bulk Delaunay operations. It defaults to 1. Zero and negative values are rejected. The canonical reference build accepts only 1; values greater than 1 require the <span class="tt">parallel</span> preset. This option does not parallelize Metropolis-Hastings, Pachner moves, persistence, or concurrent access to one manifold.</p>
-<p>The dimensionality of the spacetime is such that each slice of spacetime is <span class="tt">d-1</span>-dimensional, so setting <span class="tt">d=3</span> generates two spacelike dimensions and one timelike dimension, with a defined global time foliation. A <span class="tt">d</span>-dimensional simplex will have some <span class="tt">d-1</span> sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (span two timeslices). In <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#cdt-framework-2001" title="CDT framework (2001)">CDT</a> we actually care more about the timelike links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).</p>
+<p>The supported simulation surface is the spherical, three-dimensional form:</p>
+<div class="fragment"><div class="line">just run --spherical \</div>
+<div class="line">  --simplices 32000 \</div>
+<div class="line">  --timeslices 11 \</div>
+<div class="line">  --alpha 0.6 \</div>
+<div class="line">  --k 1.1 \</div>
+<div class="line">  --lambda 0.1 \</div>
+<div class="line">  --passes 1000 \</div>
+<div class="line">  --seed 92</div>
+</div><!-- fragment --><p>Run <span class="tt">just run --help</span> for the executable-owned option list and <span class="tt">just run --version</span> for the synchronized product version. Long options and their defined short forms are parsed by <a href="https://www.boost.org/doc/libs/1_91_0/doc/html/program_options.html">Boost.Program_options</a>. The legacy parser still names toroidal topology and dimensionality, but runtime validation rejects toroidal input and every dimension other than three; they are not supported release modes.</p>
+<p><span class="tt">--threads</span> is a maximum concurrency limit for CGAL/oneTBB bulk Delaunay operations. It defaults to 1. Zero and negative values are rejected. The canonical reference build accepts only 1; values greater than 1 require the <span class="tt">parallel</span> preset. This option does not parallelize Metropolis-Hastings, Pachner moves, persistence, or concurrent access to one manifold.</p>
+<p>With <span class="tt">--dimensions 3</span>, every spatial slice is two-dimensional and the third dimension is the global time foliation. The accepted runtime boundary requires positive simplex and timeslice counts, finite physical parameters with <span class="tt">alpha &gt; 1/2</span>, and a positive thread limit. Invalid configurations fail before construction.</p>
 <h1 class="doxsection"><a class="anchor" id="documentation"></a>
 Documentation</h1>
 <p>Online documentation is at <a href="https://adamgetchell.org/CDT-plusplus/">https://adamgetchell.org/CDT-plusplus/</a>.</p>
 <p>The compiled <a class="el" href="md_docs_2cpp-api-quickstart.html" title="C++ API quickstart">C++ API quickstart</a> is the canonical end-to-end public API example and is embedded verbatim in the generated site.</p>
-<p>The scientific transition, proposal-ratio, geometry-delta, counter, and precision contracts are recorded in <a class="el" href="md_docs_2metropolis-hastings.html" title="Metropolis-Hastings transition contract"><span class="tt">docs/metropolis-hastings.md</span></a>. The cross-language schema, exact-versus-numerical comparison policy, and raw archival records are documented in <a class="el" href="dir_6e133a56364528c326e124d8bed524d8.html" title="/home/runner/work/CDT-plusplus/CDT-plusplus/reference/README.md"><span class="tt">reference/README.md</span></a>. The literature-backed contracts, exact deltas, inverse relationships, and failure-atomicity rules for the complete 2+1D move set are recorded in <a class="el" href="md_docs_2ergodic-moves.html" title="2+1D CDT ergodic move audit"><span class="tt">docs/ergodic-moves.md</span></a>. Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream policy are recorded in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a>. The repository-wide scientific bibliography is maintained in <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>.</p>
+<p>The scientific transition, proposal-ratio, geometry-delta, counter, and precision contracts are recorded in <a class="el" href="md_docs_2metropolis-hastings.html" title="Metropolis-Hastings transition contract"><span class="tt">docs/metropolis-hastings.md</span></a>. The cross-language schema, exact-versus-numerical comparison policy, and raw archival records are documented in <a class="el" href="dir_6e133a56364528c326e124d8bed524d8.html" title="/home/runner/work/CDT-plusplus/CDT-plusplus/reference/README.md"><span class="tt">reference/README.md</span></a>. The literature-backed contracts, exact deltas, inverse relationships, and failure-atomicity rules for the complete 2+1D move set are recorded in <a class="el" href="md_docs_2ergodic-moves.html" title="2+1D CDT ergodic move audit"><span class="tt">docs/ergodic-moves.md</span></a>. Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream policy are recorded in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a>. The repository-wide scientific bibliography is <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>.</p>
 <p>Validate the generated API documentation without modifying the worktree:</p>
 <div class="fragment"><div class="line">just docs-check</div>
 </div><!-- fragment --><p>To generate the same publishable output used by the documentation workflow, run <span class="tt">just docs</span>; it writes <span class="tt">docs/html/</span> only after strict generation and generated-site validation succeed. Both recipes require Doxygen 1.16.1 and Graphviz 15.1.0 and use pkgx ephemerally when matching local tools are unavailable. Doxygen 1.16.1 is the archival pin because 1.17.0 duplicates linked labels, emits broken alphabetical-index fragments for this repository, and injects an unused Mermaid CDN dependency. <span class="tt">scripts/validate_generated_site.py</span> preserves that bounded workaround by checking the actual HTML, local links and fragments, duplicate IDs and link labels, and required assets. <span class="tt">USE_MATHJAX</span> allows <a href="https://www.mathjax.org">MathJax</a> to render LaTeX formulae, and <span class="tt">HAVE_DOT</span> enables <a href="https://www.graphviz.org">GraphViz</a> diagrams. Documentation validation is intentionally separate from the cross-platform <span class="tt">just ci</span> contract. The documentation workflow runs <span class="tt">just docs-check</span> as the stable <span class="tt">docs</span> pull-request gate. After a successful <span class="tt"><a class="el" href="cdt_8cpp.html#a64c2f249c4e8b558ad4e231a6fa52245" title="The main path of the CDT++ program.">main</a></span> validation, a separate least-privilege job runs <span class="tt">just docs</span> and publishes its output to the <span class="tt">gh-pages</span> branch.</p>
 <h1 class="doxsection"><a class="anchor" id="citing-cdt"></a>
 Citing CDT++</h1>
-<p>If CDT++ contributes to published work, cite the software using <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff"><span class="tt">CITATION.cff</span></a> and cite the scientific methods relevant to the work from <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>. The software citation records the current declared release, <span class="tt">1.0.0-rc3</span>. Advance its version and release date together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for subsequent releases.</p>
+<p>If CDT++ contributes to published work, cite the software using <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff"><span class="tt">CITATION.cff</span></a> and cite the scientific methods relevant to the work from <a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html" title="References and Citations"><span class="tt">REFERENCES.md</span></a>. The software citation records the final release, <span class="tt">1.0.0</span>, and the all-versions Zenodo concept DOI <a href="https://doi.org/10.5281/zenodo.21487043"><span class="tt">10.5281/zenodo.21487043</span></a>. The concrete v1.0.0 record DOI will be added to <span class="tt">CITATION.cff</span> as a version-specific identifier after Zenodo creates the stable deposit during issue #97.</p>
 <h1 class="doxsection"><a class="anchor" id="testing"></a>
 Testing</h1>
 <p>Run <span class="tt">just build</span>; it selects <span class="tt">scripts/build.sh</span> on Unix or <span class="tt">scripts\build.bat</span> on Windows, builds the test target, and executes all 131 CTest entries: 106 doctest scenarios, 23 executable integration tests covering normal CLI use and invalid-boundary rejection, one compiled C++ API example, and one arithmetic-backend correctness test labeled <span class="tt">scientific</span>. The parallel-enabled AddressSanitizer and <span class="tt">parallel</span> configurations register 106 ordinary doctest scenarios, one launcher containing five scenarios labeled <span class="tt">unit</span>, <span class="tt">parallel</span>, and <span class="tt">configuration</span>, the same 23 integration tests, the C++ API example, and the arithmetic test, for 132 CTest entries. Every process-level test is labeled <span class="tt">integration</span>, and invalid-input tests also carry the <span class="tt">cli-boundary</span> subcategory. Run <span class="tt">just ci</span> for the complete local validation gate.</p>
@@ -457,28 +367,15 @@ Offline Comparison</h1>
 <h1 class="doxsection"><a class="anchor" id="visualization"></a>
 Visualization</h1>
 <p>The restored Qt-based <span class="tt">cdt-viewer</span> is an opt-in macOS archival renderer. Its tracked OFF fixture, render manifest, noninteractive smoke test, exact canonical-image policy, and inventory of historical visuals are documented in the <a class="el" href="md_docs_2viewer.html" title="Viewer and visual-artifact contract">viewer and visual-artifact contract</a>. The default build remains headless and does not install Qt or Eigen.</p>
+<h1 class="doxsection"><a class="anchor" id="security-and-support"></a>
+Security and support</h1>
+<p>CDT++ v1.0.0 is an archival scientific reference, not an actively maintained product. The reporting boundary for archive-specific vulnerabilities and issues that also affect the active successor is documented in <a class="el" href="md__s_e_c_u_r_i_t_y.html" title="Security and support"><span class="tt">SECURITY.md</span></a>. Do not publish sensitive vulnerability details in the historical issue tracker.</p>
 <h1 class="doxsection"><a class="anchor" id="contributing"></a>
 Contributing</h1>
-<p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
-<p>Your code should pass Continuous Integration:</p>
-<ul>
-<li><span class="tt">just fix</span> for safe automatic formatting with the repository's <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format">.clang-format</a></li>
-<li><span class="tt">just clang-tidy</span> to analyze C++ with the pinned LLVM 22 toolchain</li>
-<li><span class="tt">just check</span> for fast, non-mutating source, documentation, YAML, workflow, and CMake validation</li>
-<li><span class="tt">just ci</span> for the supported build and complete validation contract before pushing</li>
-</ul>
-<p>The slower sanitizer workflows remain available through <a href="https://github.com/features/actions">GitHub Actions</a> and repository commands when relevant to a change:</p>
-<ul>
-<li><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a>, <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer">LeakSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a></li>
-</ul>
-<p>Valgrind is intentionally unsupported: on x86/AMD64 its floating-point emulation does not honor the directed rounding required by CGAL's interval predicates. Disabling CGAL's rounding check would make geometric results untrustworthy, so memory diagnostics use the supported sanitizer workflows instead.</p>
-<p>Optional:</p>
-<ul>
-<li><a href="https://clang.llvm.org/extra/clang-tidy/">ClangTidy</a> on all changed files</li>
-</ul>
+<p>Active development has moved to <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>. Before CDT++ is archived, only release-blocking corrections within the maintenance-only stabilization scope are accepted. After archival, GitHub will make this repository read-only. See <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> for the correction workflow and <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a> for the preserved participation policy.</p>
 <h1 class="doxsection"><a class="anchor" id="issues"></a>
 Issues</h1>
-<p>Current work and known limitations are tracked in the <a href="https://github.com/acgetchell/CDT-plusplus/issues">CDT++ GitHub issue tracker</a>. The README does not duplicate a hardcoded issue list because tracker state changes independently of repository releases. </p>
+<p>The <a href="https://github.com/acgetchell/CDT-plusplus/issues">CDT++ issue tracker</a> remains available during the maintenance-only stabilization window. Issue #155 will close or disposition the remaining trackers and archive this repository after the owner determines that no blockers remain. New development, support, and scientific work belong in the <a href="https://github.com/acgetchell/causal-triangulations/issues">causal-triangulations issue tracker</a>. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

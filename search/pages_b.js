@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['gates_0',['Migration and rollback gates',['../md_docs_2arithmetic-backend-evaluation.html#migration-and-rollback-gates',1,'']]],
-  ['generated_20reference_20policy_1',['Generated reference policy',['../md_docs_2api-boundary.html#generated-reference-policy',1,'']]],
-  ['generation_2',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
-  ['generators_3',['PCG random-number generators',['../md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators',1,'']]],
-  ['geometry_4',['Geometry',['../md_docs_2arithmetic-backend-evaluation.html#geometry',1,'']]],
-  ['geometry_20and_20random_20number_20generation_5',['Computational Geometry and Random-Number Generation',['../md__r_e_f_e_r_e_n_c_e_s.html#computational-geometry-and-random-number-generation',1,'']]],
-  ['geometry_20deltas_6',['State and geometry deltas',['../md_docs_2metropolis-hastings.html#state-and-geometry-deltas',1,'']]],
-  ['gmp_20mpfr_20free_20arithmetic_20evaluation_7',['GMP/MPFR-free arithmetic evaluation',['../md_docs_2arithmetic-backend-evaluation.html',1,'']]]
+  ['empty_20sphere_20construction_0',['Delaunay empty-sphere construction',['../md__r_e_f_e_r_e_n_c_e_s.html#delaunay-empty-sphere-construction',1,'']]],
+  ['ergodic_20move_20audit_1',['2+1D CDT ergodic move audit',['../md_docs_2ergodic-moves.html',1,'']]],
+  ['estimator_2',['Spherical population estimator',['../md_docs_2cgal-integration.html#spherical-population-estimator',1,'']]],
+  ['evaluation_3',['GMP/MPFR-free arithmetic evaluation',['../md_docs_2arithmetic-backend-evaluation.html',1,'']]],
+  ['evaluation_20protocol_20and_20provenance_4',['Evaluation protocol and provenance',['../md_docs_2arithmetic-backend-evaluation.html#evaluation-protocol-and-provenance',1,'']]],
+  ['exact_20arithmetic_20policy_5',['Kernel and exact-arithmetic policy',['../md_docs_2cgal-integration.html#kernel-and-exact-arithmetic-policy',1,'']]],
+  ['execution_20boundary_6',['Supported execution boundary',['../md_docs_2multithreading.html#supported-execution-boundary',1,'']]],
+  ['expected_20complexity_7',['Random Voronoi and Delaunay expected complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#random-voronoi-and-delaunay-expected-complexity',1,'']]]
 ];
