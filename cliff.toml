@@ -15,6 +15,17 @@ body = """
 {% else -%}
     ## [Unreleased]
 {% endif -%}
+{% if version == "v1.0.0" or version == "1.0.0" %}
+    ### Release summary
+
+    CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dimensional reference implementation.
+
+    - **Compatibility:** The supported source boundary is C++23 with the published GCC, Clang, AppleClang, and MSVC matrix. The project does not promise a stable binary ABI or package-registry distribution.
+    - **Scientific corrections:** The release completes and independently validates all five 2+1D moves, Metropolis-Hastings proposal ratios and atomic transitions, exact-predicate geometry boundaries, run-owned RNG streams, and causal persistence metadata.
+    - **Supported surface:** The default build is headless; CGAL/oneTBB bulk Delaunay operations and the macOS Qt viewer are explicit opt-ins. Historical toroidal and higher-dimensional prototypes are excluded from the supported API.
+    - **Limitations:** Seeds replay stochastic inputs, not necessarily fresh cospherical CGAL topology. Checkpoints are validated snapshots rather than resumable simulations, and parallelism does not extend to Pachner moves or concurrent manifold access.
+    - **Migration:** Active development and new work move to [causal-triangulations](https://github.com/acgetchell/causal-triangulations). After the v1.0.0 GitHub and Zenodo handoff, CDT++ enters a maintenance-only stabilization window and becomes read-only only when the owner completes the archival gate.
+{% endif %}
 {% for group, commits in commits | group_by(attribute="group") %}
     ### {{ group | upper_first }}
     {% for commit in commits %}

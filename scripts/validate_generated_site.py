@@ -39,7 +39,9 @@ REQUIRED_ASSETS = (
 )
 REQUIRED_TARGETS = {
     "index.html": ("developer-workflow", "documentation", "introduction"),
+    "md__c_h_a_n_g_e_l_o_g.html": (),
     "md__r_e_f_e_r_e_n_c_e_s.html": ("metropolis-hastings-algorithm",),
+    "md__s_e_c_u_r_i_t_y.html": (),
     "md_docs_2api-boundary.html": ("generated-reference-policy", "header-classification"),
     "md_docs_2comparison-harness.html": (),
     "md_docs_2cpp-api-quickstart.html": (

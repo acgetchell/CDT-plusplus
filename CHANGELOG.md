@@ -5,6 +5,114 @@ All notable changes to CDT++ are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-08-10
+
+### Release summary
+
+CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dimensional reference implementation.
+
+- **Compatibility:** The supported source boundary is C++23 with the published GCC, Clang, AppleClang, and MSVC matrix. The project does not promise a stable binary ABI or package-registry distribution.
+- **Scientific corrections:** The release completes and independently validates all five 2+1D moves, Metropolis-Hastings proposal ratios and atomic transitions, exact-predicate geometry boundaries, run-owned RNG streams, and causal persistence metadata.
+- **Supported surface:** The default build is headless; CGAL/oneTBB bulk Delaunay operations and the macOS Qt viewer are explicit opt-ins. Historical toroidal and higher-dimensional prototypes are excluded from the supported API.
+- **Limitations:** Seeds replay stochastic inputs, not necessarily fresh cospherical CGAL topology. Checkpoints are validated snapshots rather than resumable simulations, and parallelism does not extend to Pachner moves or concurrent manifold access.
+- **Migration:** Active development and new work move to [causal-triangulations](https://github.com/acgetchell/causal-triangulations). After the v1.0.0 GitHub and Zenodo handoff, CDT++ enters a maintenance-only stabilization window and becomes read-only only when the owner completes the archival gate.
+
+### Added
+
+- [**breaking**] Modernize Python experiment workflows [`def276a`](https://github.com/acgetchell/CDT-plusplus/commit/def276aa2fdb9eb473d7425d61e29e26511caa28)
+
+- [**breaking**] Add offline C++/Rust comparison harness [`45b080e`](https://github.com/acgetchell/CDT-plusplus/commit/45b080e2388b2475bf26f4462fa4d1ebd5915c69)
+
+- Restore reproducible archival rendering [`2662df9`](https://github.com/acgetchell/CDT-plusplus/commit/2662df9993469e21ec5a0c65c552202b9eec9ae6)
+
+- [**breaking**] Expose reported Metropolis transitions [`16d1c76`](https://github.com/acgetchell/CDT-plusplus/commit/16d1c769afc67e06f07639f6fd9de8136974e282)
+
+### Changed
+
+- Expose shared artifact lifecycle helpers [`2f3ba57`](https://github.com/acgetchell/CDT-plusplus/commit/2f3ba57d425f8ab4f1a0c5da0cedf7876b13eaa5)
+
+- Evaluate Boost alternatives to GMP and MPFR [`9a02c39`](https://github.com/acgetchell/CDT-plusplus/commit/9a02c3960f7b7f45b4a29f844f2cddbd21ab0231)
+
+- Harden backend evaluation probes [`d5c3b71`](https://github.com/acgetchell/CDT-plusplus/commit/d5c3b710b0af82651943f5a1e60c23b5ec818679)
+
+- Format transition validation [`f183f07`](https://github.com/acgetchell/CDT-plusplus/commit/f183f072b44b3fe3b677090b8e5cd4983c193932)
+
+- Verify unknown moves preserve transition traces [`70ab238`](https://github.com/acgetchell/CDT-plusplus/commit/70ab238eb07271a7754266407f9f61e28e199b49)
+
+### Fixed
+
+- Serialize Dependabot automation per pull request [`7567372`](https://github.com/acgetchell/CDT-plusplus/commit/7567372f3f11136b4317b66e695e7f2aa7d2dd69)
+
+- Deduplicate CodeRabbit review requests by revision [`7f23d53`](https://github.com/acgetchell/CDT-plusplus/commit/7f23d530e092114b69f7b8d42b5339e24495282d)
+
+- Bind Dependabot auto-merge to reviewed revision [`72fc5a1`](https://github.com/acgetchell/CDT-plusplus/commit/72fc5a1181d8f1d4c4c0756c809b196c72929b43)
+
+- Harden Dependabot review rearming on head updates [`5d571c8`](https://github.com/acgetchell/CDT-plusplus/commit/5d571c85150615f1a93f931f144e076eeb884d89)
+
+- Authenticate CodeRabbit review requests as maintainer [`375c9ea`](https://github.com/acgetchell/CDT-plusplus/commit/375c9ea1fcaf775054ad0537d7bf5e0656148d21)
+
+- Require reviewed Dependabot merges and refresh tooling [`7c3a84b`](https://github.com/acgetchell/CDT-plusplus/commit/7c3a84bdfb91ca33829ad4302f5debd275d824ee)
+
+- Restore MPFR builds and fail closed on polling errors [`1d2e667`](https://github.com/acgetchell/CDT-plusplus/commit/1d2e667f7df090db7a5ef792fa1bbf9bec9c32b6)
+
+- Prevent stale vcpkg [`9e8d033`](https://github.com/acgetchell/CDT-plusplus/commit/9e8d033e34c389808206e1d0644a7cd58b88336e)
+
+- [**breaking**] Preserve coincident causal identities [`3f72a16`](https://github.com/acgetchell/CDT-plusplus/commit/3f72a16c636a21a05c7273f4667efc0b8c919288)
+
+- Harden persistence and vcpkg pin synchronization [`3a66693`](https://github.com/acgetchell/CDT-plusplus/commit/3a66693a35b27d766b8ac022fd53eccc51f39f09)
+
+- Canonicalize complete vertex-cell incidence [`52f9a58`](https://github.com/acgetchell/CDT-plusplus/commit/52f9a58e06898b563168dd75525ed53c02cd3ca4)
+
+- Bound incidence fingerprint canonicalization [`307737c`](https://github.com/acgetchell/CDT-plusplus/commit/307737ce2c5c79af376d7f38b4183a70925992d2)
+
+- Harden experiment and repository validation [`fb7e5b3`](https://github.com/acgetchell/CDT-plusplus/commit/fb7e5b36161ec11eb16ab9c7b88557dbe5a916ec)
+
+- Harden cross-platform validation [`6b4d012`](https://github.com/acgetchell/CDT-plusplus/commit/6b4d012067002259a87c51915b6c7bbfaefd48d6)
+
+- Pin Python for sanitizer bootstrap [`9181494`](https://github.com/acgetchell/CDT-plusplus/commit/9181494871400009192bfea67605543b7be78130)
+
+- Refresh portable Python package checks [`96baa21`](https://github.com/acgetchell/CDT-plusplus/commit/96baa21d258ae50992f592f498cb87467211f2c6)
+
+- Preserve local runs when Comet mirroring fails [`9cadfe7`](https://github.com/acgetchell/CDT-plusplus/commit/9cadfe772670abed767953079990a2080914e0a4)
+
+- Harden portable harness validation [`da7ba14`](https://github.com/acgetchell/CDT-plusplus/commit/da7ba141eb362866942241135d325e1ae9df4fec)
+
+- Select the root vcpkg manifest [`1c064fd`](https://github.com/acgetchell/CDT-plusplus/commit/1c064fd098c845e6efaea48290a43b023ebddbe3)
+
+- Restore vcpkg binary caching [`2b27462`](https://github.com/acgetchell/CDT-plusplus/commit/2b2746202d8ebb09b6e2c801a5868794414398ca)
+
+- Track canonical rendering fixture [`7078f69`](https://github.com/acgetchell/CDT-plusplus/commit/7078f69d7f19e54b0cd4c888666815f2578e5add)
+
+- Harden archival rendering contract [`81d366e`](https://github.com/acgetchell/CDT-plusplus/commit/81d366ef9b58dfa750061f3fb9305cbbafb04a83)
+
+- Harden transition and documentation validation [`e955ee6`](https://github.com/acgetchell/CDT-plusplus/commit/e955ee643caa5e081314dfc6c5a5168bc1f17319)
+
+- Queue approved Dependabot updates for auto-merge [`e63e32f`](https://github.com/acgetchell/CDT-plusplus/commit/e63e32f627dfb1e83392714183c09032157fa74a)
+
+- Enforce v1.0.0 release gates [`94ed107`](https://github.com/acgetchell/CDT-plusplus/commit/94ed107aa2390accd17f0191c4149df6201618ed)
+
+- Fail fast and support Dependabot coverage [`2107f20`](https://github.com/acgetchell/CDT-plusplus/commit/2107f20d429b466eb7ec01693e769a0262dcd264)
+
+- Stabilize macOS viewer and coverage gates [`deb24ab`](https://github.com/acgetchell/CDT-plusplus/commit/deb24ab0d7ce179469839a145f344ca1624c1275)
+
+### Maintenance
+
+- Gate automatic merges on CodeRabbit review [`8124227`](https://github.com/acgetchell/CDT-plusplus/commit/812422797620c2203c9214af880cb5957af4469b)
+
+- Bump the github-actions group with 4 updates [#134](https://github.com/acgetchell/CDT-plusplus/pull/134) [`55d192d`](https://github.com/acgetchell/CDT-plusplus/commit/55d192df05ca9d34050fb8fa618984573be2eb97)
+
+- Bump the github-actions group with 2 updates [#136](https://github.com/acgetchell/CDT-plusplus/pull/136) [`90a3ea6`](https://github.com/acgetchell/CDT-plusplus/commit/90a3ea67db84d553d5803bdbaa9bb60ed937aa33)
+
+- Automate vcpkg tool pin sync [`9631335`](https://github.com/acgetchell/CDT-plusplus/commit/96313355bc851ae05f5787e95839d9e619a39d2c)
+
+- Bump the dependencies group with 3 updates [#144](https://github.com/acgetchell/CDT-plusplus/pull/144) [`098822d`](https://github.com/acgetchell/CDT-plusplus/commit/098822d04b2a8b325f60529e8e98910845dd330c)
+
+- Stagger Dependabot update schedules [`9cf5b9d`](https://github.com/acgetchell/CDT-plusplus/commit/9cf5b9d3a1f6fc1583a9b937446df56dc1626a06)
+
+- Bump cryptography from 49.0.0 to 50.0.0 [#146](https://github.com/acgetchell/CDT-plusplus/pull/146) [`e23d3c4`](https://github.com/acgetchell/CDT-plusplus/commit/e23d3c4912b80754bd97c11f2ff8a50f2bc3d61f)
+
+- Bump taiki-e/install-action [#152](https://github.com/acgetchell/CDT-plusplus/pull/152) [`426edb8`](https://github.com/acgetchell/CDT-plusplus/commit/426edb8085a67c3aae5a308fd1355aa05c800e9c)
+
 ## [1.0.0-rc3] - 2026-07-28
 
 ### Added
@@ -81,6 +189,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Streamline and harden supported build workflows [`e29f69a`](https://github.com/acgetchell/CDT-plusplus/commit/e29f69a676bc7c10c12afbea4791fa70e9298de9)
 
+- Update v1.0.0-rc3 release date [`e8f45ea`](https://github.com/acgetchell/CDT-plusplus/commit/e8f45ea15fdb813c00f0d773f8ff30251c699207)
+
 ### Performance
 
 - [**breaking**] Avoid rebuilding caches during move validation [`f574f0f`](https://github.com/acgetchell/CDT-plusplus/commit/f574f0f381d202fcdc3cbaf78a815af983a1815d)
@@ -123,6 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update docs/RELEASING.md [`26196da`](https://github.com/acgetchell/CDT-plusplus/commit/26196daa76b1094ea9364a20b3618ef61a5c4185)
 
+[1.0.0]: https://github.com/acgetchell/CDT-plusplus/compare/v1.0.0-rc3...v1.0.0
 [1.0.0-rc3]: https://github.com/acgetchell/CDT-plusplus/compare/v1.0.0-rc2...v1.0.0-rc3
 [1.0.0-rc2]: https://github.com/acgetchell/CDT-plusplus/compare/v1.0.0-rc1...v1.0.0-rc2
 [1.0.0-rc1]: https://github.com/acgetchell/CDT-plusplus/compare/0.1.8...v1.0.0-rc1

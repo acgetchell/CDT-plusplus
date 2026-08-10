@@ -1,6 +1,6 @@
 # Multithreaded CGAL contract
 
-CDT++ retains one bounded multithreaded capability for the maintained C++
+CDT++ retains one bounded multithreaded capability for the archival C++
 reference: CGAL may use oneTBB for bulk 3D Delaunay insertion and range
 removal. The deterministic `reference` configuration remains the canonical
 single-threaded correctness oracle. Enabling the parallel configuration does
@@ -92,7 +92,7 @@ publishing partial topology. Published scientific mutations continue to use
 private-copy validation followed by a non-throwing swap.
 
 `cdt::Random` remains thread-confined. The current parallel operations consume
-no random draws inside worker tasks. Any future stochastic worker must receive
+no random draws inside worker tasks. Any downstream stochastic worker must receive
 a unique, stable `root.split(worker_stream)` engine; sharing one mutable engine
 is a data race and is unsupported.
 

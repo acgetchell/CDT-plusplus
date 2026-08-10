@@ -602,14 +602,14 @@ spell-check: _ensure-typos
 sync-vcpkg-tool-pins: _sync-python-dev
     uv run --no-sync python scripts/sync_vcpkg_tool_pins.py
 
-# Create an annotated release tag from the matching CHANGELOG.md section.
+# Create an annotated release tag only after archival provenance is clean.
 [group('release')]
-tag version: _sync-python-dev
+tag version: reference-archive-check
     uv run --no-sync cdt-tag-release {{ quote(version) }}
 
-# Validate and preview an annotated release tag without creating it.
+# Validate archival provenance and preview a tag without creating it.
 [group('release')]
-tag-check version: _sync-python-dev
+tag-check version: reference-archive-check
     uv run --no-sync cdt-tag-release {{ quote(version) }} --dry-run
 
 # Update and repin GitHub Actions, then validate the resulting workflows.
