@@ -116,6 +116,20 @@ just ci
 `just release-check` verifies synchronization across CMake, vcpkg, Python,
 `uv.lock`, Doxygen, citation metadata, and active release-candidate references.
 
+The protected-branch ruleset uses stable summary contexts for the deterministic
+release gates:
+
+- `build` covers the Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows
+  MSVC `just ci` matrix, the two Ubuntu parallel contracts, and the macOS viewer
+  smoke contract.
+- `build / AddressSanitizer + UndefinedBehaviorSanitizer` and
+  `build / LeakSanitizer` exercise the stable Linux sanitizer configurations.
+- `CodeRabbit` records the required review approval.
+
+ThreadSanitizer and CodeQL remain advisory diagnostics rather than protected
+branch requirements; MemorySanitizer remains manual and experimental. Do not
+promote those contexts without a separate stability decision.
+
 Review and commit only release artifacts:
 
 ```bash

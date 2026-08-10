@@ -252,7 +252,7 @@ API example, and one arithmetic-backend correctness test. The same
 `reference-smoke` preset is the
 supported local and CI contract; there are no overlapping focused
 registrations that can pass while omitting another doctest suite. The current
-`parallel` preset also registers 129 tests: 103 ordinary doctest scenarios, one
+`parallel` preset also registers 132 tests: 106 ordinary doctest scenarios, one
 parallel launcher containing five scenarios, the same 23 CLI integration
 tests, the C++ API example, and the arithmetic correctness test. The
 parallel-enabled
@@ -260,9 +260,9 @@ AddressSanitizer configuration exercises the same replayable stress contract.
 
 ## Setup
 
-This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. macOS with
-AppleClang is the primary v1.0.0-rc3 validation target; the remaining compiler and platform matrix will be recorded as
-it is verified.
+This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. The
+v1.0.0-rc3 CI matrix exercises Ubuntu with GCC 16 and Clang 22, macOS with AppleClang, and Windows with MSVC. CMake
+also rejects compiler versions below the supported C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34.
 
 ### Prerequisites
 
@@ -330,8 +330,10 @@ citation fields, YAML, GitHub Actions syntax and security, whitespace, and CMake
 check and the supported build/test contract. Documentation validation remains available separately through
 `just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
 AppleClang, and Windows MSVC jobs all run `just ci`; the two Ubuntu jobs also
-run `just build-parallel`. The Ubuntu compiler jobs use the pinned pkgx ccache
-package with a compiler-specific persistent cache. Sanitizer builds use Release
+run `just build-parallel`, while the macOS job builds and smoke-tests the opt-in
+viewer. Pull requests also run the distinct coverage and generated-documentation
+gates. The Ubuntu compiler jobs use the pinned pkgx ccache package with a
+compiler-specific persistent cache. Sanitizer builds use Release
 semantics with sanitizer-provided `-O1 -g` flags, while coverage uses Release
 semantics with coverage-provided `-O0 -g` flags; no duplicate full-suite Debug
 job is needed. Windows continues to compile with native MSVC; the
@@ -410,7 +412,8 @@ invocations must expose CMake 4.4.0 or newer on `PATH`; the canonical pkgx-backe
 
 The archival Qt viewer is deliberately outside that cross-platform headless contract. On macOS, `just viewer-build`
 selects the separate `viewer` preset and vcpkg feature, builds `cdt-viewer` under `out/build/viewer`, and runs its
-noninteractive image smoke test. Qt and Eigen are installed only in that build tree. See
+noninteractive image smoke test. The macOS CI cell runs that same focused recipe after the headless contract; Qt and
+Eigen are installed only in the viewer build tree. See
 [`docs/viewer.md`](docs/viewer.md) for regeneration, version pins, and portability rules.
 
 ### Project Layout
@@ -537,8 +540,9 @@ only after strict generation and generated-site validation succeed. Both recipes
 Mermaid CDN dependency. `scripts/validate_generated_site.py` preserves that bounded workaround by checking the actual
 HTML, local links and fragments, duplicate IDs and link labels, and required assets. `USE_MATHJAX` allows [MathJax] to render LaTeX formulae, and
 `HAVE_DOT` enables [GraphViz] diagrams. Documentation validation is intentionally separate from the cross-platform
-`just ci` contract. The documentation workflow runs `just docs` on Ubuntu and publishes its output to the `gh-pages`
-branch.
+`just ci` contract. The documentation workflow runs `just docs-check` as the stable `docs` pull-request gate. After a
+successful `main` validation, a separate least-privilege job runs `just docs` and publishes its output to the
+`gh-pages` branch.
 
 ## Citing CDT++
 
@@ -557,9 +561,9 @@ doctest scenarios, 23 executable integration tests covering normal CLI use and
 invalid-boundary rejection, one compiled C++ API example, and one
 arithmetic-backend correctness test
 labeled `scientific`. The parallel-enabled AddressSanitizer and `parallel`
-configurations register 103 ordinary doctest scenarios, one launcher
+configurations register 106 ordinary doctest scenarios, one launcher
 containing five scenarios labeled `unit`, `parallel`, and `configuration`, the
-same 23 integration tests, the C++ API example, and the arithmetic test, for 129
+same 23 integration tests, the C++ API example, and the arithmetic test, for 132
 CTest entries.
 Every process-level test is labeled `integration`, and invalid-input tests also
 carry the `cli-boundary` subcategory. Run `just ci` for the complete local
@@ -620,8 +624,8 @@ assignments in `Utilities.hpp`. The coverage recipe keeps LCOV's warnings
 visible and requires that exact count during extraction and report generation;
 new or removed inconsistencies therefore fail the command for review.
 
-The Codecov workflow runs this recipe, uploads only `build/coverage.info` with
-OIDC, and preserves both reports as a 14-day GitHub Actions artifact for local
+The Codecov workflow runs this recipe for pull requests and `main`, uploads only `build/coverage.info` with OIDC, and
+preserves both reports as a 14-day GitHub Actions artifact for local
 diagnosis. If report generation fails, the workflow also preserves the gcov
 inputs and CTest diagnostics for seven days. It does not rely on Codecov's
 automatic gcov discovery. Codecov retains the LCOV branch detail but counts an

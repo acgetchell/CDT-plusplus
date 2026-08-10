@@ -72,13 +72,19 @@ jobs:
       - name: Set up Just
         uses: ./.github/actions/setup-just
 
+      - name: Resolve sanitizer tool versions
+        id: tool-versions
+        run: |
+          llvm="$(just --evaluate llvm_version)"
+          printf 'llvm=%s\n' "$llvm" >> "$GITHUB_OUTPUT"
+
       - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
 
       - name: Set up cached vcpkg
         uses: ./.github/actions/setup-vcpkg
         with:
-          cache-key: clang-22
+          cache-key: clang-${{ steps.tool-versions.outputs.llvm }}
 
       - name: Build and exercise sanitizer configuration
         env:

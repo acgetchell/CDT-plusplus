@@ -52,17 +52,19 @@ scope can be agreed upon.
 
    `just check` is the fast, non-mutating source and tooling gate, including the
    repository-owned Semgrep policy and its fixtures. `just ci` adds the
-   supported build and complete 128-entry CTest suite: 104 doctest unit
-   scenarios, 23 CLI integration tests, and one arithmetic-backend correctness
-   test. `just build-parallel` builds the distinct CGAL/oneTBB configuration and
-   runs its 128-entry suite: 103 ordinary doctest scenarios, one replayable
-   parallel stress launcher containing five scenarios, the same 23 CLI
-   integration tests, and the arithmetic correctness test. When changing C++
+   supported build and complete 131-entry CTest suite: 106 doctest scenarios,
+   23 CLI integration tests, one compiled C++ API example, and one
+   arithmetic-backend correctness test. `just build-parallel` builds the
+   distinct CGAL/oneTBB configuration and runs its 132-entry suite: 106 ordinary
+   doctest scenarios, one replayable parallel stress launcher containing five
+   scenarios, the same 23 CLI integration tests, the C++ API example, and the
+   arithmetic correctness test. When changing C++
    behavior, also run `just clang-tidy` with the pinned LLVM 22 toolchain and
    review its advisory diagnostics.
    GitHub Actions runs `just ci` in its Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC jobs. The two
-   Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract. Sanitizer and coverage
-   builds keep Release assertion semantics while adding their own debug information and optimization settings. A
+   Ubuntu jobs also run `just build-parallel` to exercise the opt-in CGAL/oneTBB contract, and the macOS job runs
+   `just viewer-build`. Pull requests run the separate coverage and generated-documentation gates. Sanitizer and
+   coverage builds keep Release assertion semantics while adding their own debug information and optimization settings. A
    separate full-suite Debug job is intentionally omitted because several fixtures traverse invalid intermediate
    triangulations and abort on CDT++ invariant assertions. Use `just build-debug` to compile production targets with
    CDT++ assertions enabled and run the 21 compatible CLI integration CTests. That preset defines `CGAL_NDEBUG` for

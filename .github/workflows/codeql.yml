@@ -70,6 +70,13 @@ jobs:
         if: matrix.language == 'c-cpp'
         uses: ./.github/actions/setup-just
 
+      - name: Resolve C++ tool versions
+        if: matrix.language == 'c-cpp'
+        id: tool-versions
+        run: |
+          gcc="$(just --evaluate gcc_version)"
+          printf 'gcc=%s\n' "$gcc" >> "$GITHUB_OUTPUT"
+
       - name: Set up C++ environment with pkgx
         if: matrix.language == 'c-cpp'
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
@@ -78,13 +85,13 @@ jobs:
         if: matrix.language == 'c-cpp'
         uses: ./.github/actions/setup-vcpkg
         with:
-          cache-key: gcc-16
+          cache-key: gcc-${{ steps.tool-versions.outputs.gcc }}
 
       - name: Prepare C++ dependencies outside CodeQL tracing
         if: matrix.language == 'c-cpp'
         env:
           CC: gcc
-          CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@16
+          CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@${{ steps.tool-versions.outputs.gcc }}
           CXX: g++
         run: just codeql-prepare
 
@@ -98,7 +105,7 @@ jobs:
         if: matrix.language == 'c-cpp'
         env:
           CC: gcc
-          CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@16
+          CDT_PKGX_COMPILER_PACKAGE: gnu.org/gcc@${{ steps.tool-versions.outputs.gcc }}
           CXX: g++
         run: just codeql-build
 

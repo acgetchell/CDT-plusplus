@@ -11,9 +11,12 @@ cgal_benchmark_binary := if os_family() == "windows" { "out/build/reference/test
 cmake_minimum_version := "4.4.0"
 cmake_version := "4.4.1"
 doxygen_version := "1.16.1"
+gcc_version := "16"
 git_cliff_version := "2.13.1"
 graphviz_version := "15.1.0"
 just_version := "1.58.0"
+lcov_sha256 := "7e5e5a154bd5f3557659c328cab376764e7abd238bb403c424472c296b175126"
+lcov_version := "2.5"
 llvm_version := "22"
 ninja_version := "1.13.2"
 ninja_windows_wheel_version := "1.13.0"
@@ -21,7 +24,7 @@ parallel_cgal_benchmark_binary := if os_family() == "windows" { "out/build/paral
 pinact_module := "github.com/suzuki-shunsuke/pinact/v4/cmd/pinact@v" + pinact_version
 pinact_version := "4.1.1"
 primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe" } else { "out/build/reference/src/cdt" }
-python_version := "3.14.6"
+python_version := trim(read(".python-version"))
 reference_fixture_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_reference_fixture.exe" } else { "out/build/reference/tests/CDT_reference_fixture" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
 typos_version := "1.49.0"

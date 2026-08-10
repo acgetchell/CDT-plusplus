@@ -12,6 +12,9 @@ On macOS, a clean checkout can build the viewer and run its noninteractive rende
 just viewer-build
 ```
 
+The macOS CI matrix cell runs this same focused recipe after the required headless build/test contract. Linux and
+Windows CI remain headless and validate only the tracked viewer inputs and canonical artifact through `just check`.
+
 Regenerate and validate the tracked README hero image with one command:
 
 ```console
