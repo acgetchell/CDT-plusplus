@@ -11,10 +11,11 @@ authors:
     given-names: "Adam"
     email: "adam@adamgetchell.org"
     orcid: "https://orcid.org/0000-0002-0797-0021"
-version: "1.0.0-rc3"
-date-released: "2026-07-28"
+version: "1.0.0"
+date-released: "2026-08-10"
 repository-code: "https://github.com/acgetchell/CDT-plusplus"
 url: "https://github.com/acgetchell/CDT-plusplus"
+doi: "10.5281/zenodo.21487043"
 license: BSD-3-Clause
 keywords:
   - "causal-dynamical-triangulations"

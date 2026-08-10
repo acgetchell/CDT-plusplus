@@ -23,15 +23,17 @@ def _write_project(root: Path, *, metadata_version: str = "1.2.3-rc4", release_d
             "cff-version: 1.2.0\n"
             'message: "Cite this software."\n'
             "type: software\n"
-            'title: "CDT++"\n'
             'abstract: "A fixture."\n'
             "authors:\n"
             '  - family-names: "Getchell"\n'
             '    given-names: "Adam"\n'
+            '    orcid: "https://orcid.org/0000-0002-0797-0021"\n'
             f'version: "{metadata_version}"\n'
             f'date-released: "{release_date}"\n'
-            'repository-code: "https://example.com/repository"\n'
-            'url: "https://example.com"\n'
+            f'title: "{release_check.CITATION_TITLE}"\n'
+            f'repository-code: "{release_check.CITATION_REPOSITORY}"\n'
+            f'url: "{release_check.CITATION_REPOSITORY}"\n'
+            f'doi: "{release_check.CITATION_CONCEPT_DOI}"\n'
             'license: "BSD-3-Clause"\n'
         ),
         "CHANGELOG.md": f"# Changelog\n\n## [{metadata_version}] - {release_date}\n\n- Fixture release.\n",
@@ -88,6 +90,20 @@ class ReleaseCheckTests(unittest.TestCase):
             _write_project(root, release_date="2026-02-30")
 
             with self.assertRaisesRegex(release_check.ReleaseCheckError, "ISO calendar date"):
+                release_check.check_release_metadata(root)
+
+    def test_rejects_citation_identity_drift(self) -> None:
+        """The stable archival DOI remains the all-versions concept DOI."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_project(root)
+            path = root / "CITATION.cff"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(release_check.CITATION_CONCEPT_DOI, "10.5281/zenodo.21647031"),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(release_check.ReleaseCheckError, "doi must be"):
                 release_check.check_release_metadata(root)
 
     def test_rejects_stale_active_documentation(self) -> None:

@@ -9,10 +9,10 @@
 /// @author Adam Getchell
 /// @details Performs the Metropolis-Hastings algorithm on the foliated Delaunay
 /// triangulations.
+/// @see [Metropolis algorithm](../REFERENCES.md#metropolis-algorithm)
 /// @see [Metropolis-Hastings
 /// algorithm](../REFERENCES.md#metropolis-hastings-algorithm)
 /// @see [Three-dimensional CDT](../REFERENCES.md#three-dimensional-cdt-2001)
-/// @todo Implement concurrency
 
 #ifndef INCLUDE_METROPOLIS_HPP_
 #define INCLUDE_METROPOLIS_HPP_

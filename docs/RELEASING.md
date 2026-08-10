@@ -4,7 +4,8 @@ This guide documents the release flow for CDT++ release candidates and the
 final `v1.0.0` release: prepare a dedicated release pull request, merge it,
 create an annotated tag with reviewed release notes, and create the GitHub
 release. The final stable release also includes the Zenodo deposit handoff
-tracked by [issue #96].
+prepared by [issue #96], the publication sequence owned by [issue #97], and
+the separate owner-timed stabilization and archival gate in [issue #155].
 
 CDT++ is not published to a package registry. The GitHub release and its
 automatically provided source archives are the release artifacts. The Python
@@ -18,8 +19,7 @@ made; the rest of the workflow is identical:
 
 ```bash
 # The Git tag has a leading v; metadata versions do not.
-# For the stable release, use TAG=v1.0.0.
-TAG=v1.0.0-rc3
+TAG=v1.0.0
 VERSION="${TAG#v}"
 
 RELEASE_FLAGS=()
@@ -68,11 +68,12 @@ Edit the following synchronized metadata:
 - `pyproject.toml`: `[project] version`, using the PEP 440 spelling.
 - `docs/Doxyfile`: `PROJECT_NUMBER`.
 - `CITATION.cff`: `version` and `date-released`.
-- `README.md`, `REFERENCES.md`, and `.github/CONTRIBUTING.md`: active release
-  references and release-facing prose.
+- `README.md`, `REFERENCES.md`, `SECURITY.md`, and
+  `.github/CONTRIBUTING.md`: active release references and release-facing
+  archival prose.
 - `docs/RELEASING.md`: current release command examples.
 
-For `v1.0.0-rc3`, synchronize the versions in the repository before generating
+For `v1.0.0`, synchronize the versions in the repository before generating
 the changelog.
 Set `CITATION.cff`'s `date-released` to the actual release date and review the
 other fields rather than rewriting unchanged metadata:
@@ -86,6 +87,7 @@ ${EDITOR:-vi} \
   CITATION.cff \
   README.md \
   REFERENCES.md \
+  SECURITY.md \
   .github/CONTRIBUTING.md \
   docs/RELEASING.md
 
@@ -94,15 +96,16 @@ just changelog-unreleased "$TAG"
 ```
 
 Review the citation identity fields at the same time: title, authors, ORCID,
-repository, URL, license, and release date. Add or change a DOI only when the
-archival policy and the correct DOI are known.
+repository, URL, license, release date, and DOI. The top-level `doi` is the
+Zenodo concept DOI `10.5281/zenodo.21487043` for all CDT++ versions. Do not
+replace it with the RC3 record DOI or another version-specific DOI.
 
 `just changelog-unreleased` validates `TAG` against all synchronized release
 metadata, runs `git-cliff` offline, takes the release date from `CITATION.cff`,
 and atomically replaces `CHANGELOG.md`. Review the generated release section
 before committing it.
 
-### Validate the release branch
+### Validate and commit the release metadata
 
 Run the release-specific metadata check, strict documentation check, and full
 cross-platform-equivalent local validation gate:
@@ -114,7 +117,7 @@ just ci
 ```
 
 `just release-check` verifies synchronization across CMake, vcpkg, Python,
-`uv.lock`, Doxygen, citation metadata, and active release-candidate references.
+`uv.lock`, Doxygen, citation metadata, and active release references.
 
 The protected-branch ruleset uses stable summary contexts for the deterministic
 release gates:
@@ -146,6 +149,7 @@ git add \
   CHANGELOG.md \
   README.md \
   REFERENCES.md \
+  SECURITY.md \
   .github/CONTRIBUTING.md \
   docs/RELEASING.md
 
@@ -153,6 +157,31 @@ git diff --cached --check
 git diff --cached --stat
 git commit -m "chore(release): release $TAG"
 ```
+
+### Refresh the stable archival provenance
+
+For the final `v1.0.0` release, regenerate the reference package only after
+the release metadata commit leaves the worktree clean. The generator records
+that clean commit as the producer revision:
+
+```bash
+test -z "$(git status --porcelain)"
+just reference-regenerate
+
+git diff -- reference/raw/v1 reference/manifests/v1
+git add reference/raw/v1 reference/manifests/v1
+git diff --cached --check
+git diff --cached --stat
+git commit -m "chore(release): refresh v1 reference provenance"
+
+just reference-archive-check
+```
+
+Review and explain every changed exact field before committing the generated
+artifacts. The producer revision is the preceding clean release-metadata
+commit; the subsequent artifact commit cannot name itself without a
+self-reference. Both commits remain in the release pull request history, and
+the resulting merge commit containing both is the one that is tagged.
 
 Push the branch and open the release pull request:
 
@@ -181,7 +210,7 @@ Return to `main`, update it to the merge commit, and repeat the release gates
 against the exact commit that will be tagged:
 
 ```bash
-TAG=v1.0.0-rc3
+TAG=v1.0.0
 
 git switch main
 git pull --ff-only
@@ -190,6 +219,7 @@ git status --short
 just release-check
 just docs-check
 just ci
+just reference-archive-check
 
 test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
 test -z "$(git status --porcelain)"
@@ -206,10 +236,11 @@ git tag -l --format='%(contents)' "$TAG"
 git push origin "$TAG"
 ```
 
-Both tag commands reject malformed SemVer, missing or empty changelog sections,
-existing tags, and dirty worktrees. `just tag-check` performs every preflight
-without changing Git state. Do not move or replace a pushed release tag. If the
-tagged commit is wrong, prepare a new version instead.
+Both tag commands first run `reference-archive-check`, then reject malformed
+SemVer, missing or empty changelog sections, existing tags, and dirty
+worktrees. `just tag-check` performs every preflight without changing Git
+state. Do not move or replace a pushed release tag. If the tagged commit is
+wrong, prepare a new version instead.
 
 ## Step 3: Publish and verify the release
 
@@ -239,8 +270,8 @@ Stop if this preflight fails. Enabling Zenodo after publication does not
 reliably import an earlier GitHub release.
 
 ```bash
-TAG=v1.0.0-rc3
-RELEASE_FLAGS=(--prerelease)
+TAG=v1.0.0
+RELEASE_FLAGS=()
 
 gh release create "$TAG" \
   --verify-tag \
@@ -294,15 +325,27 @@ jq -e 'select(
 ```
 
 For a release candidate intentionally deposited with Zenodo, verify the record
-and DOI without treating it as the final stable handoff. For a stable release,
-complete the Zenodo handoff tracked in [issue #96]: confirm that Zenodo received
-the release, verify its version, date, title, authors, license, repository URL,
-and files, and record the final DOI according to the archival plan. If the DOI
-was unavailable before tagging, update `CITATION.cff` in a focused follow-up
-pull request rather than rewriting the tag. A Zenodo deposit does not make the
-GitHub repository read-only. Repository archival is a separate lifecycle action
-that requires an explicit maintainer decision; if it is approved later, perform
-it only after the GitHub release and Zenodo record are correct.
+and DOI without treating it as the final stable handoff. For the stable release,
+complete the Zenodo handoff prepared by [issue #96] and executed by [issue #97]:
+confirm that Zenodo received the release, verify its version, date, title,
+authors, license, repository URL, and files, and retain the top-level CFF `doi`
+as the all-versions concept DOI.
+
+Once Zenodo creates the stable record DOI, add it without replacing the concept
+DOI:
+
+```yaml
+doi: "10.5281/zenodo.21487043"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.STABLE_RECORD_ID"
+    description: "Zenodo DOI for version 1.0.0"
+```
+
+If the record DOI was unavailable before tagging, make this one focused
+post-release metadata commit, rerun `just release-check` and `just docs-check`,
+and do not rewrite the tag. Finish this update before the repository is made
+read-only.
 
 ## Step 4: Clean up
 
@@ -317,6 +360,32 @@ git push origin --delete "release/$TAG"
 If the remote branch was already deleted, the remote deletion command may be
 omitted.
 
+## Step 5: Stabilize, then complete the archival handoff
+
+[Issue #155] owns the stabilization gate and eventual irreversible final
+sequence. It remains blocked by [issue #97] until the GitHub release, source
+archives, Zenodo record, DOI metadata, and repository description are verified:
+
+1. enter a maintenance-only stabilization window in which changes are limited
+   to release-blocking correctness, reproducibility, security, documentation,
+   and metadata corrections;
+2. retain #155 and any verified release blocker until the repository owner
+   determines that the handoff has settled, no blockers remain, and CDT++ is
+   no longer needed as a fallback for successor-integration risk;
+3. publish any critical post-release correction as a new patch release rather
+   than moving or replacing the v1.0.0 tag, then restart the relevant release
+   verification;
+4. close or disposition every remaining tracker, close #155 as the final
+   repository mutation, and archive the GitHub repository; and
+5. verify externally that the repository, release, documentation, and Zenodo
+   links remain public and readable while issues and pull requests are
+   read-only.
+
+Do not close #155 or archive before the owner ends the stabilization window,
+retires the fallback hedge, and completes the version-specific DOI commit
+above. Do not leave a tracker open for work that cannot be performed after
+archival.
+
 ## Release-critical fixes
 
 If a critical problem is found before tagging, fix it through a pull request,
@@ -328,3 +397,5 @@ If a problem is found after the tag is pushed or the GitHub release is
 published, do not retag the release. Correct it in a new release.
 
 [issue #96]: https://github.com/acgetchell/CDT-plusplus/issues/96
+[issue #97]: https://github.com/acgetchell/CDT-plusplus/issues/97
+[issue #155]: https://github.com/acgetchell/CDT-plusplus/issues/155

@@ -45,6 +45,10 @@ and
 identify those predicate boundaries. CGAL 6.2 supports either GMP/MPFR or
 Boost.Multiprecision for exact number types, as documented in its
 [third-party dependency policy](https://doc.cgal.org/latest/Manual/thirdparty.html).
+The repository bibliography also records the primary
+[robust-predicate methodology](../REFERENCES.md#robust-geometric-predicates)
+that motivates adaptive exactness at geometric decision boundaries; the
+evaluated backend remains CGAL's implementation, not a local reimplementation.
 
 For the Boost configuration, CGAL selects `boost::multiprecision::cpp_int` and
 `cpp_rational` for the exact fallback. The required result is the same exact

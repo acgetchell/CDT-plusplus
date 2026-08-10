@@ -7,3 +7,10 @@ extend-exclude = ["docs/images/*.eps", "tests/cgal_no_gmp_probe/overlay-ports/**
 [default.extend-identifiers]
 # Doxygen prose uses this conventional plural acronym.
 PNGs = "PNGs"
+
+[default.extend-words]
+# Preserve the original French title and venue for Delaunay's 1934 paper.
+Classe = "Classe"
+Sur = "Sur"
+# git-cliff can expose this byte pair inside generated abbreviated commit hashes.
+ba = "ba"

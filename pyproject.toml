@@ -1,7 +1,7 @@
 [project]
 name = "cdt-plusplus-scripts"
-# PEP 440 spelling of the CDT++ v1.0.0-rc3 release.
-version = "1.0.0rc3"
+# PEP 440 spelling of the CDT++ v1.0.0 release.
+version = "1.0.0"
 description = "Python support and offline comparison scripts for CDT++"
 requires-python = ">=3.14,<3.15"
 dependencies = ["jsonschema==4.25.1"]

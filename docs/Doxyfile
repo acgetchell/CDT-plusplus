@@ -38,7 +38,7 @@ PROJECT_NAME           = "CDT++"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.0.0-rc3
+PROJECT_NUMBER         = 1.0.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -664,7 +664,7 @@ STRICT_PROTO_MATCHING  = NO
 # list. This list is created by putting \todo commands in the documentation.
 # The default value is: YES.
 
-GENERATE_TODOLIST      = YES
+GENERATE_TODOLIST      = NO
 
 # The GENERATE_TESTLIST tag can be used to enable (YES) or disable (NO) the test
 # list. This list is created by putting \test commands in the documentation.
@@ -834,6 +834,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = README.md \
+                         CHANGELOG.md \
+                         SECURITY.md \
                          REFERENCES.md \
                          reference/README.md \
                          docs \
@@ -922,12 +924,15 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = build \
+EXCLUDE                = .cache \
+                         build \
                          cmake-build-debug \
                          cmake-build-release \
                          cmake-build-relwithdebinfo \
                          docs/html \
                          external \
+                         out \
+                         vcpkg_installed \
                          scripts
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or

@@ -3,7 +3,6 @@
 **Quantize spacetime on your laptop.**
 
 [![DOI](https://badgen.net/badge/DOI/10.5281%2Fzenodo.21487043/blue)](https://doi.org/10.5281/zenodo.21487043)
-[![GitHub stars](https://badgen.net/github/stars/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/stargazers)
 [![License](https://badgen.net/github/license/acgetchell/CDT-plusplus)](https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md)
 [![CI](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/ci.yml)
 [![Documentation](https://github.com/acgetchell/CDT-plusplus/actions/workflows/doxygen.yml/badge.svg)](https://www.adamgetchell.org/CDT-plusplus/)
@@ -14,29 +13,35 @@
 This reproducible archival rendering is generated from a tracked triangulation fixture; see the
 [viewer and visual-artifact contract](docs/viewer.md).
 
-## Maintenance status
+## Archival and maintenance status
 
-CDT++ v1.0.0-rc3 is the current C++23 release candidate. The repository remains maintained as an independent
-scientific reference and regression oracle for
-[causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. New C++
-work is limited to correctness, reproducibility, cross-implementation validation, the complete supported 2+1D move
-set, and work approved in project issues. The v1.0.0 release contract remains tracked by
-[issue #90](https://github.com/acgetchell/CDT-plusplus/issues/90); making the GitHub repository read-only is a
-separate future lifecycle decision rather than an automatic consequence of that release. The local Python
-comparison harness orchestrates independent C++ and Rust executables and analyzes their declared outputs; it is not a
-second scientific implementation.
+**CDT++ v1.0.0 is the final planned C++23 feature release.** This repository preserves the C++ implementation as a
+historical scientific reference and regression oracle. After the release and Zenodo handoff in
+[issue #97](https://github.com/acgetchell/CDT-plusplus/issues/97), it will remain maintenance-only during a
+stabilization window. [Issue #155](https://github.com/acgetchell/CDT-plusplus/issues/155) will archive it only after
+the repository owner ends the stabilization window and determines that no release blockers remain. It does not
+accept new features or continued C++ development. Before archival, changes are limited to release-blocking
+correctness, reproducibility, security, documentation, and metadata corrections. A critical post-release defect
+requires a new patch release rather than changing the v1.0.0 tag.
+
+For active use, development, and new reports, go to
+[causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. The local
+Python comparison harness in this archive only orchestrates independent C++ and Rust executables and analyzes their
+declared outputs; it is not a second scientific implementation. See [Security and support](#security-and-support)
+for the post-release reporting boundary.
 
 ## Table of contents
 
 - [CDT-plusplus](README.md)
-  - [Maintenance status](#maintenance-status)
+  - [Archival and maintenance status](#archival-and-maintenance-status)
   - [Introduction](#introduction)
     - [Regression-oracle scope](#regression-oracle-scope)
   - [Usage](#usage)
-  - [Roadmap](#roadmap)
+  - [Release scope and limitations](#release-scope-and-limitations)
   - [Quickstart](#quickstart)
     - [Current reference-suite status](#current-reference-suite-status)
   - [Setup](#setup)
+    - [Tested release matrix](#tested-release-matrix)
     - [Prerequisites](#prerequisites)
     - [Developer workflow](#developer-workflow)
     - [vcpkg maintenance](#vcpkg-maintenance)
@@ -50,15 +55,17 @@ second scientific implementation.
     - [Sanitizers](#sanitizers)
   - [Offline Comparison](#offline-comparison)
   - [Visualization](#visualization)
+  - [Security and support](#security-and-support)
   - [Contributing](#contributing)
   - [Issues](#issues)
 
 ## Introduction
 
-For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki),
-including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
+CDT++ is the archival C++23 implementation of spherical 2+1-dimensional
+[Causal Dynamical Triangulations][CDT]. The repository-wide [`REFERENCES.md`](REFERENCES.md) provides the canonical
+bibliography for the scientific and algorithmic foundations used here.
 
-[Causal Dynamical Triangulations][CDT] in [C++] uses the
+The implementation uses the
 [Computational Geometry Algorithms Library][CGAL], [Boost], and [TBB].
 Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library provides high-quality RNGs that pass L'Ecuyer's
@@ -148,34 +155,30 @@ valid cospherical tetrahedralizations.
 See the [command-line reference](#command-line-reference) for every option.
 Build and dependency instructions begin at [Quickstart](#quickstart).
 
-## Roadmap
+## Release scope and limitations
 
-- [x] Cross-platform support on Linux, macOS (x64 & arm64), and Windows
-- [x] Cross-compiler support on gcc, clang, and MSVC
-- [x] Develop with [literate programming] using [Doxygen]
-- [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
-- [x] Test using [CTest]
-- [x] Develop using Behavior-driven development ([BDD]) with [doctest]
-- [x] Continuous integration by [GitHub Actions] on the leading edge
-- [x] 3D Simplex
-- [x] 3D Spherical triangulation
-- [x] 2+1 foliation
-- [x] S3 Bulk action
-- [x] 3D Ergodic moves
-- [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
-- [x] Restore optional parallel triangulation with [TBB] ([#74](https://github.com/acgetchell/CDT-plusplus/issues/74))
-- [x] Automated code analysis with [CodeQL]
-- [x] Build/debug with [Visual Studio 2022]
-- [x] Use [{fmt}] library (instead of `iostream`)
-- [x] 3D Metropolis algorithm
-- [x] Multithreaded logging with [spdlog]
-- [x] Restore optional visualization with [Qt] ([#98](https://github.com/acgetchell/CDT-plusplus/issues/98))
-- [ ] Initialize two masses
-- [ ] The shortest path algorithm
-- [ ] Einstein tensor
-- [ ] Complete test coverage
-- [ ] Complete documentation
-- [ ] Quantize Spacetime!
+The v1.0.0 release supports one scientific model: spherical 2+1-dimensional CDT represented by three-dimensional
+foliated triangulations. It includes the complete audited `(2,3)`, `(3,2)`, `(2,6)`, `(6,2)`, and `(4,4)` move set,
+the Regge action, Metropolis-Hastings evolution, the headless `cdt` and `initialize` programs, deterministic reference
+fixtures, an offline C++/Rust comparison harness, and an opt-in macOS archival viewer.
+
+The release boundary is intentionally narrow:
+
+- Toroidal slices, dimensions other than three, and 3+1D/4D simulations are unsupported. The retained periodic and
+  toroidal headers are historical prototypes under `cdt::experimental`, not public v1.0.0 APIs.
+- Requested simplex counts drive a monotone spherical population heuristic; randomized post-repair counts are not an
+  exact topology oracle or a calibrated phase-distribution result.
+- A seed replays PCG inputs. Fresh cospherical CGAL construction can still choose another valid tetrahedralization,
+  so exact fresh topology and cross-toolchain trajectory identity are not promised.
+- Checkpoints are validated snapshots, not resumable simulations. Exact transition replay requires an identical
+  starting manifold and the recorded toolchain contract.
+- Optional oneTBB parallelism is limited to eligible CGAL Delaunay insertion and removal. Pachner moves,
+  Metropolis-Hastings, persistence, and access to one manifold remain sequential and externally serialized.
+- CDT++ publishes a C++23 source boundary, not a stable binary ABI or package-registry distribution.
+
+The detailed evidence and failure boundaries are in the [CGAL integration](docs/cgal-integration.md),
+[ergodic-move](docs/ergodic-moves.md), [Metropolis-Hastings](docs/metropolis-hastings.md),
+[reproducibility and persistence](docs/reproducibility.md), and [multithreading](docs/multithreading.md) contracts.
 
 ## Quickstart
 
@@ -261,8 +264,24 @@ AddressSanitizer configuration exercises the same replayable stress contract.
 ## Setup
 
 This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. The
-v1.0.0-rc3 CI matrix exercises Ubuntu with GCC 16 and Clang 22, macOS with AppleClang, and Windows with MSVC. CMake
-also rejects compiler versions below the supported C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34.
+v1.0.0 release matrix is defined by
+[`.github/workflows/ci.yml`](https://github.com/acgetchell/CDT-plusplus/blob/main/.github/workflows/ci.yml) and the
+pinned tool versions in the
+[`Justfile`](https://github.com/acgetchell/CDT-plusplus/blob/main/Justfile).
+
+### Tested release matrix
+
+| CI cell | Host | Compiler | Standard library | Required contract |
+| --- | --- | --- | --- | --- |
+| Ubuntu GCC | `ubuntu-latest` | GCC 16 | libstdc++ | `just ci` and `just build-parallel` |
+| Ubuntu Clang | `ubuntu-latest` | Clang 22 | libstdc++ | `just ci` and `just build-parallel` |
+| macOS AppleClang | `macos-latest` | Runner AppleClang | libc++ | `just ci` and `just viewer-build` |
+| Windows MSVC | `windows-latest`, x64 | Runner MSVC | MSVC STL | `just ci` |
+
+Linux compiler packages are pinned by the Justfile. The native macOS and Windows compilers follow the GitHub-hosted
+runner images, while CMake enforces the minimum C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34.
+These are tested release cells, not a claim that every distribution, operating-system version, architecture, or
+compiler/standard-library pairing is supported.
 
 ### Prerequisites
 
@@ -418,7 +437,7 @@ Eigen are installed only in the viewer build tree. See
 
 ### Project Layout
 
-The project is similar to [PitchFork Layout], as follows:
+The repository-owned source and generated-output boundaries are:
 
 - .github - GitHub specific settings
 - out/build/reference - Ephemeral supported headless build directory
@@ -433,64 +452,23 @@ The project is similar to [PitchFork Layout], as follows:
 
 ## Command-line reference
 
-CDT-plusplus uses [program_options] to parse options from the help message, and so
-understands long or short argument formats, provided the short argument given
-is an unambiguous match to a longer one. The help message should be instructive:
+The supported simulation surface is the spherical, three-dimensional form:
 
-```text
-./out/build/reference/src/cdt --help
-Causal Dynamical Triangulations in C++ using CGAL.
-
-Copyright (c) 2013-2026 Adam Getchell
-
-A program that generates d-dimensional triangulated spacetimes
-with a defined causal structure and evolves them according
-to the Metropolis algorithm. Specify the number of passes to control
-how much evolution is desired. Each pass attempts a number of ergodic
-moves equal to the number of simplices in the simulation.
-
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES
-            [-d DIM]
-            [--init INITIAL RADIUS]
-            [--foliate FOLIATION SPACING]
-            [--no-output]
-            [--seed SEED]
-            [--threads THREADS]
-            -k K
-            --alpha ALPHA
-            --lambda LAMBDA
-            [-p PASSES]
-            [-c CHECKPOINT]
-
-Optional arguments are in square brackets.
-
-Examples:
-./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt -s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000 --seed 92
-
-Options:
-  -h [ --help ]                 Show this message
-  -v [ --version ]              Show program version
-  -s [ --spherical ]            Spherical topology
-  -e [ --toroidal ]             Toroidal topology
-  -n [ --simplices ] arg        Approximate number of simplices
-  -t [ --timeslices ] arg       Number of timeslices
-  -d [ --dimensions ] arg (=3)  Dimensionality
-  -i [ --init ] arg (=1)        Initial radius
-  -f [ --foliate ] arg (=1)     Foliation spacing
-  --no-output                   Do not write checkpoint or final triangulation
-                                files
-  --seed arg                    Root random seed (default: operating-system
-                                entropy)
-  --threads arg (=1)            Maximum worker threads for supported Delaunay
-                                operations
-  -a [ --alpha ] arg            Negative squared geodesic length of 1-d
-                                timelike edges
-  -k [ --k ] arg                K = 1/(8*pi*G_newton)
-  -l [ --lambda ] arg           K * Cosmological constant
-  -p [ --passes ] arg (=100)    Number of passes
-  -c [ --checkpoint ] arg (=10) Checkpoint every n passes
+```bash
+just run --spherical \
+  --simplices 32000 \
+  --timeslices 11 \
+  --alpha 0.6 \
+  --k 1.1 \
+  --lambda 0.1 \
+  --passes 1000 \
+  --seed 92
 ```
+
+Run `just run --help` for the executable-owned option list and `just run --version` for the synchronized product
+version. Long options and their defined short forms are parsed by [Boost.Program_options][program_options]. The
+legacy parser still names toroidal topology and dimensionality, but runtime validation rejects toroidal input and
+every dimension other than three; they are not supported release modes.
 
 `--threads` is a maximum concurrency limit for CGAL/oneTBB bulk Delaunay
 operations. It defaults to 1. Zero and negative values are rejected. The
@@ -498,13 +476,9 @@ canonical reference build accepts only 1; values greater than 1 require the
 `parallel` preset. This option does not parallelize Metropolis-Hastings,
 Pachner moves, persistence, or concurrent access to one manifold.
 
-The dimensionality of the spacetime is such that each slice of spacetime is
-`d-1`-dimensional, so setting `d=3` generates two spacelike dimensions and one
-timelike dimension, with a defined global time foliation. A
-`d`-dimensional simplex will have some `d-1` sub-simplices that are purely
-spacelike (all on the same timeslice) as well as some that are timelike
-(span two timeslices). In [CDT] we actually care more about the timelike
-links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).
+With `--dimensions 3`, every spatial slice is two-dimensional and the third dimension is the global time foliation.
+The accepted runtime boundary requires positive simplex and timeslice counts, finite physical parameters with
+`alpha > 1/2`, and a positive thread limit. Invalid configurations fail before construction.
 
 ## Documentation
 
@@ -524,7 +498,7 @@ failure-atomicity rules for the complete 2+1D move set are recorded in
 [`docs/ergodic-moves.md`](docs/ergodic-moves.md).
 Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream
 policy are recorded in [`docs/reproducibility.md`](docs/reproducibility.md).
-The repository-wide scientific bibliography is maintained in
+The repository-wide scientific bibliography is
 [`REFERENCES.md`](REFERENCES.md).
 
 Validate the generated API documentation without modifying the worktree:
@@ -549,9 +523,9 @@ successful `main` validation, a separate least-privilege job runs `just docs` an
 If CDT++ contributes to published work, cite the software using
 [`CITATION.cff`](https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff) and cite the scientific methods relevant to the
 work from [`REFERENCES.md`](REFERENCES.md). The software citation records the
-current declared release, `1.0.0-rc3`. Advance its version and release date
-together with the CMake, vcpkg, Python-tooling, Doxygen, and CLI metadata for
-subsequent releases.
+final release, `1.0.0`, and the all-versions Zenodo concept DOI
+[`10.5281/zenodo.21487043`](https://doi.org/10.5281/zenodo.21487043). The concrete v1.0.0 record DOI will be added to
+`CITATION.cff` as a version-specific identifier after Zenodo creates the stable deposit during issue #97.
 
 ## Testing
 
@@ -698,79 +672,55 @@ noninteractive smoke test, exact canonical-image policy, and inventory of histor
 [viewer and visual-artifact contract](docs/viewer.md). The default build remains headless and does not install Qt or
 Eigen.
 
+## Security and support
+
+CDT++ v1.0.0 is an archival scientific reference, not an actively maintained product. The reporting boundary for
+archive-specific vulnerabilities and issues that also affect the active successor is documented in
+[`SECURITY.md`](SECURITY.md). Do not publish sensitive vulnerability details in the historical issue tracker.
+
 ## Contributing
 
-Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
-
-Your code should pass Continuous Integration:
-
-- `just fix` for safe automatic formatting with the repository's [.clang-format]
-
-- `just clang-tidy` to analyze C++ with the pinned LLVM 22 toolchain
-
-- `just check` for fast, non-mutating source, documentation, YAML, workflow, and CMake validation
-
-- `just ci` for the supported build and complete validation contract before pushing
-
-The slower sanitizer workflows remain available through [GitHub Actions] and repository commands when relevant to a
-change:
-
-- [AddressSanitizer], [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer]
-
-Valgrind is intentionally unsupported: on x86/AMD64 its floating-point emulation does not honor the directed
-rounding required by CGAL's interval predicates. Disabling CGAL's rounding check would make geometric results
-untrustworthy, so memory diagnostics use the supported sanitizer workflows instead.
-
-Optional:
-
-- [ClangTidy] on all changed files
+Active development has moved to
+[causal-triangulations](https://github.com/acgetchell/causal-triangulations). Before CDT++ is archived, only
+release-blocking corrections within the maintenance-only stabilization scope are accepted. After archival, GitHub
+will make this repository read-only. See [CONTRIBUTING.md] for the correction workflow and
+[CODE_OF_CONDUCT.md] for the preserved participation policy.
 
 ## Issues
 
-Current work and known limitations are tracked in the
-[CDT++ GitHub issue tracker](https://github.com/acgetchell/CDT-plusplus/issues).
-The README does not duplicate a hardcoded issue list because tracker state
-changes independently of repository releases.
+The [CDT++ issue tracker](https://github.com/acgetchell/CDT-plusplus/issues) remains available during the
+maintenance-only stabilization window. Issue #155 will close or disposition the remaining trackers and archive this
+repository after the owner determines that no blockers remain. New development, support, and scientific work belong
+in the [causal-triangulations issue tracker](https://github.com/acgetchell/causal-triangulations/issues).
 
 [CDT]: REFERENCES.md#cdt-framework-2001
 [CGAL]: REFERENCES.md#cgal-triangulations
-[CMake]: https://www.cmake.org
+[CMake]: https://cmake.org
 [doctest]: https://github.com/doctest/doctest
 [guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
-[CTest]: https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest
-[literate programming]: http://www.literateprogramming.com
-[Doxygen]: http://www.doxygen.org
+[Doxygen]: https://www.doxygen.nl
 [Homebrew]: https://brew.sh
 [Ninja]: https://ninja-build.org
-[program_options]: https://www.boost.org/doc/libs/1_85_0/doc/html/program_options/tutorial.html
+[program_options]: https://www.boost.org/doc/libs/1_91_0/doc/html/program_options.html
 [Mathjax]: https://www.mathjax.org
 [GraphViz]: https://www.graphviz.org
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
-[functional]: https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
-[TBB]: https://www.threadingbuildingblocks.org
-[Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile
+[TBB]: https://uxlfoundation.github.io/oneTBB/
 [Boost]: https://www.boost.org
 [ClangTidy]: https://clang.llvm.org/extra/clang-tidy/
-[date]: https://howardhinnant.github.io/date/date.html
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [vcpkg]: https://github.com/Microsoft/vcpkg
-[C++]: https://isocpp.org/
-[Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [PCG]: REFERENCES.md#pcg-random-number-generators
-[TestU01]: https://simul.iro.umontreal.ca/testu01/
+[TestU01]: https://doi.org/10.1145/1268776.1268777
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md
-[GitHub Actions]: https://github.com/features/actions
-[CodeQL]: https://codeql.github.com/
-[Visual Studio 2022]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt
 [AddressSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizer
 [LeakSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
 [ThreadSanitizer]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
 [MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
 [UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
-[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/main/.clang-format
 [spdlog]: https://github.com/gabime/spdlog
 [Qt]: https://www.qt.io

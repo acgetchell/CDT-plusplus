@@ -115,10 +115,17 @@ protocol’s named tolerances to coordinates and action values. Host, compiler,
 and source-revision provenance are intentionally excluded from that equality
 check.
 
-The committed macOS records contain a `-dirty` revision because they document
-the issue #94 implementation while it is under review. Regenerate them from
-the resulting clean commit before the archival v1.0.0 tag; the archival check
-will fail until that handoff is complete.
+The committed macOS records retain the `-dirty` revision captured during the
+review for issue #94. Their scientific payload remains covered by
+`just reference-check` and `just reference-generated-check`, but they are not
+the final archival provenance record. [Issue #97](https://github.com/acgetchell/CDT-plusplus/issues/97)
+must first commit the release metadata, run `just reference-regenerate` from
+that exact clean producer commit, and then review and commit the regenerated
+raw artifacts and manifests. The final merged release state is tagged; its
+files name the preceding producer commit because an artifact commit cannot
+record its own hash. Both `just tag` and `just tag-check` enforce the
+provenance-only archival check, which intentionally fails until that handoff
+is complete.
 
 ## Scope limits
 

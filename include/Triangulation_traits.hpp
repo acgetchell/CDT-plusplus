@@ -7,6 +7,11 @@
 /// @file Triangulation_traits.hpp
 /// @brief Traits class for particular uses of CGAL
 /// @author Adam Getchell
+/// @see [Delaunay empty-sphere
+/// construction](../REFERENCES.md#delaunay-empty-sphere-construction)
+/// @see [CGAL triangulations](../REFERENCES.md#cgal-triangulations)
+/// @see [Robust geometric
+/// predicates](../REFERENCES.md#robust-geometric-predicates)
 
 #ifndef CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP
 #define CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP

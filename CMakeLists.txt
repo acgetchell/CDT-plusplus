@@ -29,9 +29,9 @@ project(
 # CDT++ does not use C++ modules, so avoid unnecessary dependency scanning.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
-# CMake project versions are numeric, so keep the release-candidate suffix in
-# the product version used by executables and release metadata.
-set(CDT_VERSION_SUFFIX "-rc3")
+# CMake project versions are numeric. Stable releases use an empty product
+# suffix; release candidates use the synchronized "-rcN" spelling.
+set(CDT_VERSION_SUFFIX "")
 set(CDT_VERSION "${PROJECT_VERSION}${CDT_VERSION_SUFFIX}")
 set(CDT_SOURCE_REVISION "unknown")
 find_package(Git QUIET)

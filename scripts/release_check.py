@@ -21,6 +21,9 @@ SEMVER_RE = re.compile(r"[0-9]+[.][0-9]+[.][0-9]+(?:-rc[0-9]+)?")
 PEP440_RE = re.compile(r"(?P<base>[0-9]+[.][0-9]+[.][0-9]+)(?:rc(?P<rc>[0-9]+))?")
 RC_REFERENCE_RE = re.compile(r"(?<![0-9A-Za-z])v?(?P<version>[0-9]+[.][0-9]+[.][0-9]+-rc[0-9]+)(?![0-9A-Za-z])")
 ACTIVE_RELEASE_DOCS = (Path("README.md"), Path("REFERENCES.md"), Path(".github/CONTRIBUTING.md"))
+CITATION_TITLE = "CDT-plusplus: Causal Dynamical Triangulations in C++"
+CITATION_REPOSITORY = "https://github.com/acgetchell/CDT-plusplus"
+CITATION_CONCEPT_DOI = "10.5281/zenodo.21487043"
 
 
 class ReleaseCheckError(ValueError):
@@ -132,8 +135,20 @@ def _citation_metadata(root: Path) -> tuple[str, date]:
     if _require_string(citation, "type", str(path)) != "software":
         message = f"{path} must describe software"
         raise ReleaseCheckError(message)
-    for key in ("message", "title", "abstract", "repository-code", "url", "license"):
+    for key in ("message", "title", "abstract", "repository-code", "url", "doi", "license"):
         _require_string(citation, key, str(path))
+    expected_identity = {
+        "title": CITATION_TITLE,
+        "repository-code": CITATION_REPOSITORY,
+        "url": CITATION_REPOSITORY,
+        "doi": CITATION_CONCEPT_DOI,
+        "license": "BSD-3-Clause",
+    }
+    for key, expected in expected_identity.items():
+        value = _require_string(citation, key, str(path))
+        if value != expected:
+            message = f"{path} {key} must be {expected!r}; found {value!r}"
+            raise ReleaseCheckError(message)
     authors = citation.get("authors")
     if not isinstance(authors, list) or not authors:
         message = f"{path} must contain at least one author"
@@ -142,6 +157,10 @@ def _citation_metadata(root: Path) -> tuple[str, date]:
         parsed_author = _require_object(author, f"{path} author {index}")
         _require_string(parsed_author, "family-names", f"{path} author {index}")
         _require_string(parsed_author, "given-names", f"{path} author {index}")
+    primary_author = _require_object(authors[0], f"{path} author 1")
+    if _require_string(primary_author, "orcid", f"{path} author 1") != "https://orcid.org/0000-0002-0797-0021":
+        message = f"{path} author 1 must use Adam Getchell's validated ORCID"
+        raise ReleaseCheckError(message)
     version = _require_string(citation, "version", str(path))
     raw_date = _require_string(citation, "date-released", str(path))
     try:

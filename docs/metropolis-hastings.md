@@ -7,7 +7,9 @@ For a proposed triangulation `T'`, the implemented acceptance probability is
 min(1, exp(S(T) - S(T')) * q(T | T') / q(T' | T)).
 ```
 
-This is the Metropolis-Hastings rule of Hastings
+This extends the symmetric proposal rule introduced by Metropolis et al.
+[Metropolis1953](../REFERENCES.md#metropolis-algorithm) with the proposal ratio
+from Hastings
 [Hastings1970](../REFERENCES.md#metropolis-hastings-algorithm). The
 three-dimensional causal triangulations, Regge action, and local move set
 follow Ambjørn, Jurkiewicz, and Loll
@@ -55,7 +57,7 @@ complete transition sequence, including the technical edge ordering used to
 construct a `(6,2)` candidate.
 Initialization uses a separate named stream derived from the same root seed, so
 changes in point-generation draw counts do not shift the transition sequence.
-The CLI, checkpoint metadata, stream ownership, and future parallel policy are
+The CLI, checkpoint metadata, stream ownership, and parallel stream policy are
 documented in [Reproducible random runs](reproducibility.md).
 
 ## State and geometry deltas
@@ -144,6 +146,7 @@ separate libm-to-MPFR conversion bound.
 ## References
 
 Bibliographic metadata for
-[Hastings1970](../REFERENCES.md#metropolis-hastings-algorithm) and
+[Metropolis1953](../REFERENCES.md#metropolis-algorithm),
+[Hastings1970](../REFERENCES.md#metropolis-hastings-algorithm), and
 [AmbjornJurkiewiczLoll2001-3D](../REFERENCES.md#three-dimensional-cdt-2001) is
 maintained in the repository-wide [`REFERENCES.md`](../REFERENCES.md).

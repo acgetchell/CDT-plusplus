@@ -13,7 +13,9 @@ of truth. CMake requires exactly CGAL 6.2 and treats deprecated declarations as
 errors by default. The baseline currently resolves CGAL 6.2 with Boost 1.91.0,
 GMP 6.3.0 revision 4, MPFR 4.2.2 revision 1, and oneTBB 2023.0.0. Those
 transitive versions are a resolution record for the pinned baseline, not
-independent version promises.
+independent version promises. The canonical bibliography records both the
+[CGAL project design](../REFERENCES.md#cgal-design) and the version-specific
+[CGAL 6.2 manual](../REFERENCES.md#cgal-triangulations).
 
 The supported compiler floor is the intersection of CDT++'s C++23 library
 requirements and CGAL 6.2's tested platforms:
@@ -61,6 +63,12 @@ Production triangulation uses
 exact orientation and sphere-side predicates for Delaunay insertion, point
 location, and checked geometric flips. Coordinates, centroids, distances, and
 other constructed values remain floating-point approximations.
+
+[Delaunay's original empty-sphere construction](../REFERENCES.md#delaunay-empty-sphere-construction)
+provides the geometric foundation. Shewchuk's
+[robust-predicate work](../REFERENCES.md#robust-geometric-predicates) records
+primary methodological background; CDT++ delegates predicates to CGAL's EPICK
+implementation rather than claiming that it reimplements those routines.
 
 That split is intentional. The scientific state is the causal combinatorial
 triangulation plus time and cell metadata; it is not a claim that every
