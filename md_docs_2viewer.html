@@ -88,7 +88,8 @@ $(function() {
 Supported workflow</h1>
 <p>On macOS, a clean checkout can build the viewer and run its noninteractive render smoke test with:</p>
 <div class="fragment"><div class="line">just viewer-build</div>
-</div><!-- fragment --><p>Regenerate and validate the tracked README hero image with one command:</p>
+</div><!-- fragment --><p>The macOS CI matrix cell runs this same focused recipe after the required headless build/test contract. Linux and Windows CI remain headless and validate only the tracked viewer inputs and canonical artifact through <span class="tt">just check</span>.</p>
+<p>Regenerate and validate the tracked README hero image with one command:</p>
 <div class="fragment"><div class="line">just viewer-render</div>
 </div><!-- fragment --><p><span class="tt">viewer-render</span> reads <span class="tt">viewer/manifests/v1/hero.json</span>, loads and validates its versioned OFF fixture and metadata sidecar, renders <span class="tt">docs/images/S3-7-27528-I1-R1.png</span>, and verifies the complete tracked artifact contract. The static validation is also available without building Qt:</p>
 <div class="fragment"><div class="line">just viewer-check</div>

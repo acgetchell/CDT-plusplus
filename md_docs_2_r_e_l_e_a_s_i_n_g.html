@@ -146,6 +146,13 @@ Validate the release branch</h2>
 <div class="line">just docs-check</div>
 <div class="line">just ci</div>
 </div><!-- fragment --><p><span class="tt">just release-check</span> verifies synchronization across CMake, vcpkg, Python, <span class="tt">uv.lock</span>, Doxygen, citation metadata, and active release-candidate references.</p>
+<p>The protected-branch ruleset uses stable summary contexts for the deterministic release gates:</p>
+<ul>
+<li><span class="tt">build</span> covers the Ubuntu GCC, Ubuntu Clang, macOS AppleClang, and Windows MSVC <span class="tt">just ci</span> matrix, the two Ubuntu parallel contracts, and the macOS viewer smoke contract.</li>
+<li><span class="tt">build / AddressSanitizer + UndefinedBehaviorSanitizer</span> and <span class="tt">build / LeakSanitizer</span> exercise the stable Linux sanitizer configurations.</li>
+<li><span class="tt">CodeRabbit</span> records the required review approval.</li>
+</ul>
+<p>ThreadSanitizer and CodeQL remain advisory diagnostics rather than protected branch requirements; MemorySanitizer remains manual and experimental. Do not promote those contexts without a separate stability decision.</p>
 <p>Review and commit only release artifacts:</p>
 <div class="fragment"><div class="line">git diff --check</div>
 <div class="line">git diff</div>
