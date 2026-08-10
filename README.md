@@ -707,7 +707,6 @@ in the [causal-triangulations issue tracker](https://github.com/acgetchell/causa
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
 [TBB]: https://uxlfoundation.github.io/oneTBB/
-[Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/main/docs/Doxyfile
 [Boost]: https://www.boost.org
 [ClangTidy]: https://clang.llvm.org/extra/clang-tidy/
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
