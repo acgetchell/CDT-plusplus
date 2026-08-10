@@ -9,6 +9,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, cast
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW_VERSION_LOOKUP = re.compile(r"\bjust --evaluate ([a-z][a-z0-9_-]*)")
 UV_INVOCATION = re.compile(r"(?<![\w-])uvx?(?=\s)")
@@ -38,6 +40,12 @@ def _just_document() -> dict[str, Any]:
 def _just_recipes() -> dict[str, dict[str, Any]]:
     """Return recipe metadata keyed by recipe name."""
     return cast("dict[str, dict[str, Any]]", _just_document()["recipes"])
+
+
+def _workflow_document(filename: str) -> dict[str, Any]:
+    """Return one parsed GitHub Actions workflow."""
+    path = REPO_ROOT / ".github" / "workflows" / filename
+    return cast("dict[str, Any]", yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
 def _dependency_names(recipe: dict[str, Any]) -> set[str]:
@@ -167,6 +175,38 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
             with self.subTest(assignment=name):
                 self.assertIn(name, assignment_names)
                 self.assertTrue(_run_just("--evaluate", name).stdout.strip())
+
+    def test_python_patch_version_has_one_source_of_truth(self) -> None:
+        """Local and workflow Python selection must resolve the same exact patch."""
+        version_file = (REPO_ROOT / ".python-version").read_text(encoding="utf-8").strip()
+
+        self.assertRegex(version_file, r"^[0-9]+[.][0-9]+[.][0-9]+$")
+        self.assertEqual(_run_just("--evaluate", "python_version").stdout.strip(), version_file)
+
+    def test_deterministic_release_workflows_gate_pull_requests(self) -> None:
+        """Coverage and generated documentation must validate before merge."""
+        expectations = (
+            ("codecov-upload.yml", "codecov", "CodeCov"),
+            ("doxygen.yml", "validate", "docs"),
+        )
+        for filename, job_id, stable_name in expectations:
+            with self.subTest(workflow=filename):
+                workflow = _workflow_document(filename)
+                self.assertEqual(workflow["on"]["pull_request"]["branches"], ["main"])
+                self.assertEqual(workflow["jobs"][job_id]["name"], stable_name)
+
+    def test_macos_matrix_runs_the_opt_in_viewer_contract(self) -> None:
+        """The archival viewer stays opt-in locally but is exercised on its supported CI host."""
+        workflow = _workflow_document("ci.yml")
+        platform = workflow["jobs"]["platform"]
+        matrix = platform["strategy"]["matrix"]["include"]
+        viewer_cells = [cell["name"] for cell in matrix if cell["run_viewer_contract"]]
+        viewer_steps = [step for step in platform["steps"] if step.get("name") == "Run the opt-in macOS viewer contract"]
+
+        self.assertEqual(viewer_cells, ["macOS AppleClang"])
+        self.assertEqual(len(viewer_steps), 1)
+        self.assertEqual(viewer_steps[0]["if"], "matrix.run_viewer_contract")
+        self.assertEqual(viewer_steps[0]["run"], "just viewer-build")
 
 
 if __name__ == "__main__":

@@ -5,6 +5,9 @@ name: CodeCov
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -30,6 +33,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Set up Just
+        uses: ./.github/actions/setup-just
+
+      - name: Resolve coverage tool versions
+        id: tool-versions
+        run: |
+          {
+            echo "cmake=$(just --evaluate cmake_version)"
+            echo "gcc=$(just --evaluate gcc_version)"
+            echo "lcov=$(just --evaluate lcov_version)"
+            echo "lcov_sha256=$(just --evaluate lcov_sha256)"
+            echo "ninja=$(just --evaluate ninja_version)"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Setup
         run: |
           sudo apt update
@@ -38,10 +55,10 @@ jobs:
             curl lcov libtool-bin ninja-build python3-sphinx \
             python3-sphinx-rtd-theme texinfo yasm
 
-      - name: Install LCOV 2.5
+      - name: Install pinned LCOV
         env:
-          LCOV_SHA256: 7e5e5a154bd5f3557659c328cab376764e7abd238bb403c424472c296b175126
-          LCOV_VERSION: "2.5"
+          LCOV_SHA256: ${{ steps.tool-versions.outputs.lcov_sha256 }}
+          LCOV_VERSION: ${{ steps.tool-versions.outputs.lcov }}
         run: |
           archive="${RUNNER_TEMP}/lcov-${LCOV_VERSION}.tar.gz"
           source_dir="${RUNNER_TEMP}/lcov-${LCOV_VERSION}"
@@ -53,22 +70,11 @@ jobs:
           sudo make --directory "${source_dir}" install
           lcov --version
 
-      - name: Set up Just
-        uses: ./.github/actions/setup-just
-
-      - name: Resolve coverage tool versions
-        id: tool-versions
-        run: |
-          {
-            echo "cmake=$(just --evaluate cmake_version)"
-            echo "ninja=$(just --evaluate ninja_version)"
-          } >> "$GITHUB_OUTPUT"
-
       - name: Set up coverage toolchain
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
         with:
           +: >-
-            gnu.org/gcc@16
+            gnu.org/gcc@${{ steps.tool-versions.outputs.gcc }}
             cmake.org@${{ steps.tool-versions.outputs.cmake }}
             ninja-build.org@${{ steps.tool-versions.outputs.ninja }}
 
@@ -94,7 +100,7 @@ jobs:
       - name: Set up cached vcpkg
         uses: ./.github/actions/setup-vcpkg
         with:
-          cache-key: gcc-16
+          cache-key: gcc-${{ steps.tool-versions.outputs.gcc }}
 
       - name: Generate coverage reports
         env:
@@ -107,7 +113,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
-          if-no-files-found: warn
+          if-no-files-found: error
           name: coverage-report-${{ github.sha }}
           path: |
             build/coverage.info

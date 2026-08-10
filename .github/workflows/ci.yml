@@ -30,40 +30,36 @@ jobs:
         include:
           - name: Ubuntu GCC
             os: ubuntu-latest
-            compiler_package: gnu.org/gcc@16
+            compiler_family: gcc
             cc: gcc
             cxx: g++
             compiler_cache: ccache
-            compiler_cache_key: gcc-16
             run_parallel_contract: true
-            vcpkg_cache_key: gcc-16
+            run_viewer_contract: false
           - name: Ubuntu Clang
             os: ubuntu-latest
-            compiler_package: llvm.org@22
+            compiler_family: clang
             cc: clang
             cxx: clang++
             compiler_cache: ccache
-            compiler_cache_key: clang-22
             run_parallel_contract: true
-            vcpkg_cache_key: clang-22
+            run_viewer_contract: false
           - name: macOS AppleClang
             os: macos-latest
-            compiler_package: ""
+            compiler_family: appleclang
             cc: clang
             cxx: clang++
             compiler_cache: ""
-            compiler_cache_key: none
             run_parallel_contract: false
-            vcpkg_cache_key: appleclang
+            run_viewer_contract: true
           - name: Windows MSVC
             os: windows-latest
-            compiler_package: ""
+            compiler_family: msvc
             cc: cl
             cxx: cl
             compiler_cache: ""
-            compiler_cache_key: none
             run_parallel_contract: false
-            vcpkg_cache_key: msvc
+            run_viewer_contract: false
 
     steps:
       - name: Disable Git autocrlf on Windows
@@ -96,11 +92,50 @@ jobs:
           {
             echo "cmake=$(just --evaluate cmake_version)"
             echo "ccache=$(just --evaluate ccache_version)"
+            echo "gcc=$(just --evaluate gcc_version)"
             echo "llvm=$(just --evaluate llvm_version)"
             echo "ninja=$(just --evaluate ninja_version)"
             echo "ninja-windows-wheel=$(just --evaluate ninja_windows_wheel_version)"
+            echo "python=$(just --evaluate python_version)"
             echo "typos=$(just --evaluate typos_version)"
             echo "uv=$(just --evaluate uv_version)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Resolve matrix compiler pin
+        id: compiler
+        shell: bash
+        env:
+          COMPILER_FAMILY: ${{ matrix.compiler_family }}
+          GCC_VERSION: ${{ steps.tool-versions.outputs.gcc }}
+          LLVM_VERSION: ${{ steps.tool-versions.outputs.llvm }}
+        run: |
+          case "$COMPILER_FAMILY" in
+            gcc)
+              version="$GCC_VERSION"
+              package="gnu.org/gcc@${version}"
+              cache_key="gcc-${version}"
+              ;;
+            clang)
+              version="$LLVM_VERSION"
+              package="llvm.org@${version}"
+              cache_key="clang-${version}"
+              ;;
+            appleclang)
+              package=""
+              cache_key="appleclang"
+              ;;
+            msvc)
+              package=""
+              cache_key="msvc"
+              ;;
+            *)
+              echo "Unsupported compiler family: ${COMPILER_FAMILY}" >&2
+              exit 1
+              ;;
+          esac
+          {
+            echo "package=${package}"
+            echo "cache_key=${cache_key}"
           } >> "$GITHUB_OUTPUT"
 
       - name: Set up typos
@@ -134,7 +169,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
-          python-version-file: .python-version
+          python-version: ${{ steps.tool-versions.outputs.python }}
 
       - name: Set up uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
@@ -172,16 +207,16 @@ jobs:
       - name: Set up cached vcpkg
         uses: ./.github/actions/setup-vcpkg
         with:
-          cache-key: ${{ matrix.vcpkg_cache_key }}
+          cache-key: ${{ steps.compiler.outputs.cache_key }}
 
       - name: Restore compiler cache
         if: matrix.compiler_cache != ''
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
         with:
           path: .cache/ccache
-          key: ccache-v1-${{ runner.os }}-${{ matrix.compiler_cache_key }}-${{ github.sha }}
+          key: ccache-v1-${{ runner.os }}-${{ steps.compiler.outputs.cache_key }}-${{ github.sha }}
           restore-keys: |
-            ccache-v1-${{ runner.os }}-${{ matrix.compiler_cache_key }}-
+            ccache-v1-${{ runner.os }}-${{ steps.compiler.outputs.cache_key }}-
 
       - name: Run the canonical local CI contract
         env:
@@ -191,7 +226,7 @@ jobs:
           CCACHE_MAXSIZE: 1G
           CC: ${{ matrix.cc }}
           CDT_COMPILER_CACHE: ${{ matrix.compiler_cache }}
-          CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
+          CDT_PKGX_COMPILER_PACKAGE: ${{ steps.compiler.outputs.package }}
           CXX: ${{ matrix.cxx }}
         run: just ci
 
@@ -204,9 +239,13 @@ jobs:
           CCACHE_MAXSIZE: 1G
           CC: ${{ matrix.cc }}
           CDT_COMPILER_CACHE: ${{ matrix.compiler_cache }}
-          CDT_PKGX_COMPILER_PACKAGE: ${{ matrix.compiler_package }}
+          CDT_PKGX_COMPILER_PACKAGE: ${{ steps.compiler.outputs.package }}
           CXX: ${{ matrix.cxx }}
         run: just build-parallel
+
+      - name: Run the opt-in macOS viewer contract
+        if: matrix.run_viewer_contract
+        run: just viewer-build
 
       - name: Report compiler cache statistics
         if: ${{ always() && matrix.compiler_cache != '' }}

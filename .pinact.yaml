@@ -1,6 +1,8 @@
 ---
 version: 3
 files:
+  - pattern: .github/actions/*/action.yml
+  - pattern: .github/actions/*/action.yaml
   - pattern: .github/workflows/*.yml
   - pattern: .github/workflows/*.yaml
 separator: "  # "

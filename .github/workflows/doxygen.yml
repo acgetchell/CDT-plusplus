@@ -5,6 +5,9 @@ name: Doxygen
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -15,7 +18,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate:
+    name: docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Just
+        uses: ./.github/actions/setup-just
+
+      - name: Set up pkgx
+        uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
+
+      - name: Validate documentation
+        run: just docs-check
+
   deploy:
+    if: github.event_name != 'pull_request'
+    needs:
+      - validate
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,7 +55,7 @@ jobs:
       - name: Set up pkgx
         uses: pkgxdev/setup@4d4ae97af87ccb39ab8be4e073dea697fef2c6f7  # v5.0.0
 
-      - name: Build documentation
+      - name: Build documentation for publication
         run: just docs
 
       - name: Publish documentation
