@@ -104,7 +104,7 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
             )
 
         self.assertIn("--fixture-binary", str(raised.exception))
-        self.assertIn(repr(str(binaries["--fixture-binary"])), str(raised.exception))
+        self.assertIn(repr(generator.portable_path(binaries["--fixture-binary"])), str(raised.exception))
         produce_raw_artifacts.assert_not_called()
 
     def test_bounded_run_is_validated_before_publication(self) -> None:
