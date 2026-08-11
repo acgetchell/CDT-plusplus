@@ -12,9 +12,33 @@
 
 #include <concepts>
 #include <cstdint>
+#include <istream>
 #include <limits>
+#include <locale>
 #include <ostream>
 #include <random>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+
+#if !defined(__SIZEOF_INT128__) || (defined(PCG_FORCE_EMULATED_128BIT_MATH) && \
+                                    PCG_FORCE_EMULATED_128BIT_MATH)
+#include "pcg_uint128.hpp"
+
+/// @cond PCG_COMPATIBILITY
+namespace pcg_extras
+{
+  // PCG's specific_stream::set_stream uses an int literal with its emulated
+  // 128-bit value. Supply the heterogeneous overload that template deduction
+  // cannot obtain through uint_x4's converting constructor.
+  template <typename UInt, typename UIntX2>
+  [[nodiscard]] auto operator|(uint_x4<UInt, UIntX2> const& value,
+                               int const bits) -> uint_x4<UInt, UIntX2>
+  { return value | uint_x4<UInt, UIntX2>{bits}; }
+}  // namespace pcg_extras
+/// @endcond
+#endif
 
 #include "pcg_random.hpp"
 
@@ -169,6 +193,48 @@ namespace cdt
     /// @return A new engine at the beginning of the selected sequence.
     [[nodiscard]] auto split(RandomStream const stream) const -> Random
     { return Random{m_seed, stream}; }
+
+    /// @brief Serialize the complete mutable PCG state for exact continuation.
+    /// @return Locale-independent PCG engine state.
+    [[nodiscard]] auto serialized_state() const -> std::string
+    {
+      std::ostringstream output;
+      output.imbue(std::locale::classic());
+      output << m_engine;
+      if (!output)
+      {
+        throw std::runtime_error("Could not serialize PCG state.");
+      }
+      return output.str();
+    }
+
+    /// @brief Restore an exact PCG continuation point.
+    /// @param seed Recorded root seed.
+    /// @param stream Recorded stream selector.
+    /// @param state Complete state produced by serialized_state().
+    /// @return A generator whose next draw is the saved generator's next draw.
+    /// @throws std::invalid_argument if the state is malformed, contains
+    /// trailing data, or selects a different PCG stream.
+    [[nodiscard]] static auto from_serialized_state(
+        RandomSeed const seed, RandomStream const stream,
+        std::string_view const state) -> Random
+    {
+      auto               restored        = Random{seed, stream};
+      auto const         expected_stream = restored.m_engine.stream();
+      std::istringstream input{std::string{state}};
+      input.imbue(std::locale::classic());
+      input >> restored.m_engine;
+      if (!input || restored.m_engine.stream() != expected_stream)
+      {
+        throw std::invalid_argument("Malformed or mismatched PCG state.");
+      }
+      input >> std::ws;
+      if (!input.eof())
+      {
+        throw std::invalid_argument("PCG state contains trailing data.");
+      }
+      return restored;
+    }
   };
 
   static_assert(std::uniform_random_bit_generator<Random>);

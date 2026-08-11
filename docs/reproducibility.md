@@ -89,12 +89,17 @@ manifest. The manifest records:
   transitions;
 - the maximum requested Delaunay thread count;
 - completed passes and the transition-trace fingerprint;
+- when a run starts from `--input`, the initial artifact role, source seed,
+  initialization stream, placement fingerprint, and topology fingerprint;
 - a canonical placement fingerprint derived from sorted finite vertices and
   their timeslices;
 - a canonical topology fingerprint derived from sorted vertices, causal
   metadata, and finite-cell incidence;
 - the CDT++ version, compiler, build configuration, standard library,
-  operating system, architecture, C++ standard, and CGAL version;
+  operating system, architecture, C++ standard, source revision, and CGAL
+  version;
+- for a resumable checkpoint, the complete transition PCG state and cumulative
+  proposed, accepted, rejected, attempted, succeeded, and failed move counts;
 - the payload byte count and FNV-1a corruption checksum.
 
 The triangulation remains a CGAL-readable payload; provenance is in the sidecar
@@ -132,16 +137,95 @@ manifest/payload mismatches fail with filesystem diagnostics. FNV-1a protects
 against accidental truncation or corruption; it does not authenticate files
 against deliberate modification.
 
-Checkpoints are snapshots only. CDT++ does not currently expose a resume CLI,
-and a checkpoint does not serialize mutable PCG engine state or enough runtime
-state to continue the identical stream. The manifest explicitly records
-`resume_supported=false`. The manifest also records
-`fresh_topology_replay_supported=false` and
-`transition_replay_requires_identical_start=true`. Starting a second CLI run
-from the recorded seed and configuration replays the stochastic inputs, but it
-does not override CGAL's non-unique cospherical tetrahedralization. Exact
-transition replay is conditional on supplying an identical starting manifold;
-it is not checkpoint resume.
+### Initial-state handoff
+
+`initialize --output` publishes an `initial-triangulation` payload and
+manifest. `cdt --input PATH` requires both files, verifies the payload checksum,
+parses the complete CGAL stream and CDT++ causal trailer, reconciles the
+manifest with the parsed state, and reconstructs the foliation and manifold
+before attempting a transition. Checkpoint and final artifacts are rejected at
+this boundary. Because prepared move locators are coordinate-valued, this
+evolution boundary also rejects distinct TDS vertices with coincident
+coordinates; generic `read_file` remains available for archival inspection of
+such legacy or manually constructed states.
+
+The input supplies topology, dimension, requested construction counts,
+foliation parameters, and the exact starting state. The new `cdt` invocation
+supplies its own physical parameters, run cadence, output policy, thread limit,
+and root seed. Its transition stream is derived from that new seed; it does not
+continue mutable RNG state from `initialize`. Checkpoint and final metadata
+carry `input.*` fields identifying the initial artifact seed and stream plus
+its placement and topology fingerprints, so the handoff remains auditable
+after evolution changes the state.
+
+The `.off` suffix is historical. The payload is CGAL's version-coupled
+triangulation stream followed by CDT++'s causal-data trailer, not a standalone
+Geomview mesh. The `.off.meta` file is part of the interchange contract because
+it supplies artifact role, foliation, reproducibility, and integrity data that
+plain geometry cannot represent. See the
+[reference fixture package](../reference/README.md) for the downstream import
+boundary.
+
+### Exact checkpoint continuation
+
+Simulation checkpoints written by this release are restart artifacts. At each
+completed checkpoint pass, CDT++ publishes the triangulation and manifest with
+individually atomic replacements. The manifest contains the global completed
+pass, configured total-pass target, checkpoint cadence, physical parameters,
+thread limit, complete mutable PCG state, ordered transition-trace state and
+count, and all cumulative move counters. The manifest records
+`resume_supported=true` only when this complete state is present.
+
+Resume the run with the neighboring pair intact:
+
+```console
+just resume /path/to/checkpoint.off
+```
+
+By default, `cdt` executes the passes remaining before the saved total target.
+`--passes TOTAL` may set a greater global target; it is not an additional-pass
+count and cannot precede the checkpoint's completed pass. Pass numbering and
+checkpoint cadence remain global, so a run interrupted after pass 500 does not
+restart either at pass 1. `--no-output` remains available, but `--resume`
+rejects replacement topology, construction, action, seed, thread, and
+checkpoint-cadence options.
+
+Exact continuation is deliberately version-locked. Before returning any
+resume state, the reader verifies payload integrity and causal metadata, parses
+the complete PCG state, validates counter identities, and requires the current
+CDT++ version, source revision, compiler identity and version, build
+configuration, parallel-triangulation feature, operating system, architecture,
+standard library, and CGAL version to match the producer. A checkpoint is
+therefore suitable for restarting an interrupted Slurm/HPC job with the same
+built program; it is not a portable interchange format or a promise that
+another implementation uses the same random engine representation. Resume also
+rejects coincident vertex coordinates, which cannot identify the unique
+coordinate-valued move locators required by exact continuation. The `(2,6)`
+move prevents current runs from creating that ambiguous state.
+
+The scientific tests exercise the guarantee at two levels. A transition-level
+test restores a checkpoint and compares every subsequent move, outcome,
+triangulation, transition trace, and counter update. The end-to-end
+`checkpoint-resume` CTest compares an uninterrupted `N`-pass run with the same
+run split into `K` passes plus a persisted checkpoint and `N-K` resumed passes.
+It requires equal final canonical placement and topology fingerprints,
+transition trace and count, and all six cumulative counter groups. The test
+also verifies target extension with global checkpoint numbering, rejects a
+target below the completed pass, and rejects corrupt PCG state and conflicting
+resume options.
+
+Older checkpoint manifests that record `resume_supported=false` remain
+readable as validated snapshots through the general persistence API, but
+`cdt --resume` rejects them because they do not contain enough state to prove
+the identical continuation. `cdt --input` continues to accept only an
+`initial-triangulation` artifact and intentionally starts a new transition
+stream from a new seed.
+
+Every manifest also records `fresh_topology_replay_supported=false` and
+`transition_replay_requires_identical_start=true`. Reconstructing a fresh
+manifold from only the recorded seed and configuration still does not override
+CGAL's non-unique cospherical tetrahedralization; checkpoint continuation
+avoids that ambiguity by restoring the persisted manifold itself.
 
 The tracked OFF fixture used by the archival renderer is therefore the canonical rendering input. Its recorded seed
 and producer command reproduce stochastic inputs but are provenance, not a promise that fresh CGAL construction will

@@ -14,6 +14,7 @@ doxygen_version := "1.16.1"
 gcc_version := "16"
 git_cliff_version := "2.13.1"
 graphviz_version := "15.1.0"
+initializer_binary := if os_family() == "windows" { "out/build/reference/src/initialize.exe" } else { "out/build/reference/src/initialize" }
 just_version := "1.58.0"
 lcov_sha256 := "7e5e5a154bd5f3557659c328cab376764e7abd238bb403c424472c296b175126"
 lcov_version := "2.5"
@@ -397,6 +398,16 @@ fix: _format-fix python-fix
     just --fmt
     @echo "Fixes applied."
 
+# Build as needed and generate an initial triangulation.
+[group('workflows')]
+initialize *args: build
+    {{ initializer_binary }} {{ args }}
+
+# Load an initialized triangulation and start a new CDT move series.
+[group('workflows')]
+load input *args: build
+    {{ primary_binary }} --input {{ quote(input) }} {{ args }}
+
 # Run every non-mutating Python source check.
 [group('workflows')]
 python-check: python-format-check python-lint python-typecheck python-support-test python-entrypoint-test
@@ -410,22 +421,6 @@ python-entrypoint-test: _sync-python-dev
     uv run --no-sync cdt-optimize-initialize --help >/dev/null
     uv run --no-sync cdt-tag-release --help >/dev/null
     uv run --no-sync python scripts/sync_vcpkg_tool_pins.py --help >/dev/null
-
-# Build the opt-in macOS CGAL/Qt viewer and run its noninteractive render smoke test.
-[group('workflows')]
-viewer-build:
-    {{ if os() == "macos" { "just _build-viewer-unix" } else if os() == "windows" { "cmd.exe //d //c \"echo The archival viewer is not supported on Windows. 1>&2 & exit /b 2\"" } else if os() == "linux" { "sh -c 'echo The archival viewer is not supported on Linux. 1>&2; exit 2'" } else { "sh -c 'echo The archival viewer is supported only on macOS. 1>&2; exit 2'" } }}
-
-# Validate the tracked viewer fixture, render manifest, and canonical hero image.
-[group('workflows')]
-viewer-check: _sync-python-dev
-    uv run --no-sync python scripts/validate_viewer_artifacts.py
-
-# Regenerate the README hero image from the tracked fixture and render manifest.
-[group('workflows')]
-viewer-render: viewer-build
-    {{ viewer_binary }} --manifest {{ quote(viewer_manifest) }} --output {{ quote(viewer_image) }}
-    just viewer-check
 
 # Apply Ruff lint fixes and formatting to Python source.
 [group('workflows')]
@@ -533,6 +528,11 @@ reference-regenerate: _sync-python-dev
 release-check: _sync-python-dev
     uv run --no-sync python scripts/release_check.py
 
+# Resume the identical CDT move series from a checkpoint.
+[group('workflows')]
+resume checkpoint *args: build
+    {{ primary_binary }} --resume {{ quote(checkpoint) }} {{ args }}
+
 # Build as needed and run the primary CDT++ executable.
 [group('workflows')]
 run *args: build
@@ -619,3 +619,19 @@ update-actions:
     just _yaml-check
     just _action-lint
     just _zizmor
+
+# Build the opt-in macOS CGAL/Qt viewer and run its noninteractive render smoke test.
+[group('workflows')]
+viewer-build:
+    {{ if os() == "macos" { "just _build-viewer-unix" } else if os() == "windows" { "cmd.exe //d //c \"echo The archival viewer is not supported on Windows. 1>&2 & exit /b 2\"" } else if os() == "linux" { "sh -c 'echo The archival viewer is not supported on Linux. 1>&2; exit 2'" } else { "sh -c 'echo The archival viewer is supported only on macOS. 1>&2; exit 2'" } }}
+
+# Validate the tracked viewer fixture, render manifest, and canonical hero image.
+[group('workflows')]
+viewer-check: _sync-python-dev
+    uv run --no-sync python scripts/validate_viewer_artifacts.py
+
+# Regenerate the README hero image from the tracked fixture and render manifest.
+[group('workflows')]
+viewer-render: viewer-build
+    {{ viewer_binary }} --manifest {{ quote(viewer_manifest) }} --output {{ quote(viewer_image) }}
+    just viewer-check

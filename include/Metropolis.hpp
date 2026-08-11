@@ -102,7 +102,54 @@ namespace cdt
     /// @brief Checkpoint events from the latest completed invocation
     Int_precision m_checkpoint_events{};
 
-    static void   record_transition(
+    /// @brief Passes completed before this invocation, including resumed work.
+    Int_precision m_completed_passes{};
+
+    /// @brief Whether the next invocation must begin from restored accounting.
+    bool                      m_resume_pending{};
+
+    [[nodiscard]] static auto to_counts(Counter const& counter)
+        -> utilities::Move_statistics::Counts
+    {
+      utilities::Move_statistics::Counts counts{};
+      for (std::size_t index = 0; index < counts.size(); ++index)
+      {
+        counts[index] = counter[static_cast<gsl::index>(index)];
+      }
+      return counts;
+    }
+
+    [[nodiscard]] static auto from_counts(
+        utilities::Move_statistics::Counts const& counts) -> Counter
+    {
+      Counter counter;
+      for (std::size_t index = 0; index < counts.size(); ++index)
+      {
+        counter[static_cast<gsl::index>(index)] = counts[index];
+      }
+      return counter;
+    }
+
+    void restore_statistics(utilities::Reproducibility_metadata const& metadata)
+    {
+      if (!metadata.move_statistics || !metadata.transition_trace ||
+          !metadata.transition_count)
+      {
+        throw std::invalid_argument(
+            "Checkpoint resume requires cumulative transition statistics.");
+      }
+      auto const& saved                 = *metadata.move_statistics;
+      m_command_results.attempted       = from_counts(saved.attempted);
+      m_command_results.succeeded       = from_counts(saved.succeeded);
+      m_command_results.failed          = from_counts(saved.failed);
+      m_run_statistics.proposed         = from_counts(saved.proposed);
+      m_run_statistics.accepted         = from_counts(saved.accepted);
+      m_run_statistics.rejected         = from_counts(saved.rejected);
+      m_run_statistics.transition_trace = *metadata.transition_trace;
+      m_run_statistics.transition_count = *metadata.transition_count;
+    }
+
+    static void record_transition(
         RunStatistics& statistics, move_tracker::MoveType const move,
         ergodic_moves::MoveOutcome const outcome) noexcept
     {
@@ -157,36 +204,74 @@ namespace cdt
     /// @param random Transition random-number stream owned by this strategy.
     /// @param reproducibility Optional initialization and requested-state
     /// provenance to merge with the effective run configuration.
+    /// @param completed_passes Global passes completed by a restored
+    /// checkpoint.
     /// @throws std::invalid_argument If a coupling is non-finite or either
-    /// cadence value is nonpositive.
+    /// cadence value is nonpositive, or restored state is incomplete, does not
+    /// match the global pass target, or does not match the supplied generator.
     /// @throws std::domain_error If `alpha` is not greater than 1/2.
     [[maybe_unused]] MoveStrategy(
         long double const alpha, long double const k, long double const lambda,
         Int_precision const passes, Int_precision const checkpoint,
         bool const write_files, cdt::Random random,
         std::optional<utilities::Reproducibility_metadata> reproducibility =
-            std::nullopt)
+            std::nullopt,
+        Int_precision const completed_passes = 0)
         : m_parameters{s3_action::make_physical_parameters(alpha, k, lambda)}
         , m_cadence{detail::parse_move_run_cadence(passes, checkpoint,
                                                    "Metropolis")}
         , m_write_files{write_files}
         , m_generator{std::move(random)}
-        , m_reproducibility{
-              reproducibility.value_or(utilities::Reproducibility_metadata{
+        , m_reproducibility{reproducibility.value_or(
+              utilities::Reproducibility_metadata{
                   .seed                = m_generator.seed(),
                   .alpha               = alpha,
                   .k                   = k,
                   .lambda              = lambda,
                   .configured_passes   = passes,
                   .checkpoint_interval = checkpoint})}
+        , m_completed_passes{completed_passes}
     {
-      m_reproducibility.seed                = m_generator.seed();
-      m_reproducibility.transition_stream   = m_generator.stream();
-      m_reproducibility.alpha               = m_parameters.alpha();
-      m_reproducibility.k                   = m_parameters.k();
-      m_reproducibility.lambda              = m_parameters.lambda();
-      m_reproducibility.configured_passes   = m_cadence.passes();
+      if (m_completed_passes < 0)
+      {
+        throw std::invalid_argument("Completed passes cannot be negative.");
+      }
+      m_reproducibility.alpha  = m_parameters.alpha();
+      m_reproducibility.k      = m_parameters.k();
+      m_reproducibility.lambda = m_parameters.lambda();
+      auto const total_passes  = static_cast<std::int64_t>(m_completed_passes) +
+                                 static_cast<std::int64_t>(m_cadence.passes());
+      if (!std::in_range<Int_precision>(total_passes))
+      {
+        throw std::out_of_range(
+            "Total pass count exceeds the supported range.");
+      }
+      if (m_completed_passes > 0 || m_reproducibility.transition_random_state)
+      {
+        if (!m_reproducibility.configured_passes ||
+            *m_reproducibility.configured_passes != total_passes ||
+            !m_reproducibility.transition_random_state)
+        {
+          throw std::invalid_argument(
+              "Checkpoint resume state does not match its pass range.");
+        }
+        if (m_reproducibility.seed != m_generator.seed() ||
+            m_reproducibility.transition_stream != m_generator.stream() ||
+            *m_reproducibility.transition_random_state !=
+                m_generator.serialized_state())
+        {
+          throw std::invalid_argument(
+              "Checkpoint resume generator does not match its recorded random state.");
+        }
+        restore_statistics(m_reproducibility);
+        m_resume_pending = true;
+      }
+      m_reproducibility.seed              = m_generator.seed();
+      m_reproducibility.transition_stream = m_generator.stream();
+      m_reproducibility.configured_passes =
+          static_cast<Int_precision>(total_passes);
       m_reproducibility.checkpoint_interval = m_cadence.checkpoint();
+      m_reproducibility.transition_random_state.reset();
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
@@ -268,7 +353,7 @@ namespace cdt
         -> utilities::Reproducibility_metadata
     {
       return make_reproducibility_metadata(manifold, artifact, completed_passes,
-                                           m_run_statistics);
+                                           m_command_results, m_run_statistics);
     }
 
     /// @returns The container of trial moves
@@ -453,8 +538,9 @@ namespace cdt
 
     [[nodiscard]] auto make_reproducibility_metadata(
         ManifoldType const& manifold, utilities::ArtifactKind const artifact,
-        Int_precision const  completed_passes,
-        RunStatistics const& statistics) const
+        Int_precision const   completed_passes,
+        CommandResults const& command_results,
+        RunStatistics const&  statistics) const
         -> utilities::Reproducibility_metadata
     {
       auto metadata             = m_reproducibility;
@@ -462,6 +548,23 @@ namespace cdt
       metadata.completed_passes = completed_passes;
       metadata.transition_trace = statistics.transition_trace;
       metadata.transition_count = statistics.transition_count;
+      metadata.move_statistics  = utilities::Move_statistics{
+          .proposed  = to_counts(statistics.proposed),
+          .accepted  = to_counts(statistics.accepted),
+          .rejected  = to_counts(statistics.rejected),
+          .attempted = to_counts(command_results.attempted),
+          .succeeded = to_counts(command_results.succeeded),
+          .failed    = to_counts(command_results.failed)};
+      if (artifact == utilities::ArtifactKind::CHECKPOINT &&
+          metadata.max_threads && *metadata.max_threads > 0)
+      {
+        metadata.transition_random_state =
+            std::make_shared<std::string const>(m_generator.serialized_state());
+      }
+      else
+      {
+        metadata.transition_random_state.reset();
+      }
       utilities::update_reproducibility_state(metadata, manifold);
       if (metadata.desired_simplices == 0)
       {
@@ -681,10 +784,16 @@ namespace cdt
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
 
-      auto initial_statistics     = RunStatistics{};
+      auto initial_statistics =
+          m_resume_pending ? m_run_statistics : RunStatistics{};
       initial_statistics.geometry = t_manifold.geometry();
-      auto result                 = detail::execute_move_run(
-          t_manifold, std::move(initial_statistics), m_cadence,
+      auto initial_command_results =
+          m_resume_pending ? m_command_results : CommandResults{};
+      auto const initial_completed_passes =
+          m_resume_pending ? m_completed_passes : Int_precision{};
+      auto result = detail::execute_move_run(
+          t_manifold, std::move(initial_command_results),
+          std::move(initial_statistics), initial_completed_passes, m_cadence,
           detail::MoveRunIdentity{.algorithm = "Metropolis-Hastings",
                                   .seed      = seed(),
                                   .stream    = stream()},
@@ -698,18 +807,21 @@ namespace cdt
              RunStatistics const& statistics) {
             print_results(command_results, statistics);
           },
-          [this](ManifoldType const&  current, CommandResults const&,
-                 RunStatistics const& statistics,
-                 Int_precision const  pass_number) {
+          [this](ManifoldType const&   current,
+                 CommandResults const& command_results,
+                 RunStatistics const&  statistics,
+                 Int_precision const   pass_number) {
             utilities::write_file(
                 current, make_reproducibility_metadata(
                              current, utilities::ArtifactKind::CHECKPOINT,
-                             pass_number, statistics));
+                             pass_number, command_results, statistics));
           });
 
       m_command_results   = std::move(result.command_results);
       m_run_statistics    = std::move(result.strategy_state);
       m_checkpoint_events = result.checkpoint_events;
+      m_completed_passes  = initial_completed_passes + m_cadence.passes();
+      m_resume_pending    = false;
       return std::move(result.manifold);
     }
 

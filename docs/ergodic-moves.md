@@ -58,6 +58,11 @@ has different handles; every applicable-move implementation therefore captures
 stable point values and re-resolves vertices, cells, or edges in the owning
 candidate immediately before mutation.
 
+Before a checked edge flip, CDT++ also rebinds the CGAL edge descriptor to its
+canonical finite incident cell and orders its endpoints by point value. This
+makes `(3,2)`, `(6,2)`, and `(4,4)` execution independent of the arbitrary
+descriptor owner and orientation recreated by a persistence round trip.
+
 None of these moves is required to preserve the Euclidean empty-sphere
 (Delaunay) property of the representative coordinates. The scientific state is
 a valid causal combinatorial triangulation. `tds().is_valid()` establishes the
@@ -72,9 +77,9 @@ comparison outside hot move paths.
 | --- | --- | --- | --- |
 | `(2,3)` | Equation (58): `(3,1) 1345 + (2,2) 2345 -> (3,1) 1234 + (2,2) 1235 + (2,2) 1245`, or its time reflection. The shared triangle `345` is timelike and the new edge `12` is timelike. | `(0, 0, +1, +2, 0, +1, 0, +1)` | A checked `Triangulation_3::flip(facet)` is attempted only from correctly labelled `(2,2)` cells whose neighbor is a correctly labelled `(3,1)` or `(1,3)` cell and whose opposite vertices lie on adjacent slices. CGAL additionally rejects infinite, nonflippable, or geometrically inverted cavities. |
 | `(3,2)` | The inverse of equation (58): two `(2,2)` cells and exactly one `(3,1)` or `(1,3)` cell meet at the timelike edge removed by the move. | `(0, 0, -1, -2, 0, -1, 0, -1)` | Before `Triangulation_3::flip(edge)`, CDT++ independently requires three finite incident cells spanning adjacent slices with the exact `2 x (2,2) + 1 x ((3,1) or (1,3))` causal composition. CGAL then rejects hull edges and enforces the total degree-three and geometric flippability contracts. Other degree-three timelike cavities can be combinatorially flippable but causally invalid. |
-| `(2,6)` | Equation (56): `(1,3) 1345 + (3,1) 2345` share the spacelike triangle `345`. A new vertex `6` is inserted on the same slice and joined to all five old vertices, producing three tetrahedra above and three below. | `(+1, +3, +2, +8, +2, 0, +2, +4)` | `tds().insert_in_facet()` subdivides the common spacelike facet. The input cells and their metadata must be `(1,3)` and `(3,1)`, the shared vertices must have one time value, and the new star must contain six valid cells. The new point is the facet centroid and receives the facet time. |
+| `(2,6)` | Equation (56): `(1,3) 1345 + (3,1) 2345` share the spacelike triangle `345`. A new vertex `6` is inserted on the same slice and joined to all five old vertices, producing three tetrahedra above and three below. | `(+1, +3, +2, +8, +2, 0, +2, +4)` | `tds().insert_in_facet()` subdivides the common spacelike facet. The input cells and their metadata must be `(1,3)` and `(3,1)`, the shared vertices must have one time value, and the new star must contain six valid cells. The new point is the facet centroid and receives the facet time; the move rejects an already occupied centroid before mutation so coordinate-valued locators remain unique. |
 | `(6,2)` | The inverse of equation (56): a degree-five vertex has six incident cells, exactly three `(3,1)` and three `(1,3)`, with no `(2,2)` cell. | `(-1, -3, -2, -8, -2, 0, -2, -4)` | On a private copy, a checked timelike edge flip reduces the candidate to degree four; `tds().remove_from_maximal_dimension_simplex()` then applies its documented degree-`dimension+1` removal. Exact finite incidence, causal types, metadata, output counts, and output cell types are checked before publication. |
-| `(4,4)` | Equation (57): two `(1,3)` and two `(3,1)` tetrahedra form a diamond. The diagonal of the spatial quadrilateral is exchanged; the move is its own inverse. | `(0, 0, 0, 0, 0, 0, 0, 0)` | The pivot must be a spacelike edge with exactly four finite incident cells, two `(3,1)` and two `(1,3)`, all correctly labelled. A checked TDS facet flip creates the new diagonal, then a checked TDS edge flip removes the old one. The composition is performed on a private copy because the transient geometry can fail a `Triangulation_3` geometric flip even when the final abstract diamond is valid. |
+| `(4,4)` | Equation (57): two `(1,3)` and two `(3,1)` tetrahedra form a diamond. The diagonal of the spatial quadrilateral is exchanged; the move is its own inverse. | `(0, 0, 0, 0, 0, 0, 0, 0)` | The pivot must be a spacelike edge with exactly four finite incident cells, two `(3,1)` and two `(1,3)`, all correctly labelled. A checked TDS facet flip creates the new diagonal, then a checked TDS edge flip removes the old one. Both descriptors use canonical incident-cell representatives, and edge endpoints use canonical point order, so equivalent reloaded TDS layouts reach the same checked mutation boundary. The composition is performed on a private copy because the transient geometry can fail a `Triangulation_3` geometric flip even when the final abstract diamond is valid. |
 
 ## Independent delta derivations
 
@@ -115,8 +120,12 @@ helper.
 - canonical point/time/simplex representations independent of CGAL handle
   identity;
 - exact inverse round trips for `(2,3)/(3,2)`, `(2,6)/(6,2)`, and `(4,4)`;
+- equivalent `(4,4)` cavities with different CGAL cell iteration orders and
+  reversed edge descriptors reaching the same canonical transition;
 - malformed-handle, stale-metadata, wrong-cavity, non-applicable, and empty-state
-  rejection checks with canonical failure-atomicity comparisons; and
+  rejection checks with canonical failure-atomicity comparisons;
+- failure-atomic rejection when a `(2,6)` facet centroid already belongs to
+  another vertex;
 - valid construction, forbidden default construction, and stale-locator
   behavior for the applicable-move boundary, including structured failure
   classification; and

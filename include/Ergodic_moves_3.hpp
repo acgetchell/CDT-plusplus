@@ -347,6 +347,30 @@ namespace cdt::ergodic_moves
       });
     }
 
+    /// @brief Rebind an edge to its canonical finite incident cell.
+    /// @details CGAL permits any incident cell to own an edge descriptor, but
+    /// checked flips can observe that representative. Choosing by canonical
+    /// cell points makes equivalent in-memory and reloaded triangulations use
+    /// the same mutation boundary.
+    [[nodiscard]] inline auto canonical_edge_descriptor(
+        Delaunay const& triangulation, Edge_handle const& edge)
+        -> std::optional<Edge_handle>
+    {
+      if (!is_well_formed_edge(edge)) { return std::nullopt; }
+      auto incident_cells = finite_incident_cells(triangulation, edge);
+      if (!incident_cells || incident_cells->empty()) { return std::nullopt; }
+      canonicalize(*incident_cells);
+
+      auto first  = edge.first->vertex(edge.second);
+      auto second = edge.first->vertex(edge.third);
+      if (point_less(second->point(), first->point()))
+      {
+        std::swap(first, second);
+      }
+      auto const cell = incident_cells->front();
+      return Edge_handle{cell, cell->index(first), cell->index(second)};
+    }
+
     [[nodiscard]] inline auto vertex_precedes(Vertex_handle const& left,
                                               Vertex_handle const& right)
         -> bool
@@ -783,7 +807,10 @@ namespace cdt::ergodic_moves
     using enum move_tracker::MoveType;
     auto const edge = resolve_edge(triangulation, move.m_edge);
     if (!edge) { return move_error(MoveFailure::STALE_CANDIDATE, THREE_TWO); }
-    if (!triangulation.flip(edge->first, edge->second, edge->third))
+    auto const canonical_edge = canonical_edge_descriptor(triangulation, *edge);
+    if (!canonical_edge ||
+        !triangulation.flip(canonical_edge->first, canonical_edge->second,
+                            canonical_edge->third))
     {
       return move_error(MoveFailure::EXECUTION_FAILURE, THREE_TWO);
     }
@@ -997,6 +1024,17 @@ namespace cdt::ergodic_moves
     auto const v_1    = (*bottom)->vertex(first);
     auto const v_2    = (*bottom)->vertex(second);
     auto const v_3    = (*bottom)->vertex(third);
+    std::array face_points{v_1->point(), v_2->point(), v_3->point()};
+    std::ranges::sort(face_points, point_less);
+    auto const center_point =
+        CGAL::centroid(face_points[0], face_points[1], face_points[2]);
+    if (std::ranges::any_of(triangulation.finite_vertex_handles(),
+                            [&](auto const& vertex) {
+                              return vertex->point() == center_point;
+                            }))
+    {
+      return move_error(MoveFailure::INVARIANT_VIOLATION, TWO_SIX);
+    }
     auto const center =
         triangulation.tds().insert_in_facet(*bottom, common_face_index);
 
@@ -1012,10 +1050,7 @@ namespace cdt::ergodic_moves
       return move_error(MoveFailure::INVARIANT_VIOLATION, TWO_SIX);
     }
 
-    std::array face_points{v_1->point(), v_2->point(), v_3->point()};
-    std::ranges::sort(face_points, point_less);
-    center->set_point(
-        CGAL::centroid(face_points[0], face_points[1], face_points[2]));
+    center->set_point(center_point);
     center->info() = v_1->info();
 
     if (!post_mutation_validator(static_cast<Delaunay const&>(triangulation)) ||
@@ -1269,7 +1304,9 @@ namespace cdt::ergodic_moves
     auto flipped = false;
     for (auto const& edge : incident_edges)
     {
-      if (is_timelike(edge) && tds.flip(edge))
+      auto const canonical_edge =
+          canonical_edge_descriptor(triangulation, edge);
+      if (is_timelike(edge) && canonical_edge && tds.flip(*canonical_edge))
       {
         flipped = true;
         break;
@@ -1607,16 +1644,17 @@ namespace cdt::ergodic_moves
   {
     using enum move_tracker::MoveType;
     Delaunay   triangulation{source_triangulation};
-    auto const edge   = resolve_edge(triangulation, move.edge_points());
+    auto const edge = resolve_edge(triangulation, move.edge_points());
+    auto const pivot_from_1 =
+        resolve_vertex(triangulation, move.edge_points()[0]);
+    auto const pivot_from_2 =
+        resolve_vertex(triangulation, move.edge_points()[1]);
     auto const top    = resolve_vertex(triangulation, move.top_point());
     auto const bottom = resolve_vertex(triangulation, move.bottom_point());
-    if (!edge || !top || !bottom)
+    if (!edge || !pivot_from_1 || !pivot_from_2 || !top || !bottom)
     {
       return move_error(MoveFailure::STALE_CANDIDATE, FOUR_FOUR);
     }
-
-    auto const pivot_from_1         = edge->first->vertex(edge->second);
-    auto const pivot_from_2         = edge->first->vertex(edge->third);
 
     // A 3D 4-to-4 bistellar move is the composition of CGAL's checked TDS
     // 2-to-3 facet flip and checked 3-to-2 edge flip. The TDS operations are
@@ -1629,28 +1667,46 @@ namespace cdt::ergodic_moves
     int         pivot_from_1_index{};
     int         pivot_from_2_index{};
     int         boundary_index{};
-    if (!triangulation.is_facet(pivot_from_1, pivot_from_2, *bottom,
+    if (!triangulation.is_facet(*pivot_from_1, *pivot_from_2, *bottom,
                                 boundary_facet_cell, pivot_from_1_index,
                                 pivot_from_2_index, boundary_index))
     {
       return move_error(MoveFailure::STALE_CANDIDATE, FOUR_FOUR);
     }
     constexpr auto cell_index_sum       = 0 + 1 + 2 + 3;
-    auto const     boundary_facet_index = cell_index_sum - pivot_from_1_index -
+    auto           boundary_facet_index = cell_index_sum - pivot_from_1_index -
                                           pivot_from_2_index - boundary_index;
+    auto const     other_boundary_cell =
+        boundary_facet_cell->neighbor(boundary_facet_index);
+    if (other_boundary_cell == nullptr ||
+        triangulation.is_infinite(boundary_facet_cell) ||
+        triangulation.is_infinite(other_boundary_cell))
+    {
+      return move_error(MoveFailure::EXECUTION_FAILURE, FOUR_FOUR);
+    }
+    if (cell_precedes(other_boundary_cell, boundary_facet_cell))
+    {
+      boundary_facet_index = other_boundary_cell->index(boundary_facet_cell);
+      boundary_facet_cell  = other_boundary_cell;
+    }
     if (!triangulation.tds().flip(
             Delaunay::Facet{boundary_facet_cell, boundary_facet_index}))
     {
       return move_error(MoveFailure::EXECUTION_FAILURE, FOUR_FOUR);
     }
 
-    Cell_handle old_edge_cell = nullptr;
-    int         old_edge_first_index{};
-    int         old_edge_second_index{};
-    if (!triangulation.is_edge(pivot_from_1, pivot_from_2, old_edge_cell,
-                               old_edge_first_index, old_edge_second_index) ||
-        !triangulation.tds().flip(Delaunay::Edge{
-            old_edge_cell, old_edge_first_index, old_edge_second_index}))
+    auto const old_edge = resolve_edge(triangulation, move.edge_points());
+    if (!old_edge)
+    {
+      return move_error(MoveFailure::EXECUTION_FAILURE, FOUR_FOUR);
+    }
+    auto const canonical_old_edge =
+        canonical_edge_descriptor(triangulation, *old_edge);
+    if (!canonical_old_edge)
+    {
+      return move_error(MoveFailure::EXECUTION_FAILURE, FOUR_FOUR);
+    }
+    if (!triangulation.tds().flip(*canonical_old_edge))
     {
       return move_error(MoveFailure::EXECUTION_FAILURE, FOUR_FOUR);
     }

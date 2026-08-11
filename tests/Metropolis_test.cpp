@@ -900,6 +900,194 @@ SCENARIO("Metropolis runs replay every transition from an identical start" *
   CHECK_EQ(first.transition_trace(), replay.transition_trace());
 }
 
+SCENARIO("Checkpoint state preserves the identical Markov chain" *
+         doctest::test_suite("metropolis"))
+{
+  auto           uninterrupted_state = minimal_23_manifold();
+  auto           checkpointed_state  = uninterrupted_state;
+  constexpr auto seed                = cdt::RandomSeed{92};
+  constexpr auto total_passes        = Int_precision{2};
+  constexpr auto checkpoint_interval = Int_precision{1};
+  utilities::Reproducibility_metadata checkpoint_provenance{.max_threads = 1};
+  Metropolis_3                        uninterrupted{
+      0.6L,
+      0.0L,
+      0.0L,
+      total_passes,
+      checkpoint_interval,
+      false,
+      cdt::Random{seed, cdt::random_streams::transitions}
+  };
+  Metropolis_3 checkpointed{
+      0.6L,
+      0.0L,
+      0.0L,
+      total_passes,
+      checkpoint_interval,
+      false,
+      cdt::Random{seed, cdt::random_streams::transitions},
+      checkpoint_provenance
+  };
+
+  auto const first_pass_attempts = uninterrupted_state.N3();
+  for (auto attempt = Int_precision{}; attempt < first_pass_attempts; ++attempt)
+  {
+    auto const uninterrupted_transition =
+        uninterrupted.attempt_transition(uninterrupted_state);
+    auto const checkpointed_transition =
+        checkpointed.attempt_transition(checkpointed_state);
+    REQUIRE_EQ(uninterrupted_transition, checkpointed_transition);
+    REQUIRE_EQ(uninterrupted_state.delaunay_snapshot(),
+               checkpointed_state.delaunay_snapshot());
+  }
+
+  auto const checkpoint = checkpointed.reproducibility_metadata(
+      checkpointed_state, utilities::ArtifactKind::CHECKPOINT, 1);
+  REQUIRE(checkpoint.transition_random_state);
+  auto restored_random = cdt::Random::from_serialized_state(
+      checkpoint.seed, checkpoint.transition_stream,
+      *checkpoint.transition_random_state);
+  Metropolis_3 resumed{0.6L,
+                       0.0L,
+                       0.0L,
+                       1,
+                       checkpoint_interval,
+                       false,
+                       std::move(restored_random),
+                       checkpoint,
+                       1};
+  auto         resumed_state = checkpointed_state;
+
+  auto const   same_counts   = [](auto const& lhs, auto const& rhs) {
+    return std::ranges::equal(lhs.moves_view(), rhs.moves_view());
+  };
+  auto const second_pass_attempts = uninterrupted_state.N3();
+  REQUIRE_EQ(second_pass_attempts, resumed_state.N3());
+  for (auto attempt = Int_precision{}; attempt < second_pass_attempts;
+       ++attempt)
+  {
+    auto const uninterrupted_transition =
+        uninterrupted.attempt_transition(uninterrupted_state);
+    auto const resumed_transition = resumed.attempt_transition(resumed_state);
+
+    CAPTURE(attempt);
+    CHECK_EQ(uninterrupted_transition, resumed_transition);
+    CHECK_EQ(uninterrupted_state.delaunay_snapshot(),
+             resumed_state.delaunay_snapshot());
+    CHECK_EQ(utilities::detail::canonical_topology_fingerprint(
+                 uninterrupted_state.delaunay_snapshot()),
+             utilities::detail::canonical_topology_fingerprint(
+                 resumed_state.delaunay_snapshot()));
+    CHECK_EQ(uninterrupted.transition_trace(), resumed.transition_trace());
+    CHECK_EQ(uninterrupted.transition_count(), resumed.transition_count());
+    CHECK(same_counts(uninterrupted.proposed(), resumed.proposed()));
+    CHECK(same_counts(uninterrupted.accepted(), resumed.accepted()));
+    CHECK(same_counts(uninterrupted.rejected(), resumed.rejected()));
+    CHECK(same_counts(uninterrupted.attempted(), resumed.attempted()));
+    CHECK(same_counts(uninterrupted.succeeded(), resumed.succeeded()));
+    CHECK(same_counts(uninterrupted.failed(), resumed.failed()));
+  }
+}
+
+SCENARIO(
+    "Metropolis resume construction rejects inconsistent checkpoint state" *
+    doctest::test_suite("metropolis"))
+{
+  auto const                          manifold = minimal_23_manifold();
+  constexpr auto                      seed     = cdt::RandomSeed{92};
+  utilities::Reproducibility_metadata provenance{.max_threads = 1};
+  Metropolis_3                        source{
+      0.6L,
+      0.0L,
+      0.0L,
+      1,
+      1,
+      false,
+      cdt::Random{seed, cdt::random_streams::transitions},
+      provenance
+  };
+  auto const checkpoint = source.reproducibility_metadata(
+      manifold, utilities::ArtifactKind::CHECKPOINT, 0);
+  REQUIRE(checkpoint.transition_random_state);
+
+  auto const restored_random = [&checkpoint] {
+    return cdt::Random::from_serialized_state(
+        checkpoint.seed, checkpoint.transition_stream,
+        *checkpoint.transition_random_state);
+  };
+
+  GIVEN("A checkpoint without cumulative move statistics")
+  {
+    auto incomplete = checkpoint;
+    incomplete.move_statistics.reset();
+
+    THEN("Construction rejects the incomplete stochastic continuation")
+    {
+      CHECK_THROWS_WITH_AS(
+          Metropolis_3(0.6L, 0.0L, 0.0L, 1, 1, false, restored_random(),
+                       incomplete, 0),
+          "Checkpoint resume requires cumulative transition statistics.",
+          std::invalid_argument);
+    }
+  }
+
+  GIVEN("A negative completed-pass count")
+  {
+    THEN("Construction rejects the invalid checkpoint position")
+    {
+      CHECK_THROWS_WITH_AS(Metropolis_3(0.6L, 0.0L, 0.0L, 1, 1, false,
+                                        restored_random(), checkpoint, -1),
+                           "Completed passes cannot be negative.",
+                           std::invalid_argument);
+    }
+  }
+
+  GIVEN("A completed-pass count whose target would overflow")
+  {
+    THEN("Construction rejects the unrepresentable global pass count")
+    {
+      CHECK_THROWS_WITH_AS(
+          Metropolis_3(0.6L, 0.0L, 0.0L,
+                       std::numeric_limits<Int_precision>::max(), 1, false,
+                       restored_random(), checkpoint, 1),
+          "Total pass count exceeds the supported range.", std::out_of_range);
+    }
+  }
+
+  GIVEN("A checkpoint whose recorded target differs from the resumed target")
+  {
+    THEN("Construction rejects the inconsistent pass range")
+    {
+      CHECK_THROWS_WITH_AS(
+          Metropolis_3(0.6L, 0.0L, 0.0L, 1, 1, false, restored_random(),
+                       checkpoint, 1),
+          "Checkpoint resume state does not match its pass range.",
+          std::invalid_argument);
+    }
+  }
+
+  GIVEN("A generator that differs from the checkpoint's random continuation")
+  {
+    auto const reject_mismatch = [&checkpoint](cdt::Random random) {
+      CHECK_THROWS_WITH_AS(
+          Metropolis_3(0.6L, 0.0L, 0.0L, 1, 1, false, std::move(random),
+                       checkpoint, 0),
+          "Checkpoint resume generator does not match its recorded random state.",
+          std::invalid_argument);
+    };
+
+    THEN("Construction rejects seed, stream, and mutable-state mismatches")
+    {
+      reject_mismatch(
+          cdt::Random{cdt::RandomSeed{93}, checkpoint.transition_stream});
+      reject_mismatch(cdt::Random{checkpoint.seed, cdt::RandomStream{17}});
+      auto different_state = restored_random();
+      static_cast<void>(different_state());
+      reject_mismatch(std::move(different_state));
+    }
+  }
+}
+
 SCENARIO("Metropolis multi-pass accounting is per invocation" *
          doctest::test_suite("metropolis"))
 {
@@ -1013,6 +1201,35 @@ SCENARIO("Metropolis provenance is derived from the actual run" *
         CHECK_EQ(*metadata.configured_attempts, 10);
         CHECK_EQ(*metadata.checkpoint_interval, 1);
       }
+    }
+
+    WHEN("Checkpoint provenance is materialized without a thread count")
+    {
+      auto const metadata = strategy.reproducibility_metadata(
+          manifold, utilities::ArtifactKind::CHECKPOINT, 0);
+
+      THEN("The snapshot is not advertised as resumable")
+      { CHECK_FALSE(metadata.transition_random_state); }
+    }
+
+    WHEN("Checkpoint provenance is materialized with a zero thread count")
+    {
+      supplied.max_threads = 0;
+      Metropolis_3 zero_thread_strategy{
+          0.6L,
+          1.1L,
+          0.1L,
+          2,
+          1,
+          false,
+          cdt::Random{seed, transition_stream},
+          supplied
+      };
+      auto const metadata = zero_thread_strategy.reproducibility_metadata(
+          manifold, utilities::ArtifactKind::CHECKPOINT, 0);
+
+      THEN("The snapshot is not advertised as resumable")
+      { CHECK_FALSE(metadata.transition_random_state); }
     }
   }
 }

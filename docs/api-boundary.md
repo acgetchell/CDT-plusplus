@@ -51,6 +51,19 @@ Tests that name `detail` are deliberate white-box tests for mutation
 failure-atomicity and malformed-handle rejection. Test access does not promote
 those declarations into the supported API.
 
+The persistence surface distinguishes three read contracts.
+`read_file<T>(path)` remains the general triangulation reader, including
+legacy payloads without manifests. `read_initial_triangulation<T>(path)` is the
+new-run boundary: it requires a complete manifested
+`initial-triangulation`, verifies payload integrity and causal metadata, rejects
+checkpoint, final, and coincident-coordinate artifacts, and returns both the
+owning triangulation and its initialization provenance in
+`Initial_triangulation_artifact<T>`. It does not resume a stochastic stream.
+`read_checkpoint<T>(path)` is the exact-restart boundary: it accepts only a
+manifested checkpoint with complete PCG state, transition accounting, distinct
+vertex coordinates, and a matching producer toolchain, then returns the owning
+triangulation and continuation metadata in `Checkpoint_artifact<T>`.
+
 The supported-header compile contract intentionally excludes `experimental`.
 The CGAL 6.2 audit confirmed that the periodic and d-dimensional prototypes are
 not production dependencies and do not meet the supported compile contract.

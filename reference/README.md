@@ -6,6 +6,30 @@ independent implementation under comparison, not presumed ground truth. A
 discrepancy is an investigation target until the protocol or one of the
 implementations explains it.
 
+## Regression-oracle scope
+
+The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in
+[`Foliated_triangulation.hpp`](https://github.com/acgetchell/CDT-plusplus/blob/main/include/Foliated_triangulation.hpp).
+`find_invalid_timevalue_cells` classifies cells from stored vertex time labels, `has_valid_timevalues` provides the
+predicate, `find_bad_vertex` selects a vertex responsible for an acausal local configuration, and `fix_timevalues`
+removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract is satisfied.
+
+The deterministic doctest scenario **"Detecting and fixing problems with vertices and cells"** in
+[`Foliated_triangulation_test.cpp`](https://github.com/acgetchell/CDT-plusplus/blob/main/tests/Foliated_triangulation_test.cpp)
+exercises this path with fixed points and time labels. Its inputs, detected bad vertex, final initialization state,
+cell counts, and causal classification are the first comparison fixture for `causal-triangulations`; exact Monte
+Carlo trajectories are not required to match.
+
+The package extends that construction case with the complete move set, action values, Metropolis-Hastings decisions,
+persistence records, and one bounded end-to-end run.
+
+After building, run the construction fixture directly with:
+
+```console
+./out/build/reference/tests/CDT_unit_tests \
+  --test-case='*Detecting and fixing problems with vertices and cells*'
+```
+
 ## Package layout
 
 - `schema/fixture-v1.schema.json` defines the comparison protocol.
@@ -60,6 +84,64 @@ They therefore test proposal preparation, action delta, Hastings factor, and
 commit/reject behavior without requiring the C++ and Rust implementations to
 share an RNG engine, allocation order, or container iteration order.
 
+### Initial-triangulation interchange
+
+This complete command writes the same manifested pair consumed by the second
+command:
+
+```console
+just initialize -s -n640 -t4 -o --seed 92
+just load /path/to/generated-file.off -a0.6 -k1.1 -l0.1 -p1000 --seed 93
+```
+
+1. the `.off` payload contains CGAL's native triangulation stream followed by
+   CDT++'s versioned causal-data trailer; and
+2. the neighboring `.off.meta` manifest records the artifact role, foliation
+   parameters, seed and stream provenance, canonical fingerprints, payload
+   checksum, and producer toolchain.
+
+Despite the suffix, this is not generic mesh OFF. Plain geometry cannot carry
+the vertex time labels, causal cell types, artifact role, or stochastic
+provenance required to reconstruct a CDT state. The pair is the archival
+interchange boundary and remains coupled to the pinned CDT++/CGAL persistence
+contract documented in
+[`docs/reproducibility.md`](../docs/reproducibility.md).
+
+The successor workflow is:
+
+```text
+just initialize -s -n640 -t4 -o --seed 92
+        |
+        +--> initial.off + initial.off.meta
+                 |                       |
+                 +--> just load PATH      +--> causal-triangulations importer
+                         -a0.6 -k1.1              |
+                         -l0.1 -p1000             +--> native Rust triangulation
+                         --seed 93
+```
+
+The `causal-triangulations` side should own that importer: validate the complete
+pair at its input boundary, reconstruct its native invariant-bearing state, and
+then use its own serialization. CDT++ should not add a second lossy converter
+or pretend that the CGAL payload alone is portable. Direct Rust import is a
+downstream compatibility direction, not a capability claimed by the CDT++
+v1.0.0 release.
+
+For generating many separately seeded random starting states, invoke
+`just initialize` with a different seed in a dedicated directory for each run
+and preserve every payload/manifest pair together. The seed replays pre-CGAL
+random inputs; the persisted pair, not the seed alone, identifies the exact
+post-repair topology to import or evolve.
+
+CDT++ checkpoints serve a different purpose from this interchange boundary.
+`just resume CHECKPOINT.off` can continue the identical CDT++ Markov
+chain after an interrupted Slurm/HPC job because the checkpoint sidecar records
+mutable PCG state and cumulative transition accounting. That restart contract
+is deliberately locked to the recorded CDT++ source revision and producer
+toolchain. A successor importer should consume `initial-triangulation`
+artifacts for independent evolution, not depend on CDT++'s private checkpoint
+engine state.
+
 ## Local comparison harness
 
 The repository's [`cdt-compare`](../docs/comparison-harness.md) command copies
@@ -71,6 +153,47 @@ protocol, and applies only the exact and named numerical rules declared here.
 `just comparison-analyze PATH` requires the complete canonical artifact
 inventory, verifies every retained digest, and reproduces the machine-readable
 summary without rerunning either implementation.
+
+After building CDT++ and a compatible Rust fixture producer, run one bounded
+comparison and retain it locally:
+
+```console
+just comparison-run /absolute/path/to/causal-triangulations-fixture out/comparisons/run-1
+```
+
+Reproduce `summary.json` entirely from the stored raw artifacts, without
+running either executable:
+
+```console
+just comparison-analyze out/comparisons/run-1
+```
+
+The bundle under `out/comparisons/run-1` is published atomically only after
+analysis and manifest creation finish. Preserve its `inputs/`, `raw/`,
+`manifest.json`, and `summary.json` together. Python validates the artifact
+inventory and its digests, validates schemas, constructs commands, classifies
+comparisons, and renders a small text table; it does not implement topology,
+action, move-legality, or acceptance rules. See the
+[comparison-harness contract](../docs/comparison-harness.md) for producer
+configuration, placeholders, artifact layout, failure records, and the C++
+reference/Rust result boundary.
+
+### Local initialization sweep
+
+The retained `cdt-optimize-initialize` command is also entirely local and
+dependency-free. It writes one directory per parameter pair under
+`out/experiments/initialize`, including configuration JSON, raw stdout, a
+tab-separated volume profile, metrics, artifact digests, and source/executable
+provenance. Each invocation requires a nonexistent output path. Seed `92` is
+the default; use `--seed` and `--output-directory` for another replayable
+record. Fresh CGAL triangulations remain subject to the
+[reproducibility contract](../docs/reproducibility.md).
+
+Inspect its command line with:
+
+```console
+uv run cdt-optimize-initialize --help
+```
 
 ## Regeneration
 

@@ -38,7 +38,7 @@ REQUIRED_ASSETS = (
     "tabs.css",
 )
 REQUIRED_TARGETS = {
-    "index.html": ("developer-workflow", "documentation", "introduction"),
+    "index.html": ("contributing", "documentation", "introduction"),
     "md__c_h_a_n_g_e_l_o_g.html": (),
     "md__r_e_f_e_r_e_n_c_e_s.html": ("metropolis-hastings-algorithm",),
     "md__s_e_c_u_r_i_t_y.html": (),

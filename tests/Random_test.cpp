@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <array>
 #include <ranges>
+#include <string>
 
 #include "Foliated_triangulation.hpp"
 #include "Utilities.hpp"
@@ -63,6 +64,52 @@ SCENARIO("PCG runs are reproducible and independently split" *
     {
       CHECK(transition_samples == replay_samples);
       CHECK(initialization_samples != transition_samples);
+    }
+  }
+}
+
+SCENARIO("PCG mutable state round-trips at an exact continuation point" *
+         doctest::test_suite("random"))
+{
+  constexpr auto seed   = cdt::RandomSeed{92};
+  constexpr auto stream = cdt::random_streams::transitions;
+  cdt::Random    original{seed, stream};
+  for (auto sample = 0; sample < 37; ++sample)
+  {
+    static_cast<void>(original());
+  }
+
+  WHEN("The complete engine state is serialized and restored")
+  {
+    auto const state = original.serialized_state();
+    auto restored    = cdt::Random::from_serialized_state(seed, stream, state);
+
+    THEN("Every subsequent draw remains on the identical PCG sequence")
+    {
+      for (auto sample = 0; sample < 256; ++sample)
+      {
+        CHECK_EQ(restored(), original());
+      }
+      CHECK_EQ(restored.seed(), seed);
+      CHECK_EQ(restored.stream(), stream);
+    }
+  }
+
+  WHEN("The state is malformed, trailing, or assigned to another stream")
+  {
+    auto const state = original.serialized_state();
+
+    THEN("Restoration rejects it before publishing a generator")
+    {
+      CHECK_THROWS_AS(static_cast<void>(cdt::Random::from_serialized_state(
+                          seed, stream, "bad")),
+                      std::invalid_argument);
+      CHECK_THROWS_AS(static_cast<void>(cdt::Random::from_serialized_state(
+                          seed, stream, state + " trailing")),
+                      std::invalid_argument);
+      CHECK_THROWS_AS(static_cast<void>(cdt::Random::from_serialized_state(
+                          seed, cdt::RandomStream{7}, state)),
+                      std::invalid_argument);
     }
   }
 }

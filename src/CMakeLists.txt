@@ -156,6 +156,28 @@ add_test(
     "-DTEST_ARGUMENTS=-s;-n64;-t3;-o" -P ${PROJECT_SOURCE_DIR}/cmake/RunPersistenceOutputTest.cmake)
 set_tests_properties(initialize-generated-seed PROPERTIES LABELS "integration;persistence")
 
+add_test(
+  NAME initialize-to-cdt
+  COMMAND
+    ${CMAKE_COMMAND} "-DINITIALIZE_EXECUTABLE=$<TARGET_FILE:initialize>"
+    "-DCDT_EXECUTABLE=$<TARGET_FILE:cdt>"
+    "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}"
+    "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/initialize-to-cdt"
+    -P ${PROJECT_SOURCE_DIR}/cmake/RunInitializeToCdtTest.cmake)
+set_tests_properties(initialize-to-cdt PROPERTIES LABELS
+                                                  "integration;persistence;debug-incompatible")
+
+add_test(
+  NAME checkpoint-resume
+  COMMAND
+    ${CMAKE_COMMAND} "-DINITIALIZE_EXECUTABLE=$<TARGET_FILE:initialize>"
+    "-DCDT_EXECUTABLE=$<TARGET_FILE:cdt>"
+    "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}"
+    "-DTEST_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/checkpoint-resume"
+    -P ${PROJECT_SOURCE_DIR}/cmake/RunCheckpointResumeTest.cmake)
+set_tests_properties(checkpoint-resume PROPERTIES LABELS
+                                                  "integration;persistence;scientific;debug-incompatible")
+
 add_cli_failure_test(initialize-minimum-simplices initialize "Simplices and timeslices must each be at least 2." -s -n1
                      -t1 -o --seed 92)
 add_cli_failure_test(initialize-dimensionality initialize "Only three-dimensional triangulations are supported." -s

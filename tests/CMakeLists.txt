@@ -57,6 +57,19 @@ target_link_libraries(
   CDT_random_header_compile_contract
   PRIVATE project_options project_warnings)
 
+# Exercise PCG's emulated 128-bit state-restoration path on every compiler so
+# the Windows/MSVC compatibility boundary remains part of the local contract.
+add_executable(CDT_random_emulated_test
+               ${PROJECT_SOURCE_DIR}/tests/main.cpp
+               Random_emulated_test.cpp)
+target_compile_definitions(
+  CDT_random_emulated_test
+  PRIVATE PCG_FORCE_EMULATED_128BIT_MATH=1)
+target_compile_features(CDT_random_emulated_test PRIVATE cxx_std_23)
+target_link_libraries(
+  CDT_random_emulated_test
+  PRIVATE project_options project_warnings doctest::doctest)
+
 # Compile a minimal downstream translation unit without namespace imports or
 # test-only access to implementation helpers.
 add_library(CDT_public_api_compile_contract OBJECT Public_api_consumer.cpp)
@@ -197,6 +210,10 @@ endif()
 # precise failure names, this prevents long-lived CGAL/oneTBB state from making
 # the complete parallel-TDS suite exceed the per-test timeout.
 include(doctest)
+doctest_discover_tests(
+  CDT_random_emulated_test
+  TEST_PREFIX "unit-emulated-pcg: "
+  PROPERTIES LABELS "unit;portability" TIMEOUT "${cdt_unit_test_timeout}")
 doctest_discover_tests(
   CDT_unit_tests
   TEST_PREFIX "unit: "
