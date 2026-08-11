@@ -26,6 +26,7 @@
                                     PCG_FORCE_EMULATED_128BIT_MATH)
 #include "pcg_uint128.hpp"
 
+/// @cond PCG_COMPATIBILITY
 namespace pcg_extras
 {
   // PCG's specific_stream::set_stream uses an int literal with its emulated
@@ -36,6 +37,7 @@ namespace pcg_extras
                                int const bits) -> uint_x4<UInt, UIntX2>
   { return value | uint_x4<UInt, UIntX2>{bits}; }
 }  // namespace pcg_extras
+/// @endcond
 #endif
 
 #include "pcg_random.hpp"
