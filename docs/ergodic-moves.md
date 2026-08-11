@@ -123,7 +123,7 @@ helper.
 - equivalent `(4,4)` cavities with different CGAL cell iteration orders and
   reversed edge descriptors reaching the same canonical transition;
 - malformed-handle, stale-metadata, wrong-cavity, non-applicable, and empty-state
-  rejection checks with canonical failure-atomicity comparisons; and
+  rejection checks with canonical failure-atomicity comparisons;
 - failure-atomic rejection when a `(2,6)` facet centroid already belongs to
   another vertex;
 - valid construction, forbidden default construction, and stale-locator

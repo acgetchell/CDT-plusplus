@@ -547,7 +547,8 @@ namespace cdt
           .attempted = to_counts(command_results.attempted),
           .succeeded = to_counts(command_results.succeeded),
           .failed    = to_counts(command_results.failed)};
-      if (artifact == utilities::ArtifactKind::CHECKPOINT)
+      if (artifact == utilities::ArtifactKind::CHECKPOINT &&
+          metadata.max_threads)
       {
         metadata.transition_random_state =
             std::make_shared<std::string const>(m_generator.serialized_state());

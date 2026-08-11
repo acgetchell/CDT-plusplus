@@ -201,11 +201,12 @@ namespace cdt
         RandomSeed const seed, RandomStream const stream,
         std::string_view const state) -> Random
     {
-      auto               restored = Random{seed, stream};
+      auto               restored        = Random{seed, stream};
+      auto const         expected_stream = restored.m_engine.stream();
       std::istringstream input{std::string{state}};
       input.imbue(std::locale::classic());
       input >> restored.m_engine;
-      if (!input || restored.m_engine.stream() != stream.value())
+      if (!input || restored.m_engine.stream() != expected_stream)
       {
         throw std::invalid_argument("Malformed or mismatched PCG state.");
       }

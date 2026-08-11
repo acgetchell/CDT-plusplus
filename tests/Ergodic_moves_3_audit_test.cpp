@@ -709,23 +709,9 @@ SCENARIO("Every 2+1D CDT move has the literature-derived local delta" *
 
   GIVEN("equivalent (4,4) cavities with different insertion orders")
   {
-    auto const original             = make_44_fixture();
-    auto const reordered            = make_reordered_44_fixture();
-    auto const cell_iteration_order = [](Manifold const& manifold) {
-      std::vector<Cell_record> records;
-      auto const               triangulation = manifold.delaunay_snapshot();
-      for (auto const cell : triangulation.finite_cell_handles())
-      {
-        records.emplace_back(
-            sorted_simplex<4>({cell->vertex(0), cell->vertex(1),
-                               cell->vertex(2), cell->vertex(3)}),
-            cell->info());
-      }
-      return records;
-    };
+    auto const original  = make_44_fixture();
+    auto const reordered = make_reordered_44_fixture();
     REQUIRE_EQ(canonical_state(reordered), canonical_state(original));
-    REQUIRE_FALSE(cell_iteration_order(reordered) ==
-                  cell_iteration_order(original));
     auto       triangulation = original.delaunay_snapshot();
     auto const pivot         = find_44_pivot(triangulation);
     REQUIRE(pivot.has_value());

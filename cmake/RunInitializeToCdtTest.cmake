@@ -27,11 +27,13 @@ endif()
 
 set(initialize_directory "${normalized_test_directory}/initialize")
 set(cdt_directory "${normalized_test_directory}/cdt")
+set(checkpoint_directory "${normalized_test_directory}/checkpoint")
 set(unmanifested_directory "${normalized_test_directory}/unmanifested")
 file(REMOVE_RECURSE "${normalized_test_directory}")
 file(MAKE_DIRECTORY
      "${initialize_directory}"
      "${cdt_directory}"
+     "${checkpoint_directory}"
      "${unmanifested_directory}")
 
 execute_process(
@@ -161,6 +163,46 @@ foreach(
 endforeach()
 if(NOT final_metadata MATCHES "transition_trace[.]count=([1-9][0-9]*)")
   message(FATAL_ERROR "The evolved artifact did not record any CDT transitions")
+endif()
+
+execute_process(
+  COMMAND
+    "${CDT_EXECUTABLE}" --input "${initial_payload}" -a0.6 -k1.1 -l0.1
+    -p1 -c1 --seed 94
+  WORKING_DIRECTORY "${checkpoint_directory}"
+  RESULT_VARIABLE checkpoint_result
+  OUTPUT_VARIABLE checkpoint_output
+  ERROR_VARIABLE checkpoint_error)
+if(NOT checkpoint_result EQUAL 0)
+  message(
+    FATAL_ERROR
+      "cdt checkpoint run failed:\n${checkpoint_output}\n${checkpoint_error}")
+endif()
+file(GLOB checkpoint_payloads LIST_DIRECTORIES false
+     "${checkpoint_directory}/*-pass-1.off")
+list(LENGTH checkpoint_payloads checkpoint_payload_count)
+if(NOT checkpoint_payload_count EQUAL 1)
+  message(
+    FATAL_ERROR
+      "cdt must publish exactly one pass-1 checkpoint; found ${checkpoint_payload_count}")
+endif()
+list(GET checkpoint_payloads 0 checkpoint_payload)
+
+execute_process(
+  COMMAND
+    "${CDT_EXECUTABLE}" --input "${checkpoint_payload}" -a0.6 -k1.1 -l0.1
+    -p1 --seed 95 --no-output
+  WORKING_DIRECTORY "${checkpoint_directory}"
+  RESULT_VARIABLE checkpoint_input_result
+  OUTPUT_VARIABLE checkpoint_input_output
+  ERROR_VARIABLE checkpoint_input_error)
+set(checkpoint_input_log
+    "${checkpoint_input_output}\n${checkpoint_input_error}")
+if(checkpoint_input_result EQUAL 0
+   OR NOT checkpoint_input_log MATCHES "CDT input must be an initial-triangulation artifact")
+  message(
+    FATAL_ERROR
+      "cdt accepted a checkpoint artifact as a new initial state:\n${checkpoint_input_output}\n${checkpoint_input_error}")
 endif()
 
 execute_process(

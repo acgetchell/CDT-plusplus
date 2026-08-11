@@ -167,6 +167,29 @@ namespace
     std::ofstream output{filename, std::ios::trunc};
     output << contents;
   }
+
+  [[nodiscard]] auto make_resumable_checkpoint_metadata(
+      manifolds::Manifold_3 const& manifold) -> Reproducibility_metadata
+  {
+    auto metadata = make_reproducibility_metadata(manifold, cdt::RandomSeed{92},
+                                                  ArtifactKind::CHECKPOINT);
+    metadata.desired_simplices       = 64;
+    metadata.desired_timeslices      = 3;
+    metadata.alpha                   = 0.6L;
+    metadata.k                       = 1.1L;
+    metadata.lambda                  = 0.1L;
+    metadata.configured_passes       = 2;
+    metadata.checkpoint_interval     = 1;
+    metadata.completed_passes        = 1;
+    metadata.max_threads             = 1;
+    metadata.transition_trace        = 14695981039346656037ULL;
+    metadata.transition_count        = 0;
+    metadata.transition_random_state = std::make_shared<std::string const>(
+        cdt::Random{cdt::RandomSeed{92}, cdt::random_streams::transitions}
+            .serialized_state());
+    metadata.move_statistics = Move_statistics{};
+    return metadata;
+  }
 }  // namespace
 
 SCENARIO("Various string/stream/time utilities" *
@@ -705,23 +728,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     {
       TemporaryDirectory const directory;
       auto const               filename = directory.file("resumable.off");
-      auto                     metadata = make_reproducibility_metadata(
-          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
-      metadata.desired_simplices       = 64;
-      metadata.desired_timeslices      = 3;
-      metadata.alpha                   = 0.6L;
-      metadata.k                       = 1.1L;
-      metadata.lambda                  = 0.1L;
-      metadata.configured_passes       = 2;
-      metadata.checkpoint_interval     = 1;
-      metadata.completed_passes        = 1;
-      metadata.max_threads             = 1;
-      metadata.transition_trace        = 14695981039346656037ULL;
-      metadata.transition_count        = 0;
-      metadata.transition_random_state = std::make_shared<std::string const>(
-          cdt::Random{cdt::RandomSeed{92}, cdt::random_streams::transitions}
-              .serialized_state());
-      metadata.move_statistics = Move_statistics{};
+      auto metadata = make_resumable_checkpoint_metadata(manifold);
 
       write_file(filename, manifold.delaunay_snapshot(), metadata);
 
@@ -754,23 +761,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       auto second = std::next(first);
       REQUIRE(second != vertices.end());
       (*second)->set_point((*first)->point());
-      auto metadata = make_reproducibility_metadata(
-          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
-      metadata.desired_simplices       = 64;
-      metadata.desired_timeslices      = 3;
-      metadata.alpha                   = 0.6L;
-      metadata.k                       = 1.1L;
-      metadata.lambda                  = 0.1L;
-      metadata.configured_passes       = 2;
-      metadata.checkpoint_interval     = 1;
-      metadata.completed_passes        = 1;
-      metadata.max_threads             = 1;
-      metadata.transition_trace        = 14695981039346656037ULL;
-      metadata.transition_count        = 0;
-      metadata.transition_random_state = std::make_shared<std::string const>(
-          cdt::Random{cdt::RandomSeed{92}, cdt::random_streams::transitions}
-              .serialized_state());
-      metadata.move_statistics = Move_statistics{};
+      auto metadata = make_resumable_checkpoint_metadata(manifold);
 
       write_file(filename, annotated, metadata);
 

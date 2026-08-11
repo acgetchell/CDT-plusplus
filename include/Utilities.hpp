@@ -2354,15 +2354,21 @@ namespace cdt::utilities
     write_file(filename, universe.delaunay_snapshot(), metadata);
   }
 
+  /// @brief A validated triangulation artifact and its provenance.
+  /// @tparam TriangulationType Persisted triangulation representation.
+  template <typename TriangulationType>
+  struct Triangulation_artifact
+  {
+    TriangulationType        triangulation;  ///< Validated causal payload.
+    Reproducibility_metadata metadata;       ///< Validated artifact metadata.
+  };
+
   /// @brief A validated initial triangulation and its initialization
   /// provenance.
   /// @tparam TriangulationType Persisted triangulation representation.
   template <typename TriangulationType>
-  struct Initial_triangulation_artifact
-  {
-    TriangulationType        triangulation;  ///< Validated causal payload.
-    Reproducibility_metadata metadata;       ///< Validated initialization data.
-  };
+  using Initial_triangulation_artifact =
+      Triangulation_artifact<TriangulationType>;
 
   /// @brief Read a manifested initial triangulation for a new CDT run.
   /// @details This boundary requires an `initial-triangulation` sidecar,
@@ -2415,7 +2421,7 @@ namespace cdt::utilities
   /// @brief A validated resumable checkpoint and its complete run state.
   /// @tparam TriangulationType Persisted triangulation representation.
   template <typename TriangulationType>
-  using Checkpoint_artifact = Initial_triangulation_artifact<TriangulationType>;
+  using Checkpoint_artifact = Triangulation_artifact<TriangulationType>;
 
   /// @brief Read a checkpoint that can continue the identical Markov chain.
   /// @details The complete manifested pair is validated before any state is
@@ -2429,7 +2435,7 @@ namespace cdt::utilities
   /// checkpoint contract.
   template <typename TriangulationType>
   [[nodiscard]] auto read_checkpoint(std::filesystem::path const& filename)
-      -> Checkpoint_artifact<TriangulationType>
+      -> Triangulation_artifact<TriangulationType>
   {
     static std::mutex mutex;
     fmt::print("Reading resumable checkpoint from file {}\n",

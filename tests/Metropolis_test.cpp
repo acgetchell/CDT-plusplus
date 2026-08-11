@@ -908,7 +908,8 @@ SCENARIO("Checkpoint state preserves the identical Markov chain" *
   constexpr auto seed                = cdt::RandomSeed{92};
   constexpr auto total_passes        = Int_precision{2};
   constexpr auto checkpoint_interval = Int_precision{1};
-  Metropolis_3   uninterrupted{
+  utilities::Reproducibility_metadata checkpoint_provenance{.max_threads = 1};
+  Metropolis_3                        uninterrupted{
       0.6L,
       0.0L,
       0.0L,
@@ -924,7 +925,8 @@ SCENARIO("Checkpoint state preserves the identical Markov chain" *
       total_passes,
       checkpoint_interval,
       false,
-      cdt::Random{seed, cdt::random_streams::transitions}
+      cdt::Random{seed, cdt::random_streams::transitions},
+      checkpoint_provenance
   };
 
   auto const first_pass_attempts = uninterrupted_state.N3();
@@ -1100,6 +1102,15 @@ SCENARIO("Metropolis provenance is derived from the actual run" *
         CHECK_EQ(*metadata.configured_attempts, 10);
         CHECK_EQ(*metadata.checkpoint_interval, 1);
       }
+    }
+
+    WHEN("Checkpoint provenance is materialized without a thread count")
+    {
+      auto const metadata = strategy.reproducibility_metadata(
+          manifold, utilities::ArtifactKind::CHECKPOINT, 0);
+
+      THEN("The snapshot is not advertised as resumable")
+      { CHECK_FALSE(metadata.transition_random_state); }
     }
   }
 }
