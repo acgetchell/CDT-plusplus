@@ -489,6 +489,39 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK(restored_cell == restored.finite_cell_handles().end());
       }
     }
+    WHEN("A manifested CDT input contains coincident vertices")
+    {
+      TemporaryDirectory const directory;
+      auto const filename  = directory.file("coincident-input.off");
+      auto       annotated = manifold.delaunay_snapshot();
+      auto const vertices  = annotated.finite_vertex_handles();
+      auto       first     = vertices.begin();
+      REQUIRE(first != vertices.end());
+      auto second = std::next(first);
+      REQUIRE(second != vertices.end());
+      (*second)->set_point((*first)->point());
+      auto const metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::INITIAL_TRIANGULATION);
+      write_file(filename, annotated, metadata);
+
+      THEN("generic persistence retains it but CDT evolution rejects it")
+      {
+        CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
+        try
+        {
+          static_cast<void>(
+              read_initial_triangulation<Delaunay_t<3>>(filename));
+          FAIL_CHECK("CDT input accepted ambiguous coordinate locators.");
+        }
+        catch (std::filesystem::filesystem_error const& error)
+        {
+          CHECK_EQ(error.code(),
+                   std::make_error_code(std::errc::not_supported));
+          CHECK(std::string_view{error.what()}.contains(
+              "distinct vertex coordinates"));
+        }
+      }
+    }
     WHEN(
         "Coincident vertices exchange causal labels across distinct cell stars")
     {
@@ -576,6 +609,12 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
       metadata.max_threads         = 4;
       metadata.transition_trace    = 0x1234;
       metadata.transition_count    = 17;
+      metadata.input_artifact      = ArtifactKind::INITIAL_TRIANGULATION;
+      metadata.input_seed          = cdt::RandomSeed{91};
+      metadata.input_initialization_stream =
+          cdt::random_streams::initialization;
+      metadata.input_placement_fingerprint = 0x5678;
+      metadata.input_topology_fingerprint  = 0x9abc;
 
       write_file(filename, manifold.delaunay_snapshot(), metadata);
       auto const sidecar = metadata_filename(filename);
@@ -608,12 +647,33 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK_NE(contents.find("parallel.max_threads=4"), std::string::npos);
         CHECK_NE(contents.find("transition_trace.fnv1a64=0000000000001234"),
                  std::string::npos);
+        CHECK_NE(contents.find("input.artifact=initial-triangulation"),
+                 std::string::npos);
+        CHECK_NE(contents.find("input.random.seed=91"), std::string::npos);
+        CHECK_NE(contents.find("input.random.initialization_stream=0"),
+                 std::string::npos);
+        CHECK_NE(contents.find("input.placement.fnv1a64=0000000000005678"),
+                 std::string::npos);
+        CHECK_NE(contents.find("input.topology.fnv1a64=0000000000009abc"),
+                 std::string::npos);
         CHECK_NE(contents.find("placement.fnv1a64="), std::string::npos);
         CHECK_NE(contents.find("topology.fnv1a64="), std::string::npos);
         auto const parsed_metadata =
             utilities::detail::read_persistence_metadata(sidecar);
         REQUIRE(parsed_metadata.max_threads.has_value());
         CHECK_EQ(*parsed_metadata.max_threads, 4);
+        REQUIRE(parsed_metadata.input_artifact.has_value());
+        CHECK_EQ(*parsed_metadata.input_artifact,
+                 ArtifactKind::INITIAL_TRIANGULATION);
+        REQUIRE(parsed_metadata.input_seed.has_value());
+        CHECK_EQ(*parsed_metadata.input_seed, cdt::RandomSeed{91});
+        REQUIRE(parsed_metadata.input_initialization_stream.has_value());
+        CHECK_EQ(*parsed_metadata.input_initialization_stream,
+                 cdt::random_streams::initialization);
+        REQUIRE(parsed_metadata.input_placement_fingerprint.has_value());
+        CHECK_EQ(*parsed_metadata.input_placement_fingerprint, 0x5678);
+        REQUIRE(parsed_metadata.input_topology_fingerprint.has_value());
+        CHECK_EQ(*parsed_metadata.input_topology_fingerprint, 0x9abc);
         CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
         auto payload_temporary = filename;
         payload_temporary += ".tmp";
@@ -639,6 +699,150 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
             utilities::detail::read_persistence_metadata(
                 metadata_filename(filename));
         CHECK_FALSE(parsed_metadata.max_threads.has_value());
+      }
+    }
+    WHEN("A checkpoint contains complete stochastic continuation state")
+    {
+      TemporaryDirectory const directory;
+      auto const               filename = directory.file("resumable.off");
+      auto                     metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.desired_simplices       = 64;
+      metadata.desired_timeslices      = 3;
+      metadata.alpha                   = 0.6L;
+      metadata.k                       = 1.1L;
+      metadata.lambda                  = 0.1L;
+      metadata.configured_passes       = 2;
+      metadata.checkpoint_interval     = 1;
+      metadata.completed_passes        = 1;
+      metadata.max_threads             = 1;
+      metadata.transition_trace        = 14695981039346656037ULL;
+      metadata.transition_count        = 0;
+      metadata.transition_random_state = std::make_shared<std::string const>(
+          cdt::Random{cdt::RandomSeed{92}, cdt::random_streams::transitions}
+              .serialized_state());
+      metadata.move_statistics = Move_statistics{};
+
+      write_file(filename, manifold.delaunay_snapshot(), metadata);
+
+      THEN("The checkpoint advertises and restores exact resume state")
+      {
+        std::ifstream     input{metadata_filename(filename)};
+        std::string const contents{std::istreambuf_iterator<char>{input},
+                                   std::istreambuf_iterator<char>{}};
+        CHECK_NE(contents.find("resume_supported=true"), std::string::npos);
+        CHECK_NE(contents.find("random.transition_state="), std::string::npos);
+        CHECK_NE(contents.find("moves.proposed=0,0,0,0,0"), std::string::npos);
+
+        auto restored = read_checkpoint<Delaunay_t<3>>(filename);
+        REQUIRE(restored.metadata.transition_random_state);
+        REQUIRE(restored.metadata.move_statistics);
+        CHECK_EQ(*restored.metadata.transition_random_state,
+                 *metadata.transition_random_state);
+        CHECK_EQ(*restored.metadata.move_statistics, *metadata.move_statistics);
+        CHECK_EQ(restored.triangulation, manifold.delaunay_snapshot());
+      }
+    }
+    WHEN("A resumable checkpoint contains coincident vertices")
+    {
+      TemporaryDirectory const directory;
+      auto const filename  = directory.file("coincident-checkpoint.off");
+      auto       annotated = manifold.delaunay_snapshot();
+      auto const vertices  = annotated.finite_vertex_handles();
+      auto       first     = vertices.begin();
+      REQUIRE(first != vertices.end());
+      auto second = std::next(first);
+      REQUIRE(second != vertices.end());
+      (*second)->set_point((*first)->point());
+      auto metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.desired_simplices       = 64;
+      metadata.desired_timeslices      = 3;
+      metadata.alpha                   = 0.6L;
+      metadata.k                       = 1.1L;
+      metadata.lambda                  = 0.1L;
+      metadata.configured_passes       = 2;
+      metadata.checkpoint_interval     = 1;
+      metadata.completed_passes        = 1;
+      metadata.max_threads             = 1;
+      metadata.transition_trace        = 14695981039346656037ULL;
+      metadata.transition_count        = 0;
+      metadata.transition_random_state = std::make_shared<std::string const>(
+          cdt::Random{cdt::RandomSeed{92}, cdt::random_streams::transitions}
+              .serialized_state());
+      metadata.move_statistics = Move_statistics{};
+
+      write_file(filename, annotated, metadata);
+
+      THEN("generic persistence retains it but checkpoint resume rejects it")
+      {
+        CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
+        try
+        {
+          static_cast<void>(read_checkpoint<Delaunay_t<3>>(filename));
+          FAIL_CHECK("CDT resume accepted ambiguous coordinate locators.");
+        }
+        catch (std::filesystem::filesystem_error const& error)
+        {
+          CHECK_EQ(error.code(),
+                   std::make_error_code(std::errc::not_supported));
+          CHECK(std::string_view{error.what()}.contains(
+              "distinct vertex coordinates"));
+        }
+      }
+    }
+    WHEN("Input provenance contains only part of the required field group")
+    {
+      TemporaryDirectory const directory;
+      auto const               filename = directory.file("partial-input.off");
+      auto                     metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::FINAL_TRIANGULATION);
+      metadata.input_artifact = ArtifactKind::INITIAL_TRIANGULATION;
+
+      THEN("The writer rejects it without publishing a partial artifact")
+      {
+        CHECK_THROWS_AS(
+            write_file(filename, manifold.delaunay_snapshot(), metadata),
+            std::invalid_argument);
+        CHECK_FALSE(std::filesystem::exists(filename));
+        CHECK_FALSE(std::filesystem::exists(metadata_filename(filename)));
+      }
+    }
+    WHEN("Complete input provenance names a non-initial artifact")
+    {
+      TemporaryDirectory const directory;
+      auto                     metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::FINAL_TRIANGULATION);
+      metadata.input_seed = cdt::RandomSeed{91};
+      metadata.input_initialization_stream =
+          cdt::random_streams::initialization;
+      metadata.input_placement_fingerprint = 0x5678;
+      metadata.input_topology_fingerprint  = 0x9abc;
+
+      THEN(
+          "The writer rejects checkpoint and final input roles before "
+          "publishing any artifact")
+      {
+        for (auto const role :
+             {ArtifactKind::CHECKPOINT, ArtifactKind::FINAL_TRIANGULATION})
+        {
+          auto const filename = directory.file(role == ArtifactKind::CHECKPOINT
+                                                   ? "checkpoint-input.off"
+                                                   : "final-input.off");
+          metadata.input_artifact = role;
+
+          CHECK_THROWS_AS(
+              write_file(filename, manifold.delaunay_snapshot(), metadata),
+              std::invalid_argument);
+          CHECK_FALSE(std::filesystem::exists(filename));
+          CHECK_FALSE(std::filesystem::exists(metadata_filename(filename)));
+          auto payload_temporary = filename;
+          payload_temporary += ".tmp";
+          auto metadata_temporary = metadata_filename(filename);
+          metadata_temporary += ".tmp";
+          CHECK_FALSE(std::filesystem::exists(payload_temporary));
+          CHECK_FALSE(std::filesystem::exists(metadata_temporary));
+        }
       }
     }
   }
@@ -781,6 +985,43 @@ SCENARIO("File serialization reports complete failures" *
       {
         CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("Complete input provenance names a non-initial artifact.")
+    {
+      auto const filename = directory.file("wrong-input-role.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.completed_passes = 2;
+      metadata.input_artifact   = ArtifactKind::INITIAL_TRIANGULATION;
+      metadata.input_seed       = cdt::RandomSeed{91};
+      metadata.input_initialization_stream =
+          cdt::random_streams::initialization;
+      metadata.input_placement_fingerprint = 0x5678;
+      metadata.input_topology_fingerprint  = 0x9abc;
+      write_file(filename, triangulation, metadata);
+
+      THEN("The parser rejects checkpoint and final input roles as malformed")
+      {
+        for (auto const replacement : {std::string_view{"checkpoint"},
+                                       std::string_view{"final-triangulation"}})
+        {
+          replace_metadata_field(metadata_filename(filename), "input.artifact",
+                                 replacement);
+          try
+          {
+            static_cast<void>(read_file<Delaunay_t<3>>(filename));
+            FAIL_CHECK("A non-initial input provenance role was accepted.");
+          }
+          catch (std::filesystem::filesystem_error const& error)
+          {
+            CHECK_EQ(error.code(),
+                     std::make_error_code(std::errc::illegal_byte_sequence));
+            CHECK(std::string_view{error.what()}.contains(
+                "initial-triangulation artifact"));
+          }
+        }
       }
     }
 

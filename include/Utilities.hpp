@@ -26,6 +26,7 @@
 #include <limits>
 #include <locale>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <random>
@@ -60,6 +61,7 @@
 #include <spdlog/spdlog.h>
 
 // Global project settings
+#include "Move_tracker.hpp"
 #include "Random.hpp"
 #include "Settings.hpp"
 #include "Version.hpp"
@@ -100,12 +102,34 @@ namespace cdt::utilities
     FINAL_TRIANGULATION     ///< Final state after the configured move run.
   };
 
+  /// @brief Cumulative counters needed to preserve observable run state.
+  struct Move_statistics
+  {
+    /// @brief Per-move counts in stable MoveType index order.
+    using Counts = std::array<Int_precision, move_tracker::NUMBER_OF_3D_MOVES>;
+
+    Counts proposed{};   ///< Raw proposals by move kind.
+    Counts accepted{};   ///< Accepted proposals by move kind.
+    Counts rejected{};   ///< Explicit self-transitions by move kind.
+    Counts attempted{};  ///< Candidate constructions by move kind.
+    Counts succeeded{};  ///< Successful candidate constructions by move kind.
+    Counts failed{};     ///< Failed candidate constructions by move kind.
+
+    /// @returns Whether every cumulative counter is equal.
+    [[nodiscard]] auto operator==(Move_statistics const&) const noexcept
+        -> bool = default;
+  };
+
   /// @brief Provenance recorded next to every stochastic triangulation.
-  /// @details Checkpoints are deliberately snapshots rather than resumable
-  /// simulation states: the payload does not serialize mutable RNG state.
-  /// Payload-derived counts, time bounds, and fingerprints are reconciled
-  /// with the serialized triangulation before publication. Callers remain
-  /// responsible for supplying truthful run configuration and RNG provenance.
+  /// @details A resumable checkpoint couples the triangulation payload to the
+  /// complete mutable transition-engine state, cumulative transition trace,
+  /// and move statistics. Older checkpoints without that state remain readable
+  /// snapshots but cannot be resumed. Payload-derived counts, time bounds, and
+  /// fingerprints are reconciled with the serialized triangulation before
+  /// publication. Callers remain responsible for supplying truthful run
+  /// configuration and RNG provenance.
+  /// The five `input_*` fields form one optional, all-or-none description of
+  /// the initial artifact used to start a new transition run.
   struct Reproducibility_metadata
   {
     ArtifactKind artifact{
@@ -137,8 +161,19 @@ namespace cdt::utilities
     std::optional<std::uint64_t> max_threads;       ///< Configured concurrency.
     std::optional<std::uint64_t> transition_trace;  ///< Ordered trace hash.
     std::optional<std::uint64_t> transition_count;  ///< Hashed transitions.
-    std::optional<std::uint64_t> placement_fingerprint;  ///< Coordinate hash.
-    std::optional<std::uint64_t> topology_fingerprint;   ///< Incidence hash.
+    std::shared_ptr<std::string const>
+        transition_random_state;                     ///< Exact PCG state.
+    std::optional<Move_statistics> move_statistics;  ///< Cumulative counters.
+    std::optional<std::uint64_t>   placement_fingerprint;  ///< Coordinate hash.
+    std::optional<std::uint64_t>   topology_fingerprint;   ///< Incidence hash.
+    std::optional<ArtifactKind>    input_artifact;  ///< Starting artifact role.
+    std::optional<cdt::RandomSeed> input_seed;      ///< Starting artifact seed.
+    std::optional<cdt::RandomStream>
+        input_initialization_stream;  ///< Starting initialization stream.
+    std::optional<std::uint64_t>
+        input_placement_fingerprint;  ///< Starting coordinate hash.
+    std::optional<std::uint64_t>
+        input_topology_fingerprint;  ///< Starting incidence hash.
   };
 
   /// @param payload Triangulation payload path.
@@ -155,6 +190,12 @@ namespace cdt::utilities
   {
     inline constexpr std::string_view CAUSAL_INFO_HEADER{
         "cdt-plusplus-causal-info-v2"};
+#if defined(CDT_ENABLE_PARALLEL_TRIANGULATION) && \
+    CDT_ENABLE_PARALLEL_TRIANGULATION
+    inline constexpr bool PARALLEL_TRIANGULATION_ENABLED{true};
+#else
+    inline constexpr bool PARALLEL_TRIANGULATION_ENABLED{false};
+#endif
 
     struct Payload_integrity
     {
@@ -457,6 +498,20 @@ namespace cdt::utilities
     }
 
     template <typename TriangulationType>
+    void require_distinct_evolution_coordinates(
+        TriangulationType const&     triangulation,
+        std::filesystem::path const& payload,
+        std::filesystem::path const& sidecar, std::string_view const operation)
+    {
+      if (has_coincident_vertices(triangulation))
+      {
+        throw std::filesystem::filesystem_error(
+            fmt::format("{} requires distinct vertex coordinates", operation),
+            payload, sidecar, std::make_error_code(std::errc::not_supported));
+      }
+    }
+
+    template <typename TriangulationType>
     [[nodiscard]] auto incidence_topology_records(
         TriangulationType const& triangulation) -> std::vector<std::string>
     {
@@ -552,8 +607,9 @@ namespace cdt::utilities
       if constexpr (HAS_CAUSAL_INFO<TriangulationType>)
       {
         // CGAL writes and recreates vertices and cells in container order.
-        // Persist those payload indices because distinct TDS vertices may be
-        // geometrically coincident after topological moves.
+        // Persist those payload indices so generic persistence can retain
+        // legacy or manually constructed geometrically coincident TDS state.
+        // CDT evolution boundaries reject that ambiguous locator state.
         std::vector<std::string> vertices;
         vertices.reserve(
             static_cast<std::size_t>(triangulation.number_of_vertices()));
@@ -590,18 +646,34 @@ namespace cdt::utilities
         Reproducibility_metadata const& metadata,
         Payload_integrity const         payload) -> std::string
     {
+      auto const resume_supported =
+          metadata.artifact == ArtifactKind::CHECKPOINT &&
+          static_cast<bool>(metadata.transition_random_state);
+      if (metadata.transition_random_state && !metadata.move_statistics)
+      {
+        throw std::invalid_argument(
+            "Resumable checkpoint metadata requires cumulative move statistics.");
+      }
+      if (metadata.transition_random_state &&
+          metadata.artifact != ArtifactKind::CHECKPOINT)
+      {
+        throw std::invalid_argument(
+            "Only checkpoint artifacts may contain resumable PCG state.");
+      }
       auto text = fmt::format(
           "cdt-plusplus-metadata-v1\n"
           "payload.size={}\n"
           "payload.fnv1a64={:016x}\n"
           "artifact={}\n"
-          "resume_supported=false\n"
+          "resume_supported={}\n"
           "fresh_topology_replay_supported=false\n"
           "transition_replay_requires_identical_start=true\n"
           "cdt.version={}\n"
+          "source.revision={}\n"
           "build.compiler_id={}\n"
           "build.compiler_version={}\n"
           "build.configuration={}\n"
+          "build.parallel_triangulation={}\n"
           "build.system={}\n"
           "build.processor={}\n"
           "build.cxx_standard=23\n"
@@ -624,11 +696,13 @@ namespace cdt::utilities
           "initial_radius={}\n"
           "foliation_spacing={}\n",
           payload.size, payload.digest, artifact_name(metadata.artifact),
-          cdt::VERSION, cdt::BUILD_COMPILER_ID, cdt::BUILD_COMPILER_VERSION,
-          cdt::BUILD_CONFIGURATION, cdt::BUILD_SYSTEM_NAME,
-          cdt::BUILD_SYSTEM_PROCESSOR, standard_library_name(),
-          CGAL_VERSION_STR, metadata.seed, metadata.initialization_stream,
-          metadata.transition_stream,
+          resume_supported ? "true" : "false", cdt::VERSION,
+          cdt::SOURCE_REVISION, cdt::BUILD_COMPILER_ID,
+          cdt::BUILD_COMPILER_VERSION, cdt::BUILD_CONFIGURATION,
+          PARALLEL_TRIANGULATION_ENABLED ? "true" : "false",
+          cdt::BUILD_SYSTEM_NAME, cdt::BUILD_SYSTEM_PROCESSOR,
+          standard_library_name(), CGAL_VERSION_STR, metadata.seed,
+          metadata.initialization_stream, metadata.transition_stream,
           metadata.topology == Topology::SPHERICAL ? "spherical" : "toroidal",
           metadata.dimension, metadata.desired_simplices,
           metadata.desired_timeslices, metadata.actual_vertices,
@@ -649,12 +723,36 @@ namespace cdt::utilities
       append_optional("checkpoint_interval", metadata.checkpoint_interval);
       append_optional("completed_passes", metadata.completed_passes);
       append_optional("parallel.max_threads", metadata.max_threads);
+      if (metadata.transition_random_state)
+      {
+        text += fmt::format("random.transition_state={}\n",
+                            *metadata.transition_random_state);
+      }
       if (metadata.transition_trace)
       {
         text += fmt::format("transition_trace.fnv1a64={:016x}\n",
                             *metadata.transition_trace);
       }
       append_optional("transition_trace.count", metadata.transition_count);
+      if (metadata.move_statistics)
+      {
+        auto const append_counts = [&text](
+                                       std::string_view const         name,
+                                       Move_statistics::Counts const& values) {
+          text += fmt::format("{}={}", name, values.front());
+          for (std::size_t index = 1; index < values.size(); ++index)
+          {
+            text += fmt::format(",{}", values[index]);
+          }
+          text += '\n';
+        };
+        append_counts("moves.proposed", metadata.move_statistics->proposed);
+        append_counts("moves.accepted", metadata.move_statistics->accepted);
+        append_counts("moves.rejected", metadata.move_statistics->rejected);
+        append_counts("moves.attempted", metadata.move_statistics->attempted);
+        append_counts("moves.succeeded", metadata.move_statistics->succeeded);
+        append_counts("moves.failed", metadata.move_statistics->failed);
+      }
       if (metadata.placement_fingerprint)
       {
         text += fmt::format("placement.fnv1a64={:016x}\n",
@@ -664,6 +762,36 @@ namespace cdt::utilities
       {
         text += fmt::format("topology.fnv1a64={:016x}\n",
                             *metadata.topology_fingerprint);
+      }
+      auto const input_field_count =
+          static_cast<int>(metadata.input_artifact.has_value()) +
+          static_cast<int>(metadata.input_seed.has_value()) +
+          static_cast<int>(metadata.input_initialization_stream.has_value()) +
+          static_cast<int>(metadata.input_placement_fingerprint.has_value()) +
+          static_cast<int>(metadata.input_topology_fingerprint.has_value());
+      if (input_field_count != 0 && input_field_count != 5)
+      {
+        throw std::invalid_argument(
+            "Input provenance must contain all five starting-artifact fields.");
+      }
+      if (input_field_count == 5)
+      {
+        if (*metadata.input_artifact != ArtifactKind::INITIAL_TRIANGULATION)
+        {
+          throw std::invalid_argument(
+              "Input provenance must identify an initial-triangulation "
+              "artifact.");
+        }
+        text += fmt::format(
+            "input.artifact={}\n"
+            "input.random.seed={}\n"
+            "input.random.initialization_stream={}\n"
+            "input.placement.fnv1a64={:016x}\n"
+            "input.topology.fnv1a64={:016x}\n",
+            artifact_name(*metadata.input_artifact), *metadata.input_seed,
+            *metadata.input_initialization_stream,
+            *metadata.input_placement_fingerprint,
+            *metadata.input_topology_fingerprint);
       }
       return text;
     }
@@ -715,6 +843,39 @@ namespace cdt::utilities
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
       return value;
+    }
+
+    [[nodiscard]] inline auto parse_move_counts(
+        std::string_view text, std::filesystem::path const& path)
+        -> Move_statistics::Counts
+    {
+      Move_statistics::Counts counts{};
+      for (std::size_t index = 0; index < counts.size(); ++index)
+      {
+        auto const separator = text.find(',');
+        auto const is_last   = index + 1 == counts.size();
+        if (text.empty() || (is_last && separator != std::string_view::npos) ||
+            (!is_last && separator == std::string_view::npos))
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata has the wrong number of move counts", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        auto const token = is_last ? text : text.substr(0, separator);
+        counts[index]    = parse_metadata_integer(token, path);
+        if (counts[index] < 0)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata contains a negative move count", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        if (is_last) { text = {}; }
+        else
+        {
+          text.remove_prefix(separator + 1);
+        }
+      }
+      return counts;
     }
 
     template <std::floating_point Float>
@@ -884,22 +1045,43 @@ namespace cdt::utilities
 
     struct Parsed_persistence_metadata
     {
-      Payload_integrity            payload;
-      ArtifactKind                 artifact;
-      cdt::RandomSeed              seed;
-      cdt::RandomStream            initialization_stream;
-      cdt::RandomStream            transition_stream;
-      Topology                     topology;
-      Int_precision                dimension;
-      Int_precision                actual_vertices;
-      Int_precision                actual_edges;
-      Int_precision                actual_faces;
-      Int_precision                actual_simplices;
-      Int_precision                minimum_timeslice;
-      Int_precision                maximum_timeslice;
-      std::optional<std::uint64_t> max_threads;
-      std::uint64_t                placement_fingerprint;
-      std::uint64_t                topology_fingerprint;
+      Payload_integrity                payload;
+      ArtifactKind                     artifact;
+      bool                             resume_supported;
+      cdt::RandomSeed                  seed;
+      cdt::RandomStream                initialization_stream;
+      cdt::RandomStream                transition_stream;
+      Topology                         topology;
+      Int_precision                    dimension;
+      Int_precision                    actual_vertices;
+      Int_precision                    actual_edges;
+      Int_precision                    actual_faces;
+      Int_precision                    actual_simplices;
+      Int_precision                    minimum_timeslice;
+      Int_precision                    maximum_timeslice;
+      std::optional<std::uint64_t>     max_threads;
+      std::uint64_t                    placement_fingerprint;
+      std::uint64_t                    topology_fingerprint;
+      Int_precision                    desired_simplices;
+      Int_precision                    desired_timeslices;
+      double                           initial_radius;
+      double                           foliation_spacing;
+      std::optional<long double>       alpha;
+      std::optional<long double>       k;
+      std::optional<long double>       lambda;
+      std::optional<Int_precision>     configured_passes;
+      std::optional<Int_precision>     configured_attempts;
+      std::optional<Int_precision>     checkpoint_interval;
+      std::optional<Int_precision>     completed_passes;
+      std::optional<std::uint64_t>     transition_trace;
+      std::optional<std::uint64_t>     transition_count;
+      std::optional<std::string>       transition_random_state;
+      std::optional<Move_statistics>   move_statistics;
+      std::optional<ArtifactKind>      input_artifact;
+      std::optional<cdt::RandomSeed>   input_seed;
+      std::optional<cdt::RandomStream> input_initialization_stream;
+      std::optional<std::uint64_t>     input_placement_fingerprint;
+      std::optional<std::uint64_t>     input_topology_fingerprint;
     };
 
     [[nodiscard]] inline auto read_persistence_metadata(
@@ -989,11 +1171,13 @@ namespace cdt::utilities
               std::make_error_code(std::errc::illegal_byte_sequence));
         }
       }
-      if (values.at("resume_supported") != "false")
+      bool resume_supported{};
+      if (values.at("resume_supported") == "true") { resume_supported = true; }
+      else if (values.at("resume_supported") != "false")
       {
         throw std::filesystem::filesystem_error(
-            "This build cannot read resumable checkpoints", path,
-            std::make_error_code(std::errc::not_supported));
+            "Persistence metadata has an invalid resume contract", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
       }
       if (values.at("fresh_topology_replay_supported") != "false" ||
           values.at("transition_replay_requires_identical_start") != "true")
@@ -1010,27 +1194,23 @@ namespace cdt::utilities
             std::make_error_code(std::errc::not_supported));
       }
 
-      ArtifactKind artifact{};
-      if (values.at("artifact") == "initial-triangulation")
-      {
-        artifact = ArtifactKind::INITIAL_TRIANGULATION;
-      }
-      else if (values.at("artifact") == "checkpoint")
-      {
-        artifact = ArtifactKind::CHECKPOINT;
-      }
-      else if (values.at("artifact") == "final-triangulation")
-      {
-        artifact = ArtifactKind::FINAL_TRIANGULATION;
-      }
-      else
-      {
+      auto const parse_artifact = [&path](std::string_view const value) {
+        if (value == "initial-triangulation")
+        {
+          return ArtifactKind::INITIAL_TRIANGULATION;
+        }
+        if (value == "checkpoint") { return ArtifactKind::CHECKPOINT; }
+        if (value == "final-triangulation")
+        {
+          return ArtifactKind::FINAL_TRIANGULATION;
+        }
         throw std::filesystem::filesystem_error(
             "Persistence metadata has an unknown artifact kind", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
-      }
+      };
+      auto const artifact = parse_artifact(values.at("artifact"));
 
-      Topology topology{};
+      Topology   topology{};
       if (values.at("topology") == "spherical")
       {
         topology = Topology::SPHERICAL;
@@ -1090,15 +1270,16 @@ namespace cdt::utilities
             "Persistence metadata has an incomplete action parameter set", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
+      std::optional<long double> alpha;
+      std::optional<long double> k;
+      std::optional<long double> lambda;
       if (action_field_count == 3)
       {
-        auto const alpha =
-            parse_metadata_floating<long double>(values.at("alpha"), path);
-        static_cast<void>(
-            parse_metadata_floating<long double>(values.at("k"), path));
-        static_cast<void>(
-            parse_metadata_floating<long double>(values.at("lambda"), path));
-        if (alpha <= 0.5L)
+        alpha = parse_metadata_floating<long double>(values.at("alpha"), path);
+        k     = parse_metadata_floating<long double>(values.at("k"), path);
+        lambda =
+            parse_metadata_floating<long double>(values.at("lambda"), path);
+        if (*alpha <= 0.5L)
         {
           throw std::filesystem::filesystem_error(
               "Persistence metadata contains an invalid alpha", path,
@@ -1115,20 +1296,29 @@ namespace cdt::utilities
             "Persistence metadata has an incomplete run configuration", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
-      if (run_field_count == 2 &&
-          (parse_integer_field("configured_passes") <= 0 ||
-           parse_integer_field("checkpoint_interval") <= 0))
+      std::optional<Int_precision> configured_passes;
+      std::optional<Int_precision> checkpoint_interval;
+      if (run_field_count == 2)
       {
-        throw std::filesystem::filesystem_error(
-            "Persistence metadata contains an invalid run configuration", path,
-            std::make_error_code(std::errc::illegal_byte_sequence));
+        configured_passes   = parse_integer_field("configured_passes");
+        checkpoint_interval = parse_integer_field("checkpoint_interval");
+        if (*configured_passes <= 0 || *checkpoint_interval <= 0)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata contains an invalid run configuration",
+              path, std::make_error_code(std::errc::illegal_byte_sequence));
+        }
       }
-      if (values.contains("configured_attempts") &&
-          parse_integer_field("configured_attempts") <= 0)
+      std::optional<Int_precision> configured_attempts;
+      if (values.contains("configured_attempts"))
       {
-        throw std::filesystem::filesystem_error(
-            "Persistence metadata contains invalid configured attempts", path,
-            std::make_error_code(std::errc::illegal_byte_sequence));
+        configured_attempts = parse_integer_field("configured_attempts");
+        if (*configured_attempts <= 0)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata contains invalid configured attempts", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
       }
 
       if (artifact == ArtifactKind::CHECKPOINT &&
@@ -1138,12 +1328,16 @@ namespace cdt::utilities
             "Checkpoint metadata is missing completed passes", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
-      if (values.contains("completed_passes") &&
-          parse_integer_field("completed_passes") < 0)
+      std::optional<Int_precision> completed_passes;
+      if (values.contains("completed_passes"))
       {
-        throw std::filesystem::filesystem_error(
-            "Persistence metadata contains invalid completed passes", path,
-            std::make_error_code(std::errc::illegal_byte_sequence));
+        completed_passes = parse_integer_field("completed_passes");
+        if (*completed_passes < 0)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence metadata contains invalid completed passes", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
       }
       std::optional<std::uint64_t> max_threads;
       if (auto const field = values.find("parallel.max_threads");
@@ -1167,18 +1361,185 @@ namespace cdt::utilities
             "Persistence metadata has an incomplete transition trace", path,
             std::make_error_code(std::errc::illegal_byte_sequence));
       }
+      std::optional<std::uint64_t> transition_trace;
+      std::optional<std::uint64_t> transition_count;
       if (transition_field_count == 2)
       {
-        static_cast<void>(
-            parse_unsigned(values.at("transition_trace.fnv1a64"), 16, path));
-        static_cast<void>(
-            parse_unsigned(values.at("transition_trace.count"), 10, path));
+        transition_trace =
+            parse_unsigned(values.at("transition_trace.fnv1a64"), 16, path);
+        transition_count =
+            parse_unsigned(values.at("transition_trace.count"), 10, path);
+      }
+
+      auto const move_field_count =
+          static_cast<int>(values.contains("moves.proposed")) +
+          static_cast<int>(values.contains("moves.accepted")) +
+          static_cast<int>(values.contains("moves.rejected")) +
+          static_cast<int>(values.contains("moves.attempted")) +
+          static_cast<int>(values.contains("moves.succeeded")) +
+          static_cast<int>(values.contains("moves.failed"));
+      if (move_field_count != 0 && move_field_count != 6)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has incomplete move statistics", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      std::optional<Move_statistics> move_statistics;
+      if (move_field_count == 6)
+      {
+        move_statistics = Move_statistics{
+            .proposed  = parse_move_counts(values.at("moves.proposed"), path),
+            .accepted  = parse_move_counts(values.at("moves.accepted"), path),
+            .rejected  = parse_move_counts(values.at("moves.rejected"), path),
+            .attempted = parse_move_counts(values.at("moves.attempted"), path),
+            .succeeded = parse_move_counts(values.at("moves.succeeded"), path),
+            .failed    = parse_move_counts(values.at("moves.failed"), path)};
+        std::uint64_t proposed_total{};
+        for (std::size_t index = 0; index < move_statistics->proposed.size();
+             ++index)
+        {
+          auto const proposed =
+              static_cast<std::uint64_t>(move_statistics->proposed[index]);
+          auto const accepted =
+              static_cast<std::uint64_t>(move_statistics->accepted[index]);
+          auto const rejected =
+              static_cast<std::uint64_t>(move_statistics->rejected[index]);
+          auto const attempted =
+              static_cast<std::uint64_t>(move_statistics->attempted[index]);
+          auto const succeeded =
+              static_cast<std::uint64_t>(move_statistics->succeeded[index]);
+          auto const failed =
+              static_cast<std::uint64_t>(move_statistics->failed[index]);
+          if (proposed != accepted + rejected || proposed != attempted ||
+              attempted != succeeded + failed)
+          {
+            throw std::filesystem::filesystem_error(
+                "Persistence move statistics violate accounting invariants",
+                path, std::make_error_code(std::errc::illegal_byte_sequence));
+          }
+          if (proposed_total >
+              std::numeric_limits<std::uint64_t>::max() - proposed)
+          {
+            throw std::filesystem::filesystem_error(
+                "Persistence transition count exceeds the supported range",
+                path, std::make_error_code(std::errc::value_too_large));
+          }
+          proposed_total += proposed;
+        }
+        if (transition_count && proposed_total != *transition_count)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence move statistics do not match the transition count",
+              path, std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+
+      std::optional<std::string> transition_random_state;
+      if (auto const field = values.find("random.transition_state");
+          field != values.end())
+      {
+        transition_random_state = field->second;
+      }
+      if (resume_supported)
+      {
+        auto const complete_resume_state =
+            artifact == ArtifactKind::CHECKPOINT && alpha && k && lambda &&
+            configured_passes && checkpoint_interval && completed_passes &&
+            max_threads && transition_trace && transition_count &&
+            transition_random_state && move_statistics;
+        if (!complete_resume_state || *completed_passes > *configured_passes)
+        {
+          throw std::filesystem::filesystem_error(
+              "Resumable checkpoint metadata is incomplete or inconsistent",
+              path, std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        auto const producer_matches =
+            values.at("cdt.version") == cdt::VERSION &&
+            values.contains("source.revision") &&
+            values.at("source.revision") == cdt::SOURCE_REVISION &&
+            values.at("build.compiler_id") == cdt::BUILD_COMPILER_ID &&
+            values.at("build.compiler_version") ==
+                cdt::BUILD_COMPILER_VERSION &&
+            values.at("build.configuration") == cdt::BUILD_CONFIGURATION &&
+            values.contains("build.parallel_triangulation") &&
+            values.at("build.parallel_triangulation") ==
+                (PARALLEL_TRIANGULATION_ENABLED ? "true" : "false") &&
+            values.at("build.system") == cdt::BUILD_SYSTEM_NAME &&
+            values.at("build.processor") == cdt::BUILD_SYSTEM_PROCESSOR &&
+            values.at("build.standard_library") == standard_library_name() &&
+            values.at("dependency.cgal_version") == CGAL_VERSION_STR;
+        if (!producer_matches)
+        {
+          throw std::filesystem::filesystem_error(
+              "Exact checkpoint resume requires the recorded producer toolchain",
+              path, std::make_error_code(std::errc::not_supported));
+        }
+        try
+        {
+          static_cast<void>(cdt::Random::from_serialized_state(
+              cdt::RandomSeed{
+                  parse_unsigned(values.at("random.seed"), 10, path)},
+              cdt::RandomStream{parse_unsigned(
+                  values.at("random.transition_stream"), 10, path)},
+              *transition_random_state));
+        }
+        catch (std::invalid_argument const&)
+        {
+          throw std::filesystem::filesystem_error(
+              "Resumable checkpoint contains invalid PCG state", path,
+              std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+      }
+      else if (transition_random_state)
+      {
+        throw std::filesystem::filesystem_error(
+            "Snapshot metadata contains PCG state without resume support", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+
+      auto const input_field_count =
+          static_cast<int>(values.contains("input.artifact")) +
+          static_cast<int>(values.contains("input.random.seed")) +
+          static_cast<int>(
+              values.contains("input.random.initialization_stream")) +
+          static_cast<int>(values.contains("input.placement.fnv1a64")) +
+          static_cast<int>(values.contains("input.topology.fnv1a64"));
+      if (input_field_count != 0 && input_field_count != 5)
+      {
+        throw std::filesystem::filesystem_error(
+            "Persistence metadata has incomplete input provenance", path,
+            std::make_error_code(std::errc::illegal_byte_sequence));
+      }
+      std::optional<ArtifactKind>      input_artifact;
+      std::optional<cdt::RandomSeed>   input_seed;
+      std::optional<cdt::RandomStream> input_initialization_stream;
+      std::optional<std::uint64_t>     input_placement_fingerprint;
+      std::optional<std::uint64_t>     input_topology_fingerprint;
+      if (input_field_count == 5)
+      {
+        input_artifact = parse_artifact(values.at("input.artifact"));
+        if (*input_artifact != ArtifactKind::INITIAL_TRIANGULATION)
+        {
+          throw std::filesystem::filesystem_error(
+              "Persistence input provenance must identify an "
+              "initial-triangulation artifact",
+              path, std::make_error_code(std::errc::illegal_byte_sequence));
+        }
+        input_seed = cdt::RandomSeed{
+            parse_unsigned(values.at("input.random.seed"), 10, path)};
+        input_initialization_stream = cdt::RandomStream{parse_unsigned(
+            values.at("input.random.initialization_stream"), 10, path)};
+        input_placement_fingerprint =
+            parse_unsigned(values.at("input.placement.fnv1a64"), 16, path);
+        input_topology_fingerprint =
+            parse_unsigned(values.at("input.topology.fnv1a64"), 16, path);
       }
 
       return {
           .payload  = {parse_unsigned(values.at("payload.size"), 10, path),
                        parse_unsigned(values.at("payload.fnv1a64"), 16, path)},
           .artifact = artifact,
+          .resume_supported = resume_supported,
           .seed = cdt::RandomSeed{parse_unsigned(values.at("random.seed"), 10,
                        path)},
           .initialization_stream = cdt::RandomStream{parse_unsigned(
@@ -1197,8 +1558,72 @@ namespace cdt::utilities
           .placement_fingerprint =
               parse_unsigned(values.at("placement.fnv1a64"), 16, path),
           .topology_fingerprint =
-              parse_unsigned(values.at("topology.fnv1a64"), 16, path)
+              parse_unsigned(values.at("topology.fnv1a64"), 16, path),
+          .desired_simplices           = desired_simplices,
+          .desired_timeslices          = desired_timeslices,
+          .initial_radius              = initial_radius,
+          .foliation_spacing           = foliation_spacing,
+          .alpha                       = alpha,
+          .k                           = k,
+          .lambda                      = lambda,
+          .configured_passes           = configured_passes,
+          .configured_attempts         = configured_attempts,
+          .checkpoint_interval         = checkpoint_interval,
+          .completed_passes            = completed_passes,
+          .transition_trace            = transition_trace,
+          .transition_count            = transition_count,
+          .transition_random_state     = transition_random_state,
+          .move_statistics             = move_statistics,
+          .input_artifact              = input_artifact,
+          .input_seed                  = input_seed,
+          .input_initialization_stream = input_initialization_stream,
+          .input_placement_fingerprint = input_placement_fingerprint,
+          .input_topology_fingerprint  = input_topology_fingerprint
       };
+    }
+
+    [[nodiscard]] inline auto to_reproducibility_metadata(
+        Parsed_persistence_metadata const& source) -> Reproducibility_metadata
+    {
+      return {
+          .artifact                = source.artifact,
+          .seed                    = source.seed,
+          .initialization_stream   = source.initialization_stream,
+          .transition_stream       = source.transition_stream,
+          .topology                = source.topology,
+          .dimension               = source.dimension,
+          .desired_simplices       = source.desired_simplices,
+          .desired_timeslices      = source.desired_timeslices,
+          .actual_vertices         = source.actual_vertices,
+          .actual_edges            = source.actual_edges,
+          .actual_faces            = source.actual_faces,
+          .actual_simplices        = source.actual_simplices,
+          .minimum_timeslice       = source.minimum_timeslice,
+          .maximum_timeslice       = source.maximum_timeslice,
+          .initial_radius          = source.initial_radius,
+          .foliation_spacing       = source.foliation_spacing,
+          .alpha                   = source.alpha,
+          .k                       = source.k,
+          .lambda                  = source.lambda,
+          .configured_passes       = source.configured_passes,
+          .configured_attempts     = source.configured_attempts,
+          .checkpoint_interval     = source.checkpoint_interval,
+          .completed_passes        = source.completed_passes,
+          .max_threads             = source.max_threads,
+          .transition_trace        = source.transition_trace,
+          .transition_count        = source.transition_count,
+          .transition_random_state = source.transition_random_state
+                                       ? std::make_shared<std::string const>(
+                                             *source.transition_random_state)
+                                       : nullptr,
+          .move_statistics         = source.move_statistics,
+          .placement_fingerprint   = source.placement_fingerprint,
+          .topology_fingerprint    = source.topology_fingerprint,
+          .input_artifact          = source.input_artifact,
+          .input_seed              = source.input_seed,
+          .input_initialization_stream = source.input_initialization_stream,
+          .input_placement_fingerprint = source.input_placement_fingerprint,
+          .input_topology_fingerprint  = source.input_topology_fingerprint};
     }
 
     [[nodiscard]] inline auto validate_payload_integrity(
@@ -1739,10 +2164,10 @@ namespace cdt::utilities
   }  // print_delaunay
 
   /// @brief Write triangulation to file
-  /// @details This function writes the Delaunay triangulation in the manifold
-  /// to an OFF file. http://www.geomview.org/docs/html/OFF.html#OFF Provides
-  /// strong exception-safety for the destination file. Writes are serialized
-  /// within the process and validated before an atomic replacement.
+  /// @details Writes CGAL's native triangulation stream using CDT++'s
+  /// historical `.off` filename convention. This is not Geomview mesh OFF.
+  /// Provides strong exception-safety for the destination file. Writes are
+  /// serialized within the process and validated before an atomic replacement.
   /// @tparam TriangulationType The type of triangulation
   /// @param filename The filename to write to
   /// @param triangulation The triangulation to write
@@ -1767,6 +2192,8 @@ namespace cdt::utilities
   /// @param filename Destination OFF path.
   /// @param triangulation Triangulation payload to serialize.
   /// @param metadata Run configuration and stochastic provenance.
+  /// @throws std::invalid_argument if input provenance is incomplete or does
+  /// not identify an initial-triangulation artifact.
   /// @throws std::logic_error for a same-thread reentrant write.
   /// @throws std::filesystem::filesystem_error if serialization, validation,
   /// or either replacement fails.
@@ -1906,7 +2333,7 @@ namespace cdt::utilities
   /// @param universe Manifold to serialize.
   /// @param metadata Complete artifact and stochastic provenance.
   /// @throws std::invalid_argument if checkpoint metadata omits completed
-  /// passes.
+  /// passes or input provenance is incomplete.
   /// @throws std::logic_error for a same-thread reentrant write.
   /// @throws std::filesystem::filesystem_error if persistence fails.
   template <typename ManifoldType>
@@ -1927,12 +2354,120 @@ namespace cdt::utilities
     write_file(filename, universe.delaunay_snapshot(), metadata);
   }
 
+  /// @brief A validated initial triangulation and its initialization
+  /// provenance.
+  /// @tparam TriangulationType Persisted triangulation representation.
+  template <typename TriangulationType>
+  struct Initial_triangulation_artifact
+  {
+    TriangulationType        triangulation;  ///< Validated causal payload.
+    Reproducibility_metadata metadata;       ///< Validated initialization data.
+  };
+
+  /// @brief Read a manifested initial triangulation for a new CDT run.
+  /// @details This boundary requires an `initial-triangulation` sidecar,
+  /// verifies payload integrity and causal metadata, and returns the recorded
+  /// foliation parameters needed to reconstruct the owning manifold.
+  /// Checkpoints and final triangulations are rejected because this operation
+  /// starts a new transition stream; it is not checkpoint resume.
+  /// CDT evolution also requires distinct vertex coordinates because prepared
+  /// move locators are coordinate-valued.
+  /// @tparam TriangulationType The type of triangulation.
+  /// @param filename Initial triangulation payload path.
+  /// @returns Validated payload and initialization provenance.
+  /// @throws std::filesystem::filesystem_error if the payload or required
+  /// sidecar is missing, malformed, inconsistent, or has another artifact role.
+  template <typename TriangulationType>
+  [[nodiscard]] auto read_initial_triangulation(
+      std::filesystem::path const& filename)
+      -> Initial_triangulation_artifact<TriangulationType>
+  {
+    static std::mutex mutex;
+    fmt::print("Reading initial triangulation from file {}\n",
+               filename.string());
+    std::scoped_lock const lock(mutex);
+    auto const parsed_metadata = detail::validate_payload_integrity(filename);
+    auto const sidecar         = metadata_filename(filename);
+    if (!parsed_metadata)
+    {
+      throw std::filesystem::filesystem_error(
+          "Initial triangulation requires a persistence metadata sidecar",
+          filename, sidecar,
+          std::make_error_code(std::errc::no_such_file_or_directory));
+    }
+    if (parsed_metadata->artifact != ArtifactKind::INITIAL_TRIANGULATION)
+    {
+      throw std::filesystem::filesystem_error(
+          "CDT input must be an initial-triangulation artifact", filename,
+          sidecar, std::make_error_code(std::errc::not_supported));
+    }
+
+    auto triangulation = detail::parse_payload<TriangulationType>(filename);
+    detail::validate_persistence_metadata(*parsed_metadata, triangulation,
+                                          filename, sidecar);
+    detail::require_distinct_evolution_coordinates(triangulation, filename,
+                                                   sidecar, "CDT input");
+    auto metadata = detail::to_reproducibility_metadata(*parsed_metadata);
+    return {.triangulation = std::move(triangulation),
+            .metadata      = std::move(metadata)};
+  }
+
+  /// @brief A validated resumable checkpoint and its complete run state.
+  /// @tparam TriangulationType Persisted triangulation representation.
+  template <typename TriangulationType>
+  using Checkpoint_artifact = Initial_triangulation_artifact<TriangulationType>;
+
+  /// @brief Read a checkpoint that can continue the identical Markov chain.
+  /// @details The complete manifested pair is validated before any state is
+  /// returned. Snapshot-only legacy checkpoints, initial states, final states,
+  /// malformed PCG state, and producer-toolchain mismatches are rejected.
+  /// Distinct vertex coordinates are required for exact move-locator replay.
+  /// @tparam TriangulationType The type of triangulation.
+  /// @param filename Checkpoint payload path.
+  /// @returns Validated triangulation plus exact stochastic continuation state.
+  /// @throws std::filesystem::filesystem_error for an invalid or unsupported
+  /// checkpoint contract.
+  template <typename TriangulationType>
+  [[nodiscard]] auto read_checkpoint(std::filesystem::path const& filename)
+      -> Checkpoint_artifact<TriangulationType>
+  {
+    static std::mutex mutex;
+    fmt::print("Reading resumable checkpoint from file {}\n",
+               filename.string());
+    std::scoped_lock const lock(mutex);
+    auto const parsed_metadata = detail::validate_payload_integrity(filename);
+    auto const sidecar         = metadata_filename(filename);
+    if (!parsed_metadata)
+    {
+      throw std::filesystem::filesystem_error(
+          "Checkpoint resume requires a persistence metadata sidecar", filename,
+          sidecar, std::make_error_code(std::errc::no_such_file_or_directory));
+    }
+    if (parsed_metadata->artifact != ArtifactKind::CHECKPOINT ||
+        !parsed_metadata->resume_supported)
+    {
+      throw std::filesystem::filesystem_error(
+          "CDT resume requires a resumable checkpoint artifact", filename,
+          sidecar, std::make_error_code(std::errc::not_supported));
+    }
+
+    auto triangulation = detail::parse_payload<TriangulationType>(filename);
+    detail::validate_persistence_metadata(*parsed_metadata, triangulation,
+                                          filename, sidecar);
+    detail::require_distinct_evolution_coordinates(triangulation, filename,
+                                                   sidecar, "CDT resume");
+    auto metadata = detail::to_reproducibility_metadata(*parsed_metadata);
+    return {.triangulation = std::move(triangulation),
+            .metadata      = std::move(metadata)};
+  }
+
   /// @brief Read triangulation from file
   /// @tparam TriangulationType The type of triangulation
   /// @param filename The file to read from
   /// @returns A Delaunay triangulation
-  /// @throws std::filesystem::filesystem_error if the payload or sidecar is
-  /// missing, unreadable, malformed, or inconsistent.
+  /// @throws std::filesystem::filesystem_error if the payload is missing,
+  /// unreadable, or malformed, or if a present sidecar is unreadable,
+  /// malformed, or inconsistent with the payload.
   template <typename TriangulationType>
   [[nodiscard]] auto read_file(std::filesystem::path const& filename)
       -> TriangulationType

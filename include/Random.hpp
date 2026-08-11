@@ -12,9 +12,15 @@
 
 #include <concepts>
 #include <cstdint>
+#include <istream>
 #include <limits>
+#include <locale>
 #include <ostream>
 #include <random>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 
 #include "pcg_random.hpp"
 
@@ -169,6 +175,47 @@ namespace cdt
     /// @return A new engine at the beginning of the selected sequence.
     [[nodiscard]] auto split(RandomStream const stream) const -> Random
     { return Random{m_seed, stream}; }
+
+    /// @brief Serialize the complete mutable PCG state for exact continuation.
+    /// @return Locale-independent PCG engine state.
+    [[nodiscard]] auto serialized_state() const -> std::string
+    {
+      std::ostringstream output;
+      output.imbue(std::locale::classic());
+      output << m_engine;
+      if (!output)
+      {
+        throw std::runtime_error("Could not serialize PCG state.");
+      }
+      return output.str();
+    }
+
+    /// @brief Restore an exact PCG continuation point.
+    /// @param seed Recorded root seed.
+    /// @param stream Recorded stream selector.
+    /// @param state Complete state produced by serialized_state().
+    /// @return A generator whose next draw is the saved generator's next draw.
+    /// @throws std::invalid_argument if the state is malformed, contains
+    /// trailing data, or selects a different PCG stream.
+    [[nodiscard]] static auto from_serialized_state(
+        RandomSeed const seed, RandomStream const stream,
+        std::string_view const state) -> Random
+    {
+      auto               restored = Random{seed, stream};
+      std::istringstream input{std::string{state}};
+      input.imbue(std::locale::classic());
+      input >> restored.m_engine;
+      if (!input || restored.m_engine.stream() != stream.value())
+      {
+        throw std::invalid_argument("Malformed or mismatched PCG state.");
+      }
+      input >> std::ws;
+      if (!input.eof())
+      {
+        throw std::invalid_argument("PCG state contains trailing data.");
+      }
+      return restored;
+    }
   };
 
   static_assert(std::uniform_random_bit_generator<Random>);

@@ -8,15 +8,18 @@
 [![Documentation](https://github.com/acgetchell/CDT-plusplus/actions/workflows/doxygen.yml/badge.svg)](https://www.adamgetchell.org/CDT-plusplus/)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/main/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 
+CDT++ is the archival [C++23] implementation of spherical 2+1-dimensional
+[Causal Dynamical Triangulations][CDT].
+
 ![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
 
 This reproducible archival rendering is generated from a tracked triangulation fixture; see the
 [viewer and visual-artifact contract](docs/viewer.md).
 
-## Archival and maintenance status
+## Maintenance status
 
 **CDT++ v1.0.0 is the final planned C++23 feature release.** This repository preserves the C++ implementation as a
-historical scientific reference and regression oracle. After the release and Zenodo handoff in
+historical scientific reference. After the release and Zenodo handoff in
 [issue #97](https://github.com/acgetchell/CDT-plusplus/issues/97), it will remain maintenance-only during a
 stabilization window. [Issue #155](https://github.com/acgetchell/CDT-plusplus/issues/155) will archive it only after
 the repository owner ends the stabilization window and determines that no release blockers remain. It does not
@@ -25,39 +28,27 @@ correctness, reproducibility, security, documentation, and metadata corrections.
 requires a new patch release rather than changing the v1.0.0 tag.
 
 For active use, development, and new reports, go to
-[causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. The local
-Python comparison harness in this archive only orchestrates independent C++ and Rust executables and analyzes their
-declared outputs; it is not a second scientific implementation. See [Security and support](#security-and-support)
-for the post-release reporting boundary.
+[causal-triangulations](https://github.com/acgetchell/causal-triangulations), the supported Rust successor. See
+[Security and support](#security-and-support) for the post-release reporting boundary.
 
-## Table of contents
+## Contents
 
-- [CDT-plusplus](README.md)
-  - [Archival and maintenance status](#archival-and-maintenance-status)
-  - [Introduction](#introduction)
-    - [Regression-oracle scope](#regression-oracle-scope)
-  - [Usage](#usage)
-  - [Release scope and limitations](#release-scope-and-limitations)
-  - [Quickstart](#quickstart)
-    - [Current reference-suite status](#current-reference-suite-status)
-  - [Setup](#setup)
-    - [Tested release matrix](#tested-release-matrix)
-    - [Prerequisites](#prerequisites)
-    - [Developer workflow](#developer-workflow)
-    - [vcpkg maintenance](#vcpkg-maintenance)
-  - [Build](#build)
-    - [Project Layout](#project-layout)
-  - [Command-line reference](#command-line-reference)
-  - [Documentation](#documentation)
-  - [Citing CDT++](#citing-cdt)
-  - [Testing](#testing)
-    - [Static Analysis](#static-analysis)
-    - [Sanitizers](#sanitizers)
-  - [Offline Comparison](#offline-comparison)
-  - [Visualization](#visualization)
-  - [Security and support](#security-and-support)
-  - [Contributing](#contributing)
-  - [Issues](#issues)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Quickstart](#quickstart)
+- [Command-line usage](#command-line-usage)
+- [Build requirements](#build-requirements)
+  - [Tested release matrix](#tested-release-matrix)
+  - [Prerequisites](#prerequisites)
+- [C++ API](#c-api)
+- [Release scope and limitations](#release-scope-and-limitations)
+- [Reproducibility](#reproducibility)
+- [Documentation](#documentation)
+- [Visualization](#visualization)
+- [Citing CDT++](#citing-cdt)
+- [Security and support](#security-and-support)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Introduction
 
@@ -69,66 +60,95 @@ The implementation uses the
 [Computational Geometry Algorithms Library][CGAL], [Boost], and [TBB].
 Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library provides high-quality RNGs that pass L'Ecuyer's
-[TestU01] statistical tests.
-[doctest] provides [BDD]/[TDD].
-[vcpkg] provides library management and building.
-[Doxygen] provides automated document generation.
-The supported C++ namespace and per-header contract are recorded in the
-[C++ API boundary](docs/api-boundary.md).
-The compiled [C++ API quickstart](docs/cpp-api-quickstart.md) demonstrates
-validated construction, ten reported Metropolis proposals with separate
-candidate-success and acceptance results, aggregate accounting, and a verified
-persistence round trip.
-The exact CGAL version, kernel, TDS, metadata, lifetime, TBB, benchmark, and
-upgrade policies are recorded in the
-[CGAL 6.2 integration contract](docs/cgal-integration.md).
-The evidence and migration gates for replacing GMP/MPFR with
-Boost.Multiprecision are recorded in the
-[arithmetic backend evaluation](docs/arithmetic-backend-evaluation.md).
-The opt-in operations, ownership and synchronization rules, replayable stress
-inputs, sanitizer boundary, and matched scaling protocol are recorded in the
-[multithreaded CGAL contract](docs/multithreading.md).
-[{fmt}] provides a safe and fast alternative to `iostream`.
-[spdlog] provides fast, multithreaded logging.
-Python and JSON Schema provide the local, offline cross-implementation comparison boundary.
+[TestU01] statistical tests. [{fmt}] provides a safe and fast alternative to `iostream`, and [spdlog] provides fast,
+multithreaded logging. [vcpkg] provides library management and building, and [Doxygen] provides automated document
+generation. Python and JSON Schema provide the local, offline cross-implementation comparison boundary.
 
-### Regression-oracle scope
+The primary `cdt` program generates and evolves spacetime ensembles. The `initialize` program produces initial
+foliated triangulations and supports the retained local parameter sweep. The opt-in `cdt-viewer` program renders
+tracked triangulations on macOS without adding Qt to the default headless build.
 
-The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in
-[`include/Foliated_triangulation.hpp`](https://github.com/acgetchell/CDT-plusplus/blob/main/include/Foliated_triangulation.hpp). `find_invalid_timevalue_cells` classifies
-cells from stored vertex time labels, `has_valid_timevalues` provides the predicate, `find_bad_vertex` selects a vertex
-responsible for an acausal local configuration, and `fix_timevalues` removes offending vertices through CGAL so the
-cavity is retriangulated until the foliation contract is satisfied.
+## Features
 
-The deterministic doctest scenario **"Detecting and fixing problems with vertices and cells"** in
-[`tests/Foliated_triangulation_test.cpp`](https://github.com/acgetchell/CDT-plusplus/blob/main/tests/Foliated_triangulation_test.cpp) exercises this path with fixed points
-and time labels. Its inputs, detected bad vertex, final initialization state, cell counts, and causal classification
-are the first comparison fixture for `causal-triangulations`; exact Monte Carlo trajectories are not required to
-match.
+- [x] 3D simplex representation.
+- [x] 3D spherical triangulations with 2+1 foliation.
+- [x] S3 bulk action and the complete audited `(2,3)`, `(3,2)`, `(2,6)`, `(6,2)`, and `(4,4)` ergodic move set.
+- [x] 3D Metropolis-Hastings evolution with separate candidate-success and acceptance results.
+- [x] High-quality random number generation with M.E. O'Neill's [PCG] library and named replayable streams.
+- [x] Validated CDT++ `.off` persistence with provenance sidecars, payload checksums, geometry and topology
+  fingerprints, and transition-trace fingerprints.
+- [x] Reusable initial-state generation: `initialize` writes a manifested triangulation that `cdt --input` validates
+  and evolves with a new transition seed.
+- [x] Exact checkpoint continuation for interrupted [Slurm] and HPC runs: `cdt --resume` restores the triangulation,
+  global pass, PCG state, transition trace, and cumulative counters, then continues the identical Markov chain on
+  the recorded producer toolchain.
+- [x] A documented C++23 source API plus the headless `cdt` and `initialize` programs.
+- [x] Versioned, language-neutral reference fixtures and a lightweight local/offline C++/Rust comparison harness.
+- [x] Optional parallel triangulation with [TBB] for eligible CGAL Delaunay insertion and removal.
+- [x] Optional visualization with [Qt] and a reproducible repository-owned hero artifact.
+- [x] Cross-platform support on Linux, macOS, and Windows and cross-compiler support on GCC, Clang, AppleClang, and
+  MSVC through the tested release matrix.
 
-The versioned, language-neutral fixtures, canonical C++ results, run
-manifests, raw outputs, and Rust consumption rules are published in the
-[`reference/`](reference/README.md) package.
+## Quickstart
 
-After building, run that fixture directly with:
+From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:
 
 ```bash
-./out/build/reference/tests/CDT_unit_tests \
-  --test-case='*Detecting and fixing problems with vertices and cells*'
+git clone https://github.com/acgetchell/CDT-plusplus.git
+cd CDT-plusplus
+just build
 ```
 
-## Usage
+The `build` recipe uses the Release configuration and the pkgx launcher on Unix when pkgx is available, then delegates
+to `scripts/build.sh` on Unix or `scripts/build.bat` on Windows. Its first run creates an ignored `.cache/vcpkg`
+checkout at the exact `builtin-baseline` recorded in `vcpkg.json`, bootstraps vcpkg, installs the manifest
+dependencies, builds in `out/build/reference`, and runs the supported CTest smoke suite. The first dependency build
+can take several minutes; subsequent runs reuse both vcpkg dependencies and CMake/Ninja outputs, so an unchanged
+build is a no-op apart from configuration and tests.
+
+The supported build products are:
+
+```text
+out/build/reference/src/cdt
+out/build/reference/src/initialize
+```
+
+The underlying `./scripts/build.sh` and `scripts\build.bat` entry points remain available for troubleshooting and
+native Windows use. Direct script invocations must expose CMake 4.4.0 or newer on `PATH`; the canonical pkgx-backed
+Just recipes select the tested 4.4.1 toolchain automatically.
+
+Run `just --list` for the complete list of repository commands and their one-line descriptions. The primary user
+entry points are `just initialize`, `just load`, `just resume`, and `just run`.
+
+## Command-line usage
 
 The supported build produces `cdt` and `initialize` in
-`out/build/reference/src`. Run the primary simulation through Just and pass its
+`out/build/reference/src`. Run either program through Just and pass its
 arguments after the recipe name:
 
 ```bash
+just initialize --help
 just run --help
 ```
 
-For troubleshooting, the equivalent direct command is
+For troubleshooting, the equivalent direct commands are
+`./out/build/reference/src/initialize --help` and
 `./out/build/reference/src/cdt --help`.
+
+### Run a simulation
+
+The supported simulation surface is the spherical, three-dimensional form:
+
+```bash
+just run --spherical \
+  --simplices 32000 \
+  --timeslices 11 \
+  --alpha 0.6 \
+  --k 1.1 \
+  --lambda 0.1 \
+  --passes 1000 \
+  --seed 92
+```
 
 Use `--no-output` for batch, debugging, or scripted runs that should print
 results without writing checkpoint or final triangulation files:
@@ -137,23 +157,162 @@ results without writing checkpoint or final triangulation files:
 just run -s -n256 -t4 -a0.6 -k1.1 -l0.1 -p10 -c10 --seed 92 --no-output
 ```
 
-With output enabled, every generated `.off` triangulation is accompanied by a
-`.off.meta` provenance manifest containing the effective seed, configuration,
-version/toolchain identity, transition-trace fingerprint, and payload checksum.
-Checkpoint files are validated snapshots, not resumable simulation states; see
-[`docs/reproducibility.md`](docs/reproducibility.md) for the replay and
-persistence contract. Same-seed generation replays the random inputs, while
-exact transition replay requires an identical starting manifold; CDT++ does
-not alter its spherical construction to force CGAL to reproduce one of several
-valid cospherical tetrahedralizations.
+### Generate and load an initial triangulation
 
-- `cdt-viewer` is an opt-in macOS archival target. Build it with `just viewer-build`, regenerate the tracked hero image
-  with `just viewer-render`, and see the [viewer contract](docs/viewer.md) for its narrower support boundary.
-- `initialize` is also used by the dependency-free local parameter sweep described under
-  [offline comparison](#offline-comparison).
+To generate an initial triangulation once and start a separate CDT run from
+that exact state:
 
-See the [command-line reference](#command-line-reference) for every option.
-Build and dependency instructions begin at [Quickstart](#quickstart).
+```bash
+just initialize \
+  --spherical --simplices 640 --timeslices 4 --output --seed 92
+
+just load /path/to/the/generated-file.off \
+  --alpha 0.6 --k 1.1 --lambda 0.1 --passes 1000 --seed 93
+```
+
+Keep the generated `.off` and `.off.meta` files together. `cdt --input`
+verifies the pair, reconstructs the same initial causal triangulation, and
+starts a new Metropolis-Hastings transition stream from the second command's
+seed. It accepts only an `initial-triangulation` artifact from `initialize`;
+checkpoint and final artifacts cannot start a new chain through `--input`.
+
+`just load` makes the new-series intent explicit. Its general equivalent is
+`just run --input PATH`; in both forms, `cdt` validates the manifest's artifact
+role rather than asking the Justfile to interpret persistence metadata.
+
+### Resume a checkpoint
+
+To continue an interrupted run from a checkpoint, keep its `.off` and
+`.off.meta` files together and pass the payload to `--resume`:
+
+```bash
+just resume /path/to/checkpoint-pass-500.off
+```
+
+The saved seed, action parameters, thread limit, checkpoint cadence, complete
+PCG state, transition trace, and cumulative move counters are restored. By
+default, the run continues to its originally configured total pass count. Use
+`--passes TOTAL` to extend that target; `TOTAL` is the global target, not a
+number of additional passes. Exact resume requires the same CDT++ source
+revision, compiler and standard library, build configuration and parallel
+feature, platform, and CGAL version that produced the checkpoint.
+
+`just resume` makes the identical-continuation intent explicit. Its general
+equivalent is `just run --resume PATH`.
+
+### Generate many initial triangulations
+
+For a collection of random starting states, give each seed its own directory
+so timestamped output names cannot collide:
+
+```bash
+for seed in $(seq 1 100); do
+  mkdir -p "out/initial/seed-$seed"
+  (
+    cd "out/initial/seed-$seed"
+    ../../build/reference/src/initialize \
+      --spherical --simplices 640 --timeslices 4 --output --seed "$seed"
+  )
+done
+```
+
+The cross-executable `initialize-to-cdt` CTest exercises this handoff. The
+[reference fixture package](reference/README.md) explains how the pair can
+serve as the input boundary for a future native `causal-triangulations`
+importer without treating the payload as generic mesh OFF.
+
+### Options and constraints
+
+Run `just run --help` for the executable-owned option list and `just run --version` for the synchronized product
+version. Long options and their defined short forms are parsed by [Boost.Program_options][program_options]. The
+legacy parser still names toroidal topology and dimensionality, but runtime validation rejects toroidal input and
+every dimension other than three; they are not supported release modes.
+
+`--input` cannot be combined with `--spherical`, `--toroidal`, `--simplices`, `--timeslices`, `--dimensions`,
+`--init`, or `--foliate`; those construction values come from the validated artifact. Action parameters, pass and
+checkpoint cadence, output control, thread limit, and the new run seed remain run-specific options.
+
+`--resume` cannot be combined with replacements for the restored seed, action parameters, thread limit, and
+checkpoint cadence, or with topology and construction options. An explicitly supplied `--passes TOTAL` may retain
+or extend the global target; it cannot be less than the checkpoint's completed pass. Checkpoint numbering and
+cadence remain global across the interruption.
+
+`--threads` is a maximum concurrency limit for CGAL/oneTBB bulk Delaunay operations. It defaults to 1. Zero and
+negative values are rejected. The canonical reference build accepts only 1; values greater than 1 require the
+`parallel` preset. This option does not parallelize Metropolis-Hastings, Pachner moves, persistence, or concurrent
+access to one manifold.
+
+With `--dimensions 3`, every spatial slice is two-dimensional and the third dimension is the global time foliation.
+The accepted runtime boundary requires positive simplex and timeslice counts, finite physical parameters with
+`alpha > 1/2`, and a positive thread limit. Invalid configurations fail before construction.
+
+With output enabled, every generated `.off` triangulation is accompanied by a `.off.meta` provenance manifest
+containing the effective seed, configuration, version/toolchain identity, transition-trace fingerprint, and payload
+checksum. Checkpoint manifests additionally preserve the exact transition-engine state and cumulative accounting
+needed by `--resume`; see [`docs/reproducibility.md`](docs/reproducibility.md) for the resume, replay, and persistence
+contracts.
+
+## Build requirements
+
+### Tested release matrix
+
+| CI cell | Host | Compiler | Standard library | Required contract |
+| --- | --- | --- | --- | --- |
+| Ubuntu GCC | `ubuntu-latest` | [GCC] 16 | libstdc++ | `just ci` and `just build-parallel` |
+| Ubuntu Clang | `ubuntu-latest` | [Clang] 22 | libstdc++ | `just ci` and `just build-parallel` |
+| macOS AppleClang | `macos-latest` | [Runner AppleClang][Xcode] | libc++ | `just ci` and `just viewer-build` |
+| Windows MSVC | `windows-latest`, x64 | [Runner MSVC][MSVC] | MSVC STL | `just ci` |
+
+Linux compiler packages are pinned by the Justfile. The native macOS and Windows compilers follow the GitHub-hosted
+runner images, while CMake enforces the minimum C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34.
+These are tested release cells, not a claim that every distribution, operating-system version, architecture, or
+compiler/standard-library pairing is supported.
+
+### Prerequisites
+
+The smallest pkgx-assisted host setup is:
+
+- [Xcode Command Line Tools] on macOS, or a [C++23] compiler and base build environment on Linux
+- [pkgx]
+- [Just], used by the recipes and `scripts/pkgx-build.sh` to resolve the repository's tool-version pins
+- [Python] 3.14 for native dependency bootstrap, and [uv] when checking or running the Python support scripts
+
+The pkgx build launcher supplies its required tools ephemerally, including [Git], [Bash], [CMake], [Ninja], Python, M4,
+Autoconf, Autoconf Archive, Automake, GNU Libtool, Texinfo, and pkg-config. If pkgx is not installed, provide these
+tools conventionally through a package manager such as [Homebrew] or [apt]. The build does not require a pre-existing
+personal vcpkg checkout, a fork, a submodule, Docker, or a hosted development environment.
+
+On Windows, use an x64 [Developer Command Prompt or Developer PowerShell] for [Visual Studio] 2022 17.4 or newer, with
+[MSVC] 19.34 or newer available. Install [Git for Windows] and expose [Git Bash] on `PATH`, because the Just recipes use
+Bash. Native builds also require Just 1.58.0 or newer, Python 3.14 with `python.exe` on `PATH`, CMake 4.4.0 or newer,
+and Ninja. The tested Windows cell uses Python 3.14.6, CMake 4.4.1, and Ninja 1.13.0. Run `just build` from the
+repository root, or use `scripts\build.bat reference` directly; both bootstrap the repository-pinned vcpkg checkout.
+
+Contributor validation, Debug and parallel builds, documentation generation, compiler caching, IDE setup, vcpkg
+maintenance, coverage, static analysis, and sanitizer workflows are documented in
+[CONTRIBUTING.md](https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md).
+
+## C++ API
+
+The supported C++ namespace and per-header contract are recorded in the
+[C++ API boundary](docs/api-boundary.md). CDT++ publishes a C++23 source boundary, not a stable binary ABI or
+package-registry distribution.
+
+The compiled [C++ API quickstart](docs/cpp-api-quickstart.md) demonstrates
+validated construction, ten reported Metropolis proposals with separate
+candidate-success and acceptance results, aggregate accounting, and a verified
+persistence round trip. Build and run it with:
+
+```bash
+cmake --preset reference
+cmake --build --preset reference --target CDT_cpp_api_quickstart
+./out/build/reference/examples/CDT_cpp_api_quickstart /tmp/cdt-quickstart.off
+```
+
+CGAL handles and facet or edge descriptors borrow from the exact triangulation that produced them. Do not use them
+with a copied triangulation or after an invalidating topology mutation. `delaunay_snapshot()` instead returns an
+owning, detached triangulation suitable for persistence or transfer across an ownership boundary. See the
+[multithreaded CGAL contract](docs/multithreading.md) for the full lifetime and synchronization policy.
 
 ## Release scope and limitations
 
@@ -170,8 +329,8 @@ The release boundary is intentionally narrow:
   exact topology oracle or a calibrated phase-distribution result.
 - A seed replays PCG inputs. Fresh cospherical CGAL construction can still choose another valid tetrahedralization,
   so exact fresh topology and cross-toolchain trajectory identity are not promised.
-- Checkpoints are validated snapshots, not resumable simulations. Exact transition replay requires an identical
-  starting manifold and the recorded toolchain contract.
+- Resumable checkpoints continue the identical Markov chain from a completed pass boundary only when loaded by the
+  recorded CDT++ source revision and toolchain. They are restart artifacts, not portable interchange files.
 - Optional oneTBB parallelism is limited to eligible CGAL Delaunay insertion and removal. Pachner moves,
   Metropolis-Hastings, persistence, and access to one manifold remain sequential and externally serialized.
 - CDT++ publishes a C++23 source boundary, not a stable binary ABI or package-registry distribution.
@@ -180,490 +339,49 @@ The detailed evidence and failure boundaries are in the [CGAL integration](docs/
 [ergodic-move](docs/ergodic-moves.md), [Metropolis-Hastings](docs/metropolis-hastings.md),
 [reproducibility and persistence](docs/reproducibility.md), and [multithreading](docs/multithreading.md) contracts.
 
-## Quickstart
+## Reproducibility
 
-From a fresh checkout, the primary supported headless build, dependency bootstrap, and test path is:
+With output enabled, every generated `.off` triangulation is accompanied by a `.off.meta` provenance manifest
+containing the effective seed, configuration, version/toolchain identity, transition-trace fingerprint, and payload
+checksum. A run started with `--input` also records the source artifact's seed, initialization stream, placement
+fingerprint, and topology fingerprint. Resumable checkpoint manifests also contain the complete transition PCG state
+and cumulative move accounting. `cdt --resume` validates that state and the recorded producer contract before
+continuing. The scientific test suite compares an uninterrupted run with the same run split across checkpoint and
+resume, including the ordered transition trace, all move counters, and final canonical topology. Same-seed
+generation replays the random inputs, while exact transition replay requires an identical starting manifold; CDT++
+does not alter its spherical construction to force CGAL to reproduce one of several valid cospherical
+tetrahedralizations.
 
-```bash
-just build
-```
-
-The `build` recipe uses the Release configuration and the pkgx launcher on Unix when pkgx is available, then delegates
-to `scripts/build.sh` on Unix or `scripts/build.bat` on Windows. Its
-first run creates an ignored `.cache/vcpkg` checkout at the exact `builtin-baseline` recorded in `vcpkg.json`,
-bootstraps vcpkg, installs the manifest dependencies, builds in `out/build/reference`, and runs the supported CTest
-smoke suite. The first dependency build can take several minutes; subsequent runs reuse both vcpkg dependencies and
-CMake/Ninja outputs, so an unchanged build is a no-op apart from configuration and tests.
-
-For a production build with CDT++ assertions enabled, use the focused Debug
-workflow:
-
-```bash
-just build-debug
-```
-
-The Debug build preset compiles the `cdt` and `initialize` production targets,
-then the `debug-cli` test preset runs the 21 Debug-compatible CTest entries
-labeled `integration`. It defines `CGAL_NDEBUG` because supported move paths
-deliberately traverse invalid intermediate triangulations, while leaving
-CDT++'s own assertions enabled. The `cdt` and `cdt-no-output` simulation tests
-and the doctest unit suite are excluded because those paths trip project
-invariant assertions on the intermediate state. Release remains the canonical
-complete test configuration.
-
-On Unix, compiler caching is optional. The pkgx launcher supplies the repository-pinned ccache binary when
-`CDT_COMPILER_CACHE=ccache`; leaving the variable unset or setting it to `off` preserves the uncached build:
-
-```bash
-CDT_COMPILER_CACHE=ccache just build
-```
-
-Compiler caching covers project compilation; vcpkg binary caching remains responsible for reusing compiled
-third-party packages.
-
-The optional [pkgx](https://pkgx.sh/) entry point supplies the complete Unix developer-tool environment ephemerally
-and invokes the same build contract directly:
-
-```bash
-./scripts/pkgx-build.sh
-```
-
-To expose the same dependency-build tools to an interactive shell, source the
-reusable environment script:
-
-```bash
-source scripts/pkgx-env.sh
-```
-
-In CLion, open **Settings | Build, Execution, Deployment | Toolchains**, select
-the local toolchain, choose **Add environment | From file**, and select
-`scripts/pkgx-env.sh`. The script supplies the pkgx tool environment and points
-`VCPKG_ROOT` at the repository-owned `.cache/vcpkg` checkout while keeping CGAL
-and the other project libraries under vcpkg control.
-
-pkgx does not install CGAL or any other project library; those remain owned by the pinned vcpkg manifest. The
-underlying `./scripts/build.sh` and `scripts\build.bat` entry points remain available for troubleshooting and native
-Windows development.
-
-### Current reference-suite status
-
-With the pinned baseline, the reference configuration and build succeed on
-macOS with AppleClang. The cross-platform `just build` command runs all 131
-CTest registrations through `scripts/build.sh` on Unix and `scripts/build.bat`
-on Windows: 106 doctest scenarios, 23 CLI integration tests, one compiled C++
-API example, and one arithmetic-backend correctness test. The same
-`reference-smoke` preset is the
-supported local and CI contract; there are no overlapping focused
-registrations that can pass while omitting another doctest suite. The current
-`parallel` preset also registers 132 tests: 106 ordinary doctest scenarios, one
-parallel launcher containing five scenarios, the same 23 CLI integration
-tests, the C++ API example, and the arithmetic correctness test. The
-parallel-enabled
-AddressSanitizer configuration exercises the same replayable stress contract.
-
-## Setup
-
-This project uses [CMake]+[Ninja] to build C++23 sources and [vcpkg] manifest mode to manage C++ libraries. The
-v1.0.0 release matrix is defined by
-[`.github/workflows/ci.yml`](https://github.com/acgetchell/CDT-plusplus/blob/main/.github/workflows/ci.yml) and the
-pinned tool versions in the
-[`Justfile`](https://github.com/acgetchell/CDT-plusplus/blob/main/Justfile).
-
-### Tested release matrix
-
-| CI cell | Host | Compiler | Standard library | Required contract |
-| --- | --- | --- | --- | --- |
-| Ubuntu GCC | `ubuntu-latest` | GCC 16 | libstdc++ | `just ci` and `just build-parallel` |
-| Ubuntu Clang | `ubuntu-latest` | Clang 22 | libstdc++ | `just ci` and `just build-parallel` |
-| macOS AppleClang | `macos-latest` | Runner AppleClang | libc++ | `just ci` and `just viewer-build` |
-| Windows MSVC | `windows-latest`, x64 | Runner MSVC | MSVC STL | `just ci` |
-
-Linux compiler packages are pinned by the Justfile. The native macOS and Windows compilers follow the GitHub-hosted
-runner images, while CMake enforces the minimum C++23 floor: GCC 13.3, Clang 22, AppleClang 15, and MSVC 19.34.
-These are tested release cells, not a claim that every distribution, operating-system version, architecture, or
-compiler/standard-library pairing is supported.
-
-### Prerequisites
-
-The smallest pkgx-assisted host setup is:
-
-- Xcode Command Line Tools on macOS, or a C++23 compiler and base build environment on Linux
-- pkgx
-- Just, used by the recipes and `scripts/pkgx-build.sh` to resolve the repository's tool-version pins
-- Python 3.14 for native dependency bootstrap, and uv when checking or running the Python support scripts
-- Doxygen 1.16.1 and Graphviz 15.1.0 when checking or generating API documentation; pkgx can supply both
-
-The pkgx build and documentation launchers supply their required tools ephemerally, including Git, Bash, CMake,
-Ninja, Python, Doxygen, Graphviz, M4, Autoconf, Autoconf Archive, Automake, GNU Libtool, Texinfo, and pkg-config. If
-pkgx is not installed, provide these tools conventionally through a package manager such as [Homebrew] or apt:
-
-- Git
-- Bash
-- build-essential (Linux only)
-- m4
-- automake
-- autoconf
-- autoconf-archive
-- libtool (macOS) or libtool-bin (Linux)
-- pkg-config
-- texinfo
-- ninja (macOS) or ninja-build (Linux)
-
-The build does not require a pre-existing personal vcpkg checkout, a fork, a submodule, Docker, or a hosted
-development environment.
-
-### Developer workflow
-
-The repository-root `Justfile` provides the same small command vocabulary used by the related projects:
-
-```bash
-just check                 # Fast, non-mutating local checks
-just build-debug           # Build Debug targets and run compatible CLI integration tests
-just build-parallel        # Build and test the opt-in CGAL/oneTBB configuration
-just codeql-prepare        # Configure dependencies before CodeQL tracing
-just codeql-build          # Build production targets for CodeQL extraction
-just fix                   # Format C++/Python source and the Justfile
-just clang-tidy            # Analyze C++ with LLVM 22
-just sanitize asan         # Build and exercise one Linux sanitizer preset
-just build                 # Bootstrap, configure, build, and smoke-test
-just run --help            # Build as needed and run cdt with forwarded arguments
-just ci                    # Comprehensive pre-commit/pre-push validation
-just docs-check            # Validate Doxygen output without changing the worktree
-just docs                  # Generate publishable documentation in docs/html
-just coverage              # Generate Linux GCC LCOV and HTML coverage reports
-just release-check         # Validate release metadata and citation fields
-just changelog-unreleased vX.Y.Z # Generate a pending release changelog
-just tag-check vX.Y.Z      # Preview and validate an annotated release tag
-just update-actions        # Update and repin Actions with pinact, then validate
-just sync-vcpkg-tool-pins  # Sync the vcpkg tool release and Windows hashes
-just python-sync           # Install the locked Python development environment
-just python-check          # Check Python formatting, lint, and types
-just python-fix            # Apply safe Ruff fixes and formatting
-just comparison-run /path/to/rust-fixture out/comparisons/run-1 # Run and retain one comparison
-just comparison-analyze out/comparisons/run-1 # Reanalyze without executing C++ or Rust
-just spell-check           # Check repository text and identifiers for typos
-```
-
-`check` covers repository-wide C++ formatting, Python formatting/lint/type checks, spelling, release metadata and
-citation fields, YAML, GitHub Actions syntax and security, whitespace, and CMake preset parsing. `ci` adds the pinact policy
-check and the supported build/test contract. Documentation validation remains available separately through
-`just docs-check`. The GitHub Actions Ubuntu GCC, Ubuntu Clang, macOS
-AppleClang, and Windows MSVC jobs all run `just ci`; the two Ubuntu jobs also
-run `just build-parallel`, while the macOS job builds and smoke-tests the opt-in
-viewer. Pull requests also run the distinct coverage and generated-documentation
-gates. The Ubuntu compiler jobs use the pinned pkgx ccache package with a
-compiler-specific persistent cache. Sanitizer builds use Release
-semantics with sanitizer-provided `-O1 -g` flags, while coverage uses Release
-semantics with coverage-provided `-O0 -g` flags; no duplicate full-suite Debug
-job is needed. Windows continues to compile with native MSVC; the
-locked Python environment supplies `clang-format` only as a source formatter.
-Install the developer tools with Homebrew, use equivalent system packages, or
-let pkgx supply the Unix environment ephemerally; pkgx remains optional. For
-example:
-
-```bash
-just python-sync
-pkgx +just.systems@1.58.0 +git-scm.org +cmake.org@4.4.1 +ninja-build.org +python.org just check
-```
-
-All configure paths require CMake 4.4.0 or newer. The Justfile owns the tested
-4.4.1 toolchain pin: pkgx-backed recipes remain reproducible at that version,
-while direct configure paths accept newer compatible CMake releases. CI is
-pkgx-first; because pkgx does not currently publish its CMake and Ninja packages
-for Windows, that job uses the exact Justfile pins available as PyPI wheels
-through `uv tool install --no-build`.
-
-[pinact](https://github.com/suzuki-shunsuke/pinact) uses [`.pinact.yaml`](https://github.com/acgetchell/CDT-plusplus/blob/main/.pinact.yaml) to retain immutable action
-SHAs, readable release comments, and a seven-day release cooldown. `just update-actions` uses an installed pinact,
-Go, or a pkgx-provided Go fallback, then requires `yamllint`, `actionlint`, and `zizmor` to pass. Direct third-party
-Python dependencies install only from locked wheels. The uv environment provides `clang-format` and `yamllint`;
-actionlint uses its pinned upstream version, and zizmor uses its pinned PyPI wheel through `uvx`.
-
-### vcpkg maintenance
-
-`vcpkg.json` is the dependency source of truth. Its `builtin-baseline` pins the official
-[`microsoft/vcpkg`](https://github.com/microsoft/vcpkg) registry commit used locally and in CI. The repository-local
-`.cache/vcpkg` checkout is disposable tool/cache infrastructure and must not be edited or committed.
-The native build entry points delegate checkout provenance, baseline, and executable-integrity validation directly
-to `scripts/bootstrap_vcpkg.py`, whose cross-platform fixtures run under `just check`.
-
-To update dependencies intentionally, bootstrap the current checkout, run the vcpkg baseline updater, synchronize
-the independently reviewed tool pins, review both diffs, and then rerun the complete build:
-
-```bash
-python3 scripts/bootstrap_vcpkg.py
-export VCPKG_ROOT="$PWD/.cache/vcpkg"
-"$VCPKG_ROOT/vcpkg" x-update-baseline
-just sync-vcpkg-tool-pins
-./scripts/build.sh
-```
-
-`just sync-vcpkg-tool-pins` reads the new manifest baseline, fetches that exact upstream commit's tool metadata,
-downloads the official Windows amd64 and arm64 release assets, and atomically updates the release and SHA-256 pins in
-`scripts/bootstrap_vcpkg.py`. It leaves the existing pins unchanged if any input cannot be fetched or validated, and
-only writes when the rendered release and hash assignments differ from the bootstrap source.
-
-On Windows, invoke the synchronizer with `python.exe scripts\sync_vcpkg_tool_pins.py`; `scripts\build.bat` and
-`scripts\fast-build.bat` already invoke the bootstrap implementation directly.
-
-CI uses the repository's cached-vcpkg action, which derives the vcpkg checkout commit from the same manifest baseline,
-stores compiler-specific binary archives through `actions/cache`, and separately caches downloaded source archives.
-No separately maintained checkout SHA is required; the bootstrap script retains an independent tool release and
-Windows executable hashes as a supply-chain review gate.
-
-CodeQL keeps third-party implementation findings out of CDT++ results through a two-phase manual build.
-`just codeql-prepare` configures the project, installs manifest dependencies before CodeQL starts tracing, and uses a
-build directory under the host temporary directory so installed headers are outside the checkout. After CodeQL
-initialization, `just codeql-build` compiles only the `cdt` and `initialize` production targets with tests disabled.
-The regular `just build` and `just ci` contracts continue to build and run the complete test suite.
-
-## Build
-
-Run `just build` from the repository root. It delegates to `./scripts/build.sh` on Unix and `scripts\build.bat` on
-Windows; either platform-specific script can itself be run from any working directory for troubleshooting. If
-`VCPKG_ROOT` already names the clean official checkout at the manifest baseline, the script respects it; otherwise it
-uses the pinned disposable checkout described above. Both scripts invoke the `reference` configure and build presets
-followed by the `reference-smoke` test preset; products and tests are isolated under `out/build/reference`, while
-`scripts\fast-build.bat` configures the same reference tree and builds only the primary `cdt` target. All entry points
-preserve a compatible CMake cache and refresh it only when the selected vcpkg toolchain path changes. Direct script
-invocations must expose CMake 4.4.0 or newer on `PATH`; the canonical pkgx-backed `just` recipes select the tested
-4.4.1 toolchain automatically.
-
-The archival Qt viewer is deliberately outside that cross-platform headless contract. On macOS, `just viewer-build`
-selects the separate `viewer` preset and vcpkg feature, builds `cdt-viewer` under `out/build/viewer`, and runs its
-noninteractive image smoke test. The macOS CI cell runs that same focused recipe after the headless contract; Qt and
-Eigen are installed only in the viewer build tree. See
-[`docs/viewer.md`](docs/viewer.md) for regeneration, version pins, and portability rules.
-
-### Project Layout
-
-The repository-owned source and generated-output boundaries are:
-
-- .github - GitHub specific settings
-- out/build/reference - Ephemeral supported headless build directory
-- cmake - Cmake configurations
-- docs - Documentation
-- external - Includes submodules of external projects (none so far, all using [vcpkg])
-- include - Header files
-- scripts - Build, test, and run scripts
-- src - Source files
-- tests - Unit tests
-- viewer - Versioned archival render fixtures, manifests, and schemas
-
-## Command-line reference
-
-The supported simulation surface is the spherical, three-dimensional form:
-
-```bash
-just run --spherical \
-  --simplices 32000 \
-  --timeslices 11 \
-  --alpha 0.6 \
-  --k 1.1 \
-  --lambda 0.1 \
-  --passes 1000 \
-  --seed 92
-```
-
-Run `just run --help` for the executable-owned option list and `just run --version` for the synchronized product
-version. Long options and their defined short forms are parsed by [Boost.Program_options][program_options]. The
-legacy parser still names toroidal topology and dimensionality, but runtime validation rejects toroidal input and
-every dimension other than three; they are not supported release modes.
-
-`--threads` is a maximum concurrency limit for CGAL/oneTBB bulk Delaunay
-operations. It defaults to 1. Zero and negative values are rejected. The
-canonical reference build accepts only 1; values greater than 1 require the
-`parallel` preset. This option does not parallelize Metropolis-Hastings,
-Pachner moves, persistence, or concurrent access to one manifold.
-
-With `--dimensions 3`, every spatial slice is two-dimensional and the third dimension is the global time foliation.
-The accepted runtime boundary requires positive simplex and timeslice counts, finite physical parameters with
-`alpha > 1/2`, and a positive thread limit. Invalid configurations fail before construction.
+The versioned, language-neutral fixtures, canonical C++ results, run manifests, raw outputs, and Rust consumption
+rules are published in the [`reference/`](reference/README.md) package. That package owns the detailed
+cross-implementation comparison and reference-fixture contract.
 
 ## Documentation
 
 Online documentation is at <https://adamgetchell.org/CDT-plusplus/>.
 
-The compiled [C++ API quickstart](docs/cpp-api-quickstart.md) is the canonical
-end-to-end public API example and is embedded verbatim in the generated site.
+The compiled [C++ API quickstart](docs/cpp-api-quickstart.md) is the canonical end-to-end public API example and is
+embedded verbatim in the generated site.
 
-The scientific transition, proposal-ratio, geometry-delta, counter, and
-precision contracts are recorded in
-[`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
-The cross-language schema, exact-versus-numerical comparison policy, and raw
-archival records are documented in
-[`reference/README.md`](reference/README.md).
-The literature-backed contracts, exact deltas, inverse relationships, and
-failure-atomicity rules for the complete 2+1D move set are recorded in
-[`docs/ergodic-moves.md`](docs/ergodic-moves.md).
-Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream
-policy are recorded in [`docs/reproducibility.md`](docs/reproducibility.md).
-The repository-wide scientific bibliography is
-[`REFERENCES.md`](REFERENCES.md).
+- The complete supported public source surface is recorded in the [C++ API boundary](docs/api-boundary.md).
+- The scientific transition, proposal-ratio, geometry-delta, counter, and precision contracts are recorded in
+  [`docs/metropolis-hastings.md`](docs/metropolis-hastings.md).
+- The literature-backed contracts, exact deltas, inverse relationships, and failure-atomicity rules for the complete
+  2+1D move set are recorded in [`docs/ergodic-moves.md`](docs/ergodic-moves.md).
+- Seed replay, PCG stream ownership, checkpoint metadata, and the parallel stream policy are recorded in
+  [`docs/reproducibility.md`](docs/reproducibility.md).
+- The exact CGAL version, kernel, triangulation data structure, metadata, lifetime, TBB, benchmark, and upgrade
+  policies are recorded in [`docs/cgal-integration.md`](docs/cgal-integration.md).
+- The opt-in operations, ownership and synchronization rules, replayable stress inputs, sanitizer boundary, and
+  matched scaling protocol are recorded in [`docs/multithreading.md`](docs/multithreading.md).
+- The initial-state interchange, cross-language comparison, local comparison harness, schemas, and raw archival
+  records are documented in [`reference/README.md`](reference/README.md).
+- The reproducible image, tracked fixture, and macOS renderer boundary are documented in
+  [`docs/viewer.md`](docs/viewer.md).
+- The repository-wide scientific bibliography is [`REFERENCES.md`](REFERENCES.md).
 
-Validate the generated API documentation without modifying the worktree:
-
-```bash
-just docs-check
-```
-
-To generate the same publishable output used by the documentation workflow, run `just docs`; it writes `docs/html/`
-only after strict generation and generated-site validation succeed. Both recipes require Doxygen 1.16.1 and Graphviz
-15.1.0 and use pkgx ephemerally when matching local tools are unavailable. Doxygen 1.16.1 is the archival pin because
-1.17.0 duplicates linked labels, emits broken alphabetical-index fragments for this repository, and injects an unused
-Mermaid CDN dependency. `scripts/validate_generated_site.py` preserves that bounded workaround by checking the actual
-HTML, local links and fragments, duplicate IDs and link labels, and required assets. `USE_MATHJAX` allows [MathJax] to render LaTeX formulae, and
-`HAVE_DOT` enables [GraphViz] diagrams. Documentation validation is intentionally separate from the cross-platform
-`just ci` contract. The documentation workflow runs `just docs-check` as the stable `docs` pull-request gate. After a
-successful `main` validation, a separate least-privilege job runs `just docs` and publishes its output to the
-`gh-pages` branch.
-
-## Citing CDT++
-
-If CDT++ contributes to published work, cite the software using
-[`CITATION.cff`](https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff) and cite the scientific methods relevant to the
-work from [`REFERENCES.md`](REFERENCES.md). The software citation records the
-final release, `1.0.0`, and the all-versions Zenodo concept DOI
-[`10.5281/zenodo.21487043`](https://doi.org/10.5281/zenodo.21487043). The concrete v1.0.0 record DOI will be added to
-`CITATION.cff` as a version-specific identifier after Zenodo creates the stable deposit during issue #97.
-
-## Testing
-
-Run `just build`; it selects `scripts/build.sh` on Unix or `scripts\build.bat`
-on Windows, builds the test target, and executes all 131 CTest entries: 106
-doctest scenarios, 23 executable integration tests covering normal CLI use and
-invalid-boundary rejection, one compiled C++ API example, and one
-arithmetic-backend correctness test
-labeled `scientific`. The parallel-enabled AddressSanitizer and `parallel`
-configurations register 106 ordinary doctest scenarios, one launcher
-containing five scenarios labeled `unit`, `parallel`, and `configuration`, the
-same 23 integration tests, the C++ API example, and the arithmetic test, for 132
-CTest entries.
-Every process-level test is labeled `integration`, and invalid-input tests also
-carry the `cli-boundary` subcategory. Run `just ci` for the complete local
-validation gate.
-
-`just check` also runs the repository-owned Semgrep policy and its annotated
-fixtures. Use `just semgrep-test` while changing the rules and `just semgrep` to
-scan the real source tree for false positives.
-
-The doctest executable can also be run directly:
-
-```bash
-./out/build/reference/tests/CDT_unit_tests
-```
-
-To rerun the complete suite without rebuilding:
-
-```bash
-ctest --preset reference-smoke
-```
-
-To run a specific test category, use:
-
-```bash
-ctest --preset reference-smoke -L unit
-ctest --preset reference-smoke -L integration
-```
-
-In addition to the command line output, you can see detailed results in the
-`out/build/reference/Testing` directory generated by CTest.
-
-### Coverage
-
-Coverage reporting is supported on Linux with GNU GCC and its matching gcov,
-CMake, Ninja, LCOV 2.5 or newer, and `genhtml`. Distribution packages may
-provide an older LCOV that cannot parse coverage from current GCC releases; use
-the [upstream LCOV release](https://github.com/linux-test-project/lcov/releases/tag/v2.5)
-when necessary. Generate the same reports used by Codecov with:
-
-```bash
-CXX=g++ GCOV=gcov just coverage
-```
-
-The command uses an isolated `build/coverage` CMake tree and writes the filtered
-LCOV tracefile to `build/coverage.info` and the browsable report to
-`build/coverage-html/index.html`. Only project-owned `include/` and `src/`
-paths are retained, consistently excluding tests, generated files, system
-headers, and vcpkg dependencies. Reports include line and branch coverage;
-function coverage is disabled because GCC can emit inconsistent function and
-line records for generated lambda bodies. The raw LCOV capture temporarily
-retains function records because LCOV 2.5 requires them while filtering GCC 16
-data; the project-only extraction removes them from both published reports. If
-coverage collection fails, verify that `g++ -dumpfullversion -dumpversion` and
-`gcov --version` report the same major version.
-
-GCC 16 also emits three known line-hit/branch-unhit records for templated
-assignments in `Utilities.hpp`. The coverage recipe keeps LCOV's warnings
-visible and requires that exact count during extraction and report generation;
-new or removed inconsistencies therefore fail the command for review.
-
-The Codecov workflow runs this recipe for pull requests and `main`, uploads only `build/coverage.info` with OIDC, and
-preserves both reports as a 14-day GitHub Actions artifact for local
-diagnosis. If report generation fails, the workflow also preserves the gcov
-inputs and CTest diagnostics for seven days. It does not rely on Codecov's
-automatic gcov discovery. Codecov retains the LCOV branch detail but counts an
-executed line with an uncovered branch as a line hit, keeping its project
-percentage comparable to LCOV's line rate; use the LCOV artifact for the
-separate branch-coverage rate.
-
-### Static Analysis
-
-Python 3.14 is selected by [`.python-version`](https://github.com/acgetchell/CDT-plusplus/blob/main/.python-version), uv locks the environment in `uv.lock`, Ruff owns
-Python formatting and linting, and ty owns static type checking. Run `just python-sync` once and then use
-`just python-check` or `just python-fix`; both commands are also part of the repository-wide validation recipes.
-
-This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy]. The repository pins LLVM 22;
-run Clang-Tidy through its Just recipe:
-
-```bash
-just clang-tidy
-```
-
-(Or use your favorite linter plugin for your editor/IDE.)
-
-### Sanitizers
-
-[AddressSanitizer] + [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer], and [ThreadSanitizer] share the
-repository-owned Linux driver and CMake presets. Run one locally with `just sanitize asan`, `just sanitize lsan`,
-`just sanitize msan`, or `just sanitize tsan`; the GitHub Actions workflows invoke the same commands. MemorySanitizer
-remains experimental because third-party dependencies are not instrumented. AddressSanitizer enables the optional
-CGAL/TBB path and its parallel contract; ThreadSanitizer exercises the default sequential configuration.
-
-## Offline Comparison
-
-The [`cdt-compare`](docs/comparison-harness.md) command launches explicit CDT++ and `causal-triangulations`
-commands without a shell. Both receive copied versions of the #94 protocol, result schema, and reference manifest.
-The harness retains exact stdout, stderr, exit status, executable digest, command, working directory, process time,
-and host provenance. It first anchors the live C++ output to #94's committed canonical result, then compares exact
-fields and named tolerance-based fields with Rust. Any live C++ transition observations are independently anchored
-to the committed #94 protocol before becoming the Rust reference. It classifies
-implementation-specific and unsupported fields without interpreting either implementation as ground truth.
-
-After building CDT++ and a compatible Rust fixture producer, run one bounded comparison and retain it locally:
-
-```bash
-just comparison-run /absolute/path/to/causal-triangulations-fixture out/comparisons/run-1
-```
-
-Reproduce `summary.json` entirely from the stored raw artifacts, without running either executable:
-
-```bash
-just comparison-analyze out/comparisons/run-1
-```
-
-The bundle under `out/comparisons/run-1` is canonical and is published atomically only after analysis and manifest
-creation finish. Preserve its `inputs/`, `raw/`, `manifest.json`, and `summary.json` together. Python validates the
-complete artifact inventory and its digests, validates schemas, constructs commands, classifies comparisons, and
-renders a small text table; it does not implement topology, action, move-legality, or acceptance rules. See the
-[comparison-harness contract](docs/comparison-harness.md) for producer configuration, placeholders, artifact layout,
-failure records, and the C++ reference/Rust result boundary.
-
-The retained `cdt-optimize-initialize` command is also entirely local and dependency-free. It writes one directory
-per parameter pair under `out/experiments/initialize`, including configuration JSON, raw stdout, a tab-separated
-volume profile, metrics, artifact digests, and source/executable provenance. Each invocation requires a nonexistent
-output path. Seed `92` is the default; use `--seed` and `--output-directory` for another replayable record. Fresh CGAL
-triangulations remain subject to the [reproducibility contract](docs/reproducibility.md).
+Documentation generation and validation are documented in
+[CONTRIBUTING.md](https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md).
 
 ## Visualization
 
@@ -671,6 +389,12 @@ The restored Qt-based `cdt-viewer` is an opt-in macOS archival renderer. Its tra
 noninteractive smoke test, exact canonical-image policy, and inventory of historical visuals are documented in the
 [viewer and visual-artifact contract](docs/viewer.md). The default build remains headless and does not install Qt or
 Eigen.
+
+## Citing CDT++
+
+If you use CDT++ in your work, please cite it using
+[`CITATION.cff`](https://github.com/acgetchell/CDT-plusplus/blob/main/CITATION.cff). The papers and software on which
+CDT++ is based are collected in [`REFERENCES.md`](REFERENCES.md).
 
 ## Security and support
 
@@ -683,44 +407,49 @@ archive-specific vulnerabilities and issues that also affect the active successo
 Active development has moved to
 [causal-triangulations](https://github.com/acgetchell/causal-triangulations). Before CDT++ is archived, only
 release-blocking corrections within the maintenance-only stabilization scope are accepted. After archival, GitHub
-will make this repository read-only. See [CONTRIBUTING.md] for the correction workflow and
-[CODE_OF_CONDUCT.md] for the preserved participation policy.
+will make this repository read-only. See
+[CONTRIBUTING.md](https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md) for the correction
+scope, environment setup, developer commands, test and documentation validation, dependency maintenance, and pull
+request requirements. The preserved participation policy is in
+[CODE_OF_CONDUCT.md](https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md).
 
-## Issues
+## License
 
-The [CDT++ issue tracker](https://github.com/acgetchell/CDT-plusplus/issues) remains available during the
-maintenance-only stabilization window. Issue #155 will close or disposition the remaining trackers and archive this
-repository after the owner determines that no blockers remain. New development, support, and scientific work belong
-in the [causal-triangulations issue tracker](https://github.com/acgetchell/causal-triangulations/issues).
+CDT++ is distributed under the
+[BSD 3-Clause License](https://github.com/acgetchell/CDT-plusplus/blob/main/LICENSE.md).
 
 [CDT]: REFERENCES.md#cdt-framework-2001
 [CGAL]: REFERENCES.md#cgal-triangulations
-[CMake]: https://cmake.org
-[doctest]: https://github.com/doctest/doctest
-[guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
 [Doxygen]: https://www.doxygen.nl
 [Homebrew]: https://brew.sh
+[C++23]: https://en.cppreference.com/w/cpp/23
+[GCC]: https://gcc.gnu.org
+[Clang]: https://clang.llvm.org
+[Xcode]: https://developer.apple.com/xcode/
+[Xcode Command Line Tools]: https://developer.apple.com/xcode/resources/
+[pkgx]: https://pkgx.sh
+[Just]: https://just.systems
+[Python]: https://www.python.org/downloads/
+[uv]: https://docs.astral.sh/uv/
+[Git]: https://git-scm.com
+[Bash]: https://www.gnu.org/software/bash/
+[CMake]: https://cmake.org
 [Ninja]: https://ninja-build.org
+[apt]: https://ubuntu.com/server/docs/package-management
+[Developer Command Prompt or Developer PowerShell]: https://learn.microsoft.com/cpp/build/building-on-the-command-line
+[Visual Studio]: https://visualstudio.microsoft.com/vs/
+[MSVC]: https://learn.microsoft.com/cpp/overview/visual-cpp-in-visual-studio
+[Git Bash]: https://gitforwindows.org
+[Git for Windows]: https://gitforwindows.org
+[Slurm]: https://slurm.schedmd.com
 [program_options]: https://www.boost.org/doc/libs/1_91_0/doc/html/program_options.html
-[Mathjax]: https://www.mathjax.org
-[GraphViz]: https://www.graphviz.org
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
 [TBB]: https://uxlfoundation.github.io/oneTBB/
 [Boost]: https://www.boost.org
-[ClangTidy]: https://clang.llvm.org/extra/clang-tidy/
-[BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
-[TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [vcpkg]: https://github.com/Microsoft/vcpkg
 [PCG]: REFERENCES.md#pcg-random-number-generators
 [TestU01]: https://doi.org/10.1145/1268776.1268777
-[CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CONTRIBUTING.md
-[CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/main/.github/CODE_OF_CONDUCT.md
 [{fmt}]: https://github.com/fmtlib/fmt
-[AddressSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizer
-[LeakSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
-[ThreadSanitizer]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
-[MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
-[UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
 [spdlog]: https://github.com/gabime/spdlog
 [Qt]: https://www.qt.io

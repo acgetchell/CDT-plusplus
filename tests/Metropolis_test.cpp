@@ -900,6 +900,93 @@ SCENARIO("Metropolis runs replay every transition from an identical start" *
   CHECK_EQ(first.transition_trace(), replay.transition_trace());
 }
 
+SCENARIO("Checkpoint state preserves the identical Markov chain" *
+         doctest::test_suite("metropolis"))
+{
+  auto           uninterrupted_state = minimal_23_manifold();
+  auto           checkpointed_state  = uninterrupted_state;
+  constexpr auto seed                = cdt::RandomSeed{92};
+  constexpr auto total_passes        = Int_precision{2};
+  constexpr auto checkpoint_interval = Int_precision{1};
+  Metropolis_3   uninterrupted{
+      0.6L,
+      0.0L,
+      0.0L,
+      total_passes,
+      checkpoint_interval,
+      false,
+      cdt::Random{seed, cdt::random_streams::transitions}
+  };
+  Metropolis_3 checkpointed{
+      0.6L,
+      0.0L,
+      0.0L,
+      total_passes,
+      checkpoint_interval,
+      false,
+      cdt::Random{seed, cdt::random_streams::transitions}
+  };
+
+  auto const first_pass_attempts = uninterrupted_state.N3();
+  for (auto attempt = Int_precision{}; attempt < first_pass_attempts; ++attempt)
+  {
+    auto const uninterrupted_transition =
+        uninterrupted.attempt_transition(uninterrupted_state);
+    auto const checkpointed_transition =
+        checkpointed.attempt_transition(checkpointed_state);
+    REQUIRE_EQ(uninterrupted_transition, checkpointed_transition);
+    REQUIRE_EQ(uninterrupted_state.delaunay_snapshot(),
+               checkpointed_state.delaunay_snapshot());
+  }
+
+  auto const checkpoint = checkpointed.reproducibility_metadata(
+      checkpointed_state, utilities::ArtifactKind::CHECKPOINT, 1);
+  REQUIRE(checkpoint.transition_random_state);
+  auto restored_random = cdt::Random::from_serialized_state(
+      checkpoint.seed, checkpoint.transition_stream,
+      *checkpoint.transition_random_state);
+  Metropolis_3 resumed{0.6L,
+                       0.0L,
+                       0.0L,
+                       1,
+                       checkpoint_interval,
+                       false,
+                       std::move(restored_random),
+                       checkpoint,
+                       1};
+  auto         resumed_state = checkpointed_state;
+
+  auto const   same_counts   = [](auto const& lhs, auto const& rhs) {
+    return std::ranges::equal(lhs.moves_view(), rhs.moves_view());
+  };
+  auto const second_pass_attempts = uninterrupted_state.N3();
+  REQUIRE_EQ(second_pass_attempts, resumed_state.N3());
+  for (auto attempt = Int_precision{}; attempt < second_pass_attempts;
+       ++attempt)
+  {
+    auto const uninterrupted_transition =
+        uninterrupted.attempt_transition(uninterrupted_state);
+    auto const resumed_transition = resumed.attempt_transition(resumed_state);
+
+    CAPTURE(attempt);
+    CHECK_EQ(uninterrupted_transition, resumed_transition);
+    CHECK_EQ(uninterrupted_state.delaunay_snapshot(),
+             resumed_state.delaunay_snapshot());
+    CHECK_EQ(utilities::detail::canonical_topology_fingerprint(
+                 uninterrupted_state.delaunay_snapshot()),
+             utilities::detail::canonical_topology_fingerprint(
+                 resumed_state.delaunay_snapshot()));
+    CHECK_EQ(uninterrupted.transition_trace(), resumed.transition_trace());
+    CHECK_EQ(uninterrupted.transition_count(), resumed.transition_count());
+    CHECK(same_counts(uninterrupted.proposed(), resumed.proposed()));
+    CHECK(same_counts(uninterrupted.accepted(), resumed.accepted()));
+    CHECK(same_counts(uninterrupted.rejected(), resumed.rejected()));
+    CHECK(same_counts(uninterrupted.attempted(), resumed.attempted()));
+    CHECK(same_counts(uninterrupted.succeeded(), resumed.succeeded()));
+    CHECK(same_counts(uninterrupted.failed(), resumed.failed()));
+  }
+}
+
 SCENARIO("Metropolis multi-pass accounting is per invocation" *
          doctest::test_suite("metropolis"))
 {

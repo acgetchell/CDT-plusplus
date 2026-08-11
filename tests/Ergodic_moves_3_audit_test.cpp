@@ -478,6 +478,21 @@ namespace
     return Manifold{manifolds::make_causal_vertices<3>(vertices, times), 0, 1};
   }
 
+  [[nodiscard]] auto make_reordered_44_fixture() -> Manifold
+  {
+    static constexpr auto inverse_sqrt_2 = 1.0 / std::numbers::sqrt2_v<double>;
+    std::vector<Point_t<3>> vertices{
+        {              0,               0,              2},
+        {              0, -inverse_sqrt_2, inverse_sqrt_2},
+        {-inverse_sqrt_2,               0, inverse_sqrt_2},
+        {              0,  inverse_sqrt_2, inverse_sqrt_2},
+        { inverse_sqrt_2,               0, inverse_sqrt_2},
+        {              0,               0,              0},
+    };
+    std::vector<std::size_t> const times{2, 1, 1, 1, 1, 0};
+    return Manifold{manifolds::make_causal_vertices<3>(vertices, times), 0, 1};
+  }
+
   [[nodiscard]] auto finite_incident_cells(Delaunay const&   triangulation,
                                            Edge_handle const edge)
       -> std::optional<ergodic_moves::Cell_container>
@@ -688,6 +703,60 @@ SCENARIO("Every 2+1D CDT move has the literature-derived local delta" *
         REQUIRE(restored.has_value());
         THEN("the original canonical diamond is restored")
         { CHECK_EQ(canonical_state(*restored), canonical_state(before)); }
+      }
+    }
+  }
+
+  GIVEN("equivalent (4,4) cavities with different insertion orders")
+  {
+    auto const original             = make_44_fixture();
+    auto const reordered            = make_reordered_44_fixture();
+    auto const cell_iteration_order = [](Manifold const& manifold) {
+      std::vector<Cell_record> records;
+      auto const               triangulation = manifold.delaunay_snapshot();
+      for (auto const cell : triangulation.finite_cell_handles())
+      {
+        records.emplace_back(
+            sorted_simplex<4>({cell->vertex(0), cell->vertex(1),
+                               cell->vertex(2), cell->vertex(3)}),
+            cell->info());
+      }
+      return records;
+    };
+    REQUIRE_EQ(canonical_state(reordered), canonical_state(original));
+    REQUIRE_FALSE(cell_iteration_order(reordered) ==
+                  cell_iteration_order(original));
+    auto       triangulation = original.delaunay_snapshot();
+    auto const pivot         = find_44_pivot(triangulation);
+    REQUIRE(pivot.has_value());
+    auto const reversed =
+        Edge_handle{pivot->first, pivot->third, pivot->second};
+    auto const canonical =
+        ergodic_moves::detail::canonical_edge_descriptor(triangulation, *pivot);
+    auto const canonical_reversed =
+        ergodic_moves::detail::canonical_edge_descriptor(triangulation,
+                                                         reversed);
+    REQUIRE(canonical.has_value());
+    REQUIRE(canonical_reversed.has_value());
+    CHECK(canonical->first == canonical_reversed->first);
+    CHECK_EQ(canonical->second, canonical_reversed->second);
+    CHECK_EQ(canonical->third, canonical_reversed->third);
+    cdt::Random original_random{10645};
+    cdt::Random reordered_random{10645};
+
+    WHEN("the same random (4,4) sequence is applied")
+    {
+      auto const original_result =
+          ergodic_moves::do_44_move(original, original_random);
+      auto const reordered_result =
+          ergodic_moves::do_44_move(reordered, reordered_random);
+
+      THEN("canonical flip descriptors produce the same transition")
+      {
+        REQUIRE(original_result.has_value());
+        REQUIRE(reordered_result.has_value());
+        CHECK_EQ(canonical_state(*reordered_result),
+                 canonical_state(*original_result));
       }
     }
   }
@@ -981,6 +1050,58 @@ SCENARIO("CDT move rejection is causal and failure-atomic" *
         REQUIRE(observed_mutation);
         CHECK_FALSE(rejected.has_value());
         CHECK_EQ(canonical_triangulation(source), before);
+      }
+    }
+  }
+
+  GIVEN("a (2,6) facet whose centroid is already occupied")
+  {
+    auto triangulation = make_26_fixture().delaunay_snapshot();
+    auto one_three     = foliated_triangulations::filter_cells<3>(
+        foliated_triangulations::collect_cells<3>(triangulation),
+        CellType::ONE_THREE);
+    REQUIRE_EQ(one_three.size(), 1);
+    auto const bottom = one_three.front();
+    auto const neighboring_31_index =
+        ergodic_moves::detail::find_adjacent_31_cell(bottom);
+    REQUIRE(neighboring_31_index.has_value());
+    auto const top = bottom->neighbor(*neighboring_31_index);
+    REQUIRE(top != nullptr);
+    auto common_face_index = -1;
+    REQUIRE(bottom->has_neighbor(top, common_face_index));
+    REQUIRE_GE(common_face_index, 0);
+
+    std::array<Point_t<3>, 3> face_points{};
+    auto                      output = face_points.begin();
+    for (auto index = 0; index < 4; ++index)
+    {
+      if (index != common_face_index)
+      {
+        *output++ = bottom->vertex(index)->point();
+      }
+    }
+    std::ranges::sort(face_points, ergodic_moves::detail::point_less);
+    auto const center_point =
+        CGAL::centroid(face_points[0], face_points[1], face_points[2]);
+    bottom->vertex(common_face_index)->set_point(center_point);
+
+    auto const prepared =
+        ergodic_moves::detail::prepare_two_six(triangulation, bottom);
+    REQUIRE(prepared.has_value());
+    auto const before = canonical_triangulation(triangulation);
+
+    WHEN("the prepared move would create a coincident vertex")
+    {
+      auto const result = ergodic_moves::detail::execute(
+          triangulation, *prepared,
+          ergodic_moves::detail::accept_post_mutation);
+
+      THEN("the coordinate invariant is rejected before mutation")
+      {
+        REQUIRE_FALSE(result.has_value());
+        CHECK_EQ(result.error().reason(),
+                 ergodic_moves::MoveFailure::INVARIANT_VIOLATION);
+        CHECK_EQ(canonical_triangulation(triangulation), before);
       }
     }
   }

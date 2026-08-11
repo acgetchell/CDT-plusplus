@@ -14,6 +14,7 @@
 
 #include <expected>
 #include <functional>
+#include <limits>
 #include <stdexcept>
 #include <string_view>
 #include <utility>
@@ -175,17 +176,24 @@ namespace cdt
     /// caller, so a reusable strategy never exposes partially reset counters.
     template <typename ManifoldType, typename StrategyState,
               typename ExecutePass, typename Report, typename Checkpoint>
-    [[nodiscard]] auto execute_move_run(ManifoldType  initial,
-                                        StrategyState initial_strategy_state,
-                                        MoveRunCadence const  cadence,
-                                        MoveRunIdentity const identity,
-                                        bool const            writes_files,
-                                        ExecutePass execute_pass, Report report,
-                                        Checkpoint checkpoint)
+    [[nodiscard]] auto execute_move_run(
+        ManifoldType                     initial,
+        MoveCommandResults<ManifoldType> initial_command_results,
+        StrategyState                    initial_strategy_state,
+        Int_precision const completed_passes, MoveRunCadence const cadence,
+        MoveRunIdentity const identity, bool const writes_files,
+        ExecutePass execute_pass, Report report, Checkpoint checkpoint)
         -> MoveRunResult<ManifoldType, StrategyState>
     {
+      if (completed_passes < 0 ||
+          completed_passes >
+              std::numeric_limits<Int_precision>::max() - cadence.passes())
+      {
+        throw std::invalid_argument(
+            "Completed and configured passes exceed the supported range.");
+      }
       auto current           = std::move(initial);
-      auto command_totals    = MoveCommandResults<ManifoldType>{};
+      auto command_totals    = std::move(initial_command_results);
       auto strategy_state    = std::move(initial_strategy_state);
       auto checkpoint_events = Int_precision{};
 
@@ -198,7 +206,7 @@ namespace cdt
       for (auto pass_index = Int_precision{}; pass_index < cadence.passes();
            ++pass_index)
       {
-        auto const pass_number = pass_index + 1;
+        auto const pass_number = completed_passes + pass_index + 1;
         fmt::print("=== Pass {} ===\n", pass_number);
         auto const attempts = current.N3();
         auto       pass     = std::invoke(execute_pass, std::move(current),

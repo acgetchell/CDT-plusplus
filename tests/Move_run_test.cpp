@@ -157,18 +157,23 @@ SCENARIO("MoveCommand results are consumed and reset once" *
 SCENARIO("Shared move-run orchestration accumulates pass deltas once" *
          doctest::test_suite("move_run"))
 {
-  GIVEN("A three-pass cadence with reporting and checkpoint collectors.")
+  GIVEN("Restored counters, two completed passes, and a three-pass cadence.")
   {
     auto const cadence = MoveRunCadence::parse(3, 2);
     REQUIRE(cadence);
-    std::vector<Int_precision> reports;
-    std::vector<Int_precision> checkpoints;
-    std::vector<Int_precision> checkpoint_attempts;
+    std::vector<Int_precision>                   reports;
+    std::vector<Int_precision>                   checkpoints;
+    std::vector<Int_precision>                   checkpoint_attempts;
+    detail::MoveCommandResults<ScriptedManifold> initial_results;
+    constexpr auto move             = move_tracker::MoveType::TWO_THREE;
+    initial_results.attempted[move] = 7;
+    initial_results.succeeded[move] = 4;
+    initial_results.failed[move]    = 3;
 
     WHEN("The shared runner executes scripted pass deltas.")
     {
       auto result = detail::execute_move_run(
-          ScriptedManifold{}, 0, *cadence,
+          ScriptedManifold{}, initial_results, 0, 2, *cadence,
           detail::MoveRunIdentity{.algorithm = "Scripted",
                                   .seed      = RandomSeed{103},
                                   .stream    = RandomStream{7}},
@@ -204,13 +209,13 @@ SCENARIO("Shared move-run orchestration accumulates pass deltas once" *
       {
         CHECK_EQ(result.manifold.N3(), 5);
         CHECK_EQ(result.strategy_state, 3);
-        CHECK_EQ(result.command_results.attempted.total(), 9);
-        CHECK_EQ(result.command_results.succeeded.total(), 6);
-        CHECK_EQ(result.command_results.failed.total(), 3);
+        CHECK_EQ(result.command_results.attempted.total(), 16);
+        CHECK_EQ(result.command_results.succeeded.total(), 10);
+        CHECK_EQ(result.command_results.failed.total(), 6);
         CHECK_EQ(result.checkpoint_events, 1);
-        CHECK_EQ(reports, std::vector<Int_precision>{5, 9});
-        CHECK_EQ(checkpoints, std::vector<Int_precision>{2});
-        CHECK_EQ(checkpoint_attempts, std::vector<Int_precision>{5});
+        CHECK_EQ(reports, std::vector<Int_precision>{12, 16});
+        CHECK_EQ(checkpoints, std::vector<Int_precision>{4});
+        CHECK_EQ(checkpoint_attempts, std::vector<Int_precision>{12});
       }
     }
   }
@@ -230,7 +235,8 @@ SCENARIO(
     WHEN("The shared runner executes two passes.")
     {
       auto result = detail::execute_move_run(
-          ScriptedManifold{}, 0, *cadence,
+          ScriptedManifold{}, detail::MoveCommandResults<ScriptedManifold>{}, 0,
+          0, *cadence,
           detail::MoveRunIdentity{.algorithm = "Scripted",
                                   .seed      = RandomSeed{103},
                                   .stream    = RandomStream{7}},

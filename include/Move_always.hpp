@@ -184,7 +184,7 @@ namespace cdt
       spdlog::debug("{} called.\n", CDT_PRETTY_FUNCTION);
 #endif
       auto result = detail::execute_move_run(
-          t_manifold, std::monostate{}, m_cadence,
+          t_manifold, CommandResults{}, std::monostate{}, 0, m_cadence,
           detail::MoveRunIdentity{
               .algorithm = "Move Always", .seed = seed(), .stream = stream()},
           m_write_files,
