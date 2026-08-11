@@ -98,7 +98,7 @@ $(function() {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="structcdt_1_1utilities_1_1_reproducibility__metadata__coll__graph.svg" width="359" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="structcdt_1_1utilities_1_1_reproducibility__metadata__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -135,6 +135,16 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a5c4b392b9fb0cb2a70738eccd0f3dab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial spherical radius.  <br /></td></tr>
 <tr class="memitem:a5f353c5ada41ba1983126414c9e8df36" id="r_a5f353c5ada41ba1983126414c9e8df36"><td class="memItemLeft"><a class="el" href="classcdt_1_1_random_stream.html">cdt::RandomStream</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5f353c5ada41ba1983126414c9e8df36">initialization_stream</a></td></tr>
 <tr class="memdesc:a5f353c5ada41ba1983126414c9e8df36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization stream.  <br /></td></tr>
+<tr class="memitem:aaec88adeac25565ca60196dc2df96a95" id="r_aaec88adeac25565ca60196dc2df96a95"><td class="memItemLeft">std::optional&lt; <a class="el" href="_utilities_8hpp.html#a46664ff29f65038f90a18f0523cfda41">ArtifactKind</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aaec88adeac25565ca60196dc2df96a95">input_artifact</a></td></tr>
+<tr class="memdesc:aaec88adeac25565ca60196dc2df96a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting artifact role.  <br /></td></tr>
+<tr class="memitem:ad89259b0d1f5cf50448a735dea1d19e1" id="r_ad89259b0d1f5cf50448a735dea1d19e1"><td class="memItemLeft">std::optional&lt; <a class="el" href="classcdt_1_1_random_stream.html">cdt::RandomStream</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad89259b0d1f5cf50448a735dea1d19e1">input_initialization_stream</a></td></tr>
+<tr class="memdesc:ad89259b0d1f5cf50448a735dea1d19e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting initialization stream.  <br /></td></tr>
+<tr class="memitem:a8bf4bd84f5dcff5c136c9bacf6892ff9" id="r_a8bf4bd84f5dcff5c136c9bacf6892ff9"><td class="memItemLeft">std::optional&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8bf4bd84f5dcff5c136c9bacf6892ff9">input_placement_fingerprint</a></td></tr>
+<tr class="memdesc:a8bf4bd84f5dcff5c136c9bacf6892ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting coordinate hash.  <br /></td></tr>
+<tr class="memitem:a76e715383c6fe3937593e6a6e4b0cbe4" id="r_a76e715383c6fe3937593e6a6e4b0cbe4"><td class="memItemLeft">std::optional&lt; <a class="el" href="classcdt_1_1_random_seed.html">cdt::RandomSeed</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a76e715383c6fe3937593e6a6e4b0cbe4">input_seed</a></td></tr>
+<tr class="memdesc:a76e715383c6fe3937593e6a6e4b0cbe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting artifact seed.  <br /></td></tr>
+<tr class="memitem:a9277734e15cb19fbb709d71bc99753c3" id="r_a9277734e15cb19fbb709d71bc99753c3"><td class="memItemLeft">std::optional&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9277734e15cb19fbb709d71bc99753c3">input_topology_fingerprint</a></td></tr>
+<tr class="memdesc:a9277734e15cb19fbb709d71bc99753c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting incidence hash.  <br /></td></tr>
 <tr class="memitem:aa4873813f96cbd7c87369ab7762cbf7d" id="r_aa4873813f96cbd7c87369ab7762cbf7d"><td class="memItemLeft">std::optional&lt; long double &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa4873813f96cbd7c87369ab7762cbf7d">k</a></td></tr>
 <tr class="memdesc:aa4873813f96cbd7c87369ab7762cbf7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional inverse Newton coupling.  <br /></td></tr>
 <tr class="memitem:a9776f7634cf3bade4886fc308e215a87" id="r_a9776f7634cf3bade4886fc308e215a87"><td class="memItemLeft">std::optional&lt; long double &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9776f7634cf3bade4886fc308e215a87">lambda</a></td></tr>
@@ -145,6 +155,8 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:aa7f65f4b593673d85356cd619ac83ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum persisted time label.  <br /></td></tr>
 <tr class="memitem:a95fb60a23d868d38f054ac46bdfa4ef6" id="r_a95fb60a23d868d38f054ac46bdfa4ef6"><td class="memItemLeft"><a class="el" href="namespacecdt.html#a7fdde000f87f9b5df3570a6f7f5802dd">Int_precision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a95fb60a23d868d38f054ac46bdfa4ef6">minimum_timeslice</a> {}</td></tr>
 <tr class="memdesc:a95fb60a23d868d38f054ac46bdfa4ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum persisted time label.  <br /></td></tr>
+<tr class="memitem:ae5b4ac94487591f55873af8e774ca3b5" id="r_ae5b4ac94487591f55873af8e774ca3b5"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcdt_1_1utilities_1_1_move__statistics.html">Move_statistics</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae5b4ac94487591f55873af8e774ca3b5">move_statistics</a></td></tr>
+<tr class="memdesc:ae5b4ac94487591f55873af8e774ca3b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cumulative counters.  <br /></td></tr>
 <tr class="memitem:a100a02b1b7cf8b44b11dbabcf207ba8c" id="r_a100a02b1b7cf8b44b11dbabcf207ba8c"><td class="memItemLeft">std::optional&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a100a02b1b7cf8b44b11dbabcf207ba8c">placement_fingerprint</a></td></tr>
 <tr class="memdesc:a100a02b1b7cf8b44b11dbabcf207ba8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coordinate hash.  <br /></td></tr>
 <tr class="memitem:aeb0ea3483b1ca12b0f23ffa8a73d8784" id="r_aeb0ea3483b1ca12b0f23ffa8a73d8784"><td class="memItemLeft"><a class="el" href="classcdt_1_1_random_seed.html">cdt::RandomSeed</a>&#160;</td><td class="memItemRight"><a class="el" href="#aeb0ea3483b1ca12b0f23ffa8a73d8784">seed</a> {}</td></tr>
@@ -155,6 +167,8 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ad155c3169bf46456fd021702f160a627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Incidence hash.  <br /></td></tr>
 <tr class="memitem:a99753d5dff35b1e7fe734d4737938f68" id="r_a99753d5dff35b1e7fe734d4737938f68"><td class="memItemLeft">std::optional&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a99753d5dff35b1e7fe734d4737938f68">transition_count</a></td></tr>
 <tr class="memdesc:a99753d5dff35b1e7fe734d4737938f68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashed transitions.  <br /></td></tr>
+<tr class="memitem:a0ef0fa2b9c3dd3453a24c9fea008c94a" id="r_a0ef0fa2b9c3dd3453a24c9fea008c94a"><td class="memItemLeft">std::shared_ptr&lt; std::string const  &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a0ef0fa2b9c3dd3453a24c9fea008c94a">transition_random_state</a></td></tr>
+<tr class="memdesc:a0ef0fa2b9c3dd3453a24c9fea008c94a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exact PCG state.  <br /></td></tr>
 <tr class="memitem:a10d83e089c38d3ab59bce0e46ed0f003" id="r_a10d83e089c38d3ab59bce0e46ed0f003"><td class="memItemLeft"><a class="el" href="classcdt_1_1_random_stream.html">cdt::RandomStream</a>&#160;</td><td class="memItemRight"><a class="el" href="#a10d83e089c38d3ab59bce0e46ed0f003">transition_stream</a></td></tr>
 <tr class="memdesc:a10d83e089c38d3ab59bce0e46ed0f003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transition stream.  <br /></td></tr>
 <tr class="memitem:adf2813d137e9b2796425a76a965551ab" id="r_adf2813d137e9b2796425a76a965551ab"><td class="memItemLeft">std::optional&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adf2813d137e9b2796425a76a965551ab">transition_trace</a></td></tr>
@@ -162,9 +176,9 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provenance recorded next to every stochastic triangulation. </p>
-<p>Checkpoints are deliberately snapshots rather than resumable simulation states: the payload does not serialize mutable RNG state. Payload-derived counts, time bounds, and fingerprints are reconciled with the serialized triangulation before publication. Callers remain responsible for supplying truthful run configuration and RNG provenance. </p>
+<p>A resumable checkpoint couples the triangulation payload to the complete mutable transition-engine state, cumulative transition trace, and move statistics. Older checkpoints without that state remain readable snapshots but cannot be resumed. Payload-derived counts, time bounds, and fingerprints are reconciled with the serialized triangulation before publication. Callers remain responsible for supplying truthful run configuration and RNG provenance. The five <span class="tt">input_*</span> fields form one optional, all-or-none description of the initial artifact used to start a new transition run. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00109">109</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00133">133</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a159770b5dc2d9e9c899d3fae0015a5c8" name="a159770b5dc2d9e9c899d3fae0015a5c8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a159770b5dc2d9e9c899d3fae0015a5c8">&#9670;&#160;</a></span>actual_edges</h2>
@@ -180,9 +194,9 @@ Public Attributes</h2></td></tr>
 
 <p>Persisted finite edges. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00123">123</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00147">147</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -200,9 +214,9 @@ Public Attributes</h2></td></tr>
 
 <p>Persisted finite faces. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00124">124</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00148">148</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -220,9 +234,9 @@ Public Attributes</h2></td></tr>
 
 <p>Persisted finite simplices. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00125">125</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00149">149</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -240,9 +254,9 @@ Public Attributes</h2></td></tr>
 
 <p>Persisted finite vertices. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00122">122</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00146">146</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -260,7 +274,7 @@ Public Attributes</h2></td></tr>
 
 <p>Optional Wick-rotation parameter. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00130">130</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00154">154</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -277,13 +291,13 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">        <a class="code hl_enumvalue" href="_utilities_8hpp.html#a46664ff29f65038f90a18f0523cfda41ae3b05728d0487c9aaab77d1de2ce3728">ArtifactKind::FINAL_TRIANGULATION</a>}</div>
-<div class="ttc" id="a_utilities_8hpp_html_a46664ff29f65038f90a18f0523cfda41ae3b05728d0487c9aaab77d1de2ce3728"><div class="ttname"><a href="_utilities_8hpp.html#a46664ff29f65038f90a18f0523cfda41ae3b05728d0487c9aaab77d1de2ce3728">cdt::utilities::ArtifactKind::FINAL_TRIANGULATION</a></div><div class="ttdeci">@ FINAL_TRIANGULATION</div><div class="ttdoc">Final state after the configured move run.</div><div class="ttdef"><b>Definition</b> <a href="_utilities_8hpp_source.html#l00100">Utilities.hpp:100</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a46664ff29f65038f90a18f0523cfda41ae3b05728d0487c9aaab77d1de2ce3728"><div class="ttname"><a href="_utilities_8hpp.html#a46664ff29f65038f90a18f0523cfda41ae3b05728d0487c9aaab77d1de2ce3728">cdt::utilities::ArtifactKind::FINAL_TRIANGULATION</a></div><div class="ttdeci">@ FINAL_TRIANGULATION</div><div class="ttdoc">Final state after the configured move run.</div><div class="ttdef"><b>Definition</b> <a href="_utilities_8hpp_source.html#l00102">Utilities.hpp:102</a></div></div>
 </div><!-- fragment -->
 <p>Artifact role. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00111">111</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00135">135</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01913">cdt::utilities::write_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02340">cdt::utilities::write_file()</a>.</p>
 
 </div>
 </div>
@@ -301,7 +315,7 @@ Public Attributes</h2></td></tr>
 
 <p>Checkpoint cadence. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00135">135</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00159">159</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -319,9 +333,9 @@ Public Attributes</h2></td></tr>
 
 <p>Passes before snapshot. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00136">136</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00160">160</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01913">cdt::utilities::write_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02340">cdt::utilities::write_file()</a>.</p>
 
 </div>
 </div>
@@ -339,7 +353,7 @@ Public Attributes</h2></td></tr>
 
 <p>Explicit attempts. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00134">134</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00158">158</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -357,7 +371,7 @@ Public Attributes</h2></td></tr>
 
 <p>Requested move passes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00133">133</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00157">157</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -375,7 +389,7 @@ Public Attributes</h2></td></tr>
 
 <p>Requested simplex target. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00120">120</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00144">144</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -393,7 +407,7 @@ Public Attributes</h2></td></tr>
 
 <p>Requested timeslice count. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00121">121</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00145">145</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -411,9 +425,9 @@ Public Attributes</h2></td></tr>
 
 <p>Spatial dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00119">119</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00143">143</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -431,9 +445,9 @@ Public Attributes</h2></td></tr>
 
 <p>Radius increment per slice. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00129">129</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00153">153</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -451,9 +465,9 @@ Public Attributes</h2></td></tr>
 
 <p>Initial spherical radius. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00128">128</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00152">152</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -470,11 +484,101 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">        <a class="code hl_variable" href="_random_8hpp.html#a0061e31aa99eacb68db643fb3ff04335">cdt::random_streams::initialization</a>}</div>
-<div class="ttc" id="a_random_8hpp_html_a0061e31aa99eacb68db643fb3ff04335"><div class="ttname"><a href="_random_8hpp.html#a0061e31aa99eacb68db643fb3ff04335">cdt::random_streams::initialization</a></div><div class="ttdeci">constexpr RandomStream initialization</div><div class="ttdoc">Stream reserved for initial triangulation generation.</div><div class="ttdef"><b>Definition</b> <a href="_random_8hpp_source.html#l00096">Random.hpp:96</a></div></div>
+<div class="ttc" id="a_random_8hpp_html_a0061e31aa99eacb68db643fb3ff04335"><div class="ttname"><a href="_random_8hpp.html#a0061e31aa99eacb68db643fb3ff04335">cdt::random_streams::initialization</a></div><div class="ttdeci">constexpr RandomStream initialization</div><div class="ttdoc">Stream reserved for initial triangulation generation.</div><div class="ttdef"><b>Definition</b> <a href="_random_8hpp_source.html#l00120">Random.hpp:120</a></div></div>
 </div><!-- fragment -->
 <p>Initialization stream. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00114">114</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00138">138</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aaec88adeac25565ca60196dc2df96a95" name="aaec88adeac25565ca60196dc2df96a95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaec88adeac25565ca60196dc2df96a95">&#9670;&#160;</a></span>input_artifact</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="_utilities_8hpp.html#a46664ff29f65038f90a18f0523cfda41">ArtifactKind</a>&gt; cdt::utilities::Reproducibility_metadata::input_artifact</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starting artifact role. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00169">169</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad89259b0d1f5cf50448a735dea1d19e1" name="ad89259b0d1f5cf50448a735dea1d19e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad89259b0d1f5cf50448a735dea1d19e1">&#9670;&#160;</a></span>input_initialization_stream</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="classcdt_1_1_random_stream.html">cdt::RandomStream</a>&gt; cdt::utilities::Reproducibility_metadata::input_initialization_stream</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starting initialization stream. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00172">172</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8bf4bd84f5dcff5c136c9bacf6892ff9" name="a8bf4bd84f5dcff5c136c9bacf6892ff9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bf4bd84f5dcff5c136c9bacf6892ff9">&#9670;&#160;</a></span>input_placement_fingerprint</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;std::uint64_t&gt; cdt::utilities::Reproducibility_metadata::input_placement_fingerprint</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starting coordinate hash. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00174">174</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a76e715383c6fe3937593e6a6e4b0cbe4" name="a76e715383c6fe3937593e6a6e4b0cbe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76e715383c6fe3937593e6a6e4b0cbe4">&#9670;&#160;</a></span>input_seed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="classcdt_1_1_random_seed.html">cdt::RandomSeed</a>&gt; cdt::utilities::Reproducibility_metadata::input_seed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starting artifact seed. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00170">170</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a9277734e15cb19fbb709d71bc99753c3" name="a9277734e15cb19fbb709d71bc99753c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9277734e15cb19fbb709d71bc99753c3">&#9670;&#160;</a></span>input_topology_fingerprint</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;std::uint64_t&gt; cdt::utilities::Reproducibility_metadata::input_topology_fingerprint</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starting incidence hash. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00176">176</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -492,7 +596,7 @@ Public Attributes</h2></td></tr>
 
 <p>Optional inverse Newton coupling. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00131">131</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00155">155</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -510,7 +614,7 @@ Public Attributes</h2></td></tr>
 
 <p>Optional cosmological coupling. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00132">132</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00156">156</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -528,7 +632,7 @@ Public Attributes</h2></td></tr>
 
 <p>Configured concurrency. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00137">137</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00161">161</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -546,9 +650,9 @@ Public Attributes</h2></td></tr>
 
 <p>Maximum persisted time label. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00127">127</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00151">151</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -566,9 +670,27 @@ Public Attributes</h2></td></tr>
 
 <p>Minimum persisted time label. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00126">126</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00150">150</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
+
+</div>
+</div>
+<a id="ae5b4ac94487591f55873af8e774ca3b5" name="ae5b4ac94487591f55873af8e774ca3b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5b4ac94487591f55873af8e774ca3b5">&#9670;&#160;</a></span>move_statistics</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="structcdt_1_1utilities_1_1_move__statistics.html">Move_statistics</a>&gt; cdt::utilities::Reproducibility_metadata::move_statistics</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cumulative counters. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00166">166</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -586,9 +708,9 @@ Public Attributes</h2></td></tr>
 
 <p>Coordinate hash. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00140">140</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00167">167</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -606,9 +728,9 @@ Public Attributes</h2></td></tr>
 
 <p>Root seed for the recorded run. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00113">113</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00137">137</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01913">cdt::utilities::write_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02340">cdt::utilities::write_file()</a>.</p>
 
 </div>
 </div>
@@ -626,9 +748,9 @@ Public Attributes</h2></td></tr>
 
 <p>Spatial-topology label. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00118">118</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00142">142</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -646,9 +768,9 @@ Public Attributes</h2></td></tr>
 
 <p>Incidence hash. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00141">141</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00168">168</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l01838">cdt::utilities::update_reproducibility_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l02265">cdt::utilities::update_reproducibility_state()</a>.</p>
 
 </div>
 </div>
@@ -666,7 +788,25 @@ Public Attributes</h2></td></tr>
 
 <p>Hashed transitions. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00139">139</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00163">163</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0ef0fa2b9c3dd3453a24c9fea008c94a" name="a0ef0fa2b9c3dd3453a24c9fea008c94a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ef0fa2b9c3dd3453a24c9fea008c94a">&#9670;&#160;</a></span>transition_random_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;std::string const&gt; cdt::utilities::Reproducibility_metadata::transition_random_state</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Exact PCG state. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00165">165</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -683,11 +823,11 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">        <a class="code hl_variable" href="_random_8hpp.html#a4cdc88653af7cf771bdcdafd2d3e7a53">cdt::random_streams::transitions</a>}</div>
-<div class="ttc" id="a_random_8hpp_html_a4cdc88653af7cf771bdcdafd2d3e7a53"><div class="ttname"><a href="_random_8hpp.html#a4cdc88653af7cf771bdcdafd2d3e7a53">cdt::random_streams::transitions</a></div><div class="ttdeci">constexpr RandomStream transitions</div><div class="ttdoc">Stream reserved for stochastic state transitions.</div><div class="ttdef"><b>Definition</b> <a href="_random_8hpp_source.html#l00098">Random.hpp:98</a></div></div>
+<div class="ttc" id="a_random_8hpp_html_a4cdc88653af7cf771bdcdafd2d3e7a53"><div class="ttname"><a href="_random_8hpp.html#a4cdc88653af7cf771bdcdafd2d3e7a53">cdt::random_streams::transitions</a></div><div class="ttdeci">constexpr RandomStream transitions</div><div class="ttdoc">Stream reserved for stochastic state transitions.</div><div class="ttdef"><b>Definition</b> <a href="_random_8hpp_source.html#l00122">Random.hpp:122</a></div></div>
 </div><!-- fragment -->
 <p>Transition stream. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00116">116</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00140">140</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -705,7 +845,7 @@ Public Attributes</h2></td></tr>
 
 <p>Ordered trace hash. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00138">138</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00162">162</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>

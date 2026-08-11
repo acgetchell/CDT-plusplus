@@ -1,9 +1,9 @@
 var searchData=
 [
   ['maintenance_0',['Maintenance',['../md__c_h_a_n_g_e_l_o_g.html#maintenance',1,'Maintenance'],['../md__c_h_a_n_g_e_l_o_g.html#maintenance-1',1,'Maintenance'],['../md__c_h_a_n_g_e_l_o_g.html#maintenance-2',1,'Maintenance']]],
-  ['maintenance_1',['vcpkg maintenance',['../index.html#vcpkg-maintenance',1,'']]],
-  ['maintenance_20status_2',['Archival and maintenance status',['../index.html#archival-and-maintenance-status',1,'']]],
-  ['manifest_20and_20smoke_20policy_3',['Render manifest and smoke policy',['../md_docs_2viewer.html#render-manifest-and-smoke-policy',1,'']]],
+  ['maintenance_20status_1',['Maintenance status',['../index.html#maintenance-status',1,'']]],
+  ['manifest_20and_20smoke_20policy_2',['Render manifest and smoke policy',['../md_docs_2viewer.html#render-manifest-and-smoke-policy',1,'']]],
+  ['many_20initial_20triangulations_3',['Generate many initial triangulations',['../index.html#generate-many-initial-triangulations',1,'']]],
   ['matched_20scaling_20record_4',['Matched scaling record',['../md_docs_2multithreading.html#matched-scaling-record',1,'']]],
   ['matrix_5',['Tested release matrix',['../index.html#tested-release-matrix',1,'']]],
   ['merged_20release_6',['Step 2: Tag the merged release',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-2-tag-the-merged-release',1,'']]],

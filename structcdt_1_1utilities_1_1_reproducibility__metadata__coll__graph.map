@@ -1,7 +1,17 @@
 <map id="cdt::utilities::Reproducibility_metadata" name="cdt::utilities::Reproducibility_metadata">
-<area shape="rect" id="Node000001" title="Provenance recorded next to every stochastic triangulation." alt="" coords="48,240,242,553"/>
-<area shape="rect" id="Node000002" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="5,5,130,145"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,142,106,224,101,224,84,147"/>
-<area shape="rect" id="Node000003" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="154,5,294,145"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,142,190,225,185,223,206,147"/>
+<area shape="rect" id="Node000001" title="Provenance recorded next to every stochastic triangulation." alt="" coords="127,548,320,860"/>
+<area shape="rect" id="Node000002" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="5,313,130,452"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,449,143,532,138,533,101,455"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="154,313,294,452"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,449,226,532,221,531,223,454"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="336,338,479,427"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="406,424,398,475,381,525,359,562,333,598,329,594,354,559,376,523,393,474,403,429"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="294,168,370,240"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="347,237,385,323,380,323,346,243"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="268,5,396,95"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="332,107,334,168,329,167,331,112"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="394,168,539,240"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="451,252,424,340,420,337,449,257"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="457,14,476,86"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="467,83,469,152,464,150,466,89"/>
 </map>

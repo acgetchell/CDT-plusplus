@@ -5,7 +5,9 @@ var searchData=
   ['topology_2',['topology',['../classcdt_1_1manifolds_1_1_manifold_3_013_01_4.html#acd1bc68188c14814e1cc4bb0ad35c659',1,'cdt::manifolds::Manifold&lt; 3 &gt;::topology'],['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#a516493be96597a60da485b1a020a08a0',1,'cdt::utilities::Reproducibility_metadata::topology']]],
   ['topology_5ffingerprint_3',['topology_fingerprint',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#ad155c3169bf46456fd021702f160a627',1,'cdt::utilities::Reproducibility_metadata']]],
   ['transition_5fcount_4',['transition_count',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#a99753d5dff35b1e7fe734d4737938f68',1,'cdt::utilities::Reproducibility_metadata']]],
-  ['transition_5fstream_5',['transition_stream',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#a10d83e089c38d3ab59bce0e46ed0f003',1,'cdt::utilities::Reproducibility_metadata']]],
-  ['transition_5ftrace_6',['transition_trace',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#adf2813d137e9b2796425a76a965551ab',1,'cdt::utilities::Reproducibility_metadata']]],
-  ['transitions_7',['transitions',['../_random_8hpp.html#a4cdc88653af7cf771bdcdafd2d3e7a53',1,'cdt::random_streams']]]
+  ['transition_5frandom_5fstate_5',['transition_random_state',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#a0ef0fa2b9c3dd3453a24c9fea008c94a',1,'cdt::utilities::Reproducibility_metadata']]],
+  ['transition_5fstream_6',['transition_stream',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#a10d83e089c38d3ab59bce0e46ed0f003',1,'cdt::utilities::Reproducibility_metadata']]],
+  ['transition_5ftrace_7',['transition_trace',['../structcdt_1_1utilities_1_1_reproducibility__metadata.html#adf2813d137e9b2796425a76a965551ab',1,'cdt::utilities::Reproducibility_metadata']]],
+  ['transitions_8',['transitions',['../_random_8hpp.html#a4cdc88653af7cf771bdcdafd2d3e7a53',1,'cdt::random_streams']]],
+  ['triangulation_9',['triangulation',['../structcdt_1_1utilities_1_1_triangulation__artifact.html#a29545759b980b28430e4982ee7dfd100',1,'cdt::utilities::Triangulation_artifact']]]
 ];

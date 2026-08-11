@@ -100,7 +100,7 @@ $(function() {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classcdt_1_1_random__coll__graph.svg" width="114" height="262"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classcdt_1_1_random__coll__graph.svg" width="190" height="307"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
@@ -118,12 +118,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a4b6256a5ea9319279b6bd5e3d2a7008a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a root stream from a raw seed value.  <br /></td></tr>
 <tr class="memitem:a6c93ff38c88e726f6189bacfb437d7aa" id="r_a6c93ff38c88e726f6189bacfb437d7aa"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a6c93ff38c88e726f6189bacfb437d7aa">operator()</a> () -&gt; <a class="el" href="#aaf5e4903f21f20a9710266fd13c9eae0">result_type</a></td></tr>
 <tr class="memitem:af50ccdc9a889cdde7265c9fc9d6acb55" id="r_af50ccdc9a889cdde7265c9fc9d6acb55"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#af50ccdc9a889cdde7265c9fc9d6acb55">seed</a> () const noexcept -&gt; <a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a></td></tr>
+<tr class="memitem:a2ec2075bca2d322a716e36a02b1ccaa8" id="r_a2ec2075bca2d322a716e36a02b1ccaa8"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a2ec2075bca2d322a716e36a02b1ccaa8">serialized_state</a> () const -&gt; std::string</td></tr>
+<tr class="memdesc:a2ec2075bca2d322a716e36a02b1ccaa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize the complete mutable PCG state for exact continuation.  <br /></td></tr>
 <tr class="memitem:a24dcfe9560617463f8384e57f8b6909b" id="r_a24dcfe9560617463f8384e57f8b6909b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a24dcfe9560617463f8384e57f8b6909b">split</a> (<a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const <a class="el" href="#afdde0c7157059952aadd8a2ba55d5ad8">stream</a>) const -&gt; <a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a></td></tr>
 <tr class="memdesc:a24dcfe9560617463f8384e57f8b6909b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a fresh reproducible stream from the same root seed.  <br /></td></tr>
 <tr class="memitem:afdde0c7157059952aadd8a2ba55d5ad8" id="r_afdde0c7157059952aadd8a2ba55d5ad8"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#afdde0c7157059952aadd8a2ba55d5ad8">stream</a> () const noexcept -&gt; <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a7c706adfa6092a041b84ded44f7ed8ad" id="r_a7c706adfa6092a041b84ded44f7ed8ad"><td class="memItemLeft">static auto&#160;</td><td class="memItemRight"><a class="el" href="#a7c706adfa6092a041b84ded44f7ed8ad">from_serialized_state</a> (<a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> const <a class="el" href="#af50ccdc9a889cdde7265c9fc9d6acb55">seed</a>, <a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const <a class="el" href="#afdde0c7157059952aadd8a2ba55d5ad8">stream</a>, std::string_view const state) -&gt; <a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a></td></tr>
+<tr class="memdesc:a7c706adfa6092a041b84ded44f7ed8ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore an exact PCG continuation point.  <br /></td></tr>
 <tr class="memitem:a64bf1f38e272419e376058d973051a55" id="r_a64bf1f38e272419e376058d973051a55"><td class="memItemLeft">static constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="#a64bf1f38e272419e376058d973051a55">max</a> () noexcept -&gt; <a class="el" href="#aaf5e4903f21f20a9710266fd13c9eae0">result_type</a></td></tr>
 <tr class="memitem:a9d9f3a20df09d81daad877b266c031f6" id="r_a9d9f3a20df09d81daad877b266c031f6"><td class="memItemLeft">static constexpr auto&#160;</td><td class="memItemRight"><a class="el" href="#a9d9f3a20df09d81daad877b266c031f6">min</a> () noexcept -&gt; <a class="el" href="#aaf5e4903f21f20a9710266fd13c9eae0">result_type</a></td></tr>
 </table>
@@ -132,7 +136,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Construct one root engine per simulation. Pass engines by reference to distributions and stochastic algorithms instead of drawing fresh entropy for each sample. <span class="tt"><a class="el" href="#a24dcfe9560617463f8384e57f8b6909b" title="Create a fresh reproducible stream from the same root seed.">split()</a></span> creates a reproducible, independently parameterized PCG stream for a subsystem or worker.</p>
 <p><a class="el" href="classcdt_1_1_random.html" title="A run-owned PCG engine with a recorded seed and stream identifier.">Random</a> is intentionally not internally synchronized. A mutable instance belongs to one run or one thread. Parallel code must give each worker a distinct stream before drawing from it. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="md__r_e_f_e_r_e_n_c_e_s.html#pcg-random-number-generators" title="PCG random-number generators">PCG random-number generators</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00112">112</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00136">136</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="aaf5e4903f21f20a9710266fd13c9eae0" name="aaf5e4903f21f20a9710266fd13c9eae0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaf5e4903f21f20a9710266fd13c9eae0">&#9670;&#160;</a></span>result_type</h2>
@@ -148,7 +152,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Unsigned result type required by <span class="tt">std::uniform_random_bit_generator</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00116">116</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00140">140</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
@@ -178,11 +182,11 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Construct a root stream from operating-system entropy. </p>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00134">134</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00158">158</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00134">Random()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00158">Random()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00134">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00138">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00170">split()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00158">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00162">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00218">from_serialized_state()</a>, and <a class="el" href="_random_8hpp_source.html#l00194">split()</a>.</p>
 
 </div>
 </div>
@@ -217,9 +221,9 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00138">138</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00162">162</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00134">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00161">seed()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00158">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00185">seed()</a>.</p>
 
 </div>
 </div>
@@ -259,13 +263,70 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00144">144</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00168">168</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00161">seed()</a>, and <a class="el" href="_random_8hpp_source.html#l00164">stream()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00185">seed()</a>, and <a class="el" href="_random_8hpp_source.html#l00188">stream()</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a7c706adfa6092a041b84ded44f7ed8ad" name="a7c706adfa6092a041b84ded44f7ed8ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c706adfa6092a041b84ded44f7ed8ad">&#9670;&#160;</a></span>from_serialized_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::Random::from_serialized_state </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1_random_seed.html">RandomSeed</a> const</td>          <td class="paramname"><span class="paramname"><em>seed</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcdt_1_1_random_stream.html">RandomStream</a> const</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view const</td>          <td class="paramname"><span class="paramname"><em>state</em></span>&#160;) -&gt; <a class="el" href="#a42b629b8f79ccafab3bf50e058939532">Random</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Restore an exact PCG continuation point. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="#af50ccdc9a889cdde7265c9fc9d6acb55">seed</a></td><td>Recorded root seed. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#afdde0c7157059952aadd8a2ba55d5ad8">stream</a></td><td>Recorded stream selector. </td></tr>
+    <tr><td class="paramname">state</td><td>Complete state produced by <a class="el" href="#a2ec2075bca2d322a716e36a02b1ccaa8" title="Serialize the complete mutable PCG state for exact continuation.">serialized_state()</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A generator whose next draw is the saved generator's next draw. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if the state is malformed, contains trailing data, or selects a different PCG stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00218">218</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00158">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00185">seed()</a>, and <a class="el" href="_random_8hpp_source.html#l00188">stream()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cdt_8cpp_source.html#l00070">main()</a>.</p>
+
+</div>
+</div>
 <a id="a64bf1f38e272419e376058d973051a55" name="a64bf1f38e272419e376058d973051a55"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64bf1f38e272419e376058d973051a55">&#9670;&#160;</a></span>max()</h2>
 
@@ -290,7 +351,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The maximum value the engine can generate. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00154">154</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00178">178</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
@@ -318,7 +379,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The minimum value the engine can generate. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00150">150</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00174">174</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
@@ -346,7 +407,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The next value from this engine, advancing its state. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00158">158</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00182">182</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
@@ -374,9 +435,39 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The effective root seed for replaying this run. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00161">161</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00185">185</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00144">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00138">Random()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00168">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00162">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00218">from_serialized_state()</a>.</p>
+
+</div>
+</div>
+<a id="a2ec2075bca2d322a716e36a02b1ccaa8" name="a2ec2075bca2d322a716e36a02b1ccaa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ec2075bca2d322a716e36a02b1ccaa8">&#9670;&#160;</a></span>serialized_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cdt::Random::serialized_state </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const -&gt; std::string</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Serialize the complete mutable PCG state for exact continuation. </p>
+<dl class="section return"><dt>Returns</dt><dd>Locale-independent PCG engine state. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00199">199</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
 </div>
 </div>
@@ -412,9 +503,9 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new engine at the beginning of the selected sequence. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00170">170</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00194">194</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00134">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00164">stream()</a>.</p>
+<p class="reference">References <a class="el" href="_random_8hpp_source.html#l00158">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00188">stream()</a>.</p>
 
 </div>
 </div>
@@ -442,9 +533,9 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The PCG stream selector used by this engine. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00164">164</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_random_8hpp_source.html#l00188">188</a> of file <a class="el" href="_random_8hpp_source.html">Random.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00144">Random()</a>, and <a class="el" href="_random_8hpp_source.html#l00170">split()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_random_8hpp_source.html#l00168">Random()</a>, <a class="el" href="_random_8hpp_source.html#l00218">from_serialized_state()</a>, and <a class="el" href="_random_8hpp_source.html#l00194">split()</a>.</p>
 
 </div>
 </div>

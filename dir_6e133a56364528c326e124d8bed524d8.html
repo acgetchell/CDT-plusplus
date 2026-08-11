@@ -90,7 +90,15 @@ $(function() {
 <div class="textblock"><h1 class="doxsection"><a class="anchor" id="cdt-reference-fixture-package"></a>
 CDT++ reference fixture package</h1>
 <p>This directory is the bounded behavior-level oracle published for issue #94 and for the Rust <span class="tt">causal-triangulations</span> implementation. CDT++ is an independent implementation under comparison, not presumed ground truth. A discrepancy is an investigation target until the protocol or one of the implementations explains it.</p>
-<h1 class="doxsection"><a class="anchor" id="package-layout"></a>
+<h1 class="doxsection"><a class="anchor" id="regression-oracle-scope"></a>
+Regression-oracle scope</h1>
+<p>The principal reason to preserve this implementation is its causality-filtering Delaunay construction path in <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/include/Foliated_triangulation.hpp"><span class="tt">Foliated_triangulation.hpp</span></a>. <span class="tt">find_invalid_timevalue_cells</span> classifies cells from stored vertex time labels, <span class="tt">has_valid_timevalues</span> provides the predicate, <span class="tt">find_bad_vertex</span> selects a vertex responsible for an acausal local configuration, and <span class="tt">fix_timevalues</span> removes offending vertices through CGAL so the cavity is retriangulated until the foliation contract is satisfied.</p>
+<p>The deterministic doctest scenario <b>"Detecting and fixing problems with vertices and cells"</b> in <a href="https://github.com/acgetchell/CDT-plusplus/blob/main/tests/Foliated_triangulation_test.cpp"><span class="tt">Foliated_triangulation_test.cpp</span></a> exercises this path with fixed points and time labels. Its inputs, detected bad vertex, final initialization state, cell counts, and causal classification are the first comparison fixture for <span class="tt">causal-triangulations</span>; exact Monte Carlo trajectories are not required to match.</p>
+<p>The package extends that construction case with the complete move set, action values, Metropolis-Hastings decisions, persistence records, and one bounded end-to-end run.</p>
+<p>After building, run the construction fixture directly with:</p>
+<div class="fragment"><div class="line">./out/build/reference/tests/CDT_unit_tests \</div>
+<div class="line">  --test-case=&#39;*Detecting and fixing problems with vertices and cells*&#39;</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="package-layout"></a>
 Package layout</h1>
 <ul>
 <li><span class="tt">schema/fixture-v1.schema.json</span> defines the comparison protocol.</li>
@@ -117,10 +125,42 @@ Rust consumption</h1>
 </ol>
 <p>Compare topology, incidence, adjacency, foliation labels, simplex and edge types, f-vectors, move sites, integer deltas, and accept/reject decisions exactly. Compare coordinates, actions, deltas, and probabilities with the named quantity-specific absolute-plus-relative tolerance. Do not apply one repository-wide percentage.</p>
 <p>Transition fixtures provide the raw proposal site and acceptance variate. They therefore test proposal preparation, action delta, Hastings factor, and commit/reject behavior without requiring the C++ and Rust implementations to share an RNG engine, allocation order, or container iteration order.</p>
+<h2 class="doxsection"><a class="anchor" id="initial-triangulation-interchange"></a>
+Initial-triangulation interchange</h2>
+<p>This complete command writes the same manifested pair consumed by the second command:</p>
+<div class="fragment"><div class="line">just initialize -s -n640 -t4 -o --seed 92</div>
+<div class="line">just load /path/to/generated-file.off -a0.6 -k1.1 -l0.1 -p1000 --seed 93</div>
+</div><!-- fragment --><ol type="1">
+<li>the <span class="tt">.off</span> payload contains CGAL's native triangulation stream followed by CDT++'s versioned causal-data trailer; and</li>
+<li>the neighboring <span class="tt">.off.meta</span> manifest records the artifact role, foliation parameters, seed and stream provenance, canonical fingerprints, payload checksum, and producer toolchain.</li>
+</ol>
+<p>Despite the suffix, this is not generic mesh OFF. Plain geometry cannot carry the vertex time labels, causal cell types, artifact role, or stochastic provenance required to reconstruct a CDT state. The pair is the archival interchange boundary and remains coupled to the pinned CDT++/CGAL persistence contract documented in <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs"><span class="tt">docs/reproducibility.md</span></a>.</p>
+<p>The successor workflow is:</p>
+<div class="fragment"><div class="line">just initialize -s -n640 -t4 -o --seed 92</div>
+<div class="line">        |</div>
+<div class="line">        +--&gt; initial.off + initial.off.meta</div>
+<div class="line">                 |                       |</div>
+<div class="line">                 +--&gt; just load PATH      +--&gt; causal-triangulations importer</div>
+<div class="line">                         -a0.6 -k1.1              |</div>
+<div class="line">                         -l0.1 -p1000             +--&gt; native Rust triangulation</div>
+<div class="line">                         --seed 93</div>
+</div><!-- fragment --><p>The <span class="tt">causal-triangulations</span> side should own that importer: validate the complete pair at its input boundary, reconstruct its native invariant-bearing state, and then use its own serialization. CDT++ should not add a second lossy converter or pretend that the CGAL payload alone is portable. Direct Rust import is a downstream compatibility direction, not a capability claimed by the CDT++ v1.0.0 release.</p>
+<p>For generating many separately seeded random starting states, invoke <span class="tt">just initialize</span> with a different seed in a dedicated directory for each run and preserve every payload/manifest pair together. The seed replays pre-CGAL random inputs; the persisted pair, not the seed alone, identifies the exact post-repair topology to import or evolve.</p>
+<p>CDT++ checkpoints serve a different purpose from this interchange boundary. <span class="tt">just resume CHECKPOINT.off</span> can continue the identical CDT++ Markov chain after an interrupted Slurm/HPC job because the checkpoint sidecar records mutable PCG state and cumulative transition accounting. That restart contract is deliberately locked to the recorded CDT++ source revision and producer toolchain. A successor importer should consume <span class="tt">initial-triangulation</span> artifacts for independent evolution, not depend on CDT++'s private checkpoint engine state.</p>
 <h1 class="doxsection"><a class="anchor" id="local-comparison-harness"></a>
 Local comparison harness</h1>
 <p>The repository's <a class="el" href="md_docs_2comparison-harness.html" title="Offline C++/Rust comparison harness"><span class="tt">cdt-compare</span></a> command copies this protocol, the canonical C++ result, the v1 result schema, and a selected run manifest into a local bundle before launching independent C++ and Rust producers. It anchors the live C++ payload to the committed result, retains both raw process records, anchors any live C++ transition observations to this protocol, and applies only the exact and named numerical rules declared here. <span class="tt">just comparison-analyze PATH</span> requires the complete canonical artifact inventory, verifies every retained digest, and reproduces the machine-readable summary without rerunning either implementation.</p>
-<h1 class="doxsection"><a class="anchor" id="regeneration"></a>
+<p>After building CDT++ and a compatible Rust fixture producer, run one bounded comparison and retain it locally:</p>
+<div class="fragment"><div class="line">just comparison-run /absolute/path/to/causal-triangulations-fixture out/comparisons/run-1</div>
+</div><!-- fragment --><p>Reproduce <span class="tt">summary.json</span> entirely from the stored raw artifacts, without running either executable:</p>
+<div class="fragment"><div class="line">just comparison-analyze out/comparisons/run-1</div>
+</div><!-- fragment --><p>The bundle under <span class="tt">out/comparisons/run-1</span> is published atomically only after analysis and manifest creation finish. Preserve its <span class="tt">inputs/</span>, <span class="tt">raw/</span>, <span class="tt">manifest.json</span>, and <span class="tt">summary.json</span> together. Python validates the artifact inventory and its digests, validates schemas, constructs commands, classifies comparisons, and renders a small text table; it does not implement topology, action, move-legality, or acceptance rules. See the <a class="el" href="md_docs_2comparison-harness.html" title="Offline C++/Rust comparison harness">comparison-harness contract</a> for producer configuration, placeholders, artifact layout, failure records, and the C++ reference/Rust result boundary.</p>
+<h2 class="doxsection"><a class="anchor" id="local-initialization-sweep"></a>
+Local initialization sweep</h2>
+<p>The retained <span class="tt">cdt-optimize-initialize</span> command is also entirely local and dependency-free. It writes one directory per parameter pair under <span class="tt">out/experiments/initialize</span>, including configuration JSON, raw stdout, a tab-separated volume profile, metrics, artifact digests, and source/executable provenance. Each invocation requires a nonexistent output path. Seed <span class="tt">92</span> is the default; use <span class="tt">--seed</span> and <span class="tt">--output-directory</span> for another replayable record. Fresh CGAL triangulations remain subject to the <a class="el" href="md_docs_2reproducibility.html" title="Reproducible random runs">reproducibility contract</a>.</p>
+<p>Inspect its command line with:</p>
+<div class="fragment"><div class="line">uv run cdt-optimize-initialize --help</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="regeneration"></a>
 Regeneration</h1>
 <p><span class="tt">reference-fixtures</span> is a quick diagnostic that builds and prints only <span class="tt">cpp-reference.json</span>:</p>
 <div class="fragment"><div class="line">just reference-fixtures</div>

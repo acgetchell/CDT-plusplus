@@ -21,10 +21,9 @@ var searchData=
   ['producer_20contract_18',['Producer contract',['../md_docs_2comparison-harness.html#producer-contract',1,'']]],
   ['production_20inventory_19',['Production inventory',['../md_docs_2arithmetic-backend-evaluation.html#production-inventory',1,'']]],
   ['production_20usage_20inventory_20',['Production usage inventory',['../md_docs_2cgal-integration.html#production-usage-inventory',1,'']]],
-  ['project_20layout_21',['Project Layout',['../index.html#project-layout',1,'']]],
-  ['proposal_20kernel_22',['Proposal kernel',['../md_docs_2metropolis-hastings.html#proposal-kernel',1,'']]],
-  ['protocol_20and_20provenance_23',['Evaluation protocol and provenance',['../md_docs_2arithmetic-backend-evaluation.html#evaluation-protocol-and-provenance',1,'']]],
-  ['provenance_24',['provenance',['../md_docs_2arithmetic-backend-evaluation.html#evaluation-protocol-and-provenance',1,'Evaluation protocol and provenance'],['../md_docs_2_r_e_l_e_a_s_i_n_g.html#refresh-the-stable-archival-provenance',1,'Refresh the stable archival provenance']]],
-  ['publish_20and_20verify_20the_20release_25',['Step 3: Publish and verify the release',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-3-publish-and-verify-the-release',1,'']]],
-  ['pull_20request_26',['Step 1: Prepare the release pull request',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-1-prepare-the-release-pull-request',1,'']]]
+  ['proposal_20kernel_21',['Proposal kernel',['../md_docs_2metropolis-hastings.html#proposal-kernel',1,'']]],
+  ['protocol_20and_20provenance_22',['Evaluation protocol and provenance',['../md_docs_2arithmetic-backend-evaluation.html#evaluation-protocol-and-provenance',1,'']]],
+  ['provenance_23',['provenance',['../md_docs_2arithmetic-backend-evaluation.html#evaluation-protocol-and-provenance',1,'Evaluation protocol and provenance'],['../md_docs_2_r_e_l_e_a_s_i_n_g.html#refresh-the-stable-archival-provenance',1,'Refresh the stable archival provenance']]],
+  ['publish_20and_20verify_20the_20release_24',['Step 3: Publish and verify the release',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-3-publish-and-verify-the-release',1,'']]],
+  ['pull_20request_25',['Step 1: Prepare the release pull request',['../md_docs_2_r_e_l_e_a_s_i_n_g.html#step-1-prepare-the-release-pull-request',1,'']]]
 ];

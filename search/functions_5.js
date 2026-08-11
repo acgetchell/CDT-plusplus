@@ -26,5 +26,6 @@ var searchData=
   ['four_5ffour_5fmoves_23',['four_four_moves',['../classcdt_1_1move__tracker_1_1_move_tracker.html#aa94353aee583c6d40e128840c9911c44',1,'cdt::move_tracker::MoveTracker::four_four_moves() -&gt; auto &amp;'],['../classcdt_1_1move__tracker_1_1_move_tracker.html#a030eba16e40bee262b6a949a11078547',1,'cdt::move_tracker::MoveTracker::four_four_moves() const']]],
   ['from_5fdecimal_24',['from_decimal',['../_mpfr__value_8hpp.html#aa249be8cd723ea3a14db3f7f5a62cb42',1,'cdt::mpfr_values']]],
   ['from_5finteger_25',['from_integer',['../_mpfr__value_8hpp.html#a33199baa7d04b2bc2a1fe791b7702297',1,'cdt::mpfr_values']]],
-  ['from_5flong_5fdouble_26',['from_long_double',['../_mpfr__value_8hpp.html#a538988e34e149141a61f428bc34aeebb',1,'cdt::mpfr_values']]]
+  ['from_5flong_5fdouble_26',['from_long_double',['../_mpfr__value_8hpp.html#a538988e34e149141a61f428bc34aeebb',1,'cdt::mpfr_values']]],
+  ['from_5fserialized_5fstate_27',['from_serialized_state',['../classcdt_1_1_random.html#a7c706adfa6092a041b84ded44f7ed8ad',1,'cdt::Random']]]
 ];

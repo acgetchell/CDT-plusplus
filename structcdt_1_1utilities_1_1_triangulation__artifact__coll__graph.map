@@ -1,0 +1,19 @@
+<map id="cdt::utilities::Triangulation_artifact&lt; TriangulationType &gt;" name="cdt::utilities::Triangulation_artifact&lt; TriangulationType &gt;">
+<area shape="rect" id="Node000001" title="A validated triangulation artifact and its provenance." alt="" coords="119,933,328,1023"/>
+<area shape="rect" id="Node000002" href="$structcdt_1_1utilities_1_1_reproducibility__metadata.html" title="Provenance recorded next to every stochastic triangulation." alt="" coords="127,548,320,860"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,858,226,918,221,916,222,862"/>
+<area shape="rect" id="Node000003" href="$classcdt_1_1_random_seed.html" title="Root entropy value used to reproduce a random run." alt="" coords="5,313,130,452"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,449,143,532,138,533,101,455"/>
+<area shape="rect" id="Node000004" href="$classcdt_1_1_random_stream.html" title="PCG sequence selector derived from a root random seed." alt="" coords="154,313,294,452"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="224,449,226,532,221,531,223,455"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="336,338,479,427"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="405,424,398,475,381,525,359,562,333,597,329,594,354,559,376,523,393,474,403,429"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="294,168,370,240"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="347,237,385,322,380,323,346,243"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="268,5,396,95"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="332,107,334,168,329,167,331,113"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="394,168,539,240"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="451,252,424,340,419,337,449,257"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="457,14,476,86"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="467,83,469,151,464,150,466,89"/>
+</map>

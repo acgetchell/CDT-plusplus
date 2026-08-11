@@ -6,6 +6,7 @@ var searchData=
   ['evaluation_3',['GMP/MPFR-free arithmetic evaluation',['../md_docs_2arithmetic-backend-evaluation.html',1,'']]],
   ['evaluation_20protocol_20and_20provenance_4',['Evaluation protocol and provenance',['../md_docs_2arithmetic-backend-evaluation.html#evaluation-protocol-and-provenance',1,'']]],
   ['exact_20arithmetic_20policy_5',['Kernel and exact-arithmetic policy',['../md_docs_2cgal-integration.html#kernel-and-exact-arithmetic-policy',1,'']]],
-  ['execution_20boundary_6',['Supported execution boundary',['../md_docs_2multithreading.html#supported-execution-boundary',1,'']]],
-  ['expected_20complexity_7',['Random Voronoi and Delaunay expected complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#random-voronoi-and-delaunay-expected-complexity',1,'']]]
+  ['exact_20checkpoint_20continuation_6',['Exact checkpoint continuation',['../md_docs_2reproducibility.html#exact-checkpoint-continuation',1,'']]],
+  ['execution_20boundary_7',['Supported execution boundary',['../md_docs_2multithreading.html#supported-execution-boundary',1,'']]],
+  ['expected_20complexity_8',['Random Voronoi and Delaunay expected complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#random-voronoi-and-delaunay-expected-complexity',1,'']]]
 ];

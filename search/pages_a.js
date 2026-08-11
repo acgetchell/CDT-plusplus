@@ -10,11 +10,10 @@ var searchData=
   ['derivations_7',['Independent delta derivations',['../md_docs_2ergodic-moves.html#independent-delta-derivations',1,'']]],
   ['design_8',['CGAL design',['../md__r_e_f_e_r_e_n_c_e_s.html#cgal-design',1,'']]],
   ['determinism_20and_20correctness_9',['Determinism and correctness',['../md_docs_2multithreading.html#determinism-and-correctness',1,'']]],
-  ['developer_20workflow_10',['Developer workflow',['../index.html#developer-workflow',1,'']]],
-  ['dimensional_20cdt_202001_11',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
-  ['dimensional_20delaunay_20complexity_12',['Three-dimensional Delaunay complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity',1,'']]],
-  ['discrete_20action_13',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
-  ['documentation_14',['Documentation',['../index.html#documentation',1,'']]],
-  ['duplicate_20points_15',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
-  ['dynamical_20triangulations_20theory_16',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
+  ['dimensional_20cdt_202001_10',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
+  ['dimensional_20delaunay_20complexity_11',['Three-dimensional Delaunay complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity',1,'']]],
+  ['discrete_20action_12',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
+  ['documentation_13',['Documentation',['../index.html#documentation',1,'']]],
+  ['duplicate_20points_14',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
+  ['dynamical_20triangulations_20theory_15',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
 ];
