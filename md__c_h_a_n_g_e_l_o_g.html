@@ -94,7 +94,7 @@ Release summary</h2>
 <li><b>Compatibility:</b> The supported source boundary is C++23 with the published GCC, Clang, AppleClang, and MSVC matrix. The project does not promise a stable binary ABI or package-registry distribution.</li>
 <li><b>Scientific corrections:</b> The release completes and independently validates all five 2+1D moves, Metropolis-Hastings proposal ratios and atomic transitions, exact-predicate geometry boundaries, run-owned RNG streams, and causal persistence metadata.</li>
 <li><b>Supported surface:</b> The default build is headless; CGAL/oneTBB bulk Delaunay operations and the macOS Qt viewer are explicit opt-ins. Historical toroidal and higher-dimensional prototypes are excluded from the supported API.</li>
-<li><b>Limitations:</b> Seeds replay stochastic inputs, not necessarily fresh cospherical CGAL topology. Checkpoints are validated snapshots rather than resumable simulations, and parallelism does not extend to Pachner moves or concurrent manifold access.</li>
+<li><b>Limitations:</b> Seeds replay stochastic inputs, not necessarily fresh cospherical CGAL topology. Resumable checkpoints continue the identical Markov chain only on the recorded producer toolchain; they are restart artifacts rather than portable interchange files. Parallelism does not extend to Pachner moves or concurrent manifold access.</li>
 <li><b>Migration:</b> Active development and new work move to <a href="https://github.com/acgetchell/causal-triangulations">causal-triangulations</a>. After the v1.0.0 GitHub and Zenodo handoff, CDT++ enters a maintenance-only stabilization window and becomes read-only only when the owner completes the archival gate.</li>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="added"></a>
@@ -104,6 +104,7 @@ Added</h2>
 <li>[<b>breaking</b>] Add offline C++/Rust comparison harness <a href="https://github.com/acgetchell/CDT-plusplus/commit/45b080e2388b2475bf26f4462fa4d1ebd5915c69"><span class="tt">45b080e</span></a></li>
 <li>Restore reproducible archival rendering <a href="https://github.com/acgetchell/CDT-plusplus/commit/2662df9993469e21ec5a0c65c552202b9eec9ae6"><span class="tt">2662df9</span></a></li>
 <li>[<b>breaking</b>] Expose reported Metropolis transitions <a href="https://github.com/acgetchell/CDT-plusplus/commit/16d1c769afc67e06f07639f6fd9de8136974e282"><span class="tt">16d1c76</span></a></li>
+<li>Add initial-state loading and checkpoint resume <a href="https://github.com/acgetchell/CDT-plusplus/commit/e1305d66663778e3c9bd7e04f8020f10919ecd1a"><span class="tt">e1305d6</span></a></li>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="changed"></a>
 Changed</h2>
@@ -113,6 +114,12 @@ Changed</h2>
 <li>Harden backend evaluation probes <a href="https://github.com/acgetchell/CDT-plusplus/commit/d5c3b710b0af82651943f5a1e60c23b5ec818679"><span class="tt">d5c3b71</span></a></li>
 <li>Format transition validation <a href="https://github.com/acgetchell/CDT-plusplus/commit/f183f072b44b3fe3b677090b8e5cd4983c193932"><span class="tt">f183f07</span></a></li>
 <li>Verify unknown moves preserve transition traces <a href="https://github.com/acgetchell/CDT-plusplus/commit/70ab238eb07271a7754266407f9f61e28e199b49"><span class="tt">70ab238</span></a></li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="documentation-1"></a>
+Documentation</h2>
+<ul>
+<li>Clean up archival documentation references <a href="https://github.com/acgetchell/CDT-plusplus/commit/703b474ab8ba0f6ee86fef7842ad9c5b4b74a3e7"><span class="tt">703b474</span></a></li>
+<li>Exclude PCG shim from generated reference <a href="https://github.com/acgetchell/CDT-plusplus/commit/7e8734fac7097406eb416df4dd241c6a6b5d9461"><span class="tt">7e8734f</span></a></li>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="fixed"></a>
 Fixed</h2>
@@ -144,6 +151,8 @@ Fixed</h2>
 <li>Enforce v1.0.0 release gates <a href="https://github.com/acgetchell/CDT-plusplus/commit/94ed107aa2390accd17f0191c4149df6201618ed"><span class="tt">94ed107</span></a></li>
 <li>Fail fast and support Dependabot coverage <a href="https://github.com/acgetchell/CDT-plusplus/commit/2107f20d429b466eb7ec01693e769a0262dcd264"><span class="tt">2107f20</span></a></li>
 <li>Stabilize macOS viewer and coverage gates <a href="https://github.com/acgetchell/CDT-plusplus/commit/deb24ab0d7ce179469839a145f344ca1624c1275"><span class="tt">deb24ab</span></a></li>
+<li>Harden checkpoint resume contracts <a href="https://github.com/acgetchell/CDT-plusplus/commit/17bb7fb0a687837955b2a8932f028d76d029480b"><span class="tt">17bb7fb</span></a></li>
+<li>Limit resumable checkpoint continuation to the recorded producer toolchain <a href="https://github.com/acgetchell/CDT-plusplus/commit/95754c430c33d4913f8e7fc30c1775280cc554e6"><span class="tt">95754c4</span></a></li>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="maintenance"></a>
 Maintenance</h2>

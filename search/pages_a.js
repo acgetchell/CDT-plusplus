@@ -13,7 +13,7 @@ var searchData=
   ['dimensional_20cdt_202001_10',['Three-dimensional CDT (2001)',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-cdt-2001',1,'']]],
   ['dimensional_20delaunay_20complexity_11',['Three-dimensional Delaunay complexity',['../md__r_e_f_e_r_e_n_c_e_s.html#three-dimensional-delaunay-complexity',1,'']]],
   ['discrete_20action_12',['Regge Calculus and Discrete Action',['../md__r_e_f_e_r_e_n_c_e_s.html#regge-calculus-and-discrete-action',1,'']]],
-  ['documentation_13',['Documentation',['../index.html#documentation',1,'']]],
+  ['documentation_13',['Documentation',['../index.html#documentation',1,'Documentation'],['../md__c_h_a_n_g_e_l_o_g.html#documentation-1',1,'Documentation']]],
   ['duplicate_20points_14',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
   ['dynamical_20triangulations_20theory_15',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
 ];

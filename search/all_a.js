@@ -30,7 +30,7 @@ var searchData=
   ['do_5f32_5fmove_27',['do_32_move',['../_ergodic__moves__3_8hpp.html#a4f92b8ba455c55c9684e41205491ebf9',1,'cdt::ergodic_moves']]],
   ['do_5f44_5fmove_28',['do_44_move',['../_ergodic__moves__3_8hpp.html#abd1776c6ce6911901901b603c8824b13',1,'cdt::ergodic_moves']]],
   ['do_5f62_5fmove_29',['do_62_move',['../_ergodic__moves__3_8hpp.html#ac829bf57a0a6b01f7b8d9188d53ddc23',1,'cdt::ergodic_moves']]],
-  ['documentation_30',['Documentation',['../index.html#documentation',1,'']]],
+  ['documentation_30',['Documentation',['../index.html#documentation',1,'Documentation'],['../md__c_h_a_n_g_e_l_o_g.html#documentation-1',1,'Documentation']]],
   ['does_5fvertex_5fradius_5fmatch_5ftimevalue_31',['does_vertex_radius_match_timevalue',['../classcdt_1_1foliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a4f618f5a7e4353182ad67add27a2cb95',1,'cdt::foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['duplicate_20points_32',['Metadata, insertion, and duplicate points',['../md_docs_2cgal-integration.html#metadata-insertion-and-duplicate-points',1,'']]],
   ['dynamical_20triangulations_20theory_33',['Foundational Causal Dynamical Triangulations Theory',['../md__r_e_f_e_r_e_n_c_e_s.html#foundational-causal-dynamical-triangulations-theory',1,'']]]
