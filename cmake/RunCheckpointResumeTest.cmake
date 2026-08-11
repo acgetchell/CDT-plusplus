@@ -29,6 +29,7 @@ set(extended_directory "${normalized_test_directory}/extended")
 set(rejected_directory "${normalized_test_directory}/rejected")
 set(completed_directory "${normalized_test_directory}/completed")
 set(corrupt_directory "${normalized_test_directory}/corrupt")
+set(thread_limit_directory "${normalized_test_directory}/thread-limit")
 file(REMOVE_RECURSE "${normalized_test_directory}")
 file(MAKE_DIRECTORY
      "${initialize_directory}"
@@ -37,7 +38,8 @@ file(MAKE_DIRECTORY
      "${extended_directory}"
      "${rejected_directory}"
      "${completed_directory}"
-     "${corrupt_directory}")
+     "${corrupt_directory}"
+     "${thread_limit_directory}")
 
 execute_process(
   COMMAND "${INITIALIZE_EXECUTABLE}" -s -n64 -t3 -o --seed 92
@@ -310,6 +312,33 @@ execute_process(
 set(conflict_log "${conflict_output}\n${conflict_error}")
 if(conflict_result EQUAL 0 OR NOT conflict_log MATCHES "--resume restores seed")
   message(FATAL_ERROR "cdt accepted a conflicting resume seed:\n${conflict_log}")
+endif()
+
+set(thread_limit_checkpoint "${thread_limit_directory}/checkpoint.off")
+file(COPY_FILE "${pass_two_checkpoint}" "${thread_limit_checkpoint}" ONLY_IF_DIFFERENT)
+file(COPY_FILE "${pass_two_checkpoint}.meta" "${thread_limit_checkpoint}.meta"
+     ONLY_IF_DIFFERENT)
+file(READ "${thread_limit_checkpoint}.meta" thread_limit_metadata)
+string(
+  REGEX REPLACE
+  "parallel[.]max_threads=[^\r\n]+"
+  "parallel.max_threads=18446744073709551615"
+  thread_limit_metadata
+  "${thread_limit_metadata}")
+file(WRITE "${thread_limit_checkpoint}.meta" "${thread_limit_metadata}")
+execute_process(
+  COMMAND "${CDT_EXECUTABLE}" --resume "${thread_limit_checkpoint}"
+  WORKING_DIRECTORY "${thread_limit_directory}"
+  RESULT_VARIABLE thread_limit_result
+  OUTPUT_VARIABLE thread_limit_output
+  ERROR_VARIABLE thread_limit_error)
+set(thread_limit_log "${thread_limit_output}\n${thread_limit_error}")
+if(thread_limit_result EQUAL 0
+   OR NOT thread_limit_log MATCHES
+          "Saved thread count exceeds the supported range")
+  message(
+    FATAL_ERROR
+      "cdt accepted an unrepresentable saved thread count:\n${thread_limit_log}")
 endif()
 
 file(GLOB temporary_files LIST_DIRECTORIES false "${normalized_test_directory}/*/*.tmp")

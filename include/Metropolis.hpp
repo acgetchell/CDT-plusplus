@@ -207,8 +207,8 @@ namespace cdt
     /// @param completed_passes Global passes completed by a restored
     /// checkpoint.
     /// @throws std::invalid_argument If a coupling is non-finite or either
-    /// cadence value is nonpositive, or restored state is incomplete or does
-    /// not match the global pass target.
+    /// cadence value is nonpositive, or restored state is incomplete, does not
+    /// match the global pass target, or does not match the supplied generator.
     /// @throws std::domain_error If `alpha` is not greater than 1/2.
     [[maybe_unused]] MoveStrategy(
         long double const alpha, long double const k, long double const lambda,
@@ -236,13 +236,11 @@ namespace cdt
       {
         throw std::invalid_argument("Completed passes cannot be negative.");
       }
-      m_reproducibility.seed              = m_generator.seed();
-      m_reproducibility.transition_stream = m_generator.stream();
-      m_reproducibility.alpha             = m_parameters.alpha();
-      m_reproducibility.k                 = m_parameters.k();
-      m_reproducibility.lambda            = m_parameters.lambda();
-      auto const total_passes = static_cast<std::int64_t>(m_completed_passes) +
-                                static_cast<std::int64_t>(m_cadence.passes());
+      m_reproducibility.alpha  = m_parameters.alpha();
+      m_reproducibility.k      = m_parameters.k();
+      m_reproducibility.lambda = m_parameters.lambda();
+      auto const total_passes  = static_cast<std::int64_t>(m_completed_passes) +
+                                 static_cast<std::int64_t>(m_cadence.passes());
       if (!std::in_range<Int_precision>(total_passes))
       {
         throw std::out_of_range(
@@ -257,9 +255,19 @@ namespace cdt
           throw std::invalid_argument(
               "Checkpoint resume state does not match its pass range.");
         }
+        if (m_reproducibility.seed != m_generator.seed() ||
+            m_reproducibility.transition_stream != m_generator.stream() ||
+            *m_reproducibility.transition_random_state !=
+                m_generator.serialized_state())
+        {
+          throw std::invalid_argument(
+              "Checkpoint resume generator does not match its recorded random state.");
+        }
         restore_statistics(m_reproducibility);
         m_resume_pending = true;
       }
+      m_reproducibility.seed              = m_generator.seed();
+      m_reproducibility.transition_stream = m_generator.stream();
       m_reproducibility.configured_passes =
           static_cast<Int_precision>(total_passes);
       m_reproducibility.checkpoint_interval = m_cadence.checkpoint();
@@ -548,7 +556,7 @@ namespace cdt
           .succeeded = to_counts(command_results.succeeded),
           .failed    = to_counts(command_results.failed)};
       if (artifact == utilities::ArtifactKind::CHECKPOINT &&
-          metadata.max_threads)
+          metadata.max_threads && *metadata.max_threads > 0)
       {
         metadata.transition_random_state =
             std::make_shared<std::string const>(m_generator.serialized_state());

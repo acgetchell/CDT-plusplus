@@ -154,6 +154,48 @@ SCENARIO("MoveCommand results are consumed and reset once" *
   }
 }
 
+SCENARIO("Shared move-run orchestration rejects invalid global pass ranges" *
+         doctest::test_suite("move_run"))
+{
+  auto const cadence = MoveRunCadence::parse(1, 1);
+  REQUIRE(cadence);
+  auto const execute = [&cadence](Int_precision const completed_passes) {
+    return detail::execute_move_run(
+        ScriptedManifold{}, detail::MoveCommandResults<ScriptedManifold>{}, 0,
+        completed_passes, *cadence,
+        detail::MoveRunIdentity{.algorithm = "Scripted",
+                                .seed      = RandomSeed{103},
+                                .stream    = RandomStream{7}},
+        false,
+        [](ScriptedManifold current, int state, Int_precision) {
+          return detail::MovePassResult<ScriptedManifold, int>{
+              .manifold        = current,
+              .command_results = {},
+              .strategy_state  = state};
+        },
+        [](ScriptedManifold const&,
+           detail::MoveCommandResults<ScriptedManifold> const&, int const&) {},
+        [](ScriptedManifold const&,
+           detail::MoveCommandResults<ScriptedManifold> const&, int const&,
+           Int_precision) {});
+  };
+
+  WHEN("The completed count is negative or would overflow the total")
+  {
+    THEN("Both invalid checkpoint positions are rejected before execution")
+    {
+      CHECK_THROWS_WITH_AS(
+          static_cast<void>(execute(-1)),
+          "Completed and configured passes exceed the supported range.",
+          std::invalid_argument);
+      CHECK_THROWS_WITH_AS(
+          static_cast<void>(execute(std::numeric_limits<Int_precision>::max())),
+          "Completed and configured passes exceed the supported range.",
+          std::invalid_argument);
+    }
+  }
+}
+
 SCENARIO("Shared move-run orchestration accumulates pass deltas once" *
          doctest::test_suite("move_run"))
 {

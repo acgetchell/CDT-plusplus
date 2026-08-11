@@ -12,6 +12,7 @@
 #include <doctest/doctest.h>
 #include <fmt/format.h>
 
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
@@ -166,6 +167,41 @@ namespace
     contents[value_start] = contents[value_start] == '0' ? '1' : '0';
     std::ofstream output{filename, std::ios::trunc};
     output << contents;
+  }
+
+  void remove_metadata_field(std::filesystem::path const& filename,
+                             std::string_view const       field)
+  {
+    std::ifstream input{filename};
+    std::string   contents{std::istreambuf_iterator<char>{input},
+                           std::istreambuf_iterator<char>{}};
+    auto const    prefix = std::string{field} + '=';
+    auto const    start  = contents.find(prefix);
+    if (start == std::string::npos)
+    {
+      throw std::runtime_error{"Metadata field not found"};
+    }
+    auto const end = contents.find('\n', start);
+    contents.erase(start, end == std::string::npos ? end : end - start + 1);
+    std::ofstream output{filename, std::ios::trunc};
+    output << contents;
+  }
+
+  template <typename Operation>
+  void check_filesystem_error(Operation              operation,
+                              std::errc const        expected_code,
+                              std::string_view const expected_message)
+  {
+    try
+    {
+      operation();
+      FAIL_CHECK("Malformed persistence metadata was accepted.");
+    }
+    catch (std::filesystem::filesystem_error const& error)
+    {
+      CHECK_EQ(error.code(), std::make_error_code(expected_code));
+      CHECK(std::string_view{error.what()}.contains(expected_message));
+    }
   }
 
   [[nodiscard]] auto make_resumable_checkpoint_metadata(
@@ -750,6 +786,40 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
         CHECK_EQ(restored.triangulation, manifold.delaunay_snapshot());
       }
     }
+    WHEN("Checkpoint continuation state omits cumulative move statistics")
+    {
+      TemporaryDirectory const directory;
+      auto const filename = directory.file("incomplete-resume.off");
+      auto       metadata = make_resumable_checkpoint_metadata(manifold);
+      metadata.move_statistics.reset();
+
+      THEN("Publication rejects the incomplete resume contract atomically")
+      {
+        CHECK_THROWS_WITH_AS(
+            write_file(filename, manifold.delaunay_snapshot(), metadata),
+            "Resumable checkpoint metadata requires cumulative move statistics.",
+            std::invalid_argument);
+        CHECK_FALSE(std::filesystem::exists(filename));
+        CHECK_FALSE(std::filesystem::exists(metadata_filename(filename)));
+      }
+    }
+    WHEN("A final artifact contains checkpoint continuation state")
+    {
+      TemporaryDirectory const directory;
+      auto const filename = directory.file("final-resume-state.off");
+      auto       metadata = make_resumable_checkpoint_metadata(manifold);
+      metadata.artifact   = ArtifactKind::FINAL_TRIANGULATION;
+
+      THEN("Publication rejects the artifact-role mismatch atomically")
+      {
+        CHECK_THROWS_WITH_AS(
+            write_file(filename, manifold.delaunay_snapshot(), metadata),
+            "Only checkpoint artifacts may contain resumable PCG state.",
+            std::invalid_argument);
+        CHECK_FALSE(std::filesystem::exists(filename));
+        CHECK_FALSE(std::filesystem::exists(metadata_filename(filename)));
+      }
+    }
     WHEN("A resumable checkpoint contains coincident vertices")
     {
       TemporaryDirectory const directory;
@@ -1110,6 +1180,164 @@ SCENARIO("File serialization reports complete failures" *
       {
         CHECK_THROWS_AS(static_cast<void>(read_file<Delaunay_t<3>>(filename)),
                         std::filesystem::filesystem_error);
+      }
+    }
+
+    WHEN("Resumable metadata fields violate their persistence contracts.")
+    {
+      struct MetadataMutation
+      {
+        std::string_view field;
+        std::string_view replacement;
+        std::errc        code;
+        std::string_view message;
+      };
+      std::array<MetadataMutation, 9> const mutations{
+          {MetadataMutation{"resume_supported", "maybe",
+                            std::errc::illegal_byte_sequence,
+                            "invalid resume contract"},
+           MetadataMutation{"configured_passes", "0",
+                            std::errc::illegal_byte_sequence,
+                            "invalid run configuration"},
+           MetadataMutation{"completed_passes", "-1",
+                            std::errc::illegal_byte_sequence,
+                            "invalid completed passes"},
+           MetadataMutation{"moves.proposed", "0,0",
+                            std::errc::illegal_byte_sequence,
+                            "wrong number of move counts"},
+           MetadataMutation{"moves.proposed", "-1,0,0,0,0",
+                            std::errc::illegal_byte_sequence,
+                            "negative move count"},
+           MetadataMutation{"moves.proposed", "1,0,0,0,0",
+                            std::errc::illegal_byte_sequence,
+                            "move statistics violate accounting invariants"},
+           MetadataMutation{
+               "transition_trace.count", "1", std::errc::illegal_byte_sequence,
+               "move statistics do not match the transition count"},
+           MetadataMutation{"build.compiler_id", "different-compiler",
+                            std::errc::not_supported,
+                            "recorded producer toolchain"},
+           MetadataMutation{"resume_supported", "false",
+                            std::errc::illegal_byte_sequence,
+                            "PCG state without resume support"}}
+      };
+      auto index = std::size_t{};
+
+      THEN("Each malformed contract is rejected with its specific diagnosis")
+      {
+        for (auto const& mutation : mutations)
+        {
+          CAPTURE(mutation.field);
+          CAPTURE(mutation.replacement);
+          auto const filename =
+              directory.file(fmt::format("invalid-resume-{}.off", index++));
+          auto const metadata = make_resumable_checkpoint_metadata(manifold);
+          write_file(filename, triangulation, metadata);
+          replace_metadata_field(metadata_filename(filename), mutation.field,
+                                 mutation.replacement);
+
+          check_filesystem_error(
+              [&filename] {
+                static_cast<void>(read_file<Delaunay_t<3>>(filename));
+              },
+              mutation.code, mutation.message);
+        }
+      }
+    }
+
+    WHEN("Resumable metadata omits a required continuation field.")
+    {
+      auto const filename = directory.file("missing-resume-field.off");
+      auto const metadata = make_resumable_checkpoint_metadata(manifold);
+      write_file(filename, triangulation, metadata);
+      remove_metadata_field(metadata_filename(filename),
+                            "parallel.max_threads");
+
+      THEN("The incomplete checkpoint is rejected before payload use")
+      {
+        check_filesystem_error(
+            [&filename] {
+              static_cast<void>(read_file<Delaunay_t<3>>(filename));
+            },
+            std::errc::illegal_byte_sequence,
+            "Resumable checkpoint metadata is incomplete or inconsistent");
+      }
+    }
+
+    WHEN("Resumable metadata contains only part of its move statistics.")
+    {
+      auto const filename = directory.file("partial-move-statistics.off");
+      auto const metadata = make_resumable_checkpoint_metadata(manifold);
+      write_file(filename, triangulation, metadata);
+      remove_metadata_field(metadata_filename(filename), "moves.failed");
+
+      THEN("The partial accounting record is rejected")
+      {
+        check_filesystem_error(
+            [&filename] {
+              static_cast<void>(read_file<Delaunay_t<3>>(filename));
+            },
+            std::errc::illegal_byte_sequence, "incomplete move statistics");
+      }
+    }
+
+    WHEN("Persisted input provenance is incomplete.")
+    {
+      auto const filename     = directory.file("partial-persisted-input.off");
+      auto       metadata     = make_resumable_checkpoint_metadata(manifold);
+      metadata.input_artifact = ArtifactKind::INITIAL_TRIANGULATION;
+      metadata.input_seed     = cdt::RandomSeed{91};
+      metadata.input_initialization_stream =
+          cdt::random_streams::initialization;
+      metadata.input_placement_fingerprint = 0x5678;
+      metadata.input_topology_fingerprint  = 0x9abc;
+      write_file(filename, triangulation, metadata);
+      remove_metadata_field(metadata_filename(filename),
+                            "input.topology.fnv1a64");
+
+      THEN("The partial source identity is rejected")
+      {
+        check_filesystem_error(
+            [&filename] {
+              static_cast<void>(read_file<Delaunay_t<3>>(filename));
+            },
+            std::errc::illegal_byte_sequence, "incomplete input provenance");
+      }
+    }
+
+    WHEN("A checkpoint payload has no metadata sidecar.")
+    {
+      auto const filename = directory.file("unmanifested-checkpoint.off");
+      write_file(filename, triangulation);
+
+      THEN("The checkpoint reader requires the manifested pair")
+      {
+        check_filesystem_error(
+            [&filename] {
+              static_cast<void>(read_checkpoint<Delaunay_t<3>>(filename));
+            },
+            std::errc::no_such_file_or_directory,
+            "Checkpoint resume requires a persistence metadata sidecar");
+      }
+    }
+
+    WHEN("A checkpoint is a validated snapshot without continuation state.")
+    {
+      auto const filename = directory.file("snapshot-checkpoint.off");
+      auto       metadata = make_reproducibility_metadata(
+          manifold, cdt::RandomSeed{92}, ArtifactKind::CHECKPOINT);
+      metadata.completed_passes = 1;
+      write_file(filename, triangulation, metadata);
+
+      THEN("Generic persistence accepts it but exact resume does not")
+      {
+        CHECK_NOTHROW(static_cast<void>(read_file<Delaunay_t<3>>(filename)));
+        check_filesystem_error(
+            [&filename] {
+              static_cast<void>(read_checkpoint<Delaunay_t<3>>(filename));
+            },
+            std::errc::not_supported,
+            "CDT resume requires a resumable checkpoint artifact");
       }
     }
 

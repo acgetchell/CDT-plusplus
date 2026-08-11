@@ -76,6 +76,21 @@ if(NOT initial_metadata MATCHES "(^|[\r\n])placement[.]fnv1a64=([0-9a-f]+)([\r\n
 endif()
 set(initial_placement_fingerprint "${CMAKE_MATCH_2}")
 
+execute_process(
+  COMMAND "${CDT_EXECUTABLE}" --input "${initial_payload}" -p1 --seed 93
+          --no-output
+  WORKING_DIRECTORY "${cdt_directory}"
+  RESULT_VARIABLE missing_action_result
+  OUTPUT_VARIABLE missing_action_output
+  ERROR_VARIABLE missing_action_error)
+set(missing_action_log "${missing_action_output}\n${missing_action_error}")
+if(missing_action_result EQUAL 0
+   OR NOT missing_action_log MATCHES "Alpha, K, and Lambda must be specified")
+  message(
+    FATAL_ERROR
+      "cdt accepted an initial artifact without action parameters:\n${missing_action_log}")
+endif()
+
 set(unmanifested_payload "${unmanifested_directory}/initial.off")
 file(COPY_FILE "${initial_payload}" "${unmanifested_payload}" ONLY_IF_DIFFERENT)
 execute_process(
@@ -203,6 +218,24 @@ if(checkpoint_input_result EQUAL 0
   message(
     FATAL_ERROR
       "cdt accepted a checkpoint artifact as a new initial state:\n${checkpoint_input_output}\n${checkpoint_input_error}")
+endif()
+
+execute_process(
+  COMMAND
+    "${CDT_EXECUTABLE}" --input "${initial_payload}" --resume
+    "${checkpoint_payload}" -p1 --no-output
+  WORKING_DIRECTORY "${checkpoint_directory}"
+  RESULT_VARIABLE conflicting_mode_result
+  OUTPUT_VARIABLE conflicting_mode_output
+  ERROR_VARIABLE conflicting_mode_error)
+set(conflicting_mode_log
+    "${conflicting_mode_output}\n${conflicting_mode_error}")
+if(conflicting_mode_result EQUAL 0
+   OR NOT conflicting_mode_log MATCHES
+          "--input and --resume are mutually exclusive")
+  message(
+    FATAL_ERROR
+      "cdt accepted both input modes at once:\n${conflicting_mode_log}")
 endif()
 
 execute_process(

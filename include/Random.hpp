@@ -22,6 +22,22 @@
 #include <string>
 #include <string_view>
 
+#if !defined(__SIZEOF_INT128__) || (defined(PCG_FORCE_EMULATED_128BIT_MATH) && \
+                                    PCG_FORCE_EMULATED_128BIT_MATH)
+#include "pcg_uint128.hpp"
+
+namespace pcg_extras
+{
+  // PCG's specific_stream::set_stream uses an int literal with its emulated
+  // 128-bit value. Supply the heterogeneous overload that template deduction
+  // cannot obtain through uint_x4's converting constructor.
+  template <typename UInt, typename UIntX2>
+  [[nodiscard]] auto operator|(uint_x4<UInt, UIntX2> const& value,
+                               int const bits) -> uint_x4<UInt, UIntX2>
+  { return value | uint_x4<UInt, UIntX2>{bits}; }
+}  // namespace pcg_extras
+#endif
+
 #include "pcg_random.hpp"
 
 namespace cdt
