@@ -143,9 +143,22 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
         publish_artifacts.assert_not_called()
 
     def test_staged_package_validator_accepts_the_committed_tree(self) -> None:
-        """The complete validator can operate against a temporary root."""
+        """The staged validator accepts an unchanged copy of the committed tree."""
         with mock.patch("builtins.print"):
             generator.validate_generated_package({})
+
+    def test_conflicting_staged_artifact_is_rejected_before_publication(self) -> None:
+        """A generated artifact must agree with its retained manifest."""
+        relative_path = "reference/raw/v1/cpp-reference.json"
+        generated = {relative_path: (generator.ROOT / relative_path).read_bytes() + b"\n"}
+
+        with (
+            mock.patch.object(generator, "publish_artifacts") as publish_artifacts,
+            self.assertRaisesRegex(ValueError, "checksum mismatch"),
+        ):
+            generator.validate_and_publish(generated)
+
+        publish_artifacts.assert_not_called()
 
     def test_cmake_version_comes_from_the_configured_builds(self) -> None:
         """Manifest provenance uses the CMake recorded in each build cache."""

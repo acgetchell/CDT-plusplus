@@ -306,10 +306,13 @@ def _run_experiments(config: _SweepConfig) -> None:
 def _format_subprocess_failure(error: subprocess.CalledProcessError | subprocess.TimeoutExpired) -> str:
     """Format a bounded subprocess failure without exposing a traceback."""
     command = error.cmd if isinstance(error.cmd, str) else " ".join(str(argument) for argument in error.cmd)
-    detail = error.stderr or error.output or ""
-    if isinstance(detail, bytes):
-        detail = detail.decode(errors="replace")
-    suffix = f"\n{detail.strip()}" if detail.strip() else ""
+    details: list[str] = []
+    for detail in (error.stderr, error.output):
+        decoded_detail = detail.decode(errors="replace") if isinstance(detail, bytes) else detail
+        if decoded_detail and (stripped := decoded_detail.strip()):
+            details.append(stripped)
+    combined_detail = "\n".join(details)
+    suffix = f"\n{combined_detail}" if combined_detail else ""
     if isinstance(error, subprocess.TimeoutExpired):
         return f"command timed out after {error.timeout:g} seconds: {command}{suffix}"
     return f"command exited with status {error.returncode}: {command}{suffix}"

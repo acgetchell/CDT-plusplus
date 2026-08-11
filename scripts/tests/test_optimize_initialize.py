@@ -238,18 +238,35 @@ Final number of simplices: 12000"""
                     self.assertIn(expected, stderr.getvalue())
                     self.assertNotIn("Traceback", stderr.getvalue())
 
-    def test_timeout_failure_retains_partial_output(self) -> None:
-        """A bounded subprocess retains diagnostics emitted before timeout."""
-        failure = subprocess.TimeoutExpired(
-            ["initialize", "--seed", "92"],
-            3,
-            output=b"partial initializer output",
+    def test_subprocess_failures_retain_both_captured_streams(self) -> None:
+        """Bounded subprocess failures retain diagnostics from both streams."""
+        failures = (
+            (
+                subprocess.CalledProcessError(
+                    7,
+                    ["initialize", "--seed", "92"],
+                    output="\nstdout diagnostic ",
+                    stderr=" stderr diagnostic\n",
+                ),
+                "command exited with status 7: initialize --seed 92",
+            ),
+            (
+                subprocess.TimeoutExpired(
+                    ["initialize", "--seed", "92"],
+                    3,
+                    output=b"\nstdout diagnostic ",
+                    stderr=b" stderr diagnostic\n",
+                ),
+                "command timed out after 3 seconds: initialize --seed 92",
+            ),
         )
 
-        message = _format_subprocess_failure(failure)
+        for failure, expected in failures:
+            with self.subTest(failure=type(failure).__name__):
+                message = _format_subprocess_failure(failure)
 
-        self.assertIn("timed out after 3 seconds: initialize --seed 92", message)
-        self.assertIn("partial initializer output", message)
+                self.assertIn(expected, message)
+                self.assertTrue(message.endswith("\nstderr diagnostic\nstdout diagnostic"))
 
 
 if __name__ == "__main__":
