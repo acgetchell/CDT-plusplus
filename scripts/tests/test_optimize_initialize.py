@@ -17,6 +17,7 @@ from scripts.optimize_initialize import (
     GIT_TIMEOUT_SECONDS,
     PARAMETER_PAIRS,
     _experiment_provenance,
+    _format_subprocess_failure,
     _initializer_binary,
     _initializer_command,
     _parse_args,
@@ -236,6 +237,19 @@ Final number of simplices: 12000"""
                     self.assertEqual(main(["--repository-root", str(root)]), 1)
                     self.assertIn(expected, stderr.getvalue())
                     self.assertNotIn("Traceback", stderr.getvalue())
+
+    def test_timeout_failure_retains_partial_output(self) -> None:
+        """A bounded subprocess retains diagnostics emitted before timeout."""
+        failure = subprocess.TimeoutExpired(
+            ["initialize", "--seed", "92"],
+            3,
+            output=b"partial initializer output",
+        )
+
+        message = _format_subprocess_failure(failure)
+
+        self.assertIn("timed out after 3 seconds: initialize --seed 92", message)
+        self.assertIn("partial initializer output", message)
 
 
 if __name__ == "__main__":

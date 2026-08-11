@@ -624,7 +624,8 @@ def validate_bounded_run_command(bounded_run: dict[str, Any], output: str, path:
         f"Number of passes: {passes}",
         f"Number of passes to execute: {passes}",
     )
-    if not any(text in output for text in pass_records):
+    output_lines = output.splitlines()
+    if not any(text in output_lines for text in pass_records):
         message = f"{path}: output contradicts declared pass count {passes!r}"
         raise ValueError(message)
 

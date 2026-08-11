@@ -260,6 +260,8 @@ SCENARIO("FoliatedTriangulation free functions" *
         {
           CHECK_EQ(vertex.value()->point(), Point_t<3>{0, 0, 0});
           CHECK_EQ(vertex.value()->info(), 1);
+          CHECK(
+              triangulation.does_vertex_radius_match_timevalue(vertex.value()));
         }
       }
       WHEN("We choose a point not in the triangulation.")

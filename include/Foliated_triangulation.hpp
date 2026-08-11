@@ -1870,6 +1870,10 @@ namespace cdt::foliated_triangulations
       auto const actual_radius_squared   = squared_radius<3>(t_vertex);
       auto const radius                  = expected_radius(t_vertex);
       auto const expected_radius_squared = std::pow(radius, 2);
+      if (expected_radius_squared == 0.0)
+      {
+        return std::abs(actual_radius_squared) <= TOLERANCE;
+      }
       return actual_radius_squared >
                  expected_radius_squared * (1 - TOLERANCE) &&
              actual_radius_squared < expected_radius_squared * (1 + TOLERANCE);

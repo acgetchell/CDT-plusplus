@@ -128,8 +128,11 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
     def test_debug_cli_excludes_the_assertion_incompatible_quickstart(self) -> None:
         """The Release API example must not abort the focused Debug suite."""
         examples = (REPO_ROOT / "examples" / "CMakeLists.txt").read_text(encoding="utf-8")
+        presets = json.loads((REPO_ROOT / "CMakePresets.json").read_text(encoding="utf-8"))
+        debug_cli = next(preset for preset in presets["testPresets"] if preset["name"] == "debug-cli")
 
         self.assertIn('LABELS "example;integration;debug-incompatible"', examples)
+        self.assertEqual(debug_cli["filter"]["exclude"]["label"], "^debug-incompatible$")
 
     def test_public_recipes_have_one_group_and_a_description(self) -> None:
         """Every listed recipe should explain its purpose in one stable section."""
