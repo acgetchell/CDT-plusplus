@@ -172,6 +172,16 @@ class ReferenceFixtureValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "desired timeslices"):
             validator.validate_end_to_end(protocol, self.end_to_end_path)
 
+    def test_bounded_run_accepts_current_pass_label(self) -> None:
+        """The current producer wording retains the declared pass count."""
+        output = self.end_to_end_path.read_text(encoding="utf-8").replace(
+            "Number of passes: 1",
+            "Number of passes to execute: 1",
+        )
+        self.assertIn("Number of passes to execute: 1", output)
+
+        validator.validate_end_to_end_output(self.protocol, output, Path("generated end-to-end.txt"))
+
     def test_bounded_run_f_vector_must_lie_inside_declared_band(self) -> None:
         """The declared randomized band is executable acceptance data."""
         protocol = copy.deepcopy(self.protocol)

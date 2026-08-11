@@ -28,6 +28,7 @@ primary_binary := if os_family() == "windows" { "out/build/reference/src/cdt.exe
 python_version := trim(read(".python-version"))
 reference_fixture_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_reference_fixture.exe" } else { "out/build/reference/tests/CDT_reference_fixture" }
 rng_benchmark_binary := if os_family() == "windows" { "out/build/reference/tests/CDT_rng_benchmark.exe" } else { "out/build/reference/tests/CDT_rng_benchmark" }
+rumdl_version := "0.2.53"
 typos_version := "1.49.0"
 uv_version := "0.12.3"
 viewer_binary := "out/build/viewer/src/cdt-viewer"
@@ -142,6 +143,21 @@ _ensure-git-cliff:
     actual_version="$(git-cliff --version)"
     if [[ "$actual_version" != "git-cliff {{ git_cliff_version }}" ]]; then
       echo "git-cliff {{ git_cliff_version }} is required; found $actual_version." >&2
+      exit 1
+    fi
+
+[private]
+_ensure-rumdl:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v rumdl >/dev/null || {
+      echo "rumdl {{ rumdl_version }} is required." >&2
+      echo "Install it with: cargo install rumdl --version {{ rumdl_version }} --locked" >&2
+      exit 1
+    }
+    actual_version="$(rumdl --version | awk '{print $2}')"
+    if [[ "$actual_version" != "{{ rumdl_version }}" ]]; then
+      echo "rumdl {{ rumdl_version }} is required; found $actual_version." >&2
       exit 1
     fi
 
@@ -310,7 +326,7 @@ changelog-unreleased version: _ensure-git-cliff _sync-python-dev
 
 # Run fast, non-mutating local validation.
 [group('workflows')]
-check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check release-check python-check reference-check semgrep semgrep-test spell-check viewer-check
+check: _justfile-check _format-check _yaml-check _action-lint _zizmor _whitespace-check _cmake-check markdown-check release-check python-check reference-check semgrep semgrep-test spell-check viewer-check
     @echo "Checks complete."
 
 # Run the comprehensive pre-commit/pre-push validation gate.
@@ -407,6 +423,24 @@ initialize *args: build
 [group('workflows')]
 load input *args: build
     {{ primary_binary }} --input {{ quote(input) }} {{ args }}
+
+# Check every tracked or unignored Markdown file with the pinned linter.
+[group('workflows')]
+markdown-check: _ensure-rumdl
+    #!/usr/bin/env bash
+    set -euo pipefail
+    files=()
+    while IFS= read -r -d '' file; do
+      if [[ -f "$file" && "$file" != "CHANGELOG.md" ]]; then
+        files+=("$file")
+      fi
+    done < <(git ls-files -co --exclude-standard -z -- '*.md')
+    if [[ "${#files[@]}" -gt 0 ]]; then
+      rumdl check --deny-config-warnings -- "${files[@]}"
+    fi
+    if [[ -f CHANGELOG.md ]]; then
+      rumdl check --deny-config-warnings --extend-disable MD013 -- CHANGELOG.md
+    fi
 
 # Run every non-mutating Python source check.
 [group('workflows')]

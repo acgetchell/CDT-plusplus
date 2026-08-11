@@ -2,8 +2,10 @@
 
 import argparse
 import hashlib
+import math
 import re
 import shutil
+import subprocess
 import sys
 from dataclasses import dataclass
 from importlib.metadata import PackageNotFoundError, version
@@ -24,6 +26,8 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Mapping, Sequence
 
 MAX_RANDOM_SEED = (1 << 64) - 1
+DEFAULT_INITIALIZER_TIMEOUT_SECONDS = 900.0
+GIT_TIMEOUT_SECONDS = 30.0
 PARAMETER_PAIRS = tuple((initial_radius, spacing) for initial_radius in range(1, 4) for spacing in (1.0, 1.5, 2.0))
 
 
@@ -42,6 +46,7 @@ class _SweepConfig:
     output_directory: Path
     repository_root: Path
     seed: int
+    timeout_seconds: float
 
 
 def _parse_seed(value: str) -> int:
@@ -55,6 +60,19 @@ def _parse_seed(value: str) -> int:
         message = "seed must be between 0 and 18446744073709551615"
         raise argparse.ArgumentTypeError(message)
     return seed
+
+
+def _parse_timeout(value: str) -> float:
+    """Parse one finite, positive process timeout in seconds."""
+    try:
+        timeout = float(value)
+    except ValueError as error:
+        message = "timeout must be a finite, positive number of seconds"
+        raise argparse.ArgumentTypeError(message) from error
+    if not math.isfinite(timeout) or timeout <= 0.0:
+        message = "timeout must be a finite, positive number of seconds"
+        raise argparse.ArgumentTypeError(message)
+    return timeout
 
 
 def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
@@ -77,6 +95,12 @@ def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
         type=_parse_seed,
         default=92,
         help="root initializer seed used for every parameter pair (default: 92)",
+    )
+    parser.add_argument(
+        "--timeout-seconds",
+        type=_parse_timeout,
+        default=DEFAULT_INITIALIZER_TIMEOUT_SECONDS,
+        help=f"maximum runtime for each initializer process (default: {DEFAULT_INITIALIZER_TIMEOUT_SECONDS:g})",
     )
     return parser.parse_args(argv)
 
@@ -141,12 +165,23 @@ def _experiment_provenance(repository_root: Path, initialize_binary: Path) -> di
     if git is None:
         message = "Git is required to record initializer source provenance."
         raise RuntimeError(message)
-    commit = qx([git, "-C", str(resolved_root), "rev-parse", "HEAD"], text=True).strip()  # noqa: S603
+    commit = qx(  # noqa: S603
+        [git, "-C", str(resolved_root), "rev-parse", "HEAD"],
+        text=True,
+        stderr=subprocess.PIPE,
+        timeout=GIT_TIMEOUT_SECONDS,
+    ).strip()
     status = qx(  # noqa: S603
         [git, "-C", str(resolved_root), "status", "--porcelain=v1", "--untracked-files=all"],
         text=True,
+        stderr=subprocess.PIPE,
+        timeout=GIT_TIMEOUT_SECONDS,
     )
-    tracked_diff = qx([git, "-C", str(resolved_root), "diff", "--binary", "HEAD"])  # noqa: S603
+    tracked_diff = qx(  # noqa: S603
+        [git, "-C", str(resolved_root), "diff", "--binary", "HEAD"],
+        stderr=subprocess.PIPE,
+        timeout=GIT_TIMEOUT_SECONDS,
+    )
     try:
         package_version = version(PACKAGE_NAME)
     except PackageNotFoundError:
@@ -251,7 +286,12 @@ def _run_experiments(config: _SweepConfig) -> None:
     """Run the local parameter sweep with the repository initializer."""
 
     def initializer_runner(command: list[str]) -> str:
-        return qx(command, text=True)  # noqa: S603 - The command is built from validated repository inputs.
+        return qx(  # noqa: S603 - The command is built from validated repository inputs.
+            command,
+            text=True,
+            stderr=subprocess.PIPE,
+            timeout=config.timeout_seconds,
+        )
 
     provenance = _experiment_provenance(config.repository_root, config.initialize_binary)
     _run_parameter_sweep(
@@ -261,6 +301,18 @@ def _run_experiments(config: _SweepConfig) -> None:
         provenance,
         _SweepServices(initializer_runner=initializer_runner),
     )
+
+
+def _format_subprocess_failure(error: subprocess.CalledProcessError | subprocess.TimeoutExpired) -> str:
+    """Format a bounded subprocess failure without exposing a traceback."""
+    command = error.cmd if isinstance(error.cmd, str) else " ".join(str(argument) for argument in error.cmd)
+    if isinstance(error, subprocess.TimeoutExpired):
+        return f"command timed out after {error.timeout:g} seconds: {command}"
+    detail = error.stderr or error.output or ""
+    if isinstance(detail, bytes):
+        detail = detail.decode(errors="replace")
+    suffix = f"\n{detail.strip()}" if detail.strip() else ""
+    return f"command exited with status {error.returncode}: {command}{suffix}"
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -279,11 +331,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                 output_directory=output_directory,
                 repository_root=repository_root,
                 seed=args.seed,
+                timeout_seconds=args.timeout_seconds,
             )
         )
     except OutputDirectoryExistsError as error:
         print(str(error), file=sys.stderr)
         return 2
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+        print(f"Initializer optimization failed: {_format_subprocess_failure(error)}", file=sys.stderr)
+        return 1
+    except (OSError, RuntimeError, ValueError) as error:
+        print(f"Initializer optimization failed: {error}", file=sys.stderr)
+        return 1
     print(f"All done with parameter optimization; canonical local artifacts: {output_directory}")
     return 0
 

@@ -1,8 +1,11 @@
 """Tests for the local initializer optimization support script."""
 
 import argparse
+import contextlib
 import hashlib
+import io
 import json
+import subprocess
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -10,6 +13,8 @@ from unittest.mock import Mock, patch
 
 from scripts.experiment_artifacts import staging_directory_prefix
 from scripts.optimize_initialize import (
+    DEFAULT_INITIALIZER_TIMEOUT_SECONDS,
+    GIT_TIMEOUT_SECONDS,
     PARAMETER_PAIRS,
     _experiment_provenance,
     _initializer_binary,
@@ -17,8 +22,12 @@ from scripts.optimize_initialize import (
     _parse_args,
     _parse_initializer_output,
     _parse_seed,
+    _parse_timeout,
+    _run_experiments,
     _run_parameter_sweep,
+    _SweepConfig,
     _SweepServices,
+    main,
 )
 
 
@@ -45,6 +54,14 @@ class OptimizeInitializeTests(unittest.TestCase):
         for value in ("-1", "18446744073709551616", "invalid"):
             with self.subTest(value=value), self.assertRaises(argparse.ArgumentTypeError):
                 _parse_seed(value)
+
+    def test_initializer_timeout_is_bounded_and_configurable(self) -> None:
+        """Every initializer process has a finite positive runtime bound."""
+        self.assertEqual(_parse_args([]).timeout_seconds, DEFAULT_INITIALIZER_TIMEOUT_SECONDS)
+        self.assertEqual(_parse_args(["--timeout-seconds", "12.5"]).timeout_seconds, 12.5)
+        for value in ("0", "-1", "inf", "nan", "invalid"):
+            with self.subTest(value=value), self.assertRaises(argparse.ArgumentTypeError):
+                _parse_timeout(value)
 
     def test_initializer_output_is_parsed(self) -> None:
         """The sweep extracts both final size and volume profile."""
@@ -147,7 +164,7 @@ Final number of simplices: 12000"""
 
             with (
                 patch("scripts.optimize_initialize.shutil.which", return_value=str(git_binary)),
-                patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", " M README.md\n", b"tracked diff"]),
+                patch("scripts.optimize_initialize.qx", side_effect=["abc123\n", " M README.md\n", b"tracked diff"]) as qx,
             ):
                 provenance = _experiment_provenance(repository_root, initialize_binary)
 
@@ -159,6 +176,10 @@ Final number of simplices: 12000"""
                     "sha256": hashlib.sha256(b"exact executable").hexdigest(),
                 },
             )
+            for call in qx.call_args_list:
+                with self.subTest(command=call.args[0]):
+                    self.assertEqual(call.kwargs["timeout"], GIT_TIMEOUT_SECONDS)
+                    self.assertEqual(call.kwargs["stderr"], subprocess.PIPE)
             self.assertEqual(
                 provenance["repository"],
                 {
@@ -167,6 +188,54 @@ Final number of simplices: 12000"""
                     "tracked_diff_sha256": hashlib.sha256(b"tracked diff").hexdigest(),
                 },
             )
+
+    def test_experiment_runner_applies_the_configured_timeout(self) -> None:
+        """The process service forwards the per-initializer timeout."""
+        config = _SweepConfig(
+            initialize_binary=Path("initialize"),
+            output_directory=Path("output"),
+            repository_root=Path("checkout"),
+            seed=92,
+            timeout_seconds=12.5,
+        )
+        with (
+            patch("scripts.optimize_initialize._experiment_provenance", return_value={}),
+            patch("scripts.optimize_initialize._run_parameter_sweep") as run_parameter_sweep,
+            patch("scripts.optimize_initialize.qx", return_value="output") as qx,
+        ):
+            _run_experiments(config)
+            services = run_parameter_sweep.call_args.args[4]
+            self.assertEqual(services.initializer_runner(["initialize"]), "output")
+
+        qx.assert_called_once_with(
+            ["initialize"],
+            text=True,
+            stderr=subprocess.PIPE,
+            timeout=12.5,
+        )
+
+    def test_main_reports_operational_failures_without_tracebacks(self) -> None:
+        """Subprocess and local failures produce concise CLI diagnostics."""
+        failures = (
+            (subprocess.TimeoutExpired(["initialize"], 3), "timed out after 3 seconds"),
+            (subprocess.CalledProcessError(7, ["initialize"], stderr="producer failed"), "exited with status 7"),
+            (OSError("cannot execute initializer"), "cannot execute initializer"),
+        )
+        with TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            initialize_binary = _initializer_binary(root)
+            initialize_binary.parent.mkdir(parents=True)
+            initialize_binary.touch()
+            for failure, expected in failures:
+                stderr = io.StringIO()
+                with (
+                    self.subTest(failure=type(failure).__name__),
+                    patch("scripts.optimize_initialize._run_experiments", side_effect=failure),
+                    contextlib.redirect_stderr(stderr),
+                ):
+                    self.assertEqual(main(["--repository-root", str(root)]), 1)
+                    self.assertIn(expected, stderr.getvalue())
+                    self.assertNotIn("Traceback", stderr.getvalue())
 
 
 if __name__ == "__main__":

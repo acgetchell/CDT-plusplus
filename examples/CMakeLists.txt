@@ -17,6 +17,7 @@ if(ENABLE_TESTING)
       "-DTEST_EXECUTABLE=$<TARGET_FILE:CDT_cpp_api_quickstart>"
       "-DTEST_OUTPUT=${CMAKE_CURRENT_BINARY_DIR}/cpp-api-quickstart.off"
       -P ${PROJECT_SOURCE_DIR}/cmake/RunCppApiQuickstartTest.cmake)
-  set_tests_properties(cpp-api-quickstart PROPERTIES LABELS "example;integration"
-                                                     TIMEOUT 30)
+  set_tests_properties(
+    cpp-api-quickstart
+    PROPERTIES LABELS "example;integration;debug-incompatible" TIMEOUT 30)
 endif()

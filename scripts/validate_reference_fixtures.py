@@ -474,7 +474,11 @@ def file_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_manifest(manifest: dict[str, Any]) -> None:
+def validate_manifest(
+    manifest: dict[str, Any],
+    repository_root: Path = ROOT,
+    reference_root: Path = REFERENCE,
+) -> None:
     """Check that every manifested local artifact exists and matches SHA-256."""
     artifact_paths = {artifact["path"] for artifact in manifest["artifacts"]}
     command_ids = [command["id"] for command in manifest["commands"]]
@@ -494,8 +498,8 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
         raise ValueError(message)
 
     for artifact in manifest["artifacts"]:
-        path = (ROOT / artifact["path"]).resolve()
-        if not path.is_relative_to(REFERENCE.resolve()):
+        path = (repository_root / artifact["path"]).resolve()
+        if not path.is_relative_to(reference_root.resolve()):
             message = f"manifest artifact escapes the reference directory: {path}"
             raise ValueError(message)
         if not path.is_file():
@@ -558,10 +562,10 @@ def fnv1a64(payload: bytes) -> str:
     return f"{value:016x}"
 
 
-def validate_persistence() -> None:
+def validate_persistence(reference_root: Path = REFERENCE) -> None:
     """Verify the committed payload against its raw C++ sidecar."""
-    payload_path = REFERENCE / "raw" / "v1" / "persistence-v1.off"
-    metadata_path = REFERENCE / "raw" / "v1" / "persistence-v1.off.meta"
+    payload_path = reference_root / "raw" / "v1" / "persistence-v1.off"
+    metadata_path = reference_root / "raw" / "v1" / "persistence-v1.off.meta"
     payload = payload_path.read_bytes()
     metadata = dict(line.split("=", maxsplit=1) for line in metadata_path.read_text(encoding="utf-8").splitlines() if "=" in line)
     if int(metadata["payload.size"]) != len(payload):
@@ -606,7 +610,6 @@ def validate_bounded_run_command(bounded_run: dict[str, Any], output: str, path:
     expected_text = (
         f"Number of desired simplices: {command_option(command, '-n', '--simplices')}",
         f"Number of desired timeslices: {command_option(command, '-t', '--timeslices')}",
-        f"Number of passes: {command_option(command, '-p', '--passes')}",
         f"Checkpoint every {command_option(command, '-c', '--checkpoint')} passes.",
         f"Effective random seed: {command_option(command, '--seed')}",
         f"Maximum Delaunay threads: {command_option(command, '--threads')}",
@@ -615,6 +618,15 @@ def validate_bounded_run_command(bounded_run: dict[str, Any], output: str, path:
         if text not in output:
             message = f"{path}: output contradicts declared command field {text!r}"
             raise ValueError(message)
+
+    passes = command_option(command, "-p", "--passes")
+    pass_records = (
+        f"Number of passes: {passes}",
+        f"Number of passes to execute: {passes}",
+    )
+    if not any(text in output for text in pass_records):
+        message = f"{path}: output contradicts declared pass count {passes!r}"
+        raise ValueError(message)
 
     expected_parameters = {
         "Alpha": float(command_option(command, "-a", "--alpha")),
@@ -636,11 +648,8 @@ def bounded_run_final_f_vector(output: str) -> list[int]:
     return [int(value) for value in matches[-1]]
 
 
-def validate_end_to_end(protocol: dict[str, Any], path: Path | None = None) -> None:
-    """Check bounded-run command provenance, bands, and accounting identities."""
-    if path is None:
-        path = REFERENCE / "raw" / "v1" / "end-to-end.txt"
-    output = path.read_text(encoding="utf-8")
+def validate_end_to_end_output(protocol: dict[str, Any], output: str, path: Path) -> None:
+    """Check one bounded-run payload's provenance, bands, and accounting."""
     bounded_run = protocol["bounded_run"]
     command = bounded_run["command"]
     validate_bounded_run_command(bounded_run, output, path)
@@ -662,6 +671,13 @@ def validate_end_to_end(protocol: dict[str, Any], path: Path | None = None) -> N
     if any(value < minimum or value > maximum for value, minimum, maximum in zip(f_vector, band["minimum"], band["maximum"], strict=True)):
         message = f"bounded run final f-vector {f_vector} lies outside its declared band"
         raise ValueError(message)
+
+
+def validate_end_to_end(protocol: dict[str, Any], path: Path | None = None) -> None:
+    """Check the retained bounded-run record against the reference protocol."""
+    if path is None:
+        path = REFERENCE / "raw" / "v1" / "end-to-end.txt"
+    validate_end_to_end_output(protocol, path.read_text(encoding="utf-8"), path)
 
 
 def parse_key_value_record(path: Path) -> dict[str, str]:
@@ -687,9 +703,9 @@ def parse_key_value_payload(payload: str, source: str) -> dict[str, str]:
     return result
 
 
-def validate_scaling_records() -> None:
+def validate_scaling_records(reference_root: Path = REFERENCE) -> None:
     """Verify #88 records share one matched protocol and retain raw samples."""
-    records = [parse_key_value_record(REFERENCE / "raw" / "v1" / f"scaling-threads-{threads}.txt") for threads in (1, 2, 4)]
+    records = [parse_key_value_record(reference_root / "raw" / "v1" / f"scaling-threads-{threads}.txt") for threads in (1, 2, 4)]
     matched_keys = (
         "record.schema",
         "implementation.revision",
@@ -728,21 +744,23 @@ def validate_scaling_records() -> None:
 def reference_revisions(
     raw: dict[str, Any],
     manifests: list[dict[str, Any]],
+    reference_root: Path = REFERENCE,
 ) -> set[str]:
     """Collect every source revision recorded by the reference package."""
     return {
         str(raw["implementation"]["revision"]),
         *(str(manifest["implementation"]["source_revision"]) for manifest in manifests),
-        *(parse_key_value_record(REFERENCE / "raw" / "v1" / f"scaling-threads-{threads}.txt")["implementation.revision"] for threads in (1, 2, 4)),
+        *(parse_key_value_record(reference_root / "raw" / "v1" / f"scaling-threads-{threads}.txt")["implementation.revision"] for threads in (1, 2, 4)),
     }
 
 
 def validate_provenance_consistency(
     raw: dict[str, Any],
     manifests: list[dict[str, Any]],
+    reference_root: Path = REFERENCE,
 ) -> str:
     """Require every artifact family to name the same source revision."""
-    revisions = reference_revisions(raw, manifests)
+    revisions = reference_revisions(raw, manifests, reference_root)
     if len(revisions) != 1:
         message = "reference artifacts do not share one source revision"
         raise ValueError(message)
@@ -752,9 +770,10 @@ def validate_provenance_consistency(
 def validate_clean_provenance(
     raw: dict[str, Any],
     manifests: list[dict[str, Any]],
+    reference_root: Path = REFERENCE,
 ) -> None:
     """Require archival artifacts to identify one clean source commit."""
-    revision = validate_provenance_consistency(raw, manifests)
+    revision = validate_provenance_consistency(raw, manifests, reference_root)
     if revision.endswith("-dirty") or re.fullmatch(r"[0-9a-f]{40}", revision) is None:
         message = "archival reference artifacts must name one clean Git commit"
         raise ValueError(message)
@@ -884,11 +903,13 @@ def main(  # noqa: C901
     generated_only: bool = False,
     provenance_only: bool = False,
     require_clean_provenance: bool = False,
+    reference_root: Path = REFERENCE,
 ) -> int:
     """Validate schemas, protocol data, raw results, and provenance."""
-    fixture_path = REFERENCE / "fixtures" / "v1" / "protocol.json"
-    result_path = REFERENCE / "raw" / "v1" / "cpp-reference.json"
-    result_schema = load_json(REFERENCE / "schema" / "result-v1.schema.json")
+    repository_root = reference_root.parent
+    fixture_path = reference_root / "fixtures" / "v1" / "protocol.json"
+    result_path = reference_root / "raw" / "v1" / "cpp-reference.json"
+    result_schema = load_json(reference_root / "schema" / "result-v1.schema.json")
     protocol = load_json(fixture_path)
     raw = load_json(result_path)
     if generated_only:
@@ -899,15 +920,15 @@ def main(  # noqa: C901
         print("Generated reference fixture matches the committed scientific payload.")
         return 0
 
-    manifest_paths = sorted((REFERENCE / "manifests" / "v1").glob("*.json"))
+    manifest_paths = sorted((reference_root / "manifests" / "v1").glob("*.json"))
     manifests = [load_json(path) for path in manifest_paths]
     if provenance_only:
-        validate_clean_provenance(raw, manifests)
+        validate_clean_provenance(raw, manifests, reference_root)
         print("Reference artifacts identify one clean source commit.")
         return 0
 
-    fixture_schema = load_json(REFERENCE / "schema" / "fixture-v1.schema.json")
-    manifest_schema = load_json(REFERENCE / "schema" / "run-manifest-v1.schema.json")
+    fixture_schema = load_json(reference_root / "schema" / "fixture-v1.schema.json")
+    manifest_schema = load_json(reference_root / "schema" / "run-manifest-v1.schema.json")
 
     validate_document(protocol, fixture_schema, fixture_path)
     validate_document(raw, result_schema, result_path)
@@ -928,14 +949,14 @@ def main(  # noqa: C901
     validate_actions(raw, protocol)
     validate_protocol(protocol, raw)
     for manifest in manifests:
-        validate_manifest(manifest)
+        validate_manifest(manifest, repository_root, reference_root)
     validate_command_provenance(manifests, protocol)
-    validate_provenance_consistency(raw, manifests)
-    validate_persistence()
-    validate_end_to_end(protocol)
-    validate_scaling_records()
+    validate_provenance_consistency(raw, manifests, reference_root)
+    validate_persistence(reference_root)
+    validate_end_to_end(protocol, reference_root / "raw" / "v1" / "end-to-end.txt")
+    validate_scaling_records(reference_root)
     if require_clean_provenance:
-        validate_clean_provenance(raw, manifests)
+        validate_clean_provenance(raw, manifests, reference_root)
     if fixture_binary is not None:
         validate_generated_fixture(fixture_binary, raw, result_schema, protocol)
     print("Reference fixture package is valid.")

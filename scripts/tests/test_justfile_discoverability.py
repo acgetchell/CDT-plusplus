@@ -103,6 +103,7 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
         self.assertTrue(
             {
                 "_justfile-check",
+                "markdown-check",
                 "python-check",
                 "reference-check",
                 "release-check",
@@ -116,6 +117,19 @@ class JustfileDiscoverabilityTests(unittest.TestCase):
         self.assertTrue({"check", "python-package-check", "reference-generated-check"} <= ci_dependencies)
         self.assertNotIn("python-experiment-check", recipes)
         self.assertNotIn("_sync-python-experiments", recipes)
+
+    def test_markdown_check_reuses_the_pinned_rumdl_guard(self) -> None:
+        """Markdown validation must fail clearly when the exact tool is absent."""
+        recipes = _just_recipes()
+
+        self.assertIn("_ensure-rumdl", _dependency_names(recipes["markdown-check"]))
+        self.assertRegex(_run_just("--evaluate", "rumdl_version").stdout.strip(), r"^[0-9]+[.][0-9]+[.][0-9]+$")
+
+    def test_debug_cli_excludes_the_assertion_incompatible_quickstart(self) -> None:
+        """The Release API example must not abort the focused Debug suite."""
+        examples = (REPO_ROOT / "examples" / "CMakeLists.txt").read_text(encoding="utf-8")
+
+        self.assertIn('LABELS "example;integration;debug-incompatible"', examples)
 
     def test_public_recipes_have_one_group_and_a_description(self) -> None:
         """Every listed recipe should explain its purpose in one stable section."""

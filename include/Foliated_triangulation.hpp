@@ -1634,7 +1634,8 @@ namespace cdt::foliated_triangulations
     /// @param triangulation Delaunay triangulation
     /// @param initial_radius Radius of first timeslice
     /// @param foliation_spacing Radial separation between timeslices
-    /// @pre @p initial_radius and @p foliation_spacing are finite and positive.
+    /// @pre @p initial_radius is finite and nonnegative; @p foliation_spacing
+    /// is finite and positive.
     /// @throws std::invalid_argument if @p triangulation is empty.
     explicit FoliatedTriangulation(
         Delaunay triangulation, double const initial_radius = INITIAL_RADIUS,
@@ -1712,8 +1713,8 @@ namespace cdt::foliated_triangulations
     /// FoliatedTriangulation
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    /// @pre @p t_initial_radius and @p t_foliation_spacing are finite and
-    /// positive.
+    /// @pre @p t_initial_radius is finite and nonnegative; @p
+    /// t_foliation_spacing is finite and positive.
     /// @throws std::invalid_argument if @p causal_vertices is empty or contains
     /// duplicate geometric points.
     explicit FoliatedTriangulation(

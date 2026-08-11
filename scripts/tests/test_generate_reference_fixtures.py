@@ -98,6 +98,46 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
         self.assertIn(repr(str(binaries["--fixture-binary"])), str(raised.exception))
         produce_raw_artifacts.assert_not_called()
 
+    def test_bounded_run_is_validated_before_publication(self) -> None:
+        """An invalid generated transcript cannot replace tracked artifacts."""
+        binaries = {option: Path(path) for option, path in generator.CANONICAL_PRODUCER_PATHS.items()}
+        generated = {"reference/raw/v1/end-to-end.txt": b"invalid transcript\n"}
+
+        with (
+            mock.patch.object(generator, "clean_source_revision", return_value="a" * 40),
+            mock.patch.object(generator, "executable", side_effect=lambda path: path),
+            mock.patch.object(generator, "produce_raw_artifacts", return_value=(generated, {}, [])),
+            mock.patch.object(generator, "validate_platform_identity"),
+            mock.patch.object(generator, "validate_generated_bounded_run", side_effect=ValueError("invalid bounded run")),
+            mock.patch.object(generator, "publish_artifacts") as publish_artifacts,
+            self.assertRaisesRegex(ValueError, "invalid bounded run"),
+        ):
+            generator.regenerate(
+                binaries["--fixture-binary"],
+                binaries["--cdt-binary"],
+                binaries["--initialize-binary"],
+                binaries["--benchmark-binary"],
+                None,
+            )
+
+        publish_artifacts.assert_not_called()
+
+    def test_complete_package_validation_precedes_publication(self) -> None:
+        """No artifact is published when staged package validation fails."""
+        with (
+            mock.patch.object(generator, "validate_generated_package", side_effect=ValueError("invalid package")),
+            mock.patch.object(generator, "publish_artifacts") as publish_artifacts,
+            self.assertRaisesRegex(ValueError, "invalid package"),
+        ):
+            generator.validate_and_publish({})
+
+        publish_artifacts.assert_not_called()
+
+    def test_staged_package_validator_accepts_the_committed_tree(self) -> None:
+        """The complete validator can operate against a temporary root."""
+        with mock.patch("builtins.print"):
+            generator.validate_generated_package({})
+
     def test_cmake_version_comes_from_the_configured_builds(self) -> None:
         """Manifest provenance uses the CMake recorded in each build cache."""
         with tempfile.TemporaryDirectory() as temporary:
