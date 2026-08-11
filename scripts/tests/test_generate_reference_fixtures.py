@@ -2,7 +2,7 @@
 
 import tempfile
 import unittest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from unittest import mock
 
 from scripts import generate_reference_fixtures as generator
@@ -62,6 +62,15 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
         """Argv arrays cannot be attached to a mismatched command list."""
         with self.assertRaisesRegex(ValueError, "does not match the generated artifacts"):
             generator.record_commands([{"id": "fixture", "artifacts": []}], [])
+
+    def test_producer_paths_use_portable_separators(self) -> None:
+        """Windows producer paths retain the canonical manifest spelling."""
+        path = PureWindowsPath(r"out\build\reference\tests\CDT_reference_fixture")
+
+        self.assertEqual(
+            generator.portable_path(path),
+            generator.CANONICAL_PRODUCER_PATHS["--fixture-binary"],
+        )
 
     def test_producer_paths_must_use_the_canonical_layout(self) -> None:
         """A noncanonical producer is rejected with its option and path."""

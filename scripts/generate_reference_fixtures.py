@@ -10,7 +10,7 @@ import sys
 import tempfile
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any
 
 from scripts import validate_reference_fixtures as reference_validator
@@ -112,11 +112,16 @@ def executable(path: Path) -> Path:
     return resolved
 
 
+def portable_path(path: PurePath) -> str:
+    """Render a repository path with stable separators for manifest metadata."""
+    return path.as_posix()
+
+
 def display_path(path: Path) -> str:
     """Render a producer path relative to the repository when possible."""
     resolved = path if path.is_absolute() else ROOT / path
     try:
-        return str(resolved.resolve().relative_to(ROOT.resolve()))
+        return portable_path(resolved.resolve().relative_to(ROOT.resolve()))
     except ValueError:
         return str(resolved)
 
