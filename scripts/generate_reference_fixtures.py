@@ -4,19 +4,22 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any
 
+from scripts import validate_reference_fixtures as reference_validator
 from scripts.validate_reference_fixtures import (
     load_json,
     parse_json_object,
     parse_key_value_payload,
     validate_document,
+    validate_end_to_end_output,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -109,11 +112,16 @@ def executable(path: Path) -> Path:
     return resolved
 
 
+def portable_path(path: PurePath) -> str:
+    """Render a repository path with stable separators for manifest metadata."""
+    return path.as_posix()
+
+
 def display_path(path: Path) -> str:
     """Render a producer path relative to the repository when possible."""
     resolved = path if path.is_absolute() else ROOT / path
     try:
-        return str(resolved.resolve().relative_to(ROOT.resolve()))
+        return portable_path(resolved.resolve().relative_to(ROOT.resolve()))
     except ValueError:
         return str(resolved)
 
@@ -455,6 +463,39 @@ def validate_generated_json(
     )
 
 
+def validate_generated_bounded_run(generated: dict[str, bytes]) -> None:
+    """Validate the generated bounded transcript before publishing any bytes."""
+    relative_path = "reference/raw/v1/end-to-end.txt"
+    protocol = load_json(ROOT / "reference" / "fixtures" / "v1" / "protocol.json")
+    try:
+        output = generated[relative_path].decode("utf-8")
+    except (KeyError, UnicodeDecodeError) as error:
+        message = f"generated {relative_path} is missing or is not UTF-8"
+        raise ValueError(message) from error
+    validate_end_to_end_output(protocol, output, Path(f"generated {relative_path}"))
+
+
+def validate_generated_package(generated: dict[str, bytes]) -> None:
+    """Validate a complete staged reference tree before publication."""
+    with tempfile.TemporaryDirectory(prefix="cdt-reference-validation-") as temporary:
+        staged_root = Path(temporary)
+        staged_reference = staged_root / "reference"
+        shutil.copytree(ROOT / "reference", staged_reference)
+        for relative_path, payload in generated.items():
+            destination = staged_root / relative_path
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(payload)
+        reference_validator.main(
+            reference_root=staged_reference,
+        )
+
+
+def validate_and_publish(generated: dict[str, bytes]) -> None:
+    """Publish generated artifacts only after complete staged validation."""
+    validate_generated_package(generated)
+    publish_artifacts(generated)
+
+
 def publish_artifacts(generated: dict[str, bytes]) -> None:
     """Write all bytes to sibling temporaries before replacing any artifact."""
     pending: list[tuple[Path, Path]] = []
@@ -507,6 +548,7 @@ def regenerate(
         benchmark_commands,
     )
     validate_platform_identity(fixture_json, scaling_records)
+    validate_generated_bounded_run(generated)
     recorded = canonical_timestamp(recorded_at_utc)
     metadata = RegenerationMetadata(revision, recorded, configured_cmake_version())
     reference_manifest = make_reference_manifest(generated, fixture_json, metadata, reference_commands)
@@ -516,7 +558,7 @@ def regenerate(
     validate_generated_json(fixture_json, reference_manifest, scaling_manifest)
     generated["reference/manifests/v1/macos-arm64.json"] = (json.dumps(reference_manifest, indent=2, ensure_ascii=False) + "\n").encode()
     generated["reference/manifests/v1/scaling-macos-arm64.json"] = (json.dumps(scaling_manifest, indent=2, ensure_ascii=False) + "\n").encode()
-    publish_artifacts(generated)
+    validate_and_publish(generated)
     print(f"Regenerated reference/raw/v1 and reference/manifests/v1 from {revision}.")
 
 

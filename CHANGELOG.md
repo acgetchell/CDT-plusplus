@@ -14,7 +14,7 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 - **Compatibility:** The supported source boundary is C++23 with the published GCC, Clang, AppleClang, and MSVC matrix. The project does not promise a stable binary ABI or package-registry distribution.
 - **Scientific corrections:** The release completes and independently validates all five 2+1D moves, Metropolis-Hastings proposal ratios and atomic transitions, exact-predicate geometry boundaries, run-owned RNG streams, and causal persistence metadata.
 - **Supported surface:** The default build is headless; CGAL/oneTBB bulk Delaunay operations and the macOS Qt viewer are explicit opt-ins. Historical toroidal and higher-dimensional prototypes are excluded from the supported API.
-- **Limitations:** Seeds replay stochastic inputs, not necessarily fresh cospherical CGAL topology. Checkpoints are validated snapshots rather than resumable simulations, and parallelism does not extend to Pachner moves or concurrent manifold access.
+- **Limitations:** Seeds replay stochastic inputs, not necessarily fresh cospherical CGAL topology. Resumable checkpoints continue the identical Markov chain only on the recorded producer toolchain; they are restart artifacts rather than portable interchange files. Parallelism does not extend to Pachner moves or concurrent manifold access.
 - **Migration:** Active development and new work move to [causal-triangulations](https://github.com/acgetchell/causal-triangulations). After the v1.0.0 GitHub and Zenodo handoff, CDT++ enters a maintenance-only stabilization window and becomes read-only only when the owner completes the archival gate.
 
 ### Added
@@ -27,6 +27,8 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 
 - [**breaking**] Expose reported Metropolis transitions [`16d1c76`](https://github.com/acgetchell/CDT-plusplus/commit/16d1c769afc67e06f07639f6fd9de8136974e282)
 
+- Add initial-state loading and checkpoint resume [`e1305d6`](https://github.com/acgetchell/CDT-plusplus/commit/e1305d66663778e3c9bd7e04f8020f10919ecd1a)
+
 ### Changed
 
 - Expose shared artifact lifecycle helpers [`2f3ba57`](https://github.com/acgetchell/CDT-plusplus/commit/2f3ba57d425f8ab4f1a0c5da0cedf7876b13eaa5)
@@ -38,6 +40,12 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 - Format transition validation [`f183f07`](https://github.com/acgetchell/CDT-plusplus/commit/f183f072b44b3fe3b677090b8e5cd4983c193932)
 
 - Verify unknown moves preserve transition traces [`70ab238`](https://github.com/acgetchell/CDT-plusplus/commit/70ab238eb07271a7754266407f9f61e28e199b49)
+
+### Documentation
+
+- Clean up archival documentation references [`703b474`](https://github.com/acgetchell/CDT-plusplus/commit/703b474ab8ba0f6ee86fef7842ad9c5b4b74a3e7)
+
+- Exclude PCG shim from generated reference [`7e8734f`](https://github.com/acgetchell/CDT-plusplus/commit/7e8734fac7097406eb416df4dd241c6a6b5d9461)
 
 ### Fixed
 
@@ -94,6 +102,10 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 - Fail fast and support Dependabot coverage [`2107f20`](https://github.com/acgetchell/CDT-plusplus/commit/2107f20d429b466eb7ec01693e769a0262dcd264)
 
 - Stabilize macOS viewer and coverage gates [`deb24ab`](https://github.com/acgetchell/CDT-plusplus/commit/deb24ab0d7ce179469839a145f344ca1624c1275)
+
+- Harden checkpoint resume contracts [`17bb7fb`](https://github.com/acgetchell/CDT-plusplus/commit/17bb7fb0a687837955b2a8932f028d76d029480b)
+
+- Limit resumable checkpoint continuation to the recorded producer toolchain [`95754c4`](https://github.com/acgetchell/CDT-plusplus/commit/95754c430c33d4913f8e7fc30c1775280cc554e6)
 
 ### Maintenance
 

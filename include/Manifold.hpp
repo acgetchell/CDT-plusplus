@@ -158,8 +158,8 @@ namespace cdt::manifolds
     /// @param causal_vertices Causal_vertices to place into the Manifold
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    /// @pre @p t_initial_radius and @p t_foliation_spacing are finite and
-    /// positive.
+    /// @pre @p t_initial_radius is finite and nonnegative; @p
+    /// t_foliation_spacing is finite and positive.
     /// @throws std::invalid_argument if @p causal_vertices is empty or contains
     /// duplicate geometric points.
     explicit Manifold(Causal_vertices_t<3> const& causal_vertices,

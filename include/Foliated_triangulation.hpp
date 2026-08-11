@@ -1634,7 +1634,8 @@ namespace cdt::foliated_triangulations
     /// @param triangulation Delaunay triangulation
     /// @param initial_radius Radius of first timeslice
     /// @param foliation_spacing Radial separation between timeslices
-    /// @pre @p initial_radius and @p foliation_spacing are finite and positive.
+    /// @pre @p initial_radius is finite and nonnegative; @p foliation_spacing
+    /// is finite and positive.
     /// @throws std::invalid_argument if @p triangulation is empty.
     explicit FoliatedTriangulation(
         Delaunay triangulation, double const initial_radius = INITIAL_RADIUS,
@@ -1712,8 +1713,8 @@ namespace cdt::foliated_triangulations
     /// FoliatedTriangulation
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    /// @pre @p t_initial_radius and @p t_foliation_spacing are finite and
-    /// positive.
+    /// @pre @p t_initial_radius is finite and nonnegative; @p
+    /// t_foliation_spacing is finite and positive.
     /// @throws std::invalid_argument if @p causal_vertices is empty or contains
     /// duplicate geometric points.
     explicit FoliatedTriangulation(
@@ -1869,6 +1870,10 @@ namespace cdt::foliated_triangulations
       auto const actual_radius_squared   = squared_radius<3>(t_vertex);
       auto const radius                  = expected_radius(t_vertex);
       auto const expected_radius_squared = std::pow(radius, 2);
+      if (expected_radius_squared == 0.0)
+      {
+        return std::abs(actual_radius_squared) <= TOLERANCE;
+      }
       return actual_radius_squared >
                  expected_radius_squared * (1 - TOLERANCE) &&
              actual_radius_squared < expected_radius_squared * (1 + TOLERANCE);

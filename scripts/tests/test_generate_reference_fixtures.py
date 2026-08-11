@@ -2,7 +2,7 @@
 
 import tempfile
 import unittest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from unittest import mock
 
 from scripts import generate_reference_fixtures as generator
@@ -63,6 +63,15 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "does not match the generated artifacts"):
             generator.record_commands([{"id": "fixture", "artifacts": []}], [])
 
+    def test_producer_paths_use_portable_separators(self) -> None:
+        """Windows producer paths retain the canonical manifest spelling."""
+        path = PureWindowsPath(r"out\build\reference\tests\CDT_reference_fixture")
+
+        self.assertEqual(
+            generator.portable_path(path),
+            generator.CANONICAL_PRODUCER_PATHS["--fixture-binary"],
+        )
+
     def test_producer_paths_must_use_the_canonical_layout(self) -> None:
         """A noncanonical producer is rejected with its option and path."""
         reference_commands = [
@@ -95,8 +104,61 @@ class ReferenceFixtureGenerationTests(unittest.TestCase):
             )
 
         self.assertIn("--fixture-binary", str(raised.exception))
-        self.assertIn(repr(str(binaries["--fixture-binary"])), str(raised.exception))
+        self.assertIn(repr(generator.portable_path(binaries["--fixture-binary"])), str(raised.exception))
         produce_raw_artifacts.assert_not_called()
+
+    def test_bounded_run_is_validated_before_publication(self) -> None:
+        """An invalid generated transcript cannot replace tracked artifacts."""
+        binaries = {option: Path(path) for option, path in generator.CANONICAL_PRODUCER_PATHS.items()}
+        generated = {"reference/raw/v1/end-to-end.txt": b"invalid transcript\n"}
+
+        with (
+            mock.patch.object(generator, "clean_source_revision", return_value="a" * 40),
+            mock.patch.object(generator, "executable", side_effect=lambda path: path),
+            mock.patch.object(generator, "produce_raw_artifacts", return_value=(generated, {}, [])),
+            mock.patch.object(generator, "validate_platform_identity"),
+            mock.patch.object(generator, "validate_generated_bounded_run", side_effect=ValueError("invalid bounded run")),
+            mock.patch.object(generator, "publish_artifacts") as publish_artifacts,
+            self.assertRaisesRegex(ValueError, "invalid bounded run"),
+        ):
+            generator.regenerate(
+                binaries["--fixture-binary"],
+                binaries["--cdt-binary"],
+                binaries["--initialize-binary"],
+                binaries["--benchmark-binary"],
+                None,
+            )
+
+        publish_artifacts.assert_not_called()
+
+    def test_complete_package_validation_precedes_publication(self) -> None:
+        """No artifact is published when staged package validation fails."""
+        with (
+            mock.patch.object(generator, "validate_generated_package", side_effect=ValueError("invalid package")),
+            mock.patch.object(generator, "publish_artifacts") as publish_artifacts,
+            self.assertRaisesRegex(ValueError, "invalid package"),
+        ):
+            generator.validate_and_publish({})
+
+        publish_artifacts.assert_not_called()
+
+    def test_staged_package_validator_accepts_the_committed_tree(self) -> None:
+        """The staged validator accepts an unchanged copy of the committed tree."""
+        with mock.patch("builtins.print"):
+            generator.validate_generated_package({})
+
+    def test_conflicting_staged_artifact_is_rejected_before_publication(self) -> None:
+        """A generated artifact must agree with its retained manifest."""
+        relative_path = "reference/raw/v1/cpp-reference.json"
+        generated = {relative_path: (generator.ROOT / relative_path).read_bytes() + b"\n"}
+
+        with (
+            mock.patch.object(generator, "publish_artifacts") as publish_artifacts,
+            self.assertRaisesRegex(ValueError, "checksum mismatch"),
+        ):
+            generator.validate_and_publish(generated)
+
+        publish_artifacts.assert_not_called()
 
     def test_cmake_version_comes_from_the_configured_builds(self) -> None:
         """Manifest provenance uses the CMake recorded in each build cache."""

@@ -39,6 +39,9 @@ setup is:
 - [Just] 1.58.0 or newer; and
 - [Python] 3.14 and [uv] when running Python-backed checks directly.
 
+Complete local validation also requires [rumdl](https://github.com/rvben/rumdl) 0.2.53 and [typos]
+1.49.0. The Justfile reports the exact installation command when either tool is missing.
+
 Without pkgx, provide [Git], [Bash], [CMake] 4.4.0 or newer, [Ninja], [Python], [GNU M4], [Autoconf],
 [Autoconf Archive], [Automake], [GNU Libtool], [Texinfo], and [pkg-config] through the host package manager.
 Documentation work also requires [Doxygen] 1.16.1 and [Graphviz] 15.1.0. The build does not require a personal vcpkg
@@ -49,7 +52,7 @@ For native Windows work, use an x64 [Developer Command Prompt or Developer Power
 and expose [Git Bash] on `PATH`, because the Justfile uses Bash as its recipe shell. The supported build path also
 requires [Just] 1.58.0 or newer, [Python] 3.14 with `python.exe` on `PATH`, [CMake] 4.4.0 or newer, and
 [Ninja]. The tested Windows cell uses Python 3.14.6, CMake 4.4.1, and Ninja 1.13.0. Complete local
-validation additionally requires [uv] 0.12.3, [typos] 1.49.0, and [Go] or [pinact] 4.1.1 for the workflow
+validation additionally requires [uv] 0.12.3, rumdl 0.2.53, [typos] 1.49.0, and [Go] or [pinact] 4.1.1 for the workflow
 policy checks. The CI cell sets `VCPKG_DEFAULT_TRIPLET=x64-windows`; set the same value when a local
 vcpkg environment would otherwise select a different triplet.
 
@@ -98,6 +101,7 @@ updating a pull request. The primary recipes are:
 | `just fix` | Format C++, Python, and the Justfile. |
 | `just initialize [ARGS]` | Build as needed and generate an initial triangulation. |
 | `just load INPUT [ARGS]` | Load an initialized triangulation and start a new CDT move series. |
+| `just markdown-check` | Validate tracked and unignored Markdown sources. |
 | `just reference-check` | Validate the committed reference package offline. |
 | `just release-check` | Validate synchronized release metadata and citation fields. |
 | `just resume CHECKPOINT [ARGS]` | Resume the identical CDT move series from a checkpoint. |
@@ -105,7 +109,7 @@ updating a pull request. The primary recipes are:
 | `just sanitize KIND` | Run the selected Linux sanitizer preset. |
 | `just viewer-check` | Validate viewer fixtures, manifests, and the tracked image. |
 
-`just check` covers C++ and Python formatting, Python lint and types, spelling, release and citation
+`just check` covers C++ and Python formatting, Python lint and types, Markdown, spelling, release and citation
 metadata, YAML, GitHub Actions syntax and security, whitespace, CMake preset parsing, Semgrep policy,
 reference-package consistency, and viewer artifacts. `just ci` adds action-pin policy, the supported
 build and test contract, regenerated-reference drift checks, and Python package validation.
@@ -135,10 +139,9 @@ the owning Just recipe.
 
 ## Build and test validation
 
-The canonical Release build runs 135 CTest registrations: 108 doctest scenarios, 25 CLI integration
-tests, one compiled C++ API example, and one arithmetic-backend correctness test. The parallel
-configuration registers 136 tests: the 108 ordinary doctest scenarios, one parallel launcher with
-five scenarios, the same 25 integration tests, the C++ API example, and the arithmetic test.
+The canonical Release build registers 138 CTest entries. The parallel configuration registers 139,
+including its replayable parallel launcher. Labels overlap, so use CTest label selection rather than
+adding the category counts as though they were disjoint.
 
 To rerun the complete supported suite without rebuilding:
 
@@ -156,7 +159,8 @@ ctest --preset reference-smoke -L integration
 The Debug build compiles the `cdt` and `initialize` production targets, then runs the 21
 Debug-compatible CTest entries labeled `integration`. It defines `CGAL_NDEBUG` because supported move
 paths deliberately traverse invalid intermediate triangulations while keeping CDT++ assertions
-enabled. Release remains the canonical complete test configuration.
+enabled. The compiled C++ API quickstart remains part of the Release integration suite but is
+excluded from Debug for the same reason. Release remains the canonical complete test configuration.
 
 For behavior changes, add or update the smallest deterministic unit, integration, reference, or
 compiled-example evidence that would have caught the defect. Randomized CGAL topology counts and
