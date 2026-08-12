@@ -1,23 +1,21 @@
 {
   "schema_version": 1,
-  "run_id": "cdt-reference-v1-macos-arm64-20260725",
-  "recorded_at_utc": "2026-07-25T06:21:48Z",
+  "run_id": "cdt-reference-v1-darwin-arm64-20260812",
+  "recorded_at_utc": "2026-08-12T00:54:28Z",
   "implementation": {
     "name": "CDT-plusplus",
-    "version": "1.0.0-rc2",
-    "source_revision": "49dbce290ee9cc9c0430893e11caa84cbaeaffee-dirty",
-    "note": "The dirty marker denotes the issue #94 fixture implementation under review; regenerate from the resulting clean commit before archival tagging."
+    "version": "1.0.0",
+    "source_revision": "bd9cdbd373e274b200d7927fe4e4213df69000d2"
   },
   "toolchain": {
     "compiler": "AppleClang 21.0.0.21000101",
     "cxx_standard": 23,
     "standard_library": "libc++-210106",
-    "cmake": "4.4.0",
-    "cgal": "6.2-I-900",
-    "mpfr": "4.2.2"
+    "cmake": "4.4.1",
+    "cgal": "6.2-I-900"
   },
   "build": {
-    "profile": "RelWithDebInfo",
+    "profile": "Release",
     "preset": "reference",
     "parallel_triangulation": false
   },
@@ -90,22 +88,22 @@
     {
       "path": "reference/raw/v1/cpp-reference.json",
       "media_type": "application/json",
-      "sha256": "96c6890de3acd930956fcd1a97637d25d3bd73a14a2bbfc04f37f10153269cf4"
+      "sha256": "3d779030cd7f161e4edc444112997e2b421eb09da798823e0afbd7722667717c"
     },
     {
       "path": "reference/raw/v1/end-to-end.txt",
       "media_type": "text/plain",
-      "sha256": "d7e24bfe101c20a3a35f53fee189dfda31bae2c029f3d98776fd8ad8cf16b3ea"
+      "sha256": "4ae492ac4821893e67607a689134e33e70c4bc24c1c6de64edddbd51ef035556"
     },
     {
       "path": "reference/raw/v1/persistence-v1.off",
       "media_type": "text/plain",
-      "sha256": "7ed6e0b85f7d31948605bcc9489e036468dc3fafb5e3dc7933ea8fcbbc95b35a"
+      "sha256": "2afe471c1517e4212f93f3acc2596f416411f4575f2201faecda098f4b0569ce"
     },
     {
       "path": "reference/raw/v1/persistence-v1.off.meta",
       "media_type": "text/plain",
-      "sha256": "da63ba1b0956c5aedbe602a3de625868f433cc23734e29a2ba23f5de50edcbc5"
+      "sha256": "742c1b6c878889e1afca85390d62121cf967e1cf1ac76ddc4defe3732216565e"
     },
     {
       "path": "reference/fixtures/v1/protocol.json",
@@ -129,39 +127,10 @@
     }
   ],
   "verification": {
-    "targeted_unit_tests": {
+    "producer_regeneration": {
       "status": "passed",
-      "command": [
-        "out/build/reference/tests/CDT_unit_tests",
-        "--test-case=*Metropolis-Hastings proposal and acceptance ratios*,*Metropolis proposal domains match the sampled raw sites*,*Calculate the bulk action on S3 triangulations*,*Bulk action rejects invalid physical parameters*,*Expected points per timeslice*"
-      ]
-    },
-    "reference_smoke": {
-      "status": "passed",
-      "command": [
-        "ctest",
-        "--preset",
-        "reference-smoke",
-        "--output-on-failure"
-      ]
-    },
-    "reference_validator": {
-      "status": "passed",
-      "command": [
-        "just",
-        "reference-check"
-      ]
-    },
-    "address_and_undefined_behavior_sanitizers": {
-      "status": "base revision passed; current issue #94 diff requires PR CI",
-      "command": [
-        "just",
-        "sanitize",
-        "asan"
-      ],
-      "base_revision": "49dbce290ee9cc9c0430893e11caa84cbaeaffee",
-      "base_run": "https://github.com/acgetchell/CDT-plusplus/actions/runs/30146661161",
-      "reason": "The repository's combined ASan/UBSan preset is deliberately supported on Linux only; the linked main-branch run passed, and the unpushed issue #94 diff cannot truthfully be marked covered until its PR workflow runs."
+      "source_revision": "bd9cdbd373e274b200d7927fe4e4213df69000d2",
+      "recorded_at_utc": "2026-08-12T00:54:28Z"
     }
   }
 }

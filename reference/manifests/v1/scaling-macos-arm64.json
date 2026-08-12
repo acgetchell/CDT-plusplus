@@ -1,23 +1,22 @@
 {
   "schema_version": 1,
-  "run_id": "cdt-scaling-v1-macos-arm64-20260725",
-  "recorded_at_utc": "2026-07-25T06:25:37Z",
+  "run_id": "cdt-scaling-v1-darwin-arm64-20260812",
+  "recorded_at_utc": "2026-08-12T00:54:28Z",
   "implementation": {
     "name": "CDT-plusplus",
-    "version": "1.0.0-rc2",
-    "source_revision": "49dbce290ee9cc9c0430893e11caa84cbaeaffee-dirty",
-    "note": "The dirty marker denotes the issue #94 population and manifest changes under review."
+    "version": "1.0.0",
+    "source_revision": "bd9cdbd373e274b200d7927fe4e4213df69000d2"
   },
   "toolchain": {
     "compiler": "AppleClang 21.0.0.21000101",
     "cxx_standard": 23,
     "standard_library": "libc++-210106",
-    "cmake": "4.4.0",
+    "cmake": "4.4.1",
     "cgal": "6.2-I-900",
-    "tbb": "2023.0.0"
+    "tbb": "2023.1.0"
   },
   "build": {
-    "profile": "RelWithDebInfo",
+    "profile": "Release",
     "preset": "parallel",
     "parallel_triangulation": true,
     "thread_counts": [
@@ -87,32 +86,24 @@
     {
       "path": "reference/raw/v1/scaling-threads-1.txt",
       "media_type": "text/plain",
-      "sha256": "5a81902d77313be83cdb08e4c784117914e50dd3637fc7835463433b49cb77b7"
+      "sha256": "92dc938ee34db363432bd202489ad82777283a7c37a578bb5a5606524b621ec7"
     },
     {
       "path": "reference/raw/v1/scaling-threads-2.txt",
       "media_type": "text/plain",
-      "sha256": "c2a6fb57f623537b63ae6dbde64c06d4c9509949da96c4ac56c12f3bcbc69aab"
+      "sha256": "4bd520149faa1f386f610bf1eaf224d2e01abc5ccb51c0e82a0b68dc1343b790"
     },
     {
       "path": "reference/raw/v1/scaling-threads-4.txt",
       "media_type": "text/plain",
-      "sha256": "8cfc83922a562d77c22ba114a7fdc2f7bf47e1a7097fc94b8c6dcb81ad2b645e"
+      "sha256": "e742ff773fc27722da7a130e02329b23ef9a822de90331d2c3216a30f6eefdba"
     }
   ],
   "verification": {
-    "correctness_gate": {
+    "producer_regeneration": {
       "status": "passed",
-      "command": [
-        "ctest",
-        "--preset",
-        "parallel-smoke",
-        "--output-on-failure"
-      ]
-    },
-    "interpretation": {
-      "randomized_fields": "Final CGAL f-vectors and checksums may differ across thread limits and are recorded rather than treated as exact topology oracles.",
-      "timings": "Raw durations are host-local evidence only; this three-point record is not a general performance claim."
+      "source_revision": "bd9cdbd373e274b200d7927fe4e4213df69000d2",
+      "recorded_at_utc": "2026-08-12T00:54:28Z"
     }
   }
 }
