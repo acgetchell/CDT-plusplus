@@ -5,7 +5,7 @@ All notable changes to CDT++ are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2026-08-10
+## [1.0.0] - 2026-08-11
 
 ### Release summary
 
@@ -40,6 +40,8 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 - Format transition validation [`f183f07`](https://github.com/acgetchell/CDT-plusplus/commit/f183f072b44b3fe3b677090b8e5cd4983c193932)
 
 - Verify unknown moves preserve transition traces [`70ab238`](https://github.com/acgetchell/CDT-plusplus/commit/70ab238eb07271a7754266407f9f61e28e199b49)
+
+- Expect portable producer paths on Windows [`5a32b1d`](https://github.com/acgetchell/CDT-plusplus/commit/5a32b1d5ac1ca460ca78996e8e8b5ce42a5c54cb)
 
 ### Documentation
 
@@ -105,7 +107,15 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 
 - Harden checkpoint resume contracts [`17bb7fb`](https://github.com/acgetchell/CDT-plusplus/commit/17bb7fb0a687837955b2a8932f028d76d029480b)
 
-- Limit resumable checkpoint continuation to the recorded producer toolchain [`95754c4`](https://github.com/acgetchell/CDT-plusplus/commit/95754c430c33d4913f8e7fc30c1775280cc554e6)
+- Enforce exact checkpoint continuation [`95754c4`](https://github.com/acgetchell/CDT-plusplus/commit/95754c430c33d4913f8e7fc30c1775280cc554e6)
+
+- Harden repository readiness contracts [`2840437`](https://github.com/acgetchell/CDT-plusplus/commit/2840437d393078aaeaaa7c654c150088ceedbf12)
+
+- Preserve canonical producer paths on Windows [`026ba3f`](https://github.com/acgetchell/CDT-plusplus/commit/026ba3f20b496923197fb651fb77fa62414a2b3a)
+
+- Harden boundary validation and diagnostics [`38be43d`](https://github.com/acgetchell/CDT-plusplus/commit/38be43de1ec0e9aa181e6e209ce80a3c6b6db7ef)
+
+- Preserve complete subprocess diagnostics [`94a0c77`](https://github.com/acgetchell/CDT-plusplus/commit/94a0c7700b9b9aa3527863c16a9018ac48f71c13)
 
 ### Maintenance
 

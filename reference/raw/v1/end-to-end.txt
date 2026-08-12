@@ -4,7 +4,7 @@ Initial radius: 1
 Foliation spacing: 1
 Number of desired simplices: 2
 Number of desired timeslices: 2
-Number of passes: 1
+Number of passes to execute: 1
 Checkpoint every 1 passes.
 Effective random seed: 92
 Maximum Delaunay threads: 1
@@ -12,7 +12,7 @@ Maximum Delaunay threads: 1
 Alpha: 1
 K: 0
 Lambda: 1
-cdt started at 2026-07-25.06:42:33UTC
+cdt started at 2026-08-12.00:54:21UTC
 
 Generating universe ...
 Triangulation has 6 vertices and 14 edges and 16 faces and 7 simplices.
@@ -43,7 +43,7 @@ There were 7 candidate construction attempts with 0 successful candidates and 7 
 (6,2) moves: 2 proposed (0 accepted and 2 rejected); candidate construction: 2 attempted (0 succeeded and 2 failed).
 (4,4) moves: 1 proposed (0 accepted and 1 rejected); candidate construction: 1 attempted (0 succeeded and 1 failed).
 === Run Results ===
-Running time is 0.00011801719665527344 seconds.
+Running time is 0.00011086463928222656 seconds.
 Manifold has 6 vertices and 14 edges and 16 faces and 7 simplices.
 There are 0 (3,1) simplices and 3 (2,2) simplices and 4 (1,3) simplices.
 There are 7 timelike edges and 7 spacelike edges.

@@ -174,21 +174,28 @@ class ReferenceFixtureValidationTests(unittest.TestCase):
 
     def test_bounded_run_accepts_current_pass_label(self) -> None:
         """The current producer wording retains the declared pass count."""
-        output = self.end_to_end_path.read_text(encoding="utf-8").replace(
-            "Number of passes: 1",
-            "Number of passes to execute: 1",
-        )
+        output = self.end_to_end_path.read_text(encoding="utf-8")
         self.assertIn("Number of passes to execute: 1", output)
 
         validator.validate_end_to_end_output(self.protocol, output, Path("generated end-to-end.txt"))
 
+    def test_bounded_run_accepts_legacy_pass_label(self) -> None:
+        """Previously retained records keep their supported pass-count label."""
+        output = self.end_to_end_path.read_text(encoding="utf-8").replace(
+            "Number of passes to execute: 1",
+            "Number of passes: 1",
+        )
+        self.assertIn("Number of passes: 1", output)
+
+        validator.validate_end_to_end_output(self.protocol, output, Path("legacy end-to-end.txt"))
+
     def test_bounded_run_rejects_pass_count_prefix(self) -> None:
         """A longer pass count cannot satisfy the declared complete record."""
         output = self.end_to_end_path.read_text(encoding="utf-8").replace(
-            "Number of passes: 1",
-            "Number of passes: 10",
+            "Number of passes to execute: 1",
+            "Number of passes to execute: 10",
         )
-        self.assertIn("Number of passes: 10", output)
+        self.assertIn("Number of passes to execute: 10", output)
 
         with self.assertRaisesRegex(ValueError, "declared pass count"):
             validator.validate_end_to_end_output(self.protocol, output, Path("generated end-to-end.txt"))
