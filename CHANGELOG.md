@@ -107,7 +107,7 @@ CDT++ 1.0.0 is the final planned feature release of the C++23 spherical 2+1-dime
 
 - Harden checkpoint resume contracts [`17bb7fb`](https://github.com/acgetchell/CDT-plusplus/commit/17bb7fb0a687837955b2a8932f028d76d029480b)
 
-- Enforce portable checkpoint continuation [`95754c4`](https://github.com/acgetchell/CDT-plusplus/commit/95754c430c33d4913f8e7fc30c1775280cc554e6)
+- Enforce exact checkpoint continuation [`95754c4`](https://github.com/acgetchell/CDT-plusplus/commit/95754c430c33d4913f8e7fc30c1775280cc554e6)
 
 - Harden repository readiness contracts [`2840437`](https://github.com/acgetchell/CDT-plusplus/commit/2840437d393078aaeaaa7c654c150088ceedbf12)
 
